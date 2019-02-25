@@ -29,7 +29,7 @@ router.get('/select', function(req, res, next) {
     }
 
     try {
-        var json = JSON.parse(body);
+        let json = JSON.parse(body);
         res.json(json);
     }catch(ex){
         console.error("Error reading json from solr", ex);
