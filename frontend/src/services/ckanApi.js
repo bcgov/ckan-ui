@@ -8,8 +8,8 @@ export class CkanApi {
         return axios.get(url).then(response => response.data)
     }
 
-    getDataset(query) {
-        const url = '/api/ckan/getDataset'+queryString
+    getDataset(id) {
+        const url = '/api/ckan/getDataset?id='+id
         return axios.get(url).then(response => response.data)
     }
 

@@ -11,4 +11,5 @@ Run the backend with `npm start` in the backend directory or `npm run serve` to 
 
 ##Front end 
 Modify frontend/vue.config.s by changing the values as needed
-Run the frontend with `` in the frontend directory or `npm run serve` to do hot reloading (dev) 
+
+Run the frontend with `npm run build && npm install -g serve && serve -s dist` in the frontend directory or `npm run serve` to do hot reloading (dev) 

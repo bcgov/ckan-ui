@@ -8,8 +8,10 @@
 </template>
 
 <script>
-  import {SolrApi} from '../../services/solrApi'
-  const solrServ = new SolrApi()
+  //import {SolrApi} from '../../services/solrApi'
+  import {CkanApi} from '../../services/ckanApi'
+  //const solrServ = new SolrApi()
+  const ckanServ = new CkanApi()
 
   export default {
     data() {
@@ -21,10 +23,15 @@
 
     methods: {
         getDatasets(){
-            solrServ.getDatasets("?q=title:*&wt=json&rows=10").then((data) => {
+            // solrServ.getDatasets("?q=title:*&wt=json&rows=10").then((data) => {
+            //     this.loading = false
+            //     // eslint-disable-next-line
+            //     this.items = data.response.docs
+            // });
+            ckanServ.getDatasets("").then((data) => {
                 this.loading = false
                 // eslint-disable-next-line
-                this.items = data.response.docs
+                this.items = data.result.results
             });
         }
     },
