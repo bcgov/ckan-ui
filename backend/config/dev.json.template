@@ -1,0 +1,4 @@
+//erase this line and put dev overrides here, i.e.
+{
+  "solr": "http://localhost:8982/solr"
+}

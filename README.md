@@ -1,29 +1,14 @@
-# ckan-ui
+# CKAN-UI
 
-## Project setup
-```
-npm install
-```
+## Requirements
+- CKAN (with solr), running
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Backend
+Modify backend/config/dev.json (or test/prod as might be the case) by copying the template and overriding the values 
+custom to your environment (Ckan url, solr url, port)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Run the backend with `npm start` in the backend directory or `npm run serve` to do hot reloading (dev)
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+##Front end 
+Modify frontend/vue.config.s by changing the values as needed
+Run the frontend with `` in the frontend directory or `npm run serve` to do hot reloading (dev) 
