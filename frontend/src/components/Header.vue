@@ -58,7 +58,7 @@
               <b-nav-item id="ribbon-search" class="navbar-link lvl2-link" href="/dataset">Datasets</b-nav-item>
               <b-nav-item id="ribbon-org" class="navbar-link lvl2-link" href="/organization">Organizations</b-nav-item>
               <b-nav-item id="ribbon-groups" class="navbar-link lvl2-link" href="/groups">Groups</b-nav-item>
-              <b-nav-item id="ribbon-registry" class="navbar-link lvl2-link" href="/gwells/registries"><i class="fa fa-rss icon-rss"></i>Stay Up To Date</b-nav-item>
+              <b-nav-item id="ribbon-registry" class="navbar-link lvl2-link" href="/gwells/registries"><i class="fa fa-rss icon-rss"></i> Stay Up To Date</b-nav-item>
               <b-nav-item id="ribbon-admin" class="navbar-link lvl2-link" href="/about">About</b-nav-item>
             </b-navbar-nav>
           </b-container>

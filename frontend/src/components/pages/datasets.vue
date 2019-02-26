@@ -1,23 +1,32 @@
 <template>
   <div>
     <div v-if="loading">
-      Loading...
+      <ListCard :record="{}" :loading="true"></ListCard>
     </div>
-    <b-table v-else striped hover :items="items" />
+    <div v-else-if="noResults">
+        No results
+    </div>
+    <div v-else>
+        <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset" :loading="false"></ListCard>
+    </div>
   </div>
 </template>
 
 <script>
-  //import {SolrApi} from '../../services/solrApi'
   import {CkanApi} from '../../services/ckanApi'
-  //const solrServ = new SolrApi()
   const ckanServ = new CkanApi()
+  import ListCard from '../dataset/ListCard'
 
   export default {
+    components: {
+        ListCard: ListCard
+    },
+
     data() {
       return {
-        loading: true,
-        items: []
+          loading: true,
+          datasets: [],
+          noResults: false,
       }
     },
 
@@ -26,12 +35,14 @@
             // solrServ.getDatasets("?q=title:*&wt=json&rows=10").then((data) => {
             //     this.loading = false
             //     // eslint-disable-next-line
-            //     this.items = data.response.docs
+            //     this.datasets = data.response.docs
             // });
             ckanServ.getDatasets("").then((data) => {
                 this.loading = false
-                // eslint-disable-next-line
-                this.items = data.result.results
+                this.datasets = data.result.results
+                if (data.result.results.length <= 0){
+                    this.noResults = true
+                }
             });
         }
     },

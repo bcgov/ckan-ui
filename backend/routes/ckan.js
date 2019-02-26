@@ -9,7 +9,7 @@ router.get('/search', function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/package_search"
+  let reqUrl = url + "/api/3/action/package_search?"
   for (let i=0; i<keys.length; i++){
     reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
   }
