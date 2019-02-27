@@ -74,4 +74,21 @@ router.get('/getDataset', function(req, res, next) {
 
 });
 
+/* GET one dataset. */
+router.get('/getFacets', function(req, res, next) {
+
+  facets = {
+      license_id: 'License',
+      sector: 'Sectors',
+      type: 'Dataset types',
+      res_format: 'Format',
+      organization: 'Organizations',
+      download_audience: 'Download permission',
+      edc_state: 'States' // normally only if admin, but what the hell
+  }
+
+  res.json(facets)
+
+});
+
 module.exports = router;

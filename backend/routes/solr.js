@@ -39,4 +39,35 @@ router.get('/select', function(req, res, next) {
 
 });
 
+/* GET solr schema. */
+router.get('/schema', function(req, res, next) {
+
+  let config = require('config');
+  let url = config.get('solr');
+  let core = config.get('solrCore');
+
+
+  let reqUrl = url + "/" + core + "/schema";
+
+  request(reqUrl, function(err, apiRes, body){
+    if (err) {
+      console.log(err);
+      res.json({error: err});
+      return;
+    }
+    if (apiRes.statusCode != 200){
+        console.log("Body Status? ", apiRes.statusCode);
+    }
+
+    try {
+        let json = JSON.parse(body);
+        res.json(json);
+    }catch(ex){
+        console.error("Error reading json from solr", ex);
+        res.json({error: ex});
+    }
+  });
+
+});
+
 module.exports = router;

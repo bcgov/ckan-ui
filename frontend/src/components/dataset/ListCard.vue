@@ -1,24 +1,21 @@
 <template>
   <div>
-      <div v-if="loading">Loading...</div>
-      <div v-else>
-          <div class="dataset-markers">
-              <ul>
-                  <SectorBadge v-for="primMarker in primMarkers" :name="primMarker.name" :key="'dataset-' + id + '-' + primMarker.name + '-badge'"></SectorBadge>
-              </ul>
-          </div>
+      <div class="dataset-markers">
+          <ul>
+              <SectorBadge v-for="primMarker in primMarkers" :name="primMarker.name" :key="'dataset-' + id + '-' + primMarker.name + '-badge'"></SectorBadge>
+          </ul>
+      </div>
 
-          <div class="dataset-marker-type-icon">
-              <i class="fa fa-2x icon icon-2x" v-bind:class="['fa-'+iconName, 'icon-'+iconName]"></i>
-          </div>
+      <div class="dataset-marker-type-icon">
+          <i class="fa fa-2x icon icon-2x" v-bind:class="['fa-'+iconName, 'icon-'+iconName]"></i>
+      </div>
 
-          <h3 class="dataset-heading">
-              <a v-bind:href="'/dataset/'+id">{{name}}</a>
-          </h3>
+      <h3 class="dataset-heading">
+          <a v-bind:href="'/dataset/'+id">{{name}}</a>
+      </h3>
 
-          <div class="dataset-decription">
-              {{description}}
-          </div>
+      <div class="dataset-decription">
+          {{description}}
       </div>
 
       <div class="flex-fill-end">
@@ -46,7 +43,6 @@ export default {
     },
     props: {
         record: Object,
-        loading: Boolean
     },
 
     data: function() {
@@ -85,8 +81,6 @@ export default {
 
             default:
                 icon = ""
-                // eslint-disable-next-line
-                console.log("unknown record type:", this.record.type)
                 break
         }
 

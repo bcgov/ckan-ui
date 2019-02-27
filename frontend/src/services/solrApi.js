@@ -8,4 +8,9 @@ export class SolrApi {
         return axios.get(url).then(response => response.data)
     }
 
+    getSchema() {
+        const url = '/api/solr/schema'
+        return axios.get(url).then(response => response.data)
+    }
+
 }

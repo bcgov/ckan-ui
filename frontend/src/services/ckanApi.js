@@ -13,4 +13,9 @@ export class CkanApi {
         return axios.get(url).then(response => response.data)
     }
 
+    getFacets(){
+        const url = '/api/ckan/getFacets'
+        return axios.get(url).then(response => response.data)
+    }
+
 }
