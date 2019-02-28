@@ -38,6 +38,9 @@
               </div>
               <div v-else>
                   <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
+                  <infinite-loading @infinite="scroll">
+                      <div slot="no-more">No more datasets</div>
+                  </infinite-loading>
               </div>
           </b-col>
 
@@ -83,15 +86,9 @@
 
     methods: {
 
-        scroll: function(){
-            window.onscroll = () => {
-                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight - 150
-
-                if (bottomOfWindow) {
-                    this.skip += this.rows
-                    this.getDatasets(true)
-                }
-            }
+        scroll: function(state, ){
+            this.skip += this.rows
+            this.getDatasets(true, state)
         },
 
         search: function(e){
@@ -104,8 +101,7 @@
             this.getDatasets()
         },
 
-        getDatasets(append){
-
+        getDatasets(append, state){
             if (typeof(append) === "undefined"){
                 append = false;
             }
@@ -162,7 +158,15 @@
                     this.noResults = true
                 }
                 this.loading = false
+                if (state != null) {
+                    if (this.skip+10 >= this.count) {
+                        state.complete()
+                    }else{
+                        state.loaded();
+                    }
+                }
             });
+
         },
 
         getFacets(){
@@ -190,7 +194,6 @@
     mounted(){
         this.getDatasets();
         this.getFacets();
-        this.scroll();
     }
   }
 </script>
