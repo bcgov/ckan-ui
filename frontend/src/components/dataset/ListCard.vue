@@ -11,7 +11,7 @@
       </div>
 
       <h3 class="dataset-heading">
-          <a v-bind:href="'/dataset/'+id">{{name}}</a>
+          <router-link :to="{ name: 'dataset_view', params: { datasetId: id }}">{{name}}</router-link>
       </h3>
 
       <div class="dataset-decription">
