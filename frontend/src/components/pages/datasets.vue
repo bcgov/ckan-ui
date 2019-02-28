@@ -9,12 +9,14 @@
       <b-row>
           <b-col cols="2">
           </b-col>
-          <b-col cols="8" class="font-weight-bold">
+          <b-col cols="4" class="row2Text font-weight-bold">
               {{count}} datasets found
           </b-col>
-          <b-col cols="2">
+          <b-col cols="1">
+              <label class="row2Text" for="sortOrder">Order by </label>
           </b-col>
-          <b-col cols="4">
+          <b-col cols="3">
+              <b-form-select id="sortOrder" name="sortOrder" v-model="sortOrder" :options="sortOptions" v-on:change="sort" />
           </b-col>
       </b-row>
       <b-row class="text-center">
@@ -66,7 +68,16 @@
           count: 0,
           rows: 10,
           skip: 0,
-          facetFilters: {}
+          facetFilters: {},
+          sortOrder: "record_publish_date desc",
+          sortOptions:[
+              { value: "relevance desc", text: "Relevance" },
+              { value: "score desc", text: "Popular" },
+              { value: "name asc", text: "Name Ascending" },
+              { value: "name desc", text: "Name Descending" },
+              { value: "record_publish_date desc", text: "Publish Date" },
+              { value: "record_last_modified desc", text: "Last Modified" }
+          ]
       }
     },
 
@@ -89,6 +100,10 @@
             }
         },
 
+        sort: function(){
+            this.getDatasets()
+        },
+
         getDatasets(append){
 
             if (typeof(append) === "undefined"){
@@ -99,7 +114,7 @@
                 this.loading = true;
             }
 
-            let q = "?rows=" + this.rows+"&"
+            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&"
 
             let fq = ""
             if (this.searchText !==""){
@@ -183,5 +198,10 @@
 <style scoped>
     .main-area{
         margin-top: 20px
+    }
+
+    .row2Text{
+        line-height: 35px;
+        vertical-align: bottom;
     }
 </style>
