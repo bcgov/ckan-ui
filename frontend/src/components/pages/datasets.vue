@@ -200,7 +200,7 @@
         margin-top: 20px
     }
 
-    row2Text{
+    .row2Text{
         line-height: 35px;
         vertical-align: bottom;
     }
