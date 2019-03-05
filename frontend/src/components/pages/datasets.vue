@@ -109,8 +109,6 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = ""
-            // eslint-disable-next-line
-            console.log("ST", this.searchText);
             if (this.searchText !==""){
                 q += "q=title:" + this.searchText + "*&"
                 fq = " AND "
