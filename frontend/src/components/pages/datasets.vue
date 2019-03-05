@@ -106,7 +106,7 @@
                 this.loading = true;
             }
 
-            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&"
+            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = ""
             // eslint-disable-next-line
