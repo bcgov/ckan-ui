@@ -89,9 +89,14 @@ export default {
       exp.setUTCSeconds(jwtObj.exp);
 
       if (currDate > exp){
-          // eslint-disable-next-line
-          console.log("expired");
           localStorage.removeItem('user');
+          authServ.getToken().then((data) => {
+            if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
+                this.user = data;
+                this.loggedIn = true;
+                localStorage.user = JSON.stringify(data);
+            }
+          });
       }else{
           this.loggedIn = true;
           this.user = user;
@@ -102,8 +107,7 @@ export default {
               this.user = data;
               this.loggedIn = true;
               localStorage.user = JSON.stringify(data);
-              // eslint-disable-next-line
-              console.log(this.user);
+
           }
       });
     }

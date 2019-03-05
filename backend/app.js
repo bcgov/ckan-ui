@@ -1,18 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var config = require('config');
-var session = require('express-session');
-var passport = require('passport');
-var OidcStrategy = require('passport-openidconnect').Strategy;
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let config = require('config');
+let session = require('express-session');
+let passport = require('passport');
+let OidcStrategy = require('passport-openidconnect').Strategy;
+let refresh = require('passport-oauth2-refresh');
 
-var solrRouter = require('./routes/solr');
-var ckanRouter = require('./routes/ckan');
-var authRouter = require('./routes/auth');
+let solrRouter = require('./routes/solr');
+let ckanRouter = require('./routes/ckan');
+let authRouter = require('./routes/auth');
 
-var app = express();
+let app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -41,13 +42,16 @@ passport.deserializeUser((obj, next) => {
   next(null, obj);
 });
 
-
-// set up passport
-passport.use('oidc', new OidcStrategy(config.get('oidc'), function(issuer, sub, profile, accessToken, refreshToken, done){
+var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profile, accessToken, refreshToken, done){
   profile.jwt = accessToken;
   profile.refreshToken = refreshToken
   return done(null, profile);
-}));
+});
+
+
+// set up passport
+passport.use('oidc', strategy);
+refresh.use('oidc', strategy)
 
 app.use('/solr', solrRouter);
 app.use('/ckan', ckanRouter);
