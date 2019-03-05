@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import BootstrapVue from 'bootstrap-vue'
+//import BootstrapVue from 'bootstrap-vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import '@/assets/css/bootstrap-theme.min.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+//import '@/assets/css/bootstrap-theme.min.css'
+//import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -13,7 +13,7 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.config.productionTip = false
 
-Vue.use(BootstrapVue)
+//Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
   iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
 })
