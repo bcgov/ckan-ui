@@ -1,42 +1,39 @@
 <template>
-     <b-card v-if="!noResults" :sub-title="name">
-         <b-card-text>
-             <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
-             <b-list-group v-else>
-                 <b-list-group-item
-                         button
-                         v-for="(filter, i) in filters.slice(0,COLLAPSE_SIZE)"
-                         v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
-                         v-on:click="filterOn(filter.name)"
-                         :key="'facet-' + field + '-filter-' + i">
-                     <div>
-                        {{filter.display_name}}
-                        <b-badge variant="primary" pill>{{filter.count}}</b-badge>
-                     </div>
-                 </b-list-group-item>
-                 <b-collapse v-if="filters.length>COLLAPSE_SIZE" :id="collapseId" :style="'display: ' + (showCollapse? 'none' : 'block')">
-                     <b-list-group-item
-                             button
-                             v-for="(filter, i) in filters.slice(COLLAPSE_SIZE)"
-                             v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
-                             v-on:click="filterOn(filter.name)"
-                             :key="'facet-' + field + '-filter-' + i">
-                         <div>
+    <div>
+        <v-list v-if="!noResults">
+            <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+            <div v-else>
+                <v-subheader>{{name}}</v-subheader>
+                <v-divider></v-divider>
+                <v-list-tile
+                    v-for="(filter, i) in filters.slice(0,COLLAPSE_SIZE)"
+                    v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
+                    v-on:click="filterOn(filter.name)"
+                    :key="'facet-' + field + '-filter-' + i">
+                    <v-list-tile-content>
+                        <span>{{filter.display_name}}</span><span class="badge">{{filter.count}}</span>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile v-if="!showCollapse"
+                    v-for="(filter, i) in filters.slice(COLLAPSE_SIZE)"
+                    v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
+                    v-on:click="filterOn(filter.name)"
+                    :key="'facet-' + field + '-filter-' + i">
+                    <v-list-tile-content>
+                        <span class="list-group-item">
                             {{filter.display_name}}
-                            <b-badge variant="primary" pill>{{filter.count}}</b-badge>
-                         </div>
-                     </b-list-group-item>
-                 </b-collapse>
-                 <a v-if="filters.length>COLLAPSE_SIZE"
-                     class="pointer-hover"
-                     @click="showCollapse = !showCollapse"
-                     :aria-controls="collapseId"
-                     :aria-expanded="showCollapse? 'true' : 'false'">
-                     {{showCollapse? "Show " + (filters.length - COLLAPSE_SIZE) + " More" : "Show Less"}}
-                 </a>
-             </b-list-group>
-         </b-card-text>
-     </b-card>
+                            <span class="badge">{{filter.count}}</span>
+                        </span>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <a v-if="filters.length>COLLAPSE_SIZE"
+                         class="pointer-hover"
+                         @click="showCollapse = !showCollapse">
+                         {{showCollapse? "Show " + (filters.length - COLLAPSE_SIZE) + " More" : "Show Less"}}
+                     </a>
+            </div>
+        </v-list>
+     </div>
 </template>
 
 <script>
@@ -65,6 +62,7 @@ export default{
     },
 
     methods: {
+
         filterOn: function(filter){
             if (this.filteredOn === filter){
                 this.filteredOn = ""
@@ -108,19 +106,32 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
     @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
-    div.card-body{
-        padding-left: 0;
-        padding-right: 0;
-        padding-bottom: 0;
+
+    .badge{
+        font-size: 9px;
+        background: lightblue;
+    }
+
+
+    a.v-list__tile{
+        padding: 0px;
+    }
+
+    div.v-list__tile__content{
+        font-size: 13px;
+        line-height: 13px;
     }
 
     .list-group-item{
         font-size: 13px;
         line-height: 13px;
-        border-left: 0;
-        border-right: 0;
+        border: none;
+        box-sizing: border-box;
+        padding: 0px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 
     .pointer-hover{
@@ -128,7 +139,6 @@ export default{
         font-size: 13px;
         line-height: 13px;
         color: blue !important;
-        padding-top: 5px;
-        padding-bottom: 5px;
+
     }
 </style>

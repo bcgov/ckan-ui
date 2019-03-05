@@ -1,26 +1,22 @@
 <template>
-  <b-container class="main-area">
-      <b-row class="text-center">
-          <b-col cols="2"></b-col>
-          <b-col cols="8">
-            <b-form-input v-model="searchText" type="text" placeholder="Search Datasets..." v-on:keyup="search" />
-          </b-col>
-      </b-row>
-      <b-row>
-          <b-col cols="2">
-          </b-col>
-          <b-col cols="4" class="row2Text font-weight-bold">
+  <v-container class="main-area">
+      <v-layout row wrap>
+          <v-flex xs2></v-flex>
+          <v-flex xs8>
+              <v-text-field v-model="searchText" label="Search Datasets..." v-on:keyup="search"></v-text-field>
+          </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+          <v-flex xs2></v-flex>
+          <v-flex xs4>
               {{count}} datasets found
-          </b-col>
-          <b-col cols="1">
-              <label class="row2Text" for="sortOrder">Order by </label>
-          </b-col>
-          <b-col cols="3">
-              <b-form-select id="sortOrder" name="sortOrder" v-model="sortOrder" :options="sortOptions" v-on:change="sort" />
-          </b-col>
-      </b-row>
-      <b-row class="text-center">
-          <b-col cols="2">
+          </v-flex>
+          <v-flex xs4>
+              <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" label="Order By"></v-select>
+          </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+          <v-flex xs2>
               <!-- Facets  -->
               <FacetFilter
                       v-for="(facet, facetKey) in facets"
@@ -29,8 +25,8 @@
                       :field="facetKey"
                       v-on:facetFilter="facetFilter"
               ></FacetFilter>
-          </b-col>
-          <b-col cols="10">
+          </v-flex>
+          <v-flex xs10>
               <!-- Search  -->
               <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
               <div v-else-if="noResults">
@@ -42,10 +38,10 @@
                       <div slot="no-more">No more datasets</div>
                   </infinite-loading>
               </div>
-          </b-col>
+          </v-flex>
 
-      </b-row>
-  </b-container>
+      </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -110,7 +106,7 @@
                 this.loading = true;
             }
 
-            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&"
+            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = ""
             if (this.searchText !==""){
@@ -197,14 +193,3 @@
     }
   }
 </script>
-
-<style scoped>
-    .main-area{
-        margin-top: 20px
-    }
-
-    .row2Text{
-        line-height: 35px;
-        vertical-align: bottom;
-    }
-</style>

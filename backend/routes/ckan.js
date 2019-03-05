@@ -16,7 +16,19 @@ router.get('/search', function(req, res, next) {
   //if we added any we need to truncate them
   reqUrl = (keys.length > 0) ? reqUrl.substring(0, reqUrl.length-1) : reqUrl;
 
-  request(reqUrl, function(err, apiRes, body){
+  let authObj = {};
+
+  if (req.user){
+      authObj = {
+          'headers': {
+              'Authorization': req.user.jwt
+          }
+      }
+  }else{
+      console.log("no user");
+  }
+
+  request(reqUrl, authObj, function(err, apiRes, body){
     if (err) {
       console.log(err);
       res.json({error: err});
@@ -53,7 +65,19 @@ router.get('/getDataset', function(req, res, next) {
 
   reqUrl += "?id="+req.query.id;
 
-  request(reqUrl, function(err, apiRes, body){
+  let authObj = {};
+
+  if (req.user){
+      authObj = {
+          'headers': {
+              'Authorization': req.user.jwt
+          }
+      }
+  }else{
+      console.log("no user");
+  }
+
+  request(reqUrl, authObj, function(err, apiRes, body){
     if (err) {
       console.log(err);
       res.json({error: err});
