@@ -1,5 +1,5 @@
 {
-  "solr": "http://localhost:8982",
+  "solr": "http://localhost:8982/solr",
   "solrCore": "ckan",
   "ckan": "http://localhost:5000",
   "secret": "secret",
@@ -12,7 +12,7 @@
     "userInfoURL": "https://{yourdomain}/oauth2/default/v1/userinfo",
     "clientID": "{ClientID}",
     "clientSecret": "{ClientSecret}",
-    "callbackURL": "http://localhost:3000/callback",
+    "callbackURL": "http://localhost:3000/api/callback",
     "scope": "openid profile offline_access"
   }
 }

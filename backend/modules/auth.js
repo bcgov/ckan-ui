@@ -4,7 +4,6 @@ let request = require('request')
 
 
 auth.isTokenExpired = function(token){
-    return true;
     let currDate = new Date();
 
     let base64Url = token.split('.')[1];
@@ -12,9 +11,6 @@ auth.isTokenExpired = function(token){
     let jwtObj = JSON.parse(atob(base64));
     let exp = new Date(0);
     exp.setUTCSeconds(jwtObj.exp);
-
-    console.log("TOKEN EXPIRES AT", exp);
-
 
     return (currDate > exp);
 }
@@ -27,8 +23,6 @@ auth.isRenewable = function(token){
     let jwtObj = JSON.parse(atob(base64));
     let exp = new Date(0);
     exp.setUTCSeconds(jwtObj.exp);
-
-
 
     return (currDate > exp);
 }
@@ -85,9 +79,9 @@ auth.renew = function(token, cb){
 }
 
 auth.removeExpired = function(req, res, next){
-    if ( (typeof(req.user) !== "undefined") && (typeof(req.user.jwt) !== "undefined") ){
+    if ( (typeof(req.user) !== "undefined") && (typeof(req.user.jwt) !== "undefined") && (req.user.jwt !== null) ){
         if (auth.isTokenExpired(req.user.jwt)){
-            if ( (typeof(req.user) !== "undefined") && (typeof(req.user.refreshToken) !== "undefined") ){
+            if ( (typeof(req.user.refreshToken) !== "undefined") && (req.user.refreshToken !== null) ){
                 if (auth.isRenewable(req.user.refreshToken)){
                     auth.renew(req.user.refreshToken, function(refreshErr, accessToken, refreshToken){
                         if (refreshErr){
@@ -108,7 +102,7 @@ auth.removeExpired = function(req, res, next){
                 delete req.user;
                 next();
             }
-        } else {
+        }else {
             next()
         }
     } else {
