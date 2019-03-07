@@ -21,12 +21,10 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
 
   if (req.user){
       authObj = {
-          'headers': {
-              'Authorization': req.user.jwt
+          'auth': {
+              'bearer': req.user.jwt
           }
       }
-  }else{
-      console.log("no user");
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -69,13 +67,11 @@ router.get('/getDataset', auth.removeExpired, function(req, res, next) {
   let authObj = {};
 
   if (req.user){
-      authObj = {
-          'headers': {
-              'Authorization': req.user.jwt
+     authObj = {
+          'auth': {
+              'bearer': req.user.jwt
           }
-      }
-  }else{
-      console.log("no user");
+     }
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -134,14 +130,12 @@ router.get('/getOrganization', function(req, res, next) {
 
   let authObj = {};
 
-  if (req.user){
+  if (req.user) {
       authObj = {
-          'headers': {
-              'Authorization': req.user.jwt
+          'auth': {
+              'bearer': req.user.jwt
           }
       }
-  }else{
-      console.log("no user");
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
