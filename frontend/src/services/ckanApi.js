@@ -18,4 +18,9 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    getOrganization(id){
+        const url = '/api/ckan/getOrganization?id='+id
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
 }

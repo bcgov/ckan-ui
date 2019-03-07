@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-layout row wrap align-center fill-height>
         <v-flex xs12>
-          <h6><i class="fa fa-file"></i> {{resource.name}}</h6>
+          <h4><i class="fa fa-file"></i> {{resource.name}}</h4>
           <span><strong>Type: </strong>{{resource.format}}</span>
         </v-flex>
       </v-layout>

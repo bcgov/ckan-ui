@@ -1,19 +1,17 @@
 <template>
   <v-card flat style="margin-bottom:.5rem;">
-    <v-container style="padding-top:0px;">
-      <h4>Contact Information</h4>
-      <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
-        <v-layout column justify-start flex>
-            <h6>Name</h6>
-            <p>John Churchill</p>
-            <h6>Email</h6>
-            <a href="mailto:john@highwaythreesolutions.com">john@highwaythreesolutions.com</a>
-            <h6>Organization</h6>
-            <p>Ministry of Finance</p>
-            <h6>Sub-Organization</h6>
-            <p>Treasury Board Staff</p>
-        </v-layout>
-      </v-container>
+    <h3>Contact Information</h3>
+    <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
+      <v-layout column justify-start flex>
+          <h5>Name</h5>
+          <p>{{contact.name}} ({{contact.role}})</p>
+          <h5>Email</h5>
+          <p><a :href="contact.email">{{contact.email}}</a></p>
+          <h5>Organization</h5>
+          <p>{{contact.organization}}</p>
+          <h5>Sub-Organization</h5>
+          <p>{{contact.subOrganization}}</p>
+      </v-layout>
     </v-container>
   </v-card>
 </template>
@@ -21,7 +19,7 @@
 <script>
 export default{
     props: {
-        resource: Object
+        contact: Object
     },
 }
 </script>

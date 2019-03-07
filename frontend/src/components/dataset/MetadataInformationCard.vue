@@ -1,17 +1,15 @@
 <template>
   <v-card flat style="margin-bottom:.5rem;">
-    <v-container style="padding-top:0px;">
-      <h4>Metadata Information</h4>
-      <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
-        <v-layout column justify-start flex>
-            <h6>Record Published</h6>
-            <p>2018-11-13</p>
-            <h6>Record Last Modified</h6>
-            <p>2018-11-13</p>
-            <h6>Resource Status</h6>
-            <p>Completed</p>
-        </v-layout>
-      </v-container>
+    <h3>Metadata Information</h3>
+    <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
+      <v-layout column justify-start flex>
+          <h5>Record Published</h5>
+          <p>{{info.published}}</p>
+          <h5>Record Last Modified</h5>
+          <p>{{info.lastModified}}</p>
+          <h5>Resource Status</h5>
+          <p class="caps">{{info.status}}</p>
+      </v-layout>
     </v-container>
   </v-card>
 </template>
@@ -19,7 +17,7 @@
 <script>
 export default{
     props: {
-        resource: Object
+        info: Object
     },
 }
 </script>
@@ -29,5 +27,8 @@ export default{
 
     .container{
         padding-bottom:15px;
+    }
+    .caps{
+      text-transform: uppercase;
     }
 </style>

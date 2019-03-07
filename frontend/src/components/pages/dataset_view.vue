@@ -7,31 +7,36 @@
       indeterminate
     ></v-progress-circular>
   <v-container v-else grid-list-md class="main-area">
-      <v-layout row wrap>
+      <v-layout row wrap fill-height>
         <v-flex xs12 md8>
-          <h1>{{dataset.title}}</h1>
-          <p>Published by the <a href="">{{dataset.organization.full_title}}</a>
-          <br />
-          Licensed under <a href="">{{dataset.license_title}}</a></p>
+          <v-container class="metadata">
+            <v-card flat>
+              <app-breadcrumbs></app-breadcrumbs>
+              <h1 class="h2">{{dataset.title}}</h1>
+              <v-subheader class="tracking-summary">{{dataset.tracking_summary.total}} views ({{dataset.tracking_summary.recent}} recent)</v-subheader>
+              <p>Published by the <a href="">{{dataset.organization.full_title}}</a>
+              <br />
+              Licensed under <a href="">{{dataset.license_title}}</a></p>
+            </v-card>
           <v-divider></v-divider>
-          <v-container>
+          <br>
             <v-layout row wrap>
               <v-flex xs6>
                 <AboutCard :desc="dataset.notes"></AboutCard>
               </v-flex>
               <v-flex xs6>
-                <AdditionalInfoCard></AdditionalInfoCard>
+                <AdditionalInfoCard :info="additionalInfo"></AdditionalInfoCard>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs4>
-                <ContactInfoCard></ContactInfoCard>
+                <ContactInfoCard :contact="contactInfo"></ContactInfoCard>
               </v-flex>
               <v-flex xs4>
-                <AccessSecurityCard></AccessSecurityCard>
+                <AccessSecurityCard :info="accessInfo"></AccessSecurityCard>
               </v-flex>
               <v-flex xs4>
-                <MetadataInformationCard></MetadataInformationCard>
+                <MetadataInformationCard :info="metadataInfo"></MetadataInformationCard>
               </v-flex>
             </v-layout>
           </v-container>
@@ -67,9 +72,13 @@
       return {
         loading: true,
         dataset: {},
+        additionalInfo: {},
+        contactInfo: {},
+        accessInfo: {},
+        metadataInfo: {}
       }
     },
-
+   
     computed: {
       datasetId: function datasetId() {
         return this.$route.params.datasetId;
@@ -83,6 +92,37 @@
                 // eslint-disable-next-line
                 console.log("hi", data)
                 this.dataset = data.result;
+
+                this.additionalInfo = {
+                  purpose: this.dataset.purpose,
+                  dataQuality: this.dataset.data_quality,
+                  lineageStatement: this.dataset.lineage_statement,
+                  tags: this.dataset.tags
+                }
+                this.accessInfo = {
+                  viewAudience: this.dataset.view_audience,
+                  downloadAudience: this.dataset.download_audience
+                }
+                this.metadataInfo = {
+                  published: this.dataset.record_publish_date,
+                  lastModified: this.dataset.record_last_modified,
+                  status: this.dataset.resource_status
+                }
+                this.contactInfo = {
+                  name: this.dataset.contacts[0].name,
+                  role: this.dataset.contacts[0].role,
+                  email: this.dataset.contacts[0].email,
+                  organizationId: this.dataset.contacts[0].organization,
+                  organization: null,
+                  subOrganizationId: this.dataset.contacts[0].branch,
+                  subOrganization: null
+                }
+                ckanServ.getOrganization(this.contactInfo.organizationId).then((data) => {
+                  this.contactInfo.organization = data.result.title;
+                });
+                ckanServ.getOrganization(this.contactInfo.subOrganizationId).then((data) => {
+                  this.contactInfo.subOrganization = data.result.title
+                })
             });
         }
     },
@@ -93,6 +133,12 @@
   }
 </script>
 
+<style>
+  h1,h2,h3,h4,h5 {
+    color: #444444;
+  }
+</style>
+
 <style scoped>
     .main-area{
         margin-top: 20px
@@ -100,4 +146,12 @@
     ul{
       list-style-type: none
     }
+    .tracking-summary{
+      height: inherit;
+      padding: inherit;
+    }
+    .metadata{
+      padding-top:0px;
+    }
+    
 </style>

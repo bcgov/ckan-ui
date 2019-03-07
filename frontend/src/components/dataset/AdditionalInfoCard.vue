@@ -1,15 +1,27 @@
 <template>
   <v-card flat style="margin-bottom:.5rem;">
     <v-container style="padding-top:0px;">
-      <h4>Additional Information</h4>
+      <h3>Additional Information</h3>
       <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
         <v-layout column justify-start flex>
-            <h6>Purpose</h6>
-            <p>This is the most purposeful purpose</p>
-            <h6>Data Quality</h6>
-            <p>This is all about qulaity</p>
-            <h6>Lineage Statement</h6>
-            <p>This statement is on the lineage</p>
+            <template v-if="info.purpose">
+              <h5>Purpose</h5>
+              <p>{{info.purpose}}</p>
+            </template>
+            <template v-if="info.dataQuality">
+              <h5>Data Quality</h5>
+              <p>{{info.dataQuality}}</p>
+            </template>
+            <template v-if="info.lineageStatement">
+              <h5>Lineage Statement</h5>
+              <p>{{info.lineageStatement}}</p>
+            </template>
+            <h5>Tags</h5>
+            <v-item-group multiple>
+              <v-item v-for="tag in info.tags" :key="tag.name">
+                <v-chip outline color="#444444" small disabled>{{tag.display_name}}</v-chip>
+              </v-item>
+            </v-item-group>
         </v-layout>
       </v-container>
     </v-container>
@@ -19,7 +31,7 @@
 <script>
 export default{
     props: {
-        resource: Object
+        info: Object
     },
 }
 </script>
@@ -30,5 +42,4 @@ export default{
     .container{
         padding-bottom:15px;
     }
-
 </style>

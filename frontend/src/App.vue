@@ -18,3 +18,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .v-card--flat{
+    background-color: #fafafa !important;
+  }
+</style>

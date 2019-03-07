@@ -115,4 +115,53 @@ router.get('/getFacets', function(req, res, next) {
 
 });
 
+/* GET one dataset. */
+router.get('/getOrganization', function(req, res, next) {
+
+  let config = require('config');
+  let url = config.get('ckan');
+
+  let keys = Object.keys(req.query);
+  let reqUrl = url + "/api/3/action/organization_show";
+
+  if (typeof(req.query.id) === "undefined"){
+      res.json({error: "query parameter id is required"});
+      return;
+  }
+
+  reqUrl += "?id="+req.query.id;
+
+  let authObj = {};
+
+  if (req.user){
+      authObj = {
+          'headers': {
+              'Authorization': req.user.jwt
+          }
+      }
+  }else{
+      console.log("no user");
+  }
+
+  request(reqUrl, authObj, function(err, apiRes, body){
+    if (err) {
+      console.log(err);
+      res.json({error: err});
+      return;
+    }
+    if (apiRes.statusCode != 200){
+        console.log("Body Status? ", apiRes.statusCode);
+    }
+
+    try {
+        let json = JSON.parse(body);
+        res.json(json);
+    }catch(ex){
+        console.error("Error reading json from ckan", ex);
+        res.json({error: ex});
+    }
+  });
+
+});
+
 module.exports = router;

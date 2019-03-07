@@ -1,15 +1,13 @@
 <template>
   <v-card flat style="margin-bottom:.5rem;">
-    <v-container style="padding-top:0px;">
-      <h4>Access and Security</h4>
-      <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
-        <v-layout column justify-start flex>
-            <h6>Who can view this dataset?</h6>
-            <p>Public</p>
-            <h6>Who can download this dataset?</h6>
-            <p>Public</p>
-        </v-layout>
-      </v-container>
+    <h3>Access and Security</h3>
+    <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
+      <v-layout column justify-start flex>
+          <h5>Who can view this dataset?</h5>
+          <p>{{info.viewAudience}}</p>
+          <h5>Who can download this dataset?</h5>
+          <p>{{info.downloadAudience}}</p>
+      </v-layout>
     </v-container>
   </v-card>
 </template>
@@ -17,7 +15,7 @@
 <script>
 export default{
     props: {
-        resource: Object
+        info: Object
     },
 }
 </script>

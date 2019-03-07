@@ -1,26 +1,23 @@
 <template>
   <footer class="footer">
-    <b-navbar type="dark" variant="primary" toggleable="sm">
-      <b-container>
+      <v-container>
       <!-- Navbar content -->
-        <b-navbar-nav>
-            <b-nav-item id="footer-home" href="https://www.gov.bc.ca/">Home
-            </b-nav-item>
-            <b-nav-item id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca
-            </b-nav-item>
-            <b-nav-item id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">Disclaimer
-            </b-nav-item>
-            <b-nav-item id="footer-privacy" href="http://gov.bc.ca/privacy/">Privacy
-            </b-nav-item>
-            <b-nav-item id="footer-accessibility" href="http://gov.bc.ca/webaccessibility/">Accessibility
-            </b-nav-item>
-            <b-nav-item id="footer-copyright" href="http://gov.bc.ca/copyright">Copyright
-            </b-nav-item>
-            <b-nav-item href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us
-            </b-nav-item>
-        </b-navbar-nav>
-      </b-container>
-    </b-navbar>
+        <v-layout row>
+            <a id="footer-home" class="nav-item" href="https://www.gov.bc.ca/">Home</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a id="footer-about" class="nav-item" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a id="footer-disclaimer" class="nav-item" href="http://gov.bc.ca/disclaimer/">Disclaimer</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a id="footer-privacy" class="nav-item" href="http://gov.bc.ca/privacy/">Privacy</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a id="footer-accessibility" class="nav-item" href="http://gov.bc.ca/webaccessibility/">Accessibility</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a id="footer-copyright" class="nav-item" href="http://gov.bc.ca/copyright">Copyright</a>
+            <v-divider vertical color="lightgray"></v-divider>
+            <a  class="nav-item" href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</a>
+        </v-layout>
+      </v-container>
   </footer>
 </template>
 
@@ -44,19 +41,21 @@ export default {
     height: 45px!important;
   }
   position: absolute;
-  bottom: 0
+  bottom: 0;
+  min-width: 100%;
 }
 .footer .nav-item {
   font-size: 13px;
-}
-.footer .nav-link {
   padding: .1rem .5rem;
 }
-.footer nav {
+.footer .container{
   min-height: 45px;
+  background-color: rgb(0, 51, 102);
+  min-width: 100%;
 }
 .footer a {
   color: #fff!important;
+  text-decoration: none;
 }
 footer li+li  {
   @include media-breakpoint-up(sm) {
