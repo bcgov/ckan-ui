@@ -66,6 +66,8 @@ import {Auth} from '../services/auth'
 const authServ = new Auth()
 import config from '../config/config'
 
+let loginServ = process.env.LOGIN_SERVER ? process.env.LOGIN_SERVER : config.LOGIN_SERVER;
+
 export default {
   components: {
   },
@@ -74,7 +76,7 @@ export default {
     return {
         user: null,
         loggedIn: false,
-        logInUrl: config.LOGIN_SERVER
+        logInUrl: loginServ
     }
   },
   mounted: function(){

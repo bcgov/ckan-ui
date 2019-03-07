@@ -38,11 +38,9 @@
 
 <script>
 import {CkanApi} from '../../services/ckanApi'
-import BCollapse from "bootstrap-vue/src/components/collapse/collapse"
 const ckanServ = new CkanApi()
 
 export default{
-    components: {BCollapse},
     props: {
         name: String,
         field: String,

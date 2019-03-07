@@ -1,29 +1,8 @@
-# ckan-ui
+# CKAN UI
 
-## Project setup
-```
-npm install
-```
+## Config
+Modify src/config/config.js with the properties needed, or set the name in the environment on your system (overrides), and vue.config.js
+as needed as well.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-Modify vue.config.js
+## Port
+8080

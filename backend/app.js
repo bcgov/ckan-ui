@@ -7,7 +7,6 @@ let config = require('config');
 let session = require('express-session');
 let passport = require('passport');
 let OidcStrategy = require('passport-openidconnect').Strategy;
-let refresh = require('passport-oauth2-refresh');
 
 let solrRouter = require('./routes/solr');
 let ckanRouter = require('./routes/ckan');
@@ -19,7 +18,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 app.use(session({
@@ -51,11 +50,10 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
 
 // set up passport
 passport.use('oidc', strategy);
-refresh.use('oidc', strategy)
 
-app.use('/solr', solrRouter);
-app.use('/ckan', ckanRouter);
-app.use('/', authRouter);
+app.use('/api/solr', solrRouter);
+app.use('/api/ckan', ckanRouter);
+app.use('/api', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

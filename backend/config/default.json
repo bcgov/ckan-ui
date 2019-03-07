@@ -1,5 +1,4 @@
 {
-  "port": 3000,
   "solr": "http://localhost:8982",
   "solrCore": "ckan",
   "ckan": "http://localhost:5000",
