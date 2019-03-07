@@ -2,7 +2,7 @@
   "solr": "http://localhost:8982/solr",
   "solrCore": "ckan",
   "ckan": "http://localhost:5000",
-  "secret": "secret",
+  "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
 
   "oidc": {
