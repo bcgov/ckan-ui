@@ -1,9 +1,10 @@
 let express = require('express');
 let router = express.Router();
 let request = require('request');
+let auth = require('../modules/auth')
 
 /* GET search ckan datasets. */
-router.get('/search', function(req, res, next) {
+router.get('/search', auth.removeExpired, function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
@@ -50,7 +51,7 @@ router.get('/search', function(req, res, next) {
 });
 
 /* GET one dataset. */
-router.get('/getDataset', function(req, res, next) {
+router.get('/getDataset', auth.removeExpired, function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
@@ -99,7 +100,7 @@ router.get('/getDataset', function(req, res, next) {
 });
 
 /* GET one dataset. */
-router.get('/getFacets', function(req, res, next) {
+router.get('/getFacets', auth.removeExpired, function(req, res, next) {
 
   facets = {
       license_id: 'License',

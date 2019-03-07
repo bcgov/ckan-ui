@@ -1,9 +1,10 @@
 let express = require('express');
 let router = express.Router();
 let request = require('request');
+let auth = require('../modules/auth');
 
 /* GET solr listing. */
-router.get('/select', function(req, res, next) {
+router.get('/select', auth.removeExpired, function(req, res, next) {
 
   let config = require('config');
   let url = config.get('solr');
@@ -40,7 +41,7 @@ router.get('/select', function(req, res, next) {
 });
 
 /* GET solr schema. */
-router.get('/schema', function(req, res, next) {
+router.get('/schema', auth.removeExpired, function(req, res, next) {
 
   let config = require('config');
   let url = config.get('solr');
