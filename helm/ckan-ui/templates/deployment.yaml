@@ -19,10 +19,25 @@ spec:
         app: {{ template "ckan-ui.name" . }}
         release: {{ .Release.Name }}
     spec:
+      volumes:
+      - name: config
+        configMap:
+          name: {{ template "ckan-ui.fullname" . }}-configmap
+          defaultMode: 511
+      - name: secrets
+        secret:
+          secretName: {{ template "ckan-ui.fullname" . }}-secrets
+          defaultMode: 511
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: secrets
+              mountPath: /app/config
+            - name: config
+              mountPath: /app/config
+
           ports:
             - name: http
               containerPort: 80

@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  repository: h3brandon/ckan-ui
+  tag: latest
+  pullPolicy: Always
 
 service:
   type: ClusterIP
