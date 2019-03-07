@@ -7,11 +7,14 @@
       indeterminate
     ></v-progress-circular>
   <v-container v-else grid-list-md class="main-area">
+      <v-btn fab dark fixed bottom right color="primary" :to="editLink">
+        <i class="fa fa-edit"></i>
+      </v-btn>
       <v-layout row wrap fill-height>
         <v-flex xs12 md8>
           <v-container class="metadata">
             <v-card flat>
-              <app-breadcrumbs></app-breadcrumbs>
+              <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
               <h1 class="h2">{{dataset.title}}</h1>
               <v-subheader class="tracking-summary">{{dataset.tracking_summary.total}} views ({{dataset.tracking_summary.recent}} recent)</v-subheader>
               <p>Published by the <a href="">{{dataset.organization.full_title}}</a>
@@ -57,6 +60,7 @@
   import ContactInfoCard from '../dataset/ContactInfoCard'
   import AccessSecurityCard from '../dataset/AccessSecurityCard'
   import MetadataInformationCard from '../dataset/MetadataInformationCard'
+  import Breadcrumb from '../breadcrumb/Breadcrumb'
   const ckanServ = new CkanApi()
 
   export default {
@@ -67,21 +71,29 @@
         ContactInfoCard: ContactInfoCard,
         AccessSecurityCard: AccessSecurityCard,
         MetadataInformationCard: MetadataInformationCard,
+        Breadcrumb: Breadcrumb,
     },
     data() {
       return {
         loading: true,
         dataset: {},
+        breadcrumbs: [
+          {label: 'Home', route: '/'},
+          {label: 'Fetching Dataset...', route: ''}
+        ],
         additionalInfo: {},
         contactInfo: {},
         accessInfo: {},
-        metadataInfo: {}
+        metadataInfo: {},
       }
     },
    
     computed: {
       datasetId: function datasetId() {
         return this.$route.params.datasetId;
+      },
+      editLink: function editLink() {
+        return '/dataset/' + this.datasetId + '/edit'
       }
     },
 
@@ -92,7 +104,10 @@
                 // eslint-disable-next-line
                 console.log("hi", data)
                 this.dataset = data.result;
-
+                this.breadcrumbs[1] = {
+                  label: this.dataset.title,
+                  route: '/dataset/' + this.dataset.id
+                }
                 this.additionalInfo = {
                   purpose: this.dataset.purpose,
                   dataQuality: this.dataset.data_quality,
