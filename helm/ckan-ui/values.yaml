@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: h3brandon/ckan-ui
-  tag: latest
-  pullPolicy: Always
+  repository: bcgovimages/ckan-ui
+  tag: stable
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
