@@ -1,5 +1,6 @@
 <template>
   <v-container class="main-area">
+      <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
       <v-layout row wrap>
           <v-flex xs2></v-flex>
           <v-flex xs8>
@@ -50,9 +51,11 @@
 
   import ListCard from '../dataset/ListCard'
   import FacetFilter from '../dataset/FacetFilter'
+  import Breadcrumb from "../breadcrumb/Breadcrumb"
 
   export default {
     components: {
+        Breadcrumb: Breadcrumb,
         ListCard: ListCard,
         FacetFilter: FacetFilter
     },
@@ -76,6 +79,10 @@
               { value: "name desc", text: "Name Descending" },
               { value: "record_publish_date desc", text: "Publish Date" },
               { value: "record_last_modified desc", text: "Last Modified" }
+          ],
+          breadcrumbs: [
+              {icon: "home", label: 'Home', route: '/'},
+              {label: 'Datasets'}
           ]
       }
     },

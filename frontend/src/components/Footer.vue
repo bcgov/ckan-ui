@@ -1,23 +1,23 @@
 <template>
   <footer class="footer">
-      <v-container>
+      <v-footer color="#003366" dark>
       <!-- Navbar content -->
         <v-layout row>
-            <a id="footer-home" class="nav-item" href="https://www.gov.bc.ca/">Home</a>
+            <v-btn flat id="footer-home" href="https://www.gov.bc.ca/">Home</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a id="footer-about" class="nav-item" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca</a>
+            <v-btn flat id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a id="footer-disclaimer" class="nav-item" href="http://gov.bc.ca/disclaimer/">Disclaimer</a>
+            <v-btn flat id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">Disclaimer</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a id="footer-privacy" class="nav-item" href="http://gov.bc.ca/privacy/">Privacy</a>
+            <v-btn flat id="footer-privacy" href="http://gov.bc.ca/privacy/">Privacy</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a id="footer-accessibility" class="nav-item" href="http://gov.bc.ca/webaccessibility/">Accessibility</a>
+            <v-btn flat id="footer-accessibility" class="nav-item" href="http://gov.bc.ca/webaccessibility/">Accessibility</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a id="footer-copyright" class="nav-item" href="http://gov.bc.ca/copyright">Copyright</a>
+            <v-btn flat id="footer-copyright" href="http://gov.bc.ca/copyright">Copyright</v-btn>
             <v-divider vertical color="lightgray"></v-divider>
-            <a  class="nav-item" href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</a>
+            <v-btn flat href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</v-btn>
         </v-layout>
-      </v-container>
+      </v-footer>
   </footer>
 </template>
 

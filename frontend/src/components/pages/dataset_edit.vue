@@ -78,7 +78,7 @@
         loading: true,
         dataset: {},
         breadcrumbs: [
-          {label: 'Home', route: '/'},
+          {icon: 'home', label: 'Home', route: '/'},
           {label: 'Fetching Dataset...', route: ''},
           {label: 'Edit'},
         ],
