@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "ckan-ui.fullname" . }}-configmap
+data:
+  prod.json: |-
+    {
+      "solr": {{ .Values.solr | quote }},
+      "solrCore": {{ .Values.solrCore | quote }},
+      "ckan": {{ .Values.ckan | quote }},
+
+      "frontend": {{ .Values.frontend | quote}},
+
+      "oidc": {
+        "issuer": {{ .Values.oidc.issuer | quote }},
+        "authorizationURL": {{ .Values.oidc.authorizationURL | quote }},
+        "tokenURL": {{ .Values.oidc.tokenURL | quote }},
+        "userInfoURL": {{ .Values.oidc.userInfoURL | quote }},
+        "clientID": {{ .Values.oidc.clientID | quote }},
+        "callbackURL": {{ .Values.oidc.callbackURL | quote }},
+        "scope": "openid profile offline_access"
+      }
+    }

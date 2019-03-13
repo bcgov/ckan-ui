@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 
 app.use(session({
-  secret: config.get('secret'),
+  secret: config.get('sessionSecret'),
   resave: false,
   saveUninitialized: true,
   cookie: {

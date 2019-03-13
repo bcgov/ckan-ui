@@ -19,3 +19,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+helm/ckan-ui/config.yaml
