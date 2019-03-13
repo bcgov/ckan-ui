@@ -1,24 +1,22 @@
 <template>
     <div>
-        <v-list v-if="!noResults">
+        <v-list class="noBack" v-if="!noResults">
             <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
             <div v-else>
                 <v-subheader>{{name}}</v-subheader>
                 <v-divider></v-divider>
                 <v-list-tile
                     v-for="(filter, i) in filters.slice(0,COLLAPSE_SIZE)"
-                    v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
                     v-on:click="filterOn(filter.name)"
                     :key="'facet-' + field + '-filter-' + i">
-                    <v-list-tile-content>
+                    <v-list-tile-content :class="filteredOn === filter.name ? ['active'] : ['']">
                         <span>{{filter.display_name}}</span><span class="badge">{{filter.count}}</span>
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile v-if="!showCollapse"
                     v-for="(filter, i) in filters.slice(COLLAPSE_SIZE)"
-                    v-bind="filteredOn === filter.name ? [{'active': ''}] : ''"
                     v-on:click="filterOn(filter.name)"
-                    :key="'facet-' + field + '-filter-' + i">
+                    :key="'facet-' + field + '-filter-' + (i+3)">
                     <v-list-tile-content>
                         <span class="list-group-item">
                             {{filter.display_name}}
@@ -67,6 +65,8 @@ export default{
             }else{
                 this.filteredOn = filter
             }
+            // eslint-disable-next-line
+            console.log("filteredOn", this.filteredOn);
             this.$emit('facetFilter', this.field, filter)
         },
 
@@ -105,7 +105,10 @@ export default{
 </script>
 
 <style>
-    @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
+    .noBack{
+        background: none !important
+    }
 
     .badge{
         font-size: 9px;
@@ -138,5 +141,11 @@ export default{
         line-height: 13px;
         color: blue !important;
 
+    }
+</style>
+
+<style scoped>
+    div.v-list__tile__content.active{
+        background: lightblue;
     }
 </style>

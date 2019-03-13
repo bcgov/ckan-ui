@@ -1,9 +1,9 @@
 let express = require('express');
 let router = express.Router();
 let request = require('request');
-let orgs = require('../scripts/orgs');
-let suborgs = require('../scripts/suborgs');
-let auth = require('../modules/auth')
+let auth = require('../modules/auth');
+const NodeCache = require( "node-cache" );
+const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
 
 /* GET search ckan datasets. */
 router.get('/search', auth.removeExpired, function(req, res, next) {
@@ -166,8 +166,10 @@ router.get('/getOrganizations', function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
+  let orgCacheKey = 'orgDict';
+  let orgTTL = 86400;
 
-  let keys = Object.keys(req.query);
+  //let keys = Object.keys(req.query);
   let reqUrl = url + "/api/3/action/organization_list_related?all_fields=True";
 
   let authObj = {};
@@ -182,41 +184,70 @@ router.get('/getOrganizations', function(req, res, next) {
     console.log("no user");
   }
 
-  res.json({
-    'orgs': orgs.organizations,
-    'suborgs': suborgs.organizations
+  cache.get(orgCacheKey, function(err, value){
+      if ( (!err) && (value !== undefined) ){
+          console.log("CACHED VAL", value);
+          res.json(value);
+          return;
+      }
+      //if here there either was an error or it wasn't defined hit the api
+      request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+          console.log(err);
+          res.json({error: err});
+          return;
+        }
+        if (apiRes.statusCode != 200){
+          console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+          let json = JSON.parse(body);
+          orgList = {}
+          topLevelOrgs = []
+          subOrgs = [];
+          for (let i=0; i<json.result.length; i++) {
+              let org = json.result[i];
+            if (org.child_of.length == 0) {
+              topLevelOrgs.push(org);
+              if (typeof(orgList[org.title.trim()]) === "undefined"){
+                 orgList[org.title.trim()] = {id: org.id, children: []};
+              }else{
+                  orgList[org.title.trim()]['id'] = org.id;
+              }
+            } else {
+              subOrgs.push(org);
+              for (let j=0; j<org.child_of.length; j++){
+                  let parentOrg = org.child_of[j];
+                  let orgItem = {title: org.title.trim(), id: org.id}
+                  if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
+                      orgList[parentOrg.title.trim()] = {}
+                      orgList[parentOrg.title.trim()]['children'] = [orgItem]
+                  }else if (typeof(orgList[parentOrg.title.trim()]['children']) === "undefined") {
+                      orgList[parentOrg.title.trim()]['children'] = [orgItem]
+                  }else{
+                      orgList[parentOrg.title.trim()]['children'].push(orgItem)
+                  }
+              }
+            }
+          }
+
+          let rv = {
+              orgs: topLevelOrgs,
+              suborgs: subOrgs,
+              orgList: orgList
+          };
+
+          cache.set(orgCacheKey, rv, orgTTL);
+          res.json(rv);
+        }catch(ex){
+          console.error("Error reading json from ckan", ex);
+          res.json({error: ex});
+        }
+      });
   });
 
-  // cache.get('orgDict', request(reqUrl, authObj, function(err, apiRes, body){
-  //   if (err) {
-  //     console.log(err);
-  //     res.json({error: err});
-  //     return;
-  //   }
-  //   if (apiRes.statusCode != 200){
-  //     console.log("Body Status? ", apiRes.statusCode);
-  //   }
 
-  //   try {
-  //     let json = JSON.parse(body);
-  //     topLevelOrgs = []
-  //     subOrgs = [];
-  //     for (org in json.result) {
-  //       if (org.child_of.length == 0) {
-  //         topLevelOrgs.push(org);
-  //       } else {
-  //         subOrgs.push(org);
-  //       }
-  //     }
-      
-  //     return json;
-  //   }catch(ex){
-  //     console.error("Error reading json from ckan", ex);
-  //     return {error: ex};
-  //   }
-  // })).then((result) => {
-  //   res.json = result;
-  // });
 
 });
 

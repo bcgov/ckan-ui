@@ -36,6 +36,7 @@
               <div v-else>
                   <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
                   <infinite-loading @infinite="scroll">
+                      <div slot="no-results">No more datasets</div>
                       <div slot="no-more">No more datasets</div>
                   </infinite-loading>
               </div>
@@ -91,7 +92,11 @@
 
         scroll: function(state, ){
             this.skip += this.rows
-            this.getDatasets(true, state)
+            if (this.count>this.skip) {
+                this.getDatasets(true, state)
+            }else{
+                state.complete()
+            }
         },
 
         search: function(e){
@@ -116,7 +121,8 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = ""
-            if (this.searchText !==""){
+
+            if (this.searchText !== ""){
                 q += "q=title:" + this.searchText + "*&"
                 fq = " AND "
             }else{
@@ -162,7 +168,7 @@
                 }
                 this.loading = false
                 if (state != null) {
-                    if (this.skip+10 >= this.count) {
+                    if (this.skip+this.rows > this.count) {
                         state.complete()
                     }else{
                         state.loaded();
