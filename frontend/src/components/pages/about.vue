@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-card>
             <v-card-text>
                 <p>
@@ -39,9 +40,20 @@
 </template>
 
 <script>
+    import Breadcrumb from '../breadcrumb/Breadcrumb'
 
     export default {
+        components: {
+            Breadcrumb: Breadcrumb
+        },
+
         data() {
+            return {
+                breadcrumbs: [
+                    {icon: "home", label: 'Home', route: '/'},
+                    {label: 'About'}
+                ]
+            }
         }
     }
 
