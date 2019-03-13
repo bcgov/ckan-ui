@@ -23,4 +23,9 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    getOrgList() {
+        const url = '/api/ckan/getOrganizations'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
 }

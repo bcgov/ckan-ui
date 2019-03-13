@@ -11,7 +11,7 @@
       </div>
 
       <h3 class="dataset-heading">
-          <router-link :to="{ name: 'dataset_view', params: { datasetId: id }}">{{name}}</router-link>
+          <router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link>
       </h3>
 
       <div class="dataset-decription">
@@ -89,7 +89,8 @@ export default {
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,
-            name: this.record.title,
+            title: this.record.title,
+            name: this.record.name,
             iconName: icon,
             primMarkers: [{
                 name: this.record.sector

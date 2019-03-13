@@ -1,7 +1,14 @@
 let express = require('express');
 let router = express.Router();
 let request = require('request');
-let auth = require('../modules/auth')
+let auth = require('../modules/auth');
+// let cacheService = require('../services/cache-service');
+
+let orgs = require('../config/orgs');
+let suborgs = require('../config/suborgs');
+
+// const ttl = 60 * 60 * 12;
+// const cache = new cacheService(ttl);
 
 /* GET search ckan datasets. */
 router.get('/search', auth.removeExpired, function(req, res, next) {
@@ -22,7 +29,7 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
   if (req.user){
       authObj = {
           'headers': {
-              'Authorization': req.user.jwt
+            'Authorization': req.user.jwt
           }
       }
   }else{
@@ -162,6 +169,65 @@ router.get('/getOrganization', function(req, res, next) {
         res.json({error: ex});
     }
   });
+
+});
+
+/* GET one dataset. */
+router.get('/getOrganizations', function(req, res, next) {
+
+  let config = require('config');
+  let url = config.get('ckan');
+
+  let keys = Object.keys(req.query);
+  let reqUrl = url + "/api/3/action/organization_list_related?all_fields=True";
+
+  let authObj = {};
+
+  if (req.user){
+    authObj = {
+      'headers': {
+        'Authorization': req.user.jwt
+        }
+    }
+  }else{
+    console.log("no user");
+  }
+
+  res.json({
+    'orgs': orgs.organizations,
+    'suborgs': suborgs.organizations
+  });
+
+  // cache.get('orgDict', request(reqUrl, authObj, function(err, apiRes, body){
+  //   if (err) {
+  //     console.log(err);
+  //     res.json({error: err});
+  //     return;
+  //   }
+  //   if (apiRes.statusCode != 200){
+  //     console.log("Body Status? ", apiRes.statusCode);
+  //   }
+
+  //   try {
+  //     let json = JSON.parse(body);
+  //     topLevelOrgs = []
+  //     subOrgs = [];
+  //     for (org in json.result) {
+  //       if (org.child_of.length == 0) {
+  //         topLevelOrgs.push(org);
+  //       } else {
+  //         subOrgs.push(org);
+  //       }
+  //     }
+      
+  //     return json;
+  //   }catch(ex){
+  //     console.error("Error reading json from ckan", ex);
+  //     return {error: ex};
+  //   }
+  // })).then((result) => {
+  //   res.json = result;
+  // });
 
 });
 

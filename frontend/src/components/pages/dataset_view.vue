@@ -79,7 +79,7 @@
         dataset: {},
         breadcrumbs: [
           {label: 'Home', route: '/'},
-          {label: 'Fetching Dataset...', route: ''}
+          {label: 'Fetching Dataset...'}
         ],
         additionalInfo: {},
         contactInfo: {},
@@ -102,27 +102,24 @@
             ckanServ.getDataset(this.datasetId).then((data) => {
                 this.loading = false;
                 // eslint-disable-next-line
-                console.log("hi", data)
+                console.log("hi", data);
                 this.dataset = data.result;
-                this.breadcrumbs[1] = {
-                  label: this.dataset.title,
-                  route: '/dataset/' + this.dataset.id
-                }
+                this.breadcrumbs[1].label = this.dataset.title;
                 this.additionalInfo = {
                   purpose: this.dataset.purpose,
                   dataQuality: this.dataset.data_quality,
                   lineageStatement: this.dataset.lineage_statement,
                   tags: this.dataset.tags
-                }
+                };
                 this.accessInfo = {
                   viewAudience: this.dataset.view_audience,
                   downloadAudience: this.dataset.download_audience
-                }
+                };
                 this.metadataInfo = {
                   published: this.dataset.record_publish_date,
                   lastModified: this.dataset.record_last_modified,
                   status: this.dataset.resource_status
-                }
+                };
                 this.contactInfo = {
                   name: this.dataset.contacts[0].name,
                   role: this.dataset.contacts[0].role,
@@ -131,13 +128,13 @@
                   organization: null,
                   subOrganizationId: this.dataset.contacts[0].branch,
                   subOrganization: null
-                }
+                };
                 ckanServ.getOrganization(this.contactInfo.organizationId).then((data) => {
                   this.contactInfo.organization = data.result.title;
                 });
                 ckanServ.getOrganization(this.contactInfo.subOrganizationId).then((data) => {
                   this.contactInfo.subOrganization = data.result.title
-                })
+                });
             });
         }
     },

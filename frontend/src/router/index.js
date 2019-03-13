@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
+import dataset_edit from '../components/pages/dataset_edit'
 
 Vue.use(Router);
 
@@ -17,6 +18,11 @@ export default new Router({
             path: '/dataset/:datasetId',
             name: 'dataset_view',
             component: dataset_view,
-        }
+        },
+        {
+            path: '/dataset/:datasetId/edit',
+            name: 'dataset_edit',
+            component: dataset_edit,
+        },
     ]
 });
