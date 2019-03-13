@@ -50,7 +50,8 @@ affinity: {}
 solr: "http://127.0.0.1:8983/solr"
 solrCore: "ckan"
 ckan: "http://127.0.0.1:5000"
-frontend: "http://127.0.0.1:3000",
+frontend: "http://127.0.0.1:3000"
+sessionSecret: "secret"
 
 oidc:
   issuer: "issuer"
@@ -58,4 +59,5 @@ oidc:
   tokenURL: "tokenUrl"
   userInfoURL: "userInfoUrl"
   clientID: "clientId"
+  clientSecret: "clientSecret"
   callbackURL: "callbackUrl"

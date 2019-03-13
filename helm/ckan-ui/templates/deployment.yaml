@@ -34,9 +34,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: secrets
-              mountPath: /app/config
+              mountPath: /app/config/default.json
+              subPath: default.json
             - name: config
-              mountPath: /app/config
+              mountPath: /app/config/prod.json
+              subPath: prod.json
 
           ports:
             - name: http
