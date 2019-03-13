@@ -8,7 +8,7 @@
               width="152" height="55"
               alt="B.C. Government Logo">
         </a>
-        <v-toolbar-title>Data Catalogue</v-toolbar-title>
+      <v-toolbar-title><v-btn class="title" flat to="/">Data Catalogue</v-btn></v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn flat id="nav-login" v-if="loggedIn" class="navbar-link lvl2-link" href="/user">{{user.displayName}}</v-btn>
@@ -51,7 +51,7 @@
               <v-btn flat id="ribbon-org" class="navbar-link lvl2-link" href="/organization">Organizations</v-btn>
               <v-btn flat id="ribbon-groups" class="navbar-link lvl2-link" href="/groups">Groups</v-btn>
               <v-btn flat id="ribbon-registry" class="navbar-link lvl2-link" href="/gwells/registries"><i class="fa fa-rss icon-rss"></i> Stay Up To Date</v-btn>
-              <v-btn flat id="ribbon-admin" class="navbar-link lvl2-link" href="/about">About</v-btn>
+              <v-btn flat id="ribbon-admin" class="navbar-link lvl2-link" to="about">About</v-btn>
             </v-toolbar-items>
           </v-toolbar>
         </v-menu>
@@ -81,24 +81,26 @@ export default {
       let user = JSON.parse(localStorage.user);
       let currDate = new Date();
 
-      let base64Url = user.jwt.split('.')[1];
-      let base64 = base64Url.replace('-', '+').replace('_', '/');
-      let jwtObj = JSON.parse(window.atob(base64));
-      let exp = new Date(0);
-      exp.setUTCSeconds(jwtObj.exp);
+      if (user.jwt) {
+          let base64Url = user.jwt.split('.')[1];
+          let base64 = base64Url.replace('-', '+').replace('_', '/');
+          let jwtObj = JSON.parse(window.atob(base64));
+          let exp = new Date(0);
+          exp.setUTCSeconds(jwtObj.exp);
 
-      if (currDate > exp){
-          localStorage.removeItem('user');
-          authServ.getToken().then((data) => {
-            if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
-                this.user = data;
-                this.loggedIn = true;
-                localStorage.user = JSON.stringify(data);
-            }
-          });
-      }else{
-          this.loggedIn = true;
-          this.user = user;
+          if (currDate > exp) {
+              localStorage.removeItem('user');
+              authServ.getToken().then((data) => {
+                  if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
+                      this.user = data;
+                      this.loggedIn = true;
+                      localStorage.user = JSON.stringify(data);
+                  }
+              });
+          } else {
+              this.loggedIn = true;
+              this.user = user;
+          }
       }
     }else{
       authServ.getToken().then((data) => {
