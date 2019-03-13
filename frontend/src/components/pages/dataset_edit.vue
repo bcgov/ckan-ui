@@ -29,19 +29,27 @@
             <v-divider></v-divider>
             <h3>Contacts</h3>
             <v-layout row>
-            <v-flex >
-              <v-text-field xs6 v-model="dataset.contacts[0].name" label="Name"></v-text-field>
+            <v-flex xs6>
+              <v-text-field v-model="dataset.contacts[0].name" label="Name"></v-text-field>
             </v-flex>
             <v-flex xs6>
-              <v-text-field xs6 v-model="dataset.contacts[0].email" label="e-mail"></v-text-field>
+              <v-text-field v-model="dataset.contacts[0].email" label="e-mail"></v-text-field>
             </v-flex>
             </v-layout>
             <v-layout row>
-            <v-flex >
-              <v-select xs6 v-model="dataset.contacts[0].organization" :items="orgs" item-text="title" item-value="name" label="Organization" v-on:change="getSubOrgs"></v-select>
+            <v-flex xs6>
+              <v-select v-model="datasetOrg" :items="orgs" item-text="title" item-value="name" label="Organization" v-on:change="getSubOrgs"></v-select>
             </v-flex>
             <v-flex xs6>
-              <v-select v-model="dataset.contacts[0].organization" :items="subOrgs" item-text="title" item-value="name" label="Sub Organization"></v-select>
+              <v-select v-model="datasetBranch" :items="subOrgs" item-text="title" item-value="name" label="Sub Organization"></v-select>
+            </v-flex>
+            </v-layout>
+            <v-layout row>
+            <v-flex xs6>
+              <v-text-field v-model="dataset.contacts[0].role" label="Role"></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-checkbox v-model="displayContact" label="Display?"></v-checkbox>
             </v-flex>
             </v-layout>
           </v-form>
@@ -79,7 +87,8 @@
         allsuborgs: [],
         activeOrg: String,
         datasetOrg: String,
-        datasetBranch: String
+        datasetBranch: String,
+        displayContact: false
       }
     },
    
@@ -99,6 +108,7 @@
               // eslint-disable-next-line
               console.log("hi", data)
               this.dataset = data.result;
+              // this.displayContact = this.dataset.contact.private == "Display";
               this.breadcrumbs[1] = {
                 label: this.dataset.title,
                 route: '/dataset/' + this.dataset.id
@@ -123,15 +133,14 @@
             });
         },
         getSubOrgs() {
-          console.log("activeOrg", this.datasetOrg);
-          console.log("suborgs", this.allsuborgs);
-          if (this.allsuborgs && this.datasetOrg) {
-            this.allsuborgs[this.datasetOrg].forEach(org => {
-              this.subOrgs.push({
-                name: Object.keys(org)[0],
-                title: org[Object.keys(org)[0]]
-              });
+          this.allsuborgs[this.datasetOrg].forEach(org => {
+            this.subOrgs.push({
+              name: Object.keys(org)[0],
+              title: org[Object.keys(org)[0]]
             });
+          });
+          if (this.dataset.organization) {
+            this.datasetBranch = this.dataset.organization.name;
           }
         }
     },

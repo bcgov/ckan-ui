@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 let request = require('request');
-let orgs = require('../config/orgs');
-let suborgs = require('../config/suborgs');
+let orgs = require('../scripts/orgs');
+let suborgs = require('../scripts/suborgs');
 let auth = require('../modules/auth')
 
 /* GET search ckan datasets. */
