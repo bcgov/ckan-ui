@@ -67,7 +67,7 @@
           datasets: [],
           noResults: false,
           facets: {},
-          searchText: "",
+          searchText: (this.$route.query.q) ? this.$route.query.q : "",
           count: 0,
           rows: 10,
           skip: 0,
@@ -86,6 +86,13 @@
               {label: 'Datasets'}
           ]
       }
+    },
+
+    watch: {
+        "$route.query.q": function(){
+            this.searchText = this.$route.query.q
+            this.getDatasets()
+        }
     },
 
     methods: {
@@ -165,6 +172,8 @@
                 this.count = data.result.count
                 if (data.result.results.length <= 0){
                     this.noResults = true
+                }else{
+                    this.noResults = false
                 }
                 this.loading = false
                 if (state != null) {

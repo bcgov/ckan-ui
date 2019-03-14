@@ -10,6 +10,11 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
+
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
   iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'

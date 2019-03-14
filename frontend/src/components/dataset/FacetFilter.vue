@@ -13,17 +13,19 @@
                         <span>{{filter.display_name}}</span><span class="badge">{{filter.count}}</span>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile v-if="!showCollapse"
-                    v-for="(filter, i) in filters.slice(COLLAPSE_SIZE)"
-                    v-on:click="filterOn(filter.name)"
-                    :key="'facet-' + field + '-filter-' + (i+3)">
-                    <v-list-tile-content>
-                        <span class="list-group-item">
-                            {{filter.display_name}}
-                            <span class="badge">{{filter.count}}</span>
-                        </span>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <span v-if="!showCollapse">
+                    <v-list-tile
+                        v-for="(filter, i) in filters.slice(COLLAPSE_SIZE)"
+                        v-on:click="filterOn(filter.name)"
+                        :key="'facet-' + field + '-filter-' + (i+3)">
+                        <v-list-tile-content :class="filteredOn === filter.name ? ['active'] : ['']">
+                            <span class="list-group-item">
+                                {{filter.display_name}}
+                                <span class="badge">{{filter.count}}</span>
+                            </span>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </span>
                 <a v-if="filters.length>COLLAPSE_SIZE"
                          class="pointer-hover"
                          @click="showCollapse = !showCollapse">

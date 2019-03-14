@@ -14,22 +14,34 @@ export default new Router({
         {
             path: '/',
             name: 'Datasets',
-            component: datasets
+            component: datasets,
+            meta: {
+                title: "Datasets"
+            }
         },
         {
             path: '/dataset/:datasetId',
             name: 'dataset_view',
             component: dataset_view,
+            meta: {
+                title: "Viewing Dataset"
+            }
         },
         {
             path: '/dataset/:datasetId/edit',
             name: 'dataset_edit',
             component: dataset_edit,
+            meta: {
+                title: "Editing Dataset"
+            }
         },
         {
             path: '/about',
             name: 'about',
-            component: about
+            component: about,
+            meta: {
+                title: "About"
+            }
         }
     ]
 });
