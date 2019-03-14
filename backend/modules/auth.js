@@ -95,10 +95,12 @@ auth.removeExpired = function(req, res, next){
                         next();
                     });
                 } else {
+                    req.user = null;
                     delete req.user;
                     next();
                 }
             } else {
+                req.user = null;
                 delete req.user;
                 next();
             }

@@ -17,7 +17,14 @@ router.beforeEach((to, from, next) => {
 
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
-  iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
+  iconfont: 'mdi', // 'md' || 'mdi' || 'fa' || 'fa4'
+  theme: {
+      primary: '#003366',
+      secondary: '#5475a7',
+      accent: '#8c9eff',
+      error: '#b71c1c',
+      text: "#ffffff"
+  }
 })
 Vue.use(Vuex)
 Vue.use(InfiniteLoading, {

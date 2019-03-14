@@ -1,5 +1,5 @@
 <template>
-  <v-container class="main-area">
+  <v-container>
       <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
       <v-layout row wrap>
           <v-flex xs2></v-flex>
@@ -16,6 +16,15 @@
               <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" label="Order By"></v-select>
           </v-flex>
       </v-layout>
+      <!--<v-layout v-if="advanced" row wrap align-center justify-center>-->
+          <!--<v-flex xs6>-->
+            <!--<v-text-field v-model="searchText" :label="{{ advanced ? 'Search Datasets by title' : 'Search Datasets...'}}" v-on:keyup="search"></v-text-field>-->
+          <!--</v-flex>-->
+      <!--</v-layout>-->
+      <v-layout row wrap align-center justify-center padded>
+          <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
+      </v-layout>
+
       <v-layout row wrap>
           <v-flex xs2>
               <!-- Facets  -->
@@ -64,6 +73,7 @@
     data() {
       return {
           loading: true,
+          advanced: false,
           datasets: [],
           noResults: false,
           facets: {},
@@ -130,7 +140,11 @@
             let fq = ""
 
             if (this.searchText !== ""){
-                q += "q=title:" + this.searchText + "*&"
+                if (this.advanced){
+                   q += "q=" + this.searchText + "&"
+                }else{
+                    q += "q=*" + this.searchText + "*&"
+                }
                 fq = " AND "
             }else{
                 fq= "&q="
@@ -164,6 +178,12 @@
             q = q.substring(0, q.length - 1)
 
             ckanServ.getDatasets(q).then((data) => {
+                if (!data.result){
+                    this.noResults = true;
+                    this.loading = false;
+                    this.count = 0;
+                    return;
+                }
                 if (append) {
                     this.datasets = this.datasets.concat(data.result.results)
                 }else{
@@ -215,3 +235,13 @@
     }
   }
 </script>
+
+<style scoped>
+
+    .padded{
+        padding-bottom: 10px;
+        padding-top: 5px;
+    }
+
+
+</style>

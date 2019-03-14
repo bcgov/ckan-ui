@@ -1,6 +1,6 @@
 <template>
   <header>
-    <v-toolbar color="#003366" dark>
+    <v-toolbar color="primary" dark>
       <!-- Navbar content -->
         <a href="https://www2.gov.bc.ca">
           <img
@@ -8,7 +8,7 @@
               width="152" height="55"
               alt="B.C. Government Logo">
         </a>
-      <v-toolbar-title><v-btn class="title" flat to="/">Data Catalogue</v-btn></v-toolbar-title>
+      <v-toolbar-title color="primary"><v-btn class="title" color="text" flat to="/">Data Catalogue</v-btn></v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn flat id="nav-login" v-if="loggedIn" class="navbar-link lvl2-link" href="/user">{{user.displayName}}</v-btn>
@@ -26,7 +26,7 @@
               <v-icon x-large>menu</v-icon>
             </v-btn>
           </template>
-          <v-toolbar color="#38598a" dark>
+          <v-toolbar color="primary" dark>
             <v-toolbar-items class="hidden-sm-and-down">
               <v-btn flat id="nav-whatis" class="navbar-link lvl2-link" href="http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc">What is DataBC?</v-btn>
               <v-btn flat id="nav-usages" class="navbar-link lvl2-link" href="/data/site-usage/dataset">Dataset Usage</v-btn>
@@ -36,9 +36,9 @@
               <v-btn flat id="nav-contact" class="navbar-link lvl2-link" href="https://forms.gov.bc.ca/databc-contact-us/">Contact</v-btn>
             </v-toolbar-items>
           </v-toolbar>
-          <v-toolbar color="#5475a7" dark>
+          <v-toolbar color="secondary" dark>
             <v-toolbar-items class="hidden-sm-and-down">
-              <v-btn flat id="ribbon-search" class="navbar-link lvl2-link" to="/dataset">Datasets</v-btn>
+              <v-btn flat id="ribbon-search" class="navbar-link lvl2-link" to="/datasets">Datasets</v-btn>
               <v-btn flat id="ribbon-org" class="navbar-link lvl2-link" to="/organization">Organizations</v-btn>
               <v-btn flat id="ribbon-groups" class="navbar-link lvl2-link" to="/groups">Groups</v-btn>
               <v-btn flat id="ribbon-registry" class="navbar-link lvl2-link" to="/"><i class="fa fa-rss icon-rss"></i> Stay Up To Date</v-btn>
@@ -122,3 +122,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+   .v-btn--active.title:before, .v-btn.title:focus:before, .v-btn.title:hover:before {
+    background: none !important;
+  }
+</style>

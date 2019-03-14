@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import home from '../components/pages/home'
 import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
 import dataset_edit from '../components/pages/dataset_edit'
@@ -13,6 +14,14 @@ export default new Router({
     routes: [
         {
             path: '/',
+            name: 'splash',
+            component: home,
+            meta: {
+                title: "Data Catalogue"
+            }
+        },
+        {
+            path: '/datasets',
             name: 'Datasets',
             component: datasets,
             meta: {

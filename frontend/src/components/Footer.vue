@@ -1,20 +1,14 @@
 <template>
   <footer class="footer">
-      <v-footer color="#003366" dark>
+      <v-footer color="primary" dark>
       <!-- Navbar content -->
         <v-layout row>
             <v-btn flat id="footer-home" href="https://www.gov.bc.ca/">Home</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">Disclaimer</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat id="footer-privacy" href="http://gov.bc.ca/privacy/">Privacy</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat id="footer-accessibility" class="nav-item" href="http://gov.bc.ca/webaccessibility/">Accessibility</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat id="footer-copyright" href="http://gov.bc.ca/copyright">Copyright</v-btn>
-            <v-divider vertical color="lightgray"></v-divider>
             <v-btn flat href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</v-btn>
         </v-layout>
       </v-footer>
