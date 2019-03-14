@@ -15,7 +15,7 @@
         <v-btn flat id="nav-login" v-else class="navbar-link lvl2-link" :href="logInUrl">Log in</v-btn>
 
 
-        <v-btn icon v-on:click="showSearch = !showSearch">
+        <v-btn icon v-on:click="searchClick">
           <v-icon x-large>search</v-icon>
         </v-btn>
 
@@ -83,6 +83,9 @@ export default {
               this.$router.push('/?q=' + this.searchText)
               this.showSearch = false
           }
+      },
+      searchClick: function(e){
+          this.showSearch = !this.showSearch
       }
   },
   mounted: function(){

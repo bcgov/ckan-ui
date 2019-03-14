@@ -133,6 +133,7 @@
 
             if (!append){
                 this.loading = true;
+                this.noResults = false;
             }
 
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
