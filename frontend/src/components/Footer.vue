@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-      <v-footer color="primary" dark>
+      <v-container>
       <!-- Navbar content -->
         <v-layout row>
             <v-btn flat id="footer-home" href="https://www.gov.bc.ca/">Home</v-btn>
@@ -11,7 +11,7 @@
             <v-btn flat id="footer-copyright" href="http://gov.bc.ca/copyright">Copyright</v-btn>
             <v-btn flat href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</v-btn>
         </v-layout>
-      </v-footer>
+      </v-container>
   </footer>
 </template>
 
@@ -42,14 +42,10 @@ export default {
   min-height: 45px;
   background-color: rgb(0, 51, 102);
   min-width: 100%;
+  padding: 0px;
 }
 .footer a {
   color: #fff!important;
   text-decoration: none;
-}
-footer li+li  {
-  @include media-breakpoint-up(sm) {
-    border-left: 1px solid #4b5e73;
-  }
 }
 </style>
