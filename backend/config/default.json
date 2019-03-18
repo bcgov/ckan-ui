@@ -4,6 +4,7 @@
   "ckan": "http://localhost:5000",
   "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
+  "classicUi": "http://localhost:5000",
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",

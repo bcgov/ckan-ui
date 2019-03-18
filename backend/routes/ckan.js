@@ -5,6 +5,13 @@ let auth = require('../modules/auth');
 const NodeCache = require( "node-cache" );
 const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
 
+router.get('/classic', function(req, res, next){
+    let config = require('config');
+    let url = config.get('classicUi');
+
+    return res.json({url: url});
+});
+
 /* GET search ckan datasets. */
 router.get('/search', auth.removeExpired, function(req, res, next) {
 

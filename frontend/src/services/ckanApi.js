@@ -3,6 +3,11 @@ import axios from 'axios';
 export class CkanApi {
     constructor(){}
 
+    getClassic() {
+        const url = '/api/ckan/classic'
+        return axios.get(url).then(response => response.data)
+    }
+
     getDatasets(queryString) {
         const url = '/api/ckan/search'+queryString
         return axios.get(url, {withCredentials: true}).then(response => response.data)

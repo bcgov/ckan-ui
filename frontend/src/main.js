@@ -24,6 +24,9 @@ Vue.use(Vuetify, {
       accent: '#8c9eff',
       error: '#b71c1c',
       text: "#ffffff"
+  },
+  options: {
+      customProperties: true
   }
 })
 Vue.use(Vuex)

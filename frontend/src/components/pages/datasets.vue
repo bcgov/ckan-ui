@@ -82,7 +82,7 @@
           rows: 10,
           skip: 0,
           facetFilters: {},
-          sortOrder: "record_publish_date desc",
+          sortOrder: "relevance desc",
           sortOptions:[
               { value: "relevance desc", text: "Relevance" },
               { value: "score desc", text: "Popular" },
@@ -172,7 +172,7 @@
                 q += fq + "&"
             }
 
-            if (this.skip !== 0){
+            if ( (this.append) && (this.skip !== 0) ){
                 q += "start=" + this.skip + "&"
             }
 
