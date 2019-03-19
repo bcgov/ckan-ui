@@ -38,7 +38,7 @@
                       <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">Classic</v-btn>
                     </v-list-tile>
                     <v-list-tile v-if="loggedIn" class="hidden-md-and-up">
-                        <v-btn flat id="nav-login" class="navbar-link lvl2-link" href="/user">{{user.displayName}}</v-btn>
+                        <User :user="user"></User>
                     </v-list-tile>
                     <v-list-tile v-else class="hidden-md-and-up">
                         <v-btn flat id="nav-login" class="navbar-link lvl2-link" :href="logInUrl">Log in</v-btn>
