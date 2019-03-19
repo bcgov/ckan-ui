@@ -19,7 +19,7 @@
       </div>
 
       <div class="flex-fill-end">
-          <ul class="dataset-resources unstyled">
+          <ul class="dataset-resources unstyled pb-1">
               <FormatBadge v-for="type in resourceTypes" v-bind:key="'dataset-' + id + '-' + type" :type="type"></FormatBadge>
           </ul>
       </div>
@@ -142,10 +142,6 @@ export default {
 
     .dataset-resources {
       float: right;
-      clear: both;
-      padding-bottom: 3px;
-      margin-top:-8px;
-      margin-right: -20px;
     }
 
 </style>

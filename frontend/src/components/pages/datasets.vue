@@ -21,7 +21,7 @@
             <!--<v-text-field v-model="searchText" :label="{{ advanced ? 'Search Datasets by title' : 'Search Datasets...'}}" v-on:keyup="search"></v-text-field>-->
           <!--</v-flex>-->
       <!--</v-layout>-->
-      <v-layout row wrap align-center justify-center padded>
+      <v-layout row wrap align-center justify-center pt-2 pb-3>
           <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
       </v-layout>
 
@@ -236,13 +236,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-    .padded{
-        padding-bottom: 10px;
-        padding-top: 5px;
-    }
-
-
-</style>
