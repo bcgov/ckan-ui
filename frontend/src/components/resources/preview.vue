@@ -13,6 +13,7 @@
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
                 </template>
             </v-data-table>
+            <div v-else-if="type === 404">We're sorry we were unable to retrieve your file</div>
             <div v-else>We're sorry we don't currently support previewing this type of file</div>
       </v-card-text>
   </v-card>
@@ -50,7 +51,9 @@ export default{
             resourceApi.getResource(this.id).then((data) => {
                 this.type = "unknown";
 
-                if (data.headers) {
+                if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
+                    this.type = "404";
+                }else if (data.headers) {
                     this.type = "csv";
                     this.data = data.workbook
                     this.headers = data.headers

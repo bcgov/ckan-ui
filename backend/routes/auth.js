@@ -13,6 +13,12 @@ router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
     res.redirect(config.get('frontend'))
 });
 
+router.use('/logout', function(req, res, next){
+    req.logout();
+    let config = require('config');
+    res.redirect(config.get('frontend'));
+});
+
 router.use('/token', auth.removeExpired, function(req, res){
     if (req.user) {
         res.json(req.user);

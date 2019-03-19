@@ -46,6 +46,11 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
   console.log("strategy setting", profile, accessToken, refreshToken);
   profile.jwt = accessToken;
   profile.refreshToken = refreshToken
+
+
+  if ( (typeof(accessToken) === "undefined") || (accessToken === null) || (typeof(refreshToken) === "undefined") || (refreshToken === null) ){
+    return done("No access token", null);
+  }
   return done(null, profile);
 });
 

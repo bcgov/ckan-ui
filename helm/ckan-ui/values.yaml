@@ -52,6 +52,7 @@ solrCore: "ckan"
 ckan: "http://127.0.0.1:5000"
 frontend: "http://127.0.0.1:3000"
 sessionSecret: "secret"
+classicUi: "https://127.0.0.1:5000"
 
 oidc:
   issuer: "issuer"

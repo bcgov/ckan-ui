@@ -51,10 +51,11 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
             }
         }).on('end', function(){
 
-            let xlsFormats = ['application/octet-stream', 'text/plain; charset=UTF-8']
+            let xlsFormats = ['application/octet-stream', 'text/plain; charset=UTF-8', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']
 
             responseObj['content-type'] = this.response.headers['content-type']
             responseObj['content-length'] = this.response.headers['content-length']
+            responseObj['status'] = this.response.headers['status'];
 
             if (xlsFormats.indexOf(responseObj['content-type']) !== -1) {
                 let XLSX = require('xlsx');

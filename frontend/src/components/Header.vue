@@ -13,7 +13,7 @@
 
 
         <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">Classic</v-btn>
-        <v-btn flat id="nav-login" v-if="loggedIn" class="navbar-link lvl2-link hidden-sm-and-down" href="/user">{{user.displayName}}</v-btn>
+        <User v-if="loggedIn" :user="user"></User>
         <v-btn flat id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl">Log in</v-btn>
 
 
@@ -76,8 +76,11 @@ const authServ = new Auth()
 import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
 
+import User from './user/user'
+
 export default {
   components: {
+      User: User
   },
   props: [],
   data () {
