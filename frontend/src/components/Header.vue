@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="gov-header">
     <v-toolbar color="primary" dark>
       <!-- Navbar content -->
         <a href="https://www2.gov.bc.ca">

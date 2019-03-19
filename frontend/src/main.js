@@ -23,7 +23,8 @@ Vue.use(Vuetify, {
       secondary: '#5475a7',
       accent: '#8c9eff',
       error: '#b71c1c',
-      text: "#ffffff"
+      text: "#ffffff",
+      data: '#F4F4F4',
   },
   options: {
       customProperties: true
