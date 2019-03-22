@@ -10,6 +10,7 @@ data:
       "ckan": {{ .Values.ckan | quote }},
 
       "frontend": {{ .Values.frontend | quote}},
+      "classicUi": {{ .Values.classicUi | quote}},
 
       "oidc": {
         "issuer": {{ .Values.oidc.issuer | quote }},

@@ -5,6 +5,7 @@ import home from '../components/pages/home'
 import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
 import dataset_edit from '../components/pages/dataset_edit'
+import organizations from '../components/pages/organizations'
 
 import about from '../components/pages/about'
 
@@ -42,6 +43,14 @@ export default new Router({
             component: dataset_edit,
             meta: {
                 title: "Editing Dataset"
+            }
+        },
+        {
+            path: '/organization',
+            name: 'Organizations',
+            component: organizations,
+            meta: {
+                title: "Organizations"
             }
         },
         {

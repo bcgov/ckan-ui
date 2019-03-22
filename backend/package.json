@@ -18,7 +18,8 @@
     "node-cache": "^4.2.0",
     "passport": "^0.4.0",
     "passport-openidconnect": "0.0.2",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

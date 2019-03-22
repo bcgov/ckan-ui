@@ -67,8 +67,6 @@ export default{
             }else{
                 this.filteredOn = filter
             }
-            // eslint-disable-next-line
-            console.log("filteredOn", this.filteredOn);
             this.$emit('facetFilter', this.field, filter)
         },
 
@@ -115,11 +113,6 @@ export default{
     .badge{
         font-size: 9px;
         background: lightblue;
-    }
-
-
-    a.v-list__tile{
-        padding: 0px;
     }
 
     div.v-list__tile__content{
