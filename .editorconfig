@@ -11,8 +11,8 @@ indent_style = tab
 
 [*.{css,js,json,jsx,scss,ts,tsx}]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 [.{babelrc,eslintrc}]
 indent_style = space
-indent_size = 2
+indent_size = 4
