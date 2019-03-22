@@ -53,7 +53,6 @@
                   </v-list>
               </v-flex>
           </v-layout>
-
         </v-menu>
 
     </v-toolbar>
@@ -175,12 +174,13 @@ export default {
       exp.setUTCSeconds(jwtObj.exp);
 
       if (currDate > exp) {
-          localStorage.removeItem('user');
           authServ.getToken().then((data) => {
               if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
                   this.user = data;
                   this.loggedIn = true;
                   localStorage.user = JSON.stringify(data);
+              }else{
+                  delete localStorage.user;
               }
           });
       } else {

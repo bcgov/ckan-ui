@@ -6,7 +6,7 @@
       color="grey"
       indeterminate
     ></v-progress-circular>
-  <v-container v-else grid-list-md class="main-area">
+  <v-container fluid v-else grid-list-md class="main-area">
     <v-layout row wrap fill-height>
       <v-flex xs12 md8>
         <v-container class="metadata">

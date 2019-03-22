@@ -6,6 +6,7 @@ import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
 import dataset_edit from '../components/pages/dataset_edit'
 import organizations from '../components/pages/organizations'
+import user from '../components/pages/user'
 
 import about from '../components/pages/about'
 
@@ -59,6 +60,14 @@ export default new Router({
             component: about,
             meta: {
                 title: "About"
+            }
+        },
+        {
+            path: '/user',
+            name: 'user',
+            component: user,
+            meta: {
+                title: "User Profile"
             }
         }
     ]

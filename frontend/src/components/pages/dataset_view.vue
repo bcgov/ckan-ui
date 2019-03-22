@@ -6,7 +6,7 @@
       color="grey"
       indeterminate
     ></v-progress-circular>
-  <v-container v-else grid-list-md class="main-area">
+  <v-container fluid v-else grid-list-md class="main-area">
       <v-btn fab dark fixed bottom right color="primary" :to="editLink">
         <i class="fa fa-edit"></i>
       </v-btn>

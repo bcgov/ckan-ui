@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-card>
             <v-card-text>

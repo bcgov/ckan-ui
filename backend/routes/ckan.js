@@ -42,7 +42,7 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
       res.json({error: err});
       return;
     }
-    if (apiRes.statusCode != 200){
+    if (apiRes.statusCode !== 200){
         console.log("Body Status? ", apiRes.statusCode);
     }
 
@@ -89,7 +89,7 @@ router.get('/getDataset', auth.removeExpired, function(req, res, next) {
       res.json({error: err});
       return;
     }
-    if (apiRes.statusCode != 200){
+    if (apiRes.statusCode !== 200){
         console.log("Body Status? ", apiRes.statusCode);
     }
 
@@ -153,7 +153,7 @@ router.get('/getOrganization', function(req, res, next) {
       res.json({error: err});
       return;
     }
-    if (apiRes.statusCode != 200){
+    if (apiRes.statusCode !== 200){
         console.log("Body Status? ", apiRes.statusCode);
     }
 
@@ -204,7 +204,7 @@ router.get('/getOrganizations', function(req, res, next) {
           res.json({error: err});
           return;
         }
-        if (apiRes.statusCode != 200){
+        if (apiRes.statusCode !== 200){
           console.log("Body Status? ", apiRes.statusCode);
         }
 
@@ -215,7 +215,7 @@ router.get('/getOrganizations', function(req, res, next) {
           subOrgs = [];
           for (let i=0; i<json.result.length; i++) {
               let org = json.result[i];
-            if (org.child_of.length == 0) {
+            if (org.child_of.length === 0) {
               topLevelOrgs.push(org);
               if (typeof(orgList[org.title.trim()]) === "undefined"){
                  orgList[org.title.trim()] = {id: org.id, children: []};
@@ -255,6 +255,83 @@ router.get('/getOrganizations', function(req, res, next) {
   });
 
 
+
+});
+
+/* GET user activity. */
+router.get('/activity', auth.removeExpired, function(req, res, next) {
+    let config = require('config');
+    let url = config.get('ckan');
+
+    let reqUrl = url + "/api/3/action/dashboard_activity_list"
+
+    if (!req.user){
+        return res.json({error: "Not logged in"});
+    }
+
+    let authObj = {
+        'auth': {
+          'bearer': req.user.jwt
+        }
+    }
+
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
+
+});
+
+/* GET user activity. */
+router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
+    let config = require('config');
+    let url = config.get('ckan');
+
+    let reqUrl = url + "/api/3/action/user_show?id="+req.params.userId+"&include_datasets=True"
+
+    if (!req.user){
+        return res.json({error: "Not logged in"});
+    }
+
+    let authObj = {
+        'auth': {
+          'bearer': req.user.jwt
+        }
+    }
+
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            delete json.result.apikey
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
 
 });
 

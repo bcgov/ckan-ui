@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
       <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
       <v-layout row wrap>
           <v-flex xs2></v-flex>

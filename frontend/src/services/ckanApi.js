@@ -33,4 +33,14 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    getActivity() {
+        const url = '/api/ckan/activity'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
+    getUser(user_id) {
+        const url = '/api/ckan/user/'+user_id
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
 }

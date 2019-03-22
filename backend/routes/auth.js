@@ -20,7 +20,7 @@ router.use('/logout', function(req, res, next){
 });
 
 router.use('/token', auth.removeExpired, function(req, res){
-    if (req.user) {
+    if (req.user && req.user.jwt && req.user.refreshToken) {
         res.json(req.user);
     }else{
         res.json({error: "Not logged in"});
