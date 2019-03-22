@@ -9,12 +9,12 @@
       </v-layout>
       <v-layout row wrap align-center fill-height>
         <v-flex xs6>
-          <v-btn flat block color="#1a5a96" :href="resource.url">Download&nbsp;<i class="fa fa-download float-right"></i></v-btn>
+          <v-btn flat block color="secondary" :href="resource.url">Download&nbsp;<i class="fa fa-download float-right"></i></v-btn>
         </v-flex>
         <v-flex xs6>
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
-              <v-btn flat block color="#1a5a96" v-on="on">More&nbsp;<i class="fa fa-caret-down"></i></v-btn>
+              <v-btn flat block color="secondary" v-on="on">More&nbsp;<i class="fa fa-caret-down"></i></v-btn>
             </template>
             <v-list>
               <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">

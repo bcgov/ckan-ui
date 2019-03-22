@@ -33,4 +33,7 @@ export default {
   color: #fff!important;
   text-decoration: none;
 }
+.v-btn--active.footer:before, .v-btn.footer:focus:before, .v-btn.footer:hover:before {
+    background: none !important;
+  }
 </style>

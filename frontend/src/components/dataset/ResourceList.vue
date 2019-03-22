@@ -1,6 +1,6 @@
 <template>
   <div class="grey lighten-3" style="margin:auto;height:100%" justify-center fill-height>
-	<v-toolbar color="#38598a" dark>
+	<v-toolbar color="primary" dark>
 	<v-toolbar-title>Data and Resources</v-toolbar-title>
 	</v-toolbar>
     <v-container fluid grid-list-md>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 import ResourceCard from "./ResourceCard"
 export default {
     components: {
@@ -21,6 +21,11 @@ export default {
     props: {
         resources: Array
     },
+    computed: {
+      ...mapState({
+        dataset: state => state.dataset.dataset,
+      }),
+    }
 }
 
 </script>

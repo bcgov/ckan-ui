@@ -41,6 +41,7 @@
               <v-select v-model="datasetOrg" :items="orgs" item-text="title" item-value="name" label="Organization" v-on:change="getSubOrgs"></v-select>
             </v-flex>
             <v-flex xs6>
+              <v-select v-model="dataset.contacts[0].organization" :items="subOrgs" item-text="title" item-value="name" label="Sub Organization"></v-select>
               <v-select v-model="datasetBranch" :items="subOrgs" item-text="title" item-value="name" label="Sub Organization"></v-select>
             </v-flex>
             </v-layout>
@@ -49,7 +50,6 @@
               <v-text-field v-model="dataset.contacts[0].role" label="Role"></v-text-field>
             </v-flex>
             <v-flex xs6>
-              <v-checkbox v-model="displayContact" label="Display?"></v-checkbox>
             </v-flex>
             </v-layout>
           </v-form>

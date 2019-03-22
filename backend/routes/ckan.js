@@ -218,9 +218,10 @@ router.get('/getOrganizations', function(req, res, next) {
             if (org.child_of.length === 0) {
               topLevelOrgs.push(org);
               if (typeof(orgList[org.title.trim()]) === "undefined"){
-                 orgList[org.title.trim()] = {id: org.id, children: []};
+                 orgList[org.title.trim()] = {id: org.id, title: org.title, children: []};
               }else{
                   orgList[org.title.trim()]['id'] = org.id;
+                  orgList[org.title.trim()]['title'] = org.title;
               }
             } else {
               subOrgs.push(org);
