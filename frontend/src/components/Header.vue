@@ -61,8 +61,7 @@
 </template>
 
 <script>
-import {Auth} from '../services/auth'
-const authServ = new Auth()
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -70,12 +69,18 @@ export default {
   props: [],
   data () {
     return {
-        user: null,
-        loggedIn: false,
         logInUrl: "/api/login",
         searchText: "",
         showSearch: false
     }
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user.authUser
+    }),
+    ...mapGetters('user', {
+      loggedIn: 'isLoggedIn'
+    })
   },
   methods:{
       search: function(e){
@@ -89,39 +94,7 @@ export default {
       }
   },
   mounted: function(){
-    if ( (localStorage.user) && (JSON.parse(localStorage.user).jwt) ){
-      let user = JSON.parse(localStorage.user);
-      let currDate = new Date();
-
-      let base64Url = user.jwt.split('.')[1];
-      let base64 = base64Url.replace('-', '+').replace('_', '/');
-      let jwtObj = JSON.parse(window.atob(base64));
-      let exp = new Date(0);
-      exp.setUTCSeconds(jwtObj.exp);
-
-      if (currDate > exp) {
-          localStorage.removeItem('user');
-          authServ.getToken().then((data) => {
-              if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
-                  this.user = data;
-                  this.loggedIn = true;
-                  localStorage.user = JSON.stringify(data);
-              }
-          });
-      } else {
-          this.loggedIn = true;
-          this.user = user;
-      }
-    }else{
-      authServ.getToken().then((data) => {
-          if ((typeof(data.error) === "undefined") && (typeof(data) === "object")) {
-              this.user = data;
-              this.loggedIn = true;
-              localStorage.user = JSON.stringify(data);
-
-          }
-      });
-    }
+    this.$store.dispatch('user/getCurrentUser')
   },
 }
 </script>

@@ -21,6 +21,6 @@ export default {
 
 <style>
   .v-card--flat{
-    background-color: #fafafa !important;
+    background-color: transparent !important;
   }
 </style>

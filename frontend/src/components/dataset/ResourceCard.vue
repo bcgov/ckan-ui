@@ -9,10 +9,10 @@
       </v-layout>
       <v-layout row wrap align-center fill-height>
         <v-flex xs6>
-          <v-btn flat block color="#1a5a96">Download&nbsp;<i class="fa fa-download float-right"></i></v-btn>
+          <v-btn flat block color="secondary">Download&nbsp;<i class="fa fa-download float-right"></i></v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-btn flat block color="#1a5a96">More&nbsp;<i class="fa fa-caret-down"></i></v-btn>
+          <v-btn flat block color="secondary">More&nbsp;<i class="fa fa-caret-down"></i></v-btn>
         </v-flex>
       </v-layout>
     </v-container>
