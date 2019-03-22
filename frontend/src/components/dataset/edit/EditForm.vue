@@ -1,15 +1,15 @@
 <template>
   <v-form>
 	<v-layout row wrap justify-space-between>
-	  <v-flex xs6>
-		  <v-btn color="primary">Manage Resources</v-btn>
-		  <v-spacer></v-spacer>
-	  </v-flex>
-	  <v-flex xs6 class="text-right">
-		  <v-spacer></v-spacer>
-		  <v-btn color="error">Cancel</v-btn>
-		  <v-btn color="primary">Save</v-btn>
-	  </v-flex>
+       <v-flex xs6>
+          <v-btn color="primary">Manage Resources</v-btn>
+          <v-spacer></v-spacer>
+       </v-flex>
+		<v-flex xs6 class="text-right">
+          <v-spacer></v-spacer>
+          <v-btn color="error">Cancel</v-btn>
+          <v-btn color="primary">Save</v-btn>
+       </v-flex>
 	</v-layout>
     <v-layout row wrap fill-height>
       <v-flex xs12 md8>
@@ -85,12 +85,12 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default{
   props: {
-	datasetOrg: '',
-	datasetBranch: ''
+	datasetOrg: String,
+	datasetBranch: String
   },
   computed: {
 	...mapState({

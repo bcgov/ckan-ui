@@ -326,7 +326,6 @@ router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
 
         try {
             let json = JSON.parse(body);
-            delete json.result.apikey
             res.json(json);
         }catch(ex){
             console.error("Error reading json from ckan", ex);

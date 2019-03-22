@@ -30,6 +30,10 @@ export default{
             delete localStorage.user;
             window.location.href = this.logoutUrl
         }
+    },
+
+    mounted() {
+
     }
 }
 
