@@ -9,7 +9,7 @@ trim_trailing_whitespace = true
 [*.html]
 indent_style = tab
 
-[*.{css,js,json,jsx,scss,ts,tsx}]
+[*.{css,js,json,jsx,scss,ts,tsx,vue}]
 indent_style = space
 indent_size = 4
 
