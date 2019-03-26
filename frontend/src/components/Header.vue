@@ -48,7 +48,8 @@
               <v-flex xs6>
                   <v-list class="header-menu-secondary" dark>
                     <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
-                        <v-btn flat :to="item.link" class="navbar-link lvl2-link">{{item.title}}</v-btn>
+                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{item.title}}</v-btn>
+                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{item.title}}</v-btn>
                     </v-list-tile>
                   </v-list>
               </v-flex>
@@ -92,10 +93,10 @@ export default {
                 "title": "What is DataBC?",
                 "link": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
             },
-            {
-                "title": "Dataset Usage",
-                "link": "/data/site-usage/dataset"
-            },
+            // {
+            //     "title": "Dataset Usage",
+            //     "link": "/usage"
+            // },
             {
                 "title": "Geographic Services",
                 "link": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
@@ -112,28 +113,6 @@ export default {
                 "title": "Contact",
                 "link": "https://forms.gov.bc.ca/databc-contact-us/"
             }
-        ],
-        menuTertiary: [
-            {
-                "title": "Datasets",
-                "link": "/datasets"
-            },
-            {
-                "title": "Organizations",
-                "link": "/organization"
-            },
-            {
-                "title": "Groups",
-                "link": "/groups"
-            },
-            {
-                "title": "Stay Up To Date",
-                "link": "/"
-            },
-            {
-                "title": "About",
-                "link": "/about"
-            },
         ]
     }
   },
@@ -143,7 +122,37 @@ export default {
     }),
     ...mapGetters('user', {
       loggedIn: 'isLoggedIn'
-    })
+    }),
+    menuTertiary() {
+        return [
+            {
+                "title": "Datasets",
+                "link": "/datasets"
+            },
+            {
+                "title": "Organizations",
+                "link": "/organization"
+            },
+            //{
+            //    "title": "Groups",
+            //    "link": "/groups"
+            //},
+            // {
+            //     "icon": "rss_feed",
+            //     "title": "Subscribe to new data",
+            //     "href": this.classicUrl + '/feeds/recent.rss'
+            // },
+            {
+                "icon": "rss_feed",
+                "title": "Subscribe to blog posts",
+                "href": "https://engage.gov.bc.ca/data/feed/"
+            },
+            {
+                "title": "About",
+                "link": "/about"
+            },
+        ]
+    }
   },
   methods:{
       search: function(e){

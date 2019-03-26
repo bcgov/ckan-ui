@@ -19,6 +19,7 @@
     "passport": "^0.4.0",
     "passport-openidconnect": "0.0.2",
     "request": "^2.88.0",
+    "snowplow-tracker": "^0.3.0",
     "xlsx": "^0.14.1"
   },
   "devDependencies": {

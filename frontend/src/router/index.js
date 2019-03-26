@@ -12,7 +12,8 @@ import about from '../components/pages/about'
 
 Vue.use(Router);
 
-export default new Router({
+let r = new Router({
+
     routes: [
         {
             path: '/',
@@ -72,3 +73,11 @@ export default new Router({
         }
     ]
 });
+
+r.beforeEach((to, from, next) => {
+    window.currentUrl = to.fullPath;
+    window.previousUrl = from.fullPath;
+    next();
+});
+
+export default r;
