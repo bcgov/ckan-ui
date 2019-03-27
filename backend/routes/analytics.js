@@ -8,10 +8,12 @@ router.get('/', auth.removeExpired, function(req, res){
 
     if (!config.has('snowplow')){
         res.json({"notOk": "Not Configured"});
+        return;
     }
 
     if ( (!config.has('snowplow.enabled')) || (!config.get('snowplow.enabled')) ){
         res.json({"notOk": "Not Enabled"});
+        return;
     }
 
     const emitter = snowplow.emitter;
