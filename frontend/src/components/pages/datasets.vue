@@ -234,7 +234,7 @@
     },
 
     mounted(){
-        //analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
+        analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getDatasets();
         this.getFacets();
     }

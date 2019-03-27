@@ -6,6 +6,14 @@ let config = require('config');
 
 router.get('/', auth.removeExpired, function(req, res){
 
+    if (!config.has('snowplow')){
+        res.json({"notOk": "Not Configured"});
+    }
+
+    if ( (!config.has('snowplow.enabled')) || (!config.get('snowplow.enabled')) ){
+        res.json({"notOk": "Not Enabled"});
+    }
+
     const emitter = snowplow.emitter;
     const tracker = snowplow.tracker;
 

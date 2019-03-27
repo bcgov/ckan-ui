@@ -18,6 +18,7 @@
   },
 
   "snowplow": {
+      "enabled": false,
       "collector": "snowPlowCollectorUrl",
       "protocol": "http",
       "port": 8080,

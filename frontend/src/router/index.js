@@ -13,7 +13,7 @@ import about from '../components/pages/about'
 Vue.use(Router);
 
 let r = new Router({
-
+    mode: 'history',
     routes: [
         {
             path: '/',

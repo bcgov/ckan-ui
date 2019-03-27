@@ -62,3 +62,10 @@ oidc:
   clientID: "clientId"
   clientSecret: "clientSecret"
   callbackURL: "callbackUrl"
+
+snowplow:
+  enabled: false
+  collector: "snowPlowCollectorUrl"
+  protocol: "http"
+  port: 8080
+  appId: "ckan"

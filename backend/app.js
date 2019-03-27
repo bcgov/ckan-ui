@@ -7,6 +7,7 @@ let config = require('config');
 let session = require('express-session');
 let passport = require('passport');
 let OidcStrategy = require('passport-openidconnect').Strategy;
+let history = require('connect-history-api-fallback');
 
 let solrRouter = require('./routes/solr');
 let ckanRouter = require('./routes/ckan');
@@ -63,6 +64,7 @@ app.use('/api/resource', resourceRouter);
 app.use('/api/ckan', ckanRouter);
 app.use('/api/analytics', analyticsRouter);
 app.use('/api', authRouter);
+app.use(history);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
