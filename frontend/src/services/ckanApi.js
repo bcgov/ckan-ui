@@ -43,4 +43,8 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    getGroupList() {
+        const url = '/api/ckan/groups'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
 }

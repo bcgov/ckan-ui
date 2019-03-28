@@ -48,7 +48,7 @@
               <v-flex xs6>
                   <v-list class="header-menu" dark>
                     <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
-                        <v-btn flat :to="item.link" class="navbar-link lvl2-link">{{$tc(item.title)}}</v-btn>
+                        <v-btn flat :to="item.link" class="navbar-link lvl2-link">{{$tc(item.title, 2)}}</v-btn>
                     </v-list-tile>
                     <v-list-tile class="hidden-md-and-up">
                       <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
@@ -64,8 +64,8 @@
               <v-flex xs6>
                   <v-list class="header-menu-secondary" dark>
                     <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
-                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title)}}</v-btn>
-                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title)}}</v-btn>
+                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
                     </v-list-tile>
                   </v-list>
               </v-flex>
@@ -149,10 +149,10 @@ export default {
                 "title": "Organizations",
                 "link": "/organization"
             },
-            //{
-            //    "title": "Groups",
-            //    "link": "/groups"
-            //},
+            {
+                "title": "Groups",
+               "link": "/groups"
+            },
             // {
             //     "icon": "rss_feed",
             //     "title": "Subscribe to new data",
@@ -160,7 +160,7 @@ export default {
             // },
             {
                 "icon": "rss_feed",
-                "title": "Subscribe to blog posts",
+                "title": "Subscribe to Blog Posts",
                 "href": "https://engage.gov.bc.ca/data/feed/"
             },
             {

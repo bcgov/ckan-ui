@@ -13,11 +13,6 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  next()
-})
-
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
   iconfont: 'mdi', // 'md' || 'mdi' || 'fa' || 'fa4'
@@ -48,6 +43,11 @@ const i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages, // set locale messages
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = i18n.tc(to.meta.title)
+  next()
 })
 
 

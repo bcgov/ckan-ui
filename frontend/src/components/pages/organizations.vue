@@ -35,7 +35,6 @@
 </template>
 
 <script>
-    /* eslint-disable */
     import Breadcrumb from '../breadcrumb/Breadcrumb'
     import OrgTree from '../organizations/OrgTree'
     import {CkanApi} from '../../services/ckanApi'

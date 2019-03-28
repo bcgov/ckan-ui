@@ -15,7 +15,7 @@ export default {
         "Contact": "Contact",
         "Datasets": "Datasets",
         "Organizations": "Organizations",
-        "Subscribe to Blog Posts": "Subscribe to Blog Posts",
+        'Subscribe to Blog Posts': "Subscribe to Blog Posts",
         "About": "About",
         "Home": "Home",
         "About gov.bc.ca": "About gov.bc.ca",
@@ -24,6 +24,7 @@ export default {
         "Accessibility": "Accessibility",
         "Copyright": "Copyright",
         "Contact Us": "Contact Us",
+        "Groups": "Group | Groups",
 
     },
     fr: {
@@ -42,7 +43,7 @@ export default {
         "Contact": "Contact",
         "Datasets": "Jeux de données",
         "Organizations": "Les organisations",
-        "Subscribe to Blog Posts": "S'abonner aux articles du blog",
+        'Subscribe to Blog Posts': "S'abonner aux articles du blog",
         "About": "Sur",
         "Home": "Accueil",
         "About gov.bc.ca": "Sur gov.bc.ca",
@@ -51,5 +52,6 @@ export default {
         "Accessibility": "Accessibilité",
         "Copyright": "droits d'auteur",
         "Contact Us": "Contactez nous",
+        "Groups": "Groupes",
     }
 }
