@@ -41,6 +41,8 @@
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
+    import {Analytics} from '../../services/analytics'
+    const analyticsServ = new Analytics()
 
     export default {
         components: {
@@ -54,6 +56,9 @@
                     {label: 'About'}
                 ]
             }
+        },
+        mounted() {
+            analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         }
     }
 

@@ -70,6 +70,8 @@
   import MetadataInformationCard from '../dataset/MetadataInformationCard'
   import EditForm from '../dataset/edit/EditForm'
   import Breadcrumb from '../breadcrumb/Breadcrumb'
+  import {Analytics} from '../../services/analytics'
+  const analyticsServ = new Analytics()
 
   export default {
     components: {
@@ -126,6 +128,7 @@
     },
 
     mounted(){
+        analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getDataset();
         this.$store.dispatch('organization/getOrgs');
     }

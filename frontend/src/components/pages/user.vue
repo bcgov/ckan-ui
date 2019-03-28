@@ -32,6 +32,8 @@
     import {CkanApi} from '../../services/ckanApi'
 
     const ckanServ = new CkanApi()
+    import {Analytics} from '../../services/analytics'
+    const analyticsServ = new Analytics()
 
 
     export default {
@@ -77,6 +79,7 @@
             }
         },
         mounted(){
+            analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getUserActivity()
         }
 
