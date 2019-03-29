@@ -11,7 +11,10 @@ export default {
     },
     computed: {
         className: function(){
-            return this.name.toLowerCase().replace(/ /g, "-")
+            if (this.name) {
+                return this.name.toLowerCase().replace(/ /g, "-");
+            }
+            return '';
         }
     }
 };

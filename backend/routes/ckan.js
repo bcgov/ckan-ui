@@ -193,7 +193,6 @@ router.get('/getOrganizations', function(req, res, next) {
 
   cache.get(orgCacheKey, function(err, value){
       if ( (!err) && (value !== undefined) ){
-          console.log("CACHED VAL", value);
           res.json(value);
           return;
       }
@@ -313,6 +312,66 @@ router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
           'bearer': req.user.jwt
         }
     }
+
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
+
+});
+
+/* GET one dataset. */
+router.get('/tagList', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+
+    let reqUrl = url + "/api/3/action/tag_list";
+    authObj = {};
+
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
+
+});
+
+/* GET one dataset. */
+router.get('/vocabList', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+
+    let reqUrl = url + "/api/3/action/vocabulary_list";
+    authObj = {};
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {

@@ -43,4 +43,13 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    getTags() {
+        const url = '/api/ckan/tagList/'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
+    getVocabs() {
+        const url = '/api/ckan/vocabList/'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
 }
