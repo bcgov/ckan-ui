@@ -59,6 +59,9 @@
   import {CkanApi} from '../../services/ckanApi'
   const ckanServ = new CkanApi()
 
+  import {Analytics} from '../../services/analytics'
+  const analyticsServ = new Analytics()
+
   import ListCard from '../dataset/ListCard'
   import FacetFilter from '../dataset/FacetFilter'
   import Breadcrumb from "../breadcrumb/Breadcrumb"
@@ -231,6 +234,7 @@
     },
 
     mounted(){
+        analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getDatasets();
         this.getFacets();
     }

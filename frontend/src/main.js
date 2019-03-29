@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuetify from 'vuetify'
+import VueI18n from 'vue-i18n'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -11,11 +12,6 @@ import store from './store'
 
 
 Vue.config.productionTip = false
-
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  next()
-})
 
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
@@ -38,8 +34,26 @@ Vue.use(InfiniteLoading, {
     }
 })
 
+Vue.use(VueI18n);
+
+import messages from './i18n/messages'
+
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages, // set locale messages
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = i18n.tc(to.meta.title)
+  next()
+})
+
+
 new Vue({
     render: h => h(App),
     router,
-    store
+    store,
+    i18n,
 }).$mount('#app')

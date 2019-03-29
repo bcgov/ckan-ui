@@ -15,5 +15,13 @@
     "clientSecret": "{ClientSecret}",
     "callbackURL": "http://localhost:3000/api/callback",
     "scope": "openid profile offline_access"
+  },
+
+  "snowplow": {
+      "enabled": false,
+      "collector": "snowPlowCollectorUrl",
+      "protocol": "http",
+      "port": 8080,
+      "appId": "ckan"
   }
 }

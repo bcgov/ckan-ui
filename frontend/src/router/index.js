@@ -6,13 +6,17 @@ import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
 import dataset_edit from '../components/pages/dataset_edit'
 import organizations from '../components/pages/organizations'
+import groups from '../components/pages/groups'
 import user from '../components/pages/user'
+
+import NotFound from '../components/pages/404'
 
 import about from '../components/pages/about'
 
 Vue.use(Router);
 
-export default new Router({
+let r = new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -55,6 +59,14 @@ export default new Router({
             }
         },
         {
+            path: '/groups',
+            name: 'Groups',
+            component: groups,
+            meta: {
+                title: "Groups"
+            }
+        },
+        {
             path: '/about',
             name: 'about',
             component: about,
@@ -69,6 +81,21 @@ export default new Router({
             meta: {
                 title: "User Profile"
             }
+        },
+        {
+            path: '*',
+            component: NotFound,
+            meta: {
+                title: "404 - Page Not Found"
+            }
         }
     ]
 });
+
+r.beforeEach((to, from, next) => {
+    window.currentUrl = to.fullPath;
+    window.previousUrl = from.fullPath;
+    next();
+});
+
+export default r;

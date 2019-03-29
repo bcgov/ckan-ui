@@ -3,13 +3,13 @@
       <v-container class="pa-0">
       <!-- Navbar content -->
         <v-layout row>
-            <v-btn flat id="footer-home" href="https://www.gov.bc.ca/">Home</v-btn>
-            <v-btn flat id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">About gov.bc.ca</v-btn>
-            <v-btn flat id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">Disclaimer</v-btn>
-            <v-btn flat id="footer-privacy" href="http://gov.bc.ca/privacy/">Privacy</v-btn>
-            <v-btn flat id="footer-accessibility" href="http://gov.bc.ca/webaccessibility/">Accessibility</v-btn>
-            <v-btn flat id="footer-copyright" href="http://gov.bc.ca/copyright">Copyright</v-btn>
-            <v-btn flat href="https://www2.gov.bc.ca/gov/content/home/contact-us">Contact Us</v-btn>
+            <v-btn flat id="footer-home" href="https://www.gov.bc.ca/">{{$tc('Home')}}</v-btn>
+            <v-btn flat id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">{{$tc('About gov.bc.ca')}}</v-btn>
+            <v-btn flat id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">{{$tc('Disclaimer')}}</v-btn>
+            <v-btn flat id="footer-privacy" href="http://gov.bc.ca/privacy/">{{$tc('Privacy')}}</v-btn>
+            <v-btn flat id="footer-accessibility" href="http://gov.bc.ca/webaccessibility/">{{$tc('Accessibility')}}</v-btn>
+            <v-btn flat id="footer-copyright" href="http://gov.bc.ca/copyright">{{$tc('Copyright')}}</v-btn>
+            <v-btn flat href="https://www2.gov.bc.ca/gov/content/home/contact-us">{{$tc('Contact Us')}}</v-btn>
         </v-layout>
       </v-container>
   </footer>

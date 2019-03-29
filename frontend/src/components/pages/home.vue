@@ -3,16 +3,16 @@
     <v-layout column align-space-around>
 
         <v-flex xs12>
-            <p>BC 💖 Data</p>
+            <p>BC 💖 {{$tc('Data')}}</p>
         </v-flex>
 
 
         <v-layout row>
-            <v-text-field ref="searchBox" box background-color="text" append-icon="search" light v-model="searchText" label="Search Datasets..." v-on:keyup="search"></v-text-field>
+            <v-text-field ref="searchBox" box background-color="text" append-icon="search" light v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
         </v-layout>
 
         <v-flex xs12>
-            <p>Try searching for...</p>
+            <p>{{$tc('TrySearchingFor')}}</p>
             <v-carousel interval="3000" xs6 hide-controls hide-delimiters height="40px">
                 <v-carousel-item v-for="(item, i) in searchSuggestions" :key="i">
                     <p><a v-on:click="termClick">{{item}}</a></p>
@@ -25,6 +25,9 @@
 </template>
 
 <script>
+
+    import {Analytics} from '../../services/analytics'
+    const analyticsServ = new Analytics()
 
   export default{
       data () {
@@ -50,6 +53,9 @@
             this.$refs.searchBox.focus()
         }
       },
+      mounted() {
+          analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
+      }
   }
 
 </script>
