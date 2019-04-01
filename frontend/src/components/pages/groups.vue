@@ -29,9 +29,11 @@
 
 
         </v-layout>
-        <v-flex xs4>
-            <GroupCard v-for="group in groups" :key="'group-card-'+group.id" :group="group"></GroupCard>
-        </v-flex>
+        <v-layout row wrap>
+            <v-flex xs4 v-for="group in groups" :key="'group-card-'+group.id">
+                <GroupCard :group="group"></GroupCard>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 
@@ -82,8 +84,6 @@
                 } else {
                     ckanServ.getGroupList().then((data) => {
                         this.groups = data.result
-                        // eslint-disable-next-line
-                        console.log(this.groups);
                         this.count = data.result.length
                     });
                 }
