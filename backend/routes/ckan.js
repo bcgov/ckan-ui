@@ -420,4 +420,44 @@ router.get('/group/:id', auth.removeExpired, function(req, res, next) {
 
 });
 
+/* GET ckan about */
+router.get('/about', auth.removeExpired, function(req, res, next) {
+
+  let config = require('config');
+  let url = config.get('ckan');
+
+  let keys = Object.keys(req.query);
+  let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about"
+
+  let authObj = {};
+
+  if (req.user){
+      authObj = {
+          'auth': {
+              'bearer': req.user.jwt
+          }
+      }
+  }
+
+  request(reqUrl, authObj, function(err, apiRes, body){
+    if (err) {
+      console.log(err);
+      res.json({error: err});
+      return;
+    }
+    if (apiRes.statusCode !== 200){
+        console.log("Body Status? ", apiRes.statusCode);
+    }
+
+    try {
+        let json = JSON.parse(body);
+        res.json(json);
+    }catch(ex){
+        console.error("Error reading json from ckan", ex);
+        res.json({error: ex});
+    }
+  });
+
+});
+
 module.exports = router;

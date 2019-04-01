@@ -52,4 +52,9 @@ export class CkanApi {
         const url = '/api/ckan/group/'+id;
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
+
+    getAbout() {
+        const url = '/api/ckan/about';
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
 }

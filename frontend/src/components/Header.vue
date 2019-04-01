@@ -48,7 +48,8 @@
               <v-flex xs6>
                   <v-list class="header-menu" dark>
                     <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
-                        <v-btn flat :to="item.link" class="navbar-link lvl2-link">{{$tc(item.title, 2)}}</v-btn>
+                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
                     </v-list-tile>
                     <v-list-tile class="hidden-md-and-up">
                       <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
@@ -107,7 +108,7 @@ export default {
         menuSecondary: [
             {
                 "title": "What is DataBC?",
-                "link": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
+                "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
             },
             // {
             //     "title": "Dataset Usage",
@@ -115,19 +116,19 @@ export default {
             // },
             {
                 "title": "Geographic Services",
-                "link": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
+                "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
             },
             {
                 "title": "Blog",
-                "link": "https://engage.gov.bc.ca/data/"
+                "href": "https://engage.gov.bc.ca/data/"
             },
             {
                 "title": "Developers",
-                "link": "https://www.bcdevexchange.org/"
+                "href": "https://www.bcdevexchange.org/"
             },
             {
                 "title": "Contact",
-                "link": "https://forms.gov.bc.ca/databc-contact-us/"
+                "href": "https://forms.gov.bc.ca/databc-contact-us/"
             }
         ]
     }
