@@ -58,7 +58,7 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
 });
 
 /* GET one dataset. */
-router.get('/getDataset', auth.removeExpired, function(req, res, next) {
+router.get('/dataset', auth.removeExpired, function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
@@ -105,7 +105,7 @@ router.get('/getDataset', auth.removeExpired, function(req, res, next) {
 });
 
 /* GET one dataset. */
-router.get('/getFacets', auth.removeExpired, function(req, res, next) {
+router.get('/facets', auth.removeExpired, function(req, res, next) {
 
   facets = {
       license_id: 'License',
@@ -122,7 +122,7 @@ router.get('/getFacets', auth.removeExpired, function(req, res, next) {
 });
 
 /* GET organization. */
-router.get('/getOrganization', function(req, res, next) {
+router.get('/organization', function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
@@ -169,7 +169,7 @@ router.get('/getOrganization', function(req, res, next) {
 });
 
 /* GET organizations. */
-router.get('/getOrganizations', function(req, res, next) {
+router.get('/organizations', function(req, res, next) {
 
   let config = require('config');
   let url = config.get('ckan');
@@ -342,12 +342,52 @@ router.get('/groups', auth.removeExpired, function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/group_list?"
+  let reqUrl = url + "/api/3/action/group_list?all_fields=true"
   for (let i=0; i<keys.length; i++){
     reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
   }
   //if we added any we need to truncate them
   reqUrl = (keys.length > 0) ? reqUrl.substring(0, reqUrl.length-1) : reqUrl;
+
+  let authObj = {};
+
+  if (req.user){
+      authObj = {
+          'auth': {
+              'bearer': req.user.jwt
+          }
+      }
+  }
+
+  request(reqUrl, authObj, function(err, apiRes, body){
+    if (err) {
+      console.log(err);
+      res.json({error: err});
+      return;
+    }
+    if (apiRes.statusCode !== 200){
+        console.log("Body Status? ", apiRes.statusCode);
+    }
+
+    try {
+        let json = JSON.parse(body);
+        res.json(json);
+    }catch(ex){
+        console.error("Error reading json from ckan", ex);
+        res.json({error: ex});
+    }
+  });
+
+});
+
+/* GET ckan group */
+router.get('/group/:id', auth.removeExpired, function(req, res, next) {
+
+  let config = require('config');
+  let url = config.get('ckan');
+
+  let keys = Object.keys(req.query);
+  let reqUrl = url + "/api/3/action/group_show?id="+req.params.id+"&include_datasets=true"
 
   let authObj = {};
 

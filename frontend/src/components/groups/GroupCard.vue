@@ -1,0 +1,77 @@
+<template>
+  <v-card @click="toggleShowDatasets" class="cursor">
+    <v-img alt="Logo" :src="image"></v-img>
+
+    <v-card-title primary-title>
+      <div>
+        <h3>{{name}}</h3>
+        <div>{{description}}</div>
+      </div>
+    </v-card-title>
+    <v-container fluid v-if="showDatasets">
+      <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+      <v-layout v-else row wrap>
+        <h4>Datasets</h4>
+        <v-flex xs12 v-for="dataset in datasets" :key="'group-'+id+'-dataset-'+dataset.id" style="overflow: hidden; text-overflow: ellipsis">
+          <v-btn flat :to="'/dataset/'+dataset.name">{{dataset.title}}</v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-card>
+</template>
+
+<script>
+import {CkanApi} from '../../services/ckanApi'
+const ckanServ = new CkanApi()
+
+export default{
+    name: 'GroupCard',
+
+    props: {
+        group: Object
+    },
+    
+    data() {
+        return {
+            id: this.group.id,
+            image: this.group.image_display_url,
+            name: this.group.display_name,
+            description: this.group.description,
+            datasets: [],
+            showDatasets: false,
+            searched: false,
+            loading: true
+        }
+    },
+    
+    methods: {
+
+      toggleShowDatasets: function(){
+        this.showDatasets = !this.showDatasets;
+        if (this.showDatasets && !this.searched){
+          this.searched = true;
+          ckanServ.getGroup(this.id).then((data) => {
+            
+            this.datasets = data.result.packages;
+            
+            this.loading = false;
+          });
+
+        }
+      }
+
+    },
+
+    mounted() {
+    }
+
+}
+</script>
+
+<style scoped>
+
+  .cursor{
+    cursor: pointer;
+  }
+
+</style>

@@ -29,13 +29,15 @@
 
 
         </v-layout>
-        <!--<GroupCard v-for="(group, key) in groups" :key="'group-card-'+key" :org="{key: key, group: group}"></GroupCard>-->
+        <v-flex xs4>
+            <GroupCard v-for="group in groups" :key="'group-card-'+group.id" :group="group"></GroupCard>
+        </v-flex>
     </v-container>
 </template>
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
-    //import GroupCard from '../groups/GroupCard'
+    import GroupCard from '../groups/GroupCard'
 
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
@@ -47,7 +49,8 @@
     export default {
         name: "groups",
         components: {
-            Breadcrumb: Breadcrumb
+            Breadcrumb: Breadcrumb,
+            GroupCard: GroupCard,
         },
 
         data() {
@@ -79,6 +82,8 @@
                 } else {
                     ckanServ.getGroupList().then((data) => {
                         this.groups = data.result
+                        // eslint-disable-next-line
+                        console.log(this.groups);
                         this.count = data.result.length
                     });
                 }
