@@ -105,6 +105,11 @@
         "$route.query.q": function(){
             this.searchText = this.$route.query.q
             this.getDatasets()
+        },
+        "$route.query.advanced": function(){
+            if (this.$route.query.advanced == 'true'){
+                this.advanced = true;
+            }
         }
     },
 

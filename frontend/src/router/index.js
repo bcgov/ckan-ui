@@ -9,9 +9,9 @@ import organizations from '../components/pages/organizations'
 import groups from '../components/pages/groups'
 import user from '../components/pages/user'
 
-import NotFound from '../components/pages/404'
+import NotFound from '../components/pages/404';
 
-import about from '../components/pages/about'
+import about from '../components/pages/about';
 
 Vue.use(Router);
 
@@ -23,7 +23,7 @@ let r = new Router({
             name: 'splash',
             component: home,
             meta: {
-                title: "Data Catalogue"
+                title: "DataCatalogue"
             }
         },
         {

@@ -29,13 +29,17 @@
 
 
         </v-layout>
-        <!--<GroupCard v-for="(group, key) in groups" :key="'group-card-'+key" :org="{key: key, group: group}"></GroupCard>-->
+        <v-layout row wrap>
+            <v-flex xs4 v-for="group in groups" :key="'group-card-'+group.id">
+                <GroupCard :group="group"></GroupCard>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
-    //import GroupCard from '../groups/GroupCard'
+    import GroupCard from '../groups/GroupCard'
 
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
@@ -47,7 +51,8 @@
     export default {
         name: "groups",
         components: {
-            Breadcrumb: Breadcrumb
+            Breadcrumb: Breadcrumb,
+            GroupCard: GroupCard,
         },
 
         data() {
