@@ -81,10 +81,22 @@
             findGroups() {
                 if (localStorage.groupList) {
                     this.groups = JSON.parse(localStorage.groupList);
+                    if (this.searchText !== ""){
+                        let result = [];
+                        for (let i=0; i<this.groups.length; i++){
+                            if (this.groups[i].display_name.toLowerCase().indexOf(this.searchText.toLowerCase()) >= 0){
+                                result.push(this.groups[i]);
+                            }
+                        }
+
+                        this.groups = result;
+                    }
+                    this.count = this.groups.length;
                 } else {
                     ckanServ.getGroupList().then((data) => {
-                        this.groups = data.result
-                        this.count = data.result.length
+                        this.groups = data.result;
+                        this.count = data.result.length;
+                        localStorage.groupList = JSON.stringify(this.groups);
                     });
                 }
             }
