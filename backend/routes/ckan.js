@@ -104,6 +104,37 @@ router.get('/getDataset', auth.removeExpired, function(req, res, next) {
 
 });
 
+router.put('/dataset', auth.removeExpired, function(req, res, next) {
+    let config = require('config');
+    let url = config.get('ckan');
+
+    const reqUrl = url + "/api/3/action/package_update"
+
+    if (!req.user){
+        return res.json({error: "Not logged in"});
+    }
+
+    request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+        if (err) {
+            console.log(err);
+            res.json({ error: err });
+            return;
+        }
+        if (apiRes.statusCode !== 200) {
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+            res.json(json);
+        } catch (ex) {
+            console.error("Error reading json from ckan", ex);
+            res.json({ error: ex });
+        }
+    });
+
+});
+
 /* GET one dataset. */
 router.get('/getFacets', auth.removeExpired, function(req, res, next) {
 
@@ -371,7 +402,54 @@ router.get('/vocabList', auth.removeExpired, function(req, res, next) {
     let url = config.get('ckan');
 
     let reqUrl = url + "/api/3/action/vocabulary_list";
-    authObj = {};
+
+    if (!req.user){
+        return res.json({error: "Not logged in"});
+    }
+
+    let authObj = {
+        'auth': {
+          'bearer': req.user.jwt
+        }
+    }
+
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
+});
+
+/* GET one dataset. */
+router.get('/licenseList', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+
+    let reqUrl = url + "/api/3/action/license_list";
+
+    // if (!req.user){
+    //     return res.json({error: "Not logged in"});
+    // }
+
+    let authObj = {
+        // 'auth': {
+        //   'bearer': req.user.jwt
+        // }
+    }
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {

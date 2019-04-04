@@ -18,6 +18,11 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
+    putDataset(dataset) {
+        const url = '/api/ckan/dataset'
+        return axios.put(url, dataset, {withCredentials: true}).then(response => response.data)
+    }
+
     getFacets(){
         const url = '/api/ckan/getFacets'
         return axios.get(url, {withCredentials: true}).then(response => response.data)
@@ -50,6 +55,11 @@ export class CkanApi {
 
     getVocabs() {
         const url = '/api/ckan/vocabList/'
+        return axios.get(url, {withCredentials: true}).then(response => response.data)
+    }
+
+    getLicenses() {
+        const url = '/api/ckan/licenseList/'
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 

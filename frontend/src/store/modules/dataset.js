@@ -2,7 +2,8 @@ import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 const state = {
-    dataset: {}
+    dataset: {},
+    unmodifiedDataset: {}
 }
 
 const getters = {
@@ -24,24 +25,35 @@ const actions = {
     setDataset({ state }) {
         // eslint-disable-next-line
         console.log("Saving...", state.dataset);
+        return ckanServ.putDataset(state.dataset);
     },
     addContact({ commit }) {
         commit('setAddContact');
     },
     removeContact({ commit }, { index }) {
-        commit('setRemoveContact', {index: index})
+        commit('setRemoveContact', {index: index});
     },
     addMoreInfo({ commit }) {
         commit('setAddMoreInfo');
     },
     removeMoreInfo({ commit }, { index }) {
-        commit('setRemoveMoreInfo', {index: index})
+        commit('setRemoveMoreInfo', {index: index});
+    },
+    addDate({ commit }) {
+        commit('setAddDate');
+    },
+    removeDate({ commit }, { index }) {
+        commit('setRemoveDate', {index: index});
+    },
+    resetDataset({ commit }) {
+        commit('resetDataset');
     }
 }
 
 const mutations = {
     setCurrentDataset(state, { dataset }) {
-        state.dataset = dataset;
+        state.dataset = Object.assign({}, dataset);
+        state.unmodifiedDataset = Object.assign({}, dataset);
     },
     setAddContact(state) {
         state.dataset.contacts.push({
@@ -64,6 +76,18 @@ const mutations = {
     },
     setRemoveMoreInfo(state, { index }) {
         state.dataset.more_info.splice(index, 1);
+    },
+    setAddDate(state) {
+        state.dataset.dates.push({
+            type: '',
+            date: ''
+        })
+    },
+    setRemoveDate(state, { index }) {
+        state.dataset.dates.splice(index, 1);
+    },
+    resetDataset(state) {
+        state.dataset = Object.assign({}, state.unmodifiedDataset);
     }
 }
 

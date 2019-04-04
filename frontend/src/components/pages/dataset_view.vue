@@ -20,7 +20,7 @@
         </v-btn>
         <template v-if="editing">
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-            <EditForm :dataset="dataset"></EditForm>
+            <EditForm v-on:done="editing = false"></EditForm>
         </template>
         <template v-else>
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
