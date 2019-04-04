@@ -74,10 +74,10 @@
         </v-menu>
 
     </v-toolbar>
-    <v-container v-if="showSearch">
+    <v-container v-show="showSearch">
       <v-layout row wrap>
         <v-flex>
-          <v-text-field :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
+          <v-text-field ref="headerSearch" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
         </v-flex>
       </v-layout>
     </v-container>
@@ -174,12 +174,15 @@ export default {
   methods:{
       search: function(e){
           if (e.keyCode === 13) {
-              this.$router.push('/?q=' + this.searchText)
+              this.$router.push('/datasets?q=' + this.searchText)
               this.showSearch = false
           }
       },
       searchClick: function(){
           this.showSearch = !this.showSearch
+          this.$nextTick(() => {
+            this.$refs.headerSearch.focus();
+          })
       },
 
       setLanguage: function(local){
