@@ -1,58 +1,59 @@
 <template>
-  <v-container fluid>
-      <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-      <v-layout row wrap>
-          <v-flex xs2></v-flex>
-          <v-flex xs8>
-              <v-text-field v-model="searchText" label="Search Datasets..." v-on:keyup="search"></v-text-field>
-          </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-          <v-flex xs2></v-flex>
-          <v-flex xs4>
-              {{count}} datasets found
-          </v-flex>
-          <v-flex xs4>
-              <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" label="Order By"></v-select>
-          </v-flex>
-      </v-layout>
-      <!--<v-layout v-if="advanced" row wrap align-center justify-center>-->
-          <!--<v-flex xs6>-->
-            <!--<v-text-field v-model="searchText" :label="{{ advanced ? 'Search Datasets by title' : 'Search Datasets...'}}" v-on:keyup="search"></v-text-field>-->
-          <!--</v-flex>-->
-      <!--</v-layout>-->
-      <v-layout row wrap align-center justify-center pt-2 pb-3>
-          <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
-      </v-layout>
+    <v-container pa-0 ma-0 fluid>
+        <v-layout row-wrap>
+            <v-flex xs2 class="tertiary nav">
+                <!-- Facets  -->
+                <FacetFilter
+                    v-for="(facet, facetKey) in facets"
+                    :key="'facet-section-'+facetKey"
+                    :name="facet.name"
+                    :field="facet"
+                    v-on:facetFilter="facetFilter"
+                ></FacetFilter>
+            </v-flex>
+            <v-flex xs2></v-flex>
+            <v-flex xs10>
+                <v-layout row wrap>
+                    <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs2></v-flex>
+                    <v-flex xs8>
+                        <v-text-field v-model="searchText" label="Search Datasets..." v-on:keyup="search"></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs2></v-flex>
+                    <v-flex xs4>
+                        {{count}} datasets found
+                    </v-flex>
+                    <v-flex xs4>
+                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" label="Order By"></v-select>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap align-center justify-center pt-2 pb-3>
+                    <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
+                </v-layout>
 
-      <v-layout row wrap>
-          <v-flex xs2>
-              <!-- Facets  -->
-              <FacetFilter
-                      v-for="(facet, facetKey) in facets"
-                      :key="'facet-section-'+facetKey"
-                      :name="facet"
-                      :field="facetKey"
-                      v-on:facetFilter="facetFilter"
-              ></FacetFilter>
-          </v-flex>
-          <v-flex xs10>
-              <!-- Search  -->
-              <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
-              <div v-else-if="noResults">
-                  No results
-              </div>
-              <div v-else>
-                  <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
-                  <infinite-loading @infinite="scroll">
-                      <div slot="no-results">No more datasets</div>
-                      <div slot="no-more">No more datasets</div>
-                  </infinite-loading>
-              </div>
-          </v-flex>
-
-      </v-layout>
-  </v-container>
+                <v-layout row wrap>
+                    <v-flex xs10>
+                        <!-- Search  -->
+                        <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                        <div v-else-if="noResults">
+                            No results
+                        </div>
+                        <div v-else>
+                            <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
+                            <infinite-loading @infinite="scroll">
+                                <div slot="no-results">No more datasets</div>
+                                <div slot="no-more">No more datasets</div>
+                            </infinite-loading>
+                        </div>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -85,7 +86,7 @@
           rows: 10,
           skip: 0,
           facetFilters: {},
-          sortOrder: "relevance desc",
+          sortOrder: "score desc",
           sortOptions:[
               { value: "relevance desc", text: "Relevance" },
               { value: "score desc", text: "Popular" },
@@ -162,16 +163,28 @@
             let facetKeys = Object.keys(this.facetFilters);
 
             for (let i=0; i<facetKeys.length; i++){
-                fq += facetKeys[i] + ":"
-                let value = this.facetFilters[facetKeys[i]]
-                if (parseInt(value) != value) {
-                    fq += '"'
+                if (this.facetFilters[facetKeys[i]].length > 0){
+                    fq += facetKeys[i]+":("
                 }
-                fq += value
-                if (parseInt(value) != value) {
-                    fq += '"'
+                for (let j=0; j<this.facetFilters[facetKeys[i]].length; j++){
+                    let value = this.facetFilters[facetKeys[i]][j]
+                    if (parseInt(value) != value) {
+                        fq += '"'
+                    }
+                    fq += value
+                    if (parseInt(value) != value) {
+                        fq += '"'
+                    }
+                    fq += " OR "
                 }
-                fq += " AND "
+                if (fq.length > 0){
+                    fq = fq.substring(0, fq.length-" OR ".length)
+                }
+                
+                if (this.facetFilters[facetKeys[i]].length > 0){
+                    fq += ")";
+                }
+                fq += " AND ";
             }
 
             if (fq.length > 0){
@@ -185,6 +198,9 @@
             }
 
             q = q.substring(0, q.length - 1)
+
+            // eslint-disable-next-line
+            console.log(q);
 
             ckanServ.getDatasets(q).then((data) => {
                 if (!data.result){
@@ -217,23 +233,29 @@
         },
 
         getFacets(){
-           if (typeof(sessionStorage.facetList) !== "undefined"){
-               this.facets = JSON.parse(sessionStorage.facetList);
+           if (typeof(localStorage.facetList) !== "undefined"){
+               this.facets = JSON.parse(localStorage.facetList);
                return;
            }
 
             ckanServ.getFacets().then((data) => {
                 this.facets = data
-                sessionStorage.facetList = JSON.stringify(data);
+                localStorage.facetList = JSON.stringify(data);
             });
         },
 
         facetFilter: function(facet, filter){
-            if (this.facetFilters[facet] === filter){
-               delete this.facetFilters[facet];
-            }else {
-                this.facetFilters[facet] = filter;
+
+            if (typeof(this.facetFilters[facet]) === "undefined"){
+                this.facetFilters[facet] = [];
             }
+
+            if (this.facetFilters[facet].indexOf(filter) !== -1){
+               this.facetFilters[facet].splice(this.facetFilters[facet].indexOf(filter), 1)
+            }else {
+                this.facetFilters[facet].push(filter);
+            }
+
             this.getDatasets()
         }
     },
@@ -245,3 +267,14 @@
     }
   }
 </script>
+
+<style scoped>
+    .tertiary{
+        background: var(--v-tertiary-base);
+    }
+
+    .tertiary.nav{
+        /* position: fixed;
+        height: 100%; */
+    }
+</style>

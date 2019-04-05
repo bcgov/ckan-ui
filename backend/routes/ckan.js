@@ -139,16 +139,50 @@ router.put('/dataset', auth.removeExpired, function(req, res, next) {
 router.get('/facets', auth.removeExpired, function(req, res, next) {
 
   facets = {
-      license_id: 'License',
-      sector: 'Sectors',
-      type: 'Dataset types',
-      res_format: 'Format',
-      organization: 'Organizations',
-      download_audience: 'Download permission',
-      edc_state: 'States' // normally only if admin, but what the hell
-  }
+      sectors:{
+            name: "Sectors",
+            icon: "business",
+            facets: [
+                {
+                    organization: 'Organizations'
+                }
+            ]
+      },
+      dataTypes:{
+          name: "Data Types",
+          icon: "folder",
+          facets: [
+            {
+                type: 'Dataset types'
+            },
+            {
+                res_format: 'Format'
+            }
+          ]
+      },
+      organizations:{
+          name: "Organizations",
+          icon: "people_outlined",
+          facets: [],
+      },
+      permissions:{
+          name: "Permissions",
+          icon: "vpn_lock",
+          facets: [
+              {
+                download_audience: 'Download permission'
+              },
+              {
+                license_id: 'License'
+              },
+              {
+                edc_state: 'States' // normally only if admin, but what the hell
+              }
+          ]
+      },
+  };
 
-  res.json(facets)
+  res.json(facets);
 
 });
 

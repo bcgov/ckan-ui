@@ -1,10 +1,10 @@
 <template>
   <div>
-      <div class="dataset-markers">
+      <!-- <div class="dataset-markers">
           <ul>
               <SectorBadge v-for="primMarker in primMarkers" :name="primMarker.name" :key="'dataset-' + id + '-' + primMarker.name + '-badge'"></SectorBadge>
           </ul>
-      </div>
+      </div> -->
 
       <div class="dataset-marker-type-icon">
           <i class="fa fa-2x icon icon-2x" v-bind:class="['fa-'+iconName, 'icon-'+iconName]"></i>
