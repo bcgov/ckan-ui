@@ -33,11 +33,9 @@
 </template>
 
 <script>
-import SectorBadge from "../badges/SectorBadge"
 import FormatBadge from "../badges/FormatBadge"
 export default {
     components: {
-        SectorBadge,
         FormatBadge
     },
     props: {
