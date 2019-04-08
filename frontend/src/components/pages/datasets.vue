@@ -9,6 +9,8 @@
                     :name="facet.name"
                     :field="facet"
                     v-on:facetFilter="facetFilter"
+                    v-on:openDrawer="openDrawer"
+                    v-on:clearAll="clearAll"
                 ></FacetFilter>
             </v-flex>
             <v-flex xs2></v-flex>
@@ -115,6 +117,16 @@
     },
 
     methods: {
+
+        openDrawer: function(name){
+            this.$emit('closeDrawer', name);
+        },
+
+        clearAll: function(){
+            this.$emit('clearAll');
+            this.facetFilters = {};
+            this.getDatasets();
+        },
 
         scroll: function(state, ){
             this.skip += this.rows

@@ -33,7 +33,7 @@
                 </div>
             </v-layout>
             <v-layout row wrap>
-                <v-btn @click="toggleDrawer" color="error">Clear all</v-btn>
+                <v-btn @click="clearClick" color="error">Clear all</v-btn>
                 <v-btn @click="toggleDrawer" color="primary">Close</v-btn>
             </v-layout>
         </v-container>
@@ -66,9 +66,27 @@ export default{
 
     methods: {
 
+        closeDrawer: function(drawerName){
+            if (drawerName !== this.name){
+                this.showDrawer = false;
+            }
+        },
+
+        clearClick: function(){
+            this.$emit('clearAll');
+            this.closeDrawer("X");
+        },
+
+        clearAll: function(){
+            this.numApplied = 0;
+            this.filteredOn = [];
+        },
+
         toggleDrawer: function(){
             this.showDrawer = !this.showDrawer;
-            this.$emit('openDrawer', this.name);
+            if (this.showDrawer){
+                this.$emit('openDrawer', this.name);
+            }
         },
 
         filterOn: function(filter, facet){
@@ -111,6 +129,8 @@ export default{
 
     mounted(){
         this.getFacet()
+        this.$parent.$on('closeDrawer', this.closeDrawer)
+        this.$parent.$on('clearAll', this.clearAll)
     }
 }
 </script>
