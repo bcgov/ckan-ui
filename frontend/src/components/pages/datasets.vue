@@ -1,6 +1,6 @@
 <template>
     <v-container pa-0 ma-0 fluid>
-        <v-layout row-wrap>
+        <v-layout row-wrap fill-height>
             <v-flex xs2 class="tertiary nav">
                 <!-- Facets  -->
                 <FacetFilter
@@ -274,7 +274,7 @@
     }
 
     .tertiary.nav{
-        /* position: fixed;
-        height: 100%; */
+        /*position: fixed;
+        height: 100%;*/
     }
 </style>

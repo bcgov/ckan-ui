@@ -207,6 +207,7 @@ export default {
 </script>
 
 <style>
+
    .v-btn--active.title:before, .v-btn.title:focus:before, .v-btn.title:hover:before {
     background: none !important;
   }

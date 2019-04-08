@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid pa-0>
+    <v-container class="facet" fluid pa-0>
         <v-badge overlap color="red" class="facetBadge">
             <template v-slot:badge>
                 <span v-if="numApplied>0">{{numApplied}}</span>
@@ -23,7 +23,7 @@
                             <v-flex xs12>{{facet[k]}}</v-flex>
                             <v-chip 
                                 v-for="(filter, i) in filters[k]" 
-                                :class="filteredOn.indexOf(filter.name) === -1 ? '' : 'active'"
+                                :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer' : 'active pointer'"
                                 :key="'filter-'+key+'-'+i"
                                 v-on:click="filterOn(filter.name, k)">
                                 <span>{{filteredOn.indexOf(filter.name) === -1 ? "-" : "+"}} {{filter.display_name}}</span><span class="badge">{{filter.count}}</span>
@@ -115,41 +115,6 @@ export default{
 }
 </script>
 
-<style>
-
-    .noBack{
-        background: none !important
-    }
-
-    .badge{
-        font-size: 9px;
-        background: lightblue;
-    }
-
-    div.v-list__tile__content{
-        font-size: 13px;
-        line-height: 13px;
-    }
-
-    .list-group-item{
-        font-size: 13px;
-        line-height: 13px;
-        border: none;
-        box-sizing: border-box;
-        padding: 0px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-
-    .pointer-hover{
-        cursor: pointer;
-        font-size: 13px;
-        line-height: 13px;
-        color: blue !important;
-
-    }
-</style>
-
 <style scoped>
     .active{
         background: lightgreen;
@@ -176,6 +141,14 @@ export default{
 </style>
 
 <style>
+    .pointer.v-chip .v-chip__content{
+        cursor: pointer;
+    }
+
+    .badge{
+        font-size: 9px;
+        background: lightblue;
+    }
 
     .facetBadge .v-badge__badge.red{
         top: 10px;
