@@ -63,7 +63,7 @@ export default{
             raw_data: '',
             page: 1,
             numPages: '∞',
-            pdfData: undefined,
+            pdfData: null,
         }
     },
     mounted() {
