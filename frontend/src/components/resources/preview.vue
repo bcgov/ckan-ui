@@ -8,6 +8,7 @@
       </v-toolbar>
       <v-card-text>
             <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+
             <v-data-table v-else-if="headers.length>0" :items="data" :headers="headers">
                 <template v-slot:items="props">
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
@@ -46,7 +47,7 @@ import pdf from 'pdfvuer'
 
 export default{
     components:{
-        pdf: pdf
+        pdf: pdf,
     },
     props: {
         resource: Object
@@ -79,11 +80,12 @@ export default{
 
                 if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
                     this.type = "404";
+                }else if (data['type'] === 'xls'){
+                    this.type = 'xls'
                 }else if (data.headers) {
                     this.type = "csv";
                     this.data = data.workbook
                     this.headers = data.headers
-
                 }else if (data['content-type'] === "application/pdf"){
                     this.type = "pdf"
                     this.url = data.origUrl;
@@ -93,8 +95,6 @@ export default{
                         self.numPages = pdf.numPages
                     });
                 } else {
-                    // eslint-disable-next-line
-                    console.log(data);
                     this.raw_data = data.raw_data
                 }
 

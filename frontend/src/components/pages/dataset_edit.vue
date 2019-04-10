@@ -108,7 +108,7 @@
             ckanServ.getDataset(this.datasetId).then((data) => {
               this.loading = false;
               // eslint-disable-next-line
-              console.log("hi", data)
+              //console.log("hi", data)
               this.dataset = data.result;
               // this.displayContact = this.dataset.contact.private == "Display";
               this.breadcrumbs[1] = {
@@ -117,7 +117,7 @@
               }
               ckanServ.getOrgList().then((data2) => {
                 // eslint-disable-next-line
-                console.log("hi2", data2);
+                //console.log("hi2", data2);
                 data2.orgs.forEach(org => {
                   this.orgs.push({
                     name: Object.keys(org)[0],
@@ -127,7 +127,7 @@
                 this.allsuborgs = data2.suborgs;
                 ckanServ.getOrganization(this.dataset.org).then((data3) => {
                   // eslint-disable-next-line
-                  console.log("org", data3)
+                  //console.log("org", data3)
                   this.datasetOrg = data3.result.name;
                   this.getSubOrgs();
                 });

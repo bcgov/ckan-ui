@@ -27,8 +27,6 @@
         methods: {
         },
         mounted(){
-            // eslint-disable-next-line
-            console.log(this.user);
         }
     }
 </script>

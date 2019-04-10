@@ -45,11 +45,14 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         let responseObj = {};
 
         request(resourceUrl, authObj, function(err, apiRes, body){
-            let xlsFormats = [
+            let csvFormats = [
                 'application/octet-stream',
                 'text/plain; charset=UTF-8',
                 'text/plain; charset=UTF-16',
                 'text/plain; charset=UTF-32',
+            ];
+
+            let xlsFormats = [
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'application/vnd.ms-excel'
             ]
@@ -59,7 +62,9 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
             responseObj['status'] = apiRes.headers['status'];
             responseObj['origUrl'] = resourceUrl;
 
-            if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) {
+            if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
+                responseObj['type'] = "xls";
+            }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                 let XLSX = require('xlsx');
                 let workbook = XLSX.read(body, {type: "string", WTF: true});
                 let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
@@ -70,6 +75,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                     headers.push({text: headerKeys[i], value: headerKeys[i]});
                 }
                 responseObj['headers'] = headers;
+                responseObj['type'] = "csv";
             }
 
             responseObj['raw_data'] = body;

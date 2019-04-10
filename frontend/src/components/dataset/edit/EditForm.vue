@@ -437,7 +437,7 @@ export default {
         save() {
             if (this.$refs.datasetForm.validate()) {
                 // eslint-disable-next-line
-                console.log("Form is valid!");
+                //console.log("Form is valid!");
                 this.$store.dispatch("dataset/setDataset").then(data => {
                     if (data.success) {
                         this.$emit('done', true);
@@ -445,13 +445,13 @@ export default {
                         this.errorDialog = true;
                         this.errorDict = JSON.stringify(data.error);
                         // eslint-disable-next-line
-                        console.log('Save Response: ', data);
+                        //console.log('Save Response: ', data);
                     }
                 });
 
             } else {
                 // eslint-disable-next-line
-                console.log("Form ain't valid!");
+                //console.log("Form ain't valid!");
             }
         }
     },

@@ -211,9 +211,6 @@
 
             q = q.substring(0, q.length - 1)
 
-            // eslint-disable-next-line
-            console.log(q);
-
             ckanServ.getDatasets(q).then((data) => {
                 if (!data.result){
                     this.noResults = true;

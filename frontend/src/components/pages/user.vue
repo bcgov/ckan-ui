@@ -72,8 +72,6 @@
 
             getUser: function(){
                 ckanServ.getUser(this.user_id).then( (data) => {
-                    // eslint-disable-next-line
-                    console.log(data.result);
                     this.user = data.result;
                 });
             }
