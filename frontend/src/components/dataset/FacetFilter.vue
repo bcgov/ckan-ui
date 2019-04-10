@@ -1,14 +1,23 @@
 <template>
-    <v-container class="facet" fluid pa-0>
+    <div>
+    <v-container px-0  align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
         <v-badge overlap color="red" class="facetBadge">
             <template v-slot:badge>
                 <span v-if="numApplied>0">{{numApplied}}</span>
             </template>
-            <v-btn ma-0 pa-0 flat dark @click="toggleDrawer()">
-                <v-icon dark x-large class="iconWidth">{{field.icon}}</v-icon>
-                {{name}}
-            </v-btn>
+            
+            <v-container fluid pa-0 ma-0 dark>
+                <v-layout row wrap>
+                    <v-flex xs12 class="text-xs-center">
+                        <v-icon dark x-large class="iconWidth">{{field.icon}}</v-icon>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 class="text-xs-center facetLabel">{{name}}</v-flex>
+                </v-layout>
+            </v-container>            
         </v-badge>
+    </v-container>
 
         <v-container class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
             <v-layout row wrap>
@@ -20,13 +29,13 @@
                 <div v-else>
                     <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                            <v-flex xs12>{{facet[k]}}</v-flex>
+                            <v-flex xs12 pb-2>{{facet[k]}}<span v-if="count[k]>0">({{count[k]}})</span></v-flex>
                             <v-chip 
                                 v-for="(filter, i) in filters[k]" 
-                                :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer' : 'active pointer'"
+                                :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
                                 :key="'filter-'+key+'-'+i"
-                                v-on:click="filterOn(filter.name, k)">
-                                <span>{{filteredOn.indexOf(filter.name) === -1 ? "-" : "+"}} {{filter.display_name}}</span><span class="badge">{{filter.count}}</span>
+                                v-on:click="filterOn(filter, k)">
+                                <span class="bold">{{filteredOn.indexOf(filter.name) === -1 ? "-" : "✓"}} {{filter.display_name}}({{filter.count}})</span>
                             </v-chip>
                         </span>
                     </v-layout>
@@ -34,10 +43,10 @@
             </v-layout>
             <v-layout row wrap>
                 <v-btn @click="clearClick" color="error">Clear all</v-btn>
-                <v-btn @click="toggleDrawer" color="primary">Close</v-btn>
+                <v-btn @click="toggleDrawer" color="primary">OK</v-btn>
             </v-layout>
         </v-container>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -61,6 +70,7 @@ export default{
             showDrawer: false,
             filteredOn: [],
             numApplied: 0,
+            count: {}
         }
     },
 
@@ -90,15 +100,21 @@ export default{
         },
 
         filterOn: function(filter, facet){
-            if (this.filteredOn.indexOf(filter) !== -1){
-                this.filteredOn.splice(this.filteredOn.indexOf(filter), 1);
+            if (this.filteredOn.indexOf(filter.name) !== -1){
+                this.filteredOn.splice(this.filteredOn.indexOf(filter.name), 1);
                 this.numApplied -=1;
+                this.count[facet] -= filter.count;
             }else{
-                this.filteredOn.push(filter);
+                this.filteredOn.push(filter.name);
                 this.numApplied +=1;
+                if (typeof(this.count[facet]) === "undefined"){
+                    this.count[facet] = filter.count;
+                }else{
+                    this.count[facet] += filter.count;
+                }
             }
 
-            this.$emit('facetFilter', facet, filter);
+            this.$emit('facetFilter', facet, filter.name);
         },
 
         getFacet(){
@@ -136,8 +152,32 @@ export default{
 </script>
 
 <style scoped>
+
+    .closed{
+        background: none !important;
+        box-shadow: none !important;
+        cursor: pointer;
+    }
+
+    .closed:hover{
+        background: var(--v-secondary-base) !important;
+    }
+
+    .open{
+        background: var(--v-secondary-base) !important;
+        box-shadow: none !important;
+        cursor: pointer;
+    }
+
+    .bold{
+        font-weight: bold;
+    }
+    .facetLabel{
+        color: var(--v-text-base);
+    }
+    
     .active{
-        background: lightgreen;
+        background: var(--v-highlight-base);
     }
 
     .iconWidth{
@@ -146,17 +186,13 @@ export default{
 
     .leftDrawer{
         position: fixed;
-        top: 0px;
-        left: 200px;
+        top: 65px;
+        left: 110px;
         background: white;
         z-index: 20;
         width: 600px;
-        height: 100%;
+        height: 90%;
         overflow-y: scroll
-    }
-
-    div.v-list__tile__content.active{
-        background: lightblue;
     }
 </style>
 
@@ -165,13 +201,15 @@ export default{
         cursor: pointer;
     }
 
-    .badge{
-        font-size: 9px;
-        background: lightblue;
-    }
-
     .facetBadge .v-badge__badge.red{
         top: 10px;
+        right: 15px;
+    }
+
+    .facetBadge{
+        text-align: center;
+        align-content: center;
+        width: 100%;
     }
 
 </style>

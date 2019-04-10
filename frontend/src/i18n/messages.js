@@ -25,6 +25,7 @@ export default {
         "Copyright": "Copyright",
         "Contact Us": "Contact Us",
         "Groups": "Group | Groups",
+        "Viewing Dataset": "Viewing Dataset",
 
     },
     fr: {
@@ -53,5 +54,6 @@ export default {
         "Copyright": "droits d'auteur",
         "Contact Us": "Contactez nous",
         "Groups": "Groupes",
+        "Viewing Dataset": "Affichage du jeu de données",
     }
 }

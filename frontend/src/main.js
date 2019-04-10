@@ -20,6 +20,7 @@ Vue.use(Vuetify, {
       primary: '#003366',
       secondary: '#5475a7',
       tertiary: '#0050a1',
+      highlight: '#a5d8ff',
       accent: '#8c9eff',
       error: '#b71c1c',
       text: "#ffffff",

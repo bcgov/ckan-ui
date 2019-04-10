@@ -1,7 +1,7 @@
 <template>
     <v-container pa-0 ma-0 fluid>
         <v-layout row-wrap fill-height>
-            <v-flex xs2 class="tertiary nav">
+            <v-flex xs1 class="tertiary nav">
                 <!-- Facets  -->
                 <FacetFilter
                     v-for="(facet, facetKey) in facets"
@@ -13,7 +13,7 @@
                     v-on:clearAll="clearAll"
                 ></FacetFilter>
             </v-flex>
-            <v-flex xs2></v-flex>
+            <v-flex xs1></v-flex>
             <v-flex xs10>
                 <v-layout row wrap>
                     <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
@@ -283,6 +283,10 @@
 <style scoped>
     .tertiary{
         background: var(--v-tertiary-base);
+    }
+
+    .secondary{
+        background: var(--v-secondary-base);
     }
 
     .tertiary.nav{

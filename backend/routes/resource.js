@@ -41,39 +41,41 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         resourceUrl = resourceUrl.replace("http://localhost:5000", "https://catalogue.data.gov.bc.ca")
         resourceUrl = resourceUrl.replace("http://127.0.0.1:5000", "https://catalogue.data.gov.bc.ca")
 
-        let responseData = ""
-        let responseObj = {}
+        let responseData = "";
+        let responseObj = {};
 
-        request.get(resourceUrl, authObj).on('data', function(data){
-            responseData += data;
-            if (responseData.length >= 10000){
-                this.abort();
-            }
-        }).on('end', function(){
+        request(resourceUrl, authObj, function(err, apiRes, body){
+            let xlsFormats = [
+                'application/octet-stream',
+                'text/plain; charset=UTF-8',
+                'text/plain; charset=UTF-16',
+                'text/plain; charset=UTF-32',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel'
+            ]
 
-            let xlsFormats = ['application/octet-stream', 'text/plain; charset=UTF-8', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']
+            responseObj['content-type'] = apiRes.headers['content-type']
+            responseObj['content-length'] = apiRes.headers['content-length']
+            responseObj['status'] = apiRes.headers['status'];
+            responseObj['origUrl'] = resourceUrl;
 
-            responseObj['content-type'] = this.response.headers['content-type']
-            responseObj['content-length'] = this.response.headers['content-length']
-            responseObj['status'] = this.response.headers['status'];
-
-            if (xlsFormats.indexOf(responseObj['content-type']) !== -1) {
+            if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                 let XLSX = require('xlsx');
-                let workbook = XLSX.read(responseData, {type: "string"});
+                let workbook = XLSX.read(body, {type: "string", WTF: true});
                 let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 responseObj['workbook'] = sheetJson;
-                let headerKeys = Object.keys(sheetJson[0])
-                let headers = []
+                let headerKeys = Object.keys(sheetJson[0]);
+                let headers = [];
                 for (let i=0; i<headerKeys.length; i++){
                     headers.push({text: headerKeys[i], value: headerKeys[i]});
                 }
-                responseObj['headers'] = headers
+                responseObj['headers'] = headers;
             }
 
-            responseObj['raw_data'] = responseData;
+            responseObj['raw_data'] = body;
             res.json(responseObj);
             return;
-        });
+    });
 
         // request(resourceUrl, authObj, function(err2, apiRes2, body2){
         //     let request = this;

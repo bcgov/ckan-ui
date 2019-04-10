@@ -74,7 +74,7 @@
         </v-menu>
 
     </v-toolbar>
-    <v-container v-show="showSearch">
+    <v-container class="searchBar" v-show="showSearch">
       <v-layout row wrap>
         <v-flex>
           <v-text-field ref="headerSearch" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
@@ -206,7 +206,21 @@ export default {
 }
 </script>
 
+<style scoped>
+
+
+
+</style>
+
 <style>
+
+  .searchBar{
+    position: absolute;
+    z-index: 20;
+    background: white;
+    width: 100%;
+    max-width: none !important;
+  }
 
    .v-btn--active.title:before, .v-btn.title:focus:before, .v-btn.title:hover:before {
     background: none !important;
