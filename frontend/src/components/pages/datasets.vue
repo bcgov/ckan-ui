@@ -7,6 +7,7 @@
                     v-for="(facet, facetKey) in facets"
                     :key="'facet-section-'+facetKey"
                     :name="facet.name"
+                    :found="count"
                     :field="facet"
                     v-on:facetFilter="facetFilter"
                     v-on:openDrawer="openDrawer"
@@ -21,16 +22,16 @@
                 <v-layout row wrap>
                     <v-flex xs2></v-flex>
                     <v-flex xs8>
-                        <v-text-field v-model="searchText" label="Search Datasets..." v-on:keyup="search"></v-text-field>
+                        <v-text-field v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs2></v-flex>
                     <v-flex xs4>
-                        {{count}} datasets found
+                        {{count}} {{$tc('datasets')}} {{$tc('found')}}
                     </v-flex>
                     <v-flex xs4>
-                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" label="Order By"></v-select>
+                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')"></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
@@ -90,12 +91,12 @@
           facetFilters: {},
           sortOrder: "score desc",
           sortOptions:[
-              { value: "relevance desc", text: "Relevance" },
-              { value: "score desc", text: "Popular" },
-              { value: "name asc", text: "Name Ascending" },
-              { value: "name desc", text: "Name Descending" },
-              { value: "record_publish_date desc", text: "Publish Date" },
-              { value: "record_last_modified desc", text: "Last Modified" }
+              { value: "relevance desc", text: this.$tc("Relevance") },
+              { value: "score desc", text: this.$tc("Popular") },
+              { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
+              { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
+              { value: "record_publish_date desc", text: this.$tc("Publish Date") },
+              { value: "record_last_modified desc", text: this.$tc("Last Modified") }
           ],
           breadcrumbs: [
               {icon: "home", label: 'Home', route: '/'},

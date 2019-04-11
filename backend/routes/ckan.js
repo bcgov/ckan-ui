@@ -143,9 +143,7 @@ router.get('/facets', auth.removeExpired, function(req, res, next) {
             name: "Sectors",
             icon: "business",
             facets: [
-                {
-                    organization: 'Organizations'
-                }
+                
             ]
       },
       dataTypes:{
@@ -162,8 +160,12 @@ router.get('/facets', auth.removeExpired, function(req, res, next) {
       },
       organizations:{
           name: "Organizations",
-          icon: "people_outlined",
-          facets: [],
+          icon: "group",
+          facets: [
+            {
+                organization: 'Organizations'
+            }
+          ],
       },
       permissions:{
           name: "Permissions",

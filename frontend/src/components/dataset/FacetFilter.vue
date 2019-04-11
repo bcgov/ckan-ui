@@ -9,19 +9,21 @@
             <v-container fluid pa-0 ma-0 dark>
                 <v-layout row wrap>
                     <v-flex xs12 class="text-xs-center">
-                        <v-icon dark x-large class="iconWidth">{{field.icon}}</v-icon>
+                        <v-icon x-large class="iconWidth facetIcon">{{field.icon}}</v-icon>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 class="text-xs-center facetLabel">{{name}}</v-flex>
+                    <v-flex xs12 class="text-xs-center facetLabel">{{$tc(name)}}</v-flex>
                 </v-layout>
             </v-container>            
         </v-badge>
     </v-container>
 
         <v-container class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
-            <v-layout row wrap>
-                <v-flex xs11></v-flex>
+            <v-layout row wrap class="borderBottom">
+                <v-flex xs11>
+                    <h3>{{totalCount}} {{$tc('datasets')}} {{$tc('found')}} {{$tc('using')}} {{numFilters}} {{$tc('filter', numFilters)}}</h3>
+                </v-flex>
                 <v-flex xs1><v-icon @click="toggleDrawer()">close</v-icon></v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -29,7 +31,7 @@
                 <div v-else>
                     <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                            <v-flex xs12 pb-2>{{facet[k]}}<span v-if="count[k]>0">({{count[k]}})</span></v-flex>
+                            <v-flex xs12 pb-2>{{$tc(facet[k])}}<span v-if="count[k]>0">({{count[k]}})</span></v-flex>
                             <v-chip 
                                 v-for="(filter, i) in filters[k]" 
                                 :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
@@ -42,8 +44,8 @@
                 </div>
             </v-layout>
             <v-layout row wrap>
-                <v-btn @click="clearClick" color="error">Clear all</v-btn>
-                <v-btn @click="toggleDrawer" color="primary">OK</v-btn>
+                <v-btn @click="clearClick" color="text">{{$tc('Clear all')}}</v-btn>
+                <!--<v-btn @click="toggleDrawer" color="primary">{{$tc('OK')}}</v-btn>-->
             </v-layout>
         </v-container>
     </div>
@@ -57,6 +59,7 @@ export default{
     props: {
         name: String,
         field: Object,
+        found: Number,
     },
 
     data: function(){
@@ -70,7 +73,9 @@ export default{
             showDrawer: false,
             filteredOn: [],
             numApplied: 0,
-            count: {}
+            count: {},
+            numFilters: 0,
+            totalCount: 0,
         }
     },
 
@@ -104,6 +109,8 @@ export default{
                 this.filteredOn.splice(this.filteredOn.indexOf(filter.name), 1);
                 this.numApplied -=1;
                 this.count[facet] -= filter.count;
+                this.totalCount -= filter.count;
+                this.numFilters  -= 1;
             }else{
                 this.filteredOn.push(filter.name);
                 this.numApplied +=1;
@@ -112,6 +119,8 @@ export default{
                 }else{
                     this.count[facet] += filter.count;
                 }
+                this.totalCount += filter.count;
+                this.numFilters  += 1;
             }
 
             this.$emit('facetFilter', facet, filter.name);
@@ -153,6 +162,10 @@ export default{
 
 <style scoped>
 
+    .borderBottom{
+        border-bottom: 1px solid grey;
+    }
+
     .closed{
         background: none !important;
         box-shadow: none !important;
@@ -164,16 +177,29 @@ export default{
     }
 
     .open{
-        background: var(--v-secondary-base) !important;
+        background: var(--v-text-base) !important;
         box-shadow: none !important;
         cursor: pointer;
+    }
+
+    .facetIcon{
+        color: var(--v-text-base);
+    }
+
+    .open .facetIcon{
+        color: black;
     }
 
     .bold{
         font-weight: bold;
     }
+
     .facetLabel{
         color: var(--v-text-base);
+    }
+
+    .open .facetLabel{
+        color: black;
     }
     
     .active{
@@ -185,13 +211,13 @@ export default{
     }
 
     .leftDrawer{
-        position: fixed;
+        position: absolute;
         top: 65px;
         left: 110px;
         background: white;
         z-index: 20;
         width: 600px;
-        height: 90%;
+        height: 550px;
         overflow-y: scroll
     }
 </style>

@@ -59,7 +59,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
 
             responseObj['content-type'] = apiRes.headers['content-type']
             responseObj['content-length'] = apiRes.headers['content-length']
-            responseObj['status'] = apiRes.headers['status'];
+            responseObj['status'] = apiRes.headers['statusCode'];
             responseObj['origUrl'] = resourceUrl;
 
             if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
@@ -76,6 +76,8 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 }
                 responseObj['headers'] = headers;
                 responseObj['type'] = "csv";
+            }else if (apiRes.headers['statusCode'] === 404){
+                responseObj['type'] = "404";
             }
 
             responseObj['raw_data'] = body;

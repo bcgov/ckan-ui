@@ -38,13 +38,17 @@ Vue.use(InfiniteLoading, {
 
 Vue.use(VueI18n);
 
-import messages from './i18n/messages'
+import messages from './i18n/messages';
+
+var locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
+
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: locale,
   fallbackLocale: 'en',
   messages, // set locale messages
+  silentFallbackWarn: process.env.NODE_ENV === "production"
 })
 
 router.beforeEach((to, from, next) => {
