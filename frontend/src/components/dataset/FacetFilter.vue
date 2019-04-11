@@ -129,10 +129,10 @@ export default{
         getFacet(){
             
             for (let i=0; i<this.field.facets.length; i++){
-                // if (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined"){
+                if (typeof("facet-"+Object.keys(this.field.facets[i])[0]) !== "undefined"){
 
-                //     this.filters = JSON.parse(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]);
-                // }else{
+                    this.filters = JSON.parse(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]);
+                }else{
                     let query = "?facet.field=[\""+Object.keys(this.field.facets[i])[0]+"\"]&facet.limit=-1&rows=0";
                     var self = this;
                     ckanServ.getDatasets(query).then((data) => {
@@ -147,7 +147,7 @@ export default{
 
                         this.loading = false
                     });
-                // }
+                }
             }
         }
     },
