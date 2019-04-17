@@ -4,13 +4,19 @@ let express = require('express');
 let router = express.Router();
 let auth = require('../modules/auth');
 
-router.use('/login', passport.authenticate('oidc'), function(req, res, next){
+router.use('/login', function(req, res, next){
+    req.session.r = req.query.r;
+    res.redirect('/api/log');
     next();
-})
+});
+
+router.use('/log', passport.authenticate('oidc'), function(req, res, next){
+    next();
+});
 
 router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
     let config = require('config');
-    res.redirect(config.get('frontend'))
+    res.redirect(config.get('frontend')+req.session.r)
 });
 
 router.use('/logout', function(req, res, next){

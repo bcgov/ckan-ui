@@ -1,5 +1,6 @@
 <template>
   <span>
+    <div class="headerSpacer"></div>
     <header class="gov-header">
       <div class="headerSpacer"></div>
       <v-toolbar color="primary" fixed dense dark>
@@ -104,7 +105,7 @@ export default {
   props: [],
   data () {
     return {
-        logInUrl: "/api/login",
+        logInUrl: "/api/login?r="+window.location.pathname,
         searchText: "",
         showSearch: false,
         classicUrl: '',
