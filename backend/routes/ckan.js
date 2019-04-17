@@ -143,7 +143,9 @@ router.get('/facets', auth.removeExpired, function(req, res, next) {
             name: "Sectors",
             icon: "business",
             facets: [
-                
+                {
+                    sector: 'Sectors'
+                },
             ]
       },
       dataTypes:{
@@ -160,27 +162,32 @@ router.get('/facets', auth.removeExpired, function(req, res, next) {
       },
       organizations:{
           name: "Organizations",
-          icon: "group",
+          icon: "supervised_user_circle",
           facets: [
             {
                 organization: 'Organizations'
             }
           ],
       },
-      permissions:{
-          name: "Permissions",
-          icon: "vpn_lock",
-          facets: [
-              {
-                download_audience: 'Download permission'
-              },
-              {
-                license_id: 'License'
-              },
-              {
-                edc_state: 'States' // normally only if admin, but what the hell
-              }
-          ]
+        permissions:{
+            name: "Permissions",
+            icon: "vpn_lock",
+            facets: [
+                {
+                    download_audience: 'Download permission'
+                },
+                {
+                    license_id: 'License'
+                },
+                {
+                    edc_state: 'States' // normally only if admin, but what the hell
+                }
+            ],
+            information: {
+                "Public Datasets": "Catalogue records with data that can be viewed and accessed by anyone.",
+                "Restricted Datasets": "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in",
+                banner: "Log in with a Government IDIR or BCEID to view more datasets"
+            }
       },
   };
 

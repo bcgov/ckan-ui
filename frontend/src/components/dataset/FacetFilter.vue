@@ -19,10 +19,10 @@
         </v-badge>
     </v-container>
 
-        <v-container class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
+        <v-container fluid class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
             <v-layout row wrap class="borderBottom">
                 <v-flex xs11>
-                    <h3>{{totalCount}} {{$tc('datasets')}} {{$tc('found')}} {{$tc('using')}} {{numFilters}} {{$tc('filter', numFilters)}}</h3>
+                    <h3>{{found}} {{$tc('datasets')}} {{$tc('found')}} {{$tc('using')}} {{totalFilters}} {{$tc('filter', totalFilters)}}</h3>
                 </v-flex>
                 <v-flex xs1><v-icon @click="toggleDrawer()">close</v-icon></v-flex>
             </v-layout>
@@ -31,15 +31,20 @@
                 <div v-else>
                     <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                            <v-flex xs12 pb-2>{{$tc(facet[k])}}<span v-if="count[k]>0">({{count[k]}})</span></v-flex>
+                            <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
                             <v-chip 
                                 v-for="(filter, i) in filters[k]" 
                                 :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
                                 :key="'filter-'+key+'-'+i"
                                 v-on:click="filterOn(filter, k)">
-                                <span class="bold">{{filteredOn.indexOf(filter.name) === -1 ? "-" : "✓"}} {{filter.display_name}}({{filter.count}})</span>
+                                <span class="bold">{{filteredOn.indexOf(filter.name) === -1 ? "-" : "✓"}} {{filter.display_name}}</span>
                             </v-chip>
                         </span>
+                    </v-layout>
+                    <v-layout row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
+                        <v-flex v-if="header !== 'banner'" xs12 pb-2><h5>{{$tc(header)}}</h5></v-flex>
+                        <v-flex v-if="header !== 'banner'" xs12 pb-2><p>{{$tc(info)}}</p></v-flex>
+                        <v-flex v-else xs12 fluid class="banner"><h4>{{$tc(info)}}</h4></v-flex>
                     </v-layout>
                 </div>
             </v-layout>
@@ -60,6 +65,7 @@ export default{
         name: String,
         field: Object,
         found: Number,
+        totalFilters: Number,
     },
 
     data: function(){
@@ -129,7 +135,7 @@ export default{
         getFacet(){
             
             for (let i=0; i<this.field.facets.length; i++){
-                if (typeof("facet-"+Object.keys(this.field.facets[i])[0]) !== "undefined"){
+                if (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined"){
 
                     this.filters = JSON.parse(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]);
                 }else{
@@ -164,6 +170,10 @@ export default{
 
     .borderBottom{
         border-bottom: 1px solid grey;
+    }
+
+    .banner{
+        background: var(--v-caution-base) !important;
     }
 
     .closed{
@@ -211,14 +221,16 @@ export default{
     }
 
     .leftDrawer{
-        position: absolute;
-        top: 65px;
+        position: fixed;
+        top: 48px;
         left: 110px;
         background: white;
-        z-index: 20;
         width: 600px;
-        height: 550px;
-        overflow-y: scroll
+        height: calc(100vh - 62px);
+        overflow-y: scroll;
+        -moz-box-shadow: 5px 5px 5px lightgrey;
+        -webkit-box-shadow: 5px 5px 5px lightgrey;
+        box-shadow: 5px 5px 5px lightgrey;
     }
 </style>
 

@@ -1,7 +1,7 @@
 <template>
     <v-container pa-0 ma-0 fluid>
         <v-layout row-wrap fill-height>
-            <v-flex xs1 class="tertiary nav">
+            <v-flex xs1 class="tertiary nav facetFilter">
                 <!-- Facets  -->
                 <FacetFilter
                     v-for="(facet, facetKey) in facets"
@@ -9,13 +9,14 @@
                     :name="facet.name"
                     :found="count"
                     :field="facet"
+                    :totalFilters="totalFilters"
                     v-on:facetFilter="facetFilter"
                     v-on:openDrawer="openDrawer"
                     v-on:clearAll="clearAll"
                 ></FacetFilter>
             </v-flex>
             <v-flex xs1></v-flex>
-            <v-flex xs10>
+            <v-flex xs11>
                 <v-layout row wrap>
                     <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
                 </v-layout>
@@ -39,7 +40,7 @@
                 </v-layout>
 
                 <v-layout row wrap>
-                    <v-flex xs10>
+                    <v-flex xs12>
                         <!-- Search  -->
                         <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
                         <div v-else-if="noResults">
@@ -84,6 +85,7 @@
           datasets: [],
           noResults: false,
           facets: {},
+          totalFilters: 0,
           searchText: (this.$route.query.q) ? this.$route.query.q : "",
           count: 0,
           rows: 10,
@@ -262,8 +264,10 @@
 
             if (this.facetFilters[facet].indexOf(filter) !== -1){
                this.facetFilters[facet].splice(this.facetFilters[facet].indexOf(filter), 1)
+               this.totalFilters -= 1;
             }else {
                 this.facetFilters[facet].push(filter);
+                this.totalFilters += 1;
             }
 
             this.getDatasets()
@@ -279,6 +283,14 @@
 </script>
 
 <style scoped>
+    .facetFilter{
+        position: fixed;
+        bottom: 0px;
+        top: 48px;
+        width: 110px;
+        z-index: 9002;
+    }
+
     .tertiary{
         background: var(--v-tertiary-base);
     }

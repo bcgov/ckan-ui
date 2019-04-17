@@ -22,6 +22,7 @@ Vue.use(Vuetify, {
       tertiary: '#0050a1',
       highlight: '#a5d8ff',
       accent: '#8c9eff',
+      caution: "#fcba19",
       error: '#b71c1c',
       text: "#ffffff",
       data: '#F4F4F4',

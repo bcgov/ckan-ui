@@ -20,4 +20,4 @@ yarn-error.log*
 *.sln
 *.sw*
 
-helm/ckan-ui/config.yaml
+helm/ckan-ui/config*.yaml

@@ -1,89 +1,92 @@
 <template>
-  <header class="gov-header">
-    <v-toolbar color="primary" dark>
-      <!-- Navbar content -->
-        <a href="https://www2.gov.bc.ca">
-          <img
-              src="@/assets/images/17_gov3_bc_logo.svg"
-              width="152" height="55"
-              alt="B.C. Government Logo">
-        </a>
-      <v-toolbar-title color="primary"><v-btn class="title hidden-sm-and-down" color="text" flat to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
-        <v-spacer></v-spacer>
+  <span>
+    <header class="gov-header">
+      <div class="headerSpacer"></div>
+      <v-toolbar color="primary" fixed dense dark>
+        <!-- Navbar content -->
+          <a href="https://www2.gov.bc.ca">
+            <img
+                src="@/assets/images/17_gov3_bc_logo.svg"
+                width="auto" height="30"
+                alt="B.C. Government Logo">
+          </a>
+        <v-toolbar-title color="primary"><v-btn class="title hidden-sm-and-down" color="text" flat to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
+          <v-spacer></v-spacer>
 
 
-        <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>
+          <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>
 
-        <User v-if="loggedIn" :user="user"></User>
-        <v-btn flat id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl">{{$tc("LogIn")}}</v-btn>
+          <User v-if="loggedIn" :user="user"></User>
+          <v-btn flat id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-btn>
 
-        <v-menu offset-y bottom color="primary">
-          <template v-slot:activator="{ on }">
-            <v-btn flat v-on="on">
-              {{$tc("Language")}}
-            </v-btn>
-          </template>
-          <v-layout align-center justify-center row fill-height class="secondary_color">
-              <v-flex xs12>
-                  <v-list class="header-menu-secondary" dark>
-                    <v-list-tile @click="setLanguage('en')">English</v-list-tile>
-                    <v-list-tile @click="setLanguage('fr')">Français</v-list-tile>
-                  </v-list>
-              </v-flex>
-          </v-layout>
-        </v-menu>
+          <v-menu offset-y bottom color="primary">
+            <template v-slot:activator="{ on }">
+              <v-btn flat v-on="on">
+                {{$tc("Language")}}
+              </v-btn>
+            </template>
+            <v-layout align-center justify-center row fill-height class="secondary_color">
+                <v-flex xs12>
+                    <v-list class="header-menu-secondary" dark>
+                      <v-list-tile @click="setLanguage('en')">English</v-list-tile>
+                      <v-list-tile @click="setLanguage('fr')">Français</v-list-tile>
+                    </v-list>
+                </v-flex>
+            </v-layout>
+          </v-menu>
 
-        <v-btn icon v-on:click="searchClick">
-          <v-icon x-large>search</v-icon>
-        </v-btn>
-
-
-        <v-menu bottom left color="primary">
-          <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon x-large>menu</v-icon>
-            </v-btn>
-          </template>
-          <v-layout align-center justify-center row fill-height class="secondary_color">
-              <v-flex xs6>
-                  <v-list class="header-menu" dark>
-                    <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
-                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                    </v-list-tile>
-                    <v-list-tile class="hidden-md-and-up">
-                      <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
-                    </v-list-tile>
-                    <v-list-tile v-if="loggedIn" class="hidden-md-and-up">
-                        <User :user="user"></User>
-                    </v-list-tile>
-                    <v-list-tile v-else class="hidden-md-and-up">
-                        <v-btn flat id="nav-login" class="navbar-link lvl2-link" :href="logInUrl">{{$tc("LogIn")}}</v-btn>
-                    </v-list-tile>
-                  </v-list>
-              </v-flex>
-              <v-flex xs6>
-                  <v-list class="header-menu-secondary" dark>
-                    <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
-                        <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                        <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                    </v-list-tile>
-                  </v-list>
-              </v-flex>
-          </v-layout>
-        </v-menu>
-
-    </v-toolbar>
-    <v-container class="searchBar" v-show="showSearch">
-      <v-layout row wrap>
-        <v-flex>
-          <v-text-field ref="headerSearch" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
-        </v-flex>
-      </v-layout>
-    </v-container>
+          <v-btn icon v-on:click="searchClick">
+            <v-icon medium>search</v-icon>
+          </v-btn>
 
 
-  </header>
+          <v-menu bottom left absolute nudge-bottom=25 color="primary">
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon medium>menu</v-icon>
+              </v-btn>
+            </template>
+            <v-layout align-center justify-center row fill-height class="secondary_color">
+                <v-flex xs6>
+                    <v-list class="header-menu" dark>
+                      <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
+                          <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                      </v-list-tile>
+                      <v-list-tile class="hidden-md-and-up">
+                        <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
+                      </v-list-tile>
+                      <v-list-tile v-if="loggedIn" class="hidden-md-and-up">
+                          <User :user="user"></User>
+                      </v-list-tile>
+                      <v-list-tile v-else class="hidden-md-and-up">
+                          <v-btn flat id="nav-login" class="navbar-link lvl2-link" :href="logInUrl">{{$tc("LogIn")}}</v-btn>
+                      </v-list-tile>
+                    </v-list>
+                </v-flex>
+                <v-flex xs6>
+                    <v-list class="header-menu-secondary" dark>
+                      <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
+                          <v-btn v-if="item.link" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                      </v-list-tile>
+                    </v-list>
+                </v-flex>
+            </v-layout>
+          </v-menu>
+
+      </v-toolbar>
+      <v-container class="searchBar" v-show="showSearch">
+        <v-layout row wrap>
+          <v-flex>
+            <v-text-field ref="headerSearch" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
+
+    </header>
+  </span>
 </template>
 
 <script>
@@ -187,6 +190,13 @@ export default {
 
       setLanguage: function(local){
           this.$i18n.locale = local
+      },
+
+      clearStorage: function(){
+        var keys = Object.keys(localStorage);
+        for (var i=0; i<keys.length; i++){
+          delete localStorage[keys[i]];
+        }
       }
   },
   mounted: function(){
@@ -208,15 +218,24 @@ export default {
 
 <style scoped>
 
-
+  .headerSpacer{
+    top: 0px;
+    height: 48px;
+  }
 
 </style>
 
 <style>
 
+  .gov-header{
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 9010;
+  }
+
   .searchBar{
     position: absolute;
-    z-index: 20;
     background: white;
     width: 100%;
     max-width: none !important;
