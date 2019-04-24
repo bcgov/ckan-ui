@@ -46,7 +46,7 @@ passport.deserializeUser((obj, next) => {
 
 var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profile, accessToken, refreshToken, done){
   profile.jwt = accessToken;
-  profile.refreshToken = refreshToken
+  profile.refreshToken = refreshToken;
 
 
   if ( (typeof(accessToken) === "undefined") || (accessToken === null) || (typeof(refreshToken) === "undefined") || (refreshToken === null) ){

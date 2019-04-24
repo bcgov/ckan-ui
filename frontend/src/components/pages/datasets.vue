@@ -298,9 +298,4 @@
     .secondary{
         background: var(--v-secondary-base);
     }
-
-    .tertiary.nav{
-        /*position: fixed;
-        height: 100%;*/
-    }
 </style>

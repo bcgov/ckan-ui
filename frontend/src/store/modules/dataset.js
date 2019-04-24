@@ -4,13 +4,13 @@ const ckanServ = new CkanApi();
 const state = {
     dataset: {},
     unmodifiedDataset: {}
-}
+};
 
 const getters = {
     isLoaded: (state) => {
-        return Object.entries(state.dataset).length <= 0
+        return Object.entries(state.dataset).length <= 0;
     }
-}
+};
 
 const actions = {
     getDataset({ commit }, { id }) {
@@ -48,7 +48,7 @@ const actions = {
     resetDataset({ commit }) {
         commit('resetDataset');
     }
-}
+};
 
 const mutations = {
     setCurrentDataset(state, { dataset }) {
@@ -63,7 +63,7 @@ const mutations = {
             branch: '',
             role: '',
             private: 'Private'
-        })
+        });
     },
     setRemoveContact(state, { index }) {
         state.dataset.contacts.splice(index, 1);
@@ -72,7 +72,7 @@ const mutations = {
         state.dataset.more_info.push({
             delete: '0',
             link: ''
-        })
+        });
     },
     setRemoveMoreInfo(state, { index }) {
         state.dataset.more_info.splice(index, 1);
@@ -81,7 +81,7 @@ const mutations = {
         state.dataset.dates.push({
             type: '',
             date: ''
-        })
+        });
     },
     setRemoveDate(state, { index }) {
         state.dataset.dates.splice(index, 1);
@@ -89,7 +89,7 @@ const mutations = {
     resetDataset(state) {
         state.dataset = Object.assign({}, state.unmodifiedDataset);
     }
-}
+};
 
 export default {
     namespaced: true,
@@ -97,4 +97,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

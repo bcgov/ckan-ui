@@ -19,7 +19,7 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/package_search?"
+  let reqUrl = url + "/api/3/action/package_search?";
   for (let i=0; i<keys.length; i++){
     reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
   }
@@ -33,7 +33,7 @@ router.get('/search', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -80,7 +80,7 @@ router.get('/dataset', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-     }
+     };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -108,7 +108,7 @@ router.put('/dataset', auth.removeExpired, function(req, res, next) {
     let config = require('config');
     let url = config.get('ckan');
 
-    const reqUrl = url + "/api/3/action/package_update"
+    const reqUrl = url + "/api/3/action/package_update";
 
     if (!req.user){
         return res.json({error: "Not logged in"});
@@ -218,7 +218,7 @@ router.get('/organization', function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -260,7 +260,7 @@ router.get('/organizations', function(req, res, next) {
       'headers': {
         'Authorization': req.user.jwt
         }
-    }
+    };
   }else{
     console.log("no user");
   }
@@ -283,8 +283,8 @@ router.get('/organizations', function(req, res, next) {
 
         try {
           let json = JSON.parse(body);
-          orgList = {}
-          topLevelOrgs = []
+          orgList = {};
+          topLevelOrgs = [];
           subOrgs = [];
           for (let i=0; i<json.result.length; i++) {
               let org = json.result[i];
@@ -293,21 +293,21 @@ router.get('/organizations', function(req, res, next) {
               if (typeof(orgList[org.title.trim()]) === "undefined"){
                  orgList[org.title.trim()] = {id: org.id, title: org.title, children: []};
               }else{
-                  orgList[org.title.trim()]['id'] = org.id;
-                  orgList[org.title.trim()]['title'] = org.title;
+                  orgList[org.title.trim()].id = org.id;
+                  orgList[org.title.trim()].title = org.title;
               }
             } else {
               subOrgs.push(org);
               for (let j=0; j<org.child_of.length; j++){
                   let parentOrg = org.child_of[j];
-                  let orgItem = {title: org.title.trim(), id: org.id}
+                  let orgItem = {title: org.title.trim(), id: org.id};
                   if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
-                      orgList[parentOrg.title.trim()] = {}
-                      orgList[parentOrg.title.trim()]['children'] = [orgItem]
-                  }else if (typeof(orgList[parentOrg.title.trim()]['children']) === "undefined") {
-                      orgList[parentOrg.title.trim()]['children'] = [orgItem]
+                      orgList[parentOrg.title.trim()] = {};
+                      orgList[parentOrg.title.trim()].children = [orgItem];
+                  }else if (typeof(orgList[parentOrg.title.trim()].children) === "undefined") {
+                      orgList[parentOrg.title.trim()].children = [orgItem];
                   }else{
-                      orgList[parentOrg.title.trim()]['children'].push(orgItem)
+                      orgList[parentOrg.title.trim()].children.push(orgItem);
                   }
               }
             }
@@ -337,7 +337,7 @@ router.get('/activity', auth.removeExpired, function(req, res, next) {
     let config = require('config');
     let url = config.get('ckan');
 
-    let reqUrl = url + "/api/3/action/dashboard_activity_list"
+    let reqUrl = url + "/api/3/action/dashboard_activity_list";
 
     if (!req.user){
         return res.json({error: "Not logged in"});
@@ -347,7 +347,7 @@ router.get('/activity', auth.removeExpired, function(req, res, next) {
         'auth': {
           'bearer': req.user.jwt
         }
-    }
+    };
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {
@@ -375,7 +375,7 @@ router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
     let config = require('config');
     let url = config.get('ckan');
 
-    let reqUrl = url + "/api/3/action/user_show?id="+req.params.userId+"&include_datasets=True"
+    let reqUrl = url + "/api/3/action/user_show?id="+req.params.userId+"&include_datasets=True";
 
     if (!req.user){
         return res.json({error: "Not logged in"});
@@ -385,7 +385,7 @@ router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
         'auth': {
           'bearer': req.user.jwt
         }
-    }
+    };
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {
@@ -454,7 +454,7 @@ router.get('/vocabList', auth.removeExpired, function(req, res, next) {
         'auth': {
           'bearer': req.user.jwt
         }
-    }
+    };
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {
@@ -492,7 +492,7 @@ router.get('/licenseList', auth.removeExpired, function(req, res, next) {
         // 'auth': {
         //   'bearer': req.user.jwt
         // }
-    }
+    };
 
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {
@@ -521,7 +521,7 @@ router.get('/groups', auth.removeExpired, function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/group_list?all_fields=true"
+  let reqUrl = url + "/api/3/action/group_list?all_fields=true";
   for (let i=0; i<keys.length; i++){
     reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
   }
@@ -535,7 +535,7 @@ router.get('/groups', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -566,7 +566,7 @@ router.get('/group/:id', auth.removeExpired, function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/group_show?id="+req.params.id+"&include_datasets=true"
+  let reqUrl = url + "/api/3/action/group_show?id="+req.params.id+"&include_datasets=true";
 
   let authObj = {};
 
@@ -575,7 +575,7 @@ router.get('/group/:id', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){
@@ -606,7 +606,7 @@ router.get('/about', auth.removeExpired, function(req, res, next) {
   let url = config.get('ckan');
 
   let keys = Object.keys(req.query);
-  let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about"
+  let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about";
 
   let authObj = {};
 
@@ -615,7 +615,7 @@ router.get('/about', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
   request(reqUrl, authObj, function(err, apiRes, body){

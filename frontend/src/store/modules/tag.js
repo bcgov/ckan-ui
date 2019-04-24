@@ -5,9 +5,9 @@ const state = {
     tagList: [],
     vocabs: {},
     licenses: []
-}
+};
 
-const getters = { }
+const getters = { };
 
 const actions = {
     getTags({ commit }) {
@@ -22,11 +22,11 @@ const actions = {
                 //console.log("Vocab Data: ", data);
                 let vocabs = {};
                 for (let i = 0; i < data.result.length; i++) {
-                    let tags = data.result[i]['tags'];
-                    let name = data.result[i]['name'];
+                    let tags = data.result[i].tags;
+                    let name = data.result[i].name;
                     vocabs[name] = [];
                     for (let j = 0; j < tags.length; j++) {
-                        vocabs[name].push(tags[j]['name']);
+                        vocabs[name].push(tags[j].name);
                     }
                 }
                 commit('setVocabs', {vocabs: vocabs});
@@ -40,7 +40,7 @@ const actions = {
             });
         }
     }
-}
+};
 
 const mutations = {
     setTagList(state, { tagList }) {
@@ -52,7 +52,7 @@ const mutations = {
     setLicenses(state, { licenses }) {
         state.licenses = licenses;
     }
-}
+};
 
 export default {
     namespaced: true,
@@ -60,4 +60,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

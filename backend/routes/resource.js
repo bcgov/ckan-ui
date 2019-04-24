@@ -17,10 +17,10 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
           'auth': {
               'bearer': req.user.jwt
           }
-      }
+      };
   }
 
-  let reqUrl = url + "/api/3/action/resource_show?id="+req.params.id
+  let reqUrl = url + "/api/3/action/resource_show?id="+req.params.id;
 
   request(reqUrl, authObj, function(err, apiRes, body){
     if (err) {
@@ -38,8 +38,8 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         let resourceUrl = json.result.url;
 
         //tempOverride
-        resourceUrl = resourceUrl.replace("http://localhost:5000", "https://catalogue.data.gov.bc.ca")
-        resourceUrl = resourceUrl.replace("http://127.0.0.1:5000", "https://catalogue.data.gov.bc.ca")
+        resourceUrl = resourceUrl.replace("http://localhost:5000", "https://catalogue.data.gov.bc.ca");
+        resourceUrl = resourceUrl.replace("http://127.0.0.1:5000", "https://catalogue.data.gov.bc.ca");
 
         let responseData = "";
         let responseObj = {};
@@ -55,32 +55,32 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
             let xlsFormats = [
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'application/vnd.ms-excel'
-            ]
+            ];
 
-            responseObj['content-type'] = apiRes.headers['content-type']
-            responseObj['content-length'] = apiRes.headers['content-length']
-            responseObj['status'] = apiRes.headers['statusCode'];
-            responseObj['origUrl'] = resourceUrl;
+            responseObj['content-type'] = apiRes.headers['content-type'];
+            responseObj['content-length'] = apiRes.headers['content-length'];
+            responseObj.status = apiRes.headers.statusCode;
+            responseObj.origUrl = resourceUrl;
 
             if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
-                responseObj['type'] = "xls";
+                responseObj.type = "xls";
             }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                 let XLSX = require('xlsx');
                 let workbook = XLSX.read(body, {type: "string", WTF: true});
                 let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                responseObj['workbook'] = sheetJson;
+                responseObj.workbook = sheetJson;
                 let headerKeys = Object.keys(sheetJson[0]);
                 let headers = [];
                 for (let i=0; i<headerKeys.length; i++){
                     headers.push({text: headerKeys[i], value: headerKeys[i]});
                 }
-                responseObj['headers'] = headers;
-                responseObj['type'] = "csv";
-            }else if (apiRes.headers['statusCode'] === 404){
-                responseObj['type'] = "404";
+                responseObj.headers = headers;
+                responseObj.type = "csv";
+            }else if (apiRes.headers.statusCode === 404){
+                responseObj.type = "404";
             }
 
-            responseObj['raw_data'] = body;
+            responseObj.raw_data = body;
             res.json(responseObj);
             return;
     });

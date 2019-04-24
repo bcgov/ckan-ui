@@ -6,8 +6,7 @@ let auth = require('../modules/auth');
 
 router.use('/login', function(req, res, next){
     req.session.r = req.query.r;
-    res.redirect('/api/log');
-    next();
+    return res.redirect('/api/log');
 });
 
 router.use('/log', passport.authenticate('oidc'), function(req, res, next){
@@ -16,7 +15,7 @@ router.use('/log', passport.authenticate('oidc'), function(req, res, next){
 
 router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
     let config = require('config');
-    res.redirect(config.get('frontend')+req.session.r)
+    res.redirect(config.get('frontend')+req.session.r);
 });
 
 router.use('/logout', function(req, res, next){
@@ -33,4 +32,4 @@ router.use('/token', auth.removeExpired, function(req, res){
     }
 });
 
-module.exports = router
+module.exports = router;
