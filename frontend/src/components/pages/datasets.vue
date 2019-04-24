@@ -29,7 +29,7 @@
                 <v-layout row wrap>
                     <v-flex xs2></v-flex>
                     <v-flex xs4>
-                        {{count}} {{$tc('datasets')}} {{$tc('found')}}
+                        <h3>{{count}} {{$tc('datasets')}} {{$tc('found')}}</h3>
                     </v-flex>
                     <v-flex xs4>
                         <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')"></v-select>
@@ -37,6 +37,8 @@
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
                     <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
+                </v-layout>
+                <v-layout row wrap style="border-bottom: 1px solid;">
                 </v-layout>
 
                 <v-layout row wrap>

@@ -1,45 +1,56 @@
 <template>
-  <div>
-      <!-- <div class="dataset-markers">
-          <ul>
-              <SectorBadge v-for="primMarker in primMarkers" :name="primMarker.name" :key="'dataset-' + id + '-' + primMarker.name + '-badge'"></SectorBadge>
-          </ul>
-      </div> -->
+  <v-container fluid align-center align-content-center justify-center>
+      <v-layout row wrap>
+          <v-flex xs12>
+            <h3><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link></h3>
+          </v-flex>
+      </v-layout>
+      
+      <v-layout row wrap>
+          <v-flex xs12 my-0 py-0>
+            <p class="mb-0">{{description}}</p>
+          </v-flex>
+      </v-layout>
 
-      <div class="dataset-marker-type-icon">
-          <i class="fa fa-2x icon icon-2x" v-bind:class="['fa-'+iconName, 'icon-'+iconName]"></i>
-      </div>
+      <v-layout row wrap>
+        <v-flex xs12 my-0 py-0>
+            <p><em>{{types}}</em></p>
+        </v-flex>
+      </v-layout>
 
-      <h3 class="dataset-heading">
-          <router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link>
-      </h3>
-
-      <div class="dataset-decription">
-          {{description}}
-      </div>
-
-      <div class="flex-fill-end">
-          <ul class="dataset-resources unstyled pb-1">
-              <FormatBadge v-for="type in resourceTypes" v-bind:key="'dataset-' + id + '-' + type" :type="type"></FormatBadge>
-          </ul>
-      </div>
-
-      <div class="dates">
-          Record Published: {{publishDate}}
-      </div>
+      <v-layout row wrap>
+          <v-flex xs12>
+            <p>Record Published: {{publishDate}}</p>
+          </v-flex>
+      </v-layout>
 
 
-  </div>
+  </v-container>
 </template>
 
 <script>
-import FormatBadge from "../badges/FormatBadge"
+
 export default {
     components: {
-        FormatBadge
+        
     },
     props: {
         record: Object,
+    },
+
+    computed: {
+        types: function(){
+            var types = '';
+            for (var i=0; i<this.resourceTypes.length; i++){
+                types += this.resourceTypes[i] + ",";
+            }
+
+            if (types.length > 0){
+                types = types.substring(0, types.length-1);
+            }
+
+            return types;
+        }
     },
 
     data: function() {
@@ -56,6 +67,10 @@ export default {
                 resourceTypes.push(format)
             }
         }
+
+        resourceTypes.sort(function(a, b){
+            return a < b ? -1 : 1;
+        });
 
         let icon = ""
 
