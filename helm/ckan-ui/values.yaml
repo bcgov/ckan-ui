@@ -44,7 +44,12 @@ tolerations: []
 
 affinity: {}
 
-
+openshiftCICD: False
+tillerNamespace: TILLER
+repo:
+  tag: latest
+  ref: master
+  url: https://github.com/bcgov/ckan-ui
 
 #you must override these
 solr: "http://127.0.0.1:8983/solr"

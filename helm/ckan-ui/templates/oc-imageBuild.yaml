@@ -1,0 +1,32 @@
+{{ if .Values.openshiftCICD }}
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {{ template "ckan-ui.fullname" . }}-image
+  labels:
+    app: {{ template "ckan-ui.name" . }}
+    chart: {{ template "ckan-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }}
+  source:
+    type: Git
+    git:
+      ref: {{ .Values.repo.ref | quote }}
+      uri: {{ .Values.repo.url | quote }}
+    
+  strategy:
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+    - type: "GitHub"
+      github: 
+        secretReference:
+          name: "{{ .Release.Name }}-git-webhook-secret"
+
+{{- end }}

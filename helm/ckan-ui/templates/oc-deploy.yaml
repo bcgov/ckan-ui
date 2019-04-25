@@ -1,0 +1,53 @@
+{{ if .Values.openshiftCICD }}
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: {{ template "ckan-ui.fullname" . }}-deploy
+  #have to set this
+  namespace: {{ .Values.tillerNamespace }}
+  labels:
+    app: {{ template "ckan-ui.name" . }}
+    chart: {{ template "ckan-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  triggers:
+    - type: "ImageChange"
+      imageChangeParams:
+        automatic: true 
+        from:
+          kind: "ImageStreamTag"
+          name: "{{ template "ckan-ui.fullname" . }}-image:latest"
+          namespace: "{{ .Release.Namespace }}"
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        def helmName = "helm-v2.13.0-linux-amd64.tar.gz"
+        def releaseName = "{{ .Release.Name }}"
+        def gitUrl = "{{ .Values.repo.url }}.git"
+        def cnfig = '{{ .Values | toYaml | indent 8 }}'
+        podTemplate(cloud: 'openshift', inheritFrom: 'nodejs') {
+          node("nodejs") {
+
+              stage("deploy (it's already built)") {
+                sh """
+                  git clone ${gitUrl} 
+                  cd ckan-ui
+                  git checkout {{ .Values.repo.ref }}
+                  cd ..
+                  curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
+                  tar -zxvf ${helmName}
+                  cd linux-amd64
+                  export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
+                  ./helm init --client-only
+                  oc project {{ .Release.Namespace }}
+                  printf '${config}' > ./config.yaml
+                  ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --recreate-pods --install --reuse-values --debug
+                """
+            }
+          }
+        }
+
+{{- end }}
