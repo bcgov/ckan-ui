@@ -23,10 +23,10 @@
                 <v-layout row wrap>
                     <v-flex xs2></v-flex>
                     <v-flex xs8>
-                        <v-text-field v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
+                        <v-text-field v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
+                <v-layout row wrap align-center>
                     <v-flex xs2></v-flex>
                     <v-flex xs4>
                         <h3>{{count}} {{$tc('datasets')}} {{$tc('found')}}</h3>
@@ -36,10 +36,10 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
-                    <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex>
+                    <!-- <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex> -->
                 </v-layout>
-                <v-layout row wrap style="border-bottom: 1px solid;">
-                </v-layout>
+                <!-- <v-layout row wrap style="border-bottom: 1px solid;">
+                </v-layout> -->
 
                 <v-layout row wrap>
                     <v-flex xs12>

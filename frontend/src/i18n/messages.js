@@ -7,7 +7,7 @@ export default {
         'Classic': "Classic",
         'LogIn': "Log In",
         'Language': "Language",
-        "SearchDatasets": "Search Datasets...",
+        "SearchDatasets": "Find Datasets...",
         "What is DataBC?": "What is DataBC?",
         "Geographic Services": "Geographic Services",
         "Blog": "Blog",
@@ -48,7 +48,12 @@ export default {
         "Last Modified": "Last Modified",
         "using": "using",
         "filter": "filter | filters",
-        
+        "Public Datasets": "Public Datasets",
+        "Catalogue records with data that can be viewed and accessed by anyone.": "Catalogue records with data that can be viewed and accessed by anyone.",
+        "Restricted Datasets": "Restricted Datasets",
+        "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in": "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in",
+        "Log in with a Government IDIR or BCEID to view more datasets": "Log in with a Government IDIR or BCEID to view more datasets",
+
     },
     fr: {
         'data': 'données',
@@ -58,7 +63,7 @@ export default {
         'Classic': "Classique",
         'LogIn': "S'identifier",
         'Language': "La langue",
-        "SearchDatasets": "Rechercher des ensembles de données...",
+        "SearchDatasets": "Rechercher des jeux de données...",
         "What is DataBC?": "Qu'est-ce que DataBC?",
         "Geographic Services": "Services géographiques",
         "Blog": "Blog",
@@ -99,5 +104,11 @@ export default {
         "Last Modified": "Dernière modification",
         "using": "en utilisant",
         "filter": "filtre | filtres",
+        "Public Datasets": "Jeux de données publics",
+        "Catalogue records with data that can be viewed and accessed by anyone.": "Cataloguer les notices avec des données accessibles à tous",
+        "Restricted Datasets": "Ensembles de données restreints",
+        "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in": "Cataloguez les enregistrements avec des données comportant des restrictions sur ce qui peut être visualisé ou téléchargé. L'accès dépend des autorisations accordées à votre connexion.",
+        "Log in with a Government IDIR or BCEID to view more datasets": "Connectez-vous avec un gouvernement IDIR ou BCEID pour afficher plus de jeux de données",
+
     }
 };

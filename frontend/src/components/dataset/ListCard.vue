@@ -2,7 +2,7 @@
   <v-container fluid align-center align-content-center justify-center>
       <v-layout row wrap>
           <v-flex xs12>
-            <h3><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link></h3>
+            <h3><v-icon>{{iconName}}</v-icon><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link></h3>
           </v-flex>
       </v-layout>
       
@@ -19,9 +19,8 @@
       </v-layout>
 
       <v-layout row wrap>
-          <v-flex xs12>
-            <p>Record Published: {{publishDate}}</p>
-          </v-flex>
+        <v-flex xs4><strong>{{sector}}</strong> - Record Published: {{publishDate}}</v-flex>
+        <v-flex xs8 class="text-xs-right"><em>{{types}}</em></v-flex>
       </v-layout>
 
 
@@ -76,15 +75,15 @@ export default {
 
         switch(this.record.type){
             case "Geographic":
-                icon = "globe"
+                icon = "public"
                 break
 
             case "Dataset":
-                icon = "table"
+                icon = "table_chart"
                 break
 
             case "Application":
-                icon = "cogs"
+                icon = "web_asset"
                 break
 
             case "Api":
@@ -106,7 +105,8 @@ export default {
             iconName: icon,
             primMarkers: [{
                 name: this.record.sector
-            }]
+            }],
+            sector: this.record.sector
         };
     },
 }
