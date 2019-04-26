@@ -20,9 +20,8 @@ spec:
       cpu: 4000m
       memory: 8G
   triggers:
-    - type: "ImageChange"
-      imageChangeParams:
-        automatic: true 
+    - type: "imageChange"
+      imageChange:
         from:
           kind: "ImageStreamTag"
           name: "{{ template "ckan-ui.fullname" . }}-image:latest"
