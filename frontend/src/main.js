@@ -1,17 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import Vuetify from 'vuetify'
-import VueI18n from 'vue-i18n'
-import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import Vue from 'vue';
+import App from './App.vue';
+import Vuetify from 'vuetify';
+import VueI18n from 'vue-i18n';
+import 'vuetify/dist/vuetify.min.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
-import router from './router'
+import router from './router';
 import InfiniteLoading from 'vue-infinite-loading';
 
-import store from './store'
+import store from './store';
 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
@@ -30,12 +30,12 @@ Vue.use(Vuetify, {
   options: {
       customProperties: true
   }
-})
+});
 Vue.use(InfiniteLoading, {
     system: {
         throttleLimit: 500
     }
-})
+});
 
 Vue.use(VueI18n);
 
@@ -50,12 +50,12 @@ const i18n = new VueI18n({
   fallbackLocale: 'en',
   messages, // set locale messages
   silentFallbackWarn: process.env.NODE_ENV === "production"
-})
+});
 
 router.beforeEach((to, from, next) => {
-  document.title = i18n.tc(to.meta.title)
-  next()
-})
+  document.title = i18n.tc(to.meta.title);
+  next();
+});
 
 
 new Vue({
@@ -63,4 +63,4 @@ new Vue({
     router,
     store,
     i18n,
-}).$mount('#app')
+}).$mount('#app');

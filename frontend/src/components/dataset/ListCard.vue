@@ -2,7 +2,7 @@
   <v-container fluid align-center align-content-center justify-center>
       <v-layout row wrap>
           <v-flex xs12>
-            <h3><v-icon>{{iconName}}</v-icon><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}">{{title}}</router-link></h3>
+            <h3><v-icon>{{iconName}}</v-icon><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">{{title}}</router-link></h3>
           </v-flex>
       </v-layout>
       
@@ -117,6 +117,14 @@ export default {
     @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
     .dataset-markers{
         float: right;
+    }
+
+    .titleLink{
+        text-decoration: none;
+    }
+
+    .titleLink:hover{
+        text-decoration: underline;
     }
 
     .dataset-heading a {

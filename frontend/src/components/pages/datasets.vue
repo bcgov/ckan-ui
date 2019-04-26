@@ -29,7 +29,12 @@
                 <v-layout row wrap align-center>
                     <v-flex xs2></v-flex>
                     <v-flex xs4>
-                        <h3>{{count}} {{$tc('datasets')}} {{$tc('found')}}</h3>
+                        <h3>
+                            {{count}} {{$tc('datasets')}} {{$tc('found')}}
+                            <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
+                            <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
+                            <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied')}}</span>
+                        </h3>
                     </v-flex>
                     <v-flex xs4>
                         <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')"></v-select>
@@ -89,6 +94,7 @@
           facets: {},
           totalFilters: 0,
           searchText: (this.$route.query.q) ? this.$route.query.q : "",
+          searchedText: "",
           count: 0,
           rows: 10,
           skip: 0,
@@ -130,10 +136,11 @@
         clearAll: function(){
             this.$emit('clearAll');
             this.facetFilters = {};
+            this.totalFilters = 0;
             this.getDatasets();
         },
 
-        scroll: function(state, ){
+        scroll: function(state){
             this.skip += this.rows
             if (this.count>this.skip) {
                 this.getDatasets(true, state)
@@ -164,17 +171,18 @@
 
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
-            let fq = ""
+            let fq = "&fq="
 
             if (this.searchText !== ""){
+                this.searchedText = this.searchText;
                 if (this.advanced){
                    q += "q=" + this.searchText + "&"
                 }else{
                     q += "q=*" + this.searchText + "*&"
                 }
-                fq = " AND "
+                //fq = " AND "
             }else{
-                fq= "&q="
+                //fq= "&q="
             }
 
             let facetKeys = Object.keys(this.facetFilters);

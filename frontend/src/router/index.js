@@ -6,6 +6,7 @@ import datasets from '../components/pages/datasets'
 import dataset_view from '../components/pages/dataset_view'
 import dataset_edit from '../components/pages/dataset_edit'
 import organizations from '../components/pages/organizations'
+import organization_view from '../components/pages/organization_view'
 import groups from '../components/pages/groups'
 import user from '../components/pages/user'
 
@@ -56,6 +57,14 @@ let r = new Router({
             component: organizations,
             meta: {
                 title: "Organizations"
+            }
+        },
+        {
+            path: '/organization/:organizationId',
+            name: 'organization_view',
+            component: organization_view,
+            meta: {
+                title: "Viewing Organization"
             }
         },
         {

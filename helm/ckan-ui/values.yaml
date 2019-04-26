@@ -50,6 +50,7 @@ repo:
   tag: latest
   ref: master
   url: https://github.com/bcgov/ckan-ui
+webhookKey: 12345678
 
 #you must override these
 solr: "http://127.0.0.1:8983/solr"

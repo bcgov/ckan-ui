@@ -27,6 +27,7 @@ export default {
         "Contact Us": "Contact Us",
         "Groups": "Group | Groups",
         "Viewing Dataset": "Viewing Dataset",
+        "Dataset": "Dataset | Datasets",
         "Order By": "Order By",
         "found": "found",
         "Clear all": "Clear all",
@@ -53,6 +54,13 @@ export default {
         "Restricted Datasets": "Restricted Datasets",
         "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in": "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in",
         "Log in with a Government IDIR or BCEID to view more datasets": "Log in with a Government IDIR or BCEID to view more datasets",
+        "matching": "matching",
+        "and": "and",
+        "with": "with",
+        "filters applied": "filter applied | filters applied",
+        "Viewing Organization": "Viewing Organization",
+        "No more datasets": "No more datasets",
+        "No datasets": "No datasets",
 
     },
     fr: {
@@ -83,6 +91,7 @@ export default {
         "Contact Us": "Contactez nous",
         "Groups": "Groupes",
         "Viewing Dataset": "Affichage du jeu de données",
+        "Dataset": "Jeux de donnée | Jeux de données",
         "Order By": "Commandé par",
         "found": "a trouvé",
         "Clear all": "Tout effacer",
@@ -109,6 +118,12 @@ export default {
         "Restricted Datasets": "Ensembles de données restreints",
         "Catalogue records with data that has restrictions on what may be viewed or downloaded. Access depends on permissions granted to your log-in": "Cataloguez les enregistrements avec des données comportant des restrictions sur ce qui peut être visualisé ou téléchargé. L'accès dépend des autorisations accordées à votre connexion.",
         "Log in with a Government IDIR or BCEID to view more datasets": "Connectez-vous avec un gouvernement IDIR ou BCEID pour afficher plus de jeux de données",
-
+        "matching": "correspondant à",
+        "and": "et",
+        "with": "avec",
+        "filters applied": "filtre appliqué | filtres appliqués",
+        "Viewing Organization": "Regarder Organisation",
+        "No more datasets": "Pas plus d'ensembles de données",
+        "No datasets": "Aucun jeu de données",
     }
 };

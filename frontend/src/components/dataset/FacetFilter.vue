@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-show="maxFilters > 1">
     <v-container px-0  align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
         <v-badge overlap color="red" class="facetBadge">
             <template v-slot:badge>
@@ -31,14 +31,16 @@
                 <div v-else>
                     <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                            <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
-                            <v-chip 
-                                v-for="(filter, i) in filters[k]" 
-                                :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
-                                :key="'filter-'+key+'-'+i"
-                                v-on:click="filterOn(filter, k)">
-                                <span class="bold">{{filteredOn.indexOf(filter.name) === -1 ? "-" : "✓"}} {{filter.display_name}}</span>
-                            </v-chip>
+                            <span v-if="filters[k].length > 1">
+                                <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
+                                <v-chip 
+                                    v-for="(filter, i) in filters[k]" 
+                                    :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
+                                    :key="'filter-'+key+'-'+i"
+                                    v-on:click="filterOn(filter, k)">
+                                    <span class="bold">{{filteredOn.indexOf(filter.name) === -1 ? "-" : "✓"}} {{filter.display_name}}</span>
+                                </v-chip>
+                            </span>
                         </span>
                     </v-layout>
                     <v-layout row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
@@ -82,6 +84,7 @@ export default{
             count: {},
             numFilters: 0,
             totalCount: 0,
+            maxFilters: 0,
         }
     },
 
@@ -133,7 +136,6 @@ export default{
         },
 
         getFacet(){
-            
             for (let i=0; i<this.field.facets.length; i++){
                 if (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined"){
 
@@ -150,11 +152,18 @@ export default{
                         })
 
                         localStorage["facet-"+Object.keys(this.field.facets[i])[0]] = JSON.stringify(this.filters)
-
                         this.loading = false
                     });
                 }
             }
+
+            var keys = Object.keys(this.filters);
+            for (var i=0; i<keys.length; i++){
+                this.maxFilters += this.filters[keys[i]].length;
+            }
+
+            // eslint-disable-next-line
+                    console.log(this.maxFilters);
         }
     },
 
