@@ -5,10 +5,10 @@
         </template>
         <v-list>
             <v-list-tile>
-                <v-btn flat to="/user">Profile</v-btn>
+                <v-btn flat to="/user">{{$tc('Profile')}}</v-btn>
             </v-list-tile>
             <v-list-tile>
-                <v-btn flat @click="logout">Logout</v-btn>
+                <v-btn flat @click="logout">{{$tc('Logout')}}</v-btn>
             </v-list-tile>
         </v-list>
     </v-menu>
