@@ -31,7 +31,7 @@
                 <div v-else>
                     <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                            <span v-if="filters[k].length > 1">
+                            <span v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
                                 <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
                                 <v-chip 
                                     v-for="(filter, i) in filters[k]" 
@@ -137,9 +137,13 @@ export default{
 
         getFacet(){
             for (let i=0; i<this.field.facets.length; i++){
-                if (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined"){
+                if ( (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined") && (localStorage["facet-"+Object.keys(this.field.facets[i])[0]].length > 0) ){
 
                     this.filters = JSON.parse(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]);
+                    var keys = Object.keys(this.filters);
+                    for (var j=0; j<keys.length; j++){
+                        this.maxFilters += this.filters[keys[j]].length;
+                    }
                 }else{
                     let query = "?facet.field=[\""+Object.keys(this.field.facets[i])[0]+"\"]&facet.limit=-1&rows=0";
                     var self = this;
@@ -152,18 +156,14 @@ export default{
                         })
 
                         localStorage["facet-"+Object.keys(this.field.facets[i])[0]] = JSON.stringify(this.filters)
+                        var keys = Object.keys(this.filters);
+                        for (var j=0; j<keys.length; j++){
+                            this.maxFilters += this.filters[keys[j]].length;
+                        }
                         this.loading = false
                     });
                 }
             }
-
-            var keys = Object.keys(this.filters);
-            for (var i=0; i<keys.length; i++){
-                this.maxFilters += this.filters[keys[i]].length;
-            }
-
-            // eslint-disable-next-line
-                    console.log(this.maxFilters);
         }
     },
 

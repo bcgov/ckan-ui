@@ -22,7 +22,7 @@ export default{
     },
     data() {
         return {
-            logoutUrl: "/api/logout"
+            logoutUrl: "/api/logout?r="+window.location.pathname,
         }
     },
     methods: {

@@ -19,9 +19,10 @@ router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
 });
 
 router.use('/logout', function(req, res, next){
+    var redirectTo = req.query.r || config.get('frontend');
     req.logout();
     let config = require('config');
-    res.redirect(config.get('frontend'));
+    res.redirect(redirectTo);
 });
 
 router.use('/token', auth.removeExpired, function(req, res){

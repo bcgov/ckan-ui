@@ -61,6 +61,8 @@ export default {
         "Viewing Organization": "Viewing Organization",
         "No more datasets": "No more datasets",
         "No datasets": "No datasets",
+        "Profile": "Profile",
+        "Logout": "Log out",
 
     },
     fr: {
@@ -125,5 +127,7 @@ export default {
         "Viewing Organization": "Regarder Organisation",
         "No more datasets": "Pas plus d'ensembles de données",
         "No datasets": "Aucun jeu de données",
+        "Profile": "Profil",
+        "Logout": "Connectez - Out",
     }
 };
