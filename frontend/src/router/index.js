@@ -8,6 +8,7 @@ import dataset_edit from '../components/pages/dataset_edit'
 import organizations from '../components/pages/organizations'
 import organization_view from '../components/pages/organization_view'
 import groups from '../components/pages/groups'
+import group_view from '../components/pages/group'
 import user from '../components/pages/user'
 
 import NotFound from '../components/pages/404';
@@ -73,6 +74,14 @@ let r = new Router({
             component: groups,
             meta: {
                 title: "Groups"
+            }
+        },
+        {
+            path: '/group/:groupId',
+            name: 'group_view',
+            component: group_view,
+            meta: {
+                title: "Viewing Group"
             }
         },
         {

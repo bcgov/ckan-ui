@@ -2,13 +2,13 @@
   <v-card @click="toggleShowDatasets" class="cursor">
     <v-img alt="Logo" :src="image"></v-img>
 
-    <v-card-title primary-title>
+    <v-card-title primary-title @click="gotoGroup">
       <div>
         <h3>{{name}}</h3>
         <div>{{description}}</div>
       </div>
     </v-card-title>
-    <v-container fluid v-if="showDatasets">
+    <!-- <v-container fluid v-if="showDatasets">
       <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
       <v-layout v-else row wrap>
         <h4>Datasets</h4>
@@ -16,7 +16,7 @@
           <v-btn flat :to="'/dataset/'+dataset.name">{{dataset.title}}</v-btn>
         </v-flex>
       </v-layout>
-    </v-container>
+    </v-container> -->
   </v-card>
 </template>
 
@@ -45,6 +45,10 @@ export default{
     },
     
     methods: {
+
+      gotoGroup: function(){
+        this.$router.push('/group/'+this.group.name);
+      },
 
       toggleShowDatasets: function(){
         this.showDatasets = !this.showDatasets;

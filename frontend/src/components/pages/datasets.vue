@@ -37,7 +37,7 @@
                         </h3>
                     </v-flex>
                     <v-flex xs4>
-                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')"></v-select>
+                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
