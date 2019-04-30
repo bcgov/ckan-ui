@@ -160,15 +160,15 @@ router.get('/facets', auth.removeExpired, function(req, res, next) {
             }
           ]
       },
-      organizations:{
-          name: "Organizations",
-          icon: "supervised_user_circle",
-          facets: [
-            {
-                organization: 'Organizations'
-            }
-          ],
-      },
+    //   organizations:{
+    //       name: "Organizations",
+    //       icon: "supervised_user_circle",
+    //       facets: [
+    //         {
+    //             organization: 'Organizations'
+    //         }
+    //       ],
+    //   },
         permissions:{
             name: "Permissions",
             icon: "vpn_lock",

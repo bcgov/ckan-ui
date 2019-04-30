@@ -1,12 +1,22 @@
 <template>
   <v-container fluid align-center align-content-center justify-center>
-      <v-layout row wrap>
+      <v-layout row wrap mb-1>
           <v-flex xs12>
-            <h3><v-icon>{{iconName}}</v-icon><router-link :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">{{title}}</router-link></h3>
+            <h3>
+                <router-link :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <v-icon class="mr-2" color="primary">{{iconName}}</v-icon>
+                        </template>
+                        <span>{{iconToolTip}}</span>
+                    </v-tooltip>
+                    {{title}}
+                </router-link>
+            </h3>
           </v-flex>
       </v-layout>
       
-      <v-layout row wrap>
+      <v-layout row wrap mb-2>
           <v-flex xs12 my-0 py-0>
             <p class="mb-0">{{description}}</p>
           </v-flex>
@@ -54,34 +64,46 @@ export default {
             }
         }
         let resourceTypes = []
-        for (let i=0; i<this.record.resources.length; i++){
-            let format = this.record.resources[i].format
-            if (resourceTypes.indexOf(format) === -1) {
-                resourceTypes.push(format)
+        if (typeof(this.record.resources) !== "undefined"){
+            for (let i=0; i<this.record.resources.length; i++){
+                let format = this.record.resources[i].format
+                if (resourceTypes.indexOf(format) === -1) {
+                    resourceTypes.push(format)
+                }
             }
+
+            resourceTypes.sort(function(a, b){
+                return a < b ? -1 : 1;
+            });
         }
 
-        resourceTypes.sort(function(a, b){
-            return a < b ? -1 : 1;
-        });
-
         let icon = ""
+        let tooltip = ""
 
         switch(this.record.type){
             case "Geographic":
                 icon = "public"
+                tooltip = "Geographic"
                 break
 
             case "Dataset":
                 icon = "table_chart"
+                tooltip = "Dataset"
                 break
 
             case "Application":
                 icon = "web_asset"
+                tooltip = "Application"
                 break
 
             case "Api":
                 icon = "code"
+                tooltip = "Web Service / API"
+                break
+            
+            case "WebService":
+                icon = "code"
+                tooltip = "Web Service / API"
                 break
 
             default:
@@ -97,6 +119,7 @@ export default {
             title: this.record.title,
             name: this.record.name,
             iconName: icon,
+            iconToolTip: tooltip,
             primMarkers: [{
                 name: this.record.sector
             }],

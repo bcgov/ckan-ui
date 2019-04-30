@@ -17,17 +17,16 @@
             </v-flex>
             <v-flex xs1></v-flex>
             <v-flex xs11>
-                <v-layout row wrap>
-                    <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
+                <v-layout row wrap pb-3>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs2></v-flex>
-                    <v-flex xs8>
+                    <v-flex xs1></v-flex>
+                    <v-flex xs9>
                         <v-text-field v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap align-center>
-                    <v-flex xs2></v-flex>
+                <v-layout row wrap>
+                    <v-flex xs1></v-flex>
                     <v-flex xs4>
                         <h3>
                             {{count}} {{$tc('datasets')}} {{$tc('found')}}
@@ -36,8 +35,10 @@
                             <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied')}}</span>
                         </h3>
                     </v-flex>
-                    <v-flex xs4>
-                        <v-select persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
+                    <v-flex xs3>
+                    </v-flex>
+                    <v-flex xs2>
+                        <v-select box append-icon="arrow_drop_down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
@@ -47,7 +48,7 @@
                 </v-layout> -->
 
                 <v-layout row wrap>
-                    <v-flex xs12>
+                    <v-flex xs10>
                         <!-- Search  -->
                         <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
                         <div v-else-if="noResults">
@@ -76,11 +77,9 @@
 
   import ListCard from '../dataset/ListCard'
   import FacetFilter from '../dataset/FacetFilter'
-  import Breadcrumb from "../breadcrumb/Breadcrumb"
 
   export default {
     components: {
-        Breadcrumb: Breadcrumb,
         ListCard: ListCard,
         FacetFilter: FacetFilter
     },
@@ -101,17 +100,13 @@
           facetFilters: {},
           sortOrder: "score desc",
           sortOptions:[
-              { value: "relevance desc", text: this.$tc("Relevance") },
-              { value: "score desc", text: this.$tc("Popular") },
+              { value: "score desc", text: this.$tc("Relevance") },
+              { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
               { value: "record_publish_date desc", text: this.$tc("Publish Date") },
               { value: "record_last_modified desc", text: this.$tc("Last Modified") }
           ],
-          breadcrumbs: [
-              {icon: "home", label: 'Home', route: '/'},
-              {label: 'Datasets'}
-          ]
       }
     },
 

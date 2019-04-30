@@ -105,7 +105,7 @@ export default {
   props: [],
   data () {
     return {
-        logInUrl: "/api/login?r="+window.location.pathname,
+        logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         searchText: "",
         showSearch: false,
         classicUrl: '',
@@ -136,6 +136,11 @@ export default {
             }
         ]
     }
+  },
+  watch: {
+    $route(to){
+      this.logInUrl = "/api/login?r="+to.fullPath;
+    },
   },
   computed: {
     ...mapState({

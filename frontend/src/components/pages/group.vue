@@ -102,8 +102,6 @@
 
                 let q = "?rows=" + this.rows+"&include_drafts=true&include_private=true&"
 
-                // eslint-disable-next-line
-                console.log(this.group);
                 let fq = "&fq=groups:("+this.group.name+")";
 
                 if ( (this.skip !== 0) ){

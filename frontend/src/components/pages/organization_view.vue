@@ -120,8 +120,6 @@
 
                 let q = "?rows=" + this.rows+"&include_drafts=true&include_private=true&"
 
-                // eslint-disable-next-line
-                console.log(this.organizations);
                 let fq = "&fq=organization:("+this.group.name+""
                 if (typeof(this.organizations[this.group.title]) !== "undefined"){
                     for (var i=0; i<this.organizations[this.group.title].children.length; i++){
