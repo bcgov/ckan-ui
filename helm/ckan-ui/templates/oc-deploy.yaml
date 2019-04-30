@@ -49,8 +49,9 @@ spec:
                 export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
                 ./helm init --client-only
                 oc project {{ .Release.Namespace }}
+                oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:$(git rev-parse --verify HEAD)
                 printf '${cnfig}' > ./config.yaml
-                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --recreate-pods --install --reuse-values --debug
+                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml--install --debug --set image.tag=$(git rev-parse --verify HEAD)
               """
           }
         }
