@@ -35,13 +35,14 @@ spec:
         def gitUrl = "{{ .Values.repo.url }}.git"
         def cnfig = '''
         {{ .Values | toYaml | indent 8 }}
-        '''
+        '''.trim()
         node("nodejs") {
             stage("deploy (it's already built)") {
               sh """
                 git clone ${gitUrl} 
                 cd ckan-ui
                 git checkout {{ .Values.repo.ref }}
+                GITREV=\$(git rev-parse --verify HEAD)
                 cd ..
                 curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
                 tar -zxvf ${helmName}
@@ -49,9 +50,9 @@ spec:
                 export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
                 ./helm init --client-only
                 oc project {{ .Release.Namespace }}
-                oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:$(git rev-parse --verify HEAD)
+                oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
                 printf '${cnfig}' > ./config.yaml
-                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml--install --debug --set image.tag=$(git rev-parse --verify HEAD)
+                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install --debug
               """
           }
         }
