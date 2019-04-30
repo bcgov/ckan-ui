@@ -13,12 +13,6 @@
       </v-layout>
 
       <v-layout row wrap>
-        <v-flex xs12 my-0 py-0>
-            <p><em>{{types}}</em></p>
-        </v-flex>
-      </v-layout>
-
-      <v-layout row wrap>
         <v-flex xs4><strong>{{sector}}</strong> - Record Published: {{publishDate}}</v-flex>
         <v-flex xs8 class="text-xs-right"><em>{{types}}</em></v-flex>
       </v-layout>
