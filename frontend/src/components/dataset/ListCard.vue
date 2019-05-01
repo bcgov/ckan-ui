@@ -6,11 +6,11 @@
                 <router-link :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
-                            <v-icon class="mr-2" color="primary">{{iconName}}</v-icon>
+                            <v-icon class="mr-2" color="primary" v-on="on">{{iconName}}</v-icon>
                         </template>
                         <span>{{iconToolTip}}</span>
                     </v-tooltip>
-                    {{title}}
+                    <span>{{title}}</span>
                 </router-link>
             </h3>
           </v-flex>
