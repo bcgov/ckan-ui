@@ -38,7 +38,7 @@
                     <v-flex xs3>
                     </v-flex>
                     <v-flex xs2>
-                        <v-select box append-icon="arrow_drop_down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
+                        <v-select append-icon="arrow_drop_down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap align-center justify-center pt-2 pb-3>
