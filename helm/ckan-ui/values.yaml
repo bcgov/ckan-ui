@@ -69,6 +69,10 @@ oidc:
   clientSecret: "clientSecret"
   callbackURL: "callbackUrl"
 
+googleAnalytics:
+  enabled: "false"
+  id: "UA-XXX-X"
+
 snowplow:
   enabled: false
   collector: "snowPlowCollectorUrl"

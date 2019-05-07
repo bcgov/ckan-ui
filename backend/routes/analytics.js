@@ -4,6 +4,26 @@ let auth = require('../modules/auth');
 let snowplow = require('snowplow-tracker');
 let config = require('config');
 
+router .get('/ga', auth.removeExpired, function(req, res){
+    if (!config.has('ga')){
+        res.json({"notOk": "Not Configured"});
+        return;
+    }
+
+    if ( (!config.has('ga.enabled')) || (!config.get('ga.enabled')) ){
+        res.json({"notOk": "Not Enabled"});
+        return;
+    }
+
+    if ( (!config.has('ga.id')) || (!config.get('ga.id')) ){
+        res.json({"notOk": "Not Configured Properly"});
+        return;
+    }
+
+    res.json({'id': config.get('ga.id')});
+
+})
+
 router.get('/', auth.removeExpired, function(req, res){
 
     if (!config.has('snowplow')){

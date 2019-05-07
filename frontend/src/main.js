@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import Vuetify from 'vuetify';
 import VueI18n from 'vue-i18n';
+import VueAnalytics from 'vue-analytics'
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -11,6 +12,9 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 import store from './store';
 
+
+import {Analytics} from './services/analytics';
+const analyticsServ = new Analytics()
 
 Vue.config.productionTip = false;
 
@@ -58,10 +62,20 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+analyticsServ.ga().then( (gajson) => {
 
-new Vue({
-    render: h => h(App),
-    router,
-    store,
-    i18n,
-}).$mount('#app');
+  if (gajson.id){
+    Vue.use(VueAnalytics, {
+      id: gajson.id,
+      router
+    })
+  }
+
+
+  new Vue({
+      render: h => h(App),
+      router,
+      store,
+      i18n,
+  }).$mount('#app');
+});

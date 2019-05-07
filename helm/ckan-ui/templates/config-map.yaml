@@ -20,5 +20,9 @@ data:
         "clientID": {{ .Values.oidc.clientID | quote }},
         "callbackURL": {{ .Values.oidc.callbackURL | quote }},
         "scope": "openid profile offline_access"
+      },
+      "ga": {
+        "enabled": {{ .Values.googleAnalytics.enabled }},
+        "id": {{ .Values.googleAnalytics.id }}
       }
     }
