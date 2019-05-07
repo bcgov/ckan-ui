@@ -133,6 +133,9 @@ export default {
             {
                 "title": "Contact",
                 "href": "https://forms.gov.bc.ca/databc-contact-us/"
+            },
+            {
+              title: "",
             }
         ]
     }
@@ -163,11 +166,11 @@ export default {
                 "title": "Groups",
                "link": "/groups"
             },
-            // {
-            //     "icon": "rss_feed",
-            //     "title": "Subscribe to new data",
-            //     "href": this.classicUrl + '/feeds/recent.rss'
-            // },
+            {
+                "icon": "rss_feed",
+                "title": "Subscribe to new data",
+                "href": this.classicUrl + '/feeds/recent.rss'
+            },
             {
                 "icon": "rss_feed",
                 "title": "Subscribe to Blog Posts",

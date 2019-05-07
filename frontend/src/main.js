@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import Vuetify from 'vuetify';
 import VueI18n from 'vue-i18n';
+import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
