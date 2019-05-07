@@ -2,8 +2,8 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY frontend/package*.json ./
-RUN npm ci --no-optional --production
-RUN npm install -g @vue/cli-service
+RUN npm ci --no-optional
+
 COPY frontend/ ./
 RUN npm run build
 
