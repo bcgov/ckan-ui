@@ -23,6 +23,6 @@ data:
       },
       "ga": {
         "enabled": {{ .Values.googleAnalytics.enabled }},
-        "id": {{ .Values.googleAnalytics.id }}
+        "id": {{ .Values.googleAnalytics.id | quote }}
       }
     }
