@@ -45,7 +45,7 @@ spec:
                 GITREV=\$(git rev-parse --verify HEAD)
 
                 cd frontend
-                npm ci
+                npm install
                 npm run build
                 cd ..
                 docker build -f Dockerfile-frontend . -t {{ template "ckan-ui.fullname" . }}-frontend-image:latest
