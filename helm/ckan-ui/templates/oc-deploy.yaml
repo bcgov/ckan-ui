@@ -43,6 +43,14 @@ spec:
                 cd ckan-ui
                 git checkout {{ .Values.repo.ref }}
                 GITREV=\$(git rev-parse --verify HEAD)
+
+                cd frontend
+                npm ci
+                npm run build
+                cd ..
+                docker build -f Dockerfile-frontend . -t {{ template "ckan-ui.fullname" . }}-frontend-image:latest
+                docker push docker-registry.default.svc:5000/{ template "ckan-ui.fullname" . }}-frontend-image:latest
+
                 cd ..
                 curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
                 tar -zxvf ${helmName}
@@ -51,8 +59,10 @@ spec:
                 ./helm init --client-only
                 oc project {{ .Release.Namespace }}
                 oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
+                oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
+
                 printf '${cnfig}' > ./config.yaml
-                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install --debug
+                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install
               """
           }
         }

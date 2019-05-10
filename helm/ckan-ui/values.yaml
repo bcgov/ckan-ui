@@ -5,7 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: bcgovimages/ckan-ui
+  repository:
+    frontend: bcgovimages/ckan-ui-frontend
+    backend: bcgovimages/ckan-ui
   tag: stable
   pullPolicy: IfNotPresent
 

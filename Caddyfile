@@ -1,0 +1,7 @@
+*:8080 {
+    root /app
+
+    rewrite not /api/.* {path} /
+
+    proxy /api/ http://{$HOSTNAME}:3000/
+}

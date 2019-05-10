@@ -1,0 +1,13 @@
+#Build production frontend
+#Requires dist folder to be built externally 
+FROM abiosoft/caddy:1.0.0
+
+ENV NODE_ENV "production"
+WORKDIR /app
+#COPY frontend/package*.json ./
+#RUN npm ci --no-optional
+COPY Caddyfile /etc/Caddyfile
+
+EXPOSE 8080
+
+COPY frontend/dist ./

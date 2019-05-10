@@ -7,7 +7,7 @@ let config = require('config');
 let session = require('express-session');
 let passport = require('passport');
 let OidcStrategy = require('passport-openidconnect').Strategy;
-let history = require('connect-history-api-fallback');
+//let history = require('connect-history-api-fallback');
 
 let solrRouter = require('./routes/solr');
 let ckanRouter = require('./routes/ckan');
@@ -67,19 +67,26 @@ app.use('/api', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const fs = require('fs');
-  fs.readFile('dist/index.html', 'utf-8', (err, content) => {
-    if (err) {
-      console.log('We cannot open "index.htm" file.');
-      return next();
-    }
 
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8'
-    });
-
-    res.end(content);
+  res.writeHead(404, {
+    'Content-Type': 'text/html; charset=utf-8'
   });
+
+  res.end("<html><head><title>404</title></head><body>404</body></html>");
+
+  // const fs = require('fs');
+  // fs.readFile('dist/index.html', 'utf-8', (err, content) => {
+  //   if (err) {
+  //     console.log('We cannot open "index.htm" file.');
+  //     return next();
+  //   }
+
+  //   res.writeHead(200, {
+  //     'Content-Type': 'text/html; charset=utf-8'
+  //   });
+
+  //   res.end(content);
+  // });
 });
 
 // error handler

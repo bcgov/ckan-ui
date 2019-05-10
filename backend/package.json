@@ -9,7 +9,6 @@
   "dependencies": {
     "atob": "^2.1.2",
     "config": "^3.0.1",
-    "connect-history-api-fallback": "^1.6.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
