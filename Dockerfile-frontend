@@ -1,5 +1,6 @@
 #Build production frontend
 #Requires dist folder to be built externally 
+FROM node:lts-alpine
 FROM abiosoft/caddy:1.0.0
 
 ENV NODE_ENV "production"
@@ -8,7 +9,7 @@ WORKDIR /app
 COPY Caddyfile /etc/Caddyfile
 
 COPY frontend/package*.json ./
-RUN apk update && apk add nodejs-current npm
+RUN apk update && apk add caddy
 RUN npm install
 COPY frontend/dist ./
 
