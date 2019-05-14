@@ -2,18 +2,24 @@
 #Requires dist folder to be built externally 
 FROM node:lts-alpine
 
-ENV NODE_ENV "production"
 WORKDIR /app
 
 COPY Caddyfile /etc/Caddyfile
 
+ENV NODE_ENV "development"
+
 COPY frontend/package*.json ./
 RUN apk update && apk add caddy
-RUN npm ci
+RUN npm install && npm install -g @vue/cli
+RUN npm install -g @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-eslint vue-template-compiler
+COPY frontend ./frontend
 
-RUN rm -rf node_modules public src .jshintrc babel.config.js package-lock.json package.json README.md vue.config.js
-RUN cp -R dist/* . && rm -rf dist
+WORKDIR /app/frontend
+RUN npm run build
+WORKDIR /app
+RUN ls -liah && cp -R ./frontend/dist/* . && cd .. && rm -rf frontend
 
+ENV NODE_ENV "production"
 
 EXPOSE 8080
 
