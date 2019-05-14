@@ -68,6 +68,8 @@ spec:
     
   strategy:
     type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile-frontend
   successfulBuildsHistoryLimit: 5
   triggers:
     - type: "GitHub"
