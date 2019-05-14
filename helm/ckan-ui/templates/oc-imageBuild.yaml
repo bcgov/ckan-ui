@@ -31,10 +31,12 @@ spec:
     type: Docker
   successfulBuildsHistoryLimit: 5
   triggers:
-    - type: "GitHub"
-      github: 
-        secretReference:
-          name: "{{ .Release.Name }}-git-webhook-secret"
+    - type: "imageChange"
+      imageChange:
+        from:
+          kind: "ImageStreamTag"
+          name: "{{ template "ckan-ui.fullname" . }}-frontend-image:latest"
+          namespace: "{{ .Release.Namespace }}"
 
 ---
 

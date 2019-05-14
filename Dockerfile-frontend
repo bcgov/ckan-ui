@@ -4,10 +4,12 @@ FROM abiosoft/caddy:1.0.0
 
 ENV NODE_ENV "production"
 WORKDIR /app
+
 COPY Caddyfile /etc/Caddyfile
 
 COPY frontend/package*.json ./
 RUN npm ci --no-optional
 COPY frontend/dist ./
+
 
 EXPOSE 8080
