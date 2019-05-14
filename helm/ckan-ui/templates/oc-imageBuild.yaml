@@ -36,7 +36,6 @@ spec:
         from:
           kind: "ImageStreamTag"
           name: "{{ template "ckan-ui.fullname" . }}-frontend-image:latest"
-          namespace: "{{ .Release.Namespace }}"
 
 ---
 
