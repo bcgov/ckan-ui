@@ -8,7 +8,8 @@ WORKDIR /app
 COPY Caddyfile /etc/Caddyfile
 
 COPY frontend/package*.json ./
-RUN npm ci --no-optional
+RUN apk add node
+RUN npm install
 COPY frontend/dist ./
 
 
