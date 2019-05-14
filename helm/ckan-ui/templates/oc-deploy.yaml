@@ -36,34 +36,46 @@ spec:
         def cnfig = '''
         {{ .Values | toYaml | indent 8 }}
         '''.trim()
-        node("nodejs") {
-            stage("deploy (it's already built)") {
-              sh """
-                git clone ${gitUrl} 
-                cd ckan-ui
-                git checkout {{ .Values.repo.ref }}
-                GITREV=\$(git rev-parse --verify HEAD)
+        podTemplate(label: 'vuejs', cloud: 'openshift', containers: [
+          containerTemplate(
+              name: 'vuejs',
+              image: 'registry.redhat.io/openshift3/jenkins-agent-nodejs-8-rhel7',
+              workingDir: '/home/jenkins',
+              resourceRequestCpu: '2',
+              resourceLimitCpu: '4',
+              resourceRequestMemory: '4G',
+              resourceLimitMemory: '8G',
+          ),
+        ]){
+          node("vuejs") {
+              stage("deploy (it's already built)") {
+                sh """
+                  git clone ${gitUrl} 
+                  cd ckan-ui
+                  git checkout {{ .Values.repo.ref }}
+                  GITREV=\$(git rev-parse --verify HEAD)
 
-                cd frontend
-                npm install
-                npm run build
-                cd ..
-                docker build -f Dockerfile-frontend . -t {{ template "ckan-ui.fullname" . }}-frontend-image:latest
-                docker push docker-registry.default.svc:5000/{ template "ckan-ui.fullname" . }}-frontend-image:latest
+                  cd frontend
+                  npm install
+                  npm run build
+                  cd ..
+                  //docker build -f Dockerfile-frontend . -t {{ template "ckan-ui.fullname" . }}-frontend-image:latest
+                  //docker push docker-registry.default.svc:5000/{ template "ckan-ui.fullname" . }}-frontend-image:latest
 
-                cd ..
-                curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
-                tar -zxvf ${helmName}
-                cd linux-amd64
-                export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
-                ./helm init --client-only
-                oc project {{ .Release.Namespace }}
-                oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
-                oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
+                  cd ..
+                  curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
+                  tar -zxvf ${helmName}
+                  cd linux-amd64
+                  export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
+                  ./helm init --client-only
+                  oc project {{ .Release.Namespace }}
+                  oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
+                  oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
 
-                printf '${cnfig}' > ./config.yaml
-                ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install
-              """
+                  printf '${cnfig}' > ./config.yaml
+                  ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install
+                """
+            }
           }
         }
 
