@@ -8,7 +8,7 @@ WORKDIR /app
 COPY Caddyfile /etc/Caddyfile
 
 COPY frontend/package*.json ./
-RUN apk add nodejs
+RUN apk update && apk add nodejs-current npm
 RUN npm install
 COPY frontend/dist ./
 
