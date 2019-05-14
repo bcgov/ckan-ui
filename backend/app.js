@@ -64,6 +64,9 @@ app.use('/api/resource', resourceRouter);
 app.use('/api/ckan', ckanRouter);
 app.use('/api/analytics', analyticsRouter);
 app.use('/api', authRouter);
+app.use('/status', function(req, res){
+  res.json({"status": "OK"}).status(200);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
