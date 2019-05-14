@@ -10,7 +10,9 @@ COPY Caddyfile /etc/Caddyfile
 COPY frontend/package*.json ./
 RUN apk update && apk add caddy
 RUN npm ci
-COPY frontend/dist ./
+
+RUN rm -rf node_modules public src .jshintrc babel.config.js package-lock.json package.json README.md vue.config.js
+RUN cp -R dist/* . && rm -rf dist
 
 
 EXPOSE 8080
