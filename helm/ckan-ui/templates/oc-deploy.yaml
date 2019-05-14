@@ -44,13 +44,6 @@ spec:
                 git checkout {{ .Values.repo.ref }}
                 GITREV=\$(git rev-parse --verify HEAD)
 
-                //cd frontend
-                //npm install
-                //npm run build
-                //cd ..
-                //docker build -f Dockerfile-frontend . -t {{ template "ckan-ui.fullname" . }}-frontend-image:latest
-                //docker push docker-registry.default.svc:5000/{ template "ckan-ui.fullname" . }}-frontend-image:latest
-
                 cd ..
                 curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
                 tar -zxvf ${helmName}
