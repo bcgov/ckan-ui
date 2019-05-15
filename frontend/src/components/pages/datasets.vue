@@ -270,6 +270,11 @@
             if (this.facetFilters[facet].indexOf(filter) !== -1){
                this.facetFilters[facet].splice(this.facetFilters[facet].indexOf(filter), 1)
                this.totalFilters -= 1;
+
+               if (this.facetFilters[facet].length === 0){
+                   delete this.facetFilters[facet]
+               }
+
             }else {
                 this.facetFilters[facet].push(filter);
                 this.totalFilters += 1;
