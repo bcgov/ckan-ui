@@ -16,9 +16,9 @@
           </v-flex>
       </v-layout>
       
-      <v-layout row wrap mb-2>
+      <v-layout row wrap>
           <v-flex xs12 my-0 py-0>
-            <p class="mb-0">{{description}}</p>
+              <p v-line-clamp:1.5="2" >{{description}}</p>
           </v-flex>
       </v-layout>
 

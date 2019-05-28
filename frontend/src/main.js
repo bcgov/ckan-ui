@@ -6,6 +6,7 @@ import VueAnalytics from 'vue-analytics'
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import lineClamp from 'vue-line-clamp';
 
 import router from './router';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -43,6 +44,8 @@ Vue.use(InfiniteLoading, {
 });
 
 Vue.use(VueI18n);
+
+Vue.use(lineClamp, {});
 
 import messages from './i18n/messages';
 

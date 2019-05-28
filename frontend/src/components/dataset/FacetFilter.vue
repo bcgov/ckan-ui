@@ -1,23 +1,23 @@
 <template>
     <div v-show="maxFilters > 1">
-    <v-container px-0  align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
-        <v-badge overlap color="red" class="facetBadge">
-            <template v-slot:badge>
-                <span v-if="numApplied>0">{{numApplied}}</span>
-            </template>
-            
-            <v-container fluid pa-0 ma-0 dark>
-                <v-layout row wrap>
-                    <v-flex xs12 class="text-xs-center">
-                        <v-icon x-large class="iconWidth facetIcon">{{field.icon}}</v-icon>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 class="text-xs-center facetLabel">{{$tc(name)}}</v-flex>
-                </v-layout>
-            </v-container>            
-        </v-badge>
-    </v-container>
+        <v-container px-0  align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
+            <v-badge overlap color="red" class="facetBadge">
+                <template v-slot:badge>
+                    <span v-if="numApplied>0">{{numApplied}}</span>
+                </template>
+                
+                <v-container fluid pa-0 ma-0 dark>
+                    <v-layout row wrap>
+                        <v-flex xs12 class="text-xs-center">
+                            <v-icon x-large class="iconWidth facetIcon">{{field.icon}}</v-icon>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                        <v-flex xs12 class="text-xs-center facetLabel">{{$tc(name)}}</v-flex>
+                    </v-layout>
+                </v-container>            
+            </v-badge>
+        </v-container>
 
         <v-container fluid class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
             <v-layout row wrap class="borderBottom">
@@ -53,6 +53,12 @@
             <v-layout row wrap>
                 <v-btn @click="clearClick" color="text">{{$tc('Clear all')}}</v-btn>
                 <!--<v-btn @click="toggleDrawer" color="primary">{{$tc('OK')}}</v-btn>-->
+            </v-layout>
+        </v-container>
+        <v-container fluid class="dimmer" v-if="showDrawer" @click="toggleDrawer()">
+            <v-layout row wrap fill-height>
+                <v-flex xs12>
+                </v-flex>
             </v-layout>
         </v-container>
     </div>
@@ -240,6 +246,16 @@ export default{
         -moz-box-shadow: 5px 5px 5px lightgrey;
         -webkit-box-shadow: 5px 5px 5px lightgrey;
         box-shadow: 5px 5px 5px lightgrey;
+    }
+    .dimmer{
+        position: fixed;
+        top: 48px;
+        left: 710px;
+        background: black;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        opacity: 0.2;
     }
 </style>
 
