@@ -68,6 +68,8 @@
 import {CkanApi} from '../../services/ckanApi'
 const ckanServ = new CkanApi()
 
+import { mapState } from 'vuex'
+
 export default{
     props: {
         name: String,
@@ -92,6 +94,12 @@ export default{
             totalCount: 0,
             maxFilters: 0,
         }
+    },
+
+    computed: {
+        ...mapState({
+            filtered: state => state.search.facets,
+        }),
     },
 
     methods: {
@@ -170,11 +178,26 @@ export default{
                     });
                 }
             }
-        }
+        },
+        preFilter: function(){
+
+            for (let i=0; i<this.field.facets.length; i++){
+                let keys = Object.keys(this.field.facets[i]);
+                let facetName = keys[0];
+                if (typeof(this.filtered[facetName]) !== "undefined"){
+                    for (let j=0; j<this.filtered[facetName].length; j++){
+                        let filter = this.filtered[facetName][j];
+                        this.filteredOn.push(filter);
+                        this.numApplied += 1;
+                    }
+                }
+            }
+        },
     },
 
     mounted(){
         this.getFacet()
+        this.preFilter();
         this.$parent.$on('closeDrawer', this.closeDrawer)
         this.$parent.$on('clearAll', this.clearAll)
     }

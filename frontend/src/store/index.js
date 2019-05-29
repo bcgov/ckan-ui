@@ -4,6 +4,8 @@ import user from './modules/user'
 import dataset from './modules/dataset'
 import organization from './modules/organization'
 import tag from './modules/tag'
+import search from './modules/search'
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -12,6 +14,8 @@ export default new Vuex.Store({
 		user,
 		dataset,
         organization,
-        tag
+		tag,
+		search,
 	},
+	plugins: [createPersistedState()]
 })

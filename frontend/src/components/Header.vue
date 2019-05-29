@@ -106,7 +106,6 @@ export default {
   data () {
     return {
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
-        searchText: "",
         showSearch: false,
         classicUrl: '',
         menuSecondary: [
@@ -152,6 +151,14 @@ export default {
     ...mapGetters('user', {
       loggedIn: 'isLoggedIn'
     }),
+    searchText: {
+        get() {
+            return this.$store.state.search.searchText
+        },
+        set(newValue){
+            this.$store.commit('search/setSearchText', newValue )
+        }
+    },
     menuTertiary() {
         return [
             {
@@ -186,7 +193,7 @@ export default {
   methods:{
       search: function(e){
           if (e.keyCode === 13) {
-              this.$router.push('/datasets?q=' + this.searchText)
+              this.$router.push('/datasets');
               this.showSearch = false
           }
       },

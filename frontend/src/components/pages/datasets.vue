@@ -75,6 +75,8 @@
   import {Analytics} from '../../services/analytics'
   const analyticsServ = new Analytics()
 
+  import { mapState } from 'vuex'
+
   import ListCard from '../dataset/ListCard'
   import FacetFilter from '../dataset/FacetFilter'
 
@@ -91,13 +93,10 @@
           datasets: [],
           noResults: false,
           facets: {},
-          totalFilters: 0,
-          searchText: (this.$route.query.q) ? this.$route.query.q : "",
           searchedText: "",
           count: 0,
           rows: 10,
           skip: 0,
-          facetFilters: {},
           sortOrder: "score desc",
           sortOptions:[
               { value: "score desc", text: this.$tc("Relevance") },
@@ -108,6 +107,23 @@
               { value: "record_last_modified desc", text: this.$tc("Last Modified") }
           ],
       }
+    },
+    
+    computed: {
+        ...mapState({
+            facetFilters: state => state.search.facets,
+            totalFilters: state => state.search.totalFilters,
+        }),
+
+        searchText: {
+            get() {
+                return this.$store.state.search.searchText
+            },
+            set(newValue){
+                this.$store.commit('search/setSearchText', newValue )
+            }
+        }
+
     },
 
     watch: {
@@ -130,7 +146,7 @@
 
         clearAll: function(){
             this.$emit('clearAll');
-            this.facetFilters = {};
+            this.$store.commit('search/clearAllFacets');
             this.totalFilters = 0;
             this.getDatasets();
         },
@@ -252,33 +268,20 @@
         getFacets(){
            if (typeof(localStorage.facetList) !== "undefined"){
                this.facets = JSON.parse(localStorage.facetList);
+               this.getDatasets();
                return;
            }
 
             ckanServ.getFacets().then((data) => {
                 this.facets = data
                 localStorage.facetList = JSON.stringify(data);
+                this.getDatasets();
             });
         },
 
         facetFilter: function(facet, filter){
 
-            if (typeof(this.facetFilters[facet]) === "undefined"){
-                this.facetFilters[facet] = [];
-            }
-
-            if (this.facetFilters[facet].indexOf(filter) !== -1){
-               this.facetFilters[facet].splice(this.facetFilters[facet].indexOf(filter), 1)
-               this.totalFilters -= 1;
-
-               if (this.facetFilters[facet].length === 0){
-                   delete this.facetFilters[facet]
-               }
-
-            }else {
-                this.facetFilters[facet].push(filter);
-                this.totalFilters += 1;
-            }
+            this.$store.commit('search/toggleFacet', {facet, filter});
 
             this.getDatasets()
         }
@@ -286,7 +289,6 @@
 
     mounted(){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        this.getDatasets();
         this.getFacets();
     }
   }

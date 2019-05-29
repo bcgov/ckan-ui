@@ -63,7 +63,8 @@ export default {
         "No datasets": "No datasets",
         "Profile": "Profile",
         "Logout": "Log out",
-
+        "Subscribe to new data": "Subscribe to new data",
+        "Fetching Dataset...": "Fetching Dataset...",
     },
     fr: {
         'data': 'données',
@@ -129,5 +130,7 @@ export default {
         "No datasets": "Aucun jeu de données",
         "Profile": "Profil",
         "Logout": "Connectez - Out",
+        "Subscribe to new data": "S'abonner à de nouvelles données",
+        "Fetching Dataset...": "Récupération du jeu de données...",
     }
 };

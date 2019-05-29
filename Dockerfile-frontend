@@ -1,26 +1,24 @@
-#Build production frontend
-#Requires dist folder to be built externally 
-FROM node:lts-alpine
+#Build production frontend	
+FROM node:lts-alpine as build-stage	
+WORKDIR /app	
+COPY frontend/package*.json ./	
+RUN npm ci --no-optional	
+
+COPY frontend/ ./	
+RUN npm run build	
+
+
+#Actual container
+
+FROM abiosoft/caddy:1.0.0-no-stats
 
 WORKDIR /app
 
 COPY Caddyfile /etc/Caddyfile
 
-ENV NODE_ENV "development"
-
-COPY frontend/package*.json ./
-RUN apk update && apk add caddy
-RUN npm install && npm install -g @vue/cli
-RUN npm install -g @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-eslint vue-template-compiler
-COPY frontend ./frontend
-
-WORKDIR /app/frontend
-RUN npm run build
 WORKDIR /app
-RUN ls -liah && cp -R ./frontend/dist/* . && cd .. && rm -rf frontend
+COPY --from=build-stage /app/dist /app
 
 ENV NODE_ENV "production"
 
 EXPOSE 8080
-
-ENTRYPOINT ["caddy", "--conf", "/etc/Caddyfile", "--log", "stdout", "--agree=false"]

@@ -66,16 +66,21 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 responseObj.type = "xls";
             }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                 let XLSX = require('xlsx');
-                let workbook = XLSX.read(body, {type: "string", WTF: true});
-                let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                responseObj.workbook = sheetJson;
-                let headerKeys = Object.keys(sheetJson[0]);
-                let headers = [];
-                for (let i=0; i<headerKeys.length; i++){
-                    headers.push({text: headerKeys[i], value: headerKeys[i]});
+                try{
+                    let workbook = XLSX.read(body, {type: "string", WTF: true});
+                    let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                    responseObj.workbook = sheetJson;
+                    let headerKeys = Object.keys(sheetJson[0]);
+                    let headers = [];
+                    for (let i=0; i<headerKeys.length; i++){
+                        headers.push({text: headerKeys[i], value: headerKeys[i]});
+                    }
+                    responseObj.headers = headers;
+                    responseObj.type = "csv";
+                }catch(ex){
+                    responseObj.type = "404";
+                    responseObj.type = "error";    
                 }
-                responseObj.headers = headers;
-                responseObj.type = "csv";
             }else if (apiRes.headers.statusCode === 404){
                 responseObj.type = "404";
             }
