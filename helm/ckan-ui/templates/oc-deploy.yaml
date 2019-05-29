@@ -53,6 +53,7 @@ spec:
                 oc project {{ .Release.Namespace }}
                 oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
                 oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
+                oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} bcdc-ui:latest
 
                 printf '${cnfig}' > ./config.yaml
                 ./helm upgrade {{ .Release.Name }} ../ckan-ui/helm/ckan-ui -f ./config.yaml --set image.tag=\$GITREV --install
