@@ -6,7 +6,7 @@
     </v-container>
     <v-container v-else grid-list-md class="main-area">
         <v-btn
-            v-if="!editing"
+            v-if="showEdit"
             fab
             dark
             fixed
@@ -96,7 +96,6 @@ export default {
     },
     data() {
         return {
-            isAdmin: true,
             editing: false,
             breadcrumbs: [
                 { icon: "home", label: "Home", route: "/" },
@@ -119,14 +118,23 @@ export default {
         },
         ...mapState({
             dataset: state => state.dataset.dataset,
-            orgList: state => state.organization.orgList
+            orgList: state => state.organization.orgList,
+            userPermissions: state => state.user.userPermissions,
+            sysAdmin: state => state.user.sysAdmin,
+            isAdmin: state => state.user.isAdmin,
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs",
         }),
         ...mapGetters("dataset", {
             loading: "isLoaded",
-        })
+        }),
+
+        showEdit: function(){
+            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            return ( (!this.editing) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+        }
     },
 
     methods: {

@@ -3,10 +3,19 @@ let passport = require('passport');
 let express = require('express');
 let router = express.Router();
 let auth = require('../modules/auth');
+let config = require('config');
 
 router.use('/login', function(req, res, next){
     req.session.r = req.query.r;
     return res.redirect('/api/log');
+});
+
+router.use("/groupSeperator", function(req,res,next){
+    return res.json({"seperator": config.get('authGroupSeperator')});
+});
+
+router.use("/sysAdminGroup", function(req,res,next){
+    return res.json({"group": config.get('sysAdminGroup')});
 });
 
 router.use('/log', passport.authenticate('oidc'), function(req, res, next){
@@ -14,14 +23,12 @@ router.use('/log', passport.authenticate('oidc'), function(req, res, next){
 });
 
 router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
-    let config = require('config');
     res.redirect(config.get('frontend')+req.session.r);
 });
 
 router.use('/logout', function(req, res, next){
     var redirectTo = req.query.r || config.get('frontend');
     req.logout();
-    let config = require('config');
     res.redirect(redirectTo);
 });
 

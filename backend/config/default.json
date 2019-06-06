@@ -23,5 +23,8 @@
       "protocol": "http",
       "port": 8080,
       "appId": "ckan"
-  }
+  },
+
+  "authGroupSeperator": "/",
+  "sysAdminGroup": "admin"
 }

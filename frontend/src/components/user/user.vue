@@ -1,7 +1,7 @@
 <template>
     <v-menu bottom offset-y color="primary">
         <template v-slot:activator="{ on }">
-            <v-btn flat v-on="on">{{user.displayName}}</v-btn>
+            <v-btn flat v-on="on" id="user-drop">{{user.displayName}}</v-btn>
         </template>
         <v-list>
             <v-list-tile>
