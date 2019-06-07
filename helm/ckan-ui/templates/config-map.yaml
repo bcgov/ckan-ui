@@ -30,7 +30,7 @@ data:
         "collector": {{ .Values.snowplow.collector | quote}},
         "protocol": {{ .Values.snowplow.proto | quote }},
         "port": {{ .Values.snowplow.port }},
-        "appId": {{ .Values.snowplow.appId }}
+        "appId": {{ .Values.snowplow.appId | quote }}
       },
 
       "authGroupSeperator": {{ .Values.authGroupSeperator | quote }},
