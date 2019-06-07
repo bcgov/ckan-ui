@@ -78,6 +78,9 @@ googleAnalytics:
 snowplow:
   enabled: false
   collector: "snowPlowCollectorUrl"
-  protocol: "http"
+  proto: "http"
   port: 8080
   appId: "ckan"
+
+authGroupSeperator: "/"
+sysAdminGroup: "admin"

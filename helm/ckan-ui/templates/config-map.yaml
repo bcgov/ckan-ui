@@ -24,5 +24,15 @@ data:
       "ga": {
         "enabled": {{ .Values.googleAnalytics.enabled }},
         "id": {{ .Values.googleAnalytics.id | quote }}
-      }
+      },
+      "snowplow": {
+        "enabled": {{ .Values.snowplow.enabled }},
+        "collector": {{ .Values.snowplow.collector | quote}},
+        "protocol": {{ .Values.snowplow.proto | quote }},
+        "port": {{ .Values.snowplow.port }},
+        "appId": {{ .Values.snowplow.appId }}
+      },
+
+      "authGroupSeperator": {{ .Values.authGroupSeperator | quote }},
+      "sysAdminGroup": {{ .Values.sysAdminGroup | quote}}
     }
