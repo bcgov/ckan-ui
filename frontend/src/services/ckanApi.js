@@ -77,4 +77,17 @@ export class CkanApi {
         const url = '/api/ckan/about';
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
+
+    getDatasetSchema(type) {
+        let url = '/api/ckan/datasetSchema';
+        if (typeof(type) !== "undefined"){
+           url += "?type=" +type;
+        }
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    getGeneric(ckanUrl) {
+        let url = '/api/ckan/?url='+encodeURIComponent(ckanUrl);
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
 }

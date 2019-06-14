@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="toggleShowDatasets" class="cursor">
+  <v-card :id="'group-link-'+id" @click="toggleShowDatasets" class="cursor groupLink">
     <v-img alt="Logo" :src="image"></v-img>
 
     <v-card-title primary-title @click="gotoGroup">

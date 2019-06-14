@@ -61,7 +61,10 @@
                 ckanServ.getActivity().then( (data) => {
                     if (data.error){
                         this.error = data.error;
-                    }else {
+                    } else if ( (typeof(data.result) == "undefined") || (typeof(data.result[0]) === "undefined") ||  (typeof(data.result[0].user_id) === "undefined") ){
+                        this.error = "No activities yet, get involved!";
+                    } else {
+                        
                         this.activities = data.result;
                         this.user_id = data.result[0].user_id
                         this.getUser()

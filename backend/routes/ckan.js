@@ -640,4 +640,92 @@ router.get('/about', auth.removeExpired, function(req, res, next) {
 
 });
 
+
+/* GET ckan schema -- requires scheming */
+router.get('/datasetSchema', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+  
+    let type = "edc_dataset";
+    if (typeof(req.query.type) !== "undefined"){
+        type = req.query.type;
+    }
+    
+    let reqUrl = url + "/api/3/action/scheming_dataset_schema_show?type="+type;
+  
+    let authObj = {};
+  
+    if (req.user){
+        authObj = {
+            'auth': {
+                'bearer': req.user.jwt
+            }
+        };
+    }
+  
+    request(reqUrl, authObj, function(err, apiRes, body){
+      if (err) {
+        console.log(err);
+        res.json({error: err});
+        return;
+      }
+      if (apiRes.statusCode !== 200){
+          console.log("Body Status? ", apiRes.statusCode);
+      }
+  
+      try {
+          let json = JSON.parse(body);
+          res.json(json);
+      }catch(ex){
+          console.error("Error reading json from ckan", ex);
+          res.json({error: ex});
+      }
+    });
+  
+  });
+
+/* GET ckan schema -- requires scheming */
+router.get('/', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+  
+    if (!req.query.url){
+        return res.json({error: "uri encoded component query parameter url is required"}).status(400);
+    }
+    
+    let reqUrl = url + decodeURIComponent(req.query.url);
+  
+    let authObj = {};
+  
+    if (req.user){
+        authObj = {
+            'auth': {
+                'bearer': req.user.jwt
+            }
+        };
+    }
+  
+    request(reqUrl, authObj, function(err, apiRes, body){
+      if (err) {
+        console.log(err);
+        res.json({error: err});
+        return;
+      }
+      if (apiRes.statusCode !== 200){
+          console.log("Body Status? ", apiRes.statusCode);
+      }
+  
+      try {
+          let json = JSON.parse(body);
+          res.json(json);
+      }catch(ex){
+          console.error("Error reading json from ckan", ex);
+          res.json({error: ex});
+      }
+    });
+  
+  });
+
 module.exports = router;

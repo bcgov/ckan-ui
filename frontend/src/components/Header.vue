@@ -80,7 +80,7 @@
       <v-container class="searchBar" v-show="showSearch">
         <v-layout row wrap>
           <v-flex>
-            <v-text-field ref="headerSearch" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
+            <v-text-field ref="headerSearch" id="header-search" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
           </v-flex>
         </v-layout>
       </v-container>

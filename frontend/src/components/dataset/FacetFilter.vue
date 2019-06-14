@@ -1,6 +1,6 @@
 <template>
     <div v-show="maxFilters > 1">
-        <v-container px-0  align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
+        <v-container px-0  :id="'facet-'+name" align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
             <v-badge overlap color="red" class="facetBadge">
                 <template v-slot:badge>
                     <span v-if="numApplied>0">{{numApplied}}</span>
@@ -24,7 +24,7 @@
                 <v-flex xs11>
                     <h3>{{found}} {{$tc('datasets')}} {{$tc('found')}} {{$tc('using')}} {{totalFilters}} {{$tc('filter', totalFilters)}}</h3>
                 </v-flex>
-                <v-flex xs1><v-icon @click="toggleDrawer()">close</v-icon></v-flex>
+                <v-flex xs1><v-icon :id="'facet-close-'+name" @click="toggleDrawer()">close</v-icon></v-flex>
             </v-layout>
             <v-layout row wrap>
                 <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
@@ -35,6 +35,7 @@
                                 <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
                                 <v-chip 
                                     v-for="(filter, i) in filters[k]" 
+                                    :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
                                     :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
                                     :key="'filter-'+key+'-'+i"
                                     v-on:click="filterOn(filter, k)">
@@ -51,11 +52,11 @@
                 </div>
             </v-layout>
             <v-layout row wrap>
-                <v-btn @click="clearClick" color="text">{{$tc('Clear all')}}</v-btn>
+                <v-btn @click="clearClick" :id="'facet-clearAll-'+name" color="text">{{$tc('Clear all')}}</v-btn>
                 <!--<v-btn @click="toggleDrawer" color="primary">{{$tc('OK')}}</v-btn>-->
             </v-layout>
         </v-container>
-        <v-container fluid class="dimmer" v-if="showDrawer" @click="toggleDrawer()">
+        <v-container fluid class="dimmer" v-if="showDrawer" :id="'facet-dimmerClose-'+name" @click="toggleDrawer()">
             <v-layout row wrap fill-height>
                 <v-flex xs12>
                 </v-flex>

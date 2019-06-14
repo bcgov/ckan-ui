@@ -3,7 +3,7 @@
       <v-layout row wrap mb-1>
           <v-flex xs12>
             <h3>
-                <router-link :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
+                <router-link :id="'dataset-link-'+record.id" :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                             <v-icon class="mr-2" color="primary" v-on="on">{{iconName}}</v-icon>

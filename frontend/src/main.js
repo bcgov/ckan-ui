@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import Vuetify from 'vuetify';
 import VueI18n from 'vue-i18n';
-import VueAnalytics from 'vue-analytics'
+import VueAnalytics from 'vue-analytics';
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -13,7 +13,6 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 import store from './store';
 
-
 import {Analytics} from './services/analytics';
 const analyticsServ = new Analytics()
 
@@ -21,7 +20,7 @@ Vue.config.productionTip = false;
 
 //Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
-  iconfont: 'mdi', // 'md' || 'mdi' || 'fa' || 'fa4'
+  iconfont: 'md', // 'md' || 'mdi' || 'fa' || 'fa4'
   theme: {
       primary: '#003366',
       secondary: '#5475a7',

@@ -6,7 +6,7 @@
         <v-icon v-else-if="expanded && count>0" class="clickable">expand_less</v-icon>
       </v-flex>
       <v-flex xs11>
-        <router-link v-if="typeof(id) !== 'undefined'" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight">{{orgName}} {{count > 0 ? count : ''}}</router-link>
+        <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :class="orgLink" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight">{{orgName}} {{count > 0 ? count : ''}}</router-link>
         <p v-else>{{orgName}} {{count > 0 ? count : ''}}</p>
       </v-flex>
     </v-layout>

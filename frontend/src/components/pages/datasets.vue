@@ -22,7 +22,7 @@
                 <v-layout row wrap>
                     <v-flex xs1></v-flex>
                     <v-flex xs9>
-                        <v-text-field v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
+                        <v-text-field id="dataset-search" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
