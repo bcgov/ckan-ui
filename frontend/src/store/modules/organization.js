@@ -9,7 +9,11 @@ const getters = {
     getSubOrgs: (state) => (id) => {
         for (let topOrg in state.orgList) {
             if (state.orgList[topOrg].id == id) {
-                return state.orgList[topOrg].children;
+                let orgs = [];
+                for (let j=0; j<state.orgList[topOrg].children.length; j++){
+                    orgs.push({label: state.orgList[topOrg].children[j].title, value: state.orgList[topOrg].children[j].id});
+                }
+                return orgs;
             }
         }
         return [{ id: -1, title: "No Sub-Organizations Found" }];
@@ -17,7 +21,7 @@ const getters = {
     getTopOrgs: (state) => {
         let topOrgs = [];
         for (let topOrg in state.orgList) {
-            topOrgs.push({ title: state.orgList[topOrg].title, id: state.orgList[topOrg].id });
+            topOrgs.push({ label: state.orgList[topOrg].title, value: state.orgList[topOrg].id });
         }
         return topOrgs;
     },

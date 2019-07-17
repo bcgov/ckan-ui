@@ -19,8 +19,13 @@ export class CkanApi {
     }
 
     putDataset(dataset) {
-        const url = '/api/ckan/dataset'
+        const url = '/api/ckan/dataset';
         return axios.put(url, dataset, {withCredentials: true}).then(response => response.data)
+    }
+
+    postDataset(dataset) {
+        const url = '/api/ckan/dataset';
+        return axios.post(url, dataset, {withCredentials: true}).then(response => response.data)
     }
 
     getFacets(){
@@ -49,17 +54,17 @@ export class CkanApi {
     }
 
     getTags() {
-        const url = '/api/ckan/tagList/'
+        const url = '/api/ckan/tagList';
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
     getVocabs() {
-        const url = '/api/ckan/vocabList/'
+        const url = '/api/ckan/vocabList';
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
     getLicenses() {
-        const url = '/api/ckan/licenseList/'
+        const url = '/api/ckan/licenseList';
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
@@ -89,5 +94,35 @@ export class CkanApi {
     getGeneric(ckanUrl) {
         let url = '/api/ckan/?url='+encodeURIComponent(ckanUrl);
         return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    //it is recommended to call getToken from auth immediately before this call
+    createResource(data, jwt){
+        let url = '/resourceCreate';
+        let options = {
+            url: url,
+            method: "POST",
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + jwt
+            },
+            data: data,
+        };
+        return axios(options).then(response => response.data);
+    }
+
+    //it is recommended to call getToken from auth immediately before this call
+    updateResource(data, jwt){
+        let url = '/resourceUpdate';
+        let options = {
+            url: url,
+            method: "POST",
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + jwt
+            },
+            data: data,
+        };
+        return axios(options).then(response => response.data);
     }
 }

@@ -6,10 +6,29 @@
         <v-container fluid grid-list-md>
             <v-layout column align-space-around justify-start fill-height>
                 <ResourceCard
-                    v-for="resource in resources"
+                    v-for="(resource, index) in resources"
                     v-bind:key="resource.id"
                     :resource="resource"
+                    :resourceIndex="index"
+                    :showEdit="showEdit"
                 ></ResourceCard>
+                <v-dialog
+                    v-model="createDialog"
+                    fullscreen
+                    style="z-index: 10000"
+                    transition="dialog-bottom-transition"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn v-if="showEdit" v-on="on" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
+                    </template>
+                    <EditResource
+                        :resource="{}"
+                        :resourceIndex="0"
+                        :create="true"
+                        v-on:closePreviewDialog="createDialog = false"
+                    ></EditResource>
+                </v-dialog>
+
             </v-layout>
         </v-container>
     </div>
@@ -18,17 +37,25 @@
 <script>
 import { mapState } from "vuex";
 import ResourceCard from "./ResourceCard";
+import EditResource from '../resources/edit';
 export default {
     components: {
-        ResourceCard
+        ResourceCard,
+        EditResource: EditResource,
     },
     props: {
-        resources: Array
+        resources: Array,
+        showEdit: Boolean,
     },
     computed: {
         ...mapState({
             dataset: state => state.dataset.dataset
         })
+    },
+    data(){
+        return{
+            createDialog: false,
+        }
     }
 };
 </script>

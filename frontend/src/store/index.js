@@ -17,5 +17,22 @@ export default new Vuex.Store({
 		tag,
 		search,
 	},
-	plugins: [createPersistedState()]
+	plugins: [createPersistedState({
+		paths: [
+			'user.authUser',
+			'user.ckanUser',
+			'user.loggedIn',
+			'user.userPermissions',
+			'user.groupSeperator',
+			'user.sysAdminGroup',
+			'user.sysAdmin',
+			'user.isAdmin',
+			'user.loading',
+			'dataset.schemas',
+			'organization.orgList',
+			'search.facets',
+			'search.totalFilters',
+			'search.searchText',
+		]
+	})]
 })

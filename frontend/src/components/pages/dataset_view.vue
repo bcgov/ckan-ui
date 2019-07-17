@@ -5,135 +5,193 @@
         </v-layout>
     </v-container>
     <v-container v-else grid-list-md class="main-area">
-        <v-btn
-            v-if="showEdit"
-            fab
-            dark
-            fixed
-            bottom
-            right
-            color="info"
-            class="text-xs-center"
-            v-on:click="toggleEdit"
-        >
-            <v-icon>edit</v-icon>
-        </v-btn>
-        <template v-if="editing">
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
+        <v-layout row wrap>
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-            <EditForm v-on:done="editing = false"></EditForm>
-        </template>
-        <template v-else>
-            <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-            <v-layout row wrap fill-height>
-                <v-flex xs12 md8>
-                    <v-container class="metadata">
-                        <v-card flat>
-                            <h1 class="h2">{{dataset.title}}</h1>
-                            <v-subheader
-                                class="tracking-summary"
-                            >{{dataset.tracking_summary.total}} views ({{dataset.tracking_summary.recent}} recent)</v-subheader>
-                            <p>
-                                Published by the
-                                <a href>{{dataset.organization.full_title}}</a>
-                                <br>Licensed under
-                                <a href>{{dataset.license_title}}</a>
-                            </p>
-                        </v-card>
-                        <v-divider></v-divider>
-                        <br>
-                        <v-layout row wrap>
-                            <v-flex xs6>
-                                <AboutCard :desc="dataset.notes"></AboutCard>
-                            </v-flex>
-                            <v-flex xs6>
-                                <AdditionalInfoCard :info="additionalInfo"></AdditionalInfoCard>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout row wrap>
-                            <v-flex xs4>
-                                <ContactInfoCard :contact="contactInfo"></ContactInfoCard>
-                            </v-flex>
-                            <v-flex xs4>
-                                <AccessSecurityCard :info="accessInfo"></AccessSecurityCard>
-                            </v-flex>
-                            <v-flex xs4>
-                                <MetadataInformationCard :info="metadataInfo"></MetadataInformationCard>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </v-flex>
-                <v-flex xs12 md4>
-                    <ResourceList :resources="dataset.resources"></ResourceList>
-                </v-flex>
+        </v-layout>
+
+        <v-layout row wrap>
+            <v-flex xs12>
+                <label>{{$tc("Permalink")}}:</label>
+                <span>{{permalink}}</span>
+                <v-btn fab small v-clipboard="() => permalink">
+                    <v-icon>file_copy</v-icon>
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-form ref="form">
+            <v-btn
+                v-if="showEdit"
+                fab
+                dark
+                fixed
+                bottom
+                right
+                color="info"
+                class="text-xs-center"
+                @click="toggleEdit"
+            >
+                <v-icon>edit</v-icon>
+            </v-btn>
+            <v-layout v-else-if="editing" row class="button-container">
+                <v-btn
+                    dark
+                    xs2
+                    color="error"
+                    class="text-xs-center"
+                    @click="cancel"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    dark
+                    xs2
+                    color="primary"
+                    class="text-xs-center"
+                    @click="submit"
+                >
+                    Save
+                </v-btn>
             </v-layout>
-        </template>
+            <template v-if="typeof(schema) === 'undefined'">
+                <OldView></OldView>
+            </template>
+            <template v-else>
+                <v-layout row wrap fill-height>
+                    <v-flex xs12 md8>
+                        <DynamicForm
+                            :schema="schema.dataset_fields"
+                            :textFields="textFields"
+                            :editing="editing"
+                            :values="dataset"
+                            @updated="(field, value) => updateDataset(field, value)"
+                        >
+                        </DynamicForm>
+                    </v-flex>
+                    <v-flex xs12 md4>
+                        <ResourceList :showEdit="showEdit" :resources="dataset.resources"></ResourceList>
+                    </v-flex>
+                </v-layout>
+            </template>
+        </v-form>
     </v-container>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 import ResourceList from "../dataset/ResourceList";
-import AboutCard from "../dataset/AboutCard";
-import AdditionalInfoCard from "../dataset/AdditionalInfoCard";
-import ContactInfoCard from "../dataset/ContactInfoCard";
-import AccessSecurityCard from "../dataset/AccessSecurityCard";
-import MetadataInformationCard from "../dataset/MetadataInformationCard";
-import EditForm from "../dataset/edit/EditForm";
+
 import Breadcrumb from "../breadcrumb/Breadcrumb";
-import {Analytics} from '../../services/analytics'
+import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
+import oldView from './dataset_old_view';
+
+
+import DynamicForm from '../form/DynamicForm';
 
 export default {
     components: {
+        DynamicForm: DynamicForm,
+        Breadcrumb: Breadcrumb,
         ResourceList: ResourceList,
-        AboutCard: AboutCard,
-        AdditionalInfoCard: AdditionalInfoCard,
-        ContactInfoCard: ContactInfoCard,
-        AccessSecurityCard: AccessSecurityCard,
-        MetadataInformationCard: MetadataInformationCard,
-        EditForm: EditForm,
-        Breadcrumb: Breadcrumb
+        OldView: oldView,
     },
     data() {
         return {
             editing: false,
-            breadcrumbs: [
-                { icon: "home", label: "Home", route: "/" },
-                { label: "Datasets", route: "/datasets" },
-                { label: "Fetching Dataset..." }
-            ],
-            additionalInfo: {},
-            contactInfo: {},
-            accessInfo: {},
-            metadataInfo: {}
+            formError: '',
+            showFormError: false,
+            formSuccess: '',
+            showFormSuccess: false,
+            schemaName: 'edc_dataset',
+            textFields: [
+                'object_name', 
+                'replacement_record', 
+                'retention_expiry_date', 
+                'source_data_path', 
+                'iso_topic_string', 
+                'record_create_date', 
+                'record_publish_date',
+                'record_archive_date',
+                'record_last_modified'],
         };
     },
 
     computed: {
+        breadcrumbs: function(){
+            return [
+                { icon: "home", label: "Home", route: "/" },
+                { label: "Datasets", route: "/datasets" },
+                { label: this.dataset.title ? this.dataset.title : "Fetching Dataset...", translate: this.dataset.title ? false : true }
+            ]
+        },
+
+        nonSchemaFields: function(){
+            let keys = Object.keys(this.dataset);
+            let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
+            for (var i=0; i<this.schema.dataset_fields.length; i++){
+                remove.push(this.schema.dataset_fields[i].field_name);
+                if (typeof(this.schema.dataset_fields[i].subfields) !== "undefined"){
+                    for (var j=0; j<this.schema.dataset_fields[i].subfields.length; j++){
+                        remove.push(this.schema.dataset_fields[i].subfields[j].field_name);
+                    }
+                }
+            }
+            keys = keys.filter(function(el){
+                return remove.indexOf(el) < 0;
+            });
+            keys.sort();
+            return keys;
+        },
+
+        permalink: function(){
+            return window.location.origin+'/dataset/'+this.dataset.id
+        },
+
+        
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
         editLink: function editLink() {
             return "/dataset/" + this.datasetId + "/edit";
         },
+
+        schema: function(){
+            return this.$store.state.dataset.schemas[this.schemaName];
+        },
+
         ...mapState({
             dataset: state => state.dataset.dataset,
-            orgList: state => state.organization.orgList,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
+            loading: state => state.dataset.loading,
+            userLoading: state => state.dataset.loading,
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs",
-        }),
-        ...mapGetters("dataset", {
-            loading: "isLoaded",
         }),
 
         showEdit: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
             //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            return ( (!this.editing) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            if (!this.dataset.organization){
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+            }
+            return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
         }
     },
 
@@ -143,16 +201,45 @@ export default {
         },
         toggleEdit() {
             this.editing = !this.editing;
+            this.formError = '';
+            this.showFormError = false;
+            this.formSuccess = '';
+            this.showFormSuccess = false;
         },
-        // loading() {
-        //     return !this.dataset || Object.entries(this.dataset).length <= 0
-        // }
+        cancel(){
+            this.$store.commit("dataset/resetDataset");
+            this.toggleEdit();
+        },
+        async submit(){
+            let result = await this.$store.dispatch("dataset/setDataset");
+            if (result.success === false){
+                if (result.error.message){
+                    this.formError = result.error.message;
+                }else if (result.error.type && result.error.type[0]){
+                    this.formError = result.error.type[0];
+                }else{
+                    this.formError = "Unknown Error";
+                }
+                this.showFormError = true;
+                this.showFormSuccess = false;
+            }else{
+                this.toggleEdit();
+                this.formSuccess = "Successfully updated";
+                this.showFormSuccess = true;
+                this.showFormError = false;
+            }
+        },
+        updateDataset(field, newValue){
+            this.dataset[field] = newValue;
+            this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
+        },
     },
 
     mounted(){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        this.getDataset();
         this.$store.dispatch("organization/getOrgs");
+        this.getDataset();
+        this.$refs.form.validate();
     }
 };
 </script>
@@ -168,6 +255,10 @@ h5 {
 </style>
 
 <style scoped>
+.fixed{
+    position: fixed;
+    z-index: 99999;
+}
 .main-area {
     margin-top: 20px;
 }
@@ -181,5 +272,11 @@ ul {
 .metadata {
     padding-top: 0px;
     padding-left: 0px;
+}
+.button-container{
+    position: fixed;
+    bottom: 50px;
+    right: 0;
+    z-index: 10;
 }
 </style>

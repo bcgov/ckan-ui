@@ -283,6 +283,7 @@ router.get('/organizations', function(req, res, next) {
 
         try {
           let json = JSON.parse(body);
+          console.log(body);
           orgList = {};
           topLevelOrgs = [];
           subOrgs = [];
@@ -726,6 +727,47 @@ router.get('/', auth.removeExpired, function(req, res, next) {
       }
     });
   
-  });
+});
+
+/* GET ckan schema -- requires scheming */
+router.get('/licenses', auth.removeExpired, function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+
+    
+    let reqUrl = url + '/api/3/action/license_list'
+  
+    let authObj = {};
+  
+    if (req.user){
+        authObj = {
+            'auth': {
+                'bearer': req.user.jwt
+            }
+        };
+    }
+  
+    request(reqUrl, authObj, function(err, apiRes, body){
+      if (err) {
+        console.log(err);
+        res.json({error: err});
+        return;
+      }
+      if (apiRes.statusCode !== 200){
+          console.log("Body Status? ", apiRes.statusCode);
+      }
+  
+      try {
+          let json = JSON.parse(body);
+          res.json(json);
+      }catch(ex){
+          console.error("Error reading json from ckan", ex);
+          res.json({error: ex});
+      }
+    });
+  
+});
+  
 
 module.exports = router;

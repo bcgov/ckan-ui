@@ -10,6 +10,7 @@ const state = {
     sysAdminGroup: null,
     sysAdmin: false,
     isAdmin: false,
+    loading: true,
 };
 
 // function sleep(ms) {
@@ -18,8 +19,9 @@ const state = {
 
 const actions = {
     async getCurrentUser({ commit, state }) {
-
-        let sep = state.groupSeperator;
+        
+        commit('setLoading', {loading: true});
+        let sep = state.groupSeperator
         if (sep === null){
             await authServ.groupSeperator().then((data) => {
                 sep = data.seperator;
@@ -110,11 +112,15 @@ const actions = {
         commit('setUserPermissions', {userPermissions});
         commit('setSysAdmin', {sysAdmin});
         commit('setAdmin', {isAdmin});
+        commit('setLoading', {loading: false});
 
     }
 }
 
 const mutations = {
+    setLoading(state, {loading}){
+        state.loading = loading;
+    },
     setUserPermissions(state, { userPermissions }){
         state.userPermissions = userPermissions;
     },

@@ -7,6 +7,7 @@ import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import lineClamp from 'vue-line-clamp';
+import Clipboard from 'v-clipboard';
 
 import router from './router';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -14,6 +15,10 @@ import InfiniteLoading from 'vue-infinite-loading';
 import store from './store';
 
 import {Analytics} from './services/analytics';
+
+import VeeValidate from 'vee-validate';
+
+
 const analyticsServ = new Analytics()
 
 Vue.config.productionTip = false;
@@ -45,6 +50,10 @@ Vue.use(InfiniteLoading, {
 Vue.use(VueI18n);
 
 Vue.use(lineClamp, {});
+
+Vue.use(Clipboard);
+
+Vue.use(VeeValidate);
 
 import messages from './i18n/messages';
 

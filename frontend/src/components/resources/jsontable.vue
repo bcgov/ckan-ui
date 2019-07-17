@@ -1,0 +1,107 @@
+<template>
+  <v-card>
+      <v-toolbar dark color="primary">
+          <v-btn icon dark @click="$emit('closePreviewDialog')">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{name}} - Schema {{inferred ? '(Inferred)' : ''}}</v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+            <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+
+            <div v-else>
+                <div v-for="field in schema.fields" :key="'schema'+(field.name.text || field.descriptor.name)">
+                    <h3>Field: {{field.name.text || field.descriptor.name}}</h3>
+                    <div class="capitalize" v-if="field.type || field.descriptor.type">Type: {{field.type || field.descriptor.type}}</div>
+                    <div class="capitalize" v-if="field.description || (field.descriptor && field.descriptor.description)">Description: {{field.description || field.descriptor.description}}</div>
+                    <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field.descriptor && field.descriptor.constraints.required)">Required: {{field.constraints.required ? "Yes" : "No" || field.descriptor.constraints.required ? "Yes" : "No"}}</div>
+                    <div class="capitalize" v-if="field.format || (field.descriptor && field.descriptor.format)">Format: {{field.format || field.descriptor.format}}</div>
+                    <div class="capitalize" v-if="field.descriptor">
+                        Constraints: <br />
+                        <ul>
+                            <li class="capitalize" v-for="(cons, key) in field.descriptor.constraints" :key="'constraint-'+(field.name.text || field.descriptor.name)+'-'+key">
+                                {{key}}: {{cons}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-if="field.descriptor">
+                    <h4>Other Information</h4>
+                        <div v-for="(descript, key) in field.descriptor" :key="'genericInfo-'+field.name+'-'+key" class="capitalize">
+                            <span v-if="!['type', 'name', 'description', 'format', 'constraints'].includes(key)">
+                                {{key}}: {{descript}}
+                            </span>
+                        </div>
+                        <span v-if="Object.keys(field.descriptor).length==5">None</span>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+
+      </v-card-text>
+  </v-card>
+</template>
+
+<script>
+
+import { mapState } from 'vuex';
+
+export default{
+    components:{
+    },
+    props: {
+        resource: Object,
+        resourceIndex: Number
+    },
+    data() {
+        return {
+            name: this.resource.name,
+            id: this.resource.id,
+            loading: true,
+        }
+    },
+    computed: {
+        ...mapState({
+            resourceStore: state => state.dataset.resources,
+        }),
+        type: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].type ? this.resourceStore[this.id].type : '';
+        },
+        url: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].url ? this.resourceStore[this.id].url : '';
+        },
+        data: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].data ? this.resourceStore[this.id].data : [];
+        },
+        headers: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].headers ? this.resourceStore[this.id].headers : [];
+        },
+        schema: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].schema ? this.resourceStore[this.id].schema : {};
+        },
+        inferred: function(){
+            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].schemaInferred ? this.resourceStore[this.id].schemaInferred : {};
+        }
+
+    },
+    watch: {
+        schema: function(){
+            let load = true;
+            try{
+               load = Object.keys(this.resourceStore[this.id]).length === 0;
+            }catch(ex){
+                load = true;
+            }
+            this.loading =  load;
+        }
+    }
+
+}
+</script>
+
+<style scoped>
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+</style>

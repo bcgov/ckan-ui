@@ -1,15 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import home from '../components/pages/home'
-import datasets from '../components/pages/datasets'
-import dataset_view from '../components/pages/dataset_view'
-import dataset_edit from '../components/pages/dataset_edit'
-import organizations from '../components/pages/organizations'
-import organization_view from '../components/pages/organization_view'
-import groups from '../components/pages/groups'
-import group_view from '../components/pages/group'
-import user from '../components/pages/user'
+import home from '../components/pages/home';
+import datasets from '../components/pages/datasets';
+import dataset_view from '../components/pages/dataset_view';
+import organizations from '../components/pages/organizations';
+import organization_view from '../components/pages/organization_view';
+import groups from '../components/pages/groups';
+import group_view from '../components/pages/group';
+import user from '../components/pages/user';
 
 import NotFound from '../components/pages/404';
 
@@ -42,14 +41,6 @@ let r = new Router({
             component: dataset_view,
             meta: {
                 title: "Viewing Dataset"
-            }
-        },
-        {
-            path: '/dataset/:datasetId/edit',
-            name: 'dataset_edit',
-            component: dataset_edit,
-            meta: {
-                title: "Editing Dataset"
             }
         },
         {

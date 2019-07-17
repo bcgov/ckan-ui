@@ -29,20 +29,59 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-dialog
-                                v-model="dialog"
-                                fullscreen
-                                hide-overlay
-                                transition="dialog-bottom-transition"
-                            >
-                                <template v-slot:activator="{ on }">
-                                    <v-list-tile v-on="on">Preview</v-list-tile>
-                                </template>
-                                <Preview
-                                    :resource="resource"
-                                    v-on:closePreviewDialog="dialog = false"
-                                ></Preview>
-                            </v-dialog>
+                            <v-list-tile>
+                                <v-dialog
+                                    v-model="dialog"
+                                    fullscreen
+                                    style="z-index: 10000" 
+                                    transition="dialog-bottom-transition"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-list-tile v-on="on">Preview</v-list-tile>
+                                    </template>
+                                    <Preview
+                                        :resource="resource"
+                                        :resourceIndex="resourceIndex"
+                                        v-on:closePreviewDialog="dialog = false"
+                                    ></Preview>
+                                </v-dialog>
+                            </v-list-tile>
+                            <v-list-tile v-if="((resource.format.toLowerCase() === 'csv') || (resource.jsonSchema !== '' && typeof(resource.jsonSchema) !== 'undefined'))">
+                                <v-dialog
+                                    v-model="schemaDialog"
+                                    fullscreen
+                                    style="z-index: 10000" 
+                                    
+                                    transition="dialog-bottom-transition"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-list-tile v-on="on">View Schema (JSON Table Schema)</v-list-tile>
+                                    </template>
+                                    <JsonTable
+                                        :resource="resource"
+                                        :resourceIndex="resourceIndex"
+                                        v-on:closePreviewDialog="schemaDialog = false"
+                                    ></JsonTable>
+                                </v-dialog>
+                            </v-list-tile>
+                            <v-list-tile v-if="showEdit">
+                                <v-dialog
+                                    v-model="editDialog"
+                                    fullscreen
+                                    style="z-index: 10000" 
+                                    
+                                    transition="dialog-bottom-transition"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-list-tile v-on="on">Edit</v-list-tile>
+                                    </template>
+                                    <EditResource
+                                        :resource="resource"
+                                        :resourceIndex="resourceIndex"
+                                        v-on:closePreviewDialog="editDialog = false"
+                                    ></EditResource>
+                                </v-dialog>
+                            </v-list-tile>
                         </v-list>
                     </v-menu>
                 </v-flex>
@@ -53,18 +92,26 @@
 
 <script>
 import Preview from "../resources/preview";
+import JsonTable from "../resources/jsontable";
+import EditResource from "../resources/edit";
 
 export default {
     props: {
-        resource: Object
+        resource: Object,
+        resourceIndex: Number,
+        showEdit: Boolean,
     },
     components: {
-        Preview: Preview
+        Preview: Preview,
+        JsonTable: JsonTable,
+        EditResource: EditResource
     },
     methods: {},
     data() {
         return {
-            dialog: false
+            dialog: false,
+            schemaDialog: false,
+            editDialog: false,
         };
     }
 };

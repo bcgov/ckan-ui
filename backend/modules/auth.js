@@ -109,7 +109,7 @@ auth.removeExpired = function(req, res, next){
                 if (auth.isRenewable(req.user.refreshToken)){
                     auth.renew(req.user.jwt, req.user.refreshToken, function(refreshErr, accessToken, refreshToken){
                         if (refreshErr){
-                            console.err("refresh token error", refreshErr);
+                            console.error("refresh token error", refreshErr);
                             next();
                             return;
 

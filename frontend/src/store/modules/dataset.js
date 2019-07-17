@@ -1,27 +1,105 @@
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
+import { ResourceApi } from '../../services/resourceApi';
+const resourceServ = new ResourceApi();
+
+const Schema = require('jsontableschema').Schema;
+var infer = require('jsontableschema').infer;
+
+import Vue from 'vue';
+
+function getResourceSchema(resource, headers, data){
+
+    let s = null;
+    if (resource && resource.json_table_schema){
+        s = resource.json_table_schema;
+        new Schema(s).then((model) => {
+            return model;
+        });
+    }else if (headers.length>0 && data.length>0){
+        let options = {
+            rowLimit: 2,
+        };
+        s = infer(headers, data, options);
+        return s;
+    }
+}
+
 const state = {
     dataset: {},
-    unmodifiedDataset: {}
-};
-
-const getters = {
-    isLoaded: (state) => {
-        return Object.entries(state.dataset).length <= 0;
-    }
+    unmodifiedDataset: {},
+    schemas: {},
+    loading: false,
+    resources: {},
 };
 
 const actions = {
-    getDataset({ commit }, { id }) {
-        // eslint-disable-next-line
-        //console.log("ID: ", id);
+    getDataset({ commit, dispatch }, { id }) {
+        commit('setLoading', {loading: true});
         ckanServ.getDataset(id).then((data) => {
-            // eslint-disable-next-line
-            //console.log("Dataset: ", data);
             commit('setCurrentDataset', { dataset: data.result });
+            dispatch('getDatasetSchema');
         });
     },
+
+    getDatasetSchema(context){
+        let type = 'edc_dataset';
+        if (typeof(context.state.schemas[type]) !== "undefined"){
+            context.commit('setLoading', {loading: false});
+            return context.state.schemas[type];
+        }
+        ckanServ.getDatasetSchema(type).then((data) => {
+            if ((typeof(data.success) !== "undefined") && (data.success === true) && (typeof(data.result) !== "undefined")){
+                context.commit('setSchema', {type: type, data: data.result});
+                context.commit('setLoading', {loading: false});
+                return data.result;
+            }
+            // eslint-disable-next-line
+            console.error("error fetching schema type", data);
+            context.commit('setLoading', {loading: false});
+            return {};
+
+        });
+    },
+
+    getResource(context, {datasetResourceIndex, id}){
+        if (typeof(context.state.resources[id]) !== "undefined"){
+            return context.state.resources[id];
+        }
+        let resource = {};
+
+        resourceServ.getResource(id).then((data) => {
+            resource.type = "unknown";
+            resource.schema = null;
+
+            if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
+                resource.type = "404";
+            }else if (data['type'] === 'xls'){
+                resource.type = 'xls';
+            }else if (data.headers) {
+                resource.type = "csv";
+                resource.data = data.workbook
+                resource.headers = data.headers
+                if (!context.state.dataset.resources[datasetResourceIndex].json_table_schema){
+                    resource.schema = getResourceSchema(null, resource.headers, resource.data);
+                    resource.schemaInferred = false;
+                }
+            }else if (data['content-type'] === "application/pdf"){
+                resource.type = "pdf";
+                resource.url = data.origUrl;
+            } else {
+                resource.raw_data = data.raw_data;
+            }
+
+            if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema) ){
+                resource.schema = getResourceSchema(context.state.dataset.resources[datasetResourceIndex].json_table_schema, [], []);
+                resource.schemaInferred = true;
+            }
+            context.commit('setResource', {id: id, resource: resource});
+        });
+    },
+
     setDataset({ state }) {
         // eslint-disable-next-line
         //console.log("Saving...", state.dataset);
@@ -51,9 +129,18 @@ const actions = {
 };
 
 const mutations = {
+    setLoading(state, {loading}){
+        state.loading = loading;
+    },
+    setResource(state, {id, resource}){
+        Vue.set(state.resources, id, resource);
+    },
     setCurrentDataset(state, { dataset }) {
         state.dataset = Object.assign({}, dataset);
         state.unmodifiedDataset = Object.assign({}, dataset);
+    },
+    setSchema(state, {type, data}){
+        state.schemas[type] = Object.assign({}, data);
     },
     setAddContact(state) {
         state.dataset.contacts.push({
@@ -94,7 +181,6 @@ const mutations = {
 export default {
     namespaced: true,
     state,
-    getters,
     actions,
     mutations
 };

@@ -1,6 +1,22 @@
 module.exports = {
     devServer: {
         proxy: {
+            '/resourceUpdate': {
+                target: "http://localhost:5000/api/3/action/resource_update",
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/resourceUpdate': ""
+                }
+            },
+
+            '/resourceCreate': {
+                target: "http://localhost:5000/api/3/action/resource_create",
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/resourceCreate': ""
+                }
+            },
+
             '/api': {
                 target: 'http://localhost:3000/',
                 changeOrigin: true,
