@@ -1,7 +1,19 @@
 *:8080 {
     root /app
+    errors visible
+    #rewrite not /api/.* {path} /
 
-    rewrite not /api/.* {path} /
+    rewrite {
+        if {path} not_match ^\/(api\/.*|resourceCreate|resourceUpdate)
+        to {path} /
+    }
 
     proxy /api/ http://{$HOSTNAME}:3000/
+    proxy /resourceCreate {$CKAN_URL}/api/3/action/resource_create {
+        without /resourceCreate
+    }
+    
+    proxy /resourceUpdate {$CKAN_URL}/api/3/action/resource_update {
+        without /resourceUpdate
+    }
 }
