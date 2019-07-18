@@ -15,6 +15,7 @@ FROM abiosoft/caddy:1.0.0-no-stats
 WORKDIR /app
 
 COPY Caddyfile /etc/Caddyfile
+ENV CKAN_URL http://localhost:5000
 
 WORKDIR /app
 COPY --from=build-stage /app/dist /app
