@@ -44,7 +44,7 @@ const actions = {
     },
 
     getDatasetSchema(context){
-        let type = 'edc_dataset';
+        let type = 'bcdc_dataset';
         if (typeof(context.state.schemas[type]) !== "undefined"){
             context.commit('setLoading', {loading: false});
             return context.state.schemas[type];
@@ -104,6 +104,9 @@ const actions = {
         // eslint-disable-next-line
         //console.log("Saving...", state.dataset);
         return ckanServ.putDataset(state.dataset);
+    },
+    createDataset({ state }) {
+        return ckanServ.postDataset(state.dataset);
     },
     addContact({ commit }) {
         commit('setAddContact');

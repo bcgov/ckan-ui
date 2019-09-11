@@ -4,25 +4,23 @@
             <label>{{$tc(label)}}</label>
             <span>{{value}}</span>
         </div>
-        <v-autocomplete v-else
-            :label="$tc(displayLabel)"
-            :name="name"
-            :loading="loading"
-            v-model="val"
-            :placeholder="placeholder"
-            :items="items"
-            cache-items
-            chips
-            deletable-chips
-            multiple
-            :search-input.sync="search"
-            outline
-            v-validate="(field.required) ? 'required' : ''"
-            :data-vv-name="scopeName"
-            :data-vv-as="$tc(displayLabel)"
-            :data-vv-scope="scope"
-            :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-        ></v-autocomplete>
+        <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <v-autocomplete
+                :label="$tc(displayLabel)"
+                :name="name"
+                :loading="loading"
+                v-model="val"
+                :placeholder="placeholder"
+                :items="items"
+                cache-items
+                chips
+                deletable-chips
+                multiple
+                :search-input.sync="search"
+                outline
+                :error-messages="errors.length > 0 ? [errors[0]] : []"
+            ></v-autocomplete>
+        </ValidationProvider>
     </div>
 </template>
 
@@ -31,9 +29,10 @@ import {CkanApi} from '../../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 export default {
+    
     props: {
         name: String,
-        value: String,
+        value: [String,Array],
         label: String,
         editing: Boolean,
         placeholder: String,
@@ -46,7 +45,7 @@ export default {
             items: [],
             loading: false,
             search: null,
-            val: this.value.split(","),
+            val: this.value,//this.value.split(","),
             scopeName: this.scope + '.' + this.name,
         };
     },
@@ -57,7 +56,19 @@ export default {
     },
     watch: {
         val(){
-            this.$emit('edited', this.val);
+            if (this.val.length > 0){
+                let tmp = this.val;//.split(",");
+                for (let i=0; i<tmp.length; i++){
+                    if (tmp[i] === ""){
+                        tmp.splice(i, 1);
+                        i--;
+                    }
+                }
+                this.val = tmp;//.join(",");
+                this.$emit('edited', tmp);
+            }else{
+                this.$emit('edited', []);
+            }
         },
         search(val){
             this.loading = true;

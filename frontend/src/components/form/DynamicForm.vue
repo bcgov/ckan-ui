@@ -115,6 +115,7 @@
                     :editing="editing"
                     :orgArray="orgArray"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    :scope="scope"
                     :field="field">
                 </CompositeRepeating>
                 <CompositeRepeating 
@@ -154,6 +155,15 @@
                     :field="field"
                     :editing="editing">
                 </TextInput>
+                <Json
+                    v-else-if="field.form_snippet==='json.html'"
+                    :name="field.field_name" 
+                    :value="values[field.field_name]" 
+                    :label="field.label"
+                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    :field="field"
+                    :editing="editing">
+                </Json>
                 <Upload
                     v-else-if="field.form_snippet==='upload.html'"
                     :name="field.field_name" 
@@ -199,6 +209,7 @@ import CompositeRepeating from './components/CompositeRepeating';
 import License from './components/License';
 import TextInput from './components/TextInput';
 import Upload from './components/Upload';
+import Json from "./components/Json"
 
 export default {
     components: {
@@ -212,6 +223,7 @@ export default {
         License: License,
         TextInput: TextInput,
         Upload: Upload,
+        Json: Json,
     },
     props: {
         schema: Array,

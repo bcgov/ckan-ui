@@ -11,7 +11,7 @@
                     </div>
                 </span>
             </div>
-            <div v-else>
+            <div v-else :key="'composite'+field.field_name">
                 <v-card v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                     <v-card-actions v-if="repeatedIndex > 0">
                         <v-spacer></v-spacer>
@@ -21,47 +21,97 @@
                     </v-card-actions>
                     <v-card-text>
                         <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
-                            <v-checkbox
-                                v-if="sub.preset=='multiple_checkbox'"
-                                :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
-                                v-model="model[repeatedIndex][sub.field_name]"
-                                :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
-                                @change="$emit('edited', model)">
-                            </v-checkbox>
+                            <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-checkbox
+                                    :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @change="$emit('edited', model)">
+                                </v-checkbox>
+                            </ValidationProvider>
 
-                            <v-select v-else-if="sub.preset==='edc_org'"
-                                :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
-                                v-model="model[repeatedIndex][sub.field_name]"
-                                :label="((sub.label !== '') ? sub.label : sub.field_name) + (sub.required ? '*' : '')"
-                                :placeholder="sub.form_placeholder"
-                                :items="orgArray"
-                                item-text="label"
-                                item-value="value"
-                                outline
-                                @change="$emit('edited', model)">
-                            </v-select>
+                            <ValidationProvider v-else-if="sub.preset==='edc_org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-select
+                                    :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? sub.label : sub.field_name) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :items="orgArray"
+                                    item-text="label"
+                                    item-value="value"
+                                    outline
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @change="$emit('edited', model)">
+                                </v-select>
+                            </ValidationProvider>
 
-                            <v-select v-else-if="sub.preset==='select'"
-                                :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
-                                v-model="model[repeatedIndex][sub.field_name]"
-                                :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
-                                :placeholder="sub.form_placeholder"
-                                :items="sub.choices"
-                                item-text="label"
-                                item-value="value"
-                                outline
-                                @change="$emit('edited', model)">
-                            </v-select>
+                            <ValidationProvider v-else-if="sub.field_name==='org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-select
+                                    :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? sub.label : sub.field_name) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :items="orgArray"
+                                    item-text="label"
+                                    item-value="value"
+                                    outline
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @change="$emit('edited', model)">
+                                </v-select>
+                            </ValidationProvider>
 
-                            <v-text-field
-                                v-else
-                                outline
-                                :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
-                                v-model="model[repeatedIndex][sub.field_name]"
-                                :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
-                                :placeholder="sub.form_placeholder"
-                                @input="$emit('edited', model)">
-                            </v-text-field>
+                            <ValidationProvider v-else-if="sub.preset==='select'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-select
+                                    :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :items="sub.choices"
+                                    item-text="label"
+                                    item-value="value"
+                                    outline
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @change="$emit('edited', model)">
+                                </v-select>
+                            </ValidationProvider>
+
+                            <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-text-field
+                                    outline
+                                    :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @input="$emit('edited', model)">
+                                </v-text-field>
+                            </ValidationProvider>
+
+                            <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(sub.required ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-text-field
+                                    outline
+                                    :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @input="$emit('edited', model)">
+                                </v-text-field>
+                            </ValidationProvider>
+
+                            <ValidationProvider v-else :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-text-field
+                                    outline
+                                    
+                                    :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @input="$emit('edited', model)">
+                                </v-text-field>
+                            </ValidationProvider>
                         </div>
                     </v-card-text>
                     <v-card-actions v-if="repeatedIndex == (model.length-1)">
@@ -78,6 +128,7 @@
 
 <script>
 export default {
+    
     props: {
         field: Object,
         dataset: Object,

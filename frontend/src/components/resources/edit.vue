@@ -88,7 +88,7 @@ export default{
             formError: '',
             showFormError: false,
             showFormSuccess: false,
-            schemaName: 'edc_dataset',
+            schemaName: 'bcdc_dataset',
             scope: this.create ? 'createResourceForm' : 'resourceForm-'+this.resourceIndex,
         }
     },
@@ -109,6 +109,7 @@ export default{
         }
 
         var self = this;
+        this.errors = {};
         this.errors.errorState = function(){
             for (var i=0; i<this.items.length; i++){
                 if (this.items[i].scope === self.scope){

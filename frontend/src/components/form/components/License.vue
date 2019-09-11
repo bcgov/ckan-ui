@@ -4,21 +4,19 @@
             <label>{{$tc(label)}}:</label>
             <span>{{displayValue}}</span>
         </div>
-        <v-select v-else
-            :name="name"
-            v-model="val"
-            :label="$tc(displayLabel)"
-            :placeholder="placeholder"
-            :items="licenses"
-            item-text="label"
-            item-value="value"
-            v-validate="(field.required)? 'required' : ''"
-            :data-vv-name="scopeName"
-            :data-vv-as="$tc(displayLabel)"
-            :data-vv-scope="scope"
-            :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-            outline>
-        </v-select>
+        <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <v-select
+                :name="name"
+                v-model="val"
+                :label="$tc(displayLabel)"
+                :placeholder="placeholder"
+                :items="licenses"
+                item-text="title"
+                item-value="id"
+                :error-messages="errors.length > 0 ? [errors[0]] : []"
+                outline>
+            </v-select>
+        </ValidationProvider>
     </div>
 </template>
 
@@ -27,6 +25,7 @@ import {CkanApi} from '../../../services/ckanApi';
 let ckanServ = new CkanApi()
 
 export default {
+
     props: {
         name: String,
         value: String,

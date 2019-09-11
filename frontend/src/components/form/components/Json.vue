@@ -4,16 +4,16 @@
             <label>{{$tc(label)}}: </label>
             <span>{{value}}</span>
         </div>
-        <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
-            <v-text-field
+        <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <v-textarea 
                 :label="$tc(displayLabel)"
                 :name="name"
                 v-model="val"
                 :placeholder="placeholder"
-                
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                auto-grow
                 outline
-            ></v-text-field>
+            ></v-textarea>
         </ValidationProvider>
     </div>
 </template>
@@ -47,9 +47,20 @@ export default {
             this.$emit('edited', this.model);
         },
     },
-    mounted(){
-        if (this.field.field_name.toLowerCase().indexOf("date") >= 0){
-            this.validate += (this.validate.length > 0) ? "|date_format:yyyy-mm-dd" : "date_format:yyyy-mm-dd";
+    methods: {
+        validator: function(){
+            return {
+                getMessage(field) {
+                    return field + " is not valid JSON"
+                },
+                validate(value){
+                    try{
+                        return value.length === 0 || ( JSON.stringify(JSON.parse(value)) === value );
+                    }catch(e){
+                        return false;
+                    }
+                }
+            }
         }
     }
 

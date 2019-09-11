@@ -36,6 +36,14 @@ let r = new Router({
             }
         },
         {
+            path: '/dataset/create',
+            name: 'dataset_create',
+            component: dataset_view,
+            meta: {
+                title: "Creating a new Dataset"
+            }
+        },
+        {
             path: '/dataset/:datasetId',
             name: 'dataset_view',
             component: dataset_view,

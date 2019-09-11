@@ -4,24 +4,23 @@
             <label>{{$tc(label)}}:</label>
             <span>{{value}}</span>
         </div>
-        <v-text-field v-else
-            :label="$tc(displayLabel)"
-            :name="name"
-            v-model="val"
-            :placeholder="placeholder"
-            v-on:keyup="modified = true"
-            v-validate="validate"
-            :data-vv-name="scopeName"
-            :data-vv-as="$tc(displayLabel)"
-            :data-vv-scope="scope"
-            :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-            outline
-        ></v-text-field>
+        <ValidationProvider v-else :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <v-text-field
+                :label="$tc(displayLabel)"
+                :name="name"
+                v-model="val"
+                :placeholder="placeholder"
+                v-on:keyup="modified = true"
+                :error-messages="errors.length > 0 ? [errors[0]] : []"
+                outline
+            ></v-text-field>
+        </ValidationProvider>
     </div>
 </template>
 
 <script>
 export default {
+
     props: {
         name: String,
         value: String,
@@ -34,7 +33,7 @@ export default {
     data() {
         return {
             val: this.value,
-            validate: {url: {require_tld: false, require_host: false}},
+            validate: {required: this.field.required, url: {require_tld: false, require_host: false}},
             scopeName: this.scope + '.' + this.name,
         }
     },
@@ -50,9 +49,9 @@ export default {
     },
     mounted() {
         if (this.field.required){
-            this.validate['required'] = {};
+            this.validate['required'] = true;
         }
-    }
+    },
     
 };
 </script>

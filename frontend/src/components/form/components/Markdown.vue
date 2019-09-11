@@ -13,17 +13,15 @@
                 <v-btn icon small @click="wrap('**')"><v-icon>format_bold</v-icon></v-btn>
                 <v-btn icon small @click="wrap('~~')"><v-icon>format_strikethrough</v-icon></v-btn>
             </div>
-            <v-textarea
-                ref="ta"            
-                :name="name"
-                v-model="model"
-                v-validate="field.required ? 'required' : ''"
-                :data-vv-name="scopeName"
-                :data-vv-as="$tc(displayLabel)"
-                :data-vv-scope="scope"
-                :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-                outline
-            ></v-textarea>
+            <ValidationProvider :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+                <v-textarea
+                    ref="ta"            
+                    :name="name"
+                    v-model="model"
+                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                    outline
+                ></v-textarea>
+            </ValidationProvider>
         </div>
     </div>
 </template>
@@ -33,6 +31,7 @@
 let marked = require('marked');
 
 export default {
+
     props: {
         name: String,
         value: String,

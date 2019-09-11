@@ -180,6 +180,14 @@ export default {
         "Rejected": "Rejected",
         "Pending Archive": "Pending Archive",
         "Draft": "Draft",
+        "Data Quality": "Data Quality",
+        "Lineage Statement": "Lineage Statement",
+        "Purpose": "Purpose",
+        "Date": "Date",
+        "Date Type": "Date Type",
+        "Data Currency/Update": "Data Currency/Update",
+        "Creating a new Dataset": "Creating a new Dataset",
+        "Replacement Record": "Replacement Record", 
     },
     fr: {
         'data': 'données',
@@ -362,6 +370,13 @@ export default {
         "Rejected": "Rejetée",
         "Pending Archive": "Archives en attente",
         "Draft": "Brouillon",
-
+        "Data Quality": "Qualité des données",
+        "Lineage Statement": "Déclaration de lignage",
+        "Purpose": "Objectif",
+        "Date": "Date",
+        "Date Type": "Type de Date",
+        "Data Currency/Update": "Monnaie de données / mise à jour",
+        "Creating a new Dataset": "Création d'un nouveau jeu de données",
+        "Replacement Record": "Enregistrement de remplacement",
     }
 };

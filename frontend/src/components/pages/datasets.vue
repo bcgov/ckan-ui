@@ -17,6 +17,19 @@
             </v-flex>
             <v-flex xs1></v-flex>
             <v-flex xs11>
+                <v-btn
+                v-if="showCreate"
+                fab
+                dark
+                fixed
+                bottom
+                right
+                color="info"
+                class="text-xs-center"
+                :to="{name: 'dataset_create'}"
+            >
+                    <v-icon>edit</v-icon>
+                </v-btn>
                 <v-layout row wrap pb-3>
                 </v-layout>
                 <v-layout row wrap>
@@ -113,6 +126,9 @@
         ...mapState({
             facetFilters: state => state.search.facets,
             totalFilters: state => state.search.totalFilters,
+            userPermissions: state => state.user.userPermissions,
+            sysAdmin: state => state.user.sysAdmin,
+            isAdmin: state => state.user.isAdmin,
         }),
 
         searchText: {
@@ -142,6 +158,15 @@
 
         openDrawer: function(name){
             this.$emit('closeDrawer', name);
+        },
+
+        showCreate: function(){
+            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+            //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            if (!this.dataset.organization){
+                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+            }
+            return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
         },
 
         clearAll: function(){

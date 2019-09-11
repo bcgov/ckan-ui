@@ -23,7 +23,7 @@
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         </v-layout>
 
-        <v-layout row wrap>
+        <v-layout row wrap v-if="!createMode">
             <v-flex xs12>
                 <label>{{$tc("Permalink")}}:</label>
                 <span>{{permalink}}</span>
@@ -32,66 +32,71 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-        <v-form ref="form">
-            <v-btn
-                v-if="showEdit"
-                fab
-                dark
-                fixed
-                bottom
-                right
-                color="info"
-                class="text-xs-center"
-                @click="toggleEdit"
-            >
-                <v-icon>edit</v-icon>
-            </v-btn>
-            <v-layout v-else-if="editing" row class="button-container">
+        <ValidationObserver ref="observer" v-slot="{ validate }" slim>
+            <v-form ref="form" @submit.prevent="nothing">
                 <v-btn
+                    v-if="showEdit"
+                    fab
                     dark
-                    xs2
-                    color="error"
+                    fixed
+                    bottom
+                    right
+                    color="info"
                     class="text-xs-center"
-                    @click="cancel"
+                    @click="toggleEdit"
                 >
-                    Cancel
+                    <v-icon>edit</v-icon>
                 </v-btn>
-                <v-btn
-                    dark
-                    xs2
-                    color="primary"
-                    class="text-xs-center"
-                    @click="submit"
-                >
-                    Save
-                </v-btn>
-            </v-layout>
-            <template v-if="typeof(schema) === 'undefined'">
-                <OldView></OldView>
-            </template>
-            <template v-else>
-                <v-layout row wrap fill-height>
-                    <v-flex xs12 md8>
-                        <DynamicForm
-                            :schema="schema.dataset_fields"
-                            :textFields="textFields"
-                            :editing="editing"
-                            :values="dataset"
-                            @updated="(field, value) => updateDataset(field, value)"
-                        >
-                        </DynamicForm>
-                    </v-flex>
-                    <v-flex xs12 md4>
-                        <ResourceList :showEdit="showEdit" :resources="dataset.resources"></ResourceList>
-                    </v-flex>
+                <v-layout v-else-if="editing" row class="button-container">
+                    <v-btn
+                        dark
+                        xs2
+                        color="error"
+                        class="text-xs-center"
+                        @click="cancel"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        dark
+                        xs2
+                        color="primary"
+                        class="text-xs-center"
+                        type="submit"
+                        @click="submit"
+                    >
+                        Save
+                    </v-btn>
                 </v-layout>
-            </template>
-        </v-form>
+                <template v-if="typeof(schema) === 'undefined'">
+                    <OldView></OldView>
+                </template>
+                <template v-else>
+                    <v-layout row wrap fill-height>
+                        <v-flex xs12 md8>
+                            <DynamicForm
+                                :schema="schema.dataset_fields"
+                                :textFields="textFields"
+                                :editing="editing"
+                                :values="dataset"
+                                ref="dynoForm"
+                                @updated="(field, value) => updateDataset(field, value)"
+                            >
+                            </DynamicForm>
+                        </v-flex>
+                        <v-flex xs12 md4>
+                            <ResourceList :showEdit="showEdit" :resources="dataset.resources"></ResourceList>
+                        </v-flex>
+                    </v-layout>
+                </template>
+            </v-form>
+        </ValidationObserver>
     </v-container>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
 
 import Breadcrumb from "../breadcrumb/Breadcrumb";
@@ -108,15 +113,17 @@ export default {
         Breadcrumb: Breadcrumb,
         ResourceList: ResourceList,
         OldView: oldView,
+        ValidationObserver: ValidationObserver,
     },
     data() {
         return {
-            editing: false,
+            editing: this.$route.name === "dataset_create",
             formError: '',
             showFormError: false,
             formSuccess: '',
             showFormSuccess: false,
-            schemaName: 'edc_dataset',
+            schemaName: 'bcdc_dataset',
+            createMode: this.$route.name === "dataset_create",
             textFields: [
                 'object_name', 
                 'replacement_record', 
@@ -207,11 +214,29 @@ export default {
             this.showFormSuccess = false;
         },
         cancel(){
-            this.$store.commit("dataset/resetDataset");
-            this.toggleEdit();
+            //this.$store.commit("dataset/resetDataset");
+            //this.toggleEdit();
         },
+        
+        nothing(){
+        },
+
         async submit(){
-            let result = await this.$store.dispatch("dataset/setDataset");
+            const isValid = await this.$refs.observer.validate();
+
+            if (!isValid){
+                this.formError = "Please fix the fields in error before submitting";
+                this.showFormError = true;
+                this.showFormSuccess = false;
+                return;
+            }
+
+            let result = {};
+            if (this.createMode){
+                result = await this.$store.dispatch("dataset/createDataset")
+            }else{
+                result = await this.$store.dispatch("dataset/setDataset");
+            }
             if (result.success === false){
                 if (result.error.message){
                     this.formError = result.error.message;
@@ -239,7 +264,7 @@ export default {
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.$store.dispatch("organization/getOrgs");
         this.getDataset();
-        this.$refs.form.validate();
+        //this.$refs.form.validate();
     }
 };
 </script>

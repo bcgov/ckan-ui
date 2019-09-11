@@ -2,22 +2,21 @@
     <h2 v-if="!editing">
         {{value}}
     </h2>
-    <v-text-field v-else
-        :label="$tc(displayLabel)"
-        :name="name"
-        v-model="val"
-        :placeholder="placeholder"
-        v-validate="(field.required)? 'required' : ''"
-        :data-vv-name="scopeName"
-        :data-vv-as="$tc(displayLabel)"
-        :data-vv-scope="scope"
-        :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-        outline
-    ></v-text-field>
+    <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+        <v-text-field
+            :label="$tc(displayLabel)"
+            :name="name"
+            v-model="val"
+            :placeholder="placeholder"
+            outline
+            :error-messages="errors.length>0 ? [errors[0]] : []"
+        ></v-text-field>
+    </ValidationProvider>
 </template>
 
 <script>
 export default {
+
     props: {
         name: String,
         value: String,

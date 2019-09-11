@@ -4,28 +4,29 @@
             <label>{{$tc(label)}}:</label>
             <span>{{translate ? $tc(displayValue) : displayValue}}</span>
         </div>
-        <v-select v-else
-            :name="name"
-            v-model="val"
-            
-            :label="$tc(displayLabel)"
-            :placeholder="placeholder"
-            :items="items"
-            item-text="label"
-            item-value="value"
-            @change="onChange"
-            v-validate.initial="(field.required)? 'required:true' : ''"
-            :data-vv-name="scopeName"
-            :data-vv-as="$tc(displayLabel)"
-            :data-vv-scope="scope"
-            :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-            outline>
-        </v-select>
+        <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <v-select
+                :key="'select'+name"
+                :name="name"
+                v-model="val"
+                
+                :label="$tc(displayLabel)"
+                :placeholder="placeholder"
+                :items="items"
+                item-text="label"
+                item-value="value"
+                @change="onChange"
+                :error-messages="errors.length > 0 ? [errors[0]] : []"
+
+                outline>
+            </v-select>
+        </ValidationProvider>
     </div>
 </template>
 
 <script>
 export default {
+
     props: {
         name: String,
         value: String,
@@ -75,7 +76,7 @@ export default {
         initItems: function(){
             this.items = [];
 
-            if (this.includeBlank){
+            if (!this.includeBlank){
                 this.items.push({label: '', value: ''});
             }
 

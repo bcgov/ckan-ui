@@ -12,17 +12,16 @@
             <div v-else>
                 <v-card-text>
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <v-text-field
-                            outline
-                            :name="field.field_name+'.'+sub.field_name"
-                            v-model="model[sub.field_name]"
-                            :label="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name) + (sub.required ? '*' : '')"
-                            :data-vv-name="scope+'.'+field.field_name+'.'+sub.field_name"
-                            :data-vv-as="sub.label !== '' ? $tc(sub.label) : $tc(sub.field_name)"
-                            :data-vv-scope="scope"
-                            :error-messages="errors.first(scope+'.'+field.field_name+'.'+sub.field_name) ? [errors.first(scope+'.'+field.field_name+'.'+sub.field_name)] : []"
-                            :placeholder="sub.form_placeholder">
-                        </v-text-field>
+                        <ValidationProvider :rules="sub.required ? 'required|' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                            <v-text-field
+                                outline
+                                :name="field.field_name+'.'+sub.field_name"
+                                v-model="model[sub.field_name]"
+                                :label="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name) + (sub.required ? '*' : '')"
+                                :error-messages="errors.length < 0 ? [errors[0]] : []"
+                                :placeholder="sub.form_placeholder">
+                            </v-text-field>
+                        </ValidationProvider>
                     </div>
                 </v-card-text>
             </div>

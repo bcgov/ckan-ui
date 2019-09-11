@@ -12,28 +12,23 @@
                     :label="isURL ? 'URL' : 'File'"
                 ></v-switch>
             </div>
-
-            <v-text-field v-if="isURL"
-                :label="$tc(displayLabel)"
-                :name="name"
-                v-model="val"
-                :placeholder="placeholder"
-                v-validate="validate"
-                :data-vv-name="scopeName"
-                :data-vv-as="$tc(displayLabel)"
-                :data-vv-scope="scope"
-                :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []"
-                outline
-            ></v-text-field>
-            <div v-else>
-                <input 
-                    type='file' 
+            <ValidationProvider v-if="isURL" :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
+                <v-text-field
+                    :label="$tc(displayLabel)"
                     :name="name"
-                    v-validate="validate"
-                    :data-vv-name="scopeName"
-                    :data-vv-as="$tc(displayLabel)"
-                    :data-vv-scope="scope"
-                    :error-messages="errors.first(scopeName) ? [errors.first(scopeName)] : []" />
+                    v-model="val"
+                    :placeholder="placeholder"
+                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                    outline
+                ></v-text-field>
+            </ValidationProvider>
+            <div v-else>
+                <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
+                    <input 
+                        type='file' 
+                        :name="name"
+                        :error-messages="errors.length > 0 ? [errors[0]] : []" >
+                </ValidationProvider>
             </div>
         </div>
     </div>
