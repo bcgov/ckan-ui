@@ -10,16 +10,17 @@
                     v-bind:key="resource.id"
                     :resource="resource"
                     :resourceIndex="index"
-                    :showEdit="showEdit"
+                    :showEdit="createMode || showEdit"
                 ></ResourceCard>
                 <v-dialog
+                    v-if="!createMode && showEdit"
                     v-model="createDialog"
                     fullscreen
                     style="z-index: 10000"
                     transition="dialog-bottom-transition"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-if="showEdit" v-on="on" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
+                        <v-btn v-on="on" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
                     </template>
                     <EditResource
                         :resource="{}"
@@ -46,6 +47,7 @@ export default {
     props: {
         resources: Array,
         showEdit: Boolean,
+        createMode: Boolean,
     },
     computed: {
         ...mapState({

@@ -129,6 +129,8 @@
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
+            isEditor: state => state.user.isEditor,
+            userLoading: state => state.user.userLoading
         }),
 
         searchText: {
@@ -163,10 +165,8 @@
         showCreate: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
             //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+            return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
         },
 
         clearAll: function(){
@@ -308,7 +308,7 @@
 
             this.$store.commit('search/toggleFacet', {facet, filter});
 
-            this.getDatasets()
+            this.getDatasets();
         }
     },
 

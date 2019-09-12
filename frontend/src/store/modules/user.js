@@ -10,6 +10,7 @@ const state = {
     sysAdminGroup: null,
     sysAdmin: false,
     isAdmin: false,
+    isEditor: false,
     loading: true,
 };
 
@@ -78,10 +79,12 @@ const actions = {
         let userPermissions = {};
         let sysAdmin = false;
         let isAdmin = false;
+        let isEditor = false;
         if ( (loggedIn) && (Object.keys(state.userPermissions).length > 0) ){
             userPermissions = state.userPermissions;
             sysAdmin = state.sysAdmin;
             isAdmin = state.isAdmin;
+            isEditor = state.isEditor;
         }else if (loggedIn){
             
             for (let i=0; i<user.groups.length; i++){
@@ -98,6 +101,8 @@ const actions = {
                     let c = g.substring(g.indexOf(sep)+1);
                     if (c === "admin"){
                         isAdmin = true;
+                    }else if (c === "editor"){
+                        isEditor = true;
                     }
                     g = g.substring(0, g.indexOf(sep));
                     userPermissions[g] = c;
@@ -107,11 +112,13 @@ const actions = {
             userPermissions = {};
             isAdmin = false;
             sysAdmin = false;
+            isEditor = false;
         }
 
         commit('setUserPermissions', {userPermissions});
         commit('setSysAdmin', {sysAdmin});
         commit('setAdmin', {isAdmin});
+        commit('setEditor', {isEditor});
         commit('setLoading', {loading: false});
 
     }
@@ -144,6 +151,9 @@ const mutations = {
     },
     setAdmin(state, { isAdmin }){
         state.isAdmin = isAdmin;
+    },
+    setEditor(state, { isEditor }){
+        state.isEditor = isEditor;
     }
 }
 
