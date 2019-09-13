@@ -204,7 +204,9 @@ export default {
 
     methods: {
         getDataset() {
-            this.$store.dispatch("dataset/getDataset", { id: this.datasetId });
+            if (!this.createMode){
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId });
+            }
         },
         toggleEdit() {
             this.editing = !this.editing;

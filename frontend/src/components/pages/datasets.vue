@@ -140,7 +140,14 @@
             set(newValue){
                 this.$store.commit('search/setSearchText', newValue )
             }
-        }
+        },
+
+        showCreate: function(){
+            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+            //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+            return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+        },
 
     },
 
@@ -160,13 +167,6 @@
 
         openDrawer: function(name){
             this.$emit('closeDrawer', name);
-        },
-
-        showCreate: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-
-            return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
         },
 
         clearAll: function(){
