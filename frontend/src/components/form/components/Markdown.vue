@@ -6,12 +6,12 @@
         </div>
         <div v-else>
             <div class="toolbar">
-                <v-btn icon small @click="add('#')">H1</v-btn>
-                <v-btn icon small @click="add('##')">H2</v-btn>
-                <v-btn icon small @click="add('###')">H3</v-btn>
-                <v-btn icon small @click="wrap('*')"><v-icon>format_italic</v-icon></v-btn>
-                <v-btn icon small @click="wrap('**')"><v-icon>format_bold</v-icon></v-btn>
-                <v-btn icon small @click="wrap('~~')"><v-icon>format_strikethrough</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="add('#')">H1</v-btn>
+                <v-btn tabindex="-1" icon small @click="add('##')">H2</v-btn>
+                <v-btn tabindex="-1" icon small @click="add('###')">H3</v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('*')"><v-icon>format_italic</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('**')"><v-icon>format_bold</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('~~')"><v-icon>format_strikethrough</v-icon></v-btn>
             </div>
             <ValidationProvider :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
                 <v-textarea

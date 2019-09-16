@@ -15,7 +15,7 @@
                 <v-card v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                     <v-card-actions v-if="repeatedIndex > 0">
                         <v-spacer></v-spacer>
-                        <v-btn fab small color="error" @click="removeRecord(repeatedIndex)">
+                        <v-btn tabindex="-1" fab small color="error" @click="removeRecord(repeatedIndex)">
                             <v-icon>remove</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -27,7 +27,7 @@
                                     v-model="model[repeatedIndex][sub.field_name]"
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @change="$emit('edited', model)">
+                                    @change="modified">
                                 </v-checkbox>
                             </ValidationProvider>
 
@@ -42,7 +42,7 @@
                                     item-value="value"
                                     outline
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @change="$emit('edited', model)">
+                                    @change="modified">
                                 </v-select>
                             </ValidationProvider>
 
@@ -57,7 +57,7 @@
                                     item-value="value"
                                     outline
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @change="$emit('edited', model)">
+                                    @change="modified">
                                 </v-select>
                             </ValidationProvider>
 
@@ -72,7 +72,7 @@
                                     item-value="value"
                                     outline
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @change="$emit('edited', model)">
+                                    @change="modified">
                                 </v-select>
                             </ValidationProvider>
 
@@ -84,7 +84,7 @@
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @input="$emit('edited', model)">
+                                    @input="modified">
                                 </v-text-field>
                             </ValidationProvider>
 
@@ -96,7 +96,19 @@
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @input="$emit('edited', model)">
+                                    @input="modified">
+                                </v-text-field>
+                            </ValidationProvider>
+
+                            <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: sub.required, url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                                <v-text-field
+                                    outline
+                                    :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                                    v-model="model[repeatedIndex][sub.field_name]"
+                                    :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
+                                    :placeholder="sub.form_placeholder"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    @input="modified">
                                 </v-text-field>
                             </ValidationProvider>
 
@@ -109,14 +121,14 @@
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                    @input="$emit('edited', model)">
+                                    @input="modified">
                                 </v-text-field>
                             </ValidationProvider>
                         </div>
                     </v-card-text>
                     <v-card-actions v-if="repeatedIndex == (model.length-1)">
                         <v-spacer></v-spacer>
-                        <v-btn fab small color="primary" @click="addRecord">
+                        <v-btn tabindex="-1" fab small color="primary" @click="addRecord">
                             <v-icon>add</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -152,6 +164,10 @@ export default {
 
         removeRecord: function(index){
             this.model.splice(index,1);
+        },
+
+        modified: function(){
+            this.$emit('edited', JSON.stringify(this.model));
         }
     },
     computed: {
@@ -163,11 +179,12 @@ export default {
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [{}];
-            for (let i=0; i<this.dataset[this.field.field_name].length; i++){
+            let value = JSON.parse(this.dataset[this.field.field_name]);
+            for (let i=0; i<value.length; i++){
                 this.model[i] = {};
                 for (let j=0; j<this.field.subfields.length; j++){
-                    if (this.dataset[this.field.field_name] && this.dataset[this.field.field_name][i] && this.dataset[this.field.field_name][i][this.field.subfields[j].field_name]){
-                        this.model[i][this.field.subfields[j].field_name] = this.dataset[this.field.field_name][i][this.field.subfields[j].field_name];
+                    if (value && value[i] && value[i][this.field.subfields[j].field_name]){
+                        this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
                     }else{
                         this.model[i][this.field.subfields[j].field_name] = "";
                     }
@@ -175,11 +192,6 @@ export default {
             }
         }
     },
-    watch: {
-        model(){
-            this.$emit('edited', this.model);
-        },
-    }
 };
 </script>
 

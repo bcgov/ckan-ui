@@ -66,6 +66,25 @@
                             </v-list-tile>
                             <v-list-tile v-if="showEdit">
                                 <v-dialog
+                                    v-model="viewDialog"
+                                    fullscreen
+                                    style="z-index: 10000" 
+                                    
+                                    transition="dialog-bottom-transition"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-list-tile v-on="on">View</v-list-tile>
+                                    </template>
+                                    <EditResource
+                                        edit="false"
+                                        :resource="resource"
+                                        :resourceIndex="resourceIndex"
+                                        v-on:closePreviewDialog="editDialog = false"
+                                    ></EditResource>
+                                </v-dialog>
+                            </v-list-tile>
+                            <v-list-tile v-if="showEdit">
+                                <v-dialog
                                     v-model="editDialog"
                                     fullscreen
                                     style="z-index: 10000" 
@@ -76,6 +95,7 @@
                                         <v-list-tile v-on="on">Edit</v-list-tile>
                                     </template>
                                     <EditResource
+                                        edit="true"
                                         :resource="resource"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="editDialog = false"

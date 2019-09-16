@@ -103,7 +103,9 @@ const actions = {
     setDataset({ state }) {
         // eslint-disable-next-line
         //console.log("Saving...", state.dataset);
-        return ckanServ.putDataset(state.dataset);
+        let dataset = JSON.parse(JSON.stringify(state.dataset));
+        delete dataset.resources;
+        return ckanServ.putDataset(dataset);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);

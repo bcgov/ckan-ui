@@ -28,7 +28,7 @@
                     <DynamicForm
                         :schema="schema.resource_fields"
                         :textFields="textFields"
-                        :editing="true"
+                        :editing="edit"
                         :values="resource"
                         :scope="scope"
                         @updated="(field, value) => updateResource(field, value)"
@@ -71,6 +71,7 @@ export default{
         DynamicForm: DynamicForm
     },
     props: {
+        edit: Boolean,
         resource: Object,
         resourceIndex: Number,
         create: {

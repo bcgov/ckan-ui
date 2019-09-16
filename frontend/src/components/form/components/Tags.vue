@@ -1,8 +1,8 @@
 <template>
     <div>
         <div v-if="!editing">
-            <label>{{$tc(label)}}</label>
-            <span>{{value}}</span>
+            <label>{{$tc(label)}}: </label>
+            <span>{{val}}</span>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-autocomplete
@@ -12,6 +12,8 @@
                 v-model="val"
                 :placeholder="placeholder"
                 :items="items"
+                :item-text="itemTextField"
+                :item-value="itemValueField"
                 cache-items
                 chips
                 deletable-chips
@@ -39,13 +41,24 @@ export default {
         autoCompleteSource: String,
         field: Object,
         scope: String,
+        itemTextField: {
+            type: String,
+            default: 'name',
+        },
+        itemValueField: {
+            type: String,
+            default: "id"
+        }
     },
     data(){
+        var self = this;
         return {
             items: [],
             loading: false,
             search: null,
-            val: this.value,//this.value.split(","),
+            val: typeof(this.value) === "object" ? this.value.map(function(item){
+                return item[self.itemTextField]
+            }).join(",") : "",
             scopeName: this.scope + '.' + this.name,
         };
     },

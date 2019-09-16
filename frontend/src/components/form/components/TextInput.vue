@@ -44,7 +44,7 @@ export default {
     },
     watch: {
         val(){
-            this.$emit('edited', this.model);
+            this.$emit('edited', this.val);
         },
     },
     mounted(){

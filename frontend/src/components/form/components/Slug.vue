@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             val: this.value,
-            validate: {required: this.field.required, url: {require_tld: false, require_host: false}},
+            validate: {required: this.field.required, slug: true},
             scopeName: this.scope + '.' + this.name,
         }
     },

@@ -114,6 +114,8 @@ router.put('/dataset', auth.removeExpired, function(req, res, next) {
         return res.json({error: "Not logged in"});
     }
 
+    console.log("CREATING PACKAGE", req.body);
+
     request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
         if (err) {
             console.log(err);
@@ -129,7 +131,7 @@ router.put('/dataset', auth.removeExpired, function(req, res, next) {
             res.json(json);
         } catch (ex) {
             console.error("Error reading json from ckan", ex);
-            res.json({ error: ex });
+            res.json({ error: ex, body: body });
         }
     });
 
@@ -145,6 +147,8 @@ router.post('/dataset', auth.removeExpired, function(req, res, next) {
         return res.json({error: "Not logged in"});
     }
 
+    console.log("CREATING PACKAGE", req.body);
+
     request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
         if (err) {
             console.log(err);
@@ -153,6 +157,7 @@ router.post('/dataset', auth.removeExpired, function(req, res, next) {
         }
         if (apiRes.statusCode !== 200) {
             console.log("Body Status? ", apiRes.statusCode);
+            //console.log("Body ", body);
         }
 
         try {
@@ -160,7 +165,7 @@ router.post('/dataset', auth.removeExpired, function(req, res, next) {
             res.json(json);
         } catch (ex) {
             console.error("Error reading json from ckan", ex);
-            res.json({ error: ex });
+            res.json({ error: ex, body: body });
         }
     });
 

@@ -186,7 +186,7 @@ export default {
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             loading: state => state.dataset.loading,
-            userLoading: state => state.dataset.loading,
+            userLoading: state => state.user.loading,
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs",
@@ -204,8 +204,10 @@ export default {
 
     methods: {
         getDataset() {
-            if (!this.createMode){
+            if ((!this.createMode) || (typeof(this.datasetId) !== "undefined")){
                 this.$store.dispatch("dataset/getDataset", { id: this.datasetId });
+            }else{
+                this.$store.dispatch('dataset/getDatasetSchema');
             }
         },
         toggleEdit() {
@@ -216,8 +218,10 @@ export default {
             this.showFormSuccess = false;
         },
         cancel(){
-            //this.$store.commit("dataset/resetDataset");
-            //this.toggleEdit();
+            if (!this.createMode){
+                this.$store.commit("dataset/resetDataset");
+            }
+            this.toggleEdit();
         },
         
         nothing(){
@@ -239,11 +243,13 @@ export default {
             }else{
                 result = await this.$store.dispatch("dataset/setDataset");
             }
-            if (result.success === false){
+            if (!result || !result.success || result.success === false){
                 if (result.error.message){
                     this.formError = result.error.message;
                 }else if (result.error.type && result.error.type[0]){
                     this.formError = result.error.type[0];
+                }else if (result.error){
+                    this.formError = result.error;
                 }else{
                     this.formError = "Unknown Error";
                 }
@@ -257,6 +263,9 @@ export default {
             }
         },
         updateDataset(field, newValue){
+            if (typeof(this.dataset.type) === "undefined"){
+                this.dataset.type = "bcdc_dataset";
+            }
             this.dataset[field] = newValue;
             this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
         },

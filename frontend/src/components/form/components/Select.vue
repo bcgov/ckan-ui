@@ -76,7 +76,7 @@ export default {
         initItems: function(){
             this.items = [];
 
-            if (!this.includeBlank){
+            if (this.includeBlank){
                 this.items.push({label: '', value: ''});
             }
 

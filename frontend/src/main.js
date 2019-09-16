@@ -67,11 +67,32 @@ extend('email', {
   message: (field) => { return field[0].toUpperCase() + field.slice(1) + ' is not a valid email.'; }
 });
 
+extend('slug', {
+  validate: (value) => { 
+    if (value){
+      var regString = '^[A-z0-9-_]*$';
+      let regex = new RegExp(regString);
+      return value.match(regex);
+    }
+    return  true;
+  },
+  message: (field) => { return field[0].toUpperCase() + field.slice(1) + ' is not a valid slug you can only use letters, numbers dashes and/or underscores'; }
+});
+
 extend('url', {
   params: ['require_tld', 'require_host'],
   validate: (value, { require_tld, require_host }) => { 
-    if (value || require_tld || require_host){
-      return true;
+    if (value){
+      var regString = '^';
+      if (require_tld){
+        regString += '(ht|f)tp(s)?://';
+      }
+      if (require_host){
+        regString += '[A-z0-9-_]+[.][A-z0-9-_][A-z0-9-_.]*';
+      }
+      regString += '[A-z0-9?&=./-_#]*$';
+      let regex = new RegExp(regString);
+      return value.match(regex);
     }
     return  true;
   },

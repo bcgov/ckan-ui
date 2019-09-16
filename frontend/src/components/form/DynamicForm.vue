@@ -96,10 +96,10 @@
                     :field="field"
                     :placeholder="field.form_placeholder">
                 </Markdown>
-                <Autocomplete
+                <Tags
                     v-else-if="field.preset==='tag_string_autocomplete'" 
                     :name="field.field_name"
-                    :value="values[field.field_name] ? values[field.field_name] : ''" 
+                    :value="values['tags'] ? values['tags'] : ''" 
                     :label="field.label"
                     :editing="editing"
                     :placeholder="field.form_placeholder"
@@ -108,7 +108,7 @@
                     :scope="scope"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                 >
-                </Autocomplete>
+                </Tags>
                 <CompositeRepeating 
                     v-else-if="field.preset==='composite_repeating'"
                     :dataset="values"
@@ -203,7 +203,7 @@ import Title from './components/Title';
 import Select from './components/Select';
 import Slug from './components/Slug';
 import Markdown from './components/Markdown';
-import Autocomplete from './components/Autocomplete';
+import Tags from './components/Tags';
 import Composite from './components/Composite';
 import CompositeRepeating from './components/CompositeRepeating';
 import License from './components/License';
@@ -217,7 +217,7 @@ export default {
         Select: Select,
         Slug: Slug,
         Markdown: Markdown,
-        Autocomplete: Autocomplete,
+        Tags: Tags,
         Composite: Composite,
         CompositeRepeating: CompositeRepeating,
         License: License,
