@@ -64,7 +64,7 @@
                                     ></JsonTable>
                                 </v-dialog>
                             </v-list-tile>
-                            <v-list-tile v-if="showEdit">
+                            <v-list-tile v-if="!datasetBeingEdited">
                                 <v-dialog
                                     v-model="viewDialog"
                                     fullscreen
@@ -76,10 +76,10 @@
                                         <v-list-tile v-on="on">View</v-list-tile>
                                     </template>
                                     <EditResource
-                                        edit="false"
+                                        :edit="false"
                                         :resource="resource"
                                         :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="editDialog = false"
+                                        v-on:closePreviewDialog="viewDialog = false"
                                     ></EditResource>
                                 </v-dialog>
                             </v-list-tile>
@@ -95,7 +95,7 @@
                                         <v-list-tile v-on="on">Edit</v-list-tile>
                                     </template>
                                     <EditResource
-                                        edit="true"
+                                        :edit="true"
                                         :resource="resource"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="editDialog = false"
@@ -120,6 +120,7 @@ export default {
         resource: Object,
         resourceIndex: Number,
         showEdit: Boolean,
+        datasetBeingEdited: Boolean,
     },
     components: {
         Preview: Preview,
@@ -132,6 +133,7 @@ export default {
             dialog: false,
             schemaDialog: false,
             editDialog: false,
+            viewDialog: false,
         };
     }
 };

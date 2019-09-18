@@ -12,7 +12,7 @@
             <div v-else>
                 <v-card-text>
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <ValidationProvider :rules="sub.required ? 'required|' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider :rules="sub.required ? 'required|' : ''" v-slot="{ errors }" :name="sub.field_name">
                             <v-text-field
                                 outline
                                 :name="field.field_name+'.'+sub.field_name"

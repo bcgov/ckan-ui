@@ -96,6 +96,7 @@ const actions = {
                 resource.schema = getResourceSchema(context.state.dataset.resources[datasetResourceIndex].json_table_schema, [], []);
                 resource.schemaInferred = true;
             }
+            resource.metadata = data.metadata;
             context.commit('setResource', {id: id, resource: resource});
         });
     },

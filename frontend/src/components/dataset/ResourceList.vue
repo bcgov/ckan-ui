@@ -11,6 +11,7 @@
                     :resource="resource"
                     :resourceIndex="index"
                     :showEdit="createMode || showEdit"
+                    :datasetBeingEdited="datasetBeingEdited"
                 ></ResourceCard>
                 <v-dialog
                     v-if="!createMode && showEdit"
@@ -48,6 +49,7 @@ export default {
         resources: Array,
         showEdit: Boolean,
         createMode: Boolean,
+        datasetBeingEdited: Boolean,
     },
     computed: {
         ...mapState({

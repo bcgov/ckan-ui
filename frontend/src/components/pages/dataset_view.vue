@@ -85,7 +85,7 @@
                             </DynamicForm>
                         </v-flex>
                         <v-flex xs12 md4>
-                            <ResourceList :createMode="createMode" :showEdit="showEdit" :resources="dataset.resources"></ResourceList>
+                            <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                         </v-flex>
                     </v-layout>
                 </template>

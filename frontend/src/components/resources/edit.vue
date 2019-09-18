@@ -7,7 +7,7 @@
           <v-toolbar-title>{{name}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-            <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+            <i v-if="loading || typeof(resourceStore[resource.id])==='undefined' || typeof(resourceStore[resource.id].metadata) === 'undefined'" class="fa fa-circle-o-notch fa-spin"></i>
 
             <div v-else>
                 <v-alert
@@ -24,20 +24,22 @@
                     type="error">
                     {{formError}}
                 </v-alert>
-                <v-form ref="form">
-                    <DynamicForm
-                        :schema="schema.resource_fields"
-                        :textFields="textFields"
-                        :editing="edit"
-                        :values="resource"
-                        :scope="scope"
-                        @updated="(field, value) => updateResource(field, value)"
-                    >
-                    </DynamicForm>
-                </v-form>
+                <ValidationObserver ref="observer" v-slot="{ validate }" slim>
+                    <v-form ref="form">
+                        <DynamicForm
+                            :schema="schema.resource_fields"
+                            :textFields="textFields"
+                            :editing="edit"
+                            :values="resourceStore[resource.id].metadata"
+                            :scope="scope"
+                            @updated="(field, value) => updateResource(field, value)"
+                        >
+                        </DynamicForm>
+                    </v-form>
+                </ValidationObserver>
             </div>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions v-if="edit || create ">
             <v-btn
                 dark
                 xs2
@@ -63,12 +65,14 @@
 <script>
 import { mapState } from "vuex";
 import DynamicForm from '../form/DynamicForm';
+import { ValidationObserver } from "vee-validate";
 import {CkanApi} from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 export default{
     components:{
-        DynamicForm: DynamicForm
+        DynamicForm: DynamicForm,
+        ValidationObserver: ValidationObserver
     },
     props: {
         edit: Boolean,
@@ -83,7 +87,7 @@ export default{
         return {
             name: this.resource.name ? this.resource.name : "Create a new resource",
             loading: false,
-            textFields: ['name'],
+            textFields: ['name', 'object_name'],
             newResource: {},
             formSuccess: '',
             formError: '',
@@ -100,25 +104,20 @@ export default{
         ...mapState({
             dataset: state => state.dataset.dataset,
             authUser: state => state.user.authUser,
+            resourceStore: state => state.dataset.resources,
         }),
 
     },
     mounted() {
-        let keys = Object.keys(this.schema);
-        for (var i=0; i<keys.length; i++){
-            this.newResource[keys[i]] = null;
-        }
-
-        var self = this;
-        this.errors = {};
-        this.errors.errorState = function(){
-            for (var i=0; i<this.items.length; i++){
-                if (this.items[i].scope === self.scope){
-                    return true;
-                }
+        if (this.create){
+            let keys = Object.keys(this.schema);
+            for (var i=0; i<keys.length; i++){
+                this.newResource[keys[i]] = null;
             }
-            return false;
+        }else{
+            this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.resource.id});
         }
+        
     },
 
     methods: {
@@ -131,7 +130,7 @@ export default{
             }
         },
         save: async function(){
-            let valid = !this.errors.errorState();
+            const valid = await this.$refs.observer.validate();
             if (!valid){
                 this.formError = "Please fix validation errors"
                 this.showFormError = true;
@@ -169,6 +168,8 @@ export default{
             }
 
             function handleErrorResponse(error){
+                //eslint-disable-next-line
+                console.log(error);
                 self.formSuccess = '';
                 self.formError = error.response.data.error.type[0];
                 self.showFormError = true;

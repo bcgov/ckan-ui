@@ -109,6 +109,19 @@
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                 >
                 </Tags>
+                <Autocomplete
+                    v-else-if="field.preset==='autocomplete'" 
+                    :name="field.field_name"
+                    :value="values[field.field_name] ? values[field.field_name] : ''" 
+                    :label="field.label"
+                    :editing="editing"
+                    :placeholder="field.form_placeholder"
+                    :field="field"
+                    :scope="scope"
+                    :items="field.choices"
+                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                >
+                </Autocomplete>
                 <CompositeRepeating 
                     v-else-if="field.preset==='composite_repeating'"
                     :dataset="values"
@@ -204,6 +217,7 @@ import Select from './components/Select';
 import Slug from './components/Slug';
 import Markdown from './components/Markdown';
 import Tags from './components/Tags';
+import Autocomplete from './components/Autocomplete';
 import Composite from './components/Composite';
 import CompositeRepeating from './components/CompositeRepeating';
 import License from './components/License';
@@ -224,6 +238,7 @@ export default {
         TextInput: TextInput,
         Upload: Upload,
         Json: Json,
+        Autocomplete: Autocomplete,
     },
     props: {
         schema: Array,
