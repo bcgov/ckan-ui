@@ -30,34 +30,41 @@ const state = {
     dataset: {},
     unmodifiedDataset: {},
     schemas: {},
-    loading: false,
+    schemaLoading: false,
+    dataLoading: false,
     resources: {},
 };
 
 const actions = {
     getDataset({ commit, dispatch }, { id }) {
-        commit('setLoading', {loading: true});
+        commit('setDataLoading', {dataLoading: true});
+        commit('setSchemaLoading', {schemaLoading: true});
         ckanServ.getDataset(id).then((data) => {
             commit('setCurrentDataset', { dataset: data.result });
-            dispatch('getDatasetSchema');
+            commit('setDataLoading', {dataLoading: false});
+            dispatch('getDatasetSchema').then(() => {
+                commit('setSchemaLoading', {schemaLoading: false});
+            });
+        }).error(() => {
+            // eslint-disable-next-line
+            console.log("An error occured in ckanserv")
+            commit('setSchemaLoading', {schemaLoading: false});
+            commit('setDataLoading', {dataLoading: false});
         });
     },
 
     getDatasetSchema(context){
         let type = 'bcdc_dataset';
         if (typeof(context.state.schemas[type]) !== "undefined"){
-            context.commit('setLoading', {loading: false});
             return context.state.schemas[type];
         }
         ckanServ.getDatasetSchema(type).then((data) => {
             if ((typeof(data.success) !== "undefined") && (data.success === true) && (typeof(data.result) !== "undefined")){
                 context.commit('setSchema', {type: type, data: data.result});
-                context.commit('setLoading', {loading: false});
                 return data.result;
             }
             // eslint-disable-next-line
             console.error("error fetching schema type", data);
-            context.commit('setLoading', {loading: false});
             return {};
 
         });
@@ -135,8 +142,11 @@ const actions = {
 };
 
 const mutations = {
-    setLoading(state, {loading}){
-        state.loading = loading;
+    setDataLoading(state, {dataLoading}){
+        state.dataLoading = dataLoading;
+    },
+    setSchemaLoading(state, {schemaLoading}) {
+        state.schemaLoading = schemaLoading;
     },
     setResource(state, {id, resource}){
         Vue.set(state.resources, id, resource);

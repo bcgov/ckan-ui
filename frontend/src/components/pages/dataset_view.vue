@@ -1,5 +1,5 @@
 <template>
-    <v-container v-if="loading" fluid>
+    <v-container v-if="dataLoading || schemaLoading" fluid>
         <v-layout row align-center justify-center>
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
         </v-layout>
@@ -68,27 +68,23 @@
                         Save
                     </v-btn>
                 </v-layout>
-                <template v-if="typeof(schema) === 'undefined'">
-                    <OldView></OldView>
-                </template>
-                <template v-else>
-                    <v-layout row wrap fill-height>
-                        <v-flex xs12 md8>
-                            <DynamicForm
-                                :schema="schema.dataset_fields"
-                                :textFields="textFields"
-                                :editing="editing"
-                                :values="dataset"
-                                ref="dynoForm"
-                                @updated="(field, value) => updateDataset(field, value)"
-                            >
-                            </DynamicForm>
-                        </v-flex>
-                        <v-flex xs12 md4>
-                            <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-                        </v-flex>
-                    </v-layout>
-                </template>
+                
+                <v-layout row wrap fill-height>
+                    <v-flex xs12 md8>
+                        <DynamicForm
+                            :schema="schema.dataset_fields"
+                            :textFields="textFields"
+                            :editing="editing"
+                            :values="dataset"
+                            ref="dynoForm"
+                            @updated="(field, value) => updateDataset(field, value)"
+                        >
+                        </DynamicForm>
+                    </v-flex>
+                    <v-flex xs12 md4>
+                        <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                    </v-flex>
+                </v-layout>
             </v-form>
         </ValidationObserver>
     </v-container>
@@ -102,7 +98,6 @@ import ResourceList from "../dataset/ResourceList";
 import Breadcrumb from "../breadcrumb/Breadcrumb";
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
-import oldView from './dataset_old_view';
 
 
 import DynamicForm from '../form/DynamicForm';
@@ -112,7 +107,6 @@ export default {
         DynamicForm: DynamicForm,
         Breadcrumb: Breadcrumb,
         ResourceList: ResourceList,
-        OldView: oldView,
         ValidationObserver: ValidationObserver,
     },
     data() {
@@ -123,6 +117,7 @@ export default {
             formSuccess: '',
             showFormSuccess: false,
             schemaName: 'bcdc_dataset',
+            schema: {},
             createMode: this.$route.name === "dataset_create",
             textFields: [
                 'object_name', 
@@ -168,7 +163,10 @@ export default {
             return window.location.origin+'/dataset/'+this.dataset.id
         },
 
-        
+        // schema: function () {
+        //     return this.$store.state.dataset.schemas[this.schemaName];
+        // },
+          
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
@@ -176,17 +174,15 @@ export default {
             return "/dataset/" + this.datasetId + "/edit";
         },
 
-        schema: function(){
-            return this.$store.state.dataset.schemas[this.schemaName];
-        },
-
         ...mapState({
             dataset: state => state.dataset.dataset,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
-            loading: state => state.dataset.loading,
+            dataLoading: state => state.dataset.dataLoading,
+            schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,
+            schemas: state => state.dataset.schemas,
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs",
@@ -196,17 +192,26 @@ export default {
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
             //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
             if (!this.dataset.organization){
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             }
-            return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
         }
     },
 
     methods: {
         getDataset() {
-            if ((!this.createMode) || (typeof(this.datasetId) !== "undefined")){
-                this.$store.dispatch("dataset/getDataset", { id: this.datasetId });
-            }else{
+            this.$store.subscribe(
+                (mutation, state) => {
+                    if(mutation.type == "dataset/setSchema") {
+                        this.schema = state.dataset.schemas[this.schemaName];
+                    }
+                }
+            )
+            if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")){
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
+                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
+                });
+            } else if (this.schemaLoading) {
                 this.$store.dispatch('dataset/getDatasetSchema');
             }
         },
@@ -271,12 +276,13 @@ export default {
         },
     },
 
-    mounted(){
+    mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.$store.dispatch("organization/getOrgs");
         this.getDataset();
         //this.$refs.form.validate();
-    }
+    },
+
 };
 </script>
 

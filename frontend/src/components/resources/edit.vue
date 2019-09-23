@@ -126,7 +126,7 @@ export default{
                 this.newResource[field] = newValue;
             }else{
                 this.resource[field] = newValue;
-                this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
+                //this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
             }
         },
         save: async function(){

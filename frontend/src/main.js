@@ -43,6 +43,7 @@ Vue.use(Vuetify, {
       customProperties: true
   }
 });
+
 Vue.use(InfiniteLoading, {
     system: {
         throttleLimit: 500
