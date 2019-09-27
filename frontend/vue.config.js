@@ -34,8 +34,8 @@ module.exports = {
             splitChunks: {
                 chunks: 'all',
                 maxInitialRequests: Infinity,
-                minSize: 0,
-                maxSize: 1024,
+                minSize: 10000,
+                maxSize: 25000,
                 cacheGroups: {
                     vendor: {
                         test: /\/node_modules\/!(pdfvuer)\//,
