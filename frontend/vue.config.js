@@ -1,3 +1,4 @@
+var path = require('path');
 module.exports = {
     devServer: {
         proxy: {
@@ -29,7 +30,7 @@ module.exports = {
 
     configureWebpack: {
         optimization: {
-            runtimeChunk: 'multiple',
+            runtimeChunk: 'single',
             splitChunks: {
                 chunks: 'all',
                 maxInitialRequests: Infinity,

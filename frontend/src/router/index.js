@@ -1,18 +1,16 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import home from '../components/pages/home';
-import datasets from '../components/pages/datasets';
-import dataset_view from '../components/pages/dataset_view';
-import organizations from '../components/pages/organizations';
-import organization_view from '../components/pages/organization_view';
-import groups from '../components/pages/groups';
-import group_view from '../components/pages/group';
-import user from '../components/pages/user';
-
-import NotFound from '../components/pages/404';
-
-import about from '../components/pages/about';
+const home = () => import(/* webpackChunkName: "home" */ "../components/pages/home");
+const datasets = () => import(/* webpackChunkName: "datasets" */ "../components/pages/datasets");
+const dataset_view = () => import(/* webpackChunkName: "dataset_view" */ "../components/pages/dataset_view");
+const organizations = () => import(/* webpackChunkName: "organizations" */ "../components/pages/organizations");
+const organization_view = () => import(/* webpackChunkName: "organization_view" */ "../components/pages/organization_view");
+const groups = () => import(/* webpackChunkName: "groups" */ "../components/pages/groups");
+const group_view = () => import(/* webpackChunkName: "group_view" */ "../components/pages/group");
+const user = () => import(/* webpackChunkName: "user" */ "../components/pages/user");
+const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/pages/404");
+const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
 
 Vue.use(Router);
 
