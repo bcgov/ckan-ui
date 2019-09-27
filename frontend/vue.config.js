@@ -30,7 +30,7 @@ module.exports = {
 
     configureWebpack: {
         optimization: {
-            runtimeChunk: 'single',
+            runtimeChunk: 'multiple',
             splitChunks: {
                 chunks: 'all',
                 maxInitialRequests: Infinity,
