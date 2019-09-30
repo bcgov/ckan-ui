@@ -70,7 +70,7 @@
                 </v-layout>
                 
                 <v-layout row wrap fill-height>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 v-if="!!schema">
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"

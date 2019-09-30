@@ -26,15 +26,19 @@ const actions = {
         if (sep === null){
             await authServ.groupSeperator().then((data) => {
                 sep = data.seperator;
-                commit('setGroupSeperator', {sep});
+                commit('setGroupSeperator', {groupSeperator: sep});
             });
+        }
+
+        if (typeof(sep) === "undefined"){
+            return;
         }
 
         let sysAdminGroup = state.sysAdminGroup;
         if (sysAdminGroup === null){
             await authServ.sysAdminGroup().then((data) => {
                 sysAdminGroup = data.group;
-                commit('setSysAdminGroup', {sysAdminGroup});
+                commit('setSysAdminGroup', {sysAdminGroup: sysAdminGroup});
             });
         }
 
@@ -58,8 +62,8 @@ const actions = {
                         user = data;
                         loggedIn = true;
                     } else {
-                        commit('setAuthUser', {});
-                        commit('setLoggedIn', {loggedIn: false})
+                        commit('setAuthUser', {authUser: null});
+                        commit('setLoggedIn', {loggedIn: false});
                         user = {};
                         loggedIn = false;
                     }
@@ -115,10 +119,10 @@ const actions = {
             isEditor = false;
         }
 
-        commit('setUserPermissions', {userPermissions});
-        commit('setSysAdmin', {sysAdmin});
-        commit('setAdmin', {isAdmin});
-        commit('setEditor', {isEditor});
+        commit('setUserPermissions', {userPermissions: userPermissions});
+        commit('setSysAdmin', {sysAdmin: sysAdmin});
+        commit('setAdmin', {isAdmin: isAdmin});
+        commit('setEditor', {isEditor: isEditor});
         commit('setLoading', {loading: false});
 
     }

@@ -94,29 +94,28 @@ export default{
             showFormError: false,
             showFormSuccess: false,
             schemaName: 'bcdc_dataset',
+            schema: {},
             scope: this.create ? 'createResourceForm' : 'resourceForm-'+this.resourceIndex,
         }
     },
     computed: {
-        schema: function(){
-            return this.$store.state.dataset.schemas[this.schemaName];
-        },
         ...mapState({
             dataset: state => state.dataset.dataset,
             authUser: state => state.user.authUser,
             resourceStore: state => state.dataset.resources,
+            schemaLoading: state => state.dataset.schemaLoading,
+            schemas: state => state.dataset.schemas,
         }),
 
     },
     mounted() {
-        if (this.create){
-            let keys = Object.keys(this.schema);
-            for (var i=0; i<keys.length; i++){
-                this.newResource[keys[i]] = null;
+        this.$store.subscribe(
+            (mutation, state) => {
+                if(mutation.type == "dataset/setSchema") {
+                    this.schema = state.dataset.schemas[this.schemaName];
+                }
             }
-        }else{
-            this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.resource.id});
-        }
+        )
         
     },
 

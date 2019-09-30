@@ -45,9 +45,9 @@ const actions = {
             dispatch('getDatasetSchema').then(() => {
                 commit('setSchemaLoading', {schemaLoading: false});
             });
-        }).error(() => {
+        }).catch(() => {
             // eslint-disable-next-line
-            console.log("An error occured in ckanserv")
+            console.log("An error occured in ckanserv");
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
         });

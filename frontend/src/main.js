@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
-import Vuetify from 'vuetify';
+import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
 import VueAnalytics from 'vue-analytics';
 import 'es6-promise/auto';
