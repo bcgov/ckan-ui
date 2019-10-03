@@ -16,15 +16,28 @@ Run the frontend with `npm run build && npm install -g serve && serve -s dist` i
 
 
 ## Docker Container
-Build the docker container with 
+Build the backend docker container with 
 ```
 docker build .
 ```
 
-Run the container with
+Run the backend container container with
 ```
 hostip=$(ifconfig en0 | awk '$1 == "inet" {print $2}')
 docker run -p 3000:3000 -v $(pwd)/backend/config:/app/config --add-host=docker:$hostip $CONTAINER_ID
+```
+Replacing $CONTAINER_ID with the output from docker build (or the tag if you tagged it)
+
+
+Build the frontend docker container with 
+```
+docker build . -f Dockerfile-frontend
+```
+
+Run the backend container container with
+```
+hostip=$(ifconfig en0 | awk '$1 == "inet" {print $2}')
+docker run -p 8080:8080 -e HOSTNAME=docker --add-host=docker:$hostip $CONTAINER_ID
 ```
 Replacing $CONTAINER_ID with the output from docker build (or the tag if you tagged it)
 

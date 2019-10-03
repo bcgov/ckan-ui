@@ -43,7 +43,7 @@
 
           <v-menu bottom left absolute nudge-bottom=25 color="primary">
             <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on" id="header-menu">
+              <v-btn icon @click="showSearch = false" v-on="on" id="header-menu">
                 <v-icon medium>menu</v-icon>
               </v-btn>
             </template>
@@ -51,8 +51,8 @@
                 <v-flex xs6>
                     <v-list class="header-menu" dark>
                       <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
-                          <v-btn v-if="item.link" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                          <v-btn v-else :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
                       </v-list-tile>
                       <v-list-tile class="hidden-md-and-up">
                         <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
@@ -68,8 +68,8 @@
                 <v-flex xs6>
                     <v-list class="header-menu-secondary" dark>
                       <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
-                          <v-btn v-if="item.link" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                          <v-btn v-else :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
                       </v-list-tile>
                     </v-list>
                 </v-flex>
@@ -254,6 +254,10 @@ export default {
     background: white;
     width: 100%;
     max-width: none !important;
+  }
+
+  div .v-list__tile {
+    padding: 0px;
   }
 
    .v-btn--active.title:before, .v-btn.title:focus:before, .v-btn.title:hover:before {

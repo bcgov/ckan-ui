@@ -102,6 +102,9 @@
                                     ></EditResource>
                                 </v-dialog>
                             </v-list-tile>
+                            <v-list-tile v-if="canDelete">
+                                <v-list-tile @click="deleteResource" class="red--text">Delete</v-list-tile>
+                            </v-list-tile>
                         </v-list>
                     </v-menu>
                 </v-flex>
@@ -121,13 +124,22 @@ export default {
         resourceIndex: Number,
         showEdit: Boolean,
         datasetBeingEdited: Boolean,
+        canDelete: {
+            type: Boolean,
+            default: false,
+        },
     },
     components: {
         Preview: Preview,
         JsonTable: JsonTable,
         EditResource: EditResource
     },
-    methods: {},
+    methods: {
+        deleteResource: function(){
+            // eslint-disable-next-line
+            console.log("DELETE ME", this.resource);
+        }
+    },
     data() {
         return {
             dialog: false,
@@ -144,4 +156,11 @@ export default {
 .container {
     padding-bottom: 15px;
 }
+
+div[role="listitem"]{
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+}
+
 </style>

@@ -20,12 +20,17 @@ export class CkanApi {
 
     putDataset(dataset) {
         const url = '/api/ckan/dataset';
-        return axios.put(url, dataset, {withCredentials: true}).then(response => response.data)
+        return axios.put(url, dataset, {withCredentials: true}).then(response => response.data);
     }
 
     postDataset(dataset) {
         const url = '/api/ckan/dataset';
-        return axios.post(url, dataset, {withCredentials: true}).then(response => response.data)
+        return axios.post(url, dataset, {withCredentials: true}).then(response => response.data);
+    }
+
+    deleteDataset(id) {
+        const url = '/api/ckan/dataset/'+id;
+        return axios.delete(url, { withCredentials: true }).then(response => response.data);
     }
 
     getFacets(){
@@ -40,6 +45,11 @@ export class CkanApi {
 
     getOrgList() {
         const url = '/api/ckan/organizations';
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    getUserOrgList() {
+        const url = '/api/ckan/userOrganizations';
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 

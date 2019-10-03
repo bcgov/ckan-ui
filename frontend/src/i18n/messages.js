@@ -187,7 +187,8 @@ export default {
         "Date Type": "Date Type",
         "Data Currency/Update": "Data Currency/Update",
         "Creating a new Dataset": "Creating a new Dataset",
-        "Replacement Record": "Replacement Record", 
+        "Replacement Record": "Replacement Record",
+        "Who can download this data?": "Who can download this data?",
     },
     fr: {
         'data': 'données',
@@ -378,5 +379,6 @@ export default {
         "Data Currency/Update": "Monnaie de données / mise à jour",
         "Creating a new Dataset": "Création d'un nouveau jeu de données",
         "Replacement Record": "Enregistrement de remplacement",
+        "Who can download this data?": "Qui peut télécharger ces données?",
     }
 };

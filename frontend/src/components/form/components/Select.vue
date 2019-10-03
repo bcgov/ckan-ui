@@ -49,7 +49,11 @@ export default {
         translate: {
             type: Boolean,
             default: true
-        }
+        },
+        selectableOptions: {
+            type: Array,
+            default: () => { return []; }
+        },
     },
     data() {
         return {
@@ -80,6 +84,12 @@ export default {
                 this.items.push({label: '', value: ''});
             }
 
+            if (this.selectableOptions.length > 0 ){
+                for (let i=0; i<this.selectableOptions.length; i++){
+                    this.items.push(this.selectableOptions[i]);
+                }
+            }
+
             if (typeof(this.options) !== "undefined"){
                 let keys = Object.keys(this.options);
                 for (let i=0; i<keys.length; i++){
@@ -90,7 +100,10 @@ export default {
                     if (item.value == this.value){
                         this.displayValue = item.label;
                     } 
-                    this.items.push(item);
+
+                    if (this.selectableOptions.length <= 0 ){
+                        this.items.push(item);
+                    }
                     //this.items[this.options[keys[i]].label] = this.options[keys[i]].value;
                 }
             }

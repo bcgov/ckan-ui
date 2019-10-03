@@ -25,6 +25,7 @@
                     :editing="editing"
                     :placeholder="field.form_placeholder"
                     :options="topOrgArray"
+                    :selectableOptions="selectableUserOrgs"
                     emitOnChange="orgSelect"
                     @orgSelect="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
@@ -248,6 +249,10 @@ export default {
         scope: {
             type: String,
             default: 'dataset'
+        },
+        selectableUserOrgs: {
+            type: Array,
+            default: () => {return [];}
         }
     },
     data() {

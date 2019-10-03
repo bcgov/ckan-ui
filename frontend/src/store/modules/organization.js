@@ -2,10 +2,12 @@ import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 const state = {
-    orgList: {}
-}
+    orgList: {},
+    userOrgs: []
+};
 
 const getters = {
+
     getSubOrgs: (state) => (id) => {
         for (let topOrg in state.orgList) {
             if (state.orgList[topOrg].id == id) {
@@ -48,12 +50,30 @@ const actions = {
                 commit('setOrgList', { orgList: data.orgList });
             });
         }
+    },
+
+    getUserOrgs({ commit }) {
+        if (Object.entries(state.orgList).length == 0) {
+            ckanServ.getUserOrgList().then((data) => {
+                commit('setUserOrgList', { orgList: data });
+            });
+        }
     }
 }
 
 const mutations = {
     setOrgList(state, { orgList }) {
         state.orgList = orgList;
+    },
+
+    setUserOrgList(state, { orgList }) {
+        var userOrgs = [];
+
+        for (let i=0; i<orgList.result.length; i++){
+            userOrgs.push({value:orgList.result[i].id , label: orgList.result[i].display_name});
+        }
+
+        state.userOrgs = userOrgs;
     },
 }
 

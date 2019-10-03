@@ -6,6 +6,11 @@
     </v-container>
     <v-container v-else grid-list-md class="main-area">
         <v-alert
+            :value="dataset.state === 'deleted'"
+            type="warning">
+            You are viewing a deleted dataset
+        </v-alert>
+        <v-alert
             :value="showFormSuccess"
             class="fixed"
             dismissible
@@ -34,19 +39,28 @@
         </v-layout>
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
-                <v-btn
-                    v-if="showEdit"
-                    fab
-                    dark
-                    fixed
-                    bottom
-                    right
-                    color="info"
-                    class="text-xs-center"
-                    @click="toggleEdit"
-                >
-                    <v-icon>edit</v-icon>
-                </v-btn>
+                <v-layout v-if="showEdit" row class="button-container">
+                    <v-btn
+                        v-if="canDeleteResources"
+                        fab
+                        dark
+                        color="error"
+                        class="text-xs-center"
+                        @click="deleteDataset"
+                    >
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="showEdit"
+                        fab
+                        dark
+                        color="info"
+                        class="text-xs-center"
+                        @click="toggleEdit"
+                    >
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                </v-layout>
                 <v-layout v-else-if="editing" row class="button-container">
                     <v-btn
                         dark
@@ -76,13 +90,14 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="dataset"
+                            :selectableUserOrgs="userOrgs"
                             ref="dynoForm"
                             @updated="(field, value) => updateDataset(field, value)"
                         >
                         </DynamicForm>
                     </v-flex>
                     <v-flex xs12 md4>
-                        <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                        <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                     </v-flex>
                 </v-layout>
             </v-form>
@@ -98,6 +113,9 @@ import ResourceList from "../dataset/ResourceList";
 import Breadcrumb from "../breadcrumb/Breadcrumb";
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
+
+import {CkanApi} from '../../services/ckanApi';
+const ckanServ = new CkanApi();
 
 
 import DynamicForm from '../form/DynamicForm';
@@ -183,10 +201,18 @@ export default {
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
+            userOrgs: state => state.organization.userOrgs,
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs",
         }),
+
+        canDeleteResources: function(){
+            if (!this.dataset.organization){
+                return false;
+            }
+            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+        },
 
         showEdit: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
@@ -199,6 +225,12 @@ export default {
     },
 
     methods: {
+        getUserOrgs() {
+            if (this.userOrgs.length <= 0){
+                this.$store.dispatch("organization/getUserOrgs");
+            }
+        },
+
         getDataset() {
             this.$store.subscribe(
                 (mutation, state) => {
@@ -221,6 +253,27 @@ export default {
             this.showFormError = false;
             this.formSuccess = '';
             this.showFormSuccess = false;
+        },
+        async deleteDataset(){
+            const response = await ckanServ.deleteDataset(this.datasetId);
+
+            this.formSuccess = "";
+            this.formError = "";
+
+            if (response.success && response.success === true && (!response.error || response.error === false)){
+                this.formSuccess = "Successfully deleted";
+                this.showFormSuccess = true;
+                this.showFormError = false;
+                return;
+            }else if (response.error){
+                this.formError = response.error;
+                this.showFormSuccess = false;
+                this.showFormError = true;
+                return;
+            }
+            this.formError = "Unknown error deleting dataset";
+            this.showFormSuccess = false;
+            this.showFormError = true;
         },
         cancel(){
             if (!this.createMode){
@@ -278,6 +331,7 @@ export default {
 
     mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
+        this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
         this.getDataset();
         //this.$refs.form.validate();

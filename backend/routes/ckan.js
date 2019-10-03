@@ -171,6 +171,42 @@ router.post('/dataset', auth.removeExpired, function(req, res, next) {
 
 });
 
+router.delete('/dataset/:datasetId', auth.removeExpired, function(req, res, next) {
+    let config = require('config');
+    let url = config.get('ckan');
+
+    const reqUrl = url + "/api/3/action/package_delete";
+
+    if (!req.user){
+        return res.json({error: "Not logged in"});
+    }
+
+    if (!req.params.datasetId){
+        return res.json({error: "No Dataset ID specified"});
+    }
+
+    console.log("DELETING PACKAGE", req.params.datasetId);
+
+    request({ method: 'POST', uri: reqUrl, json: {id: req.params.datasetId}, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+        if (err) {
+            console.log(err);
+            res.json({ error: err });
+            return;
+        }
+        if (apiRes.statusCode !== 200) {
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+            res.json(json);
+        } catch (ex) {
+            console.error("Error reading json from ckan", ex);
+            res.json({ error: ex, body: body });
+        }
+    });
+});
+
 /* GET one dataset. */
 router.get('/facets', auth.removeExpired, function(req, res, next) {
 
@@ -369,6 +405,49 @@ router.get('/organizations', function(req, res, next) {
 
 
 });
+
+
+router.get('/userOrganizations', function(req, res, next) {
+
+    let config = require('config');
+    let url = config.get('ckan');
+  
+    let authObj = {};
+  
+    if (req.user){
+      authObj = {
+        'headers': {
+          'Authorization': req.user.jwt
+          }
+      };
+    }else{
+      console.log("no user");
+      res.json({results: [], error: "No user"});
+      return;
+    }
+
+    const USER_PERMISSION = "editor";
+    
+    let reqUrl = url + "/api/3/action/organization_list_for_user?permission="+USER_PERMISSION+"&id="+req.user._json.preferred_username;
+    console.log("USER ORG URL ", reqUrl);
+  
+    request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+    });
+  
+  });
 
 /* GET user activity. */
 router.get('/activity', auth.removeExpired, function(req, res, next) {

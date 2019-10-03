@@ -10,6 +10,7 @@
                     v-bind:key="resource.id"
                     :resource="resource"
                     :resourceIndex="index"
+                    :canDelete="canDelete"
                     :showEdit="createMode || showEdit"
                     :datasetBeingEdited="datasetBeingEdited"
                 ></ResourceCard>
@@ -49,6 +50,10 @@ export default {
         resources: Array,
         showEdit: Boolean,
         createMode: Boolean,
+        canDelete: {
+            type: Boolean,
+            default: false,
+        },
         datasetBeingEdited: Boolean,
     },
     computed: {
