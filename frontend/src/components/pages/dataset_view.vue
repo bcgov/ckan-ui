@@ -146,10 +146,16 @@ export default {
                 'record_create_date', 
                 'record_publish_date',
                 'record_archive_date',
-                'record_last_modified'],
+                'record_last_modified']
         };
     },
-
+    watch: {
+        getAbort(newVal) {
+            if(newVal==true) {
+                this.$router.push('/datasets');
+            }          
+        }
+    },
     computed: {
         breadcrumbs: function(){
             return [
@@ -177,6 +183,9 @@ export default {
             return keys;
         },
 
+        getAbort() {
+            return this.$store.state.dataset.shouldAbort;
+        },
         permalink: function(){
             return window.location.origin+'/dataset/'+this.dataset.id
         },
@@ -194,6 +203,7 @@ export default {
 
         ...mapState({
             dataset: state => state.dataset.dataset,
+            shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
@@ -204,7 +214,7 @@ export default {
             userOrgs: state => state.organization.userOrgs,
         }),
         ...mapGetters("organization", {
-            getSubOrgs: "getSubOrgs",
+            getSubOrgs: "getSubOrgs"
         }),
 
         canDeleteResources: function(){
@@ -230,21 +240,22 @@ export default {
                 this.$store.dispatch("organization/getUserOrgs");
             }
         },
-
         getDataset() {
             this.$store.subscribe(
                 (mutation, state) => {
                     if(mutation.type == "dataset/setSchema") {
                         this.schema = state.dataset.schemas[this.schemaName];
+                        //this.$router.push('/datasets');
                     }
                 }
             )
-            if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")){
-                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
-                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
+            if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {                 
+                    this.schema = this.$store.state.dataset.schemas[this.schemaName]                  
                 });
             } else if (this.schemaLoading) {
                 this.$store.dispatch('dataset/getDatasetSchema');
+                //this.$router.push('/datasets');
             }
         },
         toggleEdit() {

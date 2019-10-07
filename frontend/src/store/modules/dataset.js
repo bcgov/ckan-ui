@@ -28,6 +28,7 @@ function getResourceSchema(resource, headers, data){
 
 const state = {
     dataset: {},
+    shouldAbort: false,
     unmodifiedDataset: {},
     schemas: {},
     schemaLoading: false,
@@ -37,14 +38,23 @@ const state = {
 
 const actions = {
     getDataset({ commit, dispatch }, { id }) {
+        commit('setResetAbort')
         commit('setDataLoading', {dataLoading: true});
         commit('setSchemaLoading', {schemaLoading: true});
-        ckanServ.getDataset(id).then((data) => {
-            commit('setCurrentDataset', { dataset: data.result });
-            commit('setDataLoading', {dataLoading: false});
-            dispatch('getDatasetSchema').then(() => {
-                commit('setSchemaLoading', {schemaLoading: false});
-            });
+        ckanServ.getDataset(id).then((data) => { 
+            // eslint-disable-next-line
+            console.log(data.result) 
+            if(data.result==undefined) {
+                // eslint-disable-next-line
+                console.log('undefined!')
+                commit('abortDataset')
+            } else {
+                commit('setCurrentDataset', { dataset: data.result });
+                commit('setDataLoading', {dataLoading: false});
+                dispatch('getDatasetSchema').then(() => {
+                    commit('setSchemaLoading', {schemaLoading: false});
+                });
+            }          
         }).catch(() => {
             // eslint-disable-next-line
             console.log("An error occured in ckanserv");
@@ -142,6 +152,9 @@ const actions = {
 };
 
 const mutations = {
+    setResetAbort(state) {
+        state.shouldAbort = false;
+    },
     setDataLoading(state, {dataLoading}){
         state.dataLoading = dataLoading;
     },
@@ -191,6 +204,11 @@ const mutations = {
     },
     resetDataset(state) {
         state.dataset = Object.assign({}, state.unmodifiedDataset);
+    },
+    abortDataset(state) {
+        // eslint-disable-next-line
+        console.log('aborting!')
+        state.shouldAbort = true;
     }
 };
 
