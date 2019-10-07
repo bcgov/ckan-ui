@@ -59,34 +59,36 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 'application/vnd.ms-excel'
             ];
 
-            responseObj['content-type'] = apiRes.headers['content-type'];
-            responseObj['content-length'] = apiRes.headers['content-length'];
-            responseObj.status = apiRes.headers.statusCode;
-            responseObj.origUrl = resourceUrl;
-
-            if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
-                responseObj.type = "xls";
-            }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
-                let XLSX = require('xlsx');
-                try{
-                    let workbook = XLSX.read(body, {type: "string", WTF: true});
-                    let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                    responseObj.workbook = sheetJson;
-                    let headerKeys = Object.keys(sheetJson[0]);
-                    let headers = [];
-                    for (let i=0; i<headerKeys.length; i++){
-                        headers.push({text: headerKeys[i], value: headerKeys[i]});
+            if(apiRes!=undefined) {
+                responseObj['content-type'] = apiRes.headers['content-type'];
+                responseObj['content-length'] = apiRes.headers['content-length'];
+                responseObj.status = apiRes.headers.statusCode;
+                responseObj.origUrl = resourceUrl;
+                
+            
+                if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
+                    responseObj.type = "xls";
+                }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
+                    let XLSX = require('xlsx');
+                    try{
+                        let workbook = XLSX.read(body, {type: "string", WTF: true});
+                        let sheetJson = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                        responseObj.workbook = sheetJson;
+                        let headerKeys = Object.keys(sheetJson[0]);
+                        let headers = [];
+                        for (let i=0; i<headerKeys.length; i++){
+                            headers.push({text: headerKeys[i], value: headerKeys[i]});
+                        }
+                        responseObj.headers = headers;
+                        responseObj.type = "csv";
+                    }catch(ex){
+                        responseObj.type = "404";
+                        responseObj.type = "error";    
                     }
-                    responseObj.headers = headers;
-                    responseObj.type = "csv";
-                }catch(ex){
+                }else if (apiRes.headers.statusCode === 404){
                     responseObj.type = "404";
-                    responseObj.type = "error";    
                 }
-            }else if (apiRes.headers.statusCode === 404){
-                responseObj.type = "404";
             }
-
             responseObj.raw_data = body;
             res.json(responseObj);
             return;
