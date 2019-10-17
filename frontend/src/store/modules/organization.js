@@ -68,8 +68,13 @@ const mutations = {
 
     setUserOrgList(state, { orgList }) {
         var userOrgs = [];
+        
+        if ( (typeof(orgList) === "undefined") || (typeof(orgList.results) === "undefined") || (orgList.results.length === 0)){
+            state.userOrgs = [];
+            return;
+        }
 
-        for (let i=0; i<orgList.result.length; i++){
+        for (let i=0; i<orgList.results.length; i++){
             userOrgs.push({value:orgList.result[i].id , label: orgList.result[i].display_name});
         }
 

@@ -66,6 +66,7 @@ const actions = {
     getDatasetSchema(context){
         let type = 'bcdc_dataset';
         if (typeof(context.state.schemas[type]) !== "undefined"){
+            context.commit('setSchema', {type: type, data: context.state.schemas[type]});
             return context.state.schemas[type];
         }
         ckanServ.getDatasetSchema(type).then((data) => {
@@ -157,6 +158,11 @@ const mutations = {
     },
     setDataLoading(state, {dataLoading}){
         state.dataLoading = dataLoading;
+    },
+    clearDataset(state){
+        state.dataset = {};
+        state.dataLoading = false;
+        state.shouldAbort = false;
     },
     setSchemaLoading(state, {schemaLoading}) {
         state.schemaLoading = schemaLoading;

@@ -128,14 +128,15 @@ export default {
         ValidationObserver: ValidationObserver,
     },
     data() {
+        let schemaName = 'bcdc_dataset';
         return {
             editing: this.$route.name === "dataset_create",
             formError: '',
             showFormError: false,
             formSuccess: '',
             showFormSuccess: false,
-            schemaName: 'bcdc_dataset',
-            schema: {},
+            schemaName: schemaName,
+            schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "dataset_create",
             textFields: [
                 'object_name', 
@@ -154,7 +155,7 @@ export default {
             if(newVal==true) {
                 this.$router.push('/datasets');
             }          
-        }
+        },
     },
     computed: {
         breadcrumbs: function(){
@@ -241,10 +242,12 @@ export default {
             }
         },
         getDataset() {
-            this.$store.subscribe(
+            let self = this;
+            let unsub = this.$store.subscribe(
                 (mutation, state) => {
                     if(mutation.type == "dataset/setSchema") {
-                        this.schema = state.dataset.schemas[this.schemaName];
+                        self.schema = state.dataset.schemas[self.schemaName];
+                        unsub();
                         //this.$router.push('/datasets');
                     }
                 }
@@ -253,8 +256,10 @@ export default {
                 this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {                 
                     this.schema = this.$store.state.dataset.schemas[this.schemaName]                  
                 });
-            } else if (this.schemaLoading) {
-                this.$store.dispatch('dataset/getDatasetSchema');
+            } else {
+                this.$store.dispatch('dataset/getDatasetSchema').then(() => {
+                    this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
+                });
                 //this.$router.push('/datasets');
             }
         },
@@ -326,6 +331,7 @@ export default {
                 this.showFormSuccess = false;
             }else{
                 this.toggleEdit();
+                this.$router.push('/dataset/'+this.dataset.name)
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;
@@ -341,6 +347,9 @@ export default {
     },
 
     mounted (){
+        if (this.createMode){
+            this.$store.commit('dataset/clearDataset');
+        }
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
