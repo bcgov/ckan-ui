@@ -20,7 +20,6 @@
                         v-if="!createMode && showEdit"
                         v-model="createDialog"
                         fullscreen
-                        style="z-index: 8888888888888"
                         transition="dialog-bottom-transition"
                     >
                         <EditResource
