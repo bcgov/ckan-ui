@@ -28,11 +28,14 @@ export default {
   background-color: var(--v-primary-base);
   min-width: 100%;
   z-index: 100;
+  bottom: 0;
+  position: absolute;
 }
 
 .footer a {
   color: #fff!important;
   text-decoration: none;
+  margin: auto;
 }
 .v-btn--active.footer:before, .v-btn.footer:focus:before, .v-btn.footer:hover:before {
     background: none !important;
