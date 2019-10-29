@@ -135,4 +135,10 @@ export class CkanApi {
         };
         return axios(options).then(response => response.data);
     }
+
+    deleteResource(id) {
+        const url = '/api/ckan/resource/'+id;
+        return axios.delete(url, { withCredentials: true }).then(response => response.data);
+    }
+    
 }

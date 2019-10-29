@@ -1,10 +1,10 @@
 <template>
     <v-container fluid>
-        <v-layout row wrap>
-            <v-flex xs12>
+        <v-row wrap>
+            <v-col cols=12>
                 You {{message}} - {{time}} ago
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

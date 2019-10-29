@@ -1,15 +1,15 @@
 <template>
   <v-container class="color-data padding" flush>
-    <v-layout row justify-left align-left>
-      <v-flex xs1 v-on:click="expanded = !expanded">
+    <v-row justify-left align-left>
+      <v-col cols=1 v-on:click="expanded = !expanded">
         <v-icon v-if="!expanded && count>0" class="clickable">expand_more</v-icon>
         <v-icon v-else-if="expanded && count>0" class="clickable">expand_less</v-icon>
-      </v-flex>
-      <v-flex xs11>
+      </v-col>
+      <v-col cols=11>
         <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? count : ''}}</router-link>
         <p v-else>{{orgName}} {{count > 0 ? count : ''}}</p>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-container flush v-if="expanded">
       <org-tree v-for="org in children" :key="'org-tree-'+id+'-'+org.id" :org="{key: org.title, org: org}"></org-tree>
     </v-container>

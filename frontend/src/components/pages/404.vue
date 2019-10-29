@@ -1,12 +1,12 @@
 <template>
     <v-container>
-        <v-layout>
-            <v-flex>
-                <v-layout row wrap align-center justify-center>
+        <v-row>
+            <v-col>
+                <v-row wrap align-center justify-center>
                     <h3>We're sorry but we can't find the page requested</h3>
-                </v-layout>
-            </v-flex>
-        </v-layout>
+                </v-row>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

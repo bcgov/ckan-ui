@@ -2,7 +2,7 @@
     <div>
         <div v-if="!editing">
             <label>{{$tc(label)}}: </label>
-            <span>{{value}}</span>
+            <span>{{val}}</span>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-textarea 
@@ -32,7 +32,7 @@ export default {
     },
     data() {
         return {
-            val: this.value,
+            val: JSON.stringify(this.value),
             validate: ((this.field.required)? 'required' : ''),
             scopeName: this.scope + '.' + this.name,
         }
@@ -44,8 +44,11 @@ export default {
     },
     watch: {
         val(){
-            this.$emit('edited', this.model);
+            this.$emit('edited', this.val);
         },
+    },
+    mounted(){
+        this.$emit('edited', this.val);
     },
     methods: {
         validator: function(){

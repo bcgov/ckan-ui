@@ -1,13 +1,17 @@
 <template>
   <v-card class="dialog">
-      <v-toolbar dark color="primary">
-          <v-btn icon dark @click="$emit('closePreviewDialog')">
+      <v-toolbar color="primary">
+          <v-btn icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-            <i v-if="loading || typeof(resourceStore[resource.id])==='undefined' || typeof(resourceStore[resource.id].metadata) === 'undefined'" class="fa fa-circle-o-notch fa-spin"></i>
+          <v-progress-circular
+                v-if="loading || (!this.create && (typeof(resourceStore[resource.id])==='undefined' || typeof(resourceStore[resource.id].metadata) === 'undefined'))"
+                indeterminate
+                color="light-blue"
+            ></v-progress-circular>
 
             <div v-else>
                 <v-alert
@@ -29,8 +33,8 @@
                         <DynamicForm
                             :schema="schema.resource_fields"
                             :textFields="textFields"
-                            :editing="edit"
-                            :values="resourceStore[resource.id].metadata"
+                            :editing="edit || create"
+                            :values="!create ? resourceStore[resource.id].metadata : newResource"
                             :scope="scope"
                             @updated="(field, value) => updateResource(field, value)"
                         >
@@ -41,7 +45,6 @@
       </v-card-text>
       <v-card-actions v-if="edit || create ">
             <v-btn
-                dark
                 xs2
                 color="error"
                 class="text-xs-center"
@@ -50,7 +53,6 @@
                 Cancel
             </v-btn>
             <v-btn
-                dark
                 xs2
                 color="primary"
                 class="text-xs-center"
@@ -84,17 +86,19 @@ export default{
         }
     },
     data() {
+        let SCHEMA_NAME = "bcdc_dataset"
         return {
             name: this.resource.name ? this.resource.name : "Create a new resource",
             loading: false,
-            textFields: ['name', 'object_name'],
+            textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments'],
+            doNotSend: ['last_modified', "isUrl", "cache_url", "cache_last_updated", "size"],
             newResource: {},
             formSuccess: '',
             formError: '',
             showFormError: false,
             showFormSuccess: false,
-            schemaName: 'bcdc_dataset',
-            schema: {},
+            schemaName: SCHEMA_NAME,
+            schema: this.$store.state.dataset.schemas[SCHEMA_NAME] ? this.$store.state.dataset.schemas[SCHEMA_NAME] : {},
             scope: this.create ? 'createResourceForm' : 'resourceForm-'+this.resourceIndex,
         }
     },
@@ -105,14 +109,15 @@ export default{
             resourceStore: state => state.dataset.resources,
             schemaLoading: state => state.dataset.schemaLoading,
             schemas: state => state.dataset.schemas,
-        }),
-
+        })
     },
     mounted() {
-        this.$store.subscribe(
+        let self = this;
+        let unsub = this.$store.subscribe(
             (mutation, state) => {
                 if(mutation.type == "dataset/setSchema") {
-                    this.schema = state.dataset.schemas[this.schemaName];
+                    self.schema = state.dataset.schemas[self.schemaName];
+                    unsub();
                 }
             }
         )
@@ -147,10 +152,12 @@ export default{
             }
 
             for (var i=0; i<keys.length; i++){
-                if (this.create){
-                    data.set(keys[i], this.newResource[keys[i]]);
-                }else{
-                    data.set(keys[i], this.resource[keys[i]]);
+                if (this.doNotSend.indexOf(keys[i]) === -1){
+                    if (this.create){
+                        data.set(keys[i], this.newResource[keys[i]]);
+                    }else{
+                        data.set(keys[i], this.resource[keys[i]]);
+                    }
                 }
             }
 
@@ -159,10 +166,21 @@ export default{
             function handleUploadResponse(rData){
                 //eslint-disable-next-line
                 console.log(rData);
-                self.formSuccess = 'Succesfully updated resource';
+                if (self.create){
+                    self.formSuccess = 'Succesfully created resource';
+                }else{
+                    self.formSuccess = 'Succesfully updated resource';
+                }
                 self.formError = '';
                 self.showFormError = false;
                 self.showFormSuccess = true;
+                self.$emit('closePreviewDialog');
+                if (!self.create){
+                    self.$store.commit('dataset/setResource', {id: self.id, resource: null});
+                }
+                if (self.create){
+                    location.reload();
+                }
 
             }
 
@@ -170,7 +188,9 @@ export default{
                 //eslint-disable-next-line
                 console.log(error);
                 self.formSuccess = '';
-                self.formError = error.response.data.error.type[0];
+                let e = error.response.data.error.type ? error.response.data.error.type[0] : error.response.data.error._type;
+                e = e ? e : error.response.data.error.__type[0];
+                self.formError = e;
                 self.showFormError = true;
                 self.showFormSuccess = false;
 
@@ -192,5 +212,9 @@ export default{
 <style scoped>
     .dialog {
         margin-top: 10px;
+    }
+
+    .theme--light.v-sheet{
+        color: var(--v-text-base)
     }
 </style>

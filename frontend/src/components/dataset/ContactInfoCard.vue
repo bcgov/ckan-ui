@@ -1,11 +1,10 @@
 <template>
-    <v-card flat style="margin-bottom:.5rem;">
+    <v-card text style="margin-bottom:.5rem;">
         <h3>Contact Information</h3>
         <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
-            <v-layout
+            <v-row
                 v-for="contact in dataset.contacts"
                 :key="contact.email"
-                column
                 justify-start
                 flex
             >
@@ -22,7 +21,7 @@
                     <h5>Sub-Organization</h5>
                     <p class="contact">{{orgTitle(contact.branch)}}</p>
                 </template>
-            </v-layout>
+            </v-row>
         </v-container>
     </v-card>
 </template>
@@ -49,7 +48,6 @@ export default {
 </script>
 
 <style scoped>
-@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .container {
     padding-bottom: 15px;

@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
-        <v-layout row wrap>
-            <v-flex xs12>
+        <v-row wrap>
+            <v-col cols=12>
                 <v-card>
                     <v-card-text>
                         <img :src="'https://www.gravatar.com/avatar/'+user.email_hash+'?s=190&d=identicon'" />
@@ -10,8 +10,8 @@
                         <p>Api Key: {{user.apikey}}</p>
                     </v-card-text>
                 </v-card>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

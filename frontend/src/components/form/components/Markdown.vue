@@ -52,9 +52,9 @@ export default {
     computed: {
         displayValue: function(){
             if (typeof(this.model)==="string"){
-                return marked(this.model, {sanitize: true});
+                return marked(this.model);
             }else{
-                return marked("", {sanitize: true});
+                return marked("");
             }
         },
         displayLabel: function(){

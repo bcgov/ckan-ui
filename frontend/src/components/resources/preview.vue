@@ -1,13 +1,17 @@
 <template>
   <v-card class="dialog">
-      <v-toolbar dark color="primary">
-          <v-btn icon dark @click="$emit('closePreviewDialog')">
+      <v-toolbar color="primary">
+          <v-btn icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-            <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+            <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="light-blue"
+            ></v-progress-circular>
 
             <v-data-table v-else-if="headers.length>0" :items="data" :headers="headers">
                 <template v-slot:items="props">
@@ -21,15 +25,15 @@
                         Loading...
                     </template>
                 </pdf>
-                <v-layout row wrap>
-                    <v-flex xs2></v-flex>
-                    <v-flex xs1>
+                <v-row wrap>
+                    <v-col cols=2></v-col>
+                    <v-col cols=1>
                         <v-btn color="primary" @click="page -= 1">Back</v-btn>
-                    </v-flex>
-                    <v-flex xs1>{{page}}/{{numPages}}</v-flex>
+                    </v-col>
+                    <v-col cols=1>{{page}}/{{numPages}}</v-col>
                     <v-btn color="primary" @click="page += 1">Next</v-btn>
-                    <v-flex xs5></v-flex>
-                </v-layout>
+                    <v-col cols=5></v-col>
+                </v-row>
             </div>
 
             <div v-else-if="type === '404'">We're sorry we were unable to retrieve your file</div>
@@ -96,5 +100,9 @@ export default{
 <style scoped>
     .dialog {
         margin-top: 10px;
+    }
+
+    .theme--light.v-sheet{
+        color: var(--v-text-base)
     }
 </style>

@@ -1,8 +1,8 @@
 <template>
     <v-container v-if="dataLoading || schemaLoading" fluid>
-        <v-layout row align-center justify-center>
+        <v-row row align-center justify-center>
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
-        </v-layout>
+        </v-row>
     </v-container>
     <v-container v-else grid-list-md class="main-area">
         <v-alert
@@ -24,26 +24,25 @@
             type="error">
             {{formError}}
         </v-alert>
-        <v-layout row wrap>
+        <v-row wrap>
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-        </v-layout>
+        </v-row>
 
-        <v-layout row wrap v-if="!createMode">
-            <v-flex xs12>
+        <v-row wrap v-if="!createMode">
+            <v-col cols=12>
                 <label>{{$tc("Permalink")}}:</label>
                 <span>{{permalink}}</span>
                 <v-btn fab small v-clipboard="() => permalink">
                     <v-icon>file_copy</v-icon>
                 </v-btn>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
-                <v-layout v-if="showEdit" row class="button-container">
+                <v-row v-if="showEdit" class="button-container">
                     <v-btn
                         v-if="canDeleteResources"
                         fab
-                        dark
                         color="error"
                         class="text-xs-center"
                         @click="deleteDataset"
@@ -53,17 +52,16 @@
                     <v-btn
                         v-if="showEdit"
                         fab
-                        dark
                         color="info"
                         class="text-xs-center"
+                        right
                         @click="toggleEdit"
                     >
                         <v-icon>edit</v-icon>
                     </v-btn>
-                </v-layout>
-                <v-layout v-else-if="editing" row class="button-container">
+                </v-row>
+                <v-row v-else-if="editing" class="button-container">
                     <v-btn
-                        dark
                         xs2
                         color="error"
                         class="text-xs-center"
@@ -72,7 +70,6 @@
                         Cancel
                     </v-btn>
                     <v-btn
-                        dark
                         xs2
                         color="primary"
                         class="text-xs-center"
@@ -81,10 +78,10 @@
                     >
                         Save
                     </v-btn>
-                </v-layout>
+                </v-row>
                 
-                <v-layout row wrap fill-height>
-                    <v-flex xs12 md8 v-if="!!schema">
+                <v-row fill-height>
+                    <v-col cols=12 md=8 v-if="!!schema">
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"
@@ -95,11 +92,11 @@
                             @updated="(field, value) => updateDataset(field, value)"
                         >
                         </DynamicForm>
-                    </v-flex>
-                    <v-flex xs12 md4>
+                    </v-col>
+                    <v-col cols=12 md=4>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                </v-row>
             </v-form>
         </ValidationObserver>
     </v-container>
@@ -292,9 +289,11 @@ export default {
             this.showFormError = true;
         },
         cancel(){
-            if (!this.createMode){
-                this.$store.commit("dataset/resetDataset");
+            if (this.createMode){
+                this.$router.push('/datasets');
             }
+            
+            this.$store.commit("dataset/resetDataset");
             this.toggleEdit();
         },
         
@@ -331,7 +330,9 @@ export default {
                 this.showFormSuccess = false;
             }else{
                 this.toggleEdit();
-                this.$router.push('/dataset/'+this.dataset.name)
+                if (this.createMode){
+                    this.$router.push('/dataset/'+this.dataset.name)
+                }
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;
@@ -373,7 +374,7 @@ h5 {
 <style scoped>
 .fixed{
     position: fixed;
-    z-index: 99999;
+    z-index: 50;
 }
 .main-area {
     margin-top: 20px;
@@ -394,5 +395,9 @@ ul {
     bottom: 50px;
     right: 0;
     z-index: 10;
+}
+
+.v-btn{
+    margin-right: 5px;
 }
 </style>

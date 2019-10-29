@@ -14,9 +14,8 @@ function getResourceSchema(resource, headers, data){
     let s = null;
     if (resource && resource.json_table_schema){
         s = resource.json_table_schema;
-        new Schema(s).then((model) => {
-            return model;
-        });
+        let model = new Schema(s);
+        return model;
     }else if (headers.length>0 && data.length>0){
         let options = {
             rowLimit: 2,
@@ -33,7 +32,7 @@ const state = {
     schemas: {},
     schemaLoading: false,
     dataLoading: false,
-    resources: {},
+    resources: { },
 };
 
 const actions = {
@@ -42,11 +41,7 @@ const actions = {
         commit('setDataLoading', {dataLoading: true});
         commit('setSchemaLoading', {schemaLoading: true});
         ckanServ.getDataset(id).then((data) => { 
-            // eslint-disable-next-line
-            console.log(data.result) 
             if(data.result==undefined) {
-                // eslint-disable-next-line
-                console.log('undefined!')
                 commit('abortDataset')
             } else {
                 commit('setCurrentDataset', { dataset: data.result });
@@ -56,8 +51,6 @@ const actions = {
                 });
             }          
         }).catch(() => {
-            // eslint-disable-next-line
-            console.log("An error occured in ckanserv");
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
         });
@@ -82,7 +75,7 @@ const actions = {
     },
 
     getResource(context, {datasetResourceIndex, id}){
-        if (typeof(context.state.resources[id]) !== "undefined"){
+        if ( (typeof(context.state.resources[id]) !== "undefined") && (context.state.resource[id] !== null) ){
             return context.state.resources[id];
         }
         let resource = {};
@@ -100,8 +93,18 @@ const actions = {
                 resource.data = data.workbook
                 resource.headers = data.headers
                 if (!context.state.dataset.resources[datasetResourceIndex].json_table_schema){
-                    resource.schema = getResourceSchema(null, resource.headers, resource.data);
-                    resource.schemaInferred = false;
+                    getResourceSchema(null, resource.headers, resource.data).then( (s) => {
+                        resource.schema = s;
+                        resource.schemaInferred = true;
+                        resource.metadata = data.metadata;
+                        context.commit('setResource', {id: id, resource: resource});
+                    }).catch ( () => {
+                        resource.schema = null;
+                        resource.schemaInferred = false;
+                        resource.metadata = data.metadata;
+                        context.commit('setResource', {id: id, resource: resource});
+                    });
+                    
                 }
             }else if (data['content-type'] === "application/pdf"){
                 resource.type = "pdf";
@@ -111,11 +114,18 @@ const actions = {
             }
 
             if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema) ){
-                resource.schema = getResourceSchema(context.state.dataset.resources[datasetResourceIndex].json_table_schema, [], []);
-                resource.schemaInferred = true;
+                getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []).then( (s) => {
+                    resource.schema = s;
+                    resource.schemaInferred = false;
+                    resource.metadata = data.metadata;
+                    context.commit('setResource', {id: id, resource: resource});
+                }).catch( () => {
+                    resource.schema = null;
+                    resource.schemaInferred = false;
+                    resource.metadata = data.metadata;
+                    context.commit('setResource', {id: id, resource: resource});
+                });
             }
-            resource.metadata = data.metadata;
-            context.commit('setResource', {id: id, resource: resource});
         });
     },
 
@@ -212,8 +222,6 @@ const mutations = {
         state.dataset = Object.assign({}, state.unmodifiedDataset);
     },
     abortDataset(state) {
-        // eslint-disable-next-line
-        console.log('aborting!')
         state.shouldAbort = true;
     }
 };

@@ -26,23 +26,7 @@ const analyticsServ = new Analytics()
 Vue.config.productionTip = false;
 
 //Vue.use(BootstrapVue)
-Vue.use(Vuetify, {
-  iconfont: 'md', // 'md' || 'mdi' || 'fa' || 'fa4'
-  theme: {
-      primary: '#003366',
-      secondary: '#5475a7',
-      tertiary: '#0050a1',
-      highlight: '#a5d8ff',
-      accent: '#8c9eff',
-      caution: "#fcba19",
-      error: '#b71c1c',
-      text: "#ffffff",
-      data: '#F4F4F4',
-  },
-  options: {
-      customProperties: true
-  }
-});
+Vue.use(Vuetify);
 
 Vue.use(InfiniteLoading, {
     system: {
@@ -183,7 +167,44 @@ analyticsServ.ga().then( (gajson) => {
   }
 
 
+  let vuetifyOpts = {
+    icons: {
+      iconfont: 'md', // 'md' || 'mdi' || 'fa' || 'fa4'
+    },
+    theme: {
+        dark: false,
+        options: {
+          customProperties: true
+        },
+        themes:{
+          dark: {
+            primary: '#003366',
+            secondary: '#5475a7',
+            tertiary: '#0050a1',
+            highlight: '#a5d8ff',
+            accent: '#8c9eff',
+            caution: "#fcba19",
+            error: '#b71c1c',
+            text: "#ffffff",
+            data: '#F4F4F4',
+          },
+          light: {
+            primary: '#003366',
+            secondary: '#5475a7',
+            tertiary: '#0050a1',
+            highlight: '#a5d8ff',
+            accent: '#8c9eff',
+            caution: "#fcba19",
+            error: '#b71c1c',
+            text: "#ffffff",
+            data: '#F4F4F4',
+          }
+        }
+    }
+  };
+
   new Vue({
+      vuetify: new Vuetify(vuetifyOpts),
       render: h => h(App),
       router,
       store,

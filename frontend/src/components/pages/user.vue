@@ -9,19 +9,19 @@
           indeterminate
         ></v-progress-circular>
         <div v-else-if="error !== ''">{{error}}</div>
-        <v-layout row wrap v-else>
-            <v-flex xs3>
+        <v-row wrap v-else>
+            <v-col cols=3>
                 <Profile :user="user"></Profile>
-            </v-flex>
-            <v-flex xs9>
-                <v-layout row wrap>
+            </v-col>
+            <v-col cols=9>
+                <v-row wrap>
                     <h2>Activity</h2>
-                </v-layout>
-                <v-layout row wrap>
+                </v-row>
+                <v-row wrap>
                     <ActivityItem v-for="(activity, key) in activities" :key="'activity-'+key" :activity="activity"></ActivityItem>
-                </v-layout>
-            </v-flex>
-        </v-layout>
+                </v-row>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

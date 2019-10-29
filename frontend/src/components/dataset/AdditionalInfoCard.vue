@@ -1,9 +1,9 @@
 <template>
-    <v-card flat style="margin-bottom:.5rem;">
+    <v-card text style="margin-bottom:.5rem;">
         <v-container style="padding-top:0px;">
             <h3>Additional Information</h3>
             <v-container style="padding-top:10px;border-left:thin solid lightgrey;">
-                <v-layout column justify-start flex>
+                <v-row justify-start flex>
                     <template v-if="dataset.purpose">
                         <h5>Purpose</h5>
                         <p v-html="purpose"></p>
@@ -22,7 +22,7 @@
                             <v-chip outline color="#444444" small disabled>{{tag.display_name}}</v-chip>
                         </v-item>
                     </v-item-group>
-                </v-layout>
+                </v-row>
             </v-container>
         </v-container>
     </v-card>
@@ -37,13 +37,13 @@ export default {
     },
     computed: {
         purpose: function() {
-            return marked(this.dataset.purpose, { sanitize: true });
+            return marked(this.dataset.purpose);
         },
         data_quality: function() {
-            return marked(this.dataset.data_quality, { sanitize: true });
+            return marked(this.dataset.data_quality);
         },
         lineage_statement: function() {
-            return marked(this.dataset.lineage_statement, { sanitize: true });
+            return marked(this.dataset.lineage_statement);
         },
         ...mapState({
             dataset: state => state.dataset.dataset
@@ -53,7 +53,6 @@ export default {
 </script>
 
 <style scoped>
-@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .container {
     padding-bottom: 15px;

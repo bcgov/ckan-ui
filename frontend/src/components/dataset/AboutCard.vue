@@ -1,5 +1,5 @@
 <template>
-    <v-card flat style="margin-bottom:.5rem">
+    <v-card text style="margin-bottom:.5rem">
         <p v-html="compiledMarkdown"></p>
     </v-card>
 </template>
@@ -13,7 +13,7 @@ export default {
     },
     computed: {
         compiledMarkdown: function() {
-            return marked(this.dataset.notes, { sanitize: true });
+            return marked(this.dataset.notes);
         },
         ...mapState({
             dataset: state => state.dataset.dataset

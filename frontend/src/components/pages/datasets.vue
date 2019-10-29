@@ -1,7 +1,7 @@
 <template>
     <v-container pa-0 ma-0 fluid>
-        <v-layout row-wrap fill-height>
-            <v-flex xs1 class="tertiary nav facetFilter">
+        <v-row wrap fill-height>
+            <v-col cols1 class="tertiary nav facetFilter">
                 <!-- Facets  -->
                 <FacetFilter
                     v-for="(facet, facetKey) in facets"
@@ -14,13 +14,12 @@
                     v-on:openDrawer="openDrawer"
                     v-on:clearAll="clearAll"
                 ></FacetFilter>
-            </v-flex>
-            <v-flex xs1></v-flex>
-            <v-flex xs11>
+            </v-col>
+            <v-col cols=2></v-col>
+            <v-col cols=10>
                 <v-btn
                 v-if="showCreate"
                 fab
-                dark
                 fixed
                 bottom
                 right
@@ -30,40 +29,44 @@
             >
                     <v-icon>edit</v-icon>
                 </v-btn>
-                <v-layout row wrap pb-3>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs1></v-flex>
-                    <v-flex xs9>
-                        <v-text-field id="dataset-search" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs1></v-flex>
-                    <v-flex xs4>
+                <v-row wrap pb-3>
+                </v-row>
+                <v-row wrap>
+                    <v-col cols=1></v-col>
+                    <v-col cols=9>
+                        <v-text-field id="dataset-search" v-model="findText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row wrap>
+                    <v-col cols=1></v-col>
+                    <v-col cols=4>
                         <h3>
                             {{count}} {{$tc('datasets')}} {{$tc('found')}}
                             <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                             <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
                             <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied')}}</span>
                         </h3>
-                    </v-flex>
-                    <v-flex xs3>
-                    </v-flex>
-                    <v-flex xs2>
+                    </v-col>
+                    <v-col cols=3>
+                    </v-col>
+                    <v-col cols=2>
                         <v-select append-icon="arrow_drop_down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap align-center justify-center pt-2 pb-3>
-                    <!-- <v-flex xs2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-flex> -->
-                </v-layout>
-                <!-- <v-layout row wrap style="border-bottom: 1px solid;">
-                </v-layout> -->
+                    </v-col>
+                </v-row>
+                <v-row wrap align-center justify-center pt-2 pb-3>
+                    <!-- <v-col cols=2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-col> -->
+                </v-row>
+                <!-- <v-row wrap style="border-bottom: 1px solid;">
+                </v-row> -->
 
-                <v-layout row wrap>
-                    <v-flex xs10>
+                <v-row wrap>
+                    <v-col cols=10>
                         <!-- Search  -->
-                        <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                        <v-progress-circular
+                            v-if="loading"
+                            indeterminate
+                            color="light-blue"
+                        ></v-progress-circular>
                         <div v-else-if="noResults">
                             No results
                         </div>
@@ -74,10 +77,10 @@
                                 <div slot="no-more">No more datasets</div>
                             </infinite-loading>
                         </div>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-        </v-layout>
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -107,6 +110,7 @@
           noResults: false,
           facets: {},
           searchedText: "",
+          findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
           count: 0,
           rows: 10,
           skip: 0,
@@ -130,17 +134,9 @@
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             isEditor: state => state.user.isEditor,
-            userLoading: state => state.user.userLoading
+            userLoading: state => state.user.userLoading,
+            searchText: state => state.search.searchText
         }),
-
-        searchText: {
-            get() {
-                return this.$store.state.search.searchText
-            },
-            set(newValue){
-                this.$store.commit('search/setSearchText', newValue )
-            }
-        },
 
         showCreate: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
@@ -149,18 +145,6 @@
             return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
         },
 
-    },
-
-    watch: {
-        "$route.query.q": function(){
-            this.searchText = this.$route.query.q
-            this.getDatasets()
-        },
-        "$route.query.advanced": function(){
-            if (this.$route.query.advanced == 'true'){
-                this.advanced = true;
-            }
-        }
     },
 
     methods: {
@@ -177,7 +161,7 @@
         },
 
         scroll: function(state){
-            this.skip += this.rows
+            this.skip += this.rows;
             if (this.count>this.skip) {
                 this.getDatasets(true, state)
             }else{
@@ -187,7 +171,7 @@
 
         search: function(e){
             if (e.keyCode === 13) {
-                this.getDatasets()
+                this.$store.commit('search/setSearchText', this.findText);
             }
         },
 
@@ -254,7 +238,7 @@
                 q += fq + "&"
             }
 
-            if ( (this.append) && (this.skip !== 0) ){
+            if ( (append) && (this.skip !== 0) ){
                 q += "start=" + this.skip + "&"
             }
 
@@ -315,6 +299,16 @@
     mounted(){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getFacets();
+
+        let self = this;
+        this.$store.subscribe((mutation) => {
+            if (mutation.type === 'search/setSearchText'){
+                self.findText = this.$store.state.search.searchText;
+                self.getDatasets();
+            }
+            
+        });
+
     }
   }
 </script>
@@ -325,7 +319,7 @@
         bottom: 0px;
         top: 48px;
         width: 110px;
-        z-index: 9002;
+        z-index: 60;
     }
 
     .tertiary{

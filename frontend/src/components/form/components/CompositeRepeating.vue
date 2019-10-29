@@ -4,11 +4,15 @@
         <v-card-text>
             <div v-if="!editing">
                 <span v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                    <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
-                        <label>{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
-                        <span v-if="model[repeatedIndex]">{{model[repeatedIndex][sub.field_name]}}</span>
-                        <span v-else></span>
-                    </div>
+                    <span v-if="model[repeatedIndex].displayed">
+                        <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
+                            <span v-if="sub.field_name !== 'displayed'">
+                                <label>{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
+                                <span v-if="model[repeatedIndex]">{{model[repeatedIndex][sub.field_name]}}</span>
+                                <span v-else></span>
+                            </span>
+                        </div>
+                    </span>
                 </span>
             </div>
             <div v-else :key="'composite'+field.field_name">
@@ -150,7 +154,7 @@ export default {
     },
     data() {
         return {
-            model: [{}]
+            model: [{}],
         }
     },
     methods: {
@@ -190,6 +194,7 @@ export default {
                     }
                 }
             }
+            this.$emit('edited', JSON.stringify(this.model));
         }
     },
 };

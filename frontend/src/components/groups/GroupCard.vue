@@ -9,13 +9,17 @@
       </div>
     </v-card-title>
     <!-- <v-container fluid v-if="showDatasets">
-      <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
-      <v-layout v-else row wrap>
+      <v-progress-circular
+                    v-if="loading"
+                    indeterminate
+                    color="light-blue"
+                ></v-progress-circular>
+      <v-row v-else wrap>
         <h4>Datasets</h4>
-        <v-flex xs12 v-for="dataset in datasets" :key="'group-'+id+'-dataset-'+dataset.id" style="overflow: hidden; text-overflow: ellipsis">
-          <v-btn flat :to="'/dataset/'+dataset.name">{{dataset.title}}</v-btn>
-        </v-flex>
-      </v-layout>
+        <v-col cols=12 v-for="dataset in datasets" :key="'group-'+id+'-dataset-'+dataset.id" style="overflow: hidden; text-overflow: ellipsis">
+          <v-btn text :to="'/dataset/'+dataset.name">{{dataset.title}}</v-btn>
+        </v-col>
+      </v-row>
     </v-container> -->
   </v-card>
 </template>

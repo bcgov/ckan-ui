@@ -8,31 +8,35 @@
           color="grey"
           indeterminate
         ></v-progress-circular>
-        <v-layout row wrap v-else class="text-xs-center" align-center justify-center>
-            <v-flex xs3>
+        <v-row wrap v-else class="text-xs-center" align-center justify-center>
+            <v-col cols=3>
                 <Profile :group="group"></Profile>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap align-center>
-            <v-flex xs12>
+            </v-col>
+        </v-row>
+        <v-row wrap align-center>
+            <v-col cols=12>
                 <h2 class="text-xs-center">{{count}} {{$tc('Dataset', count)}}</h2>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs12>
-                <i v-if="loadingDatasets" class="fa fa-circle-o-notch fa-spin"></i>
+            </v-col>
+        </v-row>
+        <v-row wrap>
+            <v-col cols=12>
+                <v-progress-circular
+                    v-if="loadingDatasets"
+                    indeterminate
+                    color="light-blue"
+                ></v-progress-circular>
                 <div v-else-if="count == 0">
                     No results
                 </div>
                 <div v-else>
-                    <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
+                    <ListCard v-for="dataset in datasets" :key="'dataset-group-'+dataset.id" :record="dataset"></ListCard>
                     <infinite-loading @infinite="scroll">
                         <div slot="no-results">{{$tc('No datasets')}}</div>
                         <div slot="no-more">{{$tc('No more datasets')}}</div>
                     </infinite-loading>
                 </div>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
-        <v-layout row wrap>
-            <v-flex xs12>
+        <v-row wrap>
+            <v-col cols=12>
                 <v-card>
                     <v-card-text>
                         <v-img v-if="group.image_display_url !== ''" :src="group.image_display_url"></v-img>
@@ -10,8 +10,8 @@
                         <p v-else><a :href="group.url" target="_blank">{{group.title}}</a></p>
                     </v-card-text>
                 </v-card>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

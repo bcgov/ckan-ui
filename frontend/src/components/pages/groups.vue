@@ -1,39 +1,39 @@
 <template>
     <v-container fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-        <v-layout row wrap>
-            <v-flex xs2></v-flex>
-            <v-flex xs8>
+        <v-row wrap>
+            <v-col cols=2></v-col>
+            <v-col cols=8>
                 <v-text-field v-model="searchText" label="Search groups..." v-on:keyup="search"></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap>
-          <v-flex xs2></v-flex>
-          <v-flex xs4>
+            </v-col>
+        </v-row>
+        <v-row wrap>
+          <v-col cols=2></v-col>
+          <v-col cols=4>
               {{count}} {{$tc('Groups', count)}}
-          </v-flex>
-          <v-flex xs4>
-          </v-flex>
-      </v-layout>
-        <v-layout row wrap align-center justify-center>
-            <v-btn flat v-on:click="what = !what"><v-icon>help</v-icon></v-btn>
+          </v-col>
+          <v-col cols=4>
+          </v-col>
+      </v-row>
+        <v-row wrap align-center justify-center>
+            <v-btn text v-on:click="what = !what"><v-icon>help</v-icon></v-btn>
 
-            <v-flex xs12 v-if="what">
+            <v-col cols=12 v-if="what">
               <p>What are Groups?</p>
               <p>
                   You can use CKAN Groups to create and manage collections of datasets. This could be to catalogue
                   datasets for a particular project or team, or on a particular theme, or as a very simple way to help
                   people find and search your own published datasets.
               </p>
-            </v-flex>
+            </v-col>
 
 
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs4 v-for="group in groups" :key="'group-card-'+group.id">
+        </v-row>
+        <v-row wrap>
+            <v-col cols=4 v-for="group in groups" :key="'group-card-'+group.id">
                 <GroupCard :group="group"></GroupCard>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

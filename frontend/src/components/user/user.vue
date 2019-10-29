@@ -1,15 +1,15 @@
 <template>
     <v-menu bottom offset-y color="primary">
         <template v-slot:activator="{ on }">
-            <v-btn flat v-on="on" id="user-drop">{{user.displayName}}</v-btn>
+            <v-btn text v-on="on" id="user-drop">{{user.displayName}}</v-btn>
         </template>
-        <v-list>
-            <v-list-tile>
-                <v-btn flat to="/user">{{$tc('Profile')}}</v-btn>
-            </v-list-tile>
-            <v-list-tile>
-                <v-btn flat @click="logout">{{$tc('Logout')}}</v-btn>
-            </v-list-tile>
+        <v-list dense class="header-menu-secondary">
+            <v-list-item>
+                <v-btn text to="/user">{{$tc('Profile')}}</v-btn>
+            </v-list-item>
+            <v-list-item>
+                <v-btn text @click="logout">{{$tc('Logout')}}</v-btn>
+            </v-list-item>
         </v-list>
     </v-menu>
 </template>
@@ -41,3 +41,18 @@ export default{
 }
 
 </script>
+
+<style scoped>
+    .theme--light.v-list.header-menu-secondary{
+        background-color: var(--v-secondary-base);
+    }
+
+    .header-menu-secondary .theme--light.v-btn{
+       color: var(--v-text-base) !important;
+    }
+
+    .header-menu-secondary .theme--light.v-btn{
+        color: var(--v-text-base) !important;
+    }
+    
+</style>

@@ -6,33 +6,37 @@
                     <span v-if="numApplied>0">{{numApplied}}</span>
                 </template>
                 
-                <v-container fluid pa-0 ma-0 dark>
-                    <v-layout row wrap>
-                        <v-flex xs12 class="text-xs-center">
+                <v-container fluid pa-0 ma-0>
+                    <v-row wrap>
+                        <v-col cols=12 class="text-xs-center">
                             <v-icon x-large class="iconWidth facetIcon">{{field.icon}}</v-icon>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row wrap>
-                        <v-flex xs12 class="text-xs-center facetLabel">{{$tc(name)}}</v-flex>
-                    </v-layout>
+                        </v-col>
+                    </v-row>
+                    <v-row wrap>
+                        <v-col cols=12 class="text-xs-center facetLabel">{{$tc(name)}}</v-col>
+                    </v-row>
                 </v-container>            
             </v-badge>
         </v-container>
 
         <v-container fluid class="leftDrawer" v-if="showDrawer" transition="slide-x-transition">
-            <v-layout row wrap class="borderBottom">
-                <v-flex xs11>
+            <v-row wrap class="borderBottom">
+                <v-col cols=11>
                     <h3>{{found}} {{$tc('datasets')}} {{$tc('found')}} {{$tc('using')}} {{totalFilters}} {{$tc('filter', totalFilters)}}</h3>
-                </v-flex>
-                <v-flex xs1><v-icon :id="'facet-close-'+name" @click="toggleDrawer()">close</v-icon></v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                </v-col>
+                <v-col cols=1><v-icon :id="'facet-close-'+name" @click="toggleDrawer()">close</v-icon></v-col>
+            </v-row>
+            <v-row wrap>
+                <v-progress-circular
+                    v-if="loading"
+                    indeterminate
+                    color="light-blue"
+                ></v-progress-circular>
                 <div v-else>
-                    <v-layout row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
+                    <v-row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
                             <span v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
-                                <v-flex xs12 pb-2>{{$tc(facet[k])}}</v-flex>
+                                <v-col cols=12 pb-2>{{$tc(facet[k])}}</v-col>
                                 <v-chip 
                                     v-for="(filter, i) in filters[k]" 
                                     :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
@@ -43,24 +47,24 @@
                                 </v-chip>
                             </span>
                         </span>
-                    </v-layout>
-                    <v-layout row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
-                        <v-flex v-if="header !== 'banner'" xs12 pb-2><h5>{{$tc(header)}}</h5></v-flex>
-                        <v-flex v-if="header !== 'banner'" xs12 pb-2><p>{{$tc(info)}}</p></v-flex>
-                        <v-flex v-else xs12 fluid class="banner"><h4>{{$tc(info)}}</h4></v-flex>
-                    </v-layout>
+                    </v-row>
+                    <v-row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
+                        <v-col v-if="header !== 'banner'" cols=12 pb-2><h5>{{$tc(header)}}</h5></v-col>
+                        <v-col v-if="header !== 'banner'" cols=12 pb-2><p>{{$tc(info)}}</p></v-col>
+                        <v-col v-else cols=12 fluid class="banner"><h4>{{$tc(info)}}</h4></v-col>
+                    </v-row>
                 </div>
-            </v-layout>
-            <v-layout row wrap>
+            </v-row>
+            <v-row wrap>
                 <v-btn @click="clearClick" :id="'facet-clearAll-'+name" color="text">{{$tc('Clear all')}}</v-btn>
                 <!--<v-btn @click="toggleDrawer" color="primary">{{$tc('OK')}}</v-btn>-->
-            </v-layout>
+            </v-row>
         </v-container>
         <v-container fluid class="dimmer" v-if="showDrawer" :id="'facet-dimmerClose-'+name" @click="toggleDrawer()">
-            <v-layout row wrap fill-height>
-                <v-flex xs12>
-                </v-flex>
-            </v-layout>
+            <v-row wrap fill-height>
+                <v-col cols=12>
+                </v-col>
+            </v-row>
         </v-container>
     </div>
 </template>
@@ -265,6 +269,8 @@ export default{
         left: 110px;
         background: white;
         width: 600px;
+        padding-left: 30px;
+        overflow-x: hidden;
         height: calc(100vh - 62px);
         overflow-y: scroll;
         -moz-box-shadow: 5px 5px 5px lightgrey;

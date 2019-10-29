@@ -24,10 +24,12 @@
             </ValidationProvider>
             <div v-else>
                 <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
-                    <input 
-                        type='file' 
+                    <v-file-input 
+                        :label="$tc(displayLabel)"
                         :name="name"
+                        v-model="val"
                         :error-messages="errors.length > 0 ? [errors[0]] : []" >
+                    </v-file-input>
                 </ValidationProvider>
             </div>
         </div>
@@ -61,7 +63,7 @@ export default {
     },
     watch: {
         val(){
-            this.$emit('edited', this.model);
+            this.$emit('edited', this.isURL, this.val);
         },
     },
     mounted(){

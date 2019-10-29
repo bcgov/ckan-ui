@@ -67,7 +67,7 @@ export default {
     computed: {
         displayLabel: function(){
             return this.label + (this.field.required ? '*' : '');
-        }
+        },
     },
 
     methods: {
@@ -92,18 +92,20 @@ export default {
 
             if (typeof(this.options) !== "undefined"){
                 let keys = Object.keys(this.options);
-                for (let i=0; i<keys.length; i++){
-                    let item = {};
+                for (var i=0; i<keys.length; i++){
+                    var item = {};
                     item.label = this.translate ? this.$tc(this.options[keys[i]][this.labelField]) : this.options[keys[i]][this.labelField];
                     item.value = this.options[keys[i]][this.valueField];
 
                     if (item.value == this.value){
                         this.displayValue = item.label;
                     } 
+                    
 
-                    if (this.selectableOptions.length <= 0 ){
+                    if (this.selectableOptions.length === 0 ){
                         this.items.push(item);
                     }
+                    
                     //this.items[this.options[keys[i]].label] = this.options[keys[i]].value;
                 }
             }

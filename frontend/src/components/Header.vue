@@ -2,8 +2,7 @@
   <span>
     <div class="headerSpacer"></div>
     <header class="gov-header">
-      <div class="headerSpacer"></div>
-      <v-toolbar color="primary" fixed dense dark>
+      <v-toolbar color="primary" fixed dense>
         <!-- Navbar content -->
           <a id="header-gov-logo" href="https://www2.gov.bc.ca">
             <img
@@ -11,78 +10,78 @@
                 width="auto" height="30"
                 alt="B.C. Government Logo">
           </a>
-        <v-toolbar-title color="primary"><v-btn id="header-home" class="title hidden-sm-and-down" color="text" flat to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
+        <v-toolbar-title color="primary"><v-btn id="header-home" class="title hidden-sm-and-down" color="text" text to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
           <v-spacer></v-spacer>
 
 
-          <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>
+          <v-btn text id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>
 
           <User v-if="loggedIn" :user="user"></User>
-          <v-btn flat id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl" @click="clearStorage"> {{$tc("LogIn")}}</v-btn>
+          <v-btn text id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl" @click="clearStorage"> {{$tc("LogIn")}}</v-btn>
 
           <v-menu offset-y bottom color="primary">
             <template v-slot:activator="{ on }">
-              <v-btn flat v-on="on" id="header-language">
+              <v-btn text v-on="on" id="header-language">
                 {{$tc("Language")}}
               </v-btn>
             </template>
-            <v-layout align-center justify-center row fill-height class="secondary_color">
-                <v-flex xs12>
-                    <v-list class="header-menu-secondary" dark>
-                      <v-list-tile id="header-language-en" @click="setLanguage('en')">English</v-list-tile>
-                      <v-list-tile id="header-language-fr" @click="setLanguage('fr')">Français</v-list-tile>
+            <v-row align-center justify-center fill-height class="secondary_color">
+                <v-col cols=12>
+                    <v-list dense class="header-menu-secondary">
+                      <v-list-item id="header-language-en" @click="setLanguage('en')">English</v-list-item>
+                      <v-list-item id="header-language-fr" @click="setLanguage('fr')">Français</v-list-item>
                     </v-list>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
           </v-menu>
 
           <v-btn icon v-on:click="searchClick" id="header-search">
-            <v-icon medium>search</v-icon>
+            <v-icon large>search</v-icon>
           </v-btn>
 
 
-          <v-menu bottom left absolute nudge-bottom=25 color="primary">
+          <v-menu bottom left absolute color="primary">
             <template v-slot:activator="{ on }">
               <v-btn icon @click="showSearch = false" v-on="on" id="header-menu">
-                <v-icon medium>menu</v-icon>
+                <v-icon large>menu</v-icon>
               </v-btn>
             </template>
-            <v-layout align-center justify-center row fill-height class="secondary_color">
-                <v-flex xs6>
-                    <v-list class="header-menu" dark>
-                      <v-list-tile v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
-                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                      </v-list-tile>
-                      <v-list-tile class="hidden-md-and-up">
-                        <v-btn flat id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
-                      </v-list-tile>
-                      <v-list-tile v-if="loggedIn" class="hidden-md-and-up">
+            <v-row align-center justify-center fill-height class="primary_color">
+                <v-col cols=6>
+                    <v-list dense class="header-menu">
+                      <v-list-item v-for="(item, key) in menuSecondary" :key="'secondary-menu-'+key">
+                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" text :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" text :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                      </v-list-item>
+                      <v-list-item class="hidden-md-and-up">
+                        <v-btn text id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link" :href="classicUrl">{{$tc('Classic')}}</v-btn>
+                      </v-list-item>
+                      <v-list-item v-if="loggedIn" class="hidden-md-and-up">
                           <User :user="user"></User>
-                      </v-list-tile>
-                      <v-list-tile v-else class="hidden-md-and-up">
-                          <v-btn flat id="nav-login" class="navbar-link lvl2-link" :href="logInUrl">{{$tc("LogIn")}}</v-btn>
-                      </v-list-tile>
+                      </v-list-item>
+                      <v-list-item v-else class="hidden-md-and-up">
+                          <v-btn text id="nav-login" class="navbar-link lvl2-link" :href="logInUrl">{{$tc("LogIn")}}</v-btn>
+                      </v-list-item>
                     </v-list>
-                </v-flex>
-                <v-flex xs6>
-                    <v-list class="header-menu-secondary" dark>
-                      <v-list-tile v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
-                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" flat :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
-                      </v-list-tile>
+                </v-col>
+                <v-col cols=6 class="secondary_color">
+                    <v-list dense class="header-menu-secondary">
+                      <v-list-item v-for="(item, key) in menuTertiary" :key="'tertiarry-menu-'+key">
+                          <v-btn v-if="item.link" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" text :to="item.link" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                          <v-btn v-else-if="item.title !== ''" block :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" text :href="item.href" class="navbar-link lvl2-link"><v-icon v-if="item.icon">{{item.icon}}</v-icon>{{$tc(item.title, 2)}}</v-btn>
+                      </v-list-item>
                     </v-list>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
           </v-menu>
 
       </v-toolbar>
       <v-container class="searchBar" v-show="showSearch">
-        <v-layout row wrap>
-          <v-flex>
+        <v-row wrap>
+          <v-col>
             <v-text-field ref="headerSearch" id="header-search" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
 
 
@@ -105,6 +104,7 @@ export default {
   props: [],
   data () {
     return {
+        searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         showSearch: false,
         classicUrl: '',
@@ -150,14 +150,7 @@ export default {
       user: state => state.user.authUser,
       loggedIn: state => state.user.loggedIn
     }),
-    searchText: {
-        get() {
-            return this.$store.state.search.searchText
-        },
-        set(newValue){
-            this.$store.commit('search/setSearchText', newValue )
-        }
-    },
+
     menuTertiary() {
         return [
             {
@@ -192,8 +185,12 @@ export default {
   methods:{
       search: function(e){
           if (e.keyCode === 13) {
+            this.showSearch = false;
+            this.$store.commit('search/setSearchText', this.searchText);
+            if (this.$route.path !== '/datasets'){
               this.$router.push('/datasets');
-              this.showSearch = false
+            }
+              
           }
       },
       searchClick: function(){
@@ -216,6 +213,14 @@ export default {
   },
   mounted: function(){
     this.$store.dispatch('user/getCurrentUser')
+
+    let self = this;
+    this.$store.subscribe((mutation) => {
+        if (mutation.type === 'search/setSearchText'){
+            self.searchText = this.$store.state.search.searchText;
+        }
+        
+    });
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;
@@ -246,7 +251,7 @@ export default {
     position: fixed;
     width: 100%;
     top: 0px;
-    z-index: 9010;
+    z-index: 100;
   }
 
   .searchBar{
@@ -264,16 +269,44 @@ export default {
     background: none !important;
   }
 
-   .v-list.header-menu.theme--dark{
+   .theme--light.v-list.header-menu {
        background-color: var(--v-primary-base);
    }
 
-   .v-list.header-menu-secondary.theme--dark{
+   .theme--light.v-list.header-menu-secondary{
        background-color: var(--v-secondary-base);
+   }
+
+   .header-menu .theme--light.v-btn{
+      color: var(--v-text-base);
+   }
+
+   .navbar-link.theme--light.v-btn{
+     color: var(--v-text-base);
+   }
+
+   .header-menu-secondary .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled){
+     color: var(--v-text-base) !important;
+   }
+
+   .header-menu-secondary .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled){
+     color: var(--v-text-base) !important;
    }
 
    .secondary_color{
        background-color: var(--v-secondary-base);
+   }
+
+   .primary_color{
+     background-color: var(--v-primary-base);
+   }
+
+   .v-toolbar__content .theme--light.v-btn{
+     color: var(--v-text-base);
+   }
+
+   .v-toolbar__content .v-btn__content{
+     color: var(--v-text-base);
    }
 
 

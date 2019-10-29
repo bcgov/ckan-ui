@@ -1,13 +1,17 @@
 <template>
   <v-card>
-      <v-toolbar dark color="primary">
-          <v-btn icon dark @click="$emit('closePreviewDialog')">
+      <v-toolbar color="primary">
+          <v-btn icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{name}} - Schema {{inferred ? '(Inferred)' : ''}}</v-toolbar-title>
+          <v-toolbar-title>{{name}} - Schema {{resource.schemaInferred ? '(Inferred)' : ''}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-            <i v-if="loading" class="fa fa-circle-o-notch fa-spin"></i>
+          <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="light-blue"
+            ></v-progress-circular>
 
             <div v-else>
                 <div v-for="field in schema.fields" :key="'schema'+(field.name.text || field.descriptor.name)">
@@ -63,24 +67,9 @@ export default{
         ...mapState({
             resourceStore: state => state.dataset.resources,
         }),
-        type: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].type ? this.resourceStore[this.id].type : '';
-        },
-        url: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].url ? this.resourceStore[this.id].url : '';
-        },
-        data: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].data ? this.resourceStore[this.id].data : [];
-        },
-        headers: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].headers ? this.resourceStore[this.id].headers : [];
-        },
         schema: function(){
             return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].schema ? this.resourceStore[this.id].schema : {};
         },
-        inferred: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].schemaInferred ? this.resourceStore[this.id].schemaInferred : {};
-        }
 
     },
     watch: {
@@ -102,6 +91,10 @@ export default{
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.theme--light.v-sheet{
+    color: var(--v-text-base)
 }
 
 </style>

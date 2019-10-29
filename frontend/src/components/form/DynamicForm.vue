@@ -1,7 +1,6 @@
 <template>
-    <v-layout row wrap>
-        <v-flex 
-        v-bind:class="'xs'+( ( (editing) || (field.preset==='title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') ) ? '12' : '6')" 
+    <v-row wrap>
+        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') ) ? '12' : '6')"
         v-for="(field, fieldKey) in schema" 
         :key="'field-'+fieldKey">
             <span v-if="(!field.conditional_field || !field.conditional_values) || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
@@ -24,7 +23,7 @@
                     :label="field.label"
                     :editing="editing"
                     :placeholder="field.form_placeholder"
-                    :options="topOrgArray"
+                    :options="orgArray"
                     :selectableOptions="selectableUserOrgs"
                     emitOnChange="orgSelect"
                     @orgSelect="(newValue) => { updateValues(field.field_name, newValue) }"
@@ -155,9 +154,17 @@
                 <Composite
                     v-else-if="field.preset==='composite'"
                     :editing="editing"
-                    :value="values"
+                    :value="values[field.field_name]"
                     :scope="scope"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    :field="field">
+                </Composite>
+                <Composite
+                    v-show="!editing"
+                    v-else-if="field.display_snippet==='bcgw_details.html'"
+                    :editing="false"
+                    :value="values"
+                    :scope="scope"
                     :field="field">
                 </Composite>
                 <TextInput
@@ -167,6 +174,7 @@
                     :label="field.label"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
+                    :scope="scope"
                     :editing="editing">
                 </TextInput>
                 <Json
@@ -183,7 +191,7 @@
                     :name="field.field_name" 
                     :value="values[field.field_name]" 
                     :label="field.label"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
                     :field="field"
                     :scope="scope"
                     :editing="editing">
@@ -192,10 +200,10 @@
                 <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
                 <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
             </span>
-        </v-flex>
+        </v-col>
         <!-- <span v-if="!editing">
-            <v-flex 
-            xs6 
+            <v-col  
+            cols=6
             v-for="(field, fieldKey) in nonSchemaFields" 
             :key="'field-'+fieldKey">
                 <TextInput
@@ -205,9 +213,9 @@
                     :field="{required: false}"
                     :editing="editing">
             </TextInput>
-            </v-flex>
+            </v-col>
         </span> -->
-    </v-layout>
+    </v-row>
 </template>
 
 <script>
@@ -264,23 +272,6 @@ export default {
         ...mapState({
             orgList: state => state.organization.orgList,
         }),
-        topOrgArray: function(){
-            let orgs = [];
-            if (this.orgList){
-                let keys = Object.keys(this.orgList);
-                for (let i=0; i<keys.length; i++){
-                    let item = {};
-                    item.label = keys[i];
-                    item.value = this.orgList[keys[i]].id;
-                    orgs.push(item);
-                }
-            }
-            return orgs;
-        },
-
-        subOrgArray: function(){
-            return this.getSubOrgs(this.dataset.org);
-        },
 
         orgArray: function(){
             let orgs = [];
@@ -306,6 +297,10 @@ export default {
         updateValues(field, newValue){
             this.$emit("updated", field, newValue);
         },
+        updateUploadValues(field, isUrl, newValue){
+            this.$emit("updated", "isUrl", isUrl);
+            this.$emit("updated", field, newValue);
+        }
     },
 }
 </script>

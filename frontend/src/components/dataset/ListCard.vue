@@ -1,7 +1,7 @@
 <template>
   <v-container fluid align-center align-content-center justify-center>
-      <v-layout row wrap mb-1>
-          <v-flex xs12>
+      <v-row wrap mb-1>
+          <v-col cols=12>
             <h3>
                 <router-link :id="'dataset-link-'+record.id" :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
                     <v-tooltip bottom>
@@ -13,19 +13,19 @@
                     <span>{{title}}</span>
                 </router-link>
             </h3>
-          </v-flex>
-      </v-layout>
+          </v-col>
+      </v-row>
       
-      <v-layout row wrap>
-          <v-flex xs12 my-0 py-0>
+      <v-row wrap>
+          <v-col cols=12 my-0 py-0>
               <p v-line-clamp:1.5="2" >{{description}}</p>
-          </v-flex>
-      </v-layout>
+          </v-col>
+      </v-row>
 
-      <v-layout row wrap>
-        <v-flex xs4><strong>{{sector}}</strong> - Record Published: {{publishDate}}</v-flex>
-        <v-flex xs8 class="text-xs-right"><em>{{types}}</em></v-flex>
-      </v-layout>
+      <v-row wrap>
+        <v-col cols=4><strong>{{sector}}</strong> - Record Published: {{publishDate}}</v-col>
+        <v-col cols=8 class="text-xs-right"><em>{{types}}</em></v-col>
+      </v-row>
 
 
   </v-container>
@@ -131,7 +131,6 @@ export default {
 </script>
 
 <style scoped>
-    @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
     .dataset-markers{
         float: right;
     }
