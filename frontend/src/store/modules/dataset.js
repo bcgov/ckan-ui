@@ -184,6 +184,9 @@ const mutations = {
         state.dataset = Object.assign({}, dataset);
         state.unmodifiedDataset = Object.assign({}, dataset);
     },
+    setCurrentNotUnmod(state, {dataset}) {
+        state.dataset = Object.assign({}, dataset);
+    },
     setSchema(state, {type, data}){
         state.schemas[type] = Object.assign({}, data);
     },

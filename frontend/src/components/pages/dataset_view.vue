@@ -343,7 +343,7 @@ export default {
                 this.dataset.type = "bcdc_dataset";
             }
             this.dataset[field] = newValue;
-            this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
+            this.$store.commit('dataset/setCurrentNotUnmod', { dataset: this.dataset } );
         },
     },
 
