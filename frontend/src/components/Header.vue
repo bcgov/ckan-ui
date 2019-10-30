@@ -40,7 +40,7 @@
           </v-btn>
 
 
-          <v-menu bottom left absolute color="primary">
+          <v-menu bottom right offset-y color="primary">
             <template v-slot:activator="{ on }">
               <v-btn icon @click="showSearch = false" v-on="on" id="header-menu">
                 <v-icon large>menu</v-icon>
@@ -265,6 +265,9 @@ export default {
     padding: 0px;
   }
 
+  .v-btn {
+    margin:auto;
+  }
    .v-btn--active.title:before, .v-btn.title:focus:before, .v-btn.title:hover:before {
     background: none !important;
   }

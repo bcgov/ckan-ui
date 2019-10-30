@@ -9,8 +9,7 @@
                 :label="$tc(displayLabel)"
                 :name="name"
                 v-model="val"
-                :placeholder="placeholder"
-                
+                :placeholder="placeholder"       
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 outline
             ></v-text-field>

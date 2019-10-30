@@ -63,7 +63,7 @@ export default {
     },
     
     watch: {
-        model(){
+        model() {
             this.$emit('edited', this.model);
         },
     },

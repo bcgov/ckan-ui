@@ -113,6 +113,7 @@ export default{
     },
     mounted() {
         let self = this;
+        this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.id});
         let unsub = this.$store.subscribe(
             (mutation, state) => {
                 if(mutation.type == "dataset/setSchema") {
@@ -122,6 +123,15 @@ export default{
             }
         )
         
+    },
+
+    watch: {
+        resourceStore(val) {
+            // eslint-disable-next-line
+            console.log("Resource changed:")
+            // eslint-disable-next-line
+            console.log(val)
+        }
     },
 
     methods: {

@@ -27,12 +27,13 @@ function getResourceSchema(resource, headers, data){
 
 const state = {
     dataset: {},
+    resourceUpdate: false,
     shouldAbort: false,
     unmodifiedDataset: {},
     schemas: {},
     schemaLoading: false,
     dataLoading: false,
-    resources: { },
+    resources: {},
 };
 
 const actions = {
@@ -86,8 +87,14 @@ const actions = {
 
             if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
                 resource.type = "404";
+                // eslint-disable-next-line
+                console.log('setting 404')
+                
             }else if (data['type'] === 'xls'){
                 resource.type = 'xls';
+                // eslint-disable-next-line
+                console.log('setting xls')
+                
             }else if (data.headers) {
                 resource.type = "csv";
                 resource.data = data.workbook
@@ -98,6 +105,8 @@ const actions = {
                         resource.schemaInferred = true;
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
+                        // eslint-disable-next-line
+                        console.log('setting csv')
                     }).catch ( () => {
                         resource.schema = null;
                         resource.schemaInferred = false;
@@ -112,8 +121,8 @@ const actions = {
             } else {
                 resource.raw_data = data.raw_data;
             }
-
-            if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema) ){
+                  
+            if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
                 getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []).then( (s) => {
                     resource.schema = s;
                     resource.schemaInferred = false;
@@ -125,6 +134,11 @@ const actions = {
                     resource.metadata = data.metadata;
                     context.commit('setResource', {id: id, resource: resource});
                 });
+            } else {
+                resource.schema = null;
+                resource.schemaInferred = false;
+                resource.metadata = data.metadata;
+                context.commit('setResource', {id: id, resource: resource});
             }
         });
     },
