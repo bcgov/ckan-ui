@@ -17,7 +17,7 @@
                     ></ResourceCard>
                 </v-col>
                 <v-col cols=12>
-                    <v-btn @click.stop="createDialog = true" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
+                    <v-btn v-if="!createMode && showEdit" @click.stop="createDialog = true" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
                     <v-dialog
                         v-if="!createMode && showEdit"
                         v-model="createDialog"
