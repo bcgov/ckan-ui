@@ -3,7 +3,7 @@
 
         <v-row>
             <v-col cols=12>
-                <p>BC 💖 {{$tc('Data')}}</p>
+                <p style="font-size: 100pt">BC 💖 {{$tc('Data')}}</p>
             </v-col>
             <v-col cols=12>
                 <v-text-field ref="searchBox" filled background-color="text" append-icon="search" light v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
