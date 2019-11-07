@@ -11,6 +11,7 @@
                 v-model="val"
                 :placeholder="placeholder"       
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                :disabled="disabled"
                 outline
             ></v-text-field>
         </ValidationProvider>
@@ -28,6 +29,10 @@ export default {
         placeholder: String,
         field: Object,
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {

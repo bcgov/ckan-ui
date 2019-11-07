@@ -20,6 +20,7 @@
                 multiple
                 :search-input.sync="search"
                 outline
+                :disabled="disabled"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
             ></v-autocomplete>
         </ValidationProvider>
@@ -48,7 +49,11 @@ export default {
         itemValueField: {
             type: String,
             default: "id"
-        }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data(){
         var self = this;

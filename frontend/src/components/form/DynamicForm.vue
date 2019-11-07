@@ -1,6 +1,6 @@
 <template>
     <v-row wrap>
-        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') ) ? '12' : '6')"
+        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') || (field.form_snippet==='upload.html') ) ? '12' : '6')"
         v-for="(field, fieldKey) in schema" 
         :key="'field-'+fieldKey">
             <span v-if="(!field.conditional_field || !field.conditional_values) || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
@@ -13,6 +13,7 @@
                     :placeholder="field.form_placeholder"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     >
                 </Title>
@@ -29,6 +30,7 @@
                     @orgSelect="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     :translate="false"
                     :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                 </Select>
@@ -44,6 +46,7 @@
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                 </Select>
                 <Select 
@@ -58,6 +61,7 @@
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     :translate="false"
                     :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                 </Select>
@@ -73,6 +77,7 @@
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                 </Select>
                 <Slug 
@@ -83,6 +88,7 @@
                     :editing="editing"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
+                    :disabled="disabled"
                     :scope="scope"
                     :placeholder="field.form_placeholder">
                 </Slug>
@@ -94,6 +100,7 @@
                     :editing="editing"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
+                    :disabled="disabled"
                     :placeholder="field.form_placeholder">
                 </Markdown>
                 <Tags
@@ -106,6 +113,7 @@
                     :autoCompleteSource="field.form_attrs['data-module-source']"
                     :field="field"
                     :scope="scope"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                 >
                 </Tags>
@@ -119,6 +127,7 @@
                     :field="field"
                     :scope="scope"
                     :items="field.choices"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                 >
                 </Autocomplete>
@@ -129,6 +138,7 @@
                     :orgArray="orgArray"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :scope="scope"
+                    :disabled="disabled"
                     :field="field">
                 </CompositeRepeating>
                 <CompositeRepeating 
@@ -137,6 +147,7 @@
                     :editing="editing"
                     :orgArray="orgArray"
                     :scope="scope"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field">
                 </CompositeRepeating>
@@ -146,6 +157,7 @@
                     :value="values[field.field_name]" 
                     :label="field.label"
                     :editing="editing"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
                     :scope="scope"
@@ -156,6 +168,7 @@
                     :editing="editing"
                     :value="values[field.field_name]"
                     :scope="scope"
+                    :disabled="disabled"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field">
                 </Composite>
@@ -164,6 +177,7 @@
                     v-else-if="field.display_snippet==='bcgw_details.html'"
                     :editing="false"
                     :value="values"
+                    :disabled="disabled"
                     :scope="scope"
                     :field="field">
                 </Composite>
@@ -174,6 +188,7 @@
                     :label="field.label"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
+                    :disabled="disabled"
                     :scope="scope"
                     :editing="editing">
                 </TextInput>
@@ -184,6 +199,7 @@
                     :label="field.label"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field"
+                    :disabled="disabled"
                     :editing="editing">
                 </Json>
                 <Upload
@@ -193,7 +209,9 @@
                     :label="field.label"
                     @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
                     :field="field"
+                    :disabled="disabled"
                     :scope="scope"
+                    :parentObject="values"
                     :editing="editing">
                 </Upload>
 
@@ -261,7 +279,11 @@ export default {
         selectableUserOrgs: {
             type: Array,
             default: () => {return [];}
-        }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {

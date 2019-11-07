@@ -15,6 +15,8 @@
                         :showEdit="createMode || showEdit"
                         :datasetBeingEdited="datasetBeingEdited"
                     ></ResourceCard>
+                </v-col>
+                <v-col cols=12>
                     <v-btn @click.stop="createDialog = true" color="primary">Add Resource<v-icon>add_circle</v-icon></v-btn>
                     <v-dialog
                         v-if="!createMode && showEdit"
@@ -71,4 +73,7 @@ export default {
 </script>
 
 <style scoped>
+.v-toolbar__title{
+    color: var(--v-text-base)
+}
 </style>

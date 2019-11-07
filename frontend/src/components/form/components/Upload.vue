@@ -19,6 +19,7 @@
                     v-model="val"
                     :placeholder="placeholder"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
+                    :disabled="disabled"
                     outline
                 ></v-text-field>
             </ValidationProvider>
@@ -28,6 +29,7 @@
                         :label="$tc(displayLabel)"
                         :name="name"
                         v-model="val"
+                        :disabled="disabled"
                         :error-messages="errors.length > 0 ? [errors[0]] : []" >
                     </v-file-input>
                 </ValidationProvider>
@@ -37,7 +39,9 @@
 </template>
 
 <script>
+
 export default {
+
     props: {
         name: String,
         value: [String, Object, Array, Boolean],
@@ -46,6 +50,11 @@ export default {
         placeholder: String,
         field: Object,
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        parentObject: Object,
     },
     data() {
         return {
@@ -54,12 +63,13 @@ export default {
             allowURL: this.field.field_name === "url",
             isURL: this.field.field_name === "url" ? true : false,
             scopeName: this.scope + '.' + this.name,
+            api: null,
         }
     },
     computed: {
         displayLabel: function(){
             return this.label + (this.field.required ? '*' : '');
-        }
+        },
     },
     watch: {
         val(){

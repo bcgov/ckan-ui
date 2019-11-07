@@ -19,6 +19,7 @@
                     :name="name"
                     v-model="model"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
+                    :disabled="disabled"
                     outline
                 ></v-textarea>
             </ValidationProvider>
@@ -40,6 +41,10 @@ export default {
         placeholder: String,
         field: Object,
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     
     data() {

@@ -14,7 +14,7 @@
           <v-spacer></v-spacer>
 
 
-          <v-btn text id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>
+          <!--<v-btn text id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>-->
 
           <User v-if="loggedIn" :user="user"></User>
           <v-btn text id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl" @click="clearStorage"> {{$tc("LogIn")}}</v-btn>

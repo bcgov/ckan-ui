@@ -1,7 +1,7 @@
 <template>
   <v-card class="dialog">
       <v-toolbar color="primary">
-          <v-btn icon @click="$emit('closePreviewDialog')">
+          <v-btn class="no-right-margin" icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}}</v-toolbar-title>
@@ -18,6 +18,11 @@
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
                 </template>
             </v-data-table>
+
+            <div v-else-if="resource.format === 'openapi-json'" v-html="redocEle">
+                <div style="border: 1px solid black; overflow-y: scroll" >
+                </div>
+            </div>
 
             <div v-else-if="type === 'pdf'">
                 <pdf :src="pdfData" :page="page">
@@ -87,6 +92,9 @@ export default{
         },
         loading: function(){
             return this.resourceStore ? typeof(this.resourceStore[this.id]) === 'undefined' : true;
+        },
+        redocEle: function(){
+            return "<rapi-doc show-header=false spec-url='"+this.resource.url+"'></rapi-doc>"
         }
 
     },
@@ -104,5 +112,9 @@ export default{
 
     .theme--light.v-sheet{
         color: var(--v-text-base)
+    }
+
+    .no-right-margin{
+        margin-right: 0px;
     }
 </style>

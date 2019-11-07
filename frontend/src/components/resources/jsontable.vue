@@ -1,7 +1,7 @@
 <template>
   <v-card>
       <v-toolbar color="primary">
-          <v-btn icon @click="$emit('closePreviewDialog')">
+          <v-btn class="no-right-margin" icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}} - Schema {{resource.schemaInferred ? '(Inferred)' : ''}}</v-toolbar-title>
@@ -96,5 +96,9 @@ export default{
 .theme--light.v-sheet{
     color: var(--v-text-base)
 }
+
+.no-right-margin{
+        margin-right: 0px;
+    }
 
 </style>

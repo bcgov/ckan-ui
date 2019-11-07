@@ -16,6 +16,7 @@
                 item-text="label"
                 item-value="value"
                 @change="onChange"
+                :disabled="disabled"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
 
                 outline>
@@ -53,6 +54,10 @@ export default {
         selectableOptions: {
             type: Array,
             default: () => { return []; }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
     },
     data() {

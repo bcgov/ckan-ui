@@ -12,6 +12,7 @@
                 :placeholder="placeholder"
                 v-on:keyup="modified = true"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                :disabled="disabled"
                 outline
             ></v-text-field>
         </ValidationProvider>
@@ -28,7 +29,11 @@ export default {
         editing: Boolean,
         placeholder: String,
         field: Object,
-        scope: String,  
+        scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },  
     },
     data() {
         return {

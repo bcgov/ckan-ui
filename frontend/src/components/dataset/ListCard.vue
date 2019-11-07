@@ -111,8 +111,11 @@ export default {
                 break
         }
 
+        let date = new Date(this.record.metadata_created)
+        let pubDate = date.getFullYear() + "-" + (date.getMonth() <= 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1)) + "-" + date.getDate();
+
         return {
-            publishDate: this.record.record_publish_date,
+            publishDate: pubDate ? pubDate : "",
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,

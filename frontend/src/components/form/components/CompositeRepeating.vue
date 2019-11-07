@@ -31,6 +31,7 @@
                                     v-model="model[repeatedIndex][sub.field_name]"
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    :disabled="disabled"
                                     @change="modified">
                                 </v-checkbox>
                             </ValidationProvider>
@@ -44,6 +45,7 @@
                                     :items="orgArray"
                                     item-text="label"
                                     item-value="value"
+                                    :disabled="disabled"
                                     outline
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     @change="modified">
@@ -58,6 +60,7 @@
                                     :placeholder="sub.form_placeholder"
                                     :items="orgArray"
                                     item-text="label"
+                                    :disabled="disabled"
                                     item-value="value"
                                     outline
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -75,6 +78,7 @@
                                     item-text="label"
                                     item-value="value"
                                     outline
+                                    :disabled="disabled"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     @change="modified">
                                 </v-select>
@@ -88,6 +92,7 @@
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    :disabled="disabled"
                                     @input="modified">
                                 </v-text-field>
                             </ValidationProvider>
@@ -100,6 +105,7 @@
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    :disabled="disabled"
                                     @input="modified">
                                 </v-text-field>
                             </ValidationProvider>
@@ -111,6 +117,7 @@
                                     v-model="model[repeatedIndex][sub.field_name]"
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
+                                    :disabled="disabled"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     @input="modified">
                                 </v-text-field>
@@ -124,6 +131,7 @@
                                     v-model="model[repeatedIndex][sub.field_name]"
                                     :label="((sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)) + (sub.required ? '*' : '')"
                                     :placeholder="sub.form_placeholder"
+                                    :disabled="disabled"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     @input="modified">
                                 </v-text-field>
@@ -151,6 +159,10 @@ export default {
         orgArray: Array,
         editing: Boolean,
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
