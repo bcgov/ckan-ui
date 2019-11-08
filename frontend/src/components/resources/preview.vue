@@ -5,6 +5,7 @@
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}}</v-toolbar-title>
+          <v-btn v-if="iMapUrl" :href="iMapUrl" target="_blank" color="info" class="text-none mr-0" >View in iMapBC <v-icon right>exit_to_app</v-icon></v-btn>
       </v-toolbar>
       <v-card-text>
             <v-progress-circular
@@ -41,6 +42,10 @@
                 </v-row>
             </div>
 
+            <div v-else-if="previewURL" style="margin: 0px -24px -20px">
+                <iframe :src="previewURL" frameborder="0" width="100%" :height="winHeight"></iframe>
+            </div>
+
             <div v-else-if="type === '404'">We're sorry we were unable to retrieve your file</div>
 
             <div v-else>We're sorry we don't currently support previewing this type of file</div>
@@ -66,6 +71,7 @@ export default{
             name: this.resource.name,
             id: this.resource.id,
             page: 1,
+            basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices='
         }
     },
     computed: {
@@ -90,14 +96,36 @@ export default{
         pdfData: function(){
             return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].pdfData ? this.resourceStore[this.id].pdfData : null;
         },
+        previewURL: function(){
+            if (!this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].metadata
+                    && this.resourceStore[this.id].metadata.preview_info
+                    && this.resourceStore[this.id].metadata.preview_info.preview_map_service_url) {
+                let previewInfo = this.resourceStore[this.id].metadata.preview_info;
+                let retURL = this.basePreviewURL + previewInfo.preview_map_service_url;
+                retURL += previewInfo.layer_name ? '&wmslayers=' + previewInfo.layer_name : '';
+                retURL += previewInfo.preview_latitude && previewInfo.preview_longitude ? '&ll=' + previewInfo.preview_latitude + ',' + previewInfo.preview_longitude : '';
+                retURL += previewInfo.preview_zoom_level ? '&z=' + previewInfo.preview_zoom_level : '';
+                return retURL;
+            }
+            return false;
+        },
+        iMapUrl: function(){
+            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].metadata
+                    && this.resourceStore[this.id].metadata.preview_info
+                    && this.resourceStore[this.id].metadata.preview_info.link_to_imap ? this.resourceStore[this.id].metadata.preview_info.link_to_imap : '';
+        },
         loading: function(){
             return this.resourceStore ? typeof(this.resourceStore[this.id]) === 'undefined' : true;
         },
         redocEle: function(){
             return "<rapi-doc show-header=false spec-url='"+this.resource.url+"'></rapi-doc>"
+        },
+        winHeight: function() {
+            return window.innerHeight - 64;
         }
 
     },
+    // pkg.preview_map_service_url + &wmslayers=" + pkg.layer_name + "&ll=" + pkg.preview_latitude + "," + pkg.preview_longitude + "&z=" + pkg.preview_zoom_level
     mounted() {
         this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.id});
     },
