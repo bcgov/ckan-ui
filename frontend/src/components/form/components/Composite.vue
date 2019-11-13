@@ -20,6 +20,7 @@
                                 :label="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name) + (sub.required ? '*' : '')"
                                 :error-messages="errors.length < 0 ? [errors[0]] : []"
                                 @input="modified"
+                                :disabled="disabled"
                                 :placeholder="sub.form_placeholder">
                             </v-text-field>
                         </ValidationProvider>
@@ -35,8 +36,12 @@ export default {
     props: {
         field: Object,
         editing: Boolean,
-        value: String,
+        value: [String, Object],
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -47,7 +52,11 @@ export default {
         //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
         this.model = {};
         for (let i=0; i<this.field.subfields.length; i++){
-            this.model[this.field.subfields[i].field_name] = JSON.parse(this.value)[this.field.subfields[i].field_name];
+            if (typeof(this.value) === "string"){
+                this.model[this.field.subfields[i].field_name] = JSON.parse(this.value)[this.field.subfields[i].field_name];
+            }else{
+                this.model[this.field.subfields[i].field_name] = this.value[this.field.subfields[i].field_name];
+            }
         }
         this.$emit('edited', JSON.stringify(this.model));
     },

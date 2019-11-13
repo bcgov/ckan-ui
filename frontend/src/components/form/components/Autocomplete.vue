@@ -18,6 +18,7 @@
                 chips
                 deletable-chips
                 multiple
+                :disabled="disabled"
                 outline
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
             ></v-autocomplete>
@@ -44,7 +45,11 @@ export default {
         itemValueField: {
             type: String,
             default: "value"
-        }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data(){
         return {

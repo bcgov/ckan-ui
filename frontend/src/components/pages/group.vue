@@ -93,7 +93,7 @@
 
             scroll: function(state){
                 this.skip += this.rows
-                if (this.count>this.skip) {
+                if (this.count>=this.skip) {
                     this.getDatasets(state)
                 }else{
                     state.complete()
@@ -101,7 +101,7 @@
             },
 
             getDatasets(state){
-                this.datasets = this.group.packages;
+                //this.datasets = this.group.packages;
                 this.count = this.group.packages.length;
 
                 let q = "?rows=" + this.rows+"&include_drafts=true&include_private=true&"

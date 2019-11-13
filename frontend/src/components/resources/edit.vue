@@ -1,7 +1,7 @@
 <template>
   <v-card class="dialog">
       <v-toolbar color="primary">
-          <v-btn icon @click="$emit('closePreviewDialog')">
+          <v-btn class="no-right-margin" icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>{{name}}</v-toolbar-title>
@@ -36,6 +36,7 @@
                             :editing="edit || create"
                             :values="!create ? resourceStore[resource.id].metadata : newResource"
                             :scope="scope"
+                            :disabled="disabled"
                             @updated="(field, value) => updateResource(field, value)"
                         >
                         </DynamicForm>
@@ -96,6 +97,7 @@ export default{
             formSuccess: '',
             formError: '',
             showFormError: false,
+            disabled: false,
             showFormSuccess: false,
             schemaName: SCHEMA_NAME,
             schema: this.$store.state.dataset.schemas[SCHEMA_NAME] ? this.$store.state.dataset.schemas[SCHEMA_NAME] : {},
@@ -125,6 +127,15 @@ export default{
         
     },
 
+    watch: {
+        resourceStore() {
+            // eslint-disable-next-line
+            // console.log("Resource changed:")
+            // eslint-disable-next-line
+            // console.log(val)
+        }
+    },
+
     methods: {
         updateResource(field, newValue){
             if (this.create){
@@ -136,12 +147,14 @@ export default{
             }
         },
         save: async function(){
+            this.disabled = true;
             const valid = await this.$refs.observer.validate();
             if (!valid){
                 this.formError = "Please fix validation errors"
                 this.showFormError = true;
                 this.formSuccess = '';
                 this.showFormSuccess = false;
+                this.disabled = false;
                 return;
             }
 
@@ -197,6 +210,7 @@ export default{
                 self.showFormError = false;
                 self.showFormSuccess = true;
                 self.$emit('closePreviewDialog');
+                self.disabled = false;
                 if (!self.create){
                     self.$store.commit('dataset/setResource', {id: self.id, resource: null});
                 }
@@ -215,6 +229,7 @@ export default{
                 self.formError = e;
                 self.showFormError = true;
                 self.showFormSuccess = false;
+                self.disabled = false;
 
             }
 
@@ -238,5 +253,9 @@ export default{
 
     .theme--light.v-sheet{
         color: var(--v-text-base)
+    }
+    
+    .no-right-margin{
+        margin-right: 0px;
     }
 </style>

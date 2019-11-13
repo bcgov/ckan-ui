@@ -12,6 +12,7 @@
                 :placeholder="placeholder"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 auto-grow
+                :disabled="disabled"
                 outline
             ></v-textarea>
         </ValidationProvider>
@@ -29,6 +30,10 @@ export default {
         placeholder: String,
         field: Object,
         scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {

@@ -98,8 +98,8 @@
                                     ></EditResource>
                                 </v-dialog>
                             </v-list-item>
-                            <v-list-item v-if="canDelete">
-                                <v-btn text @click="deleteResource" class="red--text">Delete</v-btn>
+                            <v-list-item>
+                                <v-list-item @click="deleteResource" class="red--text" v-if="canDelete">Delete</v-list-item>
                             </v-list-item>
                         </v-list>
                     </v-menu>

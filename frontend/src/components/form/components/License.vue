@@ -14,6 +14,7 @@
                 item-text="title"
                 item-value="id"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                :disabled="disabled"
                 outline>
             </v-select>
         </ValidationProvider>
@@ -43,6 +44,10 @@ export default {
             default: "value"
         },
         field: Object,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {

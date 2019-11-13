@@ -90,6 +90,7 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="dataset"
+                            :disabled="disabled"
                             :selectableUserOrgs="userOrgs"
                             ref="dynoForm"
                             @updated="(field, value) => updateDataset(field, value)"
@@ -136,6 +137,7 @@ export default {
             formSuccess: '',
             showFormSuccess: false,
             schemaName: schemaName,
+            disabled: false,
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "dataset_create",
             textFields: [
@@ -304,12 +306,14 @@ export default {
         },
 
         async submit(){
+            this.disabled = true;
             const isValid = await this.$refs.observer.validate();
 
             if (!isValid){
                 this.formError = "Please fix the fields in error before submitting";
                 this.showFormError = true;
                 this.showFormSuccess = false;
+                this.disabled = false;
                 return;
             }
 
@@ -340,6 +344,7 @@ export default {
                 this.showFormSuccess = true;
                 this.showFormError = false;
             }
+            this.disabled = false;
         },
         updateDataset(field, newValue){
             if (typeof(this.dataset.type) === "undefined"){
