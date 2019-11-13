@@ -91,7 +91,7 @@ export default{
             name: this.resource.name ? this.resource.name : "Create a new resource",
             loading: false,
             textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments'],
-            doNotSend: ['last_modified', "isUrl", "cache_url", "cache_last_updated", "size"],
+            doNotSend: ['last_modified', "isUrl", "cache_url", "cache_last_updated", "size", "upload"],
             newResource: {},
             formSuccess: '',
             formError: '',
@@ -125,19 +125,11 @@ export default{
         
     },
 
-    watch: {
-        resourceStore(val) {
-            // eslint-disable-next-line
-            console.log("Resource changed:")
-            // eslint-disable-next-line
-            console.log(val)
-        }
-    },
-
     methods: {
         updateResource(field, newValue){
             if (this.create){
                 this.newResource[field] = newValue;
+                // eslint-disable-next-line
             }else{
                 this.resource[field] = newValue;
                 //this.$store.commit('dataset/setCurrentDataset', { dataset: this.dataset } );
@@ -161,7 +153,27 @@ export default{
                 keys = Object.keys(this.newResource);
             }
 
+
+            let isUrl = true;
             for (var i=0; i<keys.length; i++){
+
+                if (keys[i] === "isUrl"){
+                    if (this.create){
+                        isUrl = this.newResource[keys[i]];
+                    }else{
+                        isUrl = this.resource[keys[i]];
+                    }
+                }
+
+                if ( (keys[i] === "url") && (!isUrl) ){
+                    if (this.create){
+                        data.set("upload", this.newResource[keys[i]]);
+                    }else{
+                        data.set("upload", this.resource[keys[i]]);
+                    }
+                    keys[i] = "upload"; 
+                }
+
                 if (this.doNotSend.indexOf(keys[i]) === -1){
                     if (this.create){
                         data.set(keys[i], this.newResource[keys[i]]);

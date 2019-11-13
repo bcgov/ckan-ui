@@ -14,11 +14,14 @@
                 </v-col>
             </v-row>
             <v-row wrap align-center fill-height>
-                <v-col cols=6>
+                <v-col cols=6 v-if="!loadPOW">
                     <v-btn text block color="secondary" :href="resource.url">
                         Download&nbsp;
                         <v-icon>cloud_download</v-icon>
                     </v-btn>
+                </v-col>
+                <v-col cols=6 v-else>
+                    <powButton :resource="resource"/>
                 </v-col>
                 <v-col cols=6>
                     <v-menu offset-y>
@@ -110,7 +113,7 @@
 import Preview from "../resources/preview";
 import JsonTable from "../resources/jsontable";
 import EditResource from "../resources/edit";
-
+import powButton from "../pow/powButton"
 import {CkanApi} from '../../services/ckanApi'
 const ckanServ = new CkanApi()
 
@@ -128,13 +131,19 @@ export default {
     components: {
         Preview: Preview,
         JsonTable: JsonTable,
-        EditResource: EditResource
+        EditResource: EditResource,
+        powButton: powButton
     },
     methods: {
         deleteResource: function(){
             ckanServ.deleteResource(this.resource.id).then( () => {
                 location.reload();
             });
+        }
+    },
+    computed: {
+        loadPOW: function() {
+            return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name=="BC Geographic Warehouse Custom Download")
         }
     },
     data() {

@@ -24,6 +24,8 @@
             type="error">
             {{formError}}
         </v-alert>
+        
+        <!-- <powButton :dataset="dataset"/> -->
         <v-row wrap>
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         </v-row>
@@ -35,6 +37,7 @@
                 <v-btn fab small v-clipboard="() => permalink">
                     <v-icon>file_copy</v-icon>
                 </v-btn>
+                
             </v-col>
         </v-row>
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -95,6 +98,7 @@
                     </v-col>
                     <v-col cols=12 md=4>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                        
                     </v-col>
                 </v-row>
             </v-form>
@@ -113,7 +117,6 @@ const analyticsServ = new Analytics()
 
 import {CkanApi} from '../../services/ckanApi';
 const ckanServ = new CkanApi();
-
 
 import DynamicForm from '../form/DynamicForm';
 

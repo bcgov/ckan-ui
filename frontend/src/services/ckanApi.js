@@ -108,6 +108,10 @@ export class CkanApi {
 
     //it is recommended to call getToken from auth immediately before this call
     createResource(data, jwt){
+        // eslint-disable-next-line
+        console.log('creating resource:')
+        // eslint-disable-next-line
+        console.log(data)
         let url = '/resourceCreate';
         let options = {
             url: url,

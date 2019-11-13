@@ -21,6 +21,33 @@ data:
         "callbackURL": {{ .Values.oidc.callbackURL | quote }},
         "scope": "openid profile offline_access"
       },
+      "pow": {
+        "past_orders_nbr": {{ .Values.pow.past_orders_nbr }},
+        "custom_aoi_url": {{ .Values.pow.custom_aoi_url | quote }},
+        "persist_config": {{ .Values.pow.persist_config }},
+        "enable_mow": {{ .Values.pow.enable_mow }},
+        "public_url": {{ .Values.pow.public_url | quote }},
+        "secure_url": {{ .Values.pow.secure_url | quote }},
+        "ui_path": {{ .Values.pow.ui_path | quote }},
+        "order_source": {{ .Values.pow.order_source | quote }},
+        "order_details": {
+          "aoi_type": {{ .Values.pow.order_details.aoi_type }},
+          "aoi": {{ .Values.pow.order_details.aoi }},
+          "clipping_method_type_id": {{ .Values.pow.order_details.clipping_method_type_id }},
+          "ordering_application": {{ .Values.pow.order_details.ordering_application | quote }},
+          "format_type": {{ .Values.pow.order_details.format_type }},
+          "csr_type": {{ .Values.pow.order_details.csr_type }},
+          "metadata_url": {{ .Values.pow.order_details.metadata_url | quote }}
+        }
+      },
+      "ofi": {
+        "api": {
+          "convert_to_single_res": {{ .Values.ofi.api.convert_to_single_res }},
+          "dev_secure_call": {{ .Values.ofi.api.dev_secure_call }},
+          "public_url": {{ .Values.ofi.api.public_url | quote }},
+          "secure_url": {{ .Values.ofi.api.secure_url | quote }}
+        }
+      }
       "ga": {
         "enabled": {{ .Values.googleAnalytics.enabled }},
         "id": {{ .Values.googleAnalytics.id | quote }}

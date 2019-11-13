@@ -5,6 +5,7 @@ import dataset from './modules/dataset'
 import organization from './modules/organization'
 import tag from './modules/tag'
 import search from './modules/search'
+import pow from './modules/pow'
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -16,6 +17,7 @@ export default new Vuex.Store({
         organization,
 		tag,
 		search,
+		pow
 	},
 	plugins: [createPersistedState({
 		paths: [

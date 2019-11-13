@@ -11,6 +11,7 @@ let OidcStrategy = require('passport-openidconnect').Strategy;
 
 let solrRouter = require('./routes/solr');
 let ckanRouter = require('./routes/ckan');
+let powRouter = require('./routes/pow');
 let authRouter = require('./routes/auth');
 let resourceRouter = require('./routes/resource');
 let analyticsRouter = require('./routes/analytics');
@@ -66,6 +67,7 @@ passport.use('oidc', strategy);
 app.use('/api/solr', solrRouter);
 app.use('/api/resource', resourceRouter);
 app.use('/api/ckan', ckanRouter);
+app.use('/api/pow', powRouter);
 app.use('/api/analytics', analyticsRouter);
 app.use('/api', authRouter);
 app.use('/status', function(req, res){

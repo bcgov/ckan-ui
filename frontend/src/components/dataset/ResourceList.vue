@@ -42,6 +42,7 @@ import ResourceCard from "./ResourceCard";
 import EditResource from '../resources/edit';
 
 
+
 export default {
     components: {
         ResourceCard,
