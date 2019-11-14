@@ -76,9 +76,9 @@ pow:
   custom_aoi_url: "http://maps.gov.bc.ca/"
   persist_config: true
   enable_mow: False
-  public_url: "https://delivery.apps.gov.bc.ca/pub/dwds-ofi"
-  secure_url: "https://delivery.apps.gov.bc.ca/ext/dwds-pow"
-  ui_path: "/jsp/dwds_pow_current_order.jsp?"
+  public_url: "publicPowUrl"
+  secure_url: "securePowUrl"
+  ui_path: "UIPath"
   order_source: "bcdc"
   order_details: 
     aoi_type: 0
@@ -93,8 +93,8 @@ ofi:
   api:
     convert_to_single_res: true
     dev_secure_call: true
-    public_url: "https://delivery.apps.gov.bc.ca/pub/dwds-ofi"
-    secure_url: "https://delivery.apps.gov.bc.ca/pub/dwds-ofi/secure"
+    public_url: "publicOfiUrl"
+    secure_url: "secureOfiUrl"
 
 googleAnalytics:
   enabled: "false"
