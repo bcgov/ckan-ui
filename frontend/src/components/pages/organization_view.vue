@@ -1,5 +1,11 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-progress-circular
           v-if="loading"
@@ -62,7 +68,7 @@
         data () {
             return {
                 loading: true,
-                error: "",
+                error: null,
                 breadcrumbs: [
                     {icon: "home", label: 'Home', route: '/'},
                     {label: 'Organizations', route: '/organization'}
@@ -90,11 +96,15 @@
                     this.organizations = JSON.parse(localStorage.orgList);
                 } else {
                     ckanServ.getOrgList().then((data) => {
-                        localStorage.orgList = JSON.stringify(data.orgList);
-                        this.organizations = data.orgList;
-                        if (!this.datasetsLoading){
-                            this.datasetsLoading = true;
-                            this.getDatasets();
+                        if (data.success) {
+                            localStorage.orgList = JSON.stringify(data.orgList);
+                            this.organizations = data.orgList;
+                            if (!this.datasetsLoading){
+                                this.datasetsLoading = true;
+                                this.getDatasets();
+                            }
+                        } else {
+                            this.error = data.error;
                         }
                     });
                 }
@@ -102,11 +112,15 @@
 
             getOrganization: function(){
                 ckanServ.getOrganization(this.organizationId).then( (data) => {
-                    this.group = data.result;
-                    this.loading = false;
-                    if (!this.datasetsLoading){
-                        this.datasetsLoading = true;
-                        this.getDatasets();
+                    if (data.success) {
+                        this.group = data.result;
+                        this.loading = false;
+                        if (!this.datasetsLoading){
+                            this.datasetsLoading = true;
+                            this.getDatasets();
+                        }
+                    } else {
+                        this.error = data.error;
                     }
                 });
             },
@@ -115,7 +129,7 @@
                 this.skip += this.rows
                 if (this.count>this.skip) {
                     this.getDatasets(state)
-                }else{
+                } else {
                     state.complete()
                 }
             },
@@ -140,28 +154,32 @@
                 q += fq;
 
                 ckanServ.getDatasets(q).then((data) => {
-                    this.datasetsLoaded = true;
-                    if (!data.result){
-                        this.noResults = true;
-                        this.count = 0;
-                        return;
-                    }
-                    this.datasets = this.datasets.concat(data.result.results)
-                    this.count = data.result.count
-
-                    if (data.result.results.length <= 0){
-                        this.noResults = true
-                    }else{
-                        this.noResults = false
-                    }
-
-                    this.loading = false
-                    if (state != null) {
-                        if (this.skip+this.rows > this.count) {
-                            state.complete()
-                        }else{
-                            state.loaded();
+                    if (data.success) {
+                        this.datasetsLoaded = true;
+                        if (!data.result){
+                            this.noResults = true;
+                            this.count = 0;
+                            return;
                         }
+                        this.datasets = this.datasets.concat(data.result.results)
+                        this.count = data.result.count
+
+                        if (data.result.results.length <= 0){
+                            this.noResults = true
+                        }else{
+                            this.noResults = false
+                        }
+
+                        this.loading = false
+                        if (state != null) {
+                            if (this.skip+this.rows > this.count) {
+                                state.complete()
+                            }else{
+                                state.loaded();
+                            }
+                        }
+                    } else {
+                        this.error = data.error;
                     }
                 });
 

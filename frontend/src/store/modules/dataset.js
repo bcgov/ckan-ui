@@ -34,23 +34,31 @@ const state = {
     schemaLoading: false,
     dataLoading: false,
     resources: {},
+    error: null
 };
 
 const actions = {
     getDataset({ commit, dispatch }, { id }) {
-        commit('setResetAbort')
+        commit('setResetAbort');
+        commit('clearError');
         commit('setDataLoading', {dataLoading: true});
         commit('setSchemaLoading', {schemaLoading: true});
-        ckanServ.getDataset(id).then((data) => { 
-            if(data.result==undefined) {
-                commit('abortDataset')
+        ckanServ.getDataset(id).then((data) => {
+            if (data.success) {
+                if(data.result == undefined) {
+                    commit('abortDataset')
+                } else {
+                    commit('setCurrentDataset', { dataset: data.result });
+                    commit('setDataLoading', {dataLoading: false});
+                    dispatch('getDatasetSchema').then(() => {
+                        commit('setSchemaLoading', {schemaLoading: false});
+                    });
+                }
             } else {
-                commit('setCurrentDataset', { dataset: data.result });
+                commit('setError', {error: data.error});
+                commit('setSchemaLoading', {schemaLoading: false});
                 commit('setDataLoading', {dataLoading: false});
-                dispatch('getDatasetSchema').then(() => {
-                    commit('setSchemaLoading', {schemaLoading: false});
-                });
-            }          
+            }
         }).catch(() => {
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
@@ -58,6 +66,7 @@ const actions = {
     },
 
     getDatasetSchema(context){
+        context.commit('clearError');
         let type = 'bcdc_dataset';
         if (typeof(context.state.schemas[type]) !== "undefined"){
             context.commit('setSchema', {type: type, data: context.state.schemas[type]});
@@ -68,6 +77,7 @@ const actions = {
                 context.commit('setSchema', {type: type, data: data.result});
                 return data.result;
             }
+            context.commit('setError', {error: data.error});
             // eslint-disable-next-line
             console.error("error fetching schema type", data);
             return {};
@@ -89,12 +99,12 @@ const actions = {
                 resource.type = "404";
                 // eslint-disable-next-line
                 console.log('setting 404')
-                
+
             }else if (data['type'] === 'xls'){
                 resource.type = 'xls';
                 // eslint-disable-next-line
                 console.log('setting xls')
-                
+
             }else if (data.headers) {
                 resource.type = "csv";
                 resource.data = data.workbook
@@ -113,7 +123,7 @@ const actions = {
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
                     });
-                    
+
                 }
             }else if (data['content-type'] === "application/pdf"){
                 resource.type = "pdf";
@@ -121,7 +131,7 @@ const actions = {
             } else {
                 resource.raw_data = data.raw_data;
             }
-                  
+
             if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
                 getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []).then( (s) => {
                     resource.schema = s;
@@ -240,6 +250,12 @@ const mutations = {
     },
     abortDataset(state) {
         state.shouldAbort = true;
+    },
+    setError(state, { error }) {
+        state.error = Object.assign({}, error);
+    },
+    clearError(state) {
+        state.error = null;
     }
 };
 

@@ -1,5 +1,11 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-row wrap>
             <v-col cols=2></v-col>
@@ -17,7 +23,6 @@
       </v-row>
         <v-row wrap align-center justify-center>
             <v-btn text v-on:click="what = !what"><v-icon>help</v-icon></v-btn>
-
             <v-col cols=12 v-if="what">
               <p>What are Organizations?</p>
               <p>
@@ -27,8 +32,6 @@
                   ministry. In this case the Data Custodian is the Director or Executive Director of the branch.
               </p>
             </v-col>
-
-
         </v-row>
         <OrgTree v-for="(org, key) in organizations" :key="'org-tree-'+key" :org="{key: key, org: org}"></OrgTree>
     </v-container>
@@ -59,7 +62,8 @@
                 count: 0,
                 what: false,
                 organizations: {},
-                baseOrganizations: {}
+                baseOrganizations: {},
+                error: null,
             }
         },
 
@@ -78,13 +82,17 @@
                         this.count = Object.keys(this.organizations).length;
                     } else {
                         ckanServ.getOrgList().then((data) => {
-                            localStorage.orgList = JSON.stringify(data.orgList);
-                            this.organizations = data.orgList;
-                            this.baseOrganizations = data.orgList;
-                            this.count = Object.keys(this.organizations).length;
+                            if (data.success) {
+                                localStorage.orgList = JSON.stringify(data.orgList);
+                                this.organizations = data.orgList;
+                                this.baseOrganizations = data.orgList;
+                                this.count = Object.keys(this.organizations).length;
+                            } else {
+                                this.error = data.error;
+                            }
                         });
                     }
-                }else{
+                } else {
                     let result = {};
                     let okeys = Object.keys(this.baseOrganizations);
                     for (let i=0; i<okeys.length; i++){

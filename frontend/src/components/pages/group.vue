@@ -1,5 +1,11 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-progress-circular
           v-if="loading"
@@ -73,6 +79,7 @@
                 skip: 0,
                 datasets: [],
                 loadingDatasets: true,
+                error: null
             }
         },
         computed: {
@@ -84,10 +91,14 @@
 
             getGroup(){
                 ckanServ.getGroup(this.groupId).then( (data) => {
-                    this.group = data.result;
-                    this.breadcrumbs[2].label = this.group.title
-                    this.loading = false;
-                    this.getDatasets();
+                    if (data.success) {
+                        this.group = data.result;
+                        this.breadcrumbs[2].label = this.group.title
+                        this.loading = false;
+                        this.getDatasets();
+                    } else {
+                        this.error = data.error;
+                    }
                 });
             },
 
@@ -116,20 +127,24 @@
                 q += fq;
 
                 ckanServ.getDatasets(q).then((data) => {
-                    if (!data.result){
-                        this.count = 0;
-                        return;
-                    }
-                    this.datasets = this.datasets.concat(data.result.results)
-                    this.count = data.result.count
-
-                    this.loadingDatasets = false
-                    if (state != null) {
-                        if (this.skip+this.rows > this.count) {
-                            state.complete()
-                        }else{
-                            state.loaded();
+                    if (data.success) {
+                        if (!data.result){
+                            this.count = 0;
+                            return;
                         }
+                        this.datasets = this.datasets.concat(data.result.results)
+                        this.count = data.result.count
+
+                        this.loadingDatasets = false
+                        if (state != null) {
+                            if (this.skip+this.rows > this.count) {
+                                state.complete()
+                            }else{
+                                state.loaded();
+                            }
+                        }
+                    } else {
+                        this.error = data.error;
                     }
                 });
 

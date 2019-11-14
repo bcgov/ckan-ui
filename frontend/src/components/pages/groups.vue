@@ -1,5 +1,11 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-row wrap>
             <v-col cols=2></v-col>
@@ -64,7 +70,8 @@
                 what: false,
                 searchText: "",
                 count: 0,
-                groups: []
+                groups: [],
+                error: null
             }
         },
         mounted() {
@@ -94,9 +101,13 @@
                     this.count = this.groups.length;
                 } else {
                     ckanServ.getGroupList().then((data) => {
-                        this.groups = data.result;
-                        this.count = data.result.length;
-                        localStorage.groupList = JSON.stringify(this.groups);
+                        if (data.success) {
+                            this.groups = data.result;
+                            this.count = data.result.length;
+                            localStorage.groupList = JSON.stringify(this.groups);
+                        } else {
+                            this.error = data.error;
+                        }
                     });
                 }
             }
