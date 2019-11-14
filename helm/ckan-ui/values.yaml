@@ -82,7 +82,7 @@ pow:
   order_source: "bcdc"
   order_details: 
     aoi_type: 0
-    aoi: null
+    aoi: "null"
     clipping_method_type_id: 0
     ordering_application: "BCDC"
     format_type: 3

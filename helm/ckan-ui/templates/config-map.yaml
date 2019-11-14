@@ -47,7 +47,7 @@ data:
           "public_url": {{ .Values.ofi.api.public_url | quote }},
           "secure_url": {{ .Values.ofi.api.secure_url | quote }}
         }
-      }
+      },
       "ga": {
         "enabled": {{ .Values.googleAnalytics.enabled }},
         "id": {{ .Values.googleAnalytics.id | quote }}
