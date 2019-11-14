@@ -4,6 +4,12 @@
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
         </v-row>
     </v-container>
+    <v-container v-else-if="datasetError" fluid>
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
     <v-container v-else grid-list-md class="main-area">
         <v-alert
             :value="dataset.state === 'deleted'"
@@ -82,7 +88,7 @@
                         Save
                     </v-btn>
                 </v-row>
-                
+
                 <v-row fill-height>
                     <v-col cols=12 md=8 v-if="!!schema">
                         <DynamicForm
@@ -141,12 +147,12 @@ export default {
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "dataset_create",
             textFields: [
-                'object_name', 
-                'replacement_record', 
-                'retention_expiry_date', 
-                'source_data_path', 
-                'iso_topic_string', 
-                'record_create_date', 
+                'object_name',
+                'replacement_record',
+                'retention_expiry_date',
+                'source_data_path',
+                'iso_topic_string',
+                'record_create_date',
                 'record_publish_date',
                 'record_archive_date',
                 'record_last_modified']
@@ -156,7 +162,7 @@ export default {
         getAbort(newVal) {
             if(newVal==true) {
                 this.$router.push('/datasets');
-            }          
+            }
         },
     },
     computed: {
@@ -196,7 +202,7 @@ export default {
         // schema: function () {
         //     return this.$store.state.dataset.schemas[this.schemaName];
         // },
-          
+
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
@@ -215,6 +221,7 @@ export default {
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
             userOrgs: state => state.organization.userOrgs,
+            datasetError: state => state.dataset.error
         }),
         ...mapGetters("organization", {
             getSubOrgs: "getSubOrgs"
@@ -255,8 +262,8 @@ export default {
                 }
             )
             if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
-                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {                 
-                    this.schema = this.$store.state.dataset.schemas[this.schemaName]                  
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
+                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
                 });
             } else {
                 this.$store.dispatch('dataset/getDatasetSchema').then(() => {
@@ -297,11 +304,11 @@ export default {
             if (this.createMode){
                 this.$router.push('/datasets');
             }
-            
+
             this.$store.commit("dataset/resetDataset");
             this.toggleEdit();
         },
-        
+
         nothing(){
         },
 

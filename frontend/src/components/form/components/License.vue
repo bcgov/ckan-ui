@@ -63,8 +63,10 @@ export default {
         getLicenses: function(){
             ckanServ.getLicenses().then((data) => {
                 this.licenses = data.result;
-                for (let i=0; i<this.licenses.length; i++){
-                    this.licenseLookup[this.licenses[i].id] = this.licenses[i].title;
+                if (this.licenses) {
+                    for (let i=0; i<this.licenses.length; i++){
+                        this.licenseLookup[this.licenses[i].id] = this.licenses[i].title;
+                    }
                 }
             });
         }

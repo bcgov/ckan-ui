@@ -1,5 +1,11 @@
 <template>
-    <v-container fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else fluid>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-progress-circular
           v-if="loading"
@@ -8,7 +14,7 @@
           color="grey"
           indeterminate
         ></v-progress-circular>
-        <div v-else-if="error !== ''">{{error}}</div>
+        <div v-else-if="noData">No activities yet, get involved!</div>
         <v-row wrap v-else>
             <v-col cols=3>
                 <Profile :user="user"></Profile>
@@ -47,13 +53,14 @@
             return {
                 activities: [],
                 loading: true,
-                error: "",
+                error: null,
                 breadcrumbs: [
                     {icon: "home", label: 'Home', route: '/'},
                     {label: 'Profile'}
                 ],
                 user: {},
-                user_id: ""
+                user_id: "",
+                noData: false
             }
         },
         methods: {
@@ -62,9 +69,9 @@
                     if (data.error){
                         this.error = data.error;
                     } else if ( (typeof(data.result) == "undefined") || (typeof(data.result[0]) === "undefined") ||  (typeof(data.result[0].user_id) === "undefined") ){
-                        this.error = "No activities yet, get involved!";
+                        this.noData = true;
                     } else {
-                        
+
                         this.activities = data.result;
                         this.user_id = data.result[0].user_id
                         this.getUser()

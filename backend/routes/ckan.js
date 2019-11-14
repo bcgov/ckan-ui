@@ -390,7 +390,8 @@ router.get('/organizations', function(req, res, next) {
           let rv = {
               orgs: topLevelOrgs,
               suborgs: subOrgs,
-              orgList: orgList
+              orgList: orgList,
+              success: true
           };
 
           cache.set(orgCacheKey, rv, orgTTL);
@@ -411,9 +412,9 @@ router.get('/userOrganizations', function(req, res, next) {
 
     let config = require('config');
     let url = config.get('ckan');
-  
+
     let authObj = {};
-  
+
     if (req.user){
       authObj = {
         'headers': {
@@ -427,10 +428,10 @@ router.get('/userOrganizations', function(req, res, next) {
     }
 
     const USER_PERMISSION = "editor";
-    
+
     let reqUrl = url + "/api/3/action/organization_list_for_user?permission="+USER_PERMISSION+"&id="+req.user._json.preferred_username;
     console.log("USER ORG URL ", reqUrl);
-  
+
     request(reqUrl, authObj, function(err, apiRes, body){
         if (err) {
             console.log(err);
@@ -446,7 +447,7 @@ router.get('/userOrganizations', function(req, res, next) {
             res.json({error: ex});
         }
     });
-  
+
   });
 
 /* GET user activity. */
@@ -762,16 +763,16 @@ router.get('/datasetSchema', auth.removeExpired, function(req, res, next) {
 
     let config = require('config');
     let url = config.get('ckan');
-  
+
     let type = "edc_dataset";
     if (typeof(req.query.type) !== "undefined"){
         type = req.query.type;
     }
-    
+
     let reqUrl = url + "/api/3/action/scheming_dataset_schema_show?type="+type;
-  
+
     let authObj = {};
-  
+
     if (req.user){
         authObj = {
             'auth': {
@@ -779,7 +780,7 @@ router.get('/datasetSchema', auth.removeExpired, function(req, res, next) {
             }
         };
     }
-  
+
     request(reqUrl, authObj, function(err, apiRes, body){
       if (err) {
         console.log(err);
@@ -789,7 +790,7 @@ router.get('/datasetSchema', auth.removeExpired, function(req, res, next) {
       if (apiRes.statusCode !== 200){
           console.log("Body Status? ", apiRes.statusCode);
       }
-  
+
       try {
           let json = JSON.parse(body);
           res.json(json);
@@ -798,7 +799,7 @@ router.get('/datasetSchema', auth.removeExpired, function(req, res, next) {
           res.json({error: ex});
       }
     });
-  
+
   });
 
 /* GET ckan schema -- requires scheming */
@@ -806,15 +807,15 @@ router.get('/', auth.removeExpired, function(req, res, next) {
 
     let config = require('config');
     let url = config.get('ckan');
-  
+
     if (!req.query.url){
         return res.json({error: "uri encoded component query parameter url is required"}).status(400);
     }
-    
+
     let reqUrl = url + decodeURIComponent(req.query.url);
-  
+
     let authObj = {};
-  
+
     if (req.user){
         authObj = {
             'auth': {
@@ -822,7 +823,7 @@ router.get('/', auth.removeExpired, function(req, res, next) {
             }
         };
     }
-  
+
     request(reqUrl, authObj, function(err, apiRes, body){
       if (err) {
         console.log(err);
@@ -832,7 +833,7 @@ router.get('/', auth.removeExpired, function(req, res, next) {
       if (apiRes.statusCode !== 200){
           console.log("Body Status? ", apiRes.statusCode);
       }
-  
+
       try {
           let json = JSON.parse(body);
           res.json(json);
@@ -841,7 +842,7 @@ router.get('/', auth.removeExpired, function(req, res, next) {
           res.json({error: ex});
       }
     });
-  
+
 });
 
 /* GET ckan schema -- requires scheming */
@@ -850,11 +851,11 @@ router.get('/licenses', auth.removeExpired, function(req, res, next) {
     let config = require('config');
     let url = config.get('ckan');
 
-    
+
     let reqUrl = url + '/api/3/action/license_list'
-  
+
     let authObj = {};
-  
+
     if (req.user){
         authObj = {
             'auth': {
@@ -862,7 +863,7 @@ router.get('/licenses', auth.removeExpired, function(req, res, next) {
             }
         };
     }
-  
+
     request(reqUrl, authObj, function(err, apiRes, body){
       if (err) {
         console.log(err);
@@ -872,7 +873,7 @@ router.get('/licenses', auth.removeExpired, function(req, res, next) {
       if (apiRes.statusCode !== 200){
           console.log("Body Status? ", apiRes.statusCode);
       }
-  
+
       try {
           let json = JSON.parse(body);
           res.json(json);
@@ -881,7 +882,7 @@ router.get('/licenses', auth.removeExpired, function(req, res, next) {
           res.json({error: ex});
       }
     });
-  
+
 });
 
 
@@ -920,6 +921,6 @@ router.delete('/resource/:resourceId', auth.removeExpired, function(req, res, ne
         }
     });
 });
-  
+
 
 module.exports = router;

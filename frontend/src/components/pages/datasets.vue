@@ -1,5 +1,11 @@
 <template>
-    <v-container pa-0 ma-0 fluid>
+    <v-container v-if="error">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+        </div>
+    </v-container>
+    <v-container v-else pa-0 ma-0 fluid>
         <v-row wrap fill-height>
             <v-col cols1 class="tertiary nav facetFilter">
                 <!-- Facets  -->
@@ -107,6 +113,7 @@
           loading: true,
           advanced: false,
           datasets: [],
+          error: null,
           noResults: false,
           facets: {},
           searchedText: "",
@@ -125,7 +132,7 @@
           ],
       }
     },
-    
+
     computed: {
         ...mapState({
             facetFilters: state => state.search.facets,
@@ -225,7 +232,7 @@
                 if (fq.length > 0){
                     fq = fq.substring(0, fq.length-" OR ".length)
                 }
-                
+
                 if (this.facetFilters[facetKeys[i]].length > 0){
                     fq += ")";
                 }
@@ -245,30 +252,35 @@
             q = q.substring(0, q.length - 1)
 
             ckanServ.getDatasets(q).then((data) => {
-                if (!data.result){
-                    this.noResults = true;
-                    this.loading = false;
-                    this.count = 0;
-                    return;
-                }
-                if (append) {
-                    this.datasets = this.datasets.concat(data.result.results)
-                }else{
-                    this.datasets = data.result.results
-                }
-                this.count = data.result.count
-                if (data.result.results.length <= 0){
-                    this.noResults = true
-                }else{
-                    this.noResults = false
-                }
-                this.loading = false
-                if (state != null) {
-                    if (this.skip+this.rows > this.count) {
-                        state.complete()
-                    }else{
-                        state.loaded();
+                if (data.success) {
+                    if (!data.result){
+                        this.noResults = true;
+                        this.loading = false;
+                        this.count = 0;
+                        return;
                     }
+                    if (append) {
+                        this.datasets = this.datasets.concat(data.result.results)
+                    }else{
+                        this.datasets = data.result.results
+                    }
+                    this.count = data.result.count
+                    if (data.result.results.length <= 0){
+                        this.noResults = true
+                    }else{
+                        this.noResults = false
+                    }
+                    this.loading = false
+                    if (state != null) {
+                        if (this.skip+this.rows > this.count) {
+                            state.complete()
+                        }else{
+                            state.loaded();
+                        }
+                    }
+                } else {
+                    this.error = data.error;
+                    this.loading = false;
                 }
             });
 
@@ -306,7 +318,7 @@
                 self.findText = this.$store.state.search.searchText;
                 self.getDatasets();
             }
-            
+
         });
 
     }
