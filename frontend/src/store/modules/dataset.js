@@ -97,13 +97,9 @@ const actions = {
 
             if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
                 resource.type = "404";
-                // eslint-disable-next-line
-                console.log('setting 404')
 
             }else if (data['type'] === 'xls'){
                 resource.type = 'xls';
-                // eslint-disable-next-line
-                console.log('setting xls')
 
             }else if (data.headers) {
                 resource.type = "csv";
@@ -115,8 +111,6 @@ const actions = {
                         resource.schemaInferred = true;
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
-                        // eslint-disable-next-line
-                        console.log('setting csv')
                     }).catch ( () => {
                         resource.schema = null;
                         resource.schemaInferred = false;
@@ -154,8 +148,6 @@ const actions = {
     },
 
     setDataset({ state }) {
-        // eslint-disable-next-line
-        //console.log("Saving...", state.dataset);
         let dataset = JSON.parse(JSON.stringify(state.dataset));
         delete dataset.resources;
         return ckanServ.putDataset(dataset);

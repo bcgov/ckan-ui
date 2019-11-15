@@ -127,15 +127,6 @@ export default{
         
     },
 
-    watch: {
-        resourceStore() {
-            // eslint-disable-next-line
-            // console.log("Resource changed:")
-            // eslint-disable-next-line
-            // console.log(val)
-        }
-    },
-
     methods: {
         updateResource(field, newValue){
             if (this.create){
@@ -198,9 +189,7 @@ export default{
 
             var self = this;
             
-            function handleUploadResponse(rData){
-                //eslint-disable-next-line
-                console.log(rData);
+            function handleUploadResponse(){
                 if (self.create){
                     self.formSuccess = 'Succesfully created resource';
                 }else{
@@ -221,8 +210,6 @@ export default{
             }
 
             function handleErrorResponse(error){
-                //eslint-disable-next-line
-                console.log(error);
                 self.formSuccess = '';
                 let e = error.response.data.error.type ? error.response.data.error.type[0] : error.response.data.error._type;
                 e = e ? e : error.response.data.error.__type[0];

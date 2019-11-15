@@ -20,9 +20,50 @@
                 </template>
             </v-data-table>
 
-            <div v-else-if="resource.format === 'openapi-json'" v-html="redocEle">
-                <div style="border: 1px solid black; overflow-y: scroll" >
-                </div>
+
+            <div v-else-if="resource.format === 'openapi-json'">
+                <v-row>
+                    <v-dialog
+                        v-model="getApiKeyDialog">
+                        <template v-slot:activator="{ on }">
+                            <v-col cols=2>
+                                <v-btn color="green" @click="openApiKeyDialog()">Get Api Key<v-icon>lock_open</v-icon></v-btn>
+                            </v-col>
+                        </template>
+
+                        <v-card>
+                            <v-card-text>
+                                <iframe width="1000" height="300" :src="apiKeyUrl + '?appName=API%20Console&appSendMessage=true&contentOnly=true'"></iframe>
+                            </v-card-text>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="getApiKeyDialog = false"
+                            >
+                                Close
+                            </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                    <v-col cols=2>
+                        <v-btn color="green" :href="apiKeyUrl" target="_blank">Manage Api Keys<v-icon>lock_open</v-icon></v-btn>
+                    </v-col>
+                    <v-col cols=2>
+                        <v-btn color="green" @click="clearApiKey()">Clear Api Key</v-btn>
+                    </v-col>
+                    <v-col cols=2>
+                        <v-btn color="green" :href="apiKeyHelpUrl" target="_blank">Api Key Help</v-btn>
+                    </v-col>
+                </v-row>
+                
+                <v-row>
+                    <v-col cols=12 v-html="redocEle"></v-col>
+                </v-row>
             </div>
 
             <div v-else-if="type === 'pdf'">
@@ -67,11 +108,17 @@ export default{
         resourceIndex: Number
     },
     data() {
+        let API_KEY_ORIGIN = 'https://gwa.apps.gov.bc.ca'
         return {
             name: this.resource.name,
             id: this.resource.id,
             page: 1,
-            basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices='
+            basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices=',
+            apiKey: '',
+            getApiKeyDialog: false,
+            apiKeyOrigin: API_KEY_ORIGIN,
+            apiKeyUrl: API_KEY_ORIGIN+'/ui/apiKeys',
+            apiKeyHelpUrl: 'https://github.com/bcgov/gwa/wiki/Developer-Guide'
         }
     },
     computed: {
@@ -118,16 +165,41 @@ export default{
             return this.resourceStore ? typeof(this.resourceStore[this.id]) === 'undefined' : true;
         },
         redocEle: function(){
-            return "<rapi-doc show-header=false spec-url='"+this.resource.url+"'></rapi-doc>"
+            let ele = "<rapi-doc show-header=false "+ ((this.apiKey !== '') ? ("api-key-value=\"" + this.apiKey) + "\" " : '') + "spec-url='"+this.resource.url+"'></rapi-doc>";
+            return ele;
         },
         winHeight: function() {
             return window.innerHeight - 64;
         }
 
     },
+    methods: {
+        openApiKeyDialog(){
+            let self = this;
+            var messageFunc = function(message) {
+                if (message.origin == self.apiKeyOrigin){
+                    self.getApiKeyDialog = false;
+                    self.apiKey = message.data;
+                    localStorage.apiKey = self.apiKey;
+                    window.removeEventListener('message', messageFunc);
+                }
+            };
+            window.addEventListener('message', messageFunc);
+            this.getApiKeyDialog = true;
+        },
+
+        clearApiKey(){
+            delete localStorage.apiKey; 
+            this.apiKey = '';
+        }
+    },
     // pkg.preview_map_service_url + &wmslayers=" + pkg.layer_name + "&ll=" + pkg.preview_latitude + "," + pkg.preview_longitude + "&z=" + pkg.preview_zoom_level
     mounted() {
         this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.id});
+        
+        if (typeof(localStorage.apiKey) === "string"){
+            this.apiKey = localStorage.apiKey;
+        }
     },
 
 }
