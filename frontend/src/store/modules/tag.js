@@ -18,8 +18,6 @@ const actions = {
     getVocabs({ commit, state }) {
         if (Object.entries(state.vocabs).length <= 0) {
             ckanServ.getVocabs().then((data) => {
-                // eslint-disable-next-line
-                //console.log("Vocab Data: ", data);
                 let vocabs = {};
                 for (let i = 0; i < data.result.length; i++) {
                     let tags = data.result[i].tags;

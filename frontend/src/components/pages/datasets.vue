@@ -199,9 +199,10 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
-
-            if (this.searchText !== ""){
-                this.searchedText = this.searchText;
+            
+            this.searchedText = this.searchText;
+            
+            if (this.searchText !== ""){    
                 if (this.advanced){
                    q += "q=" + this.searchText + "&"
                 }else{
