@@ -5,7 +5,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else pa-0 ma-0 fluid>
+    <v-container v-else pa-0 ma-0 fluid class="raise">
         <v-row wrap fill-height>
             <v-col cols1 class="tertiary nav facetFilter">
                 <!-- Facets  -->
@@ -340,5 +340,9 @@
 
     .secondary{
         background: var(--v-secondary-base);
+    }
+
+    .raise {
+        margin-bottom: 45px;
     }
 </style>

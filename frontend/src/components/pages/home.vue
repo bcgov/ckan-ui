@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid primary align-center justify-center fill-height>
+  <v-container fluid primary align-center justify-center fill-height class="raise">
 
         <v-row>
             <v-col cols=12>
@@ -71,5 +71,8 @@
         color: white !important;
         font-size: 20px;
         text-align: center;
+    }
+    .raise {
+        margin-bottom: 45px;
     }
 </style>

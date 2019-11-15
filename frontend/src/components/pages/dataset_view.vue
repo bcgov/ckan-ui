@@ -393,6 +393,7 @@ h5 {
 }
 .main-area {
     margin-top: 20px;
+    margin-bottom: 45px; 
 }
 ul {
     list-style-type: none;

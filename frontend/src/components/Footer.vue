@@ -30,7 +30,7 @@ export default {
   min-height: 45px;
   background-color: var(--v-primary-base);
   min-width: 100%;
-  z-index: 100;
+  /* z-index: 100; */
   bottom: 0;
   position: absolute;
 }

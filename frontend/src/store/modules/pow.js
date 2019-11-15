@@ -1,4 +1,3 @@
-import { powApi } from '../../services/powApi'
 
 import Vue from 'vue'
 
@@ -35,7 +34,6 @@ const mutations = {
         state.order_secure_path = secure_path
     },
     setPowConfig(state, {pow_config}) {
-        console.log(pow_config.pow)
         state.custom_aoi_url = pow_config.pow.custom_aoi_url
         state.past_orders_nbr = pow_config.pow.past_orders_nbr
         state.pow_secure_path = pow_config.pow.secure_url

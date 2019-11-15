@@ -5,7 +5,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid>
+    <v-container v-else fluid class="raise">
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-progress-circular
           v-if="loading"
@@ -195,5 +195,7 @@
 </script>
 
 <style scoped>
-
+    .raise {
+        margin-bottom: 45px;
+    }
 </style>

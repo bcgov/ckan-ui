@@ -12,8 +12,6 @@
 import {PowApi} from '../../services/powApi';
 import { mapState } from 'vuex';
 const powServ = new PowApi();
-var pow_initialized = false
-var powOrder
 
 export default {
     props: ['resource'],
@@ -37,13 +35,13 @@ export default {
         startOrder: function() {
             var public_url = this.get_ofi_url('/public/')
             var secure_url = this.get_ofi_url('/secure/')
-            var run_pow = (pow_initialized) ? this.runOrder : this.init_pow;
+            var run_pow = this.init_pow;
+            //(pow_initialized) ? this.runOrder : 
 
             dwdspowapi.initialize(public_url, secure_url, this.custom_aoi_url, this.past_orders_nbr, false, false, run_pow)
         },
         init_pow: function(pow_ready) {
-            console.log('initializing pow')
-            pow_initialized = pow_ready
+            //pow_initialized = pow_ready
         
             dwdspowapi.orderData = {
                 emailAddress: '',
@@ -66,11 +64,11 @@ export default {
                 ],
             }
 
-            powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
+            //let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
             this.runOrder(pow_ready)
         },
 
-        runOrder:function(pow_ready) {
+        runOrder:function() {
             this.dwdsPowUi()
         },
 
@@ -83,10 +81,11 @@ export default {
                 secureSite: false,
                 orderSource: this.order_details.ordering_application
             }
-            console.log(qs)
+            
             var params = Object.keys(qs).map(function(key){
                 return encodeURIComponent(key) + '=' + encodeURIComponent(qs[key])
             }).join('&')
+
             var url = this.get_pow_url(this.pow_ui_path, (this.download_audience != 'Public')) + params;
             window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
         },
@@ -113,24 +112,17 @@ export default {
 
         async get_pow_config() {
             const response = await powServ.getPowConfig()
-            console.log('got pow config!')
-            console.log(response)
             this.$store.commit('pow/setPowConfig', {pow_config: response})
 
-            var ele = document.createElement('script')
-            ele.type = 'text/javascript'
-            ele.src = 'https://code.jquery.com/jquery-3.4.1.min.js'
-            document.body.appendChild(ele);
-
             var scripts = [
-                '/script/lib/xdLocalStorage.min.js',
-                '/script/pow/dwds-POW-api.js'
+                '../../js/dwds-POW-api.js',
+                '../../js/xdLocalStorage.min.js'
             ];
-            var that = this;
+            
             scripts.map(function(script) {
                 var el = document.createElement('script');
                 el.type = 'text/javascript';
-                el.src = that.get_pow_url(script, false);
+                el.src = script;
                 document.body.appendChild(el);
                 return script;
             });         
@@ -138,8 +130,6 @@ export default {
 
         async get_ofi_config() {
             const response = await powServ.getOfiConfig()
-            console.log('got ofi config!')
-            console.log(response)
             this.$store.commit('pow/setOfiConfig', {ofi_config: response})
         },
 
@@ -154,7 +144,6 @@ export default {
     },
 
     mounted () {
-        console.log('Intitializing edc_pow')
         this.get_pow_config()
         this.get_ofi_config()    
     }
