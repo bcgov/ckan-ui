@@ -3,6 +3,15 @@
  */
 'use strict';
 /* global console, XdUtils */
+
+window.XdUtils=window.XdUtils||{
+  extend: function(a,b) {
+    var c,d=b||{};
+    for(c in a)a.hasOwnProperty(c)&&(d[c]=a[c]);
+    return d
+  }
+}
+
 window.xdLocalStorage = window.xdLocalStorage || (function () {
   var MESSAGE_NAMESPACE = 'cross-domain-local-message';
   var options = {
@@ -114,6 +123,9 @@ window.xdLocalStorage = window.xdLocalStorage || (function () {
           });
         }
       }
+    },
+    resetInit: function() {
+      wasInit = false
     },
     setItem: function (key, value, callback) {
       if (!isApiReady()) {

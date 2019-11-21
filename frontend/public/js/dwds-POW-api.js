@@ -2,6 +2,7 @@ var dwdspowapi = window.dwdspowapi;
 (function (dwdspowapi) {
 	dwdspowapi.initialize = function(publicUrl, secureUrl, customAoiUrl, pastOrdersNbr, secureSite, persistConfig, powInitCallback) {
 		// default to false
+		xdLocalStorage.resetInit()
 		var persistLocally = typeof persistConfig !== 'undefined' ? persistConfig : false;
 		
 		// if we didn't get all the parameters check to see if they exist in a cookie
@@ -21,7 +22,7 @@ var dwdspowapi = window.dwdspowapi;
 		} else {
 			// read the local storage containing the config
 			var powConfig = JSON.parse(localStorage.getItem(dwdspowapi.ConfigEnum.CONFIGLOCALKEY));
-			if (jQuery.isEmptyObject(powConfig)) {
+			if(Object.entries(powConfig).length === 0 && powConfig.constructor === Object) {
 				if (powInitCallback && typeof(powInitCallback) === "function") {
 					powInitCallback(false);
 				}
@@ -55,14 +56,17 @@ var dwdspowapi = window.dwdspowapi;
 			if (persistLocally) {
 				xdLocalStorage.getItem(dwdspowapi.ConfigEnum.ORDERLOCALKEY, 
 					function (retMessage) {
-						var currentOrder = JSON.parse(retMessage.value);
-						if (jQuery.isEmptyObject(currentOrder)) {
-							 // apply the default coord system, file format and clipping method
-							 newOrder.formatType = self._getDefaultFileFormat();
-							 newOrder.crsType = self._getDefaultCoordSystem();
-                             newOrder.clippingMethodType = self._getDefaultClipMethod();
-							 self.data = newOrder;
+						//console.log(retMessage)
+						if (retMessage.value==="undefined" || !retMessage.value) {
+							//TODO: Set the current order using xdLocalStorage.setItem
+							//console.log('!!!')
+							newOrder.formatType = self._getDefaultFileFormat();
+							newOrder.crsType = self._getDefaultCoordSystem();
+                            newOrder.clippingMethodType = self._getDefaultClipMethod();
+							self.data = newOrder
+							
 						} else {
+							var currentOrder = JSON.parse(retMessage.value);
 							var mergedOrder = self._merge(currentOrder, newOrder);
 							self.data = mergedOrder;
 						}
@@ -72,7 +76,7 @@ var dwdspowapi = window.dwdspowapi;
 				);
 			
 				
-			}  else {
+			} else {
 				self.data = newOrder;
 				if (orderCallback && typeof(orderCallback) === "function") {
 					orderCallback.call(self, true);
@@ -120,6 +124,7 @@ var dwdspowapi = window.dwdspowapi;
         };
 
 		Order.prototype.persist = function (orderObj, orderCallback) {
+			//console.log("Setting local storage for order")
 			//localStorage.setItem(dwdspowapi.ConfigEnum.ORDERLOCALKEY, JSON.stringify(this.data));
 			xdLocalStorage.setItem(dwdspowapi.ConfigEnum.ORDERLOCALKEY, JSON.stringify(this.data), function (data) {
                 if (orderCallback && typeof(orderCallback) === "function") {

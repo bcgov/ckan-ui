@@ -1,9 +1,21 @@
 <template>
     <div class="pow-container">
-        <v-btn text block color="secondary" @click="startOrder()">
-            Access&nbsp;
-            <v-icon>mail</v-icon>
-        </v-btn>
+        <v-dialog v-model="dialog" width="900">
+            <template v-slot:activator="{ on }">
+                <v-btn text block color="secondary" v-on="on">
+                    <!-- @click="startOrder()" -->
+                    Access&nbsp;
+                    <v-icon>mail</v-icon>
+                </v-btn>
+            </template>
+            <!-- change to vue component and move methods to here -->
+            <powModal @powMounted="startOrder()"/>
+            <!-- <v-card height="90%">
+                
+                <iframe :src="full_ui_url" id="powModal"></iframe>
+                
+            </v-card> -->
+        </v-dialog>
     </div>
 </template>
 
@@ -11,10 +23,19 @@
 
 import {PowApi} from '../../services/powApi';
 import { mapState } from 'vuex';
+import powModal from './powModal'
 const powServ = new PowApi();
 
 export default {
     props: ['resource'],
+    data() {
+        return {
+            dialog:false,
+        }
+    },
+    components: {
+        powModal: powModal
+    },
     computed: {
         ...mapState({
             past_orders_nbr: state => state.pow.past_orders_nbr,
@@ -27,7 +48,9 @@ export default {
             order_details: state => state.pow.order_details,
             dataset_title: state => state.dataset.dataset.title,
             dataset_name: state => state.dataset.dataset.name,
-            download_audience:state => state.dataset.dataset.download_audience
+            download_audience:state => state.dataset.dataset.download_audience,
+            full_ui_url: state => state.pow.full_ui_url,
+            pow_loading: state=> state.pow.pow_loading
         })
     },
     
@@ -51,7 +74,7 @@ export default {
                 orderingApplication: this.order_details.ordering_application,
                 formatType: this.order_details.format_type,
                 csrType: this.order_details.csr_type,
-                //the code below wilil be loaded for specific packages
+                //the code below will be loaded for specific packages
                 featureItems: [
                     {
                     featureItem: this.resource.object_name,
@@ -64,7 +87,7 @@ export default {
                 ],
             }
 
-            //let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
+            let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
             this.runOrder(pow_ready)
         },
 
@@ -87,7 +110,9 @@ export default {
             }).join('&')
 
             var url = this.get_pow_url(this.pow_ui_path, (this.download_audience != 'Public')) + params;
-            window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
+            this.$store.commit('pow/setFullUiPath', {full_ui_path: url})
+            this.$store.commit('pow/setPowLoading', {powLoading: false})
+            //window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
         },
 
         get_ofi_url: function(endpoint, secure) {
@@ -116,7 +141,7 @@ export default {
 
             var scripts = [
                 '../../js/dwds-POW-api.js',
-                '../../js/xdLocalStorage.min.js'
+                '../../js/xdLocalStorage.js'
             ];
             
             scripts.map(function(script) {
@@ -151,5 +176,9 @@ export default {
 </script>
 
 <style scoped>
-    
+    #powModal {
+        height: 450px;
+        width: 100%;
+        border: none
+    }
 </style>
