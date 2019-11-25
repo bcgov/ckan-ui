@@ -9,8 +9,9 @@ const state = {
     pow_path: "",
     pow_secure_path: "",
     pow_ui_path: "",
-    order_details: {}
-
+    order_details: {},
+    full_ui_url: "",
+    pow_loading: true
 };
 
 const actions = {
@@ -32,6 +33,12 @@ const mutations = {
     },
     setOrderSecurePath(state, {secure_path}) {
         state.order_secure_path = secure_path
+    },
+    setFullUiPath(state, {full_ui_path}) {
+        state.full_ui_url = full_ui_path
+    },
+    setPowLoading(state, {powLoading}){
+        state.pow_loading = powLoading
     },
     setPowConfig(state, {pow_config}) {
         state.custom_aoi_url = pow_config.pow.custom_aoi_url
