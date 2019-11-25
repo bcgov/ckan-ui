@@ -43,6 +43,9 @@ export default {
         }
     },
     watch: {
+        value(){
+            this.val = this.value;
+        },
         val(){
             this.$emit('edited', this.val);
         },

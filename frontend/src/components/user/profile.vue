@@ -23,6 +23,7 @@
             user: Object
         },
         data() {
+            return {};
         },
         methods: {
         },

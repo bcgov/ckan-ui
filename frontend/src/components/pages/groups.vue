@@ -36,6 +36,18 @@
 
         </v-row>
         <v-row wrap>
+            <v-btn
+                v-if="showCreate"
+                fab
+                fixed
+                bottom
+                right
+                color="info"
+                class="text-xs-center"
+                :to="{name: 'group_create'}"
+            >
+                    <v-icon>edit</v-icon>
+            </v-btn>
             <v-col cols=4 v-for="group in groups" :key="'group-card-'+group.id">
                 <GroupCard :group="group"></GroupCard>
             </v-col>
@@ -47,12 +59,10 @@
     import Breadcrumb from '../breadcrumb/Breadcrumb'
     import GroupCard from '../groups/GroupCard'
 
+    import { mapState } from "vuex";
+
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
-
-
-    import {CkanApi} from '../../services/ckanApi'
-    let ckanServ = new CkanApi()
 
     export default {
         name: "groups",
@@ -68,15 +78,32 @@
                     {label: 'Groups'}
                 ],
                 what: false,
-                searchText: "",
+                searchText: (this.st) ? this.st : "",
                 count: 0,
-                groups: [],
-                error: null
+                error: null,
+                loading: false,
             }
         },
         mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            this.findGroups()
+            this.$store.dispatch('group/getGroups');
+        },
+        computed: {
+            ...mapState({
+                st: state => state.group.searchText,
+                groupList: state => state.group.groups,
+                groups: state => state.group.searchedGroups,
+                sysAdmin: state => state.user.sysAdmin,
+                isAdmin: state => state.user.isAdmin,
+                isEditor: state => state.user.isEditor,
+                userLoading: state => state.user.userLoading,
+            }),
+            showCreate: function(){
+                // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+                //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+            },
         },
         methods:{
             search: function(e){
@@ -85,31 +112,8 @@
                 }
             },
 
-            findGroups() {
-                if (localStorage.groupList) {
-                    this.groups = JSON.parse(localStorage.groupList);
-                    if (this.searchText !== ""){
-                        let result = [];
-                        for (let i=0; i<this.groups.length; i++){
-                            if (this.groups[i].display_name.toLowerCase().indexOf(this.searchText.toLowerCase()) >= 0){
-                                result.push(this.groups[i]);
-                            }
-                        }
-
-                        this.groups = result;
-                    }
-                    this.count = this.groups.length;
-                } else {
-                    ckanServ.getGroupList().then((data) => {
-                        if (data.success) {
-                            this.groups = data.result;
-                            this.count = data.result.length;
-                            localStorage.groupList = JSON.stringify(this.groups);
-                        } else {
-                            this.error = data.error;
-                        }
-                    });
-                }
+            findGroups() {   
+                this.$store.dispatch('group/searchGroups', {searchText: this.searchText})
             }
         }
     }

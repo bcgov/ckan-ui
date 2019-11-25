@@ -1,18 +1,11 @@
 <template>
     <div>
         <div v-if="!editing">
-            <label>{{$tc(label)}}: </label>
-            <span>{{value}}</span>
+            <v-img v-if="value !== ''" :src="imgSrc" v-on:error="onImgError"></v-img>
         </div>
         <div v-else>
             <label>{{$tc(displayLabel)}}</label>
-            <div v-if="allowURL">
-                <v-switch
-                    v-model="isURL"
-                    :label="isURL ? 'URL' : 'File'"
-                ></v-switch>
-            </div>
-            <ValidationProvider v-if="isURL" :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
+            <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
                 <v-text-field
                     :label="$tc(displayLabel)"
                     :name="name"
@@ -23,17 +16,6 @@
                     outline
                 ></v-text-field>
             </ValidationProvider>
-            <div v-else>
-                <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
-                    <v-file-input 
-                        :label="$tc(displayLabel)"
-                        :name="name"
-                        v-model="val"
-                        :disabled="disabled"
-                        :error-messages="errors.length > 0 ? [errors[0]] : []" >
-                    </v-file-input>
-                </ValidationProvider>
-            </div>
         </div>
     </div>
 </template>
@@ -55,6 +37,10 @@ export default {
             default: false
         },
         parentObject: Object,
+        image: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -64,12 +50,24 @@ export default {
             isURL: this.field.field_name === "url" ? true : false,
             scopeName: this.scope + '.' + this.name,
             api: null,
+            imgError: false,
+        }
+    },
+    methods: {
+        onImgError(){
+            this.imgError = true
         }
     },
     computed: {
         displayLabel: function(){
             return this.label + (this.field.required ? '*' : '');
         },
+        imgSrc: function(){
+            if (!this.imgError && typeof(this.value)!=='undefined' && this.value !== ''){
+                return this.value
+            }
+            return '/placeholder-organization.png';
+        }
     },
     watch: {
         value(){

@@ -74,6 +74,14 @@ let r = new Router({
             }
         },
         {
+            path: '/group/create',
+            name: 'group_create',
+            component: group_view,
+            meta: {
+                title: "Creating a new Group"
+            }
+        },
+        {
             path: '/group/:groupId',
             name: 'group_view',
             component: group_view,
