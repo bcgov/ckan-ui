@@ -101,6 +101,14 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
+    getGroupSchema(/*type*/) {
+        let url = '/api/ckan/groupSchema';
+        // if (typeof(type) !== "undefined"){
+        //    url += "?type=" +type;
+        // }
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
     getGeneric(ckanUrl) {
         let url = '/api/ckan/?url='+encodeURIComponent(ckanUrl);
         return axios.get(url, {withCredentials: true}).then(response => response.data);

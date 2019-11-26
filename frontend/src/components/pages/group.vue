@@ -14,11 +14,70 @@
           color="grey"
           indeterminate
         ></v-progress-circular>
-        <v-row wrap v-else class="text-xs-center" align-center justify-center>
-            <v-col cols=3>
-                <Profile :group="group"></Profile>
-            </v-col>
-        </v-row>
+        <ValidationObserver ref="observer" v-slot="{ validate }" slim>
+            <v-form ref="form" @submit.prevent="nothing">
+                <v-row v-if="showEdit" class="button-container">
+                    <v-btn
+                        v-if="canDeleteResources"
+                        fab
+                        color="error"
+                        class="text-xs-center"
+                        @click="deleteGroup"
+                    >
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="showEdit"
+                        fab
+                        color="info"
+                        class="text-xs-center"
+                        right
+                        @click="toggleEdit"
+                    >
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                </v-row>
+                <v-row v-else-if="editing" class="button-container">
+                    <v-btn
+                        xs2
+                        color="error"
+                        class="text-xs-center"
+                        @click="cancel"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        xs2
+                        color="primary"
+                        class="text-xs-center"
+                        type="submit"
+                        @click="submit(errors)"
+                    >
+                        Save
+                    </v-btn>
+                </v-row>
+                <v-row wrap class="text-xs-center" align-center justify-center>
+                    <v-col cols=3>
+                        <!--<Profile :group="group"></Profile>-->
+                        <DynamicForm v-if="typeof(schema) === 'object' && typeof(schema.fields) === 'object'"
+                            :schema="schema.fields"
+                            :textFields="textFields"
+                            :editing="editing"
+                            :values="group"
+                            :disabled="disabled"
+                            ref="dynoForm"
+                            @updated="(field, value) => updateGroup(field, value)"
+                        >
+                        </DynamicForm>
+                        <v-progress-circular
+                            v-else
+                            indeterminate
+                            color="light-blue"
+                        ></v-progress-circular>
+                    </v-col>
+                </v-row>
+            </v-form>
+        </ValidationObserver>
         <v-row wrap align-center>
             <v-col cols=12>
                 <h2 class="text-xs-center">{{count}} {{$tc('Dataset', count)}}</h2>
@@ -34,7 +93,7 @@
                 <div v-else-if="count == 0">
                     No results
                 </div>
-                <div v-else>
+                <div v-else-if="!createMode">
                     <ListCard v-for="dataset in datasets" :key="'dataset-group-'+dataset.id" :record="dataset"></ListCard>
                     <infinite-loading @infinite="scroll">
                         <div slot="no-results">{{$tc('No datasets')}}</div>
@@ -48,10 +107,13 @@
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
-    import Profile from '../groups/profile'
+    import DynamicForm from '../form/DynamicForm'
     import ListCard from '../dataset/ListCard'
 
     import {CkanApi} from '../../services/ckanApi'
+
+    import {mapState} from 'vuex';
+    import { ValidationObserver } from "vee-validate";
 
     const ckanServ = new CkanApi()
     import {Analytics} from '../../services/analytics'
@@ -63,7 +125,8 @@
         components: {
             Breadcrumb: Breadcrumb,
             ListCard: ListCard,
-            Profile: Profile
+            DynamicForm: DynamicForm,
+            ValidationObserver: ValidationObserver,
         },
         data () {
             return {
@@ -79,15 +142,39 @@
                 skip: 0,
                 datasets: [],
                 loadingDatasets: true,
-                error: null
+                error: null,
+                createMode: this.$route.name === "group_create",
+                editing: this.$route.name === "group_create",
+                disabled: false,
+                schema: this.$store.state.group.groupSchemas.group ? this.$store.state.group.groupSchemas.group : {},
+                textFields: []
             }
         },
         computed: {
             groupId: function groupId() {
                 return this.$route.params.groupId;
             },
+            ...mapState({
+                sysAdmin: state => state.user.sysAdmin,
+                isAdmin: state => state.user.isAdmin,
+                isEditor: state => state.user.isEditor,
+                userLoading: state => state.user.userLoading,
+            }),
+            showEdit: function(){
+                // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+                //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+            },
+            canDeleteResources: function(){
+                return this.sysAdmin;
+            },
         },
         methods: {
+
+            updateGroup(field, value){
+                this.group[field] = value;
+            },
 
             getGroup(){
                 ckanServ.getGroup(this.groupId).then( (data) => {
@@ -100,6 +187,14 @@
                         this.error = data.error;
                     }
                 });
+            },
+
+            deleteGroup: function(){
+
+            },
+
+            toggleEdit: function(){
+                this.editing = !this.editing;
             },
 
             scroll: function(state){
@@ -154,11 +249,28 @@
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getGroup();
+            let self = this;
+            let unsub = this.$store.subscribe(
+                (mutation, state) => {
+                    if(mutation.type == "group/setSchema") {
+                        self.schema = state.group.groupSchemas.group;
+                        unsub();
+                    }
+                }
+            )
+            this.$store.dispatch('group/getGroupSchemas');
         }
 
     }
 </script>
 
 <style scoped>
+
+.button-container{
+    position: fixed;
+    bottom: 50px;
+    right: 0;
+    z-index: 10;
+}
 
 </style>

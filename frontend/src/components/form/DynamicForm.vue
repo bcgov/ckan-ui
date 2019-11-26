@@ -1,11 +1,11 @@
 <template>
     <v-row wrap>
-        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') || (field.form_snippet==='upload.html') ) ? '12' : '6')"
+        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.label === 'Image URL') || (field.field_name === 'title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') || (field.form_snippet==='upload.html') ) ? '12' : '6')"
         v-for="(field, fieldKey) in schema" 
         :key="'field-'+fieldKey">
             <span v-if="(!field.conditional_field || !field.conditional_values) || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
                 <Title 
-                    v-if="field.preset==='title'"
+                    v-if="field.preset==='title' || field.field_name === 'title'"
                     :name="field.field_name" 
                     :value="values[field.field_name]" 
                     :label="field.label"
@@ -81,7 +81,7 @@
                     :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                 </Select>
                 <Slug 
-                    v-else-if="field.preset==='dataset_slug'" 
+                    v-else-if="field.preset==='dataset_slug' || field.form_snippet==='slug.html'" 
                     :name="field.field_name" 
                     :value="values[field.field_name]" 
                     :label="field.label"
@@ -214,6 +214,32 @@
                     :parentObject="values"
                     :editing="editing">
                 </Upload>
+                <ImageUrl
+                    v-else-if="field.label === 'Image URL'"
+                    :name="field.field_name" 
+                    :value="values[field.field_name]" 
+                    :label="field.label"
+                    @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
+                    :field="field"
+                    :disabled="disabled"
+                    :scope="scope"
+                    :parentObject="values"
+                    :editing="editing">
+                </ImageUrl>
+                <Checkbox 
+                    v-else-if="field.field_name==='private'"
+                    :name="field.field_name" 
+                    :value="values[field.field_name]" 
+                    :label="field.label"
+                    :editing="editing"
+                    :field="field"
+                    :scope="scope"
+                    trueDisplay="yes"
+                    falseDisplay="no"
+                    :disabled="disabled"
+                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    >
+                </Checkbox>
 
                 <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
                 <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
@@ -250,7 +276,9 @@ import CompositeRepeating from './components/CompositeRepeating';
 import License from './components/License';
 import TextInput from './components/TextInput';
 import Upload from './components/Upload';
-import Json from "./components/Json"
+import Json from "./components/Json";
+import Checkbox from "./components/Checkbox";
+import ImageUrl from "./components/ImageUrl";
 
 export default {
     components: {
@@ -266,6 +294,8 @@ export default {
         Upload: Upload,
         Json: Json,
         Autocomplete: Autocomplete,
+        Checkbox: Checkbox,
+        ImageUrl: ImageUrl,
     },
     props: {
         schema: Array,

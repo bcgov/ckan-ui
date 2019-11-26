@@ -1,17 +1,17 @@
 <template>
-    <h2 v-if="!editing">
-        {{value}}
-    </h2>
+    <div v-if="!editing">
+        <label>{{$tc(label)}}: </label>
+        <span>{{!!value ? trueDisplay : falseDisplay}}</span>
+    </div>
     <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
-        <v-text-field
-            :label="$tc(displayLabel)"
+        <v-checkbox
             :name="name"
             v-model="val"
-            :placeholder="placeholder"
-            outline
-            :error-messages="errors.length>0 ? [errors[0]] : []"
+            :label="$tc(displayLabel)"
+            :error-messages="errors.length > 0 ? [errors[0]] : []"
             :disabled="disabled"
-        ></v-text-field>
+            @change="modified">
+        </v-checkbox>
     </ValidationProvider>
 </template>
 
@@ -23,13 +23,14 @@ export default {
         value: String,
         label: String,
         editing: Boolean,
-        placeholder: String,
         field: Object,
         scope: String,
         disabled: {
             type: Boolean,
             default: false
         },
+        trueDisplay: String,
+        falseDisplay: String,
     },
 
     data() {
@@ -40,9 +41,6 @@ export default {
     },
 
     watch: {
-        value(){
-            this.val = this.value;
-        },
         val(){
             this.$emit('edited', this.val);
         },
