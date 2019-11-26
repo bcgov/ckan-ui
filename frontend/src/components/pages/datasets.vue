@@ -283,8 +283,11 @@
                     this.error = data.error;
                     this.loading = false;
                 }
+            })
+            .catch(() => {
+                this.error = data.error;
+                this.loading = false;
             });
-
         },
 
         getFacets(){

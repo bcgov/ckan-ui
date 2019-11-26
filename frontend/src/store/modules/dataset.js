@@ -60,6 +60,7 @@ const actions = {
                 commit('setDataLoading', {dataLoading: false});
             }
         }).catch(() => {
+            commit('setError', {error: data.error});
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
         });
