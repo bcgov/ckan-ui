@@ -19,7 +19,7 @@
 
   "pow": {
       "past_orders_nbr": 5,
-      "custom_aoi_url": "http://maps.gov.bc.ca/ess/hm/aoi/",
+      "custom_aoi_url": "https://aoi.apps.gov.bc.ca",
       "persist_config": true,
       "enable_mow": false,
       "public_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi",

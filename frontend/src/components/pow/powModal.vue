@@ -7,13 +7,14 @@
         ></v-progress-circular>
     </v-card>
     <v-card v-else>                  
-        <iframe :src="full_ui_url" id="powModal"></iframe>                  
+        <iframe :src="full_ui_url" id="powModal" ></iframe>                  
     </v-card>
     
 </template>
 
 <script>
 import { mapState } from 'vuex';
+var iframe;
 
 export default {
     computed: {
@@ -24,7 +25,13 @@ export default {
     },
     mounted () {
         this.$emit('powMounted')
+    },
+    methods: {
+        checkIFrame() {
+            //we cannot access or control the elements of a cross origin iframe - we need to rely on imap code to submit the data back to our iframe
+        },
     }
+    
 }
 </script>
 

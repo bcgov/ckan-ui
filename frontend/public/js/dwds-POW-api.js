@@ -131,7 +131,6 @@ var dwdspowapi = window.dwdspowapi;
                     orderCallback.call(orderObj, true);
                 }
 			});
-
 		};
 		Order.prototype.validate = function () {
 			
