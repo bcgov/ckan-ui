@@ -38,26 +38,30 @@
                     </v-btn>
                 </v-row>
                 <v-row v-else-if="editing" class="button-container">
-                    <v-btn
-                        xs2
-                        color="error"
-                        class="text-xs-center"
-                        @click="cancel"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        xs2
-                        color="primary"
-                        class="text-xs-center"
-                        type="submit"
-                        @click="submit(errors)"
-                    >
-                        Save
-                    </v-btn>
+                    <v-col cols="2">
+                        <v-btn
+                            color="error"
+                            class="text-xs-center"
+                            @click="cancel"
+                        >
+                            Cancel
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="2">
+                    </v-col>
+                    <v-col cols="2">
+                        <v-btn
+                            color="primary"
+                            class="text-xs-center"
+                            type="submit"
+                            @click="submit(errors)"
+                        >
+                            Save
+                        </v-btn>
+                    </v-col>
                 </v-row>
                 <v-row wrap class="text-xs-center" align-center justify-center>
-                    <v-col cols=3>
+                    <v-col :cols="editing ? 12 : 3">
                         <!--<Profile :group="group"></Profile>-->
                         <DynamicForm v-if="typeof(schema) === 'object' && typeof(schema.fields) === 'object'"
                             :schema="schema.fields"
@@ -129,19 +133,23 @@
             ValidationObserver: ValidationObserver,
         },
         data () {
+            let ourLabel = {label: "Loading"};
+            if (this.$route.name === "group_create"){
+                ourLabel = {label: "Creating new group"};
+            }
             return {
-                loading: true,
+                loading: this.$route.name !== "group_create",
                 breadcrumbs: [
                     {icon: "home", label: 'Home', route: '/'},
                     {label: 'Groups', route: '/groups'},
-                    {label: "Loading..."}
+                    ourLabel
                 ],
                 group: {},
                 count: 0,
                 rows: 10,
                 skip: 0,
                 datasets: [],
-                loadingDatasets: true,
+                loadingDatasets: this.$route.name !== "group_create",
                 error: null,
                 createMode: this.$route.name === "group_create",
                 editing: this.$route.name === "group_create",
@@ -164,7 +172,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;
@@ -172,21 +180,30 @@
         },
         methods: {
 
+            cancel(){
+                if (this.createMode){
+                    this.$router.push({name: 'Groups'})
+                }
+                this.editing = !this.editing;
+            },
+
             updateGroup(field, value){
                 this.group[field] = value;
             },
 
             getGroup(){
-                ckanServ.getGroup(this.groupId).then( (data) => {
-                    if (data.success) {
-                        this.group = data.result;
-                        this.breadcrumbs[2].label = this.group.title
-                        this.loading = false;
-                        this.getDatasets();
-                    } else {
-                        this.error = data.error;
-                    }
-                });
+                if (!this.createMode){
+                    ckanServ.getGroup(this.groupId).then( (data) => {
+                        if (data.success) {
+                            this.group = data.result;
+                            this.breadcrumbs[2].label = this.group.title
+                            this.loading = false;
+                            this.getDatasets();
+                        } else {
+                            this.error = data.error;
+                        }
+                    });
+                }
             },
 
             deleteGroup: function(){
@@ -269,7 +286,7 @@
 .button-container{
     position: fixed;
     bottom: 50px;
-    right: 0;
+    right: 50px;
     z-index: 10;
 }
 

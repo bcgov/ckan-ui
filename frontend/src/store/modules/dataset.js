@@ -59,8 +59,8 @@ const actions = {
                 commit('setSchemaLoading', {schemaLoading: false});
                 commit('setDataLoading', {dataLoading: false});
             }
-        }).catch(() => {
-            commit('setError', {error: data.error});
+        }).catch((e) => {
+            commit('setError', {error: e});
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
         });

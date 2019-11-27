@@ -148,5 +148,20 @@ export class CkanApi {
         const url = '/api/ckan/resource/'+id;
         return axios.delete(url, { withCredentials: true }).then(response => response.data);
     }
+
+    deleteGroup(id){
+        const url = '/api/ckan/group/'+id;
+        return axios.delete(url, { withCredentials: true }).then(response => response.data);
+    }
+
+    postGroup(group) {
+        const url = '/api/ckan/group';
+        return axios.post(url, group, {withCredentials: true}).then(response => response.data);
+    }
+
+    putGroup(group) {
+        const url = '/api/ckan/group';
+        return axios.put(url, group, {withCredentials: true}).then(response => response.data);
+    }
     
 }

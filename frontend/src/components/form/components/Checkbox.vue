@@ -9,8 +9,7 @@
             v-model="val"
             :label="$tc(displayLabel)"
             :error-messages="errors.length > 0 ? [errors[0]] : []"
-            :disabled="disabled"
-            @change="modified">
+            :disabled="disabled">
         </v-checkbox>
     </ValidationProvider>
 </template>

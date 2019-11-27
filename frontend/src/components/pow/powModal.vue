@@ -14,7 +14,6 @@
 
 <script>
 import { mapState } from 'vuex';
-var iframe;
 
 export default {
     computed: {

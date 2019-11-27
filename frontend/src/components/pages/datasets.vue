@@ -284,8 +284,8 @@
                     this.loading = false;
                 }
             })
-            .catch(() => {
-                this.error = data.error;
+            .catch((e) => {
+                this.error = e;
                 this.loading = false;
             });
         },
