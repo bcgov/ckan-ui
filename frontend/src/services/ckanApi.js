@@ -160,7 +160,7 @@ export class CkanApi {
     }
 
     putGroup(group) {
-        const url = '/api/ckan/group';
+        const url = '/api/ckan/group/'+group.id;
         return axios.put(url, group, {withCredentials: true}).then(response => response.data);
     }
     

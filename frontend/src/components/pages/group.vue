@@ -6,6 +6,25 @@
         </div>
     </v-container>
     <v-container v-else fluid>
+        <v-alert
+            :value="group.state === 'deleted'"
+            type="warning">
+            You are viewing a deleted group
+        </v-alert>
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
         <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         <v-progress-circular
           v-if="loading"
@@ -54,7 +73,7 @@
                             color="primary"
                             class="text-xs-center"
                             type="submit"
-                            @click="submit(errors)"
+                            @click="submit()"
                         >
                             Save
                         </v-btn>
@@ -144,7 +163,6 @@
                     {label: 'Groups', route: '/groups'},
                     ourLabel
                 ],
-                group: {},
                 count: 0,
                 rows: 10,
                 skip: 0,
@@ -155,7 +173,11 @@
                 editing: this.$route.name === "group_create",
                 disabled: false,
                 schema: this.$store.state.group.groupSchemas.group ? this.$store.state.group.groupSchemas.group : {},
-                textFields: []
+                textFields: [],
+                formError: "",
+                formSuccess: "",
+                showFormError: false,
+                showFormSuccess: false,
             }
         },
         computed: {
@@ -167,6 +189,8 @@
                 isAdmin: state => state.user.isAdmin,
                 isEditor: state => state.user.isEditor,
                 userLoading: state => state.user.userLoading,
+                group: state => state.group.group,
+                abort: state => state.group.abort
             }),
             showEdit: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
@@ -178,7 +202,30 @@
                 return this.sysAdmin;
             },
         },
+
+        watch: {
+            abort(newVal){
+                if (newVal){
+                    this.$store.commit('group/clearAbort');
+                    this.$router.push({name: 'Groups'});
+                }
+            },
+
+            group(newVal) {
+                if (!this.createMode){
+                    let currentlyLoadingGroup = this.loading;    
+                    this.loading = Object.keys(newVal).length == 0;
+                    if (currentlyLoadingGroup != this.loading){
+                        this.breadcrumbs[2].label = this.group.title;
+                        this.getDatasets();
+                    }
+                }
+            },
+        },
+
         methods: {
+
+            nothing(){},
 
             cancel(){
                 if (this.createMode){
@@ -189,25 +236,96 @@
 
             updateGroup(field, value){
                 this.group[field] = value;
+                this.$store.commit('group/setCurrentNotUnmod', { group: this.group } );
+            },
+
+            async submit(){
+                this.disabled = true;
+                const isValid = await this.$refs.observer.validate();
+
+                if (!isValid){
+                    this.formError = "Please fix the fields in error before submitting";
+                    this.showFormError = true;
+                    this.showFormSuccess = false;
+                    this.disabled = false;
+                    return;
+                }
+
+                let result = {};
+                try{
+                    if (this.createMode){
+                        result = await this.$store.dispatch("group/createGroup")
+                    }else{
+                        result = await this.$store.dispatch("group/setGroup");
+                    }
+                }catch(e){
+                    this.formError = e;
+                    this.showFormError = true;
+                    this.showFormSuccess = false;
+                    this.disabled = false;
+                    return;
+                }
+                if (!result || !result.success || result.success === false){
+                    if (result.error.message){
+                        this.formError = result.error.message;
+                    }else if (result.error.type && result.error.type[0]){
+                        this.formError = result.error.type[0];
+                    }else if (result.error){
+                        this.formError = result.error;
+                    }else{
+                        this.formError = "Unknown Error";
+                    }
+                    this.showFormError = true;
+                    this.showFormSuccess = false;
+                }else{
+                    this.toggleEdit();
+                    if (this.createMode){
+                        this.$router.push({name: "group_view", params:{groupId: result.result.title}});
+                    }
+                    this.formSuccess = "Successfully updated";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                }
+                this.disabled = false;
             },
 
             getGroup(){
                 if (!this.createMode){
-                    ckanServ.getGroup(this.groupId).then( (data) => {
-                        if (data.success) {
-                            this.group = data.result;
-                            this.breadcrumbs[2].label = this.group.title
-                            this.loading = false;
-                            this.getDatasets();
-                        } else {
-                            this.error = data.error;
-                        }
-                    });
+                    this.$store.dispatch('group/getGroup', {id: this.groupId});
+                }else{
+                    this.$store.commit('group/setCurrentGroup', { group: {} } );
                 }
             },
 
-            deleteGroup: function(){
+            async deleteGroup(){
+                this.disabled = true;
+                if (this.createMode){
+                    this.disabled = false;
+                    return;
+                }
+                const response = await ckanServ.deleteGroup(this.groupId);
 
+                this.formSuccess = "";
+                this.formError = "";
+
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    this.$router.push({name: 'Groups'});
+                    this.disabled = false;
+                    return;
+                }else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    this.disabled = false;
+                    return;
+                }
+                this.formError = "Unknown error deleting group";
+                this.showFormSuccess = false;
+                this.showFormError = true;
+                this.disabled = false;
             },
 
             toggleEdit: function(){
@@ -215,11 +333,13 @@
             },
 
             scroll: function(state){
-                this.skip += this.rows
-                if (this.count>=this.skip) {
-                    this.getDatasets(state)
-                }else{
-                    state.complete()
+                if (!this.createMode && !this.loadingDatasets){
+                    this.skip += this.rows
+                    if (this.count>=this.skip) {
+                        this.getDatasets(state)
+                    }else{
+                        state.complete()
+                    }
                 }
             },
 

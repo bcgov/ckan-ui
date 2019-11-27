@@ -5,17 +5,41 @@ const state = {
     groups: [],
     searchedGroups: [],
     searchText: "",
-    groupSchemas: {}
+    groupSchemas: {},
+    group: {},
+    abort: false,
+    unmodifiedGroup: {}
 };
 
 const actions = {
+
+    setGroup({ state }) {
+        let group = JSON.parse(JSON.stringify(state.group));
+        return ckanServ.putGroup(group);
+    },
+    createGroup({ state }) {
+        return ckanServ.postGroup(state.group);
+    },
+
     getGroups({ commit }) {
-        if (state.groups.length == 0) {
-            ckanServ.getGroupList().then((data) => {
-                commit('setGroupList', { groups: data.result });
-                commit('setSearchedGroups', { searchedGroups: data.result });
-            });
-        }
+        ckanServ.getGroupList().then((data) => {
+            commit('setGroupList', { groups: data.result });
+            commit('setSearchedGroups', { searchedGroups: data.result });
+        });
+    },
+
+    getGroup({commit}, {id}){
+        ckanServ.getGroup(id).then( (data) => {
+            let group = {};
+            let error = false;
+            if (data.success) {
+                group = data.result;
+            } else {
+                group = {};
+                error = true;
+            }
+            commit('setCurrentGroup', {group: group, error: error});
+        });
     },
 
     getGroupSchemas({ commit }) {
@@ -43,7 +67,24 @@ const mutations = {
         state.groups = groups;
     },
 
+    clearAbort(state){
+        state.abort = false;
+    },
+
     setSchema(state, { schema }) {
+
+        //TODO: ....:(
+        let keys = Object.keys(schema.fields);
+        for (let i=0; i<keys.length; i++){
+            if (schema.fields[i].field_name === "url"){
+                schema.fields[i].field_name = "image_url";
+            }
+
+            if (schema.fields[i].field_name === "notes"){
+                schema.fields[i].field_name = "description";
+            }
+        }
+
         Object.assign(state.groupSchemas, {group: schema});
     },
 
@@ -53,6 +94,17 @@ const mutations = {
 
     setSearchedGroups(state, { searchedGroups }) {
         state.searchedGroups = searchedGroups;
+    },
+
+    setCurrentGroup(state, { group, error }) {
+        state.abort = error ? error : false;
+        state.group = Object.assign({}, group);
+        state.unmodifiedGroup = Object.assign({}, group);
+    },
+
+    setCurrentNotUnmod(state, {group}) {
+        state.abort = false;
+        state.group = Object.assign({}, group);
     },
 }
 

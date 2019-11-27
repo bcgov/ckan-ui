@@ -19,7 +19,7 @@ export default {
 
     props: {
         name: String,
-        value: String,
+        value: Boolean,
         label: String,
         editing: Boolean,
         field: Object,
