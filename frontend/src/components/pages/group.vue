@@ -280,7 +280,7 @@
                 }else{
                     this.toggleEdit();
                     if (this.createMode){
-                        this.$router.push({name: "group_view", params:{groupId: result.result.title}});
+                        this.$router.push({name: "group_view", params:{groupId: result.result.name}});
                     }
                     this.formSuccess = "Successfully updated";
                     this.showFormSuccess = true;
