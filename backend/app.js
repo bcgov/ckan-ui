@@ -10,7 +10,7 @@ let OidcStrategy = require('passport-openidconnect').Strategy;
 //let history = require('connect-history-api-fallback');
 
 let solrRouter = require('./routes/solr');
-let ckanRouter = require('./routes/ckan');
+let ckanRouter = require('./routes/ckan/ckan');
 let powRouter = require('./routes/pow');
 let authRouter = require('./routes/auth');
 let resourceRouter = require('./routes/resource');
