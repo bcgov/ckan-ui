@@ -113,19 +113,6 @@ export default{
             schemas: state => state.dataset.schemas,
         })
     },
-    mounted() {
-        let self = this;
-        this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.id});
-        let unsub = this.$store.subscribe(
-            (mutation, state) => {
-                if(mutation.type == "dataset/setSchema") {
-                    self.schema = state.dataset.schemas[self.schemaName];
-                    unsub();
-                }
-            }
-        )
-        
-    },
 
     methods: {
         updateResource(field, newValue){

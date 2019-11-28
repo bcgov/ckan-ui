@@ -193,10 +193,7 @@ export default{
             this.apiKey = '';
         }
     },
-    // pkg.preview_map_service_url + &wmslayers=" + pkg.layer_name + "&ll=" + pkg.preview_latitude + "," + pkg.preview_longitude + "&z=" + pkg.preview_zoom_level
     mounted() {
-        this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.id});
-        
         if (typeof(localStorage.apiKey) === "string"){
             this.apiKey = localStorage.apiKey;
         }

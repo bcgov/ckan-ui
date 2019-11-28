@@ -32,8 +32,16 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         console.log("Body Status? ", apiRes.statusCode);
     }
 
+    let json = {};
+
     try {
-        let json = JSON.parse(body);
+        json = JSON.parse(body);
+    }catch(ex){
+        console.error("Error reading json from ckan", ex);
+        res.json({error: ex});
+    }
+
+    try{
 
         let resourceUrl = json.result.url;
 
@@ -113,8 +121,8 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
 
 
     }catch(ex){
-        console.error("Error reading json from ckan", ex);
-        res.json({error: ex});
+        console.error("Error reading resource", ex);
+        res.json({resource: json.result, error: ex});
     }
   });
 

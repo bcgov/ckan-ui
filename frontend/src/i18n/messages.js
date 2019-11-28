@@ -218,6 +218,7 @@ export default {
         "Details": "Details",
         "Object Short Name": "Object Short Name",
         "Object Table Comments": "Object Table Comments",
+        "User Profile": "User Profile",
     },
     fr: {
         'data': 'données',
@@ -438,5 +439,6 @@ export default {
         "Details": "Détails",
         "Object Short Name": "Nom abrégé de l'objet",
         "Object Table Comments": "Commentaires de la table d'objets",
+        "User Profile": "Profil de l'utilisateur",
     }
 };

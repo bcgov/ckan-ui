@@ -52,7 +52,9 @@ export default {
         //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
         this.model = {};
         for (let i=0; i<this.field.subfields.length; i++){
-            if (typeof(this.value) === "string"){
+            if ( (typeof(this.value) === "string") && (this.value === '') ){
+                this.model[this.field.subfields[i].field_name] = "";
+            }else if (typeof(this.value) === "string"){
                 this.model[this.field.subfields[i].field_name] = JSON.parse(this.value)[this.field.subfields[i].field_name];
             }else{
                 this.model[this.field.subfields[i].field_name] = this.value[this.field.subfields[i].field_name];

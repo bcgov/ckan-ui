@@ -31,7 +31,7 @@
                 right
                 color="info"
                 class="text-xs-center"
-                :to="{name: 'dataset_create'}"
+                @click="datasetCreate"
             >
                     <v-icon>edit</v-icon>
                 </v-btn>
@@ -155,6 +155,11 @@
     },
 
     methods: {
+
+        datasetCreate: function(){
+            this.$store.commit('dataset/clearDataset');
+            this.$router.push({name: "dataset_create"});
+        },
 
         openDrawer: function(name){
             this.$emit('closeDrawer', name);

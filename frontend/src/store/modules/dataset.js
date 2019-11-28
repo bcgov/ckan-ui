@@ -95,6 +95,8 @@ const actions = {
         resourceServ.getResource(id).then((data) => {
             resource.type = "unknown";
             resource.schema = null;
+            resource.hasSchema = true;
+            resource.schemaError = null;
 
             if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
                 resource.type = "404";
@@ -112,9 +114,10 @@ const actions = {
                         resource.schemaInferred = true;
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
-                    }).catch ( () => {
+                    }).catch ( (e) => {
                         resource.schema = null;
                         resource.schemaInferred = false;
+                        resource.schemaError = e[0];
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
                     });
@@ -125,6 +128,9 @@ const actions = {
                 resource.url = data.origUrl;
             } else {
                 resource.raw_data = data.raw_data;
+                if (!resource.raw_data || resource.raw_data.indexOf("404 Not Found") !== -1){
+                    resource.hasSchema = false;
+                }
             }
 
             if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
@@ -133,8 +139,9 @@ const actions = {
                     resource.schemaInferred = false;
                     resource.metadata = data.metadata;
                     context.commit('setResource', {id: id, resource: resource});
-                }).catch( () => {
+                }).catch( (e) => {
                     resource.schema = null;
+                    resource.schemaError = e[0];
                     resource.schemaInferred = false;
                     resource.metadata = data.metadata;
                     context.commit('setResource', {id: id, resource: resource});
@@ -187,7 +194,8 @@ const mutations = {
         state.dataLoading = dataLoading;
     },
     clearDataset(state){
-        state.dataset = {};
+        //state.dataset = {};
+        Vue.set(state, 'dataset', {});
         state.dataLoading = false;
         state.shouldAbort = false;
     },

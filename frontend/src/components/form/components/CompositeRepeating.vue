@@ -4,7 +4,7 @@
         <v-card-text>
             <div v-if="!editing">
                 <span v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                    <span v-if="model[repeatedIndex].displayed">
+                    <span v-if="!hasDisplayed || !model[repeatedIndex].displayed">
                         <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                             <span v-if="sub.field_name !== 'displayed'">
                                 <label>{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
@@ -167,6 +167,7 @@ export default {
     data() {
         return {
             model: [{}],
+            hasDisplayed: false,
         }
     },
     methods: {
@@ -174,6 +175,9 @@ export default {
             let model = {}
             for (let i=0; i<this.field.subfields.length; i++){
                 model[this.field.subfields[i].field_name] = "";
+                if (this.field.subfields[i].field_name.toLowerCase() === "displayed"){
+                    this.hasDisplayed = true;
+                }
             }
             this.model.push(model);
         },

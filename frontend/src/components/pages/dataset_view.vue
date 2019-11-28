@@ -345,7 +345,7 @@ export default {
             }else{
                 this.toggleEdit();
                 if (this.createMode){
-                    this.$router.push('/dataset/'+this.dataset.name)
+                    this.$router.replace({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
                 }
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
@@ -363,14 +363,10 @@ export default {
     },
 
     mounted (){
-        if (this.createMode){
-            this.$store.commit('dataset/clearDataset');
-        }
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
         this.getDataset();
-        //this.$refs.form.validate();
     },
 
 };

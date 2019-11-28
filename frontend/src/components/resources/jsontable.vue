@@ -7,13 +7,13 @@
           <v-toolbar-title>{{name}} - Schema {{resource.schemaInferred ? '(Inferred)' : ''}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-          <v-progress-circular
-                v-if="loading"
-                indeterminate
-                color="light-blue"
-            ></v-progress-circular>
 
-            <div v-else>
+            <div v-if="schemaError">
+                {{schemaError}}
+            </div>
+
+
+            <div v-else-if="schema">
                 <div v-for="field in schema.fields" :key="'schema'+(field.name.text || field.descriptor.name)">
                     <h3>Field: {{field.name.text || field.descriptor.name}}</h3>
                     <div class="capitalize" v-if="field.type || field.descriptor.type">Type: {{field.type || field.descriptor.type}}</div>
@@ -40,6 +40,11 @@
                     <hr />
                 </div>
             </div>
+            <v-progress-circular
+                v-else
+                indeterminate
+                color="light-blue"
+            ></v-progress-circular>
 
       </v-card-text>
   </v-card>
@@ -58,31 +63,18 @@ export default{
     },
     data() {
         return {
-            name: this.resource.name,
-            id: this.resource.id,
-            loading: true,
+            name: this.resource.metadata.name,
+            id: this.resource.metadata.id,
+            schemaError: this.resource.schemaError,
+            loading: false,
+            schema: this.resource.schema,
         }
     },
     computed: {
         ...mapState({
             resourceStore: state => state.dataset.resources,
         }),
-        schema: function(){
-            return this.resourceStore && this.resourceStore[this.id] && this.resourceStore[this.id].schema ? this.resourceStore[this.id].schema : {};
-        },
-
     },
-    watch: {
-        schema: function(){
-            let load = true;
-            try{
-               load = Object.keys(this.resourceStore[this.id]).length === 0;
-            }catch(ex){
-                load = true;
-            }
-            this.loading =  load;
-        }
-    }
 
 }
 </script>

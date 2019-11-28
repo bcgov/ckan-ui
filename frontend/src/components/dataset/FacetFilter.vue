@@ -255,7 +255,8 @@ export default{
         color: black;
     }
     
-    .active{
+    
+    .theme--light.v-chip:not(.v-chip--active).active{
         background: var(--v-highlight-base);
     }
 

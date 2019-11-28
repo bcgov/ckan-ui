@@ -5,23 +5,23 @@
                 <v-col cols=12>
                     <h4>
                         <v-icon>insert_drive_file</v-icon>
-                        {{resource.name}}
+                        {{useResource.metadata.name}}
                     </h4>
                     <span>
                         <strong>Type:</strong>
-                        {{resource.format}}
+                        {{useResource.metadata.format}}
                     </span>
                 </v-col>
             </v-row>
             <v-row wrap align-center fill-height>
                 <v-col cols=6 v-if="!loadPOW">
-                    <v-btn text block color="secondary" :href="resource.url">
+                    <v-btn text block color="secondary" :href="useResource.metadata.url">
                         Download&nbsp;
                         <v-icon>cloud_download</v-icon>
                     </v-btn>
                 </v-col>
                 <v-col cols=6 v-else>
-                    <powButton :resource="resource"/>
+                    <powButton :resource="useResource.metadata"/>
                 </v-col>
                 <v-col cols=6>
                     <v-menu offset-y>
@@ -43,7 +43,7 @@
                                 >
                                     <EditResource
                                         :edit="false"
-                                        :resource="resource"
+                                        :resource="useResource.metadata"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="viewDialog = false"
                                     ></EditResource>
@@ -59,13 +59,13 @@
                                 >
                                     
                                     <Preview
-                                        :resource="resource"
+                                        :resource="useResource.metadata"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="dialog = false"
                                     ></Preview>
                                 </v-dialog>
                             </v-list-item>
-                            <v-list-item v-if="((resource.format.toLowerCase() === 'csv') || (resource.jsonSchema !== '' && typeof(resource.jsonSchema) !== 'undefined'))">
+                            <v-list-item v-if="!!useResource.hasSchema">
                                 <v-list-item flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
                                 <v-dialog
                                     eager
@@ -74,7 +74,7 @@
                                     transition="dialog-bottom-transition"
                                 >
                                     <JsonTable
-                                        :resource="resource"
+                                        :resource="useResource"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="schemaDialog = false"
                                     ></JsonTable>
@@ -92,7 +92,7 @@
                                 >
                                     <EditResource
                                         :edit="true"
-                                        :resource="resource"
+                                        :resource="useResource.metadata"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="editDialog = false"
                                     ></EditResource>
@@ -128,6 +128,7 @@ export default {
             default: false,
         },
     },
+    
     components: {
         Preview: Preview,
         JsonTable: JsonTable,
@@ -146,12 +147,30 @@ export default {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name=="BC Geographic Warehouse Custom Download")
         }
     },
+
+    mounted() {
+        let self = this;
+        this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.resource.id});
+        let unsub = this.$store.subscribe(
+            (mutation, state) => {
+                if(mutation.type == "dataset/setResource") {
+                    if (mutation.payload.id === self.resource.id){
+                        self.useResource = state.dataset.resources[self.resource.id];
+                        unsub();
+                    }
+                }
+            }
+        )
+        
+    },
+
     data() {
         return {
             dialog: false,
             schemaDialog: false,
             editDialog: false,
             viewDialog: false,
+            useResource: {metadata: this.resource},
         };
     }
 };

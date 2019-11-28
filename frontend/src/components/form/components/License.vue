@@ -2,7 +2,7 @@
     <div>
         <div v-if="!editing">
             <label>{{$tc(label)}}:</label>
-            <span>{{licenseLookup[val]}}</span>
+            <span>{{displayValue}}</span>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
@@ -61,12 +61,14 @@ export default {
 
     methods: {
         getLicenses: function(){
+            let self = this;
             ckanServ.getLicenses().then((data) => {
-                this.licenses = data.result;
-                if (this.licenses) {
-                    for (let i=0; i<this.licenses.length; i++){
-                        this.licenseLookup[this.licenses[i].id] = this.licenses[i].title;
+                self.licenses = data.result;
+                if (self.licenses) {
+                    for (let i=0; i<self.licenses.length; i++){
+                        self.licenseLookup[self.licenses[i].id] = self.licenses[i].title;
                     }
+                    self.displayValue = self.licenseLookup[self.val];
                 }
             });
         }
