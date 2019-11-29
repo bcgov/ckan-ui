@@ -60,12 +60,12 @@ export default {
             var secure_url = this.get_ofi_url('/secure/')
             var run_pow = this.init_pow;
             //(pow_initialized) ? this.runOrder : 
-
+            let dwdspowapi = window.dwdspowapi;
             dwdspowapi.initialize(public_url, secure_url, this.custom_aoi_url, this.past_orders_nbr, false, false, run_pow)
         },
         init_pow: function(pow_ready) {
             //pow_initialized = pow_ready
-        
+            let dwdspowapi = window.dwdspowapi;
             dwdspowapi.orderData = {
                 emailAddress: '',
                 aoiType: this.order_details.aoi_type,
@@ -87,7 +87,7 @@ export default {
                 ],
             }
 
-            let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
+            //let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
             this.runOrder(pow_ready)
         },
 
