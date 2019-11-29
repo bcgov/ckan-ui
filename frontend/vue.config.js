@@ -1,9 +1,10 @@
-var path = require('path');
+//var path = require('path');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 
 
 module.exports = {
+    productionSourceMap: false,
     devServer: {
         proxy: {
             '/resourceUpdate': {
@@ -62,8 +63,8 @@ module.exports = {
                 maxSize: 25000,
                 cacheGroups: {
                     vendor: {
-                        test: /\/node_modules\/!(pdfvuer)\//,
-                        //test: /\/node_modules\//,
+                        //test: /\/node_modules\/!(pdfvuer)\//,
+                        test: /\/node_modules\//,
                         name(module) {
                             // get the name. E.g. node_modules/packageName/not/this/part.js
                             // or node_modules/packageName

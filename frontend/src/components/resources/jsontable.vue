@@ -52,8 +52,6 @@
 
 <script>
 
-import { mapState } from 'vuex';
-
 export default{
     components:{
     },
@@ -69,12 +67,7 @@ export default{
             loading: false,
             schema: this.resource.schema,
         }
-    },
-    computed: {
-        ...mapState({
-            resourceStore: state => state.dataset.resources,
-        }),
-    },
+    }
 
 }
 </script>

@@ -59,7 +59,7 @@
                                 >
                                     
                                     <Preview
-                                        :resource="useResource.metadata"
+                                        :resource="useResource"
                                         :resourceIndex="resourceIndex"
                                         v-on:closePreviewDialog="dialog = false"
                                     ></Preview>

@@ -5,6 +5,7 @@ COPY frontend/package*.json ./
 RUN npm ci --no-optional	
 
 COPY frontend/ ./	
+NODE_ENV=production
 RUN npm run build	
 
 

@@ -4,26 +4,7 @@ const ckanServ = new CkanApi();
 import { ResourceApi } from '../../services/resourceApi';
 const resourceServ = new ResourceApi();
 
-const Schema = require('jsontableschema').Schema;
-var infer = require('jsontableschema').infer;
-
 import Vue from 'vue';
-
-function getResourceSchema(resource, headers, data){
-
-    let s = null;
-    if (resource && resource.json_table_schema){
-        s = resource.json_table_schema;
-        let model = new Schema(s);
-        return model;
-    }else if (headers.length>0 && data.length>0){
-        let options = {
-            rowLimit: 2,
-        };
-        s = infer(headers, data, options);
-        return s;
-    }
-}
 
 const state = {
     dataset: {},
@@ -92,7 +73,24 @@ const actions = {
         }
         let resource = {};
 
-        resourceServ.getResource(id).then((data) => {
+        resourceServ.getResource(id).then(async(data) => {
+            var getResourceSchema = async function(resource, headers, data){
+                const Schema = require('jsontableschema').Schema;
+                var infer = require('jsontableschema').infer;
+            
+                let s = null;
+                if (resource && resource.json_table_schema){
+                    s = resource.json_table_schema;
+                    let model = await new Schema(s);
+                    return model;
+                }else if (headers.length>0 && data.length>0){
+                    let options = {
+                        rowLimit: 2,
+                    };
+                    s = await infer(headers, data, options);
+                    return s;
+                }
+            }
             resource.type = "unknown";
             resource.schema = null;
             resource.hasSchema = true;
@@ -109,23 +107,24 @@ const actions = {
                 resource.data = data.workbook
                 resource.headers = data.headers
                 if (!context.state.dataset.resources[datasetResourceIndex].json_table_schema){
-                    getResourceSchema(null, resource.headers, resource.data).then( (s) => {
+                    try {
+                        let s = await getResourceSchema(null, resource.headers, resource.data);
                         resource.schema = s;
                         resource.schemaInferred = true;
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
-                    }).catch ( (e) => {
+                    }catch (e) {
                         resource.schema = null;
                         resource.schemaInferred = false;
                         resource.schemaError = e[0];
                         resource.metadata = data.metadata;
                         context.commit('setResource', {id: id, resource: resource});
-                    });
-
+                    }
                 }
             }else if (data['content-type'] === "application/pdf"){
                 resource.type = "pdf";
                 resource.url = data.origUrl;
+                resource.raw_data = btoa(unescape(encodeURIComponent(data.raw_data)));
             } else {
                 resource.raw_data = data.raw_data;
                 if (!resource.raw_data || resource.raw_data.indexOf("404 Not Found") !== -1){
@@ -134,18 +133,19 @@ const actions = {
             }
 
             if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
-                getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []).then( (s) => {
+                try{
+                    let s = await getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []);
                     resource.schema = s;
                     resource.schemaInferred = false;
                     resource.metadata = data.metadata;
                     context.commit('setResource', {id: id, resource: resource});
-                }).catch( (e) => {
+                }catch(e){
                     resource.schema = null;
                     resource.schemaError = e[0];
                     resource.schemaInferred = false;
                     resource.metadata = data.metadata;
                     context.commit('setResource', {id: id, resource: resource});
-                });
+                }
             } else {
                 resource.schema = null;
                 resource.schemaInferred = false;

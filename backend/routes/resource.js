@@ -45,11 +45,6 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
 
         let resourceUrl = json.result.url;
 
-        //TODO: TEMP
-        //tempOverride
-        resourceUrl = resourceUrl.replace("http://localhost:5000", "https://catalogue.data.gov.bc.ca");
-        resourceUrl = resourceUrl.replace("http://127.0.0.1:5000", "https://catalogue.data.gov.bc.ca");
-
         let responseData = "";
         let responseObj = {};
         responseObj.metadata = json && json.result ? json.result : {};

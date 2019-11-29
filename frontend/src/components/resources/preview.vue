@@ -14,14 +14,14 @@
                 color="light-blue"
             ></v-progress-circular>
 
-            <v-data-table v-else-if="headers.length>0" :items="data" :headers="headers">
+            <v-data-table v-else-if="resource.headers && resource.headers.length>0" :items="resource.data" :headers="resource.headers">
                 <template v-slot:items="props">
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
                 </template>
             </v-data-table>
 
 
-            <div v-else-if="resource.format === 'openapi-json'">
+            <div v-else-if="resource.type === 'openapi-json'">
                 <v-row>
                     <v-dialog
                         v-model="getApiKeyDialog">
@@ -66,8 +66,8 @@
                 </v-row>
             </div>
 
-            <div v-else-if="type === 'pdf'">
-                <pdf :src="pdfData" :page="page">
+            <div v-else-if="resource.type && resource.type === 'pdf'">
+                <pdf :src="resource.url" :page="page">
                     <template slot="loading">
                         Loading...
                     </template>
@@ -77,7 +77,7 @@
                     <v-col cols=1>
                         <v-btn color="primary" @click="page -= 1">Back</v-btn>
                     </v-col>
-                    <v-col cols=1>{{page}}/{{numPages}}</v-col>
+                    <v-col cols=1>{{page}}/{{resource.numPages}}</v-col>
                     <v-btn color="primary" @click="page += 1">Next</v-btn>
                     <v-col cols=5></v-col>
                 </v-row>
@@ -87,7 +87,7 @@
                 <iframe :src="previewURL" frameborder="0" width="100%" :height="winHeight"></iframe>
             </div>
 
-            <div v-else-if="type === '404'">We're sorry we were unable to retrieve your file</div>
+            <div v-else-if="resource.type === '404'">We're sorry we were unable to retrieve your file</div>
 
             <div v-else>We're sorry we don't currently support previewing this type of file</div>
       </v-card-text>
@@ -95,13 +95,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 
-import pdf from 'pdfvuer'
+import pdfvuer from 'pdfvuer';
 
 export default{
     components:{
-        pdf: pdf,
+        pdf: pdfvuer
     },
     props: {
         resource: Object,
@@ -110,8 +109,8 @@ export default{
     data() {
         let API_KEY_ORIGIN = 'https://gwa.apps.gov.bc.ca'
         return {
-            name: this.resource.name,
-            id: this.resource.id,
+            name: this.resource.metadata.name,
+            id: this.resource.metadata.id,
             page: 1,
             basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices=',
             apiKey: '',
@@ -122,32 +121,12 @@ export default{
         }
     },
     computed: {
-        ...mapState({
-            resourceStore: state => state.dataset.resources,
-        }),
-        type: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].type ? this.resourceStore[this.id].type : '';
-        },
-        url: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].url ? this.resourceStore[this.id].url : '';
-        },
-        data: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].data ? this.resourceStore[this.id].data : [];
-        },
-        headers: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].headers ? this.resourceStore[this.id].headers : [];
-        },
-        numPages: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].numPages ? this.resourceStore[this.id].numPages : '∞';
-        },
-        pdfData: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].pdfData ? this.resourceStore[this.id].pdfData : null;
-        },
+
         previewURL: function(){
-            if (!this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].metadata
-                    && this.resourceStore[this.id].metadata.preview_info
-                    && this.resourceStore[this.id].metadata.preview_info.preview_map_service_url) {
-                let previewInfo = this.resourceStore[this.id].metadata.preview_info;
+            if (!this.loading && this.resource.metadata
+                    && this.resource.metadata.preview_info
+                    && this.resource.metadata.preview_info.preview_map_service_url) {
+                let previewInfo = this.resource.metadata.preview_info;
                 let retURL = this.basePreviewURL + previewInfo.preview_map_service_url;
                 retURL += previewInfo.layer_name ? '&wmslayers=' + previewInfo.layer_name : '';
                 retURL += previewInfo.preview_latitude && previewInfo.preview_longitude ? '&ll=' + previewInfo.preview_latitude + ',' + previewInfo.preview_longitude : '';
@@ -157,12 +136,12 @@ export default{
             return false;
         },
         iMapUrl: function(){
-            return !this.loading && this.resourceStore[this.id] && this.resourceStore[this.id].metadata
-                    && this.resourceStore[this.id].metadata.preview_info
-                    && this.resourceStore[this.id].metadata.preview_info.link_to_imap ? this.resourceStore[this.id].metadata.preview_info.link_to_imap : '';
+            return !this.loading && this.resource.metadata
+                    && this.resource.metadata.preview_info
+                    && this.resource.metadata.preview_info.link_to_imap ? this.resource.metadata.preview_info.link_to_imap : '';
         },
         loading: function(){
-            return this.resourceStore ? typeof(this.resourceStore[this.id]) === 'undefined' : true;
+            return false;
         },
         redocEle: function(){
             let ele = "<rapi-doc show-header=false "+ ((this.apiKey !== '') ? ("api-key-value=\"" + this.apiKey) + "\" " : '') + "spec-url='"+this.resource.url+"'></rapi-doc>";
