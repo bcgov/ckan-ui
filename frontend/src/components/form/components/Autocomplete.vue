@@ -31,7 +31,7 @@ export default {
     
     props: {
         name: String,
-        value: Array,
+        value: [Array, String],
         label: String,
         editing: Boolean,
         placeholder: String,
@@ -61,6 +61,13 @@ export default {
         };
     },
     mounted(){
+        if (typeof(this.value) === "string"){
+            if (this.value.length === 0){
+                this.val = [];
+            }else{
+                this.val = [this.value]
+            }
+        }
         for (let i=0; i<this.items.length; i++){
             if (this.val.indexOf(this.items[i][this.itemValueField]) !== -1){
                 this.displayValue += this.items[i][this.itemTextField] + ",";

@@ -3,7 +3,7 @@
         <v-col :cols="( ( (editing) || (field.preset==='title') || (field.label === 'Image URL') || (field.field_name === 'title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') || (field.form_snippet==='upload.html') ) ? '12' : '6')"
         v-for="(field, fieldKey) in schema" 
         :key="'field-'+fieldKey">
-            <span v-if="(!field.conditional_field || !field.conditional_values) || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
+            <span v-if="(typeof(field.conditional_field) === 'undefined' || typeof(field.conditional_values) === 'undefined') || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
                 <Title 
                     v-if="field.preset==='title' || field.field_name === 'title'"
                     :name="field.field_name" 
@@ -264,6 +264,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Vue from 'vue';
 
 import Title from './components/Title';
 import Select from './components/Select';
@@ -301,7 +302,7 @@ export default {
         schema: Array,
         textFields: Array,
         editing: Boolean,
-        values: Object,
+        startingValues: Object,
         scope: {
             type: String,
             default: 'dataset'
@@ -317,7 +318,7 @@ export default {
     },
     data() {
         return {
-
+            values: {}
         }
     },
     computed:{
@@ -347,6 +348,7 @@ export default {
     },
     methods: {
         updateValues(field, newValue){
+            Vue.set(this.values, field, newValue);
             this.$emit("updated", field, newValue);
         },
         updateUploadValues(field, isUrl, newValue){
@@ -354,6 +356,9 @@ export default {
             this.$emit("updated", field, newValue);
         }
     },
+    mounted() {
+        this.values = JSON.parse(JSON.stringify(this.startingValues));
+    }
 }
 </script>
 

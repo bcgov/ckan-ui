@@ -3,8 +3,8 @@
         <v-card-title>{{$tc(displayLabel)}}</v-card-title>
         <v-card-text>
             <div v-if="!editing">
-                <span v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                    <span v-if="!hasDisplayed || !model[repeatedIndex].displayed">
+                <v-card class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
+                    <v-card-text v-if="!hasDisplayed || !model[repeatedIndex].displayed">
                         <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                             <span v-if="sub.field_name !== 'displayed'">
                                 <label>{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
@@ -12,8 +12,8 @@
                                 <span v-else></span>
                             </span>
                         </div>
-                    </span>
-                </span>
+                    </v-card-text>
+                </v-card>
             </div>
             <div v-else :key="'composite'+field.field_name">
                 <v-card v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
