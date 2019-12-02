@@ -357,7 +357,11 @@ export default {
         }
     },
     mounted() {
-        this.values = JSON.parse(JSON.stringify(this.startingValues));
+        try {
+            this.values = JSON.parse(JSON.stringify(this.startingValues));
+        }catch(ex){
+            this.values = {};
+        }
     }
 }
 </script>

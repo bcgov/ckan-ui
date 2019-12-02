@@ -166,11 +166,20 @@ export default{
                 }
 
                 if (this.doNotSend.indexOf(keys[i]) === -1){
+                    let value = null;
+                    
                     if (this.create){
-                        data.set(keys[i], this.newResource[keys[i]]);
+                        value = this.newResource[keys[i]];
                     }else{
-                        data.set(keys[i], this.resource[keys[i]]);
+                        value = this.resource[keys[i]];
                     }
+
+                    if ( (keys[i] === "json_table_schema") && ((typeof(value) === 'undefined') || (value === '')) ){
+                        data.set(keys[i], JSON.stringify({}));
+                    }else{
+                        data.set(keys[i], value);
+                    }
+                    
                 }
             }
 
@@ -198,8 +207,18 @@ export default{
 
             function handleErrorResponse(error){
                 self.formSuccess = '';
-                let e = error.response.data.error.type ? error.response.data.error.type[0] : error.response.data.error._type;
-                e = e ? e : error.response.data.error.__type[0];
+
+                let keys = Object.keys(error.response.data.error);
+                let e = "";
+                for (var i=0; i<keys.length; i++){
+                    if (keys[i].toLowerCase().indexOf('type') === -1){
+                        e = keys[i] + " - " + error.response.data.error[keys[i]];
+                    }
+                }
+
+                e = ( (e == "") && (error.response.data.error.type) ) ? error.response.data.error.type : e;
+                e = ( (e == "") && (error.response.data.error.__type) ) ? error.response.data.error.__type : e;
+                
                 self.formError = e;
                 self.showFormError = true;
                 self.showFormSuccess = false;
