@@ -124,9 +124,15 @@ export default{
 
         previewURL: function(){
             if (!this.loading && this.resource.metadata
-                    && this.resource.metadata.preview_info
-                    && this.resource.metadata.preview_info.preview_map_service_url) {
-                let previewInfo = this.resource.metadata.preview_info;
+                    && this.resource.metadata.preview_info) {
+                
+                let previewInfo = {}
+                try {
+                    previewInfo = JSON.parse(previewInfo);
+                }catch(ex){
+                    previewInfo = this.resource.metadata.preview_info;
+                }
+
                 let retURL = this.basePreviewURL + previewInfo.preview_map_service_url;
                 retURL += previewInfo.layer_name ? '&wmslayers=' + previewInfo.layer_name : '';
                 retURL += previewInfo.preview_latitude && previewInfo.preview_longitude ? '&ll=' + previewInfo.preview_latitude + ',' + previewInfo.preview_longitude : '';
@@ -136,9 +142,17 @@ export default{
             return false;
         },
         iMapUrl: function(){
+            let previewInfo = {};
+            try {
+                previewInfo = JSON.parse(previewInfo);
+            }catch(ex){
+                previewInfo = this.resource.metadata.preview_info
+            }
+
+            
             return !this.loading && this.resource.metadata
-                    && this.resource.metadata.preview_info
-                    && this.resource.metadata.preview_info.link_to_imap ? this.resource.metadata.preview_info.link_to_imap : '';
+                    && previewInfo
+                    && previewInfo.link_to_imap ? previewInfo.link_to_imap : '';
         },
         loading: function(){
             return false;

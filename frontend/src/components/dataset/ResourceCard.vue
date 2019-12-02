@@ -144,7 +144,7 @@ export default {
     },
     computed: {
         loadPOW: function() {
-            return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name=="BC Geographic Warehouse Custom Download")
+            return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
         }
     },
 
