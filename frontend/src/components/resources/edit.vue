@@ -175,7 +175,7 @@ export default{
                     }
 
                     if ( (keys[i] === "json_table_schema") && ((typeof(value) === 'undefined') || (value === '')) ){
-                        data.set(keys[i], JSON.stringify({}));
+                        //data.set(keys[i], JSON.stringify({}));
                     }else{
                         data.set(keys[i], value);
                     }
