@@ -22,11 +22,13 @@ const actions = {
         return ckanServ.postGroup(state.group);
     },
 
-    getGroupActivity({ state }) {
+    async getGroupActivity({ state, commit }) {
         if (typeof(state.group.id) === 'undefined'){
             return [];
         }
-        return ckanServ.getGroupActivity(state.group.id);
+        ckanServ.getGroupActivity(state.group.id).then( (data) => {
+            commit('setGroupActivity', {activity: data.result});
+        });
     },
 
     getGroups({ commit }) {
