@@ -80,11 +80,33 @@
                     </v-col>
                 </v-row>
                 <v-row wrap class="text-xs-center" align-center justify-center>
+                    <v-col v-if="!editing" cols="3">
+                        <v-dialog
+                            eager
+                            v-model="activityDialog"
+                            fullscreen
+                            
+                            transition="dialog-bottom-transition"
+                        >
+                            <v-container fluid>
+                                <v-row wrap v-for="(activityItem, key) in activityItems" class="pa-0 ma-0" :key="'activity-line'+key">
+                                    <v-col cols=12>
+                                        {{activityItem}}
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+
+                            
+                        </v-dialog>
+                    </v-col>
+                </v-row>
+                <v-row wrap class="text-xs-center" align-center justify-center>
                     <v-col :cols="editing ? 12 : 3">
                         <!--<Profile :group="group"></Profile>-->
                         <DynamicForm v-if="typeof(schema) === 'object' && typeof(schema.fields) === 'object'"
                             :schema="schema.fields"
                             :textFields="textFields"
+                            :loggedIn="loggedIn"
                             :editing="editing"
                             :values="group"
                             :disabled="disabled"
@@ -178,6 +200,7 @@
                 formSuccess: "",
                 showFormError: false,
                 showFormSuccess: false,
+                activityDialog: false,
             }
         },
         computed: {
@@ -189,6 +212,7 @@
                 isAdmin: state => state.user.isAdmin,
                 isEditor: state => state.user.isEditor,
                 userLoading: state => state.user.userLoading,
+                loggedIn: state => state.user.loggedIn,
                 group: state => state.group.group,
                 abort: state => state.group.abort
             }),

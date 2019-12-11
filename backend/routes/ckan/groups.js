@@ -185,6 +185,49 @@ var addRoutes = function(router){
             }
         });
     });
+
+
+
+    /* GET ckan group */
+    router.get('/group_activity/:id', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let keys = Object.keys(req.query);
+        let reqUrl = url + "/api/3/action/group_activity_list?id="+req.params.id;
+    
+        let authObj = {};
+    
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+    
+        request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+    
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+        });
+    
+    });
+
     return router;
 }
 

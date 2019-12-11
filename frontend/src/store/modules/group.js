@@ -8,7 +8,8 @@ const state = {
     groupSchemas: {},
     group: {},
     abort: false,
-    unmodifiedGroup: {}
+    unmodifiedGroup: {},
+    groupActivity: []
 };
 
 const actions = {
@@ -19,6 +20,13 @@ const actions = {
     },
     createGroup({ state }) {
         return ckanServ.postGroup(state.group);
+    },
+
+    getGroupActivity({ state }) {
+        if (typeof(state.group.id) === 'undefined'){
+            return [];
+        }
+        return ckanServ.getGroupActivity(state.group.id);
     },
 
     getGroups({ commit }) {

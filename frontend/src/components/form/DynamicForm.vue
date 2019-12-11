@@ -228,6 +228,7 @@
                 </ImageUrl>
                 <Checkbox 
                     v-else-if="field.field_name==='private'"
+                    v-show="loggedIn"
                     :name="field.field_name" 
                     :value="values[field.field_name]" 
                     :label="field.label"
@@ -303,6 +304,10 @@ export default {
         textFields: Array,
         editing: Boolean,
         startingValues: Object,
+        loggedIn: {
+            type: Boolean,
+            default: false
+        },
         scope: {
             type: String,
             default: 'dataset'
