@@ -165,5 +165,10 @@ export class CkanApi {
         const url = '/api/ckan/group/'+group.id;
         return axios.put(url, group, {withCredentials: true}).then(response => response.data);
     }
+
+    getGroupActivity(group) {
+        const url = '/api/ckan/group/'+group.id;
+        return axios.put(url, group, {withCredentials: true}).then(response => response.data);
+    }
     
 }
