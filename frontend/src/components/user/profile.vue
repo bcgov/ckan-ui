@@ -18,7 +18,7 @@
 <script>
 
     export default {
-        name: "activityItem",
+        name: "profile",
         props: {
             user: Object
         },

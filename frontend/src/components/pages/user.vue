@@ -1,5 +1,11 @@
 <template>
-    <v-container v-if="error">
+    <v-container v-if="error === 'Not logged in'">
+        <div row align-center justify-center>
+            <h1>Unauthorized</h1>
+            <p>This page requires you to be logged in</p>
+        </div>
+    </v-container>
+    <v-container v-else-if="error">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
@@ -23,30 +29,28 @@
                 <v-row wrap>
                     <h2>Activity</h2>
                 </v-row>
-                <v-row wrap>
-                    <ActivityItem v-for="(activity, key) in activities" :key="'activity-'+key" :activity="activity"></ActivityItem>
-                </v-row>
+                <ActivityList :activities="activities" :article="article"></ActivityList>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-    import Breadcrumb from '../breadcrumb/Breadcrumb'
-    import ActivityItem from '../user/activityItem'
-    import Profile from '../user/profile'
-    import {CkanApi} from '../../services/ckanApi'
+    import Breadcrumb from '../breadcrumb/Breadcrumb';
+    import ActivityList from '../common/activityList';
+    import Profile from '../user/profile';
+    import {CkanApi} from '../../services/ckanApi';
 
-    const ckanServ = new CkanApi()
-    import {Analytics} from '../../services/analytics'
-    const analyticsServ = new Analytics()
+    const ckanServ = new CkanApi();
+    import {Analytics} from '../../services/analytics';
+    const analyticsServ = new Analytics();
 
 
     export default {
         name: "user",
         components: {
             Breadcrumb: Breadcrumb,
-            ActivityItem: ActivityItem,
+            ActivityList: ActivityList,
             Profile: Profile,
         },
         data () {
@@ -59,13 +63,18 @@
                     {label: 'Profile'}
                 ],
                 user: {},
-                user_id: "",
-                noData: false
+                user_id: this.$route.params.userId ? this.$route.params.userId : "",
+                noData: false,
+            }
+        },
+        computed:{
+            article(){
+                return (this.$route.params.userId && this.user.name) ? (this.user.name[0].toUpperCase() + this.user.name.substring(1)) : "You";
             }
         },
         methods: {
             getUserActivity: function(){
-                ckanServ.getActivity().then( (data) => {
+                ckanServ.getActivity(this.user_id).then( (data) => {
                     if (data.error){
                         this.error = data.error;
                     } else if ( (typeof(data.result) == "undefined") || (typeof(data.result[0]) === "undefined") ||  (typeof(data.result[0].user_id) === "undefined") ){
