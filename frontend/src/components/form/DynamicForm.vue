@@ -303,7 +303,7 @@ export default {
         schema: Array,
         textFields: Array,
         editing: Boolean,
-        startingValues: Object,
+        values: Object,
         loggedIn: {
             type: Boolean,
             default: false
@@ -323,7 +323,6 @@ export default {
     },
     data() {
         return {
-            values: {}
         }
     },
     computed:{
@@ -361,13 +360,6 @@ export default {
             this.$emit("updated", field, newValue);
         }
     },
-    mounted() {
-        try {
-            this.values = JSON.parse(JSON.stringify(this.startingValues));
-        }catch(ex){
-            this.values = {};
-        }
-    }
 }
 </script>
 
