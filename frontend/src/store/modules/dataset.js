@@ -36,11 +36,15 @@ const actions = {
                     });
                 }
             } else {
+                // eslint-disable-next-line
+                console.log("catch 1")
                 commit('setError', {error: data.error});
                 commit('setSchemaLoading', {schemaLoading: false});
                 commit('setDataLoading', {dataLoading: false});
             }
         }).catch((e) => {
+            // eslint-disable-next-line
+            console.log("catch 2: " + e)
             commit('setError', {error: e});
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
@@ -66,92 +70,94 @@ const actions = {
 
         });
     },
-
-    getResource(context, {datasetResourceIndex, id}){
+    //getResource(context, {datasetResourceIndex, id}){
+    getResource(context, {id}){
         if ( (typeof(context.state.resources[id]) !== "undefined") && (context.state.resource[id] !== null) ){
             return context.state.resources[id];
         }
-        let resource = {};
 
         resourceServ.getResource(id).then(async(data) => {
-            var getResourceSchema = async function(resource, headers, data){
-                const Schema = require('jsontableschema').Schema;
-                var infer = require('jsontableschema').infer;
+            data.metadata = data
+            // var getResourceSchema = async function(resource, headers, data){
+            //     const Schema = require('jsontableschema').Schema;
+            //     var infer = require('jsontableschema').infer;
             
-                let s = null;
-                if (resource && resource.json_table_schema){
-                    s = resource.json_table_schema;
-                    let model = await new Schema(s);
-                    return model;
-                }else if (headers.length>0 && data.length>0){
-                    let options = {
-                        rowLimit: 2,
-                    };
-                    s = await infer(headers, data, options);
-                    return s;
-                }
-            }
-            resource.type = "unknown";
-            resource.schema = null;
-            resource.hasSchema = true;
-            resource.schemaError = null;
+            //     let s = null;
+            //     if (resource && resource.json_table_schema){
+            //         s = resource.json_table_schema;
+            //         let model = await new Schema(s);
+            //         return model;
+            //     }else if (headers.length>0 && data.length>0){
+            //         let options = {
+            //             rowLimit: 2,
+            //         };
+            //         s = await infer(headers, data, options);
+            //         return s;
+            //     }
+            // }
+            // resource.type = "unknown";
+            // resource.schema = null;
+            // resource.hasSchema = true;
+            // resource.schemaError = null;
 
-            if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
-                resource.type = "404";
+            // if ( (data.status === 404) || (data.status === 500) || (data.status === 401) || (data.status === 403) ){
+            //     resource.type = "404";
 
-            }else if (data['type'] === 'xls'){
-                resource.type = 'xls';
+            // }else if (data['type'] === 'xls'){
+            //     resource.type = 'xls';
 
-            }else if (data.headers) {
-                resource.type = "csv";
-                resource.data = data.workbook
-                resource.headers = data.headers
-                if (!context.state.dataset.resources[datasetResourceIndex].json_table_schema){
-                    try {
-                        let s = await getResourceSchema(null, resource.headers, resource.data);
-                        resource.schema = s;
-                        resource.schemaInferred = true;
-                        resource.metadata = data.metadata;
-                        context.commit('setResource', {id: id, resource: resource});
-                    }catch (e) {
-                        resource.schema = null;
-                        resource.schemaInferred = false;
-                        resource.schemaError = e[0];
-                        resource.metadata = data.metadata;
-                        context.commit('setResource', {id: id, resource: resource});
-                    }
-                }
-            }else if (data['content-type'] === "application/pdf"){
-                resource.type = "pdf";
-                resource.url = data.origUrl;
-                resource.raw_data = btoa(unescape(encodeURIComponent(data.raw_data)));
-            } else {
-                resource.raw_data = data.raw_data;
-                if (!resource.raw_data || resource.raw_data.indexOf("404 Not Found") !== -1){
-                    resource.hasSchema = false;
-                }
-            }
+            // }else if (data.headers) {
+            //     resource.type = "csv";
+            //     resource.data = data.workbook
+            //     resource.headers = data.headers
+            //     if (!context.state.dataset.resources[datasetResourceIndex].json_table_schema){
+            //         try {
+            //             let s = await getResourceSchema(null, resource.headers, resource.data);
+            //             resource.schema = s;
+            //             resource.schemaInferred = true;
+            //             resource.metadata = data.metadata;
+            //             context.commit('setResource', {id: id, resource: resource});
+            //         }catch (e) {
+            //             resource.schema = null;
+            //             resource.schemaInferred = false;
+            //             resource.schemaError = e[0];
+            //             resource.metadata = data.metadata;
+            //             context.commit('setResource', {id: id, resource: resource});
+            //         }
+            //     }
+            // }else if (data['content-type'] === "application/pdf"){
+            //     resource.type = "pdf";
+            //     resource.url = data.origUrl;
+            //     resource.raw_data = btoa(unescape(encodeURIComponent(data.raw_data)));
+            // } else {
+            //     resource.raw_data = data.raw_data;
+            //     if (!resource.raw_data || resource.raw_data.indexOf("404 Not Found") !== -1){
+            //         resource.hasSchema = false;
+            //     }
+            // }
 
-            if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
-                try{
-                    let s = await getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []);
-                    resource.schema = s;
-                    resource.schemaInferred = false;
-                    resource.metadata = data.metadata;
-                    context.commit('setResource', {id: id, resource: resource});
-                }catch(e){
-                    resource.schema = null;
-                    resource.schemaError = e[0];
-                    resource.schemaInferred = false;
-                    resource.metadata = data.metadata;
-                    context.commit('setResource', {id: id, resource: resource});
-                }
-            } else {
-                resource.schema = null;
-                resource.schemaInferred = false;
-                resource.metadata = data.metadata;
-                context.commit('setResource', {id: id, resource: resource});
-            }
+            // if ( (resource.schema === null) && (context.state.dataset.resources[datasetResourceIndex].json_table_schema)){
+            //     try{
+            //         let s = await getResourceSchema(context.state.dataset.resources[datasetResourceIndex], [], []);
+            //         resource.schema = s;
+            //         resource.schemaInferred = false;
+            //         resource.metadata = data.metadata;
+            //         context.commit('setResource', {id: id, resource: resource});
+            //     }catch(e){
+            //         resource.schema = null;
+            //         resource.schemaError = e[0];
+            //         resource.schemaInferred = false;
+            //         resource.metadata = data.metadata;
+            //         context.commit('setResource', {id: id, resource: resource});
+            //     }
+            // } else {
+            //     resource.schema = null;
+            //     resource.schemaInferred = false;
+            //     resource.metadata = data.metadata;
+            //     context.commit('setResource', {id: id, resource: resource});
+            // }
+
+            context.commit('setResource', {id: id, resource: data});
         });
     },
 

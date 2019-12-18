@@ -2,10 +2,10 @@ let express = require('express');
 let router = express.Router();
 let request = require('request');
 let auth = require('../modules/auth');
-
+let stringify = require('json-stringify-safe')
 /* GET one resource. */
 router.get('/:id', auth.removeExpired, function(req, res, next) {
-
+  //console.log(req)
   let config = require('config');
 
   let url = config.get('ckan');
@@ -41,15 +41,32 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         res.json({error: ex});
     }
 
+    responseObj = json.result
     try{
 
         let resourceUrl = json.result.url;
 
-        let responseData = "";
-        let responseObj = {};
         responseObj.metadata = json && json.result ? json.result : {};
 
         request(resourceUrl, authObj, function(err, apiRes, body){
+            var getResourceSchema = function(resource, headers, data) {
+                const Schema = require('jsontableschema').Schema;
+                var infer = require('jsontableschema').infer;
+        
+                let s = null;
+                if (resource && resource.json_table_schema){
+                    s = resource.json_table_schema;
+                    let model = new Schema(s);
+                    return model;
+                } else if (headers.length>0 && data.length>0){
+                    let options = {
+                        rowLimit: 2,
+                    };
+                    s = 
+                    infer(headers, data, options);
+                    return s;
+                }
+            }
             let csvFormats = [
                 'application/octet-stream',
                 'text/plain; charset=UTF-8',
@@ -68,7 +85,13 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 responseObj.status = apiRes.headers.statusCode;
                 responseObj.origUrl = resourceUrl;
                 
-            
+                
+
+                responseObj.schema = null
+                responseObj.hasSchema = true
+                responseObj.schemaError = null
+                responseObj.type = "unknown"
+
                 if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
                     responseObj.type = "xls";
                 }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
@@ -84,16 +107,55 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                         }
                         responseObj.headers = headers;
                         responseObj.type = "csv";
+                        responseObj.data = workbook
+                        if(!responseObj.json_table_schema) {
+                            try {
+                                let s = getResourceSchema(null, responseObj.headers, responseObj.data);
+                                responseObj.schema = s
+                                responseObj.schemaInferred = false
+                                // responseObj.metadata = apiRes.metadata
+                            } catch (e) {
+                                responseObj.schema = null
+                                responseObj.schemaInferred = false
+                                responseObj.schemaError = e[0];
+                                // responseObj.metadata = apiRes.metadata
+                            }
+                        }
                     }catch(ex){
                         responseObj.type = "404";
                         responseObj.type = "error";    
                     }
-                }else if (apiRes.headers.statusCode === 404){
+                } else if (apiRes.headers.statusCode === 404 || apiRes.headers.statusCode === 500 || apiRes.headers.statusCode === 401 || apiRes.headers.statusCode === 403){
                     responseObj.type = "404";
+                } else if (apiRes.headers['content-type'] === "application/pdf"){
+                    responseObj.type = "pdf"
+                    responseObj.url = resourceUrl
+                    responseObj.raw_data = btoa(unescape(encodeURIComponent(body)))
+                } else {
+                    if(!body) {
+                        resource.hasSchema = false
+                    }
+                }                  
+            }
+
+            if((responseObj.schema===null) && (responseObj.json_table_schema)) {
+                try{
+                    let s = getResourceSchema(responseObj, [], []);
+                    responseObj.schema = s;
+                    responseObj.schemaInferred = false;
+                }catch(e){
+                    resource.schema = null;
+                    resource.schemaError = e[0];
+                    resource.schemaInferred = false;
                 }
+            } else {
+                responseObj.schema = null;
+                responseObj.schemaInferred = false;
             }
             responseObj.raw_data = body;
-            res.json(responseObj);
+            var stringObject = stringify(responseObj)
+            var returnObj = JSON.parse(stringObject)
+            res.json(returnObj);
             return;
     });
 
