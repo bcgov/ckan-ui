@@ -1,8 +1,8 @@
 <template>
-    <v-container fluid>
+    <v-container fluid v-if="message">
         <v-row wrap class="pa-0 ma-0">
             <v-col cols=12>
-                You {{message}} <a :href="link">{{linkName}}</a> - {{time}} ago
+                {{article}} {{message}} <a :href="link">{{linkName}}</a> - {{time}} ago
             </v-col>
         </v-row>
     </v-container>
@@ -12,7 +12,11 @@
     export default {
         name: "activityItem",
         props: {
-            activity: Object
+            activity: Object,
+            article: {
+                default: "You",
+                type: String
+            }
         },
         data() {
             return {
@@ -29,24 +33,29 @@
                 let interval = Math.floor(seconds / 31536000);
 
                 if (interval > 1) {
-                return interval + " years";
+                    return interval + " years";
                 }
+
                 interval = Math.floor(seconds / 2592000);
                 if (interval > 1) {
-                return interval + " months";
+                    return interval + " months";
                 }
+
                 interval = Math.floor(seconds / 86400);
                 if (interval > 1) {
-                return interval + " days";
+                    return interval + " days";
                 }
+
                 interval = Math.floor(seconds / 3600);
                 if (interval > 1) {
-                return interval + " hours";
+                    return interval + " hours";
                 }
+
                 interval = Math.floor(seconds / 60);
                 if (interval > 1) {
-                return interval + " minutes";
+                    return interval + " minutes";
                 }
+
                 return Math.floor(seconds) + " seconds";
             }
         },
@@ -67,6 +76,10 @@
                 case ("new group"):
                     this.message = "created group";
                     break;
+                case ("changed user"):
+                    //this.message = "modified profile";
+                    this.message = ''
+                    break;
             }
 
             if (this.message.indexOf('group') !== -1){
@@ -75,6 +88,9 @@
             }else if (this.message.indexOf('dataset') !== -1){
                 this.link = this.$router.matcher.match({name: 'dataset_view', params: { datasetId: this.activity.data.package.name}}).path;
                 this.linkName = this.activity.data.package.title;
+            }else if (this.message.indexOf('user') !== -1){
+                this.link = this.$router.matcher.match({name: 'otherUser', params: { userId: this.activity.user_id}}).path;
+                this.linkName = this.activity.user_id
             }
         }
     }

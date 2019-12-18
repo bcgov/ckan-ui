@@ -81,6 +81,7 @@
                 </v-row>
                 <v-row wrap class="text-xs-center" align-center justify-center>
                     <v-col v-if="!editing" cols="3">
+                        <v-btn color="primary" @click.stop="activityDialog = true">Activity</v-btn>
                         <v-dialog
                             eager
                             v-model="activityDialog"
@@ -88,14 +89,17 @@
                             
                             transition="dialog-bottom-transition"
                         >
-                            <v-container fluid>
-                                <v-row wrap v-for="(activityItem, key) in activityItems" class="pa-0 ma-0" :key="'activity-line'+key">
-                                    <v-col cols=12>
-                                        {{activityItem}}
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-
+                            <v-card>
+                                <v-toolbar color="primary">
+                                    <v-btn class="mr-0" icon @click.stop="activityDialog = false">
+                                        <v-icon>close</v-icon>
+                                    </v-btn>
+                                    <v-toolbar-title class="white--text text-left">Activity</v-toolbar-title>
+                                </v-toolbar>
+                                <v-card-text>
+                                    <ActivityList :activities="activities" :article="group.title"></ActivityList>
+                                </v-card-text>
+                            </v-card>
                             
                         </v-dialog>
                     </v-col>
@@ -154,15 +158,16 @@
     import Breadcrumb from '../breadcrumb/Breadcrumb'
     import DynamicForm from '../form/DynamicForm'
     import ListCard from '../dataset/ListCard'
+    import ActivityList from '../common/activityList';
 
     import {CkanApi} from '../../services/ckanApi'
 
     import {mapState} from 'vuex';
     import { ValidationObserver } from "vee-validate";
 
-    const ckanServ = new CkanApi()
-    import {Analytics} from '../../services/analytics'
-    const analyticsServ = new Analytics()
+    const ckanServ = new CkanApi();
+    import {Analytics} from '../../services/analytics';
+    const analyticsServ = new Analytics();
 
 
     export default {
@@ -172,6 +177,7 @@
             ListCard: ListCard,
             DynamicForm: DynamicForm,
             ValidationObserver: ValidationObserver,
+            ActivityList: ActivityList,
         },
         data () {
             let ourLabel = {label: "Loading"};
@@ -214,7 +220,8 @@
                 userLoading: state => state.user.userLoading,
                 loggedIn: state => state.user.loggedIn,
                 group: state => state.group.group,
-                abort: state => state.group.abort
+                abort: state => state.group.abort,
+                activities: state => state.group.groupActivity,
             }),
             showEdit: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
@@ -315,9 +322,11 @@
 
             getGroup(){
                 if (!this.createMode){
-                    this.$store.dispatch('group/getGroup', {id: this.groupId});
+                    return this.$store.dispatch('group/getGroup', {id: this.groupId}).then(() => {
+                        this.$store.dispatch('group/getGroupActivity');
+                    });
                 }else{
-                    this.$store.commit('group/setCurrentGroup', { group: {} } );
+                    return this.$store.commit('group/setCurrentGroup', { group: {} } );
                 }
             },
 
@@ -407,10 +416,11 @@
             },
 
         },
+        
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
+            var self = this;
             this.getGroup();
-            let self = this;
             let unsub = this.$store.subscribe(
                 (mutation, state) => {
                     if(mutation.type == "group/setSchema") {

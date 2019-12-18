@@ -1,6 +1,3 @@
-
-import Vue from 'vue'
-
 const state = {
     past_orders_nbr: 0,
     custom_aoi_url: null,

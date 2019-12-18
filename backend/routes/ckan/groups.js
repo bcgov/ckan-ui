@@ -128,6 +128,7 @@ var addRoutes = function(router){
         if (!req.user){
             return res.json({error: "Not logged in"});
         }
+        
 
         request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
             if (err) {

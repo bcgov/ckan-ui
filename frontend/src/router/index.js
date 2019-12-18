@@ -106,6 +106,14 @@ let r = new Router({
             }
         },
         {
+            path: '/user/:userId',
+            name: 'otherUser',
+            component: user,
+            meta: {
+                title: "User Profile"
+            }
+        },
+        {
             path: '*',
             component: NotFound,
             meta: {

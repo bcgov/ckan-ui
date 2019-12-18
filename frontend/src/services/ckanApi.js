@@ -55,8 +55,11 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
     }
 
-    getActivity() {
-        const url = '/api/ckan/activity';
+    getActivity(user_id) {
+        let url = '/api/ckan/activity';
+        if ( (typeof(user_id) !== "undefined") && (user_id != "") ){
+            url += '/' + user_id;
+        }
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
@@ -167,8 +170,8 @@ export class CkanApi {
     }
 
     getGroupActivity(group) {
-        const url = '/api/ckan/group/'+group.id;
-        return axios.put(url, group, {withCredentials: true}).then(response => response.data);
+        const url = '/api/ckan/group_activity/'+group;
+        return axios.get(url, group, {withCredentials: true}).then(response => response.data);
     }
     
 }

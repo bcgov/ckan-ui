@@ -39,16 +39,21 @@ const actions = {
     },
 
     getGroup({commit}, {id}){
-        ckanServ.getGroup(id).then( (data) => {
-            let group = {};
-            let error = false;
-            if (data.success) {
-                group = data.result;
-            } else {
-                group = {};
-                error = true;
-            }
-            commit('setCurrentGroup', {group: group, error: error});
+        return new Promise( (resolve, reject) => {
+            ckanServ.getGroup(id).then( (data) => {
+                let group = {};
+                let error = false;
+                if (data.success) {
+                    group = data.result;
+                } else {
+                    group = {};
+                    error = true;
+                }
+                commit('setCurrentGroup', {group: group, error: error});
+                resolve();
+            }).catch( (e) => {
+                reject(e);
+            });
         });
     },
 
@@ -73,6 +78,10 @@ const actions = {
 }
 
 const mutations = {
+    setGroupActivity(state, { activity }){
+        state.groupActivity = activity;
+    },
+
     setGroupList(state, { groups }) {
         state.groups = groups;
     },

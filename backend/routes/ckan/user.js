@@ -83,6 +83,49 @@ var addRoutes = function(router){
 
     });
 
+    /* GET user activity. */
+    router.get('/activity/:userId', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        if (typeof(req.params.userId) === 'undefined'){
+            res.status(500);
+            return res.json({error: "User ID is required"});
+        }
+
+        let reqUrl = url + "/api/3/action/user_activity_list?id=" + req.params.userId;
+
+        let authObj = {}
+
+        if (req.user){
+            authObj = {
+                'auth': {
+                'bearer': req.user.jwt
+                }
+            };
+        }
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+
+    });
+
     /* GET user info. */
     router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
         let config = require('config');
@@ -90,15 +133,15 @@ var addRoutes = function(router){
 
         let reqUrl = url + "/api/3/action/user_show?id="+req.params.userId+"&include_datasets=True";
 
-        if (!req.user){
-            return res.json({error: "Not logged in"});
-        }
+        let authObj = {};
 
-        let authObj = {
-            'auth': {
-            'bearer': req.user.jwt
-            }
-        };
+        if (req.user){
+            authObj = {
+                'auth': {
+                'bearer': req.user.jwt
+                }
+            };
+        }
 
         request(reqUrl, authObj, function(err, apiRes, body){
             if (err) {
