@@ -303,7 +303,7 @@ export default {
         schema: Array,
         textFields: Array,
         editing: Boolean,
-        startingValues: Object,
+        values: Object,
         loggedIn: {
             type: Boolean,
             default: false
@@ -323,7 +323,6 @@ export default {
     },
     data() {
         return {
-            values: {}
         }
     },
     computed:{
