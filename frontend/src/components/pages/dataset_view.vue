@@ -6,7 +6,7 @@
     </v-container>
     <v-container v-else-if="datasetError" fluid>
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <h1><v-icon x-large>error</v-icon> {{error.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
@@ -155,7 +155,8 @@ export default {
                 'record_create_date',
                 'record_publish_date',
                 'record_archive_date',
-                'record_last_modified']
+                'record_last_modified'],
+            error: this.datasetError
         };
     },
     watch: {
@@ -174,7 +175,7 @@ export default {
             ]
         },
 
-        nonSchemaFields: function(){
+        nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
             let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
             for (var i=0; i<this.schema.dataset_fields.length; i++){
