@@ -12,12 +12,12 @@ export class CkanApi {
 
     getDatasets(queryString) {
         const url = '/api/ckan/search'+queryString;
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
     getDataset(id) {
         const url = '/api/ckan/dataset?id='+id;
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
     putDataset(dataset) {

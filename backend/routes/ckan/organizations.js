@@ -91,7 +91,6 @@ var addRoutes = function(router){
     
             try {
                 let json = JSON.parse(body);
-                console.log(body);
                 orgList = {};
                 topLevelOrgs = [];
                 subOrgs = [];

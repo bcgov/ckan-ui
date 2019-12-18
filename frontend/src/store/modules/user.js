@@ -23,7 +23,7 @@ const actions = {
         
         commit('setLoading', {loading: true});
         let sep = state.groupSeperator
-        if (sep === null){
+        if (sep === null) {
             await authServ.groupSeperator().then((data) => {
                 sep = data.seperator;
                 commit('setGroupSeperator', {groupSeperator: sep});

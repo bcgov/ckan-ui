@@ -75,22 +75,24 @@ var addRoutes = function(router){
         }
     
         request(reqUrl, authObj, function(err, apiRes, body){
-        if (err) {
-            console.log(err);
-            res.json({error: err});
-            return;
-        }
-        if (apiRes.statusCode !== 200){
-            console.log("Body Status? ", apiRes.statusCode);
-        }
-    
-        try {
-            let json = JSON.parse(body);
-            res.json(json);
-        }catch(ex){
-            console.error("Error reading json from ckan", ex);
-            res.json({error: ex});
-        }
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                console.log(json)
+                //new json
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
         });
     
     });
