@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const wait = 5000
+import apiConfig from './apiConfig';
 
 export class CkanApi {
     constructor(){}
@@ -12,12 +11,12 @@ export class CkanApi {
 
     getDatasets(queryString) {
         const url = '/api/ckan/search'+queryString;
-        return axios.get(url, {withCredentials: true}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getDataset(id) {
         const url = '/api/ckan/dataset?id='+id;
-        return axios.get(url, {withCredentials: true}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     putDataset(dataset) {
@@ -42,17 +41,17 @@ export class CkanApi {
 
     getOrganization(id){
         const url = '/api/ckan/organization?id='+id;
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getOrgList() {
         const url = '/api/ckan/organizations';
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getUserOrgList() {
         const url = '/api/ckan/userOrganizations';
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getActivity(user_id) {
@@ -85,12 +84,12 @@ export class CkanApi {
 
     getGroupList() {
         const url = '/api/ckan/groups';
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getGroup(id) {
         const url = '/api/ckan/group/'+id;
-        return axios.get(url, {withCredentials: true, timeout: wait}).then(response => response.data);
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
     getAbout() {
