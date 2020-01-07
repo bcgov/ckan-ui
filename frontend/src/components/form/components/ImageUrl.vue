@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="!editing">
-            <v-img v-if="value !== ''" :src="imgSrc" v-on:error="onImgError"></v-img>
+            <v-img :src="imgSrc" v-on:error="onImgError"></v-img>
         </div>
         <div v-else>
             <label>{{$tc(displayLabel)}}</label>
@@ -51,27 +51,23 @@ export default {
             scopeName: this.scope + '.' + this.name,
             api: null,
             imgError: false,
+            imgSrc: this.value
         }
     },
     methods: {
         onImgError(){
-            this.imgError = true
+            this.imgSrc = '/placeholder-organization.png'
         }
     },
     computed: {
         displayLabel: function(){
             return this.label + (this.field.required ? '*' : '');
         },
-        imgSrc: function(){
-            if (!this.imgError && typeof(this.value)!=='undefined' && this.value !== ''){
-                return this.value
-            }
-            return '/placeholder-organization.png';
-        }
     },
     watch: {
         value(){
             this.val = this.value;
+            this.imgSrc = this.val;
         },
         val(){
             this.$emit('edited', this.isURL, this.val);

@@ -1,6 +1,6 @@
 <template>
   <v-card :id="'group-link-'+id" @click="toggleShowDatasets" class="cursor groupLink">
-    <v-img alt="Logo" @click="gotoGroup" :src="image"></v-img>
+    <v-img alt="Logo" @click="gotoGroup" :src="image" v-on:error="onImgError"></v-img>
 
     <v-card-title primary-title @click="gotoGroup">
       <div>
@@ -8,19 +8,6 @@
         <div>{{description}}</div>
       </div>
     </v-card-title>
-    <!-- <v-container fluid v-if="showDatasets">
-      <v-progress-circular
-                    v-if="loading"
-                    indeterminate
-                    color="light-blue"
-                ></v-progress-circular>
-      <v-row v-else wrap>
-        <h4>Datasets</h4>
-        <v-col cols=12 v-for="dataset in datasets" :key="'group-'+id+'-dataset-'+dataset.id" style="overflow: hidden; text-overflow: ellipsis">
-          <v-btn text :to="'/dataset/'+dataset.name">{{dataset.title}}</v-btn>
-        </v-col>
-      </v-row>
-    </v-container> -->
   </v-card>
 </template>
 
@@ -38,20 +25,30 @@ export default{
     data() {
         return {
             id: this.group.id,
-            image: this.group.image_display_url,
             name: this.group.display_name,
             description: this.group.description,
             datasets: [],
             showDatasets: false,
             searched: false,
-            loading: true
+            loading: true,
+            imageError: false
         }
+    },
+
+    computed: {
+      image: function(){
+        return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';
+      }
     },
     
     methods: {
 
       gotoGroup: function(){
         this.$router.push('/group/'+this.group.name);
+      },
+
+      onImgError: function(){
+        this.imageError = true;
       },
 
       toggleShowDatasets: function(){

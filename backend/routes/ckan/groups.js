@@ -98,6 +98,9 @@ var addRoutes = function(router){
             return res.json({error: "Not logged in"});
         }
 
+        //CKAN requires the group type be set to group or it will not create correctly
+        req.body['type'] = "group";
+
         request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
             if (err) {
                 console.log(err);
