@@ -9,21 +9,22 @@
       <v-card-text>
 
             <div v-if="schemaError">
-                {{schemaError}}
+                Q{{schemaError}}
             </div>
 
 
-            <div v-else-if="schema">
-                <div v-for="field in schema.fields" :key="'schema'+(field.name.text || field.descriptor.name)">
-                    <h3>Field: {{field.name.text || field.descriptor.name}}</h3>
+            <div v-else-if="fields.length>0">
+                <div v-for="field in fields" :key="'schema'+((field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name)">
+                    <h3>Field: {{(field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name}}</h3>
                     <div class="capitalize" v-if="field.type || field.descriptor.type">Type: {{field.type || field.descriptor.type}}</div>
                     <div class="capitalize" v-if="field.description || (field.descriptor && field.descriptor.description)">Description: {{field.description || field.descriptor.description}}</div>
-                    <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field.descriptor && field.descriptor.constraints.required)">Required: {{field.constraints.required ? "Yes" : "No" || field.descriptor.constraints.required ? "Yes" : "No"}}</div>
+                    <!-- <div>{{field.constraints}} {{ field.descriptor.constraints}}</div> -->
+                    <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field.descriptor && field.descriptor.constraints && field.descriptor.constraints.required)">Required: {{(field.constraints && typeof(field.constraints.required)!=='undefined' ? (field.constraints.required ? "Yes" : "No") : false) || field.descriptor.constraints.required ? "Yes" : "No"}}</div>
                     <div class="capitalize" v-if="field.format || (field.descriptor && field.descriptor.format)">Format: {{field.format || field.descriptor.format}}</div>
                     <div class="capitalize" v-if="field.descriptor">
                         Constraints: <br />
                         <ul>
-                            <li class="capitalize" v-for="(cons, key) in field.descriptor.constraints" :key="'constraint-'+(field.name.text || field.descriptor.name)+'-'+key">
+                            <li class="capitalize" v-for="(cons, key) in field.descriptor.constraints" :key="'constraint-'+((field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name)+'-'+key">
                                 {{key}}: {{cons}}
                             </li>
                         </ul>
@@ -66,7 +67,14 @@ export default{
             schemaError: this.resource.schemaError,
             loading: false,
             schema: this.resource.schema,
+            fields: []
         }
+    },
+    mounted(){
+        if (this.resource.schema.Fields && !this.schema.fields){
+            this.schema.fields = JSON.parse(JSON.stringify(this.resource.schema.Fields))
+        }
+        this.fields = this.schema.fields;
     }
 
 }

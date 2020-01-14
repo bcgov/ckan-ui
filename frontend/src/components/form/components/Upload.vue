@@ -44,7 +44,7 @@ export default {
 
     props: {
         name: String,
-        value: [String, Object, Array, Boolean],
+        value: [String, Object, Array, Boolean, File],
         label: String,
         editing: Boolean,
         placeholder: String,

@@ -14,7 +14,7 @@
                 color="light-blue"
             ></v-progress-circular>
 
-            <v-data-table v-else-if="resource.headers && resource.headers.length>0" :items="resource.data" :headers="resource.headers">
+            <v-data-table v-else-if="resource.headers && resource.headers.length>0" :items="resource.workbook" :headers="resource.headers">
                 <template v-slot:items="props">
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
                 </template>

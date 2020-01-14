@@ -36,15 +36,11 @@ const actions = {
                     });
                 }
             } else {
-                // eslint-disable-next-line
-                console.log("catch 1")
                 commit('setError', {error: data.error});
                 commit('setSchemaLoading', {schemaLoading: false});
                 commit('setDataLoading', {dataLoading: false});
             }
         }).catch((e) => {
-            // eslint-disable-next-line
-            console.log("catch 2: " + e)
             commit('setError', {error: e});
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
@@ -64,8 +60,6 @@ const actions = {
                 return data.result;
             }
             context.commit('setError', {error: data.error});
-            // eslint-disable-next-line
-            console.error("error fetching schema type", data);
             return {};
 
         });
@@ -84,7 +78,7 @@ const actions = {
 
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
-        delete dataset.resources;
+        //delete dataset.resources;
         return ckanServ.putDataset(dataset);
     },
     createDataset({ state }) {

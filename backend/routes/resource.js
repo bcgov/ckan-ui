@@ -5,7 +5,6 @@ let auth = require('../modules/auth');
 let stringify = require('json-stringify-safe')
 /* GET one resource. */
 router.get('/:id', auth.removeExpired, function(req, res, next) {
-  //console.log(req)
   let config = require('config');
 
   let url = config.get('ckan');
@@ -48,22 +47,27 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
 
         responseObj.metadata = json && json.result ? json.result : {};
 
-        request(resourceUrl, authObj, function(err, apiRes, body){
-            var getResourceSchema = function(resource, headers, data) {
+        request(resourceUrl, authObj, async function(err, apiRes, body){
+            var getResourceSchema = async function(resource, headers, data) {
                 const Schema = require('jsontableschema').Schema;
                 var infer = require('jsontableschema').infer;
         
                 let s = null;
                 if (resource && resource.json_table_schema){
                     s = resource.json_table_schema;
-                    let model = new Schema(s);
-                    return model;
+                    try{
+                        let model = await new Schema(s);
+                        return model;
+                    }catch(e){
+                        console.error(e);
+                    }
+                    return {};
+                    
                 } else if (headers.length>0 && data.length>0){
                     let options = {
                         rowLimit: 2,
                     };
-                    s = 
-                    infer(headers, data, options);
+                    s = await infer(headers, data, options);
                     return s;
                 }
             }
@@ -72,6 +76,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 'text/plain; charset=UTF-8',
                 'text/plain; charset=UTF-16',
                 'text/plain; charset=UTF-32',
+                'text/csv'
             ];
 
             let xlsFormats = [
@@ -88,7 +93,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 
 
                 responseObj.schema = null
-                responseObj.hasSchema = true
+                responseObj.hasSchema = false;
                 responseObj.schemaError = null
                 responseObj.type = "unknown"
 
@@ -107,12 +112,15 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                         }
                         responseObj.headers = headers;
                         responseObj.type = "csv";
-                        responseObj.data = workbook
+                        responseObj.data = body
                         if(!responseObj.json_table_schema) {
                             try {
-                                let s = getResourceSchema(null, responseObj.headers, responseObj.data);
-                                responseObj.schema = s
+                                
+                                let s = await getResourceSchema(null, responseObj.headers, responseObj.data);
+                                responseObj.schema = JSON.parse(JSON.stringify(s));
                                 responseObj.schemaInferred = false
+                                responseObj.hasSchema = typeof(responseObj.schema) !== "undefined" && Object.keys(responseObj.schema).length > 0;
+                                // responseObj.hasSchema = false;
                                 // responseObj.metadata = apiRes.metadata
                             } catch (e) {
                                 responseObj.schema = null
@@ -138,44 +146,30 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 }                  
             }
 
-            if((responseObj.schema===null) && (responseObj.json_table_schema)) {
+            console.log("R", (responseObj.schema===null), (Object.keys(responseObj.json_table_schema).length > 0));
+            if((responseObj.schema===null) && (Object.keys(responseObj.json_table_schema).length > 0) ) {
+                console.log("hi");
                 try{
-                    let s = getResourceSchema(responseObj, [], []);
-                    responseObj.schema = s;
+                    let s = await getResourceSchema(responseObj, [], []);
+                    console.log("INFERRED", s);
+                    responseObj.schema = JSON.parse(JSON.stringify(s));;
                     responseObj.schemaInferred = false;
+                    console.log("INFERRED", s);
+                    responseObj.hasSchema = responseObj.schema !== null && Object.keys(responseObj.schema).length > 0;
                 }catch(e){
-                    resource.schema = null;
-                    resource.schemaError = e[0];
-                    resource.schemaInferred = false;
+                    responseObj.schema = null;
+                    responseObj.schemaError = e[0];
+                    responseObj.schemaInferred = false;
+                    responseObj.hasSchema = false;
                 }
-            } else {
-                responseObj.schema = null;
-                responseObj.schemaInferred = false;
-            }
+            } 
+
             responseObj.raw_data = body;
             var stringObject = stringify(responseObj)
             var returnObj = JSON.parse(stringObject)
             res.json(returnObj);
             return;
     });
-
-        // request(resourceUrl, authObj, function(err2, apiRes2, body2){
-        //     let request = this;
-        //     if (err2) {
-        //       console.log(err2);
-        //       res.json({error: err2});
-        //       return;
-        //     }
-        //     if (apiRes2.statusCode != 200){
-        //         console.log("Body Status? ", apiRes2.statusCode);
-        //     }
-        //
-        //     res.json(responseObj);
-        //
-        // }).on('data', function(data){
-        //     responseData += data;
-        // });
-
 
     }catch(ex){
         console.error("Error reading resource", ex);
