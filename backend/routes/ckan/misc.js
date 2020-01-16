@@ -136,6 +136,16 @@ var addRoutes = function(router){
 
             try {
                 let json = JSON.parse(body);
+                let vocabs = {};
+                for (let i = 0; i < json.result.length; i++) {
+                    let tags = json.result[i].tags;
+                    let name = json.result[i].name;
+                    vocabs[name] = [];
+                    for (let j = 0; j < tags.length; j++) {
+                        vocabs[name].push(tags[j].name);
+                    }
+                }
+                json.vocabs = vocabs;
                 res.json(json);
             }catch(ex){
                 console.error("Error reading json from ckan", ex);

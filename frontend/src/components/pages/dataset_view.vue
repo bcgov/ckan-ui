@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
 
@@ -223,9 +223,6 @@ export default {
             schemas: state => state.dataset.schemas,
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error
-        }),
-        ...mapGetters("organization", {
-            getSubOrgs: "getSubOrgs"
         }),
 
         canDeleteResources: function(){

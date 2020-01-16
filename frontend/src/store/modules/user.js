@@ -6,8 +6,6 @@ const state = {
     ckanUser: {},
     loggedIn: false,
     userPermissions: {},
-    groupSeperator: null,
-    sysAdminGroup: null,
     sysAdmin: false,
     isAdmin: false,
     isEditor: false,
@@ -22,25 +20,6 @@ const actions = {
     async getCurrentUser({ commit, state }) {
         
         commit('setLoading', {loading: true});
-        let sep = state.groupSeperator
-        if (sep === null) {
-            await authServ.groupSeperator().then((data) => {
-                sep = data.seperator;
-                commit('setGroupSeperator', {groupSeperator: sep});
-            });
-        }
-
-        if (typeof(sep) === "undefined"){
-            return;
-        }
-
-        let sysAdminGroup = state.sysAdminGroup;
-        if (sysAdminGroup === null){
-            await authServ.sysAdminGroup().then((data) => {
-                sysAdminGroup = data.group;
-                commit('setSysAdminGroup', {sysAdminGroup: sysAdminGroup});
-            });
-        }
 
         let user = state.authUser;
         let loggedIn = state.loggedIn;
@@ -84,34 +63,11 @@ const actions = {
         let sysAdmin = false;
         let isAdmin = false;
         let isEditor = false;
-        if ( (loggedIn) && (Object.keys(state.userPermissions).length > 0) ){
-            userPermissions = state.userPermissions;
-            sysAdmin = state.sysAdmin;
-            isAdmin = state.isAdmin;
-            isEditor = state.isEditor;
-        }else if (loggedIn){
-            
-            for (let i=0; i<user.groups.length; i++){
-                let g = user.groups[i];
-                if (g.substring(0,1) === sep){
-                    g = g.substring(1);
-                }
-
-                if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
-                    sysAdmin = true;
-                }
-
-                if (g.indexOf(sep) !== -1){
-                    let c = g.substring(g.indexOf(sep)+1);
-                    if (c === "admin"){
-                        isAdmin = true;
-                    }else if (c === "editor"){
-                        isEditor = true;
-                    }
-                    g = g.substring(0, g.indexOf(sep));
-                    userPermissions[g] = c;
-                }
-            }
+        if ( (loggedIn) && user.userPermissions ){
+            userPermissions = user.userPermissions;
+            sysAdmin = user.sysAdmin;
+            isAdmin = user.isAdmin;
+            isEditor = user.isEditor;
         }else{
             userPermissions = {};
             isAdmin = false;
@@ -137,12 +93,6 @@ const mutations = {
     },
     setSysAdmin(state, { sysAdmin }){
         state.sysAdmin = sysAdmin;
-    },
-    setGroupSeperator(state, { groupSeperator }){
-        state.groupSeperator = groupSeperator;
-    },
-    setSysAdminGroup(state, { sysAdminGroup }){
-        state.sysAdminGroup = sysAdminGroup;
     },
     setAuthUser(state, { authUser }) {
         state.authUser = authUser;

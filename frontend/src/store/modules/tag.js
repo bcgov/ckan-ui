@@ -18,15 +18,7 @@ const actions = {
     getVocabs({ commit, state }) {
         if (Object.entries(state.vocabs).length <= 0) {
             ckanServ.getVocabs().then((data) => {
-                let vocabs = {};
-                for (let i = 0; i < data.result.length; i++) {
-                    let tags = data.result[i].tags;
-                    let name = data.result[i].name;
-                    vocabs[name] = [];
-                    for (let j = 0; j < tags.length; j++) {
-                        vocabs[name].push(tags[j].name);
-                    }
-                }
+                let vocabs = data.vocabs;
                 commit('setVocabs', {vocabs: vocabs});
             });
         }

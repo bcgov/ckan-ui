@@ -53,6 +53,35 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
     profile.groups = profile._json.groups;
   }
 
+  let sep = config.get('authGroupSeperator');
+  let sysAdminGroup = config.get('sysAdminGroup');
+
+  profile.sysAdmin = false;
+  profile.isAdmin = false;
+  profile.isEditor = false;
+  profile.userPermissions = [];
+
+  for (let i=0; i<profile.groups.length; i++){
+    let g = profile.groups[i];
+    if (g.substring(0,1) === sep){
+        g = g.substring(1);
+    }
+
+    if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+        profile.sysAdmin = true;
+    }
+
+    if (g.indexOf(sep) !== -1){
+        let c = g.substring(g.indexOf(sep)+1);
+        if (c === "admin"){
+          profile.isAdmin = true;
+        }else if (c === "editor"){
+          profile.isEditor = true;
+        }
+        g = g.substring(0, g.indexOf(sep));
+        profile.userPermissions[g] = c;
+    }
+  }
 
   if ( (typeof(accessToken) === "undefined") || (accessToken === null) || (typeof(refreshToken) === "undefined") || (refreshToken === null) ){
     return done("No access token", null);

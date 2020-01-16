@@ -91,19 +91,6 @@ const mutations = {
     },
 
     setSchema(state, { schema }) {
-
-        //TODO: ....:(
-        let keys = Object.keys(schema.fields);
-        for (let i=0; i<keys.length; i++){
-            if (schema.fields[i].field_name === "url"){
-                schema.fields[i].field_name = "image_url";
-            }
-
-            if (schema.fields[i].field_name === "notes"){
-                schema.fields[i].field_name = "description";
-            }
-        }
-
         Object.assign(state.groupSchemas, {group: schema});
     },
 

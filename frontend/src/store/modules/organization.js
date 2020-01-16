@@ -7,26 +7,6 @@ const state = {
 };
 
 const getters = {
-
-    getSubOrgs: (state) => (id) => {
-        for (let topOrg in state.orgList) {
-            if (state.orgList[topOrg].id == id) {
-                let orgs = [];
-                for (let j=0; j<state.orgList[topOrg].children.length; j++){
-                    orgs.push({label: state.orgList[topOrg].children[j].title, value: state.orgList[topOrg].children[j].id});
-                }
-                return orgs;
-            }
-        }
-        return [{ id: -1, title: "No Sub-Organizations Found" }];
-    },
-    getTopOrgs: (state) => {
-        let topOrgs = [];
-        for (let topOrg in state.orgList) {
-            topOrgs.push({ label: state.orgList[topOrg].title, value: state.orgList[topOrg].id });
-        }
-        return topOrgs;
-    },
     titleByID: (state) => (id) => {
         for (let topOrg in state.orgList) {
             if (state.orgList[topOrg].id == id) {
@@ -53,7 +33,7 @@ const actions = {
     },
 
     getUserOrgs({ commit }) {
-        if (Object.entries(state.orgList).length == 0) {
+        if (state.userOrgs.length == 0) {
             ckanServ.getUserOrgList().then((data) => {
                 commit('setUserOrgList', { orgList: data });
             });
