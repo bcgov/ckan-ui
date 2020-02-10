@@ -2,6 +2,8 @@
 
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
+status: 
+  lastVersion: 0
 metadata:
   name: {{ template "ckan-ui.fullname" . }}-image
   labels:
@@ -10,6 +12,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  nodeSelector: {}
   resources:
     requests:
         cpu: 2000m
@@ -41,6 +44,8 @@ spec:
 
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
+status: 
+  lastVersion: 0
 metadata:
   name: {{ template "ckan-ui.fullname" . }}-frontend-image
   labels:
@@ -49,6 +54,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  nodeSelector: {}
   resources:
     requests:
         cpu: 2000m
