@@ -33,7 +33,7 @@ spec:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
       jenkinsfile: |-
-        def helmName = "helm-v2.13.0-linux-amd64.tar.gz"
+        def helmName = "helm-dev-v3-linux-amd64.tar.gz"
         def releaseName = "{{ .Release.Name }}"
         def gitUrl = "{{ .Values.repo.url }}.git"
         def cnfig = '''
