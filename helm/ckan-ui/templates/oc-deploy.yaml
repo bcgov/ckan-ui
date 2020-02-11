@@ -52,7 +52,7 @@ spec:
                 tar -zxvf ${helmName}
                 cd linux-amd64
                 export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
-                ./helm init --client-only
+
                 oc project {{ .Release.Namespace }}
                 oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
                 oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
