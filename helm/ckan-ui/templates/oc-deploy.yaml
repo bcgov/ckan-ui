@@ -51,7 +51,6 @@ spec:
                 curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
                 tar -zxvf ${helmName}
                 cd linux-amd64
-                export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
 
                 oc project {{ .Release.Namespace }}
                 oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
