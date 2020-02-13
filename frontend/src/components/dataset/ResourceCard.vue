@@ -38,7 +38,7 @@
                                     eager
                                     v-model="viewDialog"
                                     fullscreen
-                                    
+
                                     transition="dialog-bottom-transition"
                                 >
                                     <EditResource
@@ -57,7 +57,7 @@
                                     fullscreen
                                     transition="dialog-bottom-transition"
                                 >
-                                    
+
                                     <Preview
                                         :resource="useResource"
                                         :resourceIndex="resourceIndex"
@@ -80,7 +80,7 @@
                                     ></JsonTable>
                                 </v-dialog>
                             </v-list-item>
-                            
+
                             <v-list-item v-if="showEdit">
                                 <v-list-item @click.stop="editDialog = true">Edit</v-list-item>
                                 <v-dialog
@@ -88,7 +88,7 @@
                                     v-model="editDialog"
                                     fullscreen
                                     transition="dialog-bottom-transition"
-                                    
+
                                 >
                                     <EditResource
                                         :edit="true"
@@ -128,7 +128,7 @@ export default {
             default: false,
         },
     },
-    
+
     components: {
         Preview: Preview,
         JsonTable: JsonTable,

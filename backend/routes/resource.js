@@ -40,18 +40,18 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
         res.json({error: ex});
     }
 
-    responseObj = json.result
+    let responseObj = json.result;
     try{
 
-        let resourceUrl = json.result.url;
+        let resourceUrl = responseObj.url;
 
-        responseObj.metadata = json && json.result ? json.result : {};
+        responseObj.metadata = responseObj ? responseObj : {};
 
         request(resourceUrl, authObj, async function(err, apiRes, body){
             var getResourceSchema = async function(resource, headers, data) {
                 const Schema = require('jsontableschema').Schema;
                 var infer = require('jsontableschema').infer;
-        
+
                 let s = null;
                 if (resource && resource.json_table_schema){
                     s = resource.json_table_schema;
@@ -62,7 +62,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                         console.error(e);
                     }
                     return {};
-                    
+
                 } else if (headers.length>0 && data.length>0){
                     let options = {
                         rowLimit: 2,
@@ -89,15 +89,15 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 responseObj['content-length'] = apiRes.headers['content-length'];
                 responseObj.status = apiRes.headers.statusCode;
                 responseObj.origUrl = resourceUrl;
-                
-                
+
+
 
                 responseObj.schema = null
                 responseObj.hasSchema = false;
                 responseObj.schemaError = null
                 responseObj.type = "unknown"
 
-                if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) { 
+                if (xlsFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                     responseObj.type = "xls";
                 }else if (csvFormats.indexOf(apiRes.headers['content-type']) !== -1) {
                     let XLSX = require('xlsx');
@@ -115,7 +115,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                         responseObj.data = body
                         if(!responseObj.json_table_schema) {
                             try {
-                                
+
                                 let s = await getResourceSchema(null, responseObj.headers, responseObj.data);
                                 responseObj.schema = JSON.parse(JSON.stringify(s));
                                 responseObj.schemaInferred = false
@@ -131,7 +131,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                         }
                     }catch(ex){
                         responseObj.type = "404";
-                        responseObj.type = "error";    
+                        responseObj.type = "error";
                     }
                 } else if (apiRes.headers.statusCode === 404 || apiRes.headers.statusCode === 500 || apiRes.headers.statusCode === 401 || apiRes.headers.statusCode === 403){
                     responseObj.type = "404";
@@ -143,12 +143,10 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                     if(!body) {
                         resource.hasSchema = false
                     }
-                }                  
+                }
             }
 
-            console.log("R", (responseObj.schema===null), (Object.keys(responseObj.json_table_schema).length > 0));
-            if((responseObj.schema===null) && (Object.keys(responseObj.json_table_schema).length > 0) ) {
-                console.log("hi");
+            if((responseObj.schema===null) && responseObj.json_table_schema && (Object.keys(responseObj.json_table_schema).length > 0) ) {
                 try{
                     let s = await getResourceSchema(responseObj, [], []);
                     console.log("INFERRED", s);
@@ -162,11 +160,10 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                     responseObj.schemaInferred = false;
                     responseObj.hasSchema = false;
                 }
-            } 
-
+            }
             responseObj.raw_data = body;
-            var stringObject = stringify(responseObj)
-            var returnObj = JSON.parse(stringObject)
+            var stringObject = stringify(responseObj);
+            var returnObj = JSON.parse(stringObject);
             res.json(returnObj);
             return;
     });

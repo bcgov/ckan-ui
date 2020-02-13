@@ -70,7 +70,7 @@ const actions = {
             return context.state.resources[id];
         }
 
-        resourceServ.getResource(id).then(async(data) => {
+        resourceServ.getResource(id).then((data) => {
             data.metadata = data
             context.commit('setResource', {id: id, resource: data.metadata});
         });

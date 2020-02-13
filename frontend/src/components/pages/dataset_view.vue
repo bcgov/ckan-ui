@@ -30,7 +30,7 @@
             type="error">
             {{formError}}
         </v-alert>
-        
+
         <!-- <powButton :dataset="dataset"/> -->
         <v-row wrap>
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
@@ -43,7 +43,7 @@
                 <v-btn fab small v-clipboard="() => permalink">
                     <v-icon>file_copy</v-icon>
                 </v-btn>
-                
+
             </v-col>
         </v-row>
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -105,7 +105,7 @@
                     </v-col>
                     <v-col cols=12 md=4>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-                        
+
                     </v-col>
                 </v-row>
             </v-form>
@@ -151,7 +151,6 @@ export default {
                 'replacement_record',
                 'retention_expiry_date',
                 'source_data_path',
-                'iso_topic_string',
                 'record_create_date',
                 'record_publish_date',
                 'record_archive_date',
@@ -387,7 +386,7 @@ h5 {
 }
 .main-area {
     margin-top: 20px;
-    margin-bottom: 45px; 
+    margin-bottom: 45px;
 }
 ul {
     list-style-type: none;
