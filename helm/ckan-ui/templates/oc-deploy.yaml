@@ -2,6 +2,8 @@
 
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
+status: 
+  lastVersion: 0
 metadata:
   name: {{ template "ckan-ui.fullname" . }}-deploy
   #have to set this
@@ -12,6 +14,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  nodeSelector: {}
   resources:
     requests:
       cpu: 2000m
@@ -30,7 +33,7 @@ spec:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
       jenkinsfile: |-
-        def helmName = "helm-v2.13.0-linux-amd64.tar.gz"
+        def helmName = "helm-dev-v3-linux-amd64.tar.gz"
         def releaseName = "{{ .Release.Name }}"
         def gitUrl = "{{ .Values.repo.url }}.git"
         def cnfig = '''
@@ -49,7 +52,7 @@ spec:
                 tar -zxvf ${helmName}
                 cd linux-amd64
                 export TILLER_NAMESPACE={{ .Values.tillerNamespace }}
-                ./helm init --client-only
+
                 oc project {{ .Release.Namespace }}
                 oc tag {{ template "ckan-ui.fullname" . }}-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-image:\$GITREV
                 oc tag {{ template "ckan-ui.fullname" . }}-frontend-image:{{ .Values.repo.tag }} {{ template "ckan-ui.fullname" . }}-frontend-image:\$GITREV
