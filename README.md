@@ -1,6 +1,6 @@
 # CKAN-UI
 
-## Requirements 
+## Requirements
 - CKAN (with solr/postgres), running
 
 ## Backend
