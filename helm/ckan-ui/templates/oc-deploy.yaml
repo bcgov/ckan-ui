@@ -48,7 +48,7 @@ spec:
                 GITREV=\$(git rev-parse --verify HEAD)
 
                 cd ..
-                curl -L -O https://get,helm.sh/${helmName}
+                curl -L -O https://get.helm.sh/${helmName}
                 tar -zxvf ${helmName}
                 cd linux-amd64
 
