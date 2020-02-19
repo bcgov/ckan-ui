@@ -33,7 +33,7 @@ spec:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
       jenkinsfile: |-
-        def helmName = "helm-dev-v3-linux-amd64.tar.gz"
+        def helmName = "helm-v3.1.0-linux-amd64.tar.gz"
         def releaseName = "{{ .Release.Name }}"
         def gitUrl = "{{ .Values.repo.url }}.git"
         def cnfig = '''
@@ -48,7 +48,7 @@ spec:
                 GITREV=\$(git rev-parse --verify HEAD)
 
                 cd ..
-                curl -L -O https://storage.googleapis.com/kubernetes-helm/${helmName}
+                curl -L -O https://get,helm.sh/${helmName}
                 tar -zxvf ${helmName}
                 cd linux-amd64
 
