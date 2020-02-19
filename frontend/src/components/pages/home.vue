@@ -1,12 +1,20 @@
 <template>
-  <v-container fluid primary align-center justify-center fill-height class="raise">
+  <v-container fluid align-center justify-center fill-height class="raise">
 
         <v-row>
             <v-col cols=12>
-                <p style="font-size: 100pt">BC 💖 {{$tc('Data')}}</p>
+                <v-row align="center" justify="center">
+                    <v-card tile class="mx-3 pa-6" height="200px" width="200px" ><p style="font-size: 50pt">BC</p></v-card>
+                    <v-card tile class="mx-3 pa-6" height="200px" width="200px"><p style="font-size: 50pt">💖</p></v-card>
+                    <v-card tile class="mx-3 pa-6" height="200px" width="200px"><p style="font-size: 50pt">{{$tc('Data')}}</p></v-card>
+                </v-row>
             </v-col>
             <v-col cols=12>
-                <v-text-field ref="searchBox" filled background-color="text" append-icon="search" light v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
+                <v-row align="center" justify="center">
+                    <v-col xs="12" md="8">
+                        <v-text-field ref="searchBox" outlined background-color="white" color="primary" append-icon="mdi-magnify" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
+                    </v-col>
+                </v-row>
             </v-col>
             <v-col cols=12>
                 <p>{{$tc('TrySearchingFor')}}</p>
@@ -68,7 +76,7 @@
 
 <style scoped>
     a,p{
-        color: white !important;
+        /* color: white !important; */
         font-size: 20px;
         text-align: center;
     }

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import '@mdi/font/css/materialdesignicons.css';
 import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
 import VueAnalytics from 'vue-analytics';
@@ -53,7 +53,7 @@ extend('email', {
 });
 
 extend('slug', {
-  validate: (value) => { 
+  validate: (value) => {
     if (value){
       var regString = '^[A-z0-9-_]*$';
       let regex = new RegExp(regString);
@@ -66,7 +66,7 @@ extend('slug', {
 
 extend('url', {
   params: ['require_tld', 'require_host'],
-  validate: (value, { require_tld, require_host }) => { 
+  validate: (value, { require_tld, require_host }) => {
     if (value){
       var regString = '^';
       if (require_tld){
@@ -133,7 +133,7 @@ extend('date_format', {
     if (day < 0 || day > daysInMonth){
       return false;
     }
-    
+
     return  true;
   },
   message: (field, {format} ) => { return field[0].toUpperCase() + field.slice(1) + ' is not a valid date please enter as ' + format; }
@@ -169,7 +169,7 @@ analyticsServ.ga().then( (gajson) => {
 
   let vuetifyOpts = {
     icons: {
-      iconfont: 'md', // 'md' || 'mdi' || 'fa' || 'fa4'
+      iconfont: 'mdi', // 'md' || 'mdi' || 'fa' || 'fa4'
     },
     theme: {
         dark: false,
