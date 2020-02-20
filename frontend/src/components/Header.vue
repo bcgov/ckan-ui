@@ -35,7 +35,12 @@
             </v-row>
           </v-menu> -->
 
-          <v-btn depressed tile large v-on:click="searchClick" id="header-search" color="#e3a82b" height="100%">
+          <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
+          <v-btn v-else depressed text large id="logout-btn" class="hidden-sm-and-down" @click="logout" height="100%"><v-icon left>mdi-account</v-icon> {{$tc('Logout')}}</v-btn>
+          <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down" @click="setLanguage('en')" height="100%">English</v-btn>
+          <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down" @click="setLanguage('fr')" height="100%">Français</v-btn>
+
+          <v-btn depressed tile large @click="searchClick" id="header-search" color="#e3a82b" height="100%">
             <v-icon large>mdi-magnify</v-icon>
           </v-btn>
 
@@ -49,7 +54,9 @@
             <!-- <v-row justify-left fill-height class="secondary_color">
                 <v-col cols=12 class="gov-yellow-border-top"> -->
                     <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
-                      <template v-for="(item, key) in menuSecondary">
+                      <v-list-item v-if="!loggedIn" color="white" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
+                      <v-list-item v-else color="white" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
+                      <template v-for="(item, key) in menuTertiary">
                           <v-list-item v-if="item.link" color="white" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                           <v-list-item v-else-if="item.title !== ''" color="white" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                       </template>
@@ -57,10 +64,12 @@
                 <!-- </v-col>
                 <v-col cols=12 class="primary_color gov-yellow-border-top"> -->
                     <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
-                      <template v-for="(item, key) in menuTertiary">
+                      <template v-for="(item, key) in menuSecondary">
                           <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                           <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                       </template>
+                      <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="white" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
+                      <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="white" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
                     </v-list>
                 <!-- </v-col>
             </v-row> -->
@@ -75,13 +84,6 @@
         </v-row>
       </v-container>
     </header>
-    <v-container>
-      <v-row align-self="end">
-        <User v-if="loggedIn" :user="user"></User>
-        <v-btn right v-if="this.$i18n.locale != 'en'" text @click="setLanguage('en')">English</v-btn>
-        <v-btn right v-if="this.$i18n.locale != 'fr'" text @click="setLanguage('fr')">Français</v-btn>
-      </v-row>
-    </v-container>
   </span>
 </template>
 
@@ -91,17 +93,18 @@ import { mapState } from 'vuex'
 import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
 
-import User from './user/user'
+// import User from './user/user'
 
 export default {
   components: {
-      User: User
+    //   User: User
   },
   props: [],
   data () {
     return {
         searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
+        logoutUrl: "/api/logout?r="+window.location.pathname,
         showSearch: false,
         classicUrl: '',
         menuSecondary: [
@@ -205,6 +208,13 @@ export default {
         for (var i=0; i<keys.length; i++){
           delete localStorage[keys[i]];
         }
+      },
+      logout: function(){
+        var keys = Object.keys(localStorage);
+        for (var i=0; i<keys.length; i++){
+            delete localStorage[keys[i]];
+        }
+        window.location.href = this.logoutUrl
       }
   },
   mounted: function(){

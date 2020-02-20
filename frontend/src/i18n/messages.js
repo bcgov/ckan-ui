@@ -284,7 +284,7 @@ export default {
         "No more datasets": "Pas plus d'ensembles de données",
         "No datasets": "Aucun jeu de données",
         "Profile": "Profil",
-        "Logout": "Connectez - Out",
+        "Logout": "Se Déconnecter",
         "Subscribe to new data": "S'abonner à de nouvelles données",
         "Fetching Dataset...": "Récupération du jeu de données...",
         "Projection Name": "Nom de projection",
