@@ -54,11 +54,11 @@
             <!-- <v-row justify-left fill-height class="secondary_color">
                 <v-col cols=12 class="gov-yellow-border-top"> -->
                     <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
-                      <v-list-item v-if="!loggedIn" color="white" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
-                      <v-list-item v-else color="white" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
+                      <v-list-item v-if="!loggedIn" color="text" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
+                      <v-list-item v-else color="text" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
                       <template v-for="(item, key) in menuTertiary">
-                          <v-list-item v-if="item.link" color="white" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                          <v-list-item v-else-if="item.title !== ''" color="white" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                          <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                          <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                       </template>
                     </v-list>
                 <!-- </v-col>
@@ -68,8 +68,8 @@
                           <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                           <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                       </template>
-                      <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="white" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
-                      <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="white" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
+                      <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
+                      <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
                     </v-list>
                 <!-- </v-col>
             </v-row> -->
