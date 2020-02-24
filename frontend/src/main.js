@@ -186,6 +186,7 @@ analyticsServ.ga().then( (gajson) => {
             caution: "#fcba19",
             error: '#b71c1c',
             text: "#ffffff",
+            text_background: "#000000",
             data: '#F4F4F4',
           },
           light: {
@@ -197,6 +198,7 @@ analyticsServ.ga().then( (gajson) => {
             caution: "#fcba19",
             error: '#b71c1c',
             text: "#ffffff",
+            text_background: "#ffffff",
             data: '#F4F4F4',
           }
         }

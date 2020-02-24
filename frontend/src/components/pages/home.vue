@@ -12,7 +12,7 @@
             <v-col cols=12>
                 <v-row align="center" justify="center">
                     <v-col xs="12" md="8">
-                        <v-text-field ref="searchBox" outlined background-color="white" color="primary" append-icon="mdi-magnify" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
+                        <v-text-field ref="searchBox" outlined background-color="text_background" color="primary" append-icon="mdi-magnify" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
                     </v-col>
                 </v-row>
             </v-col>
