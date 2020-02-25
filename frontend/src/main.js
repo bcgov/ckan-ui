@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@mdi/font/css/materialdesignicons.css';
 import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
@@ -169,7 +170,7 @@ analyticsServ.ga().then( (gajson) => {
 
   let vuetifyOpts = {
     icons: {
-      iconfont: 'mdi', // 'md' || 'mdi' || 'fa' || 'fa4'
+      iconfont: 'mdi' || 'md' // || 'mdi' || 'fa' || 'fa4'
     },
     theme: {
         dark: false,

@@ -13,6 +13,7 @@
     "core-js": "^2.6.10",
     "es6-promise": "^4.2.8",
     "marked": "^0.7.0",
+    "material-design-icons-iconfont": "^4.0.5",
     "node-sass": "^4.13.1",
     "pdfvuer": "^1.4.0",
     "stylus": "^0.54.7",
