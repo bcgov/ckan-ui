@@ -4,106 +4,97 @@
             <v-row wrap align-center fill-height>
                 <v-col cols=12>
                     <h4>
-                        <v-icon>insert_drive_file</v-icon>
                         {{useResource.metadata.name}}
                     </h4>
-                    <span>
-                        <strong>Type:</strong>
-                        {{useResource.metadata.format}}
-                    </span>
                 </v-col>
             </v-row>
-            <v-row wrap align-center fill-height>
-                <v-col cols=6 v-if="!loadPOW">
-                    <v-btn text block color="secondary" :href="useResource.metadata.url">
-                        Download&nbsp;
-                        <v-icon>cloud_download</v-icon>
-                    </v-btn>
-                </v-col>
-                <v-col cols=6 v-else>
-                    <powButton :resource="useResource.metadata"/>
-                </v-col>
-                <v-col cols=6>
-                    <v-menu offset-y>
-                        <template v-slot:activator="{ on: menu }">
-                            <v-btn text block color="secondary" v-on="{...menu}">
-                                More&nbsp;
-                                <v-icon>menu</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-list>
-                            <v-list-item v-if="!datasetBeingEdited">
-                                <v-list-item flat @click.stop="viewDialog = true">View</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="viewDialog"
-                                    fullscreen
+            <v-row wrap align-end fill-height>
+                <span left>
+                    {{useResource.metadata.format}}
+                </span>
+                <v-menu offset-y right>
+                    <template v-slot:activator="{ on: menu }">
+                        <v-btn text block color="secondary" v-on="{...menu}">
+                            More&nbsp;
+                            <v-icon>mdi-menu</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item>
+                            <v-list-item v-if="!loadPOW" flat :href="useResource.metadata.url">Download</v-list-item>
+                            <powButton v-else :resource="useResource.metadata"/>
+                        </v-list-item>
+                        <v-list-item v-if="!datasetBeingEdited">
+                            <v-list-item flat @click.stop="viewDialog = true">View</v-list-item>
+                            <v-dialog
+                                eager
+                                v-model="viewDialog"
+                                fullscreen
 
-                                    transition="dialog-bottom-transition"
-                                >
-                                    <EditResource
-                                        :edit="false"
-                                        :resource="useResource.metadata"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="viewDialog = false"
-                                    ></EditResource>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item v-if="!datasetBeingEdited">
-                                <v-list-item flat @click.stop="dialog = true">Preview</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="dialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
-                                >
+                                transition="dialog-bottom-transition"
+                            >
+                                <EditResource
+                                    :edit="false"
+                                    :resource="useResource.metadata"
+                                    :resourceIndex="resourceIndex"
+                                    v-on:closePreviewDialog="viewDialog = false"
+                                ></EditResource>
+                            </v-dialog>
+                        </v-list-item>
+                        <v-list-item v-if="!datasetBeingEdited">
+                            <v-list-item flat @click.stop="dialog = true">Preview</v-list-item>
+                            <v-dialog
+                                eager
+                                v-model="dialog"
+                                fullscreen
+                                transition="dialog-bottom-transition"
+                            >
 
-                                    <Preview
-                                        :resource="useResource"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="dialog = false"
-                                    ></Preview>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item v-if="!!useResource.hasSchema">
-                                <v-list-item flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="schemaDialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
-                                >
-                                    <JsonTable
-                                        :resource="useResource"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="schemaDialog = false"
-                                    ></JsonTable>
-                                </v-dialog>
-                            </v-list-item>
+                                <Preview
+                                    :resource="useResource"
+                                    :resourceIndex="resourceIndex"
+                                    v-on:closePreviewDialog="dialog = false"
+                                ></Preview>
+                            </v-dialog>
+                        </v-list-item>
+                        <v-list-item v-if="!!useResource.hasSchema">
+                            <v-list-item flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
+                            <v-dialog
+                                eager
+                                v-model="schemaDialog"
+                                fullscreen
+                                transition="dialog-bottom-transition"
+                            >
+                                <JsonTable
+                                    :resource="useResource"
+                                    :resourceIndex="resourceIndex"
+                                    v-on:closePreviewDialog="schemaDialog = false"
+                                ></JsonTable>
+                            </v-dialog>
+                        </v-list-item>
 
-                            <v-list-item v-if="showEdit">
-                                <v-list-item @click.stop="editDialog = true">Edit</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="editDialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
+                        <v-list-item v-if="showEdit">
+                            <v-list-item @click.stop="editDialog = true">Edit</v-list-item>
+                            <v-dialog
+                                eager
+                                v-model="editDialog"
+                                fullscreen
+                                transition="dialog-bottom-transition"
 
-                                >
-                                    <EditResource
-                                        :edit="true"
-                                        :resource="useResource.metadata"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="editDialog = false"
-                                    ></EditResource>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item>
-                                <v-list-item @click="deleteResource" class="red--text" v-if="canDelete">Delete</v-list-item>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </v-col>
+                            >
+                                <EditResource
+                                    :edit="true"
+                                    :resource="useResource.metadata"
+                                    :resourceIndex="resourceIndex"
+                                    v-on:closePreviewDialog="editDialog = false"
+                                ></EditResource>
+                            </v-dialog>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item @click="deleteResource" class="red--text" v-if="canDelete">Delete</v-list-item>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </v-row>
         </v-container>
     </v-card>
@@ -161,7 +152,7 @@ export default {
                 }
             }
         )
-        
+
     },
 
     data() {

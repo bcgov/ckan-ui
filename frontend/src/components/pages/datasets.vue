@@ -1,8 +1,8 @@
 <template>
     <v-container v-if="error">
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
-            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+            <h1><v-icon x-large>mdi-alert-circle</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
     <v-container v-else pa-0 ma-0 fluid class="raise">
@@ -40,7 +40,7 @@
                 <v-row wrap>
                     <v-col cols=1></v-col>
                     <v-col cols=9>
-                        <v-text-field id="dataset-search" v-model="findText" :label="$tc('SearchDatasets')" v-on:keyup="search" outline append-icon="search"></v-text-field>
+                        <v-text-field id="dataset-search" v-model="findText" :label="$tc('SearchDatasets')" v-on:keyup="search" outlined append-icon="mdi-magnify"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row wrap>
@@ -56,7 +56,7 @@
                     <v-col cols=3>
                     </v-col>
                     <v-col cols=2>
-                        <v-select append-icon="arrow_drop_down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
+                        <v-select append-icon="mdi-menu-down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
                     </v-col>
                 </v-row>
                 <v-row wrap align-center justify-center pt-2 pb-3>
@@ -204,10 +204,10 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
-            
+
             this.searchedText = this.searchText;
-            
-            if (this.searchText !== ""){    
+
+            if (this.searchText !== ""){
                 if (this.advanced){
                    q += "q=" + this.searchText + "&"
                 }else{

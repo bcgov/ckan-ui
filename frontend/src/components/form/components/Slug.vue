@@ -1,22 +1,18 @@
 <template>
-    <div>
-        <div v-if="!editing">
-            <label>{{$tc(label)}}:</label>
-            <span>{{value}}</span>
-        </div>
-        <ValidationProvider v-else :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
+    <v-col cols=12 class="pb-0 pt-1" v-if="editing">
+        <label class="label">{{$tc(displayLabel)}}:</label>
+        <ValidationProvider :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-text-field
-                :label="$tc(displayLabel)"
                 :name="name"
                 v-model="val"
                 :placeholder="placeholder"
                 v-on:keyup="modified = true"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
-                outline
+                outlined dense
             ></v-text-field>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -33,7 +29,7 @@ export default {
         disabled: {
             type: Boolean,
             default: false
-        },  
+        },
     },
     data() {
         return {
@@ -52,7 +48,7 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
     mounted() {
@@ -60,9 +56,12 @@ export default {
             this.validate['required'] = true;
         }
     },
-    
+
 };
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>

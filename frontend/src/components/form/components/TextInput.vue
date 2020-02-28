@@ -1,21 +1,20 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
+        <label class="label">{{$tc(displayLabel)}}: </label>
         <div v-if="!editing">
-            <label>{{$tc(label)}}: </label>
-            <span>{{value}}</span>
+            <p>{{value}}</p>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
-                :label="$tc(displayLabel)"
                 :name="name"
                 v-model="val"
-                :placeholder="placeholder"       
+                :placeholder="placeholder"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
-                outline
+                outlined dense
             ></v-text-field>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -43,7 +42,7 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
     watch: {
@@ -61,4 +60,7 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>

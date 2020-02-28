@@ -41,7 +41,7 @@
                 <label>{{$tc("Permalink")}}:</label>
                 <span>{{permalink}}</span>
                 <v-btn fab small v-clipboard="() => permalink">
-                    <v-icon>file_copy</v-icon>
+                    <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
 
             </v-col>
@@ -56,7 +56,7 @@
                         class="text-xs-center"
                         @click="deleteDataset"
                     >
-                        <v-icon>delete</v-icon>
+                        <v-icon>mdi-delete</v-icon>
                     </v-btn>
                     <v-btn
                         v-if="showEdit"
@@ -66,7 +66,7 @@
                         right
                         @click="toggleEdit"
                     >
-                        <v-icon>edit</v-icon>
+                        <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                 </v-row>
                 <v-row v-else-if="editing" class="button-container">
@@ -91,6 +91,9 @@
 
                 <v-row fill-height>
                     <v-col cols=12 md=8 v-if="!!schema">
+                        <v-toolbar color="secondary">
+                            <v-toolbar-title color="white">Dataset Details</v-toolbar-title>
+                        </v-toolbar>
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"
@@ -104,8 +107,10 @@
                         </DynamicForm>
                     </v-col>
                     <v-col cols=12 md=4>
+                        <v-toolbar color="secondary">
+                            <v-toolbar-title>Data and Resources</v-toolbar-title>
+                        </v-toolbar>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-
                     </v-col>
                 </v-row>
             </v-form>
@@ -168,7 +173,7 @@ export default {
     computed: {
         breadcrumbs: function(){
             return [
-                { icon: "home", label: "Home", route: "/" },
+                { icon: "mdi-home", label: "Home", route: "/" },
                 { label: "Datasets", route: "/datasets" },
                 { label: this.dataset.title ? this.dataset.title : "Fetching Dataset...", translate: this.dataset.title ? false : true }
             ]
@@ -408,5 +413,8 @@ ul {
 
 .v-btn{
     margin-right: 5px;
+}
+.v-toolbar__title{
+    color: var(--v-text-base)
 }
 </style>

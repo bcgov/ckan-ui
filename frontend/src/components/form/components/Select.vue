@@ -1,16 +1,14 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
+        <label class="label">{{$tc(displayLabel)}}</label>
         <div v-if="!editing">
-            <label>{{$tc(label)}}:</label>
-            <span>{{translate ? $tc(displayValue) : displayValue}}</span>
+            <p>{{translate ? $tc(displayValue) : displayValue}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
                 :key="'select'+name"
                 :name="name"
                 v-model="val"
-                
-                :label="$tc(displayLabel)"
                 :placeholder="placeholder"
                 :items="items"
                 item-text="label"
@@ -18,11 +16,10 @@
                 @change="onChange"
                 :disabled="disabled"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-
-                outline>
+                outlined dense>
             </v-select>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -71,7 +68,7 @@ export default {
 
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            return this.label + (this.editing && this.field.required ? '*' : '');
         },
     },
 
@@ -104,13 +101,13 @@ export default {
 
                     if (item.value == this.value){
                         this.displayValue = item.label;
-                    } 
-                    
+                    }
+
 
                     if (this.selectableOptions.length === 0 ){
                         this.items.push(item);
                     }
-                    
+
                     //this.items[this.options[keys[i]].label] = this.options[keys[i]].value;
                 }
             }
@@ -125,4 +122,7 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>
