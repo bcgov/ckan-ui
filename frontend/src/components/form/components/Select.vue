@@ -2,7 +2,8 @@
     <v-col cols=12 class="pb-0 pt-1">
         <label class="label">{{$tc(displayLabel)}}</label>
         <div v-if="!editing">
-            <p>{{translate ? $tc(displayValue) : displayValue}}</p>
+            <p v-if="field.field_name === 'owner_org'"><router-link :to="{ name: 'organization_view', params: { organizationId: orgName(value) }}">{{orgTitle(value)}}</router-link></p>
+            <p v-else>{{translate ? $tc(displayValue) : displayValue}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
 
     props: {
@@ -70,6 +72,10 @@ export default {
         displayLabel: function(){
             return this.label + (this.editing && this.field.required ? '*' : '');
         },
+        ...mapGetters("organization", {
+            orgTitle: "titleByID",
+            orgName: "nameByID"
+        })
     },
 
     methods: {

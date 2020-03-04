@@ -126,7 +126,7 @@ export default {
         "Description*": "Description*",
         "Type": "Type",
         "Type*": "Type*",
-        "Permalink": "Permalink",
+        "Permalink": "Copy Permalink",
         "Low-Public": "Low-Public",
         "Completed": "Completed",
         "Published": "Published",
@@ -219,6 +219,9 @@ export default {
         "Object Short Name": "Object Short Name",
         "Object Table Comments": "Object Table Comments",
         "User Profile": "User Profile",
+        "Edit Dataset": "Edit Dataset",
+        "Delete Dataset": "Delete Dataset",
+        "Show Groups": "View the group(s) this dataset belongs to",
     },
     fr: {
         'data': 'données',
@@ -347,7 +350,7 @@ export default {
         "Description*": "La description*",
         "Type": "Type",
         "Type*": "Type*",
-        "Permalink": "Permalink",
+        "Permalink": "Copier le Permalien",
         "Low-Public": "Public faible",
         "Completed": "Terminé",
         "Published": "Publié",
@@ -440,5 +443,8 @@ export default {
         "Object Short Name": "Nom abrégé de l'objet",
         "Object Table Comments": "Commentaires de la table d'objets",
         "User Profile": "Profil de l'utilisateur",
+        "Edit Dataset": "Modifier le Jeu de Données",
+        "Delete Dataset": "Supprimer le Jeu de Données",
+        "Show Groups": "Afficher les groupes auxquels appartient cet ensemble de données",
     }
 };

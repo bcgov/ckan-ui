@@ -10,6 +10,7 @@
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
                 outlined dense
+                :prefix="prefix"
             ></v-text-field>
         </ValidationProvider>
     </v-col>
@@ -36,6 +37,7 @@ export default {
             val: this.value,
             validate: {required: this.field.required, slug: true},
             scopeName: this.scope + '.' + this.name,
+            prefix: window.location.origin + '/dataset/'
         }
     },
     watch: {

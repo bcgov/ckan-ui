@@ -36,59 +36,8 @@
             <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
         </v-row>
 
-        <v-row wrap v-if="!createMode">
-            <v-col cols=12>
-                <label>{{$tc("Permalink")}}:</label>
-                <span>{{permalink}}</span>
-                <v-btn fab small v-clipboard="() => permalink">
-                    <v-icon>mdi-content-copy</v-icon>
-                </v-btn>
-
-            </v-col>
-        </v-row>
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
-                <v-row v-if="showEdit" class="button-container">
-                    <v-btn
-                        v-if="canDeleteResources"
-                        fab
-                        color="error"
-                        class="text-xs-center"
-                        @click="deleteDataset"
-                    >
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                    <v-btn
-                        v-if="showEdit"
-                        fab
-                        color="info"
-                        class="text-xs-center"
-                        right
-                        @click="toggleEdit"
-                    >
-                        <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                </v-row>
-                <v-row v-else-if="editing" class="button-container">
-                    <v-btn
-                        xs2
-                        color="error"
-                        class="text-xs-center"
-                        @click="cancel"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        xs2
-                        color="primary"
-                        class="text-xs-center"
-                        type="submit"
-                        @click="submit(errors)"
-                    >
-                        Save
-                    </v-btn>
-                </v-row>
-
                 <v-row fill-height>
                     <v-col cols=12 md=8 v-if="!!schema">
                         <v-toolbar color="secondary">
@@ -108,9 +57,23 @@
                     </v-col>
                     <v-col cols=12 md=4>
                         <v-toolbar color="secondary">
-                            <v-toolbar-title>Data and Resources</v-toolbar-title>
+                            <v-toolbar-title>Resources</v-toolbar-title>
                         </v-toolbar>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                        <v-row wrap v-if="!createMode">
+                            <v-col cols=12>
+                                <v-btn text small color="secondary" v-clipboard="() => permalink">{{$tc("Permalink")}}</v-btn>
+                                <br>
+                                <v-btn text small color="secondary">{{$tc("Show Groups")}}</v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-row wrap v-if="!createMode && showEdit">
+                            <v-col cols=12>
+                                <v-btn text color="primary" @click="toggleEdit">{{$tc("Edit Dataset")}}</v-btn>
+                                <br>
+                                <v-btn text color="error" @click="deleteDataset">{{$tc("Delete Dataset")}}</v-btn>
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-form>
