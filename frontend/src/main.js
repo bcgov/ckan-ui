@@ -140,10 +140,11 @@ extend('date_format', {
   message: (field, {format} ) => { return field[0].toUpperCase() + field.slice(1) + ' is not a valid date please enter as ' + format; }
 });
 
-import messages from './i18n/messages';
-
 var locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
-
+var messages = require('./i18n/en').default;
+if (locale == "fr"){
+  Object.assign(messages, require('./i18n/fr').default);
+}
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({

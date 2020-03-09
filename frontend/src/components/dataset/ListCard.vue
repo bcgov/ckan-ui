@@ -1,30 +1,24 @@
 <template>
   <v-container fluid align-center align-content-center justify-center>
-      <v-row wrap mb-1>
+      <v-row wrap dense>
           <v-col cols=12>
             <h3>
                 <router-link :id="'dataset-link-'+record.id" :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                            <v-icon class="mr-2" color="primary" v-on="on">{{iconName}}</v-icon>
-                        </template>
-                        <span>{{iconToolTip}}</span>
-                    </v-tooltip>
                     <span>{{title}}</span>
                 </router-link>
             </h3>
           </v-col>
       </v-row>
       
-      <v-row wrap>
+      <v-row wrap dense>
           <v-col cols=12 my-0 py-0>
               <p v-line-clamp:1.5="2" >{{description}}</p>
           </v-col>
       </v-row>
 
-      <v-row wrap>
-        <v-col cols=4><strong>{{sector}}</strong> - Record Published: {{publishDate}}</v-col>
-        <v-col cols=8 class="text-xs-right"><em>{{types}}</em></v-col>
+      <v-row wrap dense>
+        <v-col cols=4><strong>Published: {{publishDate}}</strong></v-col>
+        <v-col cols=8 class="text-right"><strong>Data Types:{{types}}</strong></v-col>
       </v-row>
 
 
@@ -77,39 +71,39 @@ export default {
             });
         }
 
-        let icon = ""
-        let tooltip = ""
+        // let icon = ""
+        // let tooltip = ""
 
-        switch(this.record.type){
-            case "Geographic":
-                icon = "public"
-                tooltip = "Geographic"
-                break
+        // switch(this.record.type){
+        //     case "Geographic":
+        //         icon = "public"
+        //         tooltip = "Geographic"
+        //         break
 
-            case "Dataset":
-                icon = "table_chart"
-                tooltip = "Dataset"
-                break
+        //     case "Dataset":
+        //         icon = "table_chart"
+        //         tooltip = "Dataset"
+        //         break
 
-            case "Application":
-                icon = "web_asset"
-                tooltip = "Application"
-                break
+        //     case "Application":
+        //         icon = "web_asset"
+        //         tooltip = "Application"
+        //         break
 
-            case "Api":
-                icon = "code"
-                tooltip = "Web Service / API"
-                break
+        //     case "Api":
+        //         icon = "code"
+        //         tooltip = "Web Service / API"
+        //         break
             
-            case "WebService":
-                icon = "code"
-                tooltip = "Web Service / API"
-                break
+        //     case "WebService":
+        //         icon = "code"
+        //         tooltip = "Web Service / API"
+        //         break
 
-            default:
-                icon = ""
-                break
-        }
+        //     default:
+        //         icon = ""
+        //         break
+        // }
 
         let date = new Date(this.record.metadata_created)
         let pubDate = date.getFullYear() + "-" + (date.getMonth() <= 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1)) + "-" + date.getDate();
@@ -121,8 +115,8 @@ export default {
             id: this.record.id,
             title: this.record.title,
             name: this.record.name,
-            iconName: icon,
-            iconToolTip: tooltip,
+            //iconName: icon,
+            //iconToolTip: tooltip,
             primMarkers: [{
                 name: this.record.sector
             }],

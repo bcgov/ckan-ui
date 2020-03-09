@@ -15,7 +15,9 @@ const state = {
     schemaLoading: false,
     dataLoading: false,
     resources: {},
-    error: null
+    error: null,
+    facetList: {},
+    facetOpen: {},
 };
 
 const actions = {
@@ -45,6 +47,14 @@ const actions = {
             commit('setSchemaLoading', {schemaLoading: false});
             commit('setDataLoading', {dataLoading: false});
         });
+    },
+
+    getFacetList({ state, commit }){
+        if ( Object.keys(state.facetList).length === 0 ){
+            ckanServ.getFacets().then((data) => {
+                commit('setFacetList', { facetList: data });
+            });
+        }
     },
 
     getDatasetSchema(context){
@@ -175,6 +185,16 @@ const mutations = {
     },
     setError(state, { error }) {
         state.error = Object.assign({}, error);
+    },
+    setFacetList(state, { facetList }) {
+        state.facetList = Object.assign({}, facetList);
+        let keys = Object.keys(facetList);
+        for (let i=0; i<keys.length; i++){
+            state.facetOpen[keys] = false;
+        }
+    },
+    setFacetOpen(state, { facet, open }){
+        Vue.set(state.facetOpen, facet, open);
     },
     clearError(state) {
         state.error = null;
