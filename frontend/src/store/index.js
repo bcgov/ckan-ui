@@ -33,6 +33,8 @@ export default new Vuex.Store({
 			'user.isAdmin',
 			'user.loading',
 			'dataset.schemas',
+			'dataset.facetList',
+			'dataset.facetOpen',
 			'organization.orgList',
 			'search.facets',
 			'search.totalFilters',
