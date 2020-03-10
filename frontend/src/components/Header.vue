@@ -218,8 +218,6 @@ export default {
         if (!this.loadedLanguages.includes(local)){
           var self = this;
           import(/* webpackChunkName: "lang-[request]" */ `@/i18n/${local}.js`).then( (messages) => {
-            //eslint-disable-next-line
-            console.log("M", messages.default);
             self.$i18n.setLocaleMessage(local, messages.default.fr)
             self.loadedLanguages.push(local);
             this.$i18n.locale = local;
