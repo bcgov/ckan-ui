@@ -28,6 +28,7 @@ export default {
         "Groups": "Group | Groups",
         "Viewing Dataset": "Viewing Dataset",
         "Dataset": "Dataset | Datasets",
+        "dataset": "dataset | datasets",
         "Order By": "Order By",
         "found": "found",
         "Clear all": "Clear all",
@@ -226,5 +227,9 @@ export default {
         "Add Dataset": "Add Dataset",
         "What are": "What are",
         "orgAbout": "The responsibility to manage Datasets, APIs and Applications (collectively resources) and the descriptive information about these resources (metadata), rests with the organizations that have Data Custodial responsibility for the resources. In the public sector this is typically a branch of a ministry. In this case the Data Custodian is the Director or Executive Director of the branch.",
+        "groupAbout": "You can use Groups to create and manage collections of datasets. This could be to catalogue datasets for a particular project or team, or on a particular theme, or as a very simple way to help people find and search your own published datasets.",
+        "Search": "Search",
+        "Manage": "Manage",
+        "Add": "Add",
     }
 };
