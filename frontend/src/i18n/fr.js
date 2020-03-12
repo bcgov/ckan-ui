@@ -15,7 +15,7 @@ export default {
         "Contact": "Contact",
         "Datasets": "Jeux de données",
         "datasets": "Jeux de données",
-        "Organizations": "Les organisations",
+        "Organizations": "Le organisation | Les organisations",
         'Subscribe to Blog Posts': "S'abonner aux articles du blog",
         "About": "Sur",
         "Home": "Accueil",
@@ -224,5 +224,7 @@ export default {
         "Download Permissions": "Autorisations de téléchargement",
         "Licenses": "Licences",
         "Add Dataset": "Ajouter un jeu de données",
+        "What are": "Quels sont",
+        "orgAbout": "La responsabilité de gérer les ensembles de données, les API et les applications (collectivement les ressources) et les informations descriptives sur ces ressources (métadonnées) incombe aux organisations qui ont la responsabilité de la conservation des données pour les ressources. Dans le secteur public, il s'agit généralement d'une branche d'un ministère. Dans ce cas, le dépositaire des données est le directeur ou le directeur exécutif de la succursale."
     }
 };
