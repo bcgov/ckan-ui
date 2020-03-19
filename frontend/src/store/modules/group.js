@@ -72,6 +72,8 @@ const actions = {
                 }
             }
             commit('setSearchedGroups', {searchedGroups: result});
+        }else{
+            commit('setSearchedGroups', {searchedGroups: state.groups});
         }
         commit('setSearchText', {searchText: searchText});
     }

@@ -44,7 +44,7 @@ const actions = {
 
 const mutations = {
     setOrgList(state, { orgList }) {
-        state.orgList = orgList;
+        state.orgList = Object.assign({}, orgList);
     },
 
     setSearchText(state, { searchText }) {
@@ -63,7 +63,7 @@ const mutations = {
             userOrgs.push({value:orgList.result[i].id , label: orgList.result[i].display_name});
         }
 
-        state.userOrgs = userOrgs;
+        state.userOrgs = Object.assign({}, userOrgs);
     },
 }
 

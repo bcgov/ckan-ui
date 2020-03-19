@@ -25,9 +25,10 @@ export default {
         "Accessibility": "Accessibilité",
         "Copyright": "droits d'auteur",
         "Contact Us": "Contactez nous",
-        "Groups": "Groupes",
+        "Groups": "Groupe | Groupes",
         "Viewing Dataset": "Affichage du jeu de données",
         "Dataset": "Jeux de donnée | Jeux de données",
+        "dataset": "jeux de donnée | jeux de données",
         "Order By": "Commandé par",
         "found": "a trouvé",
         "Clear all": "Tout effacer",
@@ -225,6 +226,10 @@ export default {
         "Licenses": "Licences",
         "Add Dataset": "Ajouter un jeu de données",
         "What are": "Quels sont",
-        "orgAbout": "La responsabilité de gérer les ensembles de données, les API et les applications (collectivement les ressources) et les informations descriptives sur ces ressources (métadonnées) incombe aux organisations qui ont la responsabilité de la conservation des données pour les ressources. Dans le secteur public, il s'agit généralement d'une branche d'un ministère. Dans ce cas, le dépositaire des données est le directeur ou le directeur exécutif de la succursale."
+        "orgAbout": "La responsabilité de gérer les ensembles de données, les API et les applications (collectivement les ressources) et les informations descriptives sur ces ressources (métadonnées) incombe aux organisations qui ont la responsabilité de la conservation des données pour les ressources. Dans le secteur public, il s'agit généralement d'une branche d'un ministère. Dans ce cas, le dépositaire des données est le directeur ou le directeur exécutif de la succursale.",
+        "groupAbout": "Vous pouvez utiliser les groupes pour créer et gérer des collections d'ensembles de données. Cela pourrait être de cataloguer des ensembles de données pour un projet ou une équipe particulier, ou sur un thème particulier, ou comme un moyen très simple d'aider les gens à trouver et à rechercher vos propres ensembles de données publiés.",
+        "Search": "Chercher",
+        "Manage": "Gérer",
+        "Add": "Ajouter",
     }
 };

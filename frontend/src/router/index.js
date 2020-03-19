@@ -58,6 +58,14 @@ let r = new Router({
             }
         },
         {
+            path: '/organization/create',
+            name: 'organization_create',
+            component: organization_view,
+            meta: {
+                title: "Creating Organization"
+            }
+        },
+        {
             path: '/organization/:organizationId',
             name: 'organization_view',
             component: organization_view,
