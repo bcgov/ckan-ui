@@ -37,6 +37,7 @@
 
           <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
           <v-btn v-else depressed text large id="logout-btn" class="hidden-sm-and-down" @click="logout" height="100%"><v-icon left>mdi-account</v-icon> {{$tc('Logout')}}</v-btn>
+          <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
           <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down" @click="setLanguage('en')" height="100%">English</v-btn>
           <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down" @click="setLanguage('fr')" height="100%">Français</v-btn>
 
@@ -56,6 +57,7 @@
                     <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
                       <v-list-item v-if="!loggedIn" color="text" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
                       <v-list-item v-else color="text" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
+                      <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                       <template v-for="(item, key) in menuTertiary">
                           <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                           <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
@@ -101,11 +103,13 @@ export default {
   },
   props: [],
   data () {
+    let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
         searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
         showSearch: false,
+        loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         menuSecondary: [
             {
@@ -147,8 +151,19 @@ export default {
   computed: {
     ...mapState({
       user: state => state.user.authUser,
-      loggedIn: state => state.user.loggedIn
+      loggedIn: state => state.user.loggedIn,
+      sysAdmin: state => state.user.sysAdmin,
+      isAdmin: state => state.user.isAdmin,
+      isEditor: state => state.user.isEditor,
+      userLoading: state => state.user.userLoading,
     }),
+
+    showCreate: function(){
+        // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+        //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+        return ( (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+    },
 
     menuTertiary() {
         return [
@@ -200,7 +215,18 @@ export default {
       },
 
       setLanguage: function(local){
-          this.$i18n.locale = local
+        if (!this.loadedLanguages.includes(local)){
+          var self = this;
+          import(/* webpackChunkName: "lang-[request]" */ `@/i18n/${local}.js`).then( (messages) => {
+            self.$i18n.setLocaleMessage(local, messages.default.fr)
+            self.loadedLanguages.push(local);
+            this.$i18n.locale = local;
+            document.querySelector('html').setAttribute('lang', local);
+          })
+        }else{
+          this.$i18n.locale = local;
+          document.querySelector('html').setAttribute('lang', local);
+        }
       },
 
       clearStorage: function(){

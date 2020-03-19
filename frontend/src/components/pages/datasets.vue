@@ -5,68 +5,42 @@
             <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else pa-0 ma-0 fluid class="raise">
-        <v-row wrap fill-height>
-            <v-col cols1 class="tertiary nav facetFilter">
-                <!-- Facets  -->
-                <FacetFilter
-                    v-for="(facet, facetKey) in facets"
-                    :key="'facet-section-'+facetKey"
-                    :name="facet.name"
-                    :found="count"
-                    :field="facet"
-                    :totalFilters="totalFilters"
-                    v-on:facetFilter="facetFilter"
-                    v-on:openDrawer="openDrawer"
-                    v-on:clearAll="clearAll"
-                ></FacetFilter>
-            </v-col>
-            <v-col cols=2></v-col>
-            <v-col cols=10>
-                <v-btn
-                v-if="showCreate"
-                fab
-                fixed
-                bottom
-                right
-                color="info"
-                class="text-xs-center"
-                @click="datasetCreate"
-            >
-                    <v-icon>edit</v-icon>
-                </v-btn>
-                <v-row wrap pb-3>
+    <v-container fluid v-else class="px-0">
+        <v-row wrap fill-height dense class="mx-0 mx-sm-2 mx-md-4 mx-lg-6 mx-xl-8">
+            <v-col cols=12 order=2 order-sm=1 sm=8>
+                <v-row wrap pb-1>
                 </v-row>
-                <v-row wrap>
-                    <v-col cols=1></v-col>
-                    <v-col cols=9>
-                        <v-text-field id="dataset-search" v-model="findText" :label="$tc('SearchDatasets')" v-on:keyup="search" outlined append-icon="mdi-magnify"></v-text-field>
+                <v-row wrap dense>
+                    <v-col cols=12>
+                        <v-text-field id="dataset-search" class="searchbox" v-model="findText" :label="$tc('SearchDatasets')" v-on:keyup="search" outlined append-icon="search"></v-text-field>
                     </v-col>
                 </v-row>
-                <v-row wrap>
-                    <v-col cols=1></v-col>
+                <v-row wrap dense>
                     <v-col cols=4>
-                        <h3>
+                        <span>
                             {{count}} {{$tc('datasets')}} {{$tc('found')}}
                             <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                             <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
                             <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied')}}</span>
-                        </h3>
+                        </span>
                     </v-col>
                     <v-col cols=3>
                     </v-col>
-                    <v-col cols=2>
-                        <v-select append-icon="mdi-menu-down" persistent-hint v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" :label="$tc('Order By')" v-on:change="sort"></v-select>
+                    <v-col cols=2 class="text-right">
+                        <span>{{$tc('Order By')}}:</span>
+                    </v-col>
+                    <v-col cols=3>
+                        <v-select dense append-icon="mdi-menu-down" persistent-hint class="borderless mt-n1" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
                     </v-col>
                 </v-row>
-                <v-row wrap align-center justify-center pt-2 pb-3>
+                <!-- <v-row wrap align-center justify-center pt-2 pb-3> -->
                     <!-- <v-col cols=2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-col> -->
-                </v-row>
+                <!-- </v-row> -->
                 <!-- <v-row wrap style="border-bottom: 1px solid;">
                 </v-row> -->
 
-                <v-row wrap>
-                    <v-col cols=10>
+                <v-row wrap dense>
+                    <v-col cols=12>
                         <!-- Search  -->
                         <v-progress-circular
                             v-if="loading"
@@ -78,13 +52,37 @@
                         </div>
                         <div v-else>
                             <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
-                            <infinite-loading @infinite="scroll">
-                                <div slot="no-results">No more datasets</div>
-                                <div slot="no-more">No more datasets</div>
-                            </infinite-loading>
+                            <v-row class="mb-3">
+                                <v-col cols=8>
+                                    <v-pagination prev-icon="mdi-chevron-double-left" next-icon="mdi-chevron-double-right" :length="Math.ceil(count/rows)" :total-visible="pageButtonLimit" v-model="currentPage"></v-pagination>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                            </v-row>
                         </div>
                     </v-col>
                 </v-row>
+            </v-col>
+            <v-col cols=12 order=1 order-sm=2 sm=4>
+                <v-row class="ml-1 mb-3 text-left">
+                    <span class="primary">
+                        <a class="anchorText" @click="expand">{{$tc('Expand All')}}</a>
+                        <span class="anchorText"> | </span>
+                        <a class="anchorText" @click="collapse">{{$tc('Collapse All')}}</a>
+                    </span>
+                </v-row>
+                <FacetFilter
+                    v-for="(facet, facetKey) in facets"
+                    :open="facetOpen[facet.name]"
+                    :key="'facet-section-'+facetKey"
+                    :name="facet.name"
+                    :found="count"
+                    :field="facet"
+                    :totalFilters="totalFilters"
+                    v-on:facetFilter="facetFilter"
+                    v-on:openFacet="openFacet"
+                    v-on:closeFacet="closeFacet"
+                ></FacetFilter>
             </v-col>
         </v-row>
     </v-container>
@@ -112,10 +110,11 @@
       return {
           loading: true,
           advanced: false,
+          pageButtonLimit: 7,
+          currentPage: 1,
           datasets: [],
           error: null,
           noResults: false,
-          facets: {},
           searchedText: "",
           findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
           count: 0,
@@ -133,6 +132,13 @@
       }
     },
 
+    watch: {
+        currentPage(newVal){
+            this.skip = this.rows*(newVal-1);
+            this.getDatasets();
+        }
+    },
+
     computed: {
         ...mapState({
             facetFilters: state => state.search.facets,
@@ -142,7 +148,9 @@
             isAdmin: state => state.user.isAdmin,
             isEditor: state => state.user.isEditor,
             userLoading: state => state.user.userLoading,
-            searchText: state => state.search.searchText
+            searchText: state => state.search.searchText,
+            facets: state => state.dataset.facetList,
+            facetOpen: state => state.dataset.facetOpen,
         }),
 
         showCreate: function(){
@@ -155,6 +163,33 @@
     },
 
     methods: {
+
+        expand: function(){
+            this.changeFacetsOpen(true);
+        },
+
+        collapse: function(){
+            this.changeFacetsOpen(false);
+        },
+
+        changeFacetsOpen(open){
+            let keys = Object.keys(this.facetOpen);
+            for (let i=0; i<keys.length; i++){
+                if (open){
+                    this.openFacet(keys[i]);
+                }else{
+                    this.closeFacet(keys[i]);
+                }
+            }
+        },
+
+        openFacet: function(name){
+            this.$store.commit('dataset/setFacetOpen', { facet: name, open: true})
+        },
+
+        closeFacet: function(name){
+            this.$store.commit('dataset/setFacetOpen', { facet: name, open: false})
+        },
 
         datasetCreate: function(){
             this.$store.commit('dataset/clearDataset');
@@ -172,14 +207,14 @@
             this.getDatasets();
         },
 
-        scroll: function(state){
-            this.skip += this.rows;
-            if (this.count>this.skip) {
-                this.getDatasets(true, state)
-            }else{
-                state.complete()
-            }
-        },
+        // scroll: function(state){
+        //     this.skip += this.rows;
+        //     if (this.count>this.skip) {
+        //         this.getDatasets(true, state)
+        //     }else{
+        //         state.complete()
+        //     }
+        // },
 
         search: function(e){
             if (e.keyCode === 13) {
@@ -251,7 +286,7 @@
                 q += fq + "&"
             }
 
-            if ( (append) && (this.skip !== 0) ){
+            if ( /*(append) &&*/ (this.skip !== 0) ){
                 q += "start=" + this.skip + "&"
             }
 
@@ -296,17 +331,8 @@
         },
 
         getFacets(){
-           if (typeof(localStorage.facetList) !== "undefined"){
-               this.facets = JSON.parse(localStorage.facetList);
-               this.getDatasets();
-               return;
-           }
-
-            ckanServ.getFacets().then((data) => {
-                this.facets = data
-                localStorage.facetList = JSON.stringify(data);
-                this.getDatasets();
-            });
+            this.$store.dispatch('dataset/getFacetList');
+            this.getDatasets();
         },
 
         facetFilter: function(facet, filter){
@@ -335,6 +361,10 @@
 </script>
 
 <style scoped>
+    .anchorText{
+        color: var(--v-text-base);
+    }
+
     .facetFilter{
         position: fixed;
         bottom: 0px;
@@ -351,7 +381,36 @@
         background: var(--v-secondary-base);
     }
 
-    .raise {
-        margin-bottom: 45px;
+    .searchbox{
+        height: 55px;
+    }
+
+    .borderless{
+        margin: 0;
+        padding-top: 0;
+    }
+
+</style>
+
+<style>
+    .borderless .v-input__slot:before{
+        border: none !important;
+    }
+    .v-pagination__item.v-pagination__item--active.primary{
+        margin: 0px;
+    }
+    .v-pagination__navigation.v-pagination__navigation--disabled{
+        margin: 0px;
+    }
+    .v-pagination__item{
+        margin: 0px;
+    }
+
+    .v-pagination__more{
+        margin: 0px;
+    }
+
+    .v-pagination__navigation{
+        margin: 0px;
     }
 </style>

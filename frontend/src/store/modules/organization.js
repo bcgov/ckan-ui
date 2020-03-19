@@ -3,7 +3,8 @@ const ckanServ = new CkanApi();
 
 const state = {
     orgList: {},
-    userOrgs: []
+    userOrgs: [],
+    searchText: "",
 };
 
 const getters = {
@@ -58,6 +59,10 @@ const actions = {
 const mutations = {
     setOrgList(state, { orgList }) {
         state.orgList = orgList;
+    },
+
+    setSearchText(state, { searchText }) {
+        state.searchText = searchText;
     },
 
     setUserOrgList(state, { orgList }) {

@@ -1,6 +1,55 @@
 <template>
     <div v-show="maxFilters > 1">
-        <v-container px-0  :id="'facet-'+name" align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
+        <v-expansion-panels v-model="model" class="mb-3">
+            <v-expansion-panel>
+                
+                <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader">
+                    <v-row dense>
+                        <v-col cols="10">
+                            <v-badge inline color="red" >
+                                <template v-slot:badge>
+                                    <span v-if="numApplied>0">{{numApplied}}</span>
+                                </template>
+                                <span>{{$tc(name)}}</span>
+                            </v-badge>
+                        </v-col>
+                    </v-row>
+                </v-expansion-panel-header>
+                
+                <v-expansion-panel-content class="facet-no-border">
+                    <div>
+                        <v-row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
+                            <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
+                                <span v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
+                                    <v-chip 
+                                        v-for="(filter, i) in filters[k]" 
+                                        :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
+                                        label
+                                        :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2 mr-2' : 'active pointer mb-2 mr-2'"
+                                        :key="'filter-'+key+'-'+i"
+                                        v-on:click="filterOn(filter, k)">
+                                        <span class="bold">
+                                            {{filter.display_name}}
+                                            <v-icon v-if="filteredOn.indexOf(filter.name) === -1">mdi-plus-circle</v-icon>
+                                            <v-icon v-else>mdi-close-circle</v-icon>
+                                            
+                                        </span>
+                                    </v-chip>
+                                </span>
+                            </span>
+                        </v-row>
+                        <v-row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
+                            <v-col v-if="header !== 'banner'" cols=12 pb-2><h5>{{$tc(header)}}</h5></v-col>
+                            <v-col v-if="header !== 'banner'" cols=12 pb-2><p>{{$tc(info)}}</p></v-col>
+                            <v-col v-else cols=12 fluid class="banner"><h4>{{$tc(info)}}</h4></v-col>
+                        </v-row>
+                    </div>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
+
+        
+        <!-- <v-container px-0  :id="'facet-'+name" align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
             <v-badge overlap color="red" class="facetBadge">
                 <template v-slot:badge>
                     <span v-if="numApplied>0">{{numApplied}}</span>
@@ -56,16 +105,16 @@
                 </div>
             </v-row>
             <v-row wrap>
-                <v-btn @click="clearClick" :id="'facet-clearAll-'+name" color="text">{{$tc('Clear all')}}</v-btn>
+                <v-btn @click="clearClick" :id="'facet-clearAll-'+name" color="text">{{$tc('Clear all')}}</v-btn> -->
                 <!--<v-btn @click="toggleDrawer" color="primary">{{$tc('OK')}}</v-btn>-->
-            </v-row>
+            <!-- </v-row>
         </v-container>
         <v-container fluid class="dimmer" v-if="showDrawer" :id="'facet-dimmerClose-'+name" @click="toggleDrawer()">
             <v-row wrap fill-height>
                 <v-col cols=12>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-container> -->
     </div>
 </template>
 
@@ -81,6 +130,7 @@ export default{
         field: Object,
         found: Number,
         totalFilters: Number,
+        open: Boolean,
     },
 
     data: function(){
@@ -98,16 +148,27 @@ export default{
             numFilters: 0,
             totalCount: 0,
             maxFilters: 0,
+            model: (this.open) ? [0] : [],
         }
     },
 
     computed: {
         ...mapState({
             filtered: state => state.search.facets,
+            facet: state => state.dataset.facets
         }),
     },
 
     methods: {
+
+        togglePanel: function(){
+
+            if (this.model === 0){
+                this.$emit("closeFacet", this.name);
+            }else{
+                this.$emit("openFacet", this.name);
+            }
+        },
 
         closeDrawer: function(drawerName){
             if (drawerName !== this.name){
@@ -184,6 +245,7 @@ export default{
                 }
             }
         },
+
         preFilter: function(){
 
             for (let i=0; i<this.field.facets.length; i++){
@@ -203,6 +265,7 @@ export default{
     mounted(){
         this.getFacet()
         this.preFilter();
+        this.model = (this.open) ? 0 : undefined;
         this.$parent.$on('closeDrawer', this.closeDrawer)
         this.$parent.$on('clearAll', this.clearAll)
     }
@@ -210,6 +273,16 @@ export default{
 </script>
 
 <style scoped>
+
+    .borderless{
+        border: none;
+        background: none;
+    }
+
+    .filterPanelHeader{
+        background: var(--v-primary-base) !important;
+        color: var(--v-text-base) !important
+    }
 
     .borderBottom{
         border-bottom: 1px solid grey;
@@ -257,7 +330,8 @@ export default{
     
     
     .theme--light.v-chip:not(.v-chip--active).active{
-        background: var(--v-highlight-base);
+        background: var(--v-primary-base);
+        color: var(--v-text-base)
     }
 
     .iconWidth{
@@ -295,15 +369,19 @@ export default{
         cursor: pointer;
     }
 
-    .facetBadge .v-badge__badge.red{
-        top: 10px;
-        right: 15px;
+    .theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
+        color: var(--v-text-base) !important;
     }
 
-    .facetBadge{
-        text-align: center;
-        align-content: center;
-        width: 100%;
+    .facet-no-border{
+        border: none;
+        background: none;
+        box-shadow: none;
     }
+
+    .v-expansion-panel:before{
+        box-shadow: none;
+    }
+
 
 </style>

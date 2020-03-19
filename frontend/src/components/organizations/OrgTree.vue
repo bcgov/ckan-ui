@@ -1,19 +1,25 @@
 <template>
-  <v-container class="color-data padding" flush>
-    <v-row justify-left align-left>
-      <v-col cols=1 v-on:click="expanded = !expanded">
-        <v-icon v-if="!expanded && count>0" class="clickable">expand_more</v-icon>
-        <v-icon v-else-if="expanded && count>0" class="clickable">expand_less</v-icon>
-      </v-col>
-      <v-col cols=11>
-        <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? count : ''}}</router-link>
-        <p v-else>{{orgName}} {{count > 0 ? count : ''}}</p>
-      </v-col>
-    </v-row>
-    <v-container flush v-if="expanded">
-      <org-tree v-for="org in children" :key="'org-tree-'+id+'-'+org.id" :org="{key: org.title, org: org}"></org-tree>
-    </v-container>
+  <v-container class="mb-2 py-0 px-0">
+    <v-expansion-panels flat tile :readonly="count === 0" :class="count === 0 ? 'noPointer' : ''">
+      <v-expansion-panel>
+        <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'">
+          <span>
+            <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
+            <p v-else>{{orgName}} {{count > 0 ? '' : ''}}</p>
+          </span>
+          <template v-slot:actions>
+            <v-icon v-if="count > 0">mdi-chevron-down</v-icon>
+            <span v-else></span>
+          </template>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content v-if="count > 0">
+          <org-tree :top="false" v-for="org in children" :key="'org-tree-'+id+'-'+org.id" :org="{key: org.title, org: org}"></org-tree>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
   </v-container>
+
 </template>
 
 <script>
@@ -23,7 +29,8 @@ export default{
     name: 'org-tree',
 
     props: {
-        org: Object
+        org: Object,
+        top: Boolean
     },
     data() {
         return {
@@ -68,5 +75,28 @@ export default{
   div.container.flush:not(.padding){
     padding: 0px;
   }
+
+  .filterPanelHeader{
+    background: var(--v-primary-base);
+    color: var(--v-text-base);
+  }
+
+  .subHeader{
+    color: var(--v-primary-base);
+    background: var(--v-text-base);
+  }
+
+  .filterPanelHeader .orgLink{
+    color: var(--v-text-base);
+  }
+
+  .subHeader .orgLink{
+    color: var(--v-primary-base);
+  }
+
+  [type=button].noPointer, button.noPointer{
+    cursor: auto !important;
+  }
+
 
 </style>
