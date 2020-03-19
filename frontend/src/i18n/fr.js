@@ -219,11 +219,9 @@ export default {
         "Object Short Name": "Nom abrégé de l'objet",
         "Object Table Comments": "Commentaires de la table d'objets",
         "User Profile": "Profil de l'utilisateur",
-<<<<<<< HEAD:frontend/src/i18n/messages.js
         "Edit Dataset": "Modifier le Jeu de Données",
         "Delete Dataset": "Supprimer le Jeu de Données",
         "Show Groups": "Afficher les groupes auxquels appartient cet ensemble de données",
-=======
         "Expand All": "Développer Tout",
         "Collapse All": "Réduire tout",
         "Download Permissions": "Autorisations de téléchargement",
@@ -231,6 +229,5 @@ export default {
         "Add Dataset": "Ajouter un jeu de données",
         "What are": "Quels sont",
         "orgAbout": "La responsabilité de gérer les ensembles de données, les API et les applications (collectivement les ressources) et les informations descriptives sur ces ressources (métadonnées) incombe aux organisations qui ont la responsabilité de la conservation des données pour les ressources. Dans le secteur public, il s'agit généralement d'une branche d'un ministère. Dans ce cas, le dépositaire des données est le directeur ou le directeur exécutif de la succursale."
->>>>>>> gov/dev:frontend/src/i18n/fr.js
     }
 };
