@@ -1,8 +1,12 @@
 <template>
-    <div class="pow-container">
+    <div class="pow-container" style="width: 100%">
         <v-dialog v-model="dialog" width="900">
             <template v-slot:activator="{ on }">
-                <v-list-item text block color="secondary" v-on="on">
+                <v-btn v-if="btn" block color="primary" v-on="on">
+                    <!-- @click="startOrder()" -->
+                    Access&nbsp;
+                </v-btn>
+                <v-list-item v-else text block color="secondary" v-on="on">
                     <!-- @click="startOrder()" -->
                     Access&nbsp;
                 </v-list-item>
@@ -26,10 +30,14 @@ import powModal from './powModal'
 const powServ = new PowApi();
 
 export default {
-    props: ['resource'],
+    props: {
+        resource: Object,
+        btn: Boolean
+    },
     data() {
         return {
-            dialog:false,
+            dialog: false,
+            button: false
         }
     },
     components: {

@@ -12,9 +12,9 @@
     </v-container>
     <v-container v-else grid-list-md class="main-area">
         <v-alert
-            :value="dataset.state === 'deleted'"
+            :value="resource.state === 'deleted'"
             type="warning">
-            You are viewing a deleted dataset
+            You are viewing a deleted resource
         </v-alert>
         <v-alert
             :value="showFormSuccess"
@@ -32,8 +32,8 @@
         </v-alert>
 
         <!-- <powButton :dataset="dataset"/> -->
-        <v-row wrap>
-            <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
+        <v-row align-content="start">
+            <v-btn left text color="primary" class="ml-5" :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }"><v-icon>mdi-arrow-left</v-icon>Back to Dataset</v-btn>
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -41,37 +41,85 @@
                 <v-row fill-height>
                     <v-col cols=12 md=8 v-if="!!schema">
                         <v-toolbar color="secondary">
-                            <v-toolbar-title color="white">Dataset Details</v-toolbar-title>
+                            <v-toolbar-title color="white">Resource Details</v-toolbar-title>
                         </v-toolbar>
                         <DynamicForm
-                            :schema="schema.dataset_fields"
+                            :schema="schema.resource_fields"
                             :textFields="textFields"
                             :editing="editing"
-                            :values="dataset"
+                            :values="resource"
                             :disabled="disabled"
-                            :selectableUserOrgs="userOrgs"
                             ref="dynoForm"
-                            @updated="(field, value) => updateDataset(field, value)"
+                            @updated="(field, value) => updateResource(field, value)"
                         >
                         </DynamicForm>
                     </v-col>
                     <v-col cols=12 md=4>
                         <v-toolbar color="secondary">
+                            <v-toolbar-title>Access</v-toolbar-title>
+                        </v-toolbar>
+                        <v-container v-if="resource">
+                            <v-row v-if="loadPOW">
+                                <v-col cols=12>
+                                    <powButton :resource="resource" btn/>
+                                </v-col>
+                            </v-row>
+                            <v-row v-else>
+                                <v-col cols=12>
+                                    <v-btn block color="primary" :href="resource.url"><v-icon>mdi-cloud-download-outline</v-icon>Download</v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols=12>
+                                    <v-btn block color="primary" @click.stop="previewDialog = true">
+                                        <v-icon>mdi-scan-helper</v-icon>Preview
+                                        <v-dialog
+                                            eager
+                                            v-model="previewDialog"
+                                            fullscreen
+                                            transition="dialog-bottom-transition"
+                                        >
+                                            <Preview
+                                                :resource="resource"
+                                                v-on:closePreviewDialog="previewDialog = false"
+                                            ></Preview>
+                                        </v-dialog>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-row v-if="!!resource.hasSchema">
+                                <v-col cols=12>
+                                    <v-btn block color="primary" @click.stop="schemaDialog = true">
+                                        <v-icon>mdi-code-json</v-icon>View Schema (JSON Table Schema)
+                                        <v-dialog
+                                            eager
+                                            v-model="schemaDialog"
+                                            fullscreen
+                                            transition="dialog-bottom-transition"
+                                        >
+                                            <JsonTable
+                                                :resource="resource"
+                                                v-on:closePreviewDialog="schemaDialog = false"
+                                            ></JsonTable>
+                                        </v-dialog>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                        <v-toolbar color="secondary">
                             <v-toolbar-title>Resources</v-toolbar-title>
                         </v-toolbar>
-                        <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                        <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                         <v-row wrap v-if="!createMode">
                             <v-col cols=12>
                                 <v-btn text small color="secondary" v-clipboard="() => permalink">{{$tc("Permalink")}}</v-btn>
-                                <br>
-                                <v-btn text small color="secondary">{{$tc("Show Groups")}}</v-btn>
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode && showEdit">
                             <v-col cols=12>
-                                <v-btn text color="primary" @click="toggleEdit">{{$tc("Edit Dataset")}}</v-btn>
+                                <v-btn text color="primary" @click="toggleEdit">{{$tc("Edit Resource")}}</v-btn>
                                 <br>
-                                <v-btn text color="error" @click="deleteDataset">{{$tc("Delete Dataset")}}</v-btn>
+                                <v-btn text color="error" @click="deleteDataset">{{$tc("Delete Resource")}}</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -82,11 +130,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
 
-import Breadcrumb from "../breadcrumb/Breadcrumb";
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
 
@@ -94,18 +141,23 @@ import {CkanApi} from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 import DynamicForm from '../form/DynamicForm';
+import Preview from "../resources/preview";
+import JsonTable from "../resources/jsontable";
+import powButton from "../pow/powButton";
 
 export default {
     components: {
         DynamicForm: DynamicForm,
-        Breadcrumb: Breadcrumb,
         ResourceList: ResourceList,
         ValidationObserver: ValidationObserver,
+        Preview: Preview,
+        JsonTable: JsonTable,
+        powButton: powButton
     },
     data() {
         let schemaName = 'bcdc_dataset';
         return {
-            editing: this.$route.name === "dataset_create",
+            editing: this.$route.name === "resource_create",
             formError: '',
             showFormError: false,
             formSuccess: '',
@@ -113,58 +165,48 @@ export default {
             schemaName: schemaName,
             disabled: false,
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
-            createMode: this.$route.name === "dataset_create",
-            textFields: [
-                'object_name',
-                'replacement_record',
-                'retention_expiry_date',
-                'source_data_path',
-                'record_create_date',
-                'record_publish_date',
-                'record_archive_date',
-                'record_last_modified'],
-            error: this.datasetError
+            createMode: this.$route.name === "resource_create",
+            textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments'],
+            error: this.datasetError,
+            previewDialog: false,
+            schemaDialog: false
         };
     },
-    watch: {
-        getAbort(newVal) {
-            if(newVal==true) {
-                this.$router.push('/datasets');
-            }
-        },
-    },
+    // watch: {
+    //     getAbort(newVal) {
+    //         if(newVal==true) {
+    //             this.$router.push('/datasets');
+    //         }
+    //     },
+    // },
     computed: {
-        breadcrumbs: function(){
-            return [
-                { icon: "mdi-home", label: "Home", route: "/" },
-                { label: "Datasets", route: "/datasets" },
-                { label: this.dataset.title ? this.dataset.title : "Fetching Dataset...", translate: this.dataset.title ? false : true }
-            ]
+        loadPOW: function() {
+            return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
         },
 
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
-            let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
-            for (var i=0; i<this.schema.dataset_fields.length; i++){
-                remove.push(this.schema.dataset_fields[i].field_name);
-                if (typeof(this.schema.dataset_fields[i].subfields) !== "undefined"){
-                    for (var j=0; j<this.schema.dataset_fields[i].subfields.length; j++){
-                        remove.push(this.schema.dataset_fields[i].subfields[j].field_name);
-                    }
-                }
-            }
-            keys = keys.filter(function(el){
-                return remove.indexOf(el) < 0;
-            });
+            // let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
+            // for (var i=0; i<this.schema.resource_fields.length; i++){
+            //     remove.push(this.schema.resource_fields[i].field_name);
+            //     if (typeof(this.schema.resource_fields[i].subfields) !== "undefined"){
+            //         for (var j=0; j<this.schema.resource_fields[i].subfields.length; j++){
+            //             remove.push(this.schema.resource_fields[i].subfields[j].field_name);
+            //         }
+            //     }
+            // }
+            // keys = keys.filter(function(el){
+            //     return remove.indexOf(el) < 0;
+            // });
             keys.sort();
             return keys;
         },
 
-        getAbort() {
-            return this.$store.state.dataset.shouldAbort;
-        },
+        // getAbort() {
+        //     return this.$store.state.dataset.shouldAbort;
+        // },
         permalink: function(){
-            return window.location.origin+'/dataset/'+this.dataset.id
+            return window.location.origin+'/dataset/'+this.dataset.id+'/resource/'+this.resource.id
         },
 
         // schema: function () {
@@ -174,12 +216,16 @@ export default {
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
-        editLink: function editLink() {
-            return "/dataset/" + this.datasetId + "/edit";
+        resourceId: function resourceId() {
+            return this.$route.params.resourceId;
         },
+        // editLink: function editLink() {
+        //     return "/dataset/" + this.datasetId + "/edit";
+        // },
 
         ...mapState({
             dataset: state => state.dataset.dataset,
+            resource: state => state.dataset.resource,
             shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
@@ -192,12 +238,9 @@ export default {
             datasetError: state => state.dataset.error
         }),
 
-        canDeleteResources: function(){
-            if (!this.dataset.organization){
-                return false;
-            }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
-        },
+        ...mapGetters("dataset", {
+            siblings: "getResourceList"
+        }),
 
         showEdit: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
@@ -206,16 +249,16 @@ export default {
                 return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             }
             return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        }
+        },
     },
 
     methods: {
-        getUserOrgs() {
-            if (this.userOrgs.length <= 0){
-                this.$store.dispatch("organization/getUserOrgs");
-            }
-        },
-        getDataset() {
+        // getUserOrgs() {
+        //     if (this.userOrgs.length <= 0){
+        //         this.$store.dispatch("organization/getUserOrgs");
+        //     }
+        // },
+        getResource() {
             let self = this;
             let unsub = this.$store.subscribe(
                 (mutation, state) => {
@@ -227,15 +270,14 @@ export default {
                 }
             )
             if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
-                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
-                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
-                });
-            } else {
-                this.$store.dispatch('dataset/getDatasetSchema').then(() => {
-                    this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
-                });
-                //this.$router.push('/datasets');
+                this.$store.dispatch("dataset/getResource", { id: this.resourceId }) // .then(() => {
+                //     this.schema = this.$store.state.dataset.schemas[this.schemaName]
+                // });
             }
+            this.$store.dispatch('dataset/getDatasetSchema').then(() => {
+                this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
+            });
+            //this.$router.push('/datasets');
         },
         toggleEdit() {
             this.editing = !this.editing;
@@ -244,8 +286,8 @@ export default {
             this.formSuccess = '';
             this.showFormSuccess = false;
         },
-        async deleteDataset(){
-            const response = await ckanServ.deleteDataset(this.datasetId);
+        async deleteResource(){
+            const response = await ckanServ.deleteResource(this.resourceId);
 
             this.formSuccess = "";
             this.formError = "";
@@ -261,16 +303,16 @@ export default {
                 this.showFormError = true;
                 return;
             }
-            this.formError = "Unknown error deleting dataset";
+            this.formError = "Unknown error deleting resource";
             this.showFormSuccess = false;
             this.showFormError = true;
         },
         cancel(){
             if (this.createMode){
-                this.$router.push('/datasets');
+                this.$router.push('/dataset/' + this.datasetId);
             }
 
-            this.$store.commit("dataset/resetDataset");
+            this.$store.commit("dataset/resetResource");
             this.toggleEdit();
         },
 
@@ -291,9 +333,9 @@ export default {
 
             let result = {};
             if (this.createMode){
-                result = await this.$store.dispatch("dataset/createDataset")
+                result = await this.$store.dispatch("dataset/createResource")
             }else{
-                result = await this.$store.dispatch("dataset/setDataset");
+                result = await this.$store.dispatch("dataset/setResource");
             }
             if (!result || !result.success || result.success === false){
                 if (result.error.message){
@@ -308,30 +350,24 @@ export default {
                 this.showFormError = true;
                 this.showFormSuccess = false;
             }else{
-                this.toggleEdit();
-                if (this.createMode){
-                    this.$router.replace({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
-                }
+                this.$router.push('/dataset/' + this.datasetId);
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;
             }
             this.disabled = false;
         },
-        updateDataset(field, newValue){
-            if (typeof(this.dataset.type) === "undefined"){
-                this.dataset.type = "bcdc_dataset";
-            }
-            this.dataset[field] = newValue;
-            this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
+        updateResource(field, newValue){
+            this.resource[field] = newValue;
+            this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
         },
     },
 
     mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        this.getUserOrgs();
-        this.$store.dispatch("organization/getOrgs");
-        this.getDataset();
+        // this.getUserOrgs();
+        // this.$store.dispatch("organization/getOrgs");
+        this.getResource();
     },
 
 };

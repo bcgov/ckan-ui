@@ -6,10 +6,10 @@
                 <div v-if="!hasDisplayed || !model[repeatedIndex].displayed">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <v-row v-if="sub.display_snippet !== null" align="center">
-                            <v-col cols=2 class="py-1">
+                            <v-col cols=3 class="py-1">
                                 <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
                             </v-col>
-                            <v-col cols=10 class="py-1">
+                            <v-col cols=9 class="py-1">
                                 <span v-if="model[repeatedIndex]">
                                     <span v-if="sub.field_name === 'org'">
                                         <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
