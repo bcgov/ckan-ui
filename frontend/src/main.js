@@ -190,12 +190,9 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#000000",
             data: '#F4F4F4',
-<<<<<<< HEAD
             govYellow: "#FCEECB",
-=======
             label_text: '#333333',
             sub_label_text: "#777777"
->>>>>>> 446824b477b79983f6810f3cab13ad617f69d82d
           },
           light: {
             primary: '#003366',
@@ -208,12 +205,9 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#ffffff",
             data: '#F4F4F4',
-<<<<<<< HEAD
             govYellow: "#FCEECB",
-=======
             label_text: '#333333',
             sub_label_text: "#777777"
->>>>>>> 446824b477b79983f6810f3cab13ad617f69d82d
           }
         }
     }
