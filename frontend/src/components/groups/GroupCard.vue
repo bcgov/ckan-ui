@@ -1,5 +1,5 @@
 <template>
-  <v-card :id="'group-link-'+id" @click="toggleShowDatasets" class="cursor groupLink">
+  <!-- <v-card :id="'group-link-'+id" @click="toggleShowDatasets" class="cursor groupLink">
     <v-img alt="Logo" @click="gotoGroup" :src="image" v-on:error="onImgError"></v-img>
 
     <v-card-title primary-title @click="gotoGroup">
@@ -8,7 +8,25 @@
         <div>{{description}}</div>
       </div>
     </v-card-title>
-  </v-card>
+  </v-card> -->
+    <v-container class="mb-2 py-0 px-0 data elevation-5" @click="$emit('groupClicked')">
+        <v-row dense class="data">
+          <v-col cols=2>
+            <v-img position="left top" alt="Logo" height="100px" contain :src="image" v-on:error="onImgError"></v-img>
+          </v-col>
+          <v-col cols=9>
+            <v-row dense>
+              <h3>{{name}}</h3>
+            </v-row>
+            <v-row dense>
+              <p>{{datasets.length}} {{$tc('datasets', datasets.length)}}</p>
+            </v-row>
+          </v-col>
+          <v-col cols=1 class="text-right" align-self="center">
+            <v-icon large color="primary">mdi-arrow-right-thick</v-icon>
+          </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -51,23 +69,15 @@ export default{
         this.imageError = true;
       },
 
-      toggleShowDatasets: function(){
-        this.showDatasets = !this.showDatasets;
-        if (this.showDatasets && !this.searched){
-          this.searched = true;
-          ckanServ.getGroup(this.id).then((data) => {
-            
-            this.datasets = data.result.packages;
-            
-            this.loading = false;
-          });
-
-        }
-      }
-
     },
 
     mounted() {
+      ckanServ.getGroup(this.id).then((data) => {
+            
+        this.datasets = data.result.packages;
+            
+        this.loading = false;
+      });
     }
 
 }
@@ -77,6 +87,10 @@ export default{
 
   .cursor{
     cursor: pointer;
+  }
+
+  .data{
+    background: var(--v-text-base);
   }
 
 </style>

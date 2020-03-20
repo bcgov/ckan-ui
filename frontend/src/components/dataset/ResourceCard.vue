@@ -1,120 +1,54 @@
 <template>
-    <v-card hover style="margin-bottom:.5rem">
+    <v-card hover tile style="margin-bottom:.5rem">
         <v-container fluid>
             <v-row wrap align-center fill-height>
-                <v-col cols=12>
-                    <h4>
-                        <v-icon>insert_drive_file</v-icon>
+                <v-col cols=12 class="py-0">
+                    <label class="label">
                         {{useResource.metadata.name}}
-                    </h4>
-                    <span>
-                        <strong>Type:</strong>
-                        {{useResource.metadata.format}}
-                    </span>
+                    </label>
                 </v-col>
             </v-row>
             <v-row wrap align-center fill-height>
-                <v-col cols=6 v-if="!loadPOW">
-                    <v-btn text block color="secondary" :href="useResource.metadata.url">
-                        Download&nbsp;
-                        <v-icon>cloud_download</v-icon>
-                    </v-btn>
+                <v-col align-start cols=9 class="py-0">
+                    <span left class="resource-info">
+                        {{useResource.metadata.format}}
+                    </span>
+                    <span v-if="useResource.metadata.size" class="resource-info ml-4">
+                        {{(useResource.metadata.size/1000).toFixed(1)}} MB
+                    </span>
                 </v-col>
-                <v-col cols=6 v-else>
-                    <powButton :resource="useResource.metadata"/>
-                </v-col>
-                <v-col cols=6>
-                    <v-menu offset-y>
+                <v-col align-end cols=3 class="py-0">
+                    <v-menu offset-y left nudge-left>
                         <template v-slot:activator="{ on: menu }">
-                            <v-btn text block color="secondary" v-on="{...menu}">
-                                More&nbsp;
-                                <v-icon>menu</v-icon>
+                            <v-btn text block small v-on="{...menu}">
+                                <v-icon>mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </template>
-                        <v-list>
-                            <v-list-item v-if="!datasetBeingEdited">
-                                <v-list-item flat @click.stop="viewDialog = true">View</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="viewDialog"
-                                    fullscreen
-
-                                    transition="dialog-bottom-transition"
-                                >
-                                    <EditResource
-                                        :edit="false"
-                                        :resource="useResource.metadata"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="viewDialog = false"
-                                    ></EditResource>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item v-if="!datasetBeingEdited">
-                                <v-list-item flat @click.stop="dialog = true">Preview</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="dialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
-                                >
-
-                                    <Preview
-                                        :resource="useResource"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="dialog = false"
-                                    ></Preview>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item v-if="!!useResource.hasSchema">
-                                <v-list-item flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="schemaDialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
-                                >
-                                    <JsonTable
-                                        :resource="useResource"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="schemaDialog = false"
-                                    ></JsonTable>
-                                </v-dialog>
-                            </v-list-item>
-
-                            <v-list-item v-if="showEdit">
-                                <v-list-item @click.stop="editDialog = true">Edit</v-list-item>
-                                <v-dialog
-                                    eager
-                                    v-model="editDialog"
-                                    fullscreen
-                                    transition="dialog-bottom-transition"
-
-                                >
-                                    <EditResource
-                                        :edit="true"
-                                        :resource="useResource.metadata"
-                                        :resourceIndex="resourceIndex"
-                                        v-on:closePreviewDialog="editDialog = false"
-                                    ></EditResource>
-                                </v-dialog>
-                            </v-list-item>
-                            <v-list-item>
-                                <v-list-item @click="deleteResource" class="red--text" v-if="canDelete">Delete</v-list-item>
-                            </v-list-item>
+                        <v-list dense>
+                            <v-list-item v-if="!loadPOW" flat :href="useResource.metadata.url">Download</v-list-item>
+                            <powButton v-else :resource="useResource.metadata"/>
+                            <v-list-item v-if="!datasetBeingEdited" flat
+                                :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
+                                >View</v-list-item>
+                            <v-list-item v-if="!datasetBeingEdited" flat @click.stop="dialog = true">Preview</v-list-item>
+                            <v-list-item v-if="!!useResource.hasSchema" flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
+                            <v-list-item v-if="showEdit" flat
+                                :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
+                                >Edit</v-list-item>
+                            <v-list-item v-if="canDelete" @click="deleteResource" color="error" >Delete</v-list-item>
                         </v-list>
                     </v-menu>
                 </v-col>
+
             </v-row>
         </v-container>
     </v-card>
 </template>
 
 <script>
-import Preview from "../resources/preview";
-import JsonTable from "../resources/jsontable";
-import EditResource from "../resources/edit";
+import { mapState } from 'vuex';
 import powButton from "../pow/powButton"
-import {CkanApi} from '../../services/ckanApi'
+import { CkanApi } from '../../services/ckanApi'
 const ckanServ = new CkanApi()
 
 export default {
@@ -130,9 +64,6 @@ export default {
     },
 
     components: {
-        Preview: Preview,
-        JsonTable: JsonTable,
-        EditResource: EditResource,
         powButton: powButton
     },
     methods: {
@@ -145,24 +76,27 @@ export default {
     computed: {
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
-        }
+        },
+        ...mapState({
+            dataset: state => state.dataset.dataset
+        })
     },
 
-    mounted() {
-        let self = this;
-        this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.resource.id});
-        let unsub = this.$store.subscribe(
-            (mutation, state) => {
-                if(mutation.type == "dataset/setResource") {
-                    if (mutation.payload.id === self.resource.id){
-                        self.useResource = state.dataset.resources[self.resource.id];
-                        unsub();
-                    }
-                }
-            }
-        )
-        
-    },
+    // mounted() {
+    //     let self = this;
+    //     this.$store.dispatch('dataset/getResource', {datasetResourceIndex: this.resourceIndex, id: this.resource.id});
+    //     let unsub = this.$store.subscribe(
+    //         (mutation, state) => {
+    //             if(mutation.type == "dataset/setResource") {
+    //                 if (mutation.payload.id === self.resource.id){
+    //                     self.useResource = state.dataset.resources[self.resource.id];
+    //                     unsub();
+    //                 }
+    //             }
+    //         }
+    //     )
+
+    // },
 
     data() {
         return {
@@ -177,6 +111,14 @@ export default {
 </script>
 
 <style scoped>
+
+label.label{
+    color: var(--v-label_text-base);
+}
+
+.resource-info{
+    color: var(--v-label_text-lighten3);
+}
 
 .container {
     padding-bottom: 15px;

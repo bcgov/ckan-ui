@@ -29,6 +29,7 @@ export default {
         "groups": "group | groups",
         "Viewing Dataset": "Viewing Dataset",
         "Dataset": "Dataset | Datasets",
+        "dataset": "dataset | datasets",
         "Order By": "Order By",
         "found": "found",
         "Clear all": "Clear all",
@@ -232,5 +233,9 @@ export default {
         "Copy Permalink": "Copy Permalink",
         "Unfollow Group": "Unfollow Group",
         "Learn more about this": "Learn more about this",
+        "groupAbout": "You can use Groups to create and manage collections of datasets. This could be to catalogue datasets for a particular project or team, or on a particular theme, or as a very simple way to help people find and search your own published datasets.",
+        "Search": "Search",
+        "Manage": "Manage",
+        "Add": "Add",
     }
 };

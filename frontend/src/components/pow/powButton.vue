@@ -1,19 +1,22 @@
 <template>
-    <div class="pow-container">
+    <div class="pow-container" style="width: 100%">
         <v-dialog v-model="dialog" width="900">
             <template v-slot:activator="{ on }">
-                <v-btn text block color="secondary" v-on="on">
+                <v-btn v-if="btn" block color="primary" v-on="on">
                     <!-- @click="startOrder()" -->
                     Access&nbsp;
-                    <v-icon>mail</v-icon>
                 </v-btn>
+                <v-list-item v-else text block color="secondary" v-on="on">
+                    <!-- @click="startOrder()" -->
+                    Access&nbsp;
+                </v-list-item>
             </template>
             <!-- change to vue component and move methods to here -->
             <powModal @powMounted="startOrder()"/>
             <!-- <v-card height="90%">
-                
+
                 <iframe :src="full_ui_url" id="powModal"></iframe>
-                
+
             </v-card> -->
         </v-dialog>
     </div>
@@ -27,10 +30,14 @@ import powModal from './powModal'
 const powServ = new PowApi();
 
 export default {
-    props: ['resource'],
+    props: {
+        resource: Object,
+        btn: Boolean
+    },
     data() {
         return {
-            dialog:false,
+            dialog: false,
+            button: false
         }
     },
     components: {
@@ -53,13 +60,13 @@ export default {
             pow_loading: state=> state.pow.pow_loading
         })
     },
-    
+
     methods: {
         startOrder: function() {
             var public_url = this.get_ofi_url('/public/')
             var secure_url = this.get_ofi_url('/secure/')
             var run_pow = this.init_pow;
-            //(pow_initialized) ? this.runOrder : 
+            //(pow_initialized) ? this.runOrder :
             let dwdspowapi = window.dwdspowapi;
             dwdspowapi.initialize(public_url, secure_url, this.custom_aoi_url, this.past_orders_nbr, false, false, run_pow)
         },
@@ -104,7 +111,7 @@ export default {
                 secureSite: false,
                 orderSource: this.order_details.ordering_application
             }
-            
+
             var params = Object.keys(qs).map(function(key){
                 return encodeURIComponent(key) + '=' + encodeURIComponent(qs[key])
             }).join('&')
@@ -143,14 +150,14 @@ export default {
                 '../../js/dwds-POW-api.js',
                 '../../js/xdLocalStorage.js'
             ];
-            
+
             scripts.map(function(script) {
                 var el = document.createElement('script');
                 el.type = 'text/javascript';
                 el.src = script;
                 document.body.appendChild(el);
                 return script;
-            });         
+            });
         },
 
         async get_ofi_config() {
@@ -170,7 +177,7 @@ export default {
 
     mounted () {
         this.get_pow_config()
-        this.get_ofi_config()    
+        this.get_ofi_config()
     }
 }
 </script>

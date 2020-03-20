@@ -60,7 +60,7 @@
                         <v-btn color="green" :href="apiKeyHelpUrl" target="_blank">Api Key Help</v-btn>
                     </v-col>
                 </v-row>
-                
+
                 <v-row>
                     <v-col cols=12 v-html="redocEle"></v-col>
                 </v-row>
@@ -98,19 +98,16 @@
 
 import pdfvuer from 'pdfvuer';
 
-export default{
+export default {
     components:{
         pdf: pdfvuer
     },
     props: {
         resource: Object,
-        resourceIndex: Number
     },
     data() {
         let API_KEY_ORIGIN = 'https://gwa.apps.gov.bc.ca'
         return {
-            name: this.resource.metadata.name,
-            id: this.resource.metadata.id,
             page: 1,
             basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices=',
             apiKey: '',
@@ -121,11 +118,22 @@ export default{
         }
     },
     computed: {
-
+        name: function() {
+            if (this.resource && this.resource.metadata && this.resource.metadata.name) {
+                return this.resource.metadata.name
+            }
+            return '';
+        },
+        id: function() {
+            if (this.resource && this.resource.metadata && this.resource.metadata.id) {
+                return this.resource.metadata.id
+            }
+            return '';
+        },
         previewURL: function(){
             if (!this.loading && this.resource.metadata
                     && this.resource.metadata.preview_info) {
-                
+
                 let previewInfo = {}
                 try {
                     previewInfo = JSON.parse(previewInfo);
@@ -141,18 +149,21 @@ export default{
             }
             return false;
         },
-        iMapUrl: function(){
-            let previewInfo = {};
-            try {
-                previewInfo = JSON.parse(previewInfo);
-            }catch(ex){
-                previewInfo = this.resource.metadata.preview_info
-            }
+        iMapUrl: function() {
+            if (this.resource && this.resource.metadata && this.resource.metadata.preview_info) {
+                let previewInfo = {};
+                try {
+                    previewInfo = JSON.parse(previewInfo);
+                }catch(ex){
+                    previewInfo = this.resource.metadata.preview_info
+                }
 
-            
-            return !this.loading && this.resource.metadata
-                    && previewInfo
-                    && previewInfo.link_to_imap ? previewInfo.link_to_imap : '';
+
+                return !this.loading && this.resource.metadata
+                        && previewInfo
+                        && previewInfo.link_to_imap ? previewInfo.link_to_imap : '';
+            }
+            return false;
         },
         loading: function(){
             return false;
@@ -182,7 +193,7 @@ export default{
         },
 
         clearApiKey(){
-            delete localStorage.apiKey; 
+            delete localStorage.apiKey;
             this.apiKey = '';
         }
     },

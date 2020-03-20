@@ -8,10 +8,20 @@
     <v-container v-else fluid>
         <v-row wrap>
             <v-col cols=12 class="">
-                <h2 class="primary-text">Organizations</h2>
+                <h2 class="primary-text">{{$tc('Organizations', 2)}}</h2>
             </v-col>
         </v-row>
         <v-row wrap dense class="d-flex d-sm-none">
+             <v-col cols=12 v-if="sysAdmin">
+                <v-expansion-panels v-model="manageExpanded">
+                    <v-expansion-panel>
+                        <v-expansion-panel-header class="header">{{$tc('Manage')}}</v-expansion-panel-header>
+                        <v-expansion-panel-content dense class="manageSection">
+                            <v-btn class="primary" :to="{name: 'organization_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-col>
             <v-col cols=12>
                 <v-expansion-panels v-model="aboutExpanded">
                     <v-expansion-panel>
@@ -38,6 +48,14 @@
                 <OrgTree :top="true" v-for="(org, key) in orgs" :key="'org-tree-'+key" :org="{key: key, org: org}"></OrgTree>
             </v-col>
             <v-col cols=4 class="d-none d-sm-block">
+                <v-row class="manageSection mb-0" v-if="sysAdmin">
+                    <v-card elevation=0>
+                        <v-card-title class='header mb-2'>{{$tc('Manage', 2)}}</v-card-title>
+                    </v-card>
+                </v-row>
+                <v-row class="manageSection mb-5" v-if="sysAdmin">
+                    <v-btn class="primary" :to="{name: 'group_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                </v-row>
                 <v-row>
                     <v-card elevation=0>
                         <v-card-title class='header mb-2'>{{$tc('Organizations', 2)}}</v-card-title>
@@ -73,18 +91,24 @@
                 orgs: {},
                 aboutExpanded: 0,
                 searchT: this.searchText ? this.searchText : "",
+                manageExpanded: 0,
             }
         },
 
         watch: {
             searchText(newVal){
                 this.searchT = newVal;
+            },
+
+            organizations(){
+                this.findOrgs();
             }
         },
 
         computed: {
             ...mapState({
                 organizations: state => state.organization.orgList,
+                sysAdmin: state => state.user.sysAdmin,
                 searchText: state => state.organization.searchText,
             })
         },
@@ -136,7 +160,7 @@
         mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.searchT = this.searchText;
-            this.findOrgs();
+            this.$store.dispatch('organization/getOrgs');
         }
     }
 
@@ -155,10 +179,20 @@
     .primary-text{
         color: var(--v-primary-base)
     }
+
+    .manageSection .v-card, .manageSection .v-card__title, .manageSection a.primary{
+        width: 100%;
+    }
+
 </style>
 
 <style>
     .theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
         color: var(--v-text-base) !important;
+    }
+
+    .manageSection .v-expansion-panel-content__wrap{
+        padding: 0 !important;
+        padding-top: 5px !important;
     }
 </style>

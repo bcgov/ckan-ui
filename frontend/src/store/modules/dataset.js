@@ -8,23 +8,36 @@ import Vue from 'vue';
 
 const state = {
     dataset: {},
-    resourceUpdate: false,
-    shouldAbort: false,
+    shouldAbortDataset: false,
     unmodifiedDataset: {},
+    datasetLoading: false,
     schemas: {},
     schemaLoading: false,
-    dataLoading: false,
-    resources: {},
+    resource: {},
+    unmodifiedResource: {},
+    resourceLoading: false,
     error: null,
     facetList: {},
     facetOpen: {},
 };
 
+const getters = {
+    getResourceList: (state) => (id) => {
+        if (typeof(id) === 'undefined') {
+            return state.dataset.resources;
+        } else {
+            return state.dataset.resources.filter( resource => {
+                return resource.id !== id;
+            });
+        }
+    }
+};
+
 const actions = {
     getDataset({ commit, dispatch }, { id }) {
-        commit('setResetAbort');
+        commit('resetAbortDataset');
         commit('clearError');
-        commit('setDataLoading', {dataLoading: true});
+        commit('setDatasetLoading', {datasetLoading: true});
         commit('setSchemaLoading', {schemaLoading: true});
         ckanServ.getDataset(id).then((data) => {
             if (data.success) {
@@ -32,7 +45,7 @@ const actions = {
                     commit('abortDataset')
                 } else {
                     commit('setCurrentDataset', { dataset: data.result });
-                    commit('setDataLoading', {dataLoading: false});
+                    commit('setDatasetLoading', {datasetLoading: false});
                     dispatch('getDatasetSchema').then(() => {
                         commit('setSchemaLoading', {schemaLoading: false});
                     });
@@ -40,12 +53,12 @@ const actions = {
             } else {
                 commit('setError', {error: data.error});
                 commit('setSchemaLoading', {schemaLoading: false});
-                commit('setDataLoading', {dataLoading: false});
+                commit('setDatasetLoading', {datasetLoading: false});
             }
         }).catch((e) => {
             commit('setError', {error: e});
             commit('setSchemaLoading', {schemaLoading: false});
-            commit('setDataLoading', {dataLoading: false});
+            commit('setDatasetLoading', {datasetLoading: false});
         });
     },
 
@@ -75,24 +88,50 @@ const actions = {
         });
     },
     //getResource(context, {datasetResourceIndex, id}){
-    getResource(context, {id}){
-        if ( (typeof(context.state.resources[id]) !== "undefined") && (context.state.resource[id] !== null) ){
-            return context.state.resources[id];
-        }
+    // getResource(context, {id}){
+    //     if ( (typeof(context.state.resources[id]) !== "undefined") && (context.state.resource[id] !== null) ){
+    //         return context.state.resources[id];
+    //     }
 
-        resourceServ.getResource(id).then((data) => {
-            data.metadata = data
-            context.commit('setResource', {id: id, resource: data.metadata});
+    //     resourceServ.getResource(id).then((data) => {
+    //         data.metadata = data
+    //         context.commit('setResource', {id: id, resource: data.metadata});
+    //     });
+    // },
+    getResource({ commit, dispatch, state }, { id }) {
+        commit('clearError');
+        commit('setResourceLoading', { resourceLoading: true });
+        resourceServ.getResource(id).then( ( data ) => {
+			if (data) {
+                data.metadata = data;
+				commit('setCurrentResource', { resource: data });
+				commit('setResourceLoading', { resourceLoading: false });
+				if (state.dataset.id !== data.package_id) {
+					dispatch('getDataset', { id: data.package_id });
+				}
+			} else {
+                commit('setError', { error: data.error });
+                commit('setResourceLoading', { resourceLoading: false });
+            }
+        }).catch((e) => {
+            commit('setError', { error: e });
+            commit('setResourceLoading', { resourceLoading: false });
         });
     },
-
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
         //delete dataset.resources;
         return ckanServ.putDataset(dataset);
+	},
+	setResource({ state }) {
+        let resource = JSON.parse(JSON.stringify(state.resource));
+        return ckanServ.updateResource(resource);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
+	},
+	createResource({ state }) {
+        return ckanServ.createResource(state.resource);
     },
     addContact({ commit }) {
         commit('setAddContact');
@@ -114,34 +153,51 @@ const actions = {
     },
     resetDataset({ commit }) {
         commit('resetDataset');
+	},
+	resetResource({ commit }) {
+        commit('resetResource');
     }
 };
 
 const mutations = {
-    setResetAbort(state) {
-        state.shouldAbort = false;
+    resetAbortDataset(state) {
+        state.shouldAbortDataset = false;
     },
-    setDataLoading(state, {dataLoading}){
-        state.dataLoading = dataLoading;
+    setDatasetLoading(state, {datasetLoading}){
+        state.datasetLoading = datasetLoading;
+	},
+	setResourceLoading(state, { resourceLoading }){
+        state.resourceLoading = resourceLoading;
     },
     clearDataset(state){
         //state.dataset = {};
         Vue.set(state, 'dataset', {});
-        state.dataLoading = false;
-        state.shouldAbort = false;
+        state.datasetLoading = false;
+        state.shouldAbortDataset = false;
+	},
+	clearResource(state){
+        Vue.set(state, 'resource', {});
+        state.resourceLoading = false;
     },
     setSchemaLoading(state, {schemaLoading}) {
         state.schemaLoading = schemaLoading;
     },
-    setResource(state, {id, resource}){
-        Vue.set(state.resources, id, resource);
-    },
-    setCurrentDataset(state, { dataset }) {
+    setResource(state, { resource }){
+        state.resource = Object.assign({}, resource);
+	},
+	setCurrentDataset(state, { dataset }) {
         state.dataset = Object.assign({}, dataset);
         state.unmodifiedDataset = Object.assign({}, dataset);
     },
-    setCurrentNotUnmod(state, {dataset}) {
+    setCurrentNotUnmodDataset(state, {dataset}) {
         state.dataset = Object.assign({}, dataset);
+    },
+    setCurrentResource(state, { resource }) {
+        state.resource = Object.assign({}, resource);
+        state.unmodifiedResource = Object.assign({}, resource);
+    },
+    setCurrentNotUnmodResource(state, { resource }) {
+        state.resource = Object.assign({}, resource);
     },
     setSchema(state, {type, data}){
         state.schemas[type] = Object.assign({}, data);
@@ -181,7 +237,7 @@ const mutations = {
         state.dataset = Object.assign({}, state.unmodifiedDataset);
     },
     abortDataset(state) {
-        state.shouldAbort = true;
+        state.shouldAbortDataset = true;
     },
     setError(state, { error }) {
         state.error = Object.assign({}, error);
@@ -204,6 +260,7 @@ const mutations = {
 export default {
     namespaced: true,
     state,
+    getters,
     actions,
     mutations
 };

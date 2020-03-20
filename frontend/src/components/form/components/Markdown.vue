@@ -1,30 +1,28 @@
 <template>
-    <div>
-        <label>{{$tc(displayLabel)}}</label>
-        <div v-if="!editing">
-            <span v-html="displayValue"></span>
-        </div>
+    <v-col cols=12 class="pb-0 pt-1">
+        <label class="label">{{$tc(displayLabel)}}</label>
+        <span v-if="!editing" v-html="displayValue"></span>
         <div v-else>
             <div class="toolbar">
                 <v-btn tabindex="-1" icon small @click="add('#')">H1</v-btn>
                 <v-btn tabindex="-1" icon small @click="add('##')">H2</v-btn>
                 <v-btn tabindex="-1" icon small @click="add('###')">H3</v-btn>
-                <v-btn tabindex="-1" icon small @click="wrap('*')"><v-icon>format_italic</v-icon></v-btn>
-                <v-btn tabindex="-1" icon small @click="wrap('**')"><v-icon>format_bold</v-icon></v-btn>
-                <v-btn tabindex="-1" icon small @click="wrap('~~')"><v-icon>format_strikethrough</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('*')"><v-icon>mdi-format-italic</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('**')"><v-icon>mdi-format-bold</v-icon></v-btn>
+                <v-btn tabindex="-1" icon small @click="wrap('~~')"><v-icon>mdi-format-strikethrough</v-icon></v-btn>
             </div>
             <ValidationProvider :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
                 <v-textarea
-                    ref="ta"            
+                    ref="ta"
                     :name="name"
                     v-model="model"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
-                    outline
+                    outlined dense
                 ></v-textarea>
             </ValidationProvider>
         </div>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -46,14 +44,14 @@ export default {
             default: false
         },
     },
-    
+
     data() {
         return {
             model: this.value,
             scopeName: this.scope + '.' + this.name,
         }
     },
-    
+
     computed: {
         displayValue: function(){
             if (typeof(this.model)==="string"){
@@ -66,7 +64,7 @@ export default {
             return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
-    
+
     watch: {
         value(){
             this.model = this.value;
@@ -119,4 +117,7 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>
