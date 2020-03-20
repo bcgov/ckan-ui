@@ -58,7 +58,6 @@ export default{
     },
     props: {
         resource: Object,
-        resourceIndex: Number
     },
     data() {
         return {

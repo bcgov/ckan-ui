@@ -1,9 +1,6 @@
 <template>
-    <v-row wrap>
-        <v-col :cols="( ( (editing) || (field.preset==='title') || (field.label === 'Image URL') || (field.field_name === 'title') || (field.form_snippet==='markdown.html') || (field.preset==='dataset_slug') || (field.form_snippet==='upload.html') ) ? '12' : '6')"
-        v-for="(field, fieldKey) in schema"
-        :key="'field-'+fieldKey">
-            <span v-if="(typeof(field.conditional_field) === 'undefined' || typeof(field.conditional_values) === 'undefined') || (field.conditional_values.indexOf(values[field.conditional_field]) >= 0)">
+    <v-container>
+        <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey">
                 <Title
                     v-if="field.preset==='title' || field.field_name === 'title'"
                     :name="field.field_name"
@@ -245,8 +242,7 @@
 
                 <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
                 <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
-            </span>
-        </v-col>
+        </v-row>
         <!-- <span v-if="!editing">
             <v-col
             cols=6
@@ -261,7 +257,7 @@
             </TextInput>
             </v-col>
         </span> -->
-    </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -329,6 +325,10 @@ export default {
     computed:{
         ...mapState({
             orgList: state => state.organization.orgList,
+            user: state => state.user.authUser,
+            userPermissions: state => state.user.userPermissions,
+            sysAdmin: state => state.user.sysAdmin,
+            isAdmin: state => state.user.isAdmin,
         }),
 
         orgArray: function(){
@@ -350,6 +350,25 @@ export default {
             }
             return orgs;
         },
+
+        processedSchema: function(){
+            return this.schema ? this.schema.filter( field => {
+                        // Only show on display if display snippet not specifically set to null
+                return ((!this.editing && field.display_snippet !== null)
+                            // Only show on editing if form snippet not specifically set to null
+                            || (this.editing && field.form_snippet !== null))
+                        // If field is conditional check if condition is met
+                        && (typeof(field.conditional_field) === 'undefined'
+                            || typeof(field.conditional_values) === 'undefined'
+                            || (field.conditional_values.indexOf(this.values[field.conditional_field]) >= 0))
+                        // If there are view permissions verify them
+                        && (typeof(field.visibility) === 'undefined'
+                            || field.visibility === 'user' && this.user
+                            || field.visibility === 'editor' && this.user
+                                && (this.sysAdmin || this.isAdmin
+                                    || (this.values.organization && this.userPermissions[this.values.organization.name] === "editor")))
+            }) : [];
+        }
     },
     methods: {
         updateValues(field, newValue){
@@ -364,5 +383,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+label{
+    font-weight: bold;
+}
 </style>

@@ -1,42 +1,150 @@
 <template>
-    <v-card>
-        <v-card-title>{{$tc(displayLabel)}}</v-card-title>
-        <v-card-text>
-            <div v-if="!editing">
-                <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                    <label>{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
-                    <span v-if="model[sub.field_name]">{{model[sub.field_name]}}</span>
-                    <span v-else></span>
+    <v-col cols=12 class="pb-0 pt-1 mb-4">
+        <label class="label">{{$tc(displayLabel)}}</label>
+        <div v-if="!editing">
+            <div class="mb-2">
+                <div v-if="!hasDisplayed || !value.displayed">
+                    <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
+                        <v-row v-if="sub.display_snippet !== null" align="center">
+                            <v-col cols=3 class="py-1">
+                                <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
+                            </v-col>
+                            <v-col cols=9 class="py-1">
+                                <span v-if="value">
+                                    <span v-if="sub.display_snippet === 'url'">
+                                        <a :href="value[sub.field_name]" style="text-overflow: ellipsis">{{value[sub.field_name]}}</a>
+                                    </span>
+                                    <span v-else-if="sub.field_name === 'email'">
+                                        <a :href="'mailto:'+value[sub.field_name]">{{value[sub.field_name]}}</a>
+                                    </span>
+                                    <span v-else-if="sub.preset === 'select'">{{getDisplayValue(sub, value[sub.field_name])}}</span>
+                                    <span v-else>{{value[sub.field_name]}}</span>
+                                </span>
+                                <span v-else></span>
+                            </v-col>
+                        </v-row>
+                    </div>
                 </div>
             </div>
-            <div v-else>
-                <v-card-text>
-                    <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <ValidationProvider :rules="sub.required ? 'required|' : ''" v-slot="{ errors }" :name="sub.field_name">
-                            <v-text-field
-                                outline
-                                :name="field.field_name+'.'+sub.field_name"
-                                v-model="model[sub.field_name]"
-                                :label="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name) + (sub.required ? '*' : '')"
-                                :error-messages="errors.length < 0 ? [errors[0]] : []"
-                                @input="modified"
-                                :disabled="disabled"
-                                :placeholder="sub.form_placeholder">
-                            </v-text-field>
-                        </ValidationProvider>
-                    </div>
-                </v-card-text>
-            </div>
-        </v-card-text>
-    </v-card>
+            <hr>
+        </div>
+        <div v-else :key="'composite'+field.field_name">
+            <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
+                <v-col cols=2 class="pb-0">
+                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
+                </v-col>
+                <v-col cols=10 class="pb-0">
+                    <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-checkbox
+                            dense
+                            class="mt-0"
+                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            :disabled="disabled"
+                            hide-details="auto"
+                            @change="modified">
+                        </v-checkbox>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else-if="sub.field_name==='org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-select
+                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :items="orgArray"
+                            item-text="label"
+                            :disabled="disabled"
+                            item-value="value"
+                            outlined dense
+                            hide-details="auto"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            @change="modified">
+                        </v-select>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else-if="sub.preset==='select'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-select
+                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :items="sub.choices"
+                            item-text="label"
+                            item-value="value"
+                            outlined dense
+                            hide-details="auto"
+                            :disabled="disabled"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            @change="modified">
+                        </v-select>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-text-field
+                            outlined dense
+                            hide-details="auto"
+                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            :disabled="disabled"
+                            @input="modified">
+                        </v-text-field>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(sub.required ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-text-field
+                            outlined dense
+                            hide-details="auto"
+                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            :disabled="disabled"
+                            @input="modified">
+                        </v-text-field>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: !!sub.required, url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-text-field
+                            outlined dense
+                            hide-details="auto"
+                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :disabled="disabled"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            @input="modified">
+                        </v-text-field>
+                    </ValidationProvider>
+
+                    <ValidationProvider v-else :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <v-text-field
+                            outlined dense
+                            hide-details="auto"
+                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            v-model="value[sub.field_name]"
+                            :placeholder="sub.form_placeholder"
+                            :disabled="disabled"
+                            :error-messages="errors.length > 0 ? [errors[0]] : []"
+                            @input="modified">
+                        </v-text-field>
+                    </ValidationProvider>
+                </v-col>
+            </v-row>
+            <hr>
+        </div>
+    </v-col>
 </template>
 
 <script>
 export default {
+
     props: {
         field: Object,
+        dataset: Object,
+        value: Object,
         editing: Boolean,
-        value: [String, Object],
         scope: String,
         disabled: {
             type: Boolean,
@@ -45,37 +153,61 @@ export default {
     },
     data() {
         return {
-            model: {}
+            hasDisplayed: false,
         }
     },
-    mounted(){
-        //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
-        this.model = {};
-        for (let i=0; i<this.field.subfields.length; i++){
-            if ( (typeof(this.value) === "undefined") ) {
-                this.model[this.field.subfields[i].field_name] = "";
-            }else if ( (typeof(this.value) === "string") && (this.value === '') ){
-                this.model[this.field.subfields[i].field_name] = "";
-            }else if (typeof(this.value) === "string"){
-                this.model[this.field.subfields[i].field_name] = JSON.parse(this.value)[this.field.subfields[i].field_name];
-            }else{
-                this.model[this.field.subfields[i].field_name] = this.value[this.field.subfields[i].field_name];
+    methods: {
+        addRecord: function() {
+            let model = {}
+            for (let i=0; i<this.field.subfields.length; i++){
+                model[this.field.subfields[i].field_name] = "";
+                if (this.field.subfields[i].field_name.toLowerCase() === "displayed"){
+                    this.hasDisplayed = true;
+                }
             }
+            this.model.push(model);
+        },
+        removeRecord: function(index) {
+            this.model.splice(index,1);
+        },
+        modified: function() {
+            this.$emit('edited', JSON.stringify(this.model));
+        },
+        getDisplayValue: function(field, value) {
+            if (field.choices) {
+                for (let choice of field.choices) {
+                    if (choice.value === value) {
+                        return choice.label;
+                    }
+                }
+            }
+            return value;
         }
-        this.$emit('edited', JSON.stringify(this.model));
     },
     computed: {
         displayLabel: function(){
             return this.field.label + (this.editing && this.field.required ? '*' : '');
         }
     },
-    methods: {
-        modified: function(){
-            this.$emit('edited', JSON.stringify(this.model));
-        }
-    }
+    mounted(){
+        // if (this.dataset[this.field.field_name]){
+        //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
+        //     this.model = JSON.parse(this.dataset[this.field.field_name]);
+        //     this.$emit('edited', JSON.stringify(this.model));
+        // }
+    },
 };
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
+    label.sub-label{
+        color: var(--v-sub_label_text-base);
+        font-weight: normal;
+    }
+    hr{
+        color: var(--v-sub_label_text-lighten3);
+    }
 </style>

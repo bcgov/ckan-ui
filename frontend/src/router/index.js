@@ -11,6 +11,7 @@ const group_view = () => import(/* webpackChunkName: "group_view" */ "../compone
 const user = () => import(/* webpackChunkName: "user" */ "../components/pages/user");
 const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/pages/404");
 const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
+const resource = () => import(/* webpackChunkName: "resource" */ "../components/pages/resource");
 
 Vue.use(Router);
 
@@ -47,6 +48,22 @@ let r = new Router({
             component: dataset_view,
             meta: {
                 title: "Viewing Dataset"
+            }
+        },
+        {
+            path: '/dataset/:datasetId/resource/create',
+            name: 'resource_create',
+            component: resource,
+            meta: {
+                title: "Creating a new Resource"
+            }
+        },
+        {
+            path: '/dataset/:datasetId/resource/:resourceId',
+            name: 'resource_view',
+            component: resource,
+            meta: {
+                title: "Viewing Resource"
             }
         },
         {

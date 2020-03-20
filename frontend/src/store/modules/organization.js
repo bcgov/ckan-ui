@@ -21,6 +21,20 @@ const getters = {
             }
         }
         return "";
+    },
+    nameByID: (state) => (id) => {
+        for (let topOrg in state.orgList) {
+            if (state.orgList[topOrg].id == id) {
+                return state.orgList[topOrg].name;
+            }
+            let children = state.orgList[topOrg].children;
+            for (let child in children) {
+                if (children[child].id == id) {
+                    return children[child].name;
+                }
+            }
+        }
+        return "";
     }
 }
 
@@ -53,7 +67,7 @@ const mutations = {
 
     setUserOrgList(state, { orgList }) {
         var userOrgs = [];
-        
+
         if ( (typeof(orgList) === "undefined") || (typeof(orgList.result) === "undefined") || (orgList.result.length === 0)){
             state.userOrgs = [];
             return;

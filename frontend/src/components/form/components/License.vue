@@ -1,24 +1,23 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
+        <label class="label">{{$tc(displayLabel)}}</label>
         <div v-if="!editing">
-            <label>{{$tc(label)}}:</label>
-            <span>{{displayValue}}</span>
+            <p>{{displayValue}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
                 :name="name"
                 v-model="val"
-                :label="$tc(displayLabel)"
                 :placeholder="placeholder"
                 :items="licenses"
                 item-text="title"
                 item-value="id"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
-                outline>
+                outlined dense>
             </v-select>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -76,7 +75,7 @@ export default {
 
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
 
@@ -93,4 +92,7 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>

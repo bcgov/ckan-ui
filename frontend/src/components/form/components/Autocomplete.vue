@@ -1,12 +1,11 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
+        <label class="label">{{$tc(label)}}: </label>
         <div v-if="!editing">
-            <label>{{$tc(label)}}: </label>
-            <span>{{displayValue}}</span>
+            <p>{{displayValue}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-autocomplete
-                :label="$tc(displayLabel)"
                 :name="name"
                 :loading="loading"
                 v-model="val"
@@ -19,16 +18,16 @@
                 deletable-chips
                 multiple
                 :disabled="disabled"
-                outline
+                outlined dense
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
             ></v-autocomplete>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
 export default {
-    
+
     props: {
         name: String,
         value: [Array, String],
@@ -79,7 +78,7 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
     watch: {
@@ -103,4 +102,7 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        color: var(--v-label_text-base);
+    }
 </style>

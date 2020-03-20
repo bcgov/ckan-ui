@@ -1,8 +1,8 @@
 <template>
     <v-container v-if="error">
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
-            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
+            <h1><v-icon x-large>mdi-alert-circle</v-icon> An Error Occured: {{error.code}}</h1>
+            <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
     <v-container fluid v-else class="px-0">
@@ -239,10 +239,10 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
-            
+
             this.searchedText = this.searchText;
-            
-            if (this.searchText !== ""){    
+
+            if (this.searchText !== ""){
                 if (this.advanced){
                    q += "q=" + this.searchText + "&"
                 }else{
@@ -362,7 +362,7 @@
 
 <style scoped>
     .anchorText{
-        color: var(--v-text-base);    
+        color: var(--v-text-base);
     }
 
     .facetFilter{
