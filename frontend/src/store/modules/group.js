@@ -9,7 +9,8 @@ const state = {
     group: {},
     abort: false,
     unmodifiedGroup: {},
-    groupActivity: []
+    groupActivity: [],
+    groupMembers: []
 };
 
 const actions = {
@@ -40,6 +41,18 @@ const actions = {
 
     getGroup({commit}, {id}){
         return new Promise( (resolve, reject) => {
+            ckanServ.getGroupMembers(id).then( async(data) => {
+                if (data.success){
+                    let members = data.result;
+                    for (let i=0; i<members.length; i++){
+                        var user = await ckanServ.getUser(members[i][0]);
+                        if (user.success){
+                            members[i].push(user.result.display_name);
+                        }
+                    }
+                    commit('setCurrentMemberList', {members: members});
+                }
+            });
             ckanServ.getGroup(id).then( (data) => {
                 let group = {};
                 let error = false;
@@ -78,6 +91,10 @@ const actions = {
 }
 
 const mutations = {
+    setCurrentMemberList(state, {members}){
+        state.groupMembers = members;
+    },
+
     setGroupActivity(state, { activity }){
         state.groupActivity = activity;
     },

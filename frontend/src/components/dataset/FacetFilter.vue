@@ -1,6 +1,6 @@
 <template>
     <div v-show="maxFilters > 1">
-        <v-expansion-panels v-model="model" class="mb-3">
+        <v-expansion-panels :key="'facetPanel'+name+updates" multiple v-model="model" class="mb-3">
             <v-expansion-panel>
                 
                 <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader">
@@ -129,8 +129,6 @@ export default{
         name: String,
         field: Object,
         found: Number,
-        totalFilters: Number,
-        open: Boolean,
     },
 
     data: function(){
@@ -148,26 +146,33 @@ export default{
             numFilters: 0,
             totalCount: 0,
             maxFilters: 0,
-            model: (this.open) ? [0] : [],
+            updates: 0,
         }
     },
 
     computed: {
         ...mapState({
             filtered: state => state.search.facets,
-            facet: state => state.dataset.facets
+            facet: state => state.dataset.facets,
+            open(state){
+                return state.dataset.facetOpen[this.field.name];
+            }
         }),
+        model: {
+            get: function(){
+                return this.open ? [0] : [];
+            },
+            set: function(){
+                this.updates += 1;
+            }
+        }
     },
+    
 
     methods: {
 
         togglePanel: function(){
-
-            if (this.model === 0){
-                this.$emit("closeFacet", this.name);
-            }else{
-                this.$emit("openFacet", this.name);
-            }
+            this.$store.commit('dataset/setFacetOpen', {facet: this.field.name, open: !this.open})
         },
 
         closeDrawer: function(drawerName){
@@ -212,7 +217,8 @@ export default{
                 this.numFilters  += 1;
             }
 
-            this.$emit('facetFilter', facet, filter.name);
+            this.$store.commit('search/toggleFacet', {facet: facet, filter: filter.name});
+            this.$emit('facetFilter');
         },
 
         getFacet(){
@@ -265,9 +271,6 @@ export default{
     mounted(){
         this.getFacet()
         this.preFilter();
-        this.model = (this.open) ? 0 : undefined;
-        this.$parent.$on('closeDrawer', this.closeDrawer)
-        this.$parent.$on('clearAll', this.clearAll)
     }
 }
 </script>

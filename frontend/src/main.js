@@ -190,6 +190,7 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#000000",
             data: '#F4F4F4',
+            govYellow: "#FCEECB",
           },
           light: {
             primary: '#003366',
@@ -202,6 +203,7 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#ffffff",
             data: '#F4F4F4',
+            govYellow: "#FCEECB",
           }
         }
     }

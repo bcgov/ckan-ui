@@ -232,6 +232,85 @@ var addRoutes = function(router){
     
     });
 
+    /* GET ckan group membership */
+    router.get('/members/:id', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let reqUrl = url + "/api/3/action/member_list?object_type=user&id="+req.params.id;
+    
+        let authObj = {};
+    
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+    
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+    
+    });
+
+    /* DELETE ckan group membership */
+    router.delete('/members/:id', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let reqUrl = url + "/api/3/action/member_delete";
+    
+        let authObj = {};
+    
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+    
+        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+    
+    });
+
+
     return router;
 }
 
