@@ -271,6 +271,45 @@ var addRoutes = function(router){
     
     });
 
+    /* GET ckan if user is following */
+    router.get('/group/:id/following', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let reqUrl = url + "/api/3/action/am_following_group?id=" + req.params.id;
+    
+        let authObj = {};
+    
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+    
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+    
+    });
+
     /* DELETE ckan group membership */
     router.delete('/members/:id', auth.removeExpired, function(req, res, next) {
     
@@ -289,7 +328,7 @@ var addRoutes = function(router){
             };
         }
     
-        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+        request({ method: 'POST', uri: reqUrl, json: req.body, authObj }, function(err, apiRes, body) {
             if (err) {
                 console.log(err);
                 res.json({error: err});
@@ -305,6 +344,90 @@ var addRoutes = function(router){
             }catch(ex){
                 console.error("Error reading json from ckan", ex);
                 res.json({error: ex});
+            }
+        });
+    
+    });
+
+    /* POST ckan follow group */
+    router.post('/group/:id/follow', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let reqUrl = url + "/api/3/action/follow_group";
+
+        // TODO: CKAN Requires api key instead of normal auth here...
+        if (!req.body.api_key){
+            res.json({error: "API Key required"});
+        }
+    
+        let headers = {
+            'Authorization': req.body.api_key
+        };
+
+        let body = {
+            id: req.params.id
+        };
+    
+        request({ method: 'POST', uri: reqUrl, json: body, headers: headers }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                //let json = JSON.parse(body);
+                res.json(body);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+    
+    });
+
+    /* DELETE ckan unfollow group */
+    router.delete('/group/:id/unfollow', auth.removeExpired, function(req, res, next) {
+    
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        let reqUrl = url + "/api/3/action/unfollow_group";
+
+        // TODO: CKAN Requires api key instead of normal auth here...
+        if (!req.body.api_key){
+            return res.json({error: "API Key required"});
+        }
+    
+        let headers = {
+            'Authorization': req.body.api_key
+        };
+
+        let body = {
+            id: req.params.id
+        };
+    
+        request({ method: 'POST', uri: reqUrl, json: body, headers: headers }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                //let json = JSON.parse(body);
+                return res.json(body);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                return res.json({error: ex});
             }
         });
     

@@ -240,5 +240,9 @@ export default {
         "Search": "Chercher",
         "Manage": "Gérer",
         "Add": "Ajouter",
+        "Delete": "Supprimer",
+        "Unfollow": "Se désabonner",
+        "Follow": "Suivre",
+        "Edit": "Éditer",
     }
 };

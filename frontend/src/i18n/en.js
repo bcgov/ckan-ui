@@ -237,5 +237,9 @@ export default {
         "Search": "Search",
         "Manage": "Manage",
         "Add": "Add",
+        "Delete": "Delete",
+        "Unfollow": "Unfollow",
+        "Follow": "Follow",
+        "Edit": "Edit",
     }
 };

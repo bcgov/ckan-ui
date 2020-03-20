@@ -71,22 +71,24 @@
                             ></FacetFilters>
                         </v-col>
                     </v-row>
-                    <span class="d-none d-sm-block">
+                    <span class="d-none d-sm-block text-left">
                         <v-row>
-                            <v-btn text small depressed class="noHover" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                            <v-btn text small depressed class="noHover mx-0" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
                         </v-row>
                         <v-row v-if="loggedIn">
-                            <v-btn text small depressed class="noHover" color="secondary"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            <v-btn text v-if="following" small depressed class="noHover mx-0" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            <v-btn text v-else           small depressed class="noHover mx-0" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            
                         </v-row>
 
                         <v-row></v-row>
 
-                        <v-row v-if="showEdit">
-                            <v-btn text small depressed class="noHover" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                        <v-row v-if="showEdit" class="mt-6">
+                            <v-btn text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </v-row>
                             
                         <v-row v-if="canDeleteResources">
-                            <v-btn text small depressed class="noHover" color="error" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            <v-btn text small depressed class="noHover mx-0" color="error" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </v-row>
                     </span>
                 </v-col>
@@ -152,6 +154,8 @@
                 abort: state => state.group.abort,
                 activities: state => state.group.groupActivity,
                 members: state => state.group.groupMembers,
+                following: state => state.group.currUserFollowingCurrGroup,
+                ckanUser: state => state.user.ckanUser
             }),
 
             imgSrc: function(){
@@ -194,6 +198,14 @@
         methods: {
 
             nothing(){},
+
+            follow(){
+                this.$store.dispatch('group/followGroup', this.ckanUser.apikey);
+            },
+
+            unfollow(){
+                this.$store.dispatch('group/unfollowGroup', this.ckanUser.apikey);
+            },
 
             onImgError(){
                 this.imgError = true;

@@ -10,7 +10,8 @@ const state = {
     abort: false,
     unmodifiedGroup: {},
     groupActivity: [],
-    groupMembers: []
+    groupMembers: [],
+    currUserFollowingCurrGroup: false,
 };
 
 const actions = {
@@ -21,6 +22,28 @@ const actions = {
     },
     createGroup({ state }) {
         return ckanServ.postGroup(state.group);
+    },
+
+    followGroup({ state, commit }, apiKey){
+        ckanServ.followGroup(state.group.id, apiKey).then( () => {
+            //get if user following
+            ckanServ.getGroupFollowing(state.group.id).then( async(data) => {
+                if (data.success){
+                    commit('setCurrUserFollowingCurrGroup', {following: data.result});
+                }
+            });
+        });
+    },
+
+    unfollowGroup({ state, commit }, apiKey){
+        ckanServ.unfollowGroup(state.group.id, apiKey).then( () => {
+            //get if user following
+            ckanServ.getGroupFollowing(state.group.id).then( async(data) => {
+                if (data.success){
+                    commit('setCurrUserFollowingCurrGroup', {following: data.result});
+                }
+            });
+        });
     },
 
     async getGroupActivity({ state, commit }) {
@@ -41,6 +64,7 @@ const actions = {
 
     getGroup({commit}, {id}){
         return new Promise( (resolve, reject) => {
+            //get members unimportant to return
             ckanServ.getGroupMembers(id).then( async(data) => {
                 if (data.success){
                     let members = data.result;
@@ -53,6 +77,14 @@ const actions = {
                     commit('setCurrentMemberList', {members: members});
                 }
             });
+
+            //get if user following unimportant to return
+            ckanServ.getGroupFollowing(id).then( async(data) => {
+                if (data.success){
+                    commit('setCurrUserFollowingCurrGroup', {following: data.result});
+                }
+            });
+
             ckanServ.getGroup(id).then( (data) => {
                 let group = {};
                 let error = false;
@@ -95,6 +127,10 @@ const actions = {
 const mutations = {
     setCurrentMemberList(state, {members}){
         state.groupMembers = members;
+    },
+
+    setCurrUserFollowingCurrGroup(state, {following}){
+        state.currUserFollowingCurrGroup = following;
     },
 
     setGroupActivity(state, { activity }){

@@ -1,6 +1,9 @@
 import { Auth } from '../../services/auth';
 const authServ = new Auth();
 
+import { CkanApi } from '../../services/ckanApi';
+const ckanServ = new CkanApi();
+
 const state = {
     authUser: {},
     ckanUser: {},
@@ -74,6 +77,16 @@ const actions = {
             sysAdmin = false;
             isEditor = false;
         }
+
+        ckanServ.getActivity(this.user_id).then( (d) => {
+            if ( (d.result) && (d.result[0]) && (d.result[0]) && (d.result[0].user_id) ){
+                ckanServ.getUser(d.result[0].user_id).then( (data) => {
+                    commit('setCkanUser', {ckanUser: data.result});
+                });
+            }else{
+                commit('setCkanUser', {ckanUser: null});
+            }
+        });
 
         commit('setUserPermissions', {userPermissions: userPermissions});
         commit('setSysAdmin', {sysAdmin: sysAdmin});
