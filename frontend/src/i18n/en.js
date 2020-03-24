@@ -241,5 +241,7 @@ export default {
         "Unfollow": "Unfollow",
         "Follow": "Follow",
         "Edit": "Edit",
+        "Add Member": "Add Member",
+        "Private": "Private",
     }
 };

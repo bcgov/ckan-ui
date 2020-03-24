@@ -6,6 +6,20 @@
         </div>
     </v-container>
     <v-container v-else fluid>
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
         <v-row wrap>
             <v-col cols=12 class="">
                 <h2 class="primary-text">{{$tc('Groups', 2)}}</h2>
@@ -17,7 +31,20 @@
                     <v-expansion-panel>
                         <v-expansion-panel-header class="header">{{$tc('Manage')}}</v-expansion-panel-header>
                         <v-expansion-panel-content dense class="manageSection">
-                            <v-btn class="primary" :to="{name: 'group_create'}">Add Group</v-btn>
+                            <v-dialog
+                                v-model="editDialog"
+                                width="75%"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn v-on="on" class="primary">{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
+                                </template>
+                                <Edit
+                                    :create="true"
+                                    v-on:closeEdit='editDialog = false'
+                                    v-on:editStatus="editStatus"
+                                >
+                                </Edit>
+                            </v-dialog>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -54,7 +81,20 @@
                     </v-card>
                 </v-row>
                 <v-row class="manageSection mb-5" v-if="sysAdmin">
-                    <v-btn class="primary" :to="{name: 'group_create'}">Add Group</v-btn>
+                    <v-dialog
+                        v-model="editDialog"
+                        width="75%"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-btn v-on="on" class="primary">{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
+                        </template>
+                        <Edit
+                            :create="true"
+                            v-on:closeEdit='editDialog = false'
+                            v-on:editStatus="editStatus"
+                        >
+                        </Edit>
+                    </v-dialog>
                 </v-row>
                 <v-row>
                     <v-card elevation=0>
@@ -79,10 +119,13 @@
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
 
+    import Edit from '../groups/edit'
+
     export default {
         name: "groups",
         components: {
             GroupCard: GroupCard,
+            Edit: Edit,
         },
 
         data() {
@@ -92,7 +135,12 @@
                 error: null,
                 loading: false,
                 aboutExpanded: 0,
-                manageExpanded: 0
+                manageExpanded: 0,
+                editDialog: false,
+                formError: "",
+                showFormError: false,
+                formSuccess: "",
+                showFormSuccess: false,
             }
         },
         mounted() {
@@ -131,6 +179,17 @@
                 }
             },
 
+            editStatus(status){
+                this.formSuccess = status.success;
+                this.formError = status.error;
+                this.showFormError = status.showError;
+                this.showFormSuccess = status.showSuccess;
+                if (this.showFormSuccess){
+                    this.editDialog = false;
+                    this.findGroups();
+                }
+            },
+
             findGroups() {   
                 this.$store.dispatch('group/searchGroups', {searchText: this.searchText});
                 this.count = this.groups.length;
@@ -157,7 +216,7 @@
         color: var(--v-primary-base)
     }
 
-    .manageSection .v-card, .manageSection .v-card__title, .manageSection a.primary{
+    .manageSection .v-card, .manageSection .v-card__title, .manageSection a.primary, .manageSection button.primary{
         width: 100%;
     }
 

@@ -31,13 +31,17 @@ export default {
             type: Boolean,
             default: false
         },
+        area: {
+            type: String,
+            default: "/dataset/"
+        }
     },
     data() {
         return {
             val: this.value,
             validate: {required: this.field.required, slug: true},
             scopeName: this.scope + '.' + this.name,
-            prefix: window.location.origin + '/dataset/'
+            prefix: window.location.origin + this.area,
         }
     },
     watch: {

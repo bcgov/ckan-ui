@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
         <div v-if="!editing">
             <v-img :src="imgSrc" v-on:error="onImgError"></v-img>
         </div>
@@ -17,7 +17,7 @@
                 ></v-text-field>
             </ValidationProvider>
         </div>
-    </div>
+    </v-col>
 </template>
 
 <script>

@@ -11,6 +11,21 @@
             type="warning">
             You are viewing a deleted group
         </v-alert>
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
+
         <v-row>
             <router-link to='/groups' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon>Back to groups list</router-link>
         </v-row>
@@ -46,14 +61,6 @@
             </v-col>
         </v-row>
         <v-row wrap>
-            <v-progress-circular
-            v-if="loading"
-            :size="70"
-            :width="7"
-            color="grey"
-            indeterminate
-            ></v-progress-circular>
-        
             <v-row wrap>
                 <v-col cols=12 sm=8 order=2 order-sm=1>
                     <ListPage
@@ -84,10 +91,22 @@
                         <v-row></v-row>
 
                         <v-row v-if="showEdit" class="mt-6">
-                            <v-btn text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            <v-dialog
+                                v-model="editDialog"
+                                width="75%"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn v-on="on" text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                                </template>
+                                <Edit
+                                    v-on:closeEdit='editDialog = false'
+                                    v-on:editStatus="editStatus"
+                                >
+                                </Edit>
+                            </v-dialog>
                         </v-row>
                             
-                        <v-row v-if="canDeleteResources">
+                        <v-row class="mb-5" v-if="canDeleteResources">
                             <v-btn text small depressed class="noHover mx-0" color="error" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </v-row>
                     </span>
@@ -102,8 +121,9 @@
     import ListPage from '../dataset/ListPage'
     import FacetFilters from '../dataset/FacetFilters';
     import MemberList from '../groups/MemberList';
+    import Edit from '../groups/edit';
 
-    import {mapState} from 'vuex';
+    import { mapState } from 'vuex';
 
     import {Analytics} from '../../services/analytics';
     const analyticsServ = new Analytics();
@@ -119,6 +139,7 @@
             ListPage: ListPage,
             FacetFilters: FacetFilters,
             MemberList: MemberList,
+            Edit: Edit,
         },
         data () {
             return {
@@ -134,10 +155,14 @@
                 loadingDatasets: true,
                 error: null,
                 infoDialog: false,
+                editDialog: false,
                 imgError: false,
                 disabled: false,
                 facetFilterIndex: 0,
-                schema: this.$store.state.group.groupSchemas.group ? this.$store.state.group.groupSchemas.group : {},
+                formError: "",
+                showFormError: false,
+                formSuccess: "",
+                showFormSuccess: false,
             }
         },
         computed: {
@@ -159,7 +184,10 @@
             }),
 
             imgSrc: function(){
-                return (this.imgError) ? "/placeholder-organization.png" : this.group.image_display_url;
+                if (this.imgError){
+                    return "/placeholder-organization.png"
+                }
+                return (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
             },
             
             permalink: function(){
@@ -199,6 +227,16 @@
 
             nothing(){},
 
+            editStatus(status){
+                this.formSuccess = status.success;
+                this.formError = status.error;
+                this.showFormError = status.showError;
+                this.showFormSuccess = status.showSuccess;
+                if (this.showFormSuccess){
+                    this.editDialog = false;
+                }
+            },
+
             follow(){
                 this.$store.dispatch('group/followGroup', this.ckanUser.apikey);
             },
@@ -214,61 +252,6 @@
             facetFilter(){
                 this.facetFilterIndex += 1;
             },
-
-            // updateGroup(field, value){
-            //     this.group[field] = value;
-            //     this.$store.commit('group/setCurrentNotUnmod', { group: this.group } );
-            // },
-
-            // async submit(){
-            //     this.disabled = true;
-            //     const isValid = await this.$refs.observer.validate();
-
-            //     if (!isValid){
-            //         this.formError = "Please fix the fields in error before submitting";
-            //         this.showFormError = true;
-            //         this.showFormSuccess = false;
-            //         this.disabled = false;
-            //         return;
-            //     }
-
-            //     let result = {};
-            //     try{
-            //         if (this.createMode){
-            //             result = await this.$store.dispatch("group/createGroup")
-            //         }else{
-            //             result = await this.$store.dispatch("group/setGroup");
-            //         }
-            //     }catch(e){
-            //         this.formError = e;
-            //         this.showFormError = true;
-            //         this.showFormSuccess = false;
-            //         this.disabled = false;
-            //         return;
-            //     }
-            //     if (!result || !result.success || result.success === false){
-            //         if (result.error.message){
-            //             this.formError = result.error.message;
-            //         }else if (result.error.type && result.error.type[0]){
-            //             this.formError = result.error.type[0];
-            //         }else if (result.error){
-            //             this.formError = result.error;
-            //         }else{
-            //             this.formError = "Unknown Error";
-            //         }
-            //         this.showFormError = true;
-            //         this.showFormSuccess = false;
-            //     }else{
-            //         this.toggleEdit();
-            //         if (this.createMode){
-            //             this.$router.push({name: "group_view", params:{groupId: result.result.name}});
-            //         }
-            //         this.formSuccess = "Successfully updated";
-            //         this.showFormSuccess = true;
-            //         this.showFormError = false;
-            //     }
-            //     this.disabled = false;
-            // },
 
             getGroup(){
                 return this.$store.dispatch('group/getGroup', {id: this.groupId})//.then(() => {
@@ -307,25 +290,11 @@
                 this.disabled = false;
             },
 
-        //     toggleEdit: function(){
-        //         this.editing = !this.editing;
-        //     },
-
         },
         
         mounted(){
             this.getGroup();
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            var self = this;
-            let unsub = this.$store.subscribe(
-                (mutation, state) => {
-                    if(mutation.type == "group/setSchema") {
-                        self.schema = state.group.groupSchemas.group;
-                        unsub();
-                    }
-                }
-            )
-            this.$store.dispatch('group/getGroupSchemas');
         }
 
     }

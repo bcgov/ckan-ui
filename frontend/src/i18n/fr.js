@@ -244,5 +244,7 @@ export default {
         "Unfollow": "Se désabonner",
         "Follow": "Suivre",
         "Edit": "Éditer",
+        "Add Member": "Ajouter un membre",
+        "Private": "Privé",
     }
 };

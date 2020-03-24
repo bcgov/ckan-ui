@@ -146,7 +146,7 @@ const mutations = {
     },
 
     setSchema(state, { schema }) {
-        Object.assign(state.groupSchemas, {group: schema});
+        state.groupSchemas = Object.assign(state.groupSchemas, {group: schema});
     },
 
     setSearchText(state, { searchText }) {

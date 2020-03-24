@@ -87,6 +87,7 @@
                     :field="field"
                     :disabled="disabled"
                     :scope="scope"
+                    :area="area"
                     :placeholder="field.form_placeholder">
                 </Slug>
                 <Markdown
@@ -317,6 +318,10 @@ export default {
             type: Boolean,
             default: false
         },
+        area: {
+            type: String,
+            default: "/dataset/"
+        }
     },
     data() {
         return {
