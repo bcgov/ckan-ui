@@ -25,188 +25,144 @@
             type="error">
             {{formError}}
         </v-alert>
-        <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-        <v-progress-circular
-          v-if="loading"
-          :size="70"
-          :width="7"
-          color="grey"
-          indeterminate
-        ></v-progress-circular>
-        <ValidationObserver ref="observer" v-slot="{ validate }" slim>
-            <v-form ref="form" @submit.prevent="nothing">
-                <v-row v-if="showEdit" class="button-container">
-                    <v-btn
-                        v-if="canDeleteResources"
-                        fab
-                        color="error"
-                        class="text-xs-center"
-                        @click="deleteGroup"
-                    >
-                        <v-icon>delete</v-icon>
-                    </v-btn>
-                    <v-btn
-                        v-if="showEdit"
-                        fab
-                        color="info"
-                        class="text-xs-center"
-                        right
-                        @click="toggleEdit"
-                    >
-                        <v-icon>edit</v-icon>
-                    </v-btn>
-                </v-row>
-                <v-row v-else-if="editing" class="button-container">
-                    <v-col cols="2">
-                        <v-btn
-                            color="error"
-                            class="text-xs-center"
-                            @click="cancel"
-                        >
-                            Cancel
-                        </v-btn>
-                    </v-col>
-                    <v-col cols="2">
-                    </v-col>
-                    <v-col cols="2">
-                        <v-btn
-                            color="primary"
-                            class="text-xs-center"
-                            type="submit"
-                            @click="submit()"
-                        >
-                            Save
-                        </v-btn>
-                    </v-col>
-                </v-row>
-                <v-row wrap class="text-xs-center" align-center justify-center>
-                    <v-col v-if="!editing" cols="3">
-                        <v-btn color="primary" @click.stop="activityDialog = true">Activity</v-btn>
-                        <v-dialog
-                            eager
-                            v-model="activityDialog"
-                            fullscreen
-                            
-                            transition="dialog-bottom-transition"
-                        >
-                            <v-card>
-                                <v-toolbar color="primary">
-                                    <v-btn class="mr-0" icon @click.stop="activityDialog = false">
-                                        <v-icon>close</v-icon>
-                                    </v-btn>
-                                    <v-toolbar-title class="white--text text-left">Activity</v-toolbar-title>
-                                </v-toolbar>
-                                <v-card-text>
-                                    <ActivityList :activities="activities" :article="group.title"></ActivityList>
-                                </v-card-text>
-                            </v-card>
-                            
-                        </v-dialog>
-                    </v-col>
-                </v-row>
-                <v-row wrap class="text-xs-center" align-center justify-center>
-                    <v-col :cols="editing ? 12 : 3">
-                        <!--<Profile :group="group"></Profile>-->
-                        <DynamicForm v-if="typeof(schema) === 'object' && typeof(schema.fields) === 'object'"
-                            :schema="schema.fields"
-                            :textFields="textFields"
-                            :loggedIn="loggedIn"
-                            :editing="editing"
-                            :values="group"
-                            :disabled="disabled"
-                            ref="dynoForm"
-                            @updated="(field, value) => updateGroup(field, value)"
-                        >
-                        </DynamicForm>
-                        <v-progress-circular
-                            v-else
-                            indeterminate
-                            color="light-blue"
-                        ></v-progress-circular>
-                    </v-col>
-                </v-row>
-            </v-form>
-        </ValidationObserver>
-        <v-row wrap align-center>
-            <v-col cols=12>
-                <h2 class="text-xs-center">{{count}} {{$tc('Dataset', count)}}</h2>
+
+        <v-row>
+            <router-link to='/groups' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon>Back to groups list</router-link>
+        </v-row>
+        <v-row>
+            <v-col cols=12 sm=8><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
+            <v-col cols=12 sm=4>
+                <v-dialog
+                    v-model="infoDialog"
+                    width="75%"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" text small depressed class="noHover" color="secondary">{{$tc('Learn more about this')}} {{$tc('groups', 1)}}</v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title class="header">
+                            <span>{{group.title}}</span>
+                            <v-spacer></v-spacer>
+                            <v-btn text small depressed class="noHover" @click="infoDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-row class="pt-3">
+                                <v-img contain height="50px" :src="imgSrc" v-on:error="onImgError"></v-img>
+                            </v-row>
+                            <v-row wrap class="py-5">
+                                {{group.description}}
+                            </v-row>
+                            <v-row class="borderTop">
+                                <MemberList :groupId="group.id" :members="members"></MemberList>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
             </v-col>
         </v-row>
         <v-row wrap>
-            <v-col cols=12>
-                <v-progress-circular
-                    v-if="loadingDatasets"
-                    indeterminate
-                    color="light-blue"
-                ></v-progress-circular>
-                <div v-else-if="count == 0">
-                    No results
-                </div>
-                <div v-else-if="!createMode">
-                    <ListCard v-for="dataset in datasets" :key="'dataset-group-'+dataset.id" :record="dataset"></ListCard>
-                    <infinite-loading @infinite="scroll">
-                        <div slot="no-results">{{$tc('No datasets')}}</div>
-                        <div slot="no-more">{{$tc('No more datasets')}}</div>
-                    </infinite-loading>
-                </div>
-            </v-col>
+            <v-row wrap>
+                <v-col cols=12 sm=8 order=2 order-sm=1>
+                    <ListPage
+                        :key="'listPage-'+facetFilterIndex"
+                        :replaceSearchTip="true" 
+                        addToSearchTip="Search Datasets in this group"
+                        :forceFilter="'groups:('+group.name+')'"
+                    ></ListPage>
+                </v-col>
+                <v-col cols=12 sm=4 order=1 order-sm=2>
+                    <v-row>
+                        <v-col cols=12>
+                            <FacetFilters
+                                v-on:facetFilter="facetFilter"
+                            ></FacetFilters>
+                        </v-col>
+                    </v-row>
+                    <span class="d-none d-sm-block text-left">
+                        <v-row>
+                            <v-btn text small depressed class="noHover mx-0" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                        </v-row>
+                        <v-row v-if="loggedIn">
+                            <v-btn text v-if="following" small depressed class="noHover mx-0" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            <v-btn text v-else           small depressed class="noHover mx-0" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            
+                        </v-row>
+
+                        <v-row></v-row>
+
+                        <v-row v-if="showEdit" class="mt-6">
+                            <v-dialog
+                                v-model="editDialog"
+                                width="75%"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn v-on="on" text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                                </template>
+                                <Edit
+                                    v-on:closeEdit='editDialog = false'
+                                    v-on:editStatus="editStatus"
+                                >
+                                </Edit>
+                            </v-dialog>
+                        </v-row>
+                            
+                        <v-row class="mb-5" v-if="canDeleteResources">
+                            <v-btn text small depressed class="noHover mx-0" color="error" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
+                        </v-row>
+                    </span>
+                </v-col>
+            </v-row>
         </v-row>
     </v-container>
 </template>
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
-    import DynamicForm from '../form/DynamicForm'
-    import ListCard from '../dataset/ListCard'
-    import ActivityList from '../common/activityList';
+    import ListPage from '../dataset/ListPage'
+    import FacetFilters from '../dataset/FacetFilters';
+    import MemberList from '../groups/MemberList';
+    import Edit from '../groups/edit';
 
-    import {CkanApi} from '../../services/ckanApi'
+    import { mapState } from 'vuex';
 
-    import {mapState} from 'vuex';
-    import { ValidationObserver } from "vee-validate";
-
-    const ckanServ = new CkanApi();
     import {Analytics} from '../../services/analytics';
     const analyticsServ = new Analytics();
+
+    import { CkanApi } from '../../services/ckanApi';
+    const ckanServ = new CkanApi();
 
 
     export default {
         name: "group_view",
         components: {
             Breadcrumb: Breadcrumb,
-            ListCard: ListCard,
-            DynamicForm: DynamicForm,
-            ValidationObserver: ValidationObserver,
-            ActivityList: ActivityList,
+            ListPage: ListPage,
+            FacetFilters: FacetFilters,
+            MemberList: MemberList,
+            Edit: Edit,
         },
         data () {
-            let ourLabel = {label: "Loading"};
-            if (this.$route.name === "group_create"){
-                ourLabel = {label: "Creating new group"};
-            }
             return {
-                loading: this.$route.name !== "group_create",
+                loading: true,
                 breadcrumbs: [
-                    {icon: "home", label: 'Home', route: '/'},
                     {label: 'Groups', route: '/groups'},
-                    ourLabel
+                    {label: "Loading"}
                 ],
                 count: 0,
                 rows: 10,
                 skip: 0,
                 datasets: [],
-                loadingDatasets: this.$route.name !== "group_create",
+                loadingDatasets: true,
                 error: null,
-                createMode: this.$route.name === "group_create",
-                editing: this.$route.name === "group_create",
+                infoDialog: false,
+                editDialog: false,
+                imgError: false,
                 disabled: false,
-                schema: this.$store.state.group.groupSchemas.group ? this.$store.state.group.groupSchemas.group : {},
-                textFields: [],
+                facetFilterIndex: 0,
                 formError: "",
-                formSuccess: "",
                 showFormError: false,
+                formSuccess: "",
                 showFormSuccess: false,
-                activityDialog: false,
             }
         },
         computed: {
@@ -222,7 +178,22 @@
                 group: state => state.group.group,
                 abort: state => state.group.abort,
                 activities: state => state.group.groupActivity,
+                members: state => state.group.groupMembers,
+                following: state => state.group.currUserFollowingCurrGroup,
+                ckanUser: state => state.user.ckanUser
             }),
+
+            imgSrc: function(){
+                if (this.imgError){
+                    return "/placeholder-organization.png"
+                }
+                return (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+            },
+            
+            permalink: function(){
+                return window.location.origin+'/group/'+this.group.id
+            },
+            
             showEdit: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
@@ -243,13 +214,11 @@
             },
 
             group(newVal) {
-                if (!this.createMode){
-                    let currentlyLoadingGroup = this.loading;    
-                    this.loading = Object.keys(newVal).length == 0;
-                    if (currentlyLoadingGroup != this.loading){
-                        this.breadcrumbs[2].label = this.group.title;
-                        this.getDatasets();
-                    }
+                let currentlyLoadingGroup = this.loading;   
+                this.facetFilterIndex += 1; 
+                this.loading = Object.keys(newVal).length == 0;
+                if (currentlyLoadingGroup != this.loading){
+                    this.breadcrumbs[1].label = this.group.title;
                 }
             },
         },
@@ -258,76 +227,36 @@
 
             nothing(){},
 
-            cancel(){
-                if (this.createMode){
-                    this.$router.push({name: 'Groups'})
+            editStatus(status){
+                this.formSuccess = status.success;
+                this.formError = status.error;
+                this.showFormError = status.showError;
+                this.showFormSuccess = status.showSuccess;
+                if (this.showFormSuccess){
+                    this.editDialog = false;
                 }
-                this.editing = !this.editing;
             },
 
-            updateGroup(field, value){
-                this.group[field] = value;
-                this.$store.commit('group/setCurrentNotUnmod', { group: this.group } );
+            follow(){
+                this.$store.dispatch('group/followGroup', this.ckanUser.apikey);
             },
 
-            async submit(){
-                this.disabled = true;
-                const isValid = await this.$refs.observer.validate();
+            unfollow(){
+                this.$store.dispatch('group/unfollowGroup', this.ckanUser.apikey);
+            },
 
-                if (!isValid){
-                    this.formError = "Please fix the fields in error before submitting";
-                    this.showFormError = true;
-                    this.showFormSuccess = false;
-                    this.disabled = false;
-                    return;
-                }
+            onImgError(){
+                this.imgError = true;
+            },
 
-                let result = {};
-                try{
-                    if (this.createMode){
-                        result = await this.$store.dispatch("group/createGroup")
-                    }else{
-                        result = await this.$store.dispatch("group/setGroup");
-                    }
-                }catch(e){
-                    this.formError = e;
-                    this.showFormError = true;
-                    this.showFormSuccess = false;
-                    this.disabled = false;
-                    return;
-                }
-                if (!result || !result.success || result.success === false){
-                    if (result.error.message){
-                        this.formError = result.error.message;
-                    }else if (result.error.type && result.error.type[0]){
-                        this.formError = result.error.type[0];
-                    }else if (result.error){
-                        this.formError = result.error;
-                    }else{
-                        this.formError = "Unknown Error";
-                    }
-                    this.showFormError = true;
-                    this.showFormSuccess = false;
-                }else{
-                    this.toggleEdit();
-                    if (this.createMode){
-                        this.$router.push({name: "group_view", params:{groupId: result.result.name}});
-                    }
-                    this.formSuccess = "Successfully updated";
-                    this.showFormSuccess = true;
-                    this.showFormError = false;
-                }
-                this.disabled = false;
+            facetFilter(){
+                this.facetFilterIndex += 1;
             },
 
             getGroup(){
-                if (!this.createMode){
-                    return this.$store.dispatch('group/getGroup', {id: this.groupId}).then(() => {
-                        this.$store.dispatch('group/getGroupActivity');
-                    });
-                }else{
-                    return this.$store.commit('group/setCurrentGroup', { group: {} } );
-                }
+                return this.$store.dispatch('group/getGroup', {id: this.groupId})//.then(() => {
+                //     this.$store.dispatch('group/getGroupActivity');
+                // });
             },
 
             async deleteGroup(){
@@ -361,75 +290,11 @@
                 this.disabled = false;
             },
 
-            toggleEdit: function(){
-                this.editing = !this.editing;
-            },
-
-            scroll: function(state){
-                if (!this.createMode && !this.loadingDatasets){
-                    this.skip += this.rows
-                    if (this.count>=this.skip) {
-                        this.getDatasets(state)
-                    }else{
-                        state.complete()
-                    }
-                }
-            },
-
-            getDatasets(state){
-                //this.datasets = this.group.packages;
-                this.count = this.group.packages.length;
-
-                let q = "?rows=" + this.rows+"&include_drafts=true&include_private=true&"
-
-                let fq = "&fq=groups:("+this.group.name+")";
-
-                if ( (this.skip !== 0) ){
-                    q += "start=" + this.skip + "&"
-                }
-
-                q = q.substring(0, q.length - 1)
-                q += fq;
-
-                ckanServ.getDatasets(q).then((data) => {
-                    if (data.success) {
-                        if (!data.result){
-                            this.count = 0;
-                            return;
-                        }
-                        this.datasets = this.datasets.concat(data.result.results)
-                        this.count = data.result.count
-
-                        this.loadingDatasets = false
-                        if (state != null) {
-                            if (this.skip+this.rows > this.count) {
-                                state.complete()
-                            }else{
-                                state.loaded();
-                            }
-                        }
-                    } else {
-                        this.error = data.error;
-                    }
-                });
-
-            },
-
         },
         
         mounted(){
-            analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            var self = this;
             this.getGroup();
-            let unsub = this.$store.subscribe(
-                (mutation, state) => {
-                    if(mutation.type == "group/setSchema") {
-                        self.schema = state.group.groupSchemas.group;
-                        unsub();
-                    }
-                }
-            )
-            this.$store.dispatch('group/getGroupSchemas');
+            analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         }
 
     }
@@ -437,11 +302,35 @@
 
 <style scoped>
 
+.header{
+    background: var(--v-primary-base);
+    color: var(--v-text-base);
+}
+
 .button-container{
     position: fixed;
     bottom: 50px;
     right: 50px;
     z-index: 10;
+}
+
+.nounderline{
+    text-decoration: none;
+}
+
+.noHover:hover{
+    box-shadow: none;
+    border: none;
+    background: none;
+}
+
+.noHover:hover:before{
+    opacity: 0;
+}
+
+.borderTop{
+    border-top: 3px solid;
+    border-color: var(--v-govYellow-base);
 }
 
 </style>

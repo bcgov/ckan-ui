@@ -190,6 +190,7 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#000000",
             data: '#F4F4F4',
+            govYellow: "#FCEECB",
             label_text: '#333333',
             sub_label_text: "#777777"
           },
@@ -204,6 +205,7 @@ analyticsServ.ga().then( (gajson) => {
             text: "#ffffff",
             text_background: "#ffffff",
             data: '#F4F4F4',
+            govYellow: "#FCEECB",
             label_text: '#333333',
             sub_label_text: "#777777"
           }

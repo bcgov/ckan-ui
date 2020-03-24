@@ -172,5 +172,33 @@ export class CkanApi {
         const url = '/api/ckan/group_activity/'+group;
         return axios.get(url, group, {withCredentials: true}).then(response => response.data);
     }
+
+    getGroupMembers(group) {
+        const url = '/api/ckan/members/'+group;
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    deleteGroupMember(groupId,  member){
+        const url = '/api/ckan/members/'+groupId;
+        return axios.delete(url, { data: {object_type: 'user', object: member} }, {withCredentials: true}).then(response => response.data);
+    }
+
+    getGroupFollowing(groupId){
+        const url = '/api/ckan/group/'+groupId+'/following';
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    followGroup(groupId, apiKey){
+        const url = '/api/ckan/group/'+groupId+'/follow';
+        let body = {
+            api_key: apiKey
+        };
+        return axios.post(url, body, {withCredentials: true}).then(response => response.data);
+    }
+
+    unfollowGroup(groupId, apiKey){
+        const url = '/api/ckan/group/'+groupId+'/unfollow';
+        return axios.delete(url, { data: {api_key: apiKey} }, {withCredentials: true}).then(response => response.data);
+    }
     
 }
