@@ -2,7 +2,7 @@
   <span>
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
-      <v-toolbar color="primary" flat dense fixed class="px-md-10">
+      <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10">
         <!-- Navbar content -->
         <a id="header-gov-logo" href="https://www2.gov.bc.ca">
             <img
@@ -10,7 +10,7 @@
                 width="auto" height="30"
                 alt="B.C. Government Logo">
         </a>
-        <v-toolbar-title><v-btn id="header-home" class="title hidden-sm-and-down font-weight-black" color="text" text to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
+        <v-toolbar-title><v-btn text depressed large height="100%" id="header-home" class="title hidden-sm-and-down font-weight-black" color="text" to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
         <v-spacer></v-spacer>
 
 
@@ -35,20 +35,20 @@
             </v-row>
           </v-menu> -->
 
-          <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
-          <v-btn v-else depressed text large id="logout-btn" class="hidden-sm-and-down" @click="logout" height="100%"><v-icon left>mdi-account</v-icon> {{$tc('Logout')}}</v-btn>
-          <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
-          <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down" @click="setLanguage('en')" height="100%">English</v-btn>
-          <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down" @click="setLanguage('fr')" height="100%">Français</v-btn>
+          <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
+          <v-btn v-else depressed text large id="logout-btn" class="hidden-sm-and-down header-button" @click="logout" height="100%"><v-icon left>mdi-account</v-icon> {{$tc('Logout')}}</v-btn>
+          <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down header-button" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
+          <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button" @click="setLanguage('en')" height="100%">English</v-btn>
+          <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button" @click="setLanguage('fr')" height="100%">Français</v-btn>
 
-          <v-btn depressed tile large @click="searchClick" id="header-search" color="#e3a82b" height="100%">
+          <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%">
             <v-icon large>mdi-magnify</v-icon>
           </v-btn>
 
 
-          <v-menu bottom left offset-y color="secondary" transition="slide-y-transition">
+          <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
             <template v-slot:activator="{ on }">
-              <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="secondary" height="100%">
+              <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="menu_secondary" height="100%">
                 <v-icon large>mdi-menu</v-icon>
               </v-btn>
             </template>
@@ -78,10 +78,10 @@
           </v-menu>
 
       </v-toolbar>
-      <v-container class="searchBar gov-yellow-border-bottom gov-yellow-border-top" v-show="showSearch" py-0 px-12>
-        <v-row wrap>
+      <v-container class="search-bar gov-yellow-border-bottom gov-yellow-border-top" v-show="showSearch" py-0 px-12>
+        <v-row wrap align-content="center" class="search-row">
           <v-col class="py-0">
-            <v-text-field ref="headerSearch" id="header-search" :label="$tc('SearchDatasets')" v-model="searchText" outline v-on:keyup="search"></v-text-field>
+            <v-text-field ref="headerSearch" id="header-search" :label="$tc('SearchDatasets')" v-model="searchText" solo hide-details v-on:keyup="search" append-icon="mdi-magnify"></v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -181,7 +181,7 @@ export default {
             },
             {
                 "icon": "mdi-rss",
-                "title": "Subscribe to new data",
+                "title": "Subscribe to New Data",
                 "href": this.classicUrl + '/feeds/recent.rss'
             },
             {
@@ -272,12 +272,21 @@ export default {
 
   .headerSpacer{
     top: 0px;
-    height: 48px;
+    height: 65px;
+  }
+  .v-menu__content{
+      border-radius: unset;
   }
 
 </style>
 
 <style>
+  .v-application a.title.v-btn {
+      font-size: 36px !important;
+  }
+  .header-button {
+      font-size: 16px !important;
+  }
 
   .gov-header{
     position: fixed;
@@ -286,11 +295,15 @@ export default {
     z-index: 100;
   }
 
-  .searchBar{
+  .search-bar{
     position: absolute;
     background: white;
     width: 100%;
     max-width: none !important;
+    height: 60px;
+  }
+  .search-row{
+      height: 100%;
   }
 
   div .v-list__tile {
@@ -305,7 +318,7 @@ export default {
   }
 
    .theme--light.v-list.header-menu {
-       background-color: var(--v-secondary-base);
+       background-color: var(--v-menu_secondary-base);
    }
 
    .theme--light.v-list.header-menu-secondary{
@@ -329,7 +342,7 @@ export default {
    }
 
    .secondary_color{
-       background-color: var(--v-secondary-base);
+       background-color: var(--v-menu_secondary-base);
    }
 
    .primary_color{
@@ -345,13 +358,13 @@ export default {
    }
 
    .gov-yellow-border-bottom{
-       border-bottom-color: #e3a82b !important;
+       border-bottom-color: var(--v-govYellow-base) !important;
        border-bottom-width: 2px !important;
        border-bottom-style: solid !important;
    }
 
    .gov-yellow-border-top{
-       border-top-color: #e3a82b !important;
+       border-top-color: var(--v-govYellow-base) !important;
        border-top-width: 2px !important;
        border-top-style: solid !important;
    }
@@ -360,5 +373,9 @@ export default {
        border-radius: 0px !important;
    }
 
+  .v-text-field.v-text-field--solo .v-input__slot{
+    box-shadow: unset !important;
+    margin-bottom: 0px !important;
+  }
 
 </style>
