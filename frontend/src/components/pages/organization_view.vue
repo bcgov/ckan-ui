@@ -5,75 +5,165 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid class="raise">
-        <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-        <v-progress-circular
-          v-if="loading"
-          :size="70"
-          :width="7"
-          color="grey"
-          indeterminate
-        ></v-progress-circular>
-        <v-row wrap v-else class="text-xs-center" align-center justify-center>
-            <v-col cols=3>
-                <Profile :group="group"></Profile>
-            </v-col>
+    <v-container v-else fluid>
+        <v-alert
+            :value="group.state === 'deleted'"
+            type="warning">
+            You are viewing a deleted organization
+        </v-alert>
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
+
+        <v-row>
+            <router-link to='/organization' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon>Back to organization list</router-link>
         </v-row>
-        <v-row wrap align-center>
-            <v-col cols=12>
-                <h2 class="text-xs-center">{{count}} {{$tc('Dataset', count)}}</h2>
+        <v-row>
+            <v-col cols=12 sm=8><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
+            <v-col cols=12 sm=4>
+                <v-dialog
+                    v-model="infoDialog"
+                    width="75%"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" text small depressed class="noHover" color="secondary">{{$tc('Learn more about this')}} {{$tc('organizations', 1)}}</v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title class="header">
+                            <span>{{group.title}}</span>
+                            <v-spacer></v-spacer>
+                            <v-btn text small depressed class="noHover" @click="infoDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-row class="pt-3">
+                                <v-img contain height="50px" :src="imgSrc" v-on:error="onImgError"></v-img>
+                            </v-row>
+                            <v-row wrap class="py-5" v-if="group.description">
+                                <Markdown
+                                    name="desc"
+                                    :value="group.description"
+                                    label=""
+                                    :editing="false"
+                                    :field="group.description"
+                                    :disabled="false"
+                                    placeholder="">
+                                </Markdown>
+                            </v-row>
+                            <v-row class="borderTop">
+                                <MemberList :groupId="group.id" :members="members"></MemberList>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
             </v-col>
         </v-row>
         <v-row wrap>
-            <v-col cols=12>
-                <v-progress-circular
-                    v-if="!datasetsLoaded"
-                    indeterminate
-                    color="light-blue"
-                ></v-progress-circular>
-                <div v-else-if="noResults">
-                    No results
-                </div>
-                <div v-else>
-                    <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
-                    <infinite-loading @infinite="scroll">
-                        <div slot="no-results">{{$tc('No datasets')}}</div>
-                        <div slot="no-more">{{$tc('No more datasets')}}</div>
-                    </infinite-loading>
-                </div>
-            </v-col>
+            <v-row wrap>
+                <v-col cols=11 sm=8>
+                    <v-progress-circular
+                        v-if="loading"
+                        indeterminate
+                        color="light-blue"
+                    ></v-progress-circular>
+                    <ListPage
+                        v-else
+                        :key="'listPage-'+facetFilterIndex+forceLoad"
+                        :replaceSearchTip="true" 
+                        addToSearchTip="Search Datasets in this organization"
+                        :forceFilter="'organization:('+group.name+')'"
+                    ></ListPage>
+                </v-col>
+                <v-col cols=1 sm=4>
+                    <v-row>
+                        <v-col cols=12>
+                            <FacetFilters
+                                v-on:facetFilter="facetFilter"
+                            ></FacetFilters>
+                        </v-col>
+                    </v-row>
+                    <span class="d-none d-sm-block text-left">
+                        <v-row>
+                            <v-btn text small depressed class="noHover mx-0" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                        </v-row>
+                        <v-row v-if="loggedIn">
+                            <v-btn text v-if="following" small depressed class="noHover mx-0" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
+                            <v-btn text v-else           small depressed class="noHover mx-0" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Organizations',1)}}</v-btn>
+                            
+                        </v-row>
+
+                        <v-row></v-row>
+
+                        <v-row v-if="showEdit" class="mt-6">
+                            <v-dialog
+                                v-model="editDialog"
+                                width="75%"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn v-on="on" text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                                </template>
+                                <Edit
+                                    v-on:closeEdit='editDialog = false'
+                                    v-on:editStatus="editStatus"
+                                >
+                                </Edit>
+                            </v-dialog>
+                        </v-row>
+                            
+                        <v-row class="mb-5" v-if="canDeleteResources">
+                            <v-btn text small depressed class="noHover mx-0" color="error" @click="deleteOrg"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                        </v-row>
+                    </span>
+                </v-col>
+            </v-row>
         </v-row>
     </v-container>
 </template>
 
 <script>
     import Breadcrumb from '../breadcrumb/Breadcrumb'
-    import Profile from '../organizations/profile'
-    import ListCard from '../dataset/ListCard'
+    import FacetFilters from '../dataset/FacetFilters'
+    import ListPage from '../dataset/ListPage'
+    import MemberList from '../groups/MemberList'
+    import Markdown from '../form/components/Markdown';
+    import Edit from '../organizations/edit';
 
-    import {CkanApi} from '../../services/ckanApi'
-
-    const ckanServ = new CkanApi()
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
+
+    import { CkanApi } from '../../services/ckanApi';
+    const ckanServ = new CkanApi();
+
+    import { mapState } from 'vuex';
 
 
     export default {
         name: "organization_view",
         components: {
             Breadcrumb: Breadcrumb,
-            Profile: Profile,
-            ListCard: ListCard
+            FacetFilters: FacetFilters,
+            ListPage: ListPage,
+            MemberList: MemberList,
+            Markdown: Markdown,
+            Edit: Edit,
         },
         data () {
             return {
-                loading: true,
                 error: null,
                 breadcrumbs: [
-                    {icon: "home", label: 'Home', route: '/'},
-                    {label: 'Organizations', route: '/organization'}
+                    {label: 'Organizations', route: '/organization'},
+                    {label: "Loading"}
                 ],
-                group: {},
                 skip: 0,
                 rows: 10,
                 noResults: false,
@@ -83,111 +173,129 @@
                 organizations: {},
                 datasetsLoaded: false,
                 datasetsLoading: false,
+                showFormSuccess: false,
+                showFormError: false,
+                formError: "",
+                formSuccess: "",
+                facetFilterIndex: 0,
+                infoDialog: false,
+                editDialog: false,
+                imgError: false,
+                forceLoad: 0,
             }
         },
         computed: {
+            
+            ...mapState({
+                members: state => state.organization.groupMembers,
+                group: state => state.organization.unmodifiedOrg,
+                sysAdmin: state => state.user.sysAdmin,
+                isAdmin: state => state.user.isAdmin,
+                isEditor: state => state.user.isEditor,
+                userLoading: state => state.user.userLoading,
+                loggedIn: state => state.user.loggedIn,
+                ckanUser: state => state.user.ckanUser,
+                loading: state => state.organization.loading,
+                following: state => state.organization.currUserFollowingCurrGroup,
+            }),
+
             organizationId: function organizationId() {
                 return this.$route.params.organizationId;
             },
+            imgSrc: function(){
+                if (this.imgError){
+                    return "/placeholder-organization.png"
+                }
+                return (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+            },
+            permalink: function(){
+                return window.location.origin+'/organization/'+this.group.id
+            },
+            
+            showEdit: function(){
+                // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+                //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+            },
+            canDeleteResources: function(){
+                return this.sysAdmin;
+            },
+        },
+        watch: {
+            group(){
+                this.forceLoad += 1;
+            },
+            loading(newVal){
+                this.breadcrumbs[1].label = (newVal) ? "Loading" : this.group.title;
+            }
         },
         methods: {
-            findOrgs(){
-                if (localStorage.orgList) {
-                    this.organizations = JSON.parse(localStorage.orgList);
-                } else {
-                    ckanServ.getOrgList().then((data) => {
-                        if (data.success) {
-                            localStorage.orgList = JSON.stringify(data.orgList);
-                            this.organizations = data.orgList;
-                            if (!this.datasetsLoading){
-                                this.datasetsLoading = true;
-                                this.getDatasets();
-                            }
-                        } else {
-                            this.error = data.error;
-                        }
-                    });
+            follow(){
+                this.$store.dispatch('organization/followGroup', this.ckanUser.apikey);
+            },
+
+            unfollow(){
+                this.$store.dispatch('organization/unfollowGroup', this.ckanUser.apikey);
+            },
+
+            async deleteOrg(){
+                this.disabled = true;
+                if (this.createMode){
+                    this.disabled = false;
+                    return;
                 }
+                const response = await ckanServ.deleteOrg(this.organizationId);
+
+                this.formSuccess = "";
+                this.formError = "";
+
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    this.$router.push({name: 'Organizations'});
+                    this.disabled = false;
+                    return;
+                }else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    this.disabled = false;
+                    return;
+                }
+                this.formError = "Unknown error deleting organization";
+                this.showFormSuccess = false;
+                this.showFormError = true;
+                this.disabled = false;
+            },
+
+            editStatus(status){
+                this.formSuccess = status.success;
+                this.formError = status.error;
+                this.showFormError = status.showError;
+                this.showFormSuccess = status.showSuccess;
+                if (this.showFormSuccess){
+                    this.editDialog = false;
+                }
+            },
+
+            onImgError(){
+                this.imgError = true;
+            },
+
+            facetFilter(){
+                this.facetFilterIndex += 1;
             },
 
             getOrganization: function(){
-                ckanServ.getOrganization(this.organizationId).then( (data) => {
-                    if (data.success) {
-                        this.group = data.result;
-                        this.loading = false;
-                        if (!this.datasetsLoading){
-                            this.datasetsLoading = true;
-                            this.getDatasets();
-                        }
-                    } else {
-                        this.error = data.error;
-                    }
-                });
-            },
-
-            scroll: function(state){
-                this.skip += this.rows
-                if (this.count>this.skip) {
-                    this.getDatasets(state)
-                } else {
-                    state.complete()
-                }
-            },
-
-            getDatasets(state){
-
-                let q = "?rows=" + this.rows+"&include_drafts=true&include_private=true&"
-
-                let fq = "&fq=organization:("+this.group.name+""
-                if (typeof(this.organizations[this.group.title]) !== "undefined"){
-                    for (var i=0; i<this.organizations[this.group.title].children.length; i++){
-                        fq += " OR " + this.organizations[this.group.title].children[i].name
-                    }
-                }
-                fq += ")"
-
-                if ( (this.skip !== 0) ){
-                    q += "start=" + this.skip + "&"
-                }
-
-                q = q.substring(0, q.length - 1)
-                q += fq;
-
-                ckanServ.getDatasets(q).then((data) => {
-                    if (data.success) {
-                        this.datasetsLoaded = true;
-                        if (!data.result){
-                            this.noResults = true;
-                            this.count = 0;
-                            return;
-                        }
-                        this.datasets = this.datasets.concat(data.result.results)
-                        this.count = data.result.count
-
-                        if (data.result.results.length <= 0){
-                            this.noResults = true
-                        }else{
-                            this.noResults = false
-                        }
-
-                        this.loading = false
-                        if (state != null) {
-                            if (this.skip+this.rows > this.count) {
-                                state.complete()
-                            }else{
-                                state.loaded();
-                            }
-                        }
-                    } else {
-                        this.error = data.error;
-                    }
-                });
-
+                this.$store.dispatch('organization/getOrg', {id: this.organizationId});
             },
         },
+
+            
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            this.findOrgs();
             this.getOrganization();
         }
 
@@ -197,5 +305,35 @@
 <style scoped>
     .raise {
         margin-bottom: 45px;
+    }
+    .header{
+    background: var(--v-primary-base);
+    color: var(--v-text-base);
+    }
+
+    .button-container{
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        z-index: 10;
+    }
+
+    .nounderline{
+        text-decoration: none;
+    }
+
+    .noHover:hover{
+        box-shadow: none;
+        border: none;
+        background: none;
+    }
+
+    .noHover:hover:before{
+        opacity: 0;
+    }
+
+    .borderTop{
+        border-top: 3px solid;
+        border-color: var(--v-govYellow-base);
     }
 </style>

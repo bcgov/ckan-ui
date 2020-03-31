@@ -87,6 +87,48 @@ var addRoutes = function(router){
         });
 
     });
+
+    /* GET ckan org schema -- requires scheming */
+    router.get('/orgSchema', auth.removeExpired, function(req, res, next) {
+
+        let config = require('config');
+        let url = config.get('ckan');
+
+        let type = "organization";
+
+        let reqUrl = url + "/api/3/action/scheming_organization_schema_show?type="+type;
+
+        let authObj = {};
+
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+        if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
+        }
+        if (apiRes.statusCode !== 200){
+            console.log("Body Status? ", apiRes.statusCode);
+        }
+
+        try {
+            let json = JSON.parse(body);
+            res.json(json);
+        }catch(ex){
+            console.error("Error reading json from ckan", ex);
+            res.json({error: ex});
+        }
+        });
+
+    });
+
     return router;
 };
 

@@ -16,7 +16,7 @@
                 cache-items
                 chips
                 deletable-chips
-                multiple
+                :multiple="multi"
                 :disabled="disabled"
                 outlined dense
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -49,6 +49,10 @@ export default {
             type: Boolean,
             default: false
         },
+        multi: {
+            type: Boolean,
+            default: true
+        },
     },
     data(){
         return {
@@ -59,42 +63,69 @@ export default {
             displayValue: ""
         };
     },
-    mounted(){
-        if (typeof(this.value) === "string"){
-            if (this.value.length === 0){
-                this.val = [];
+
+    methods: {
+        computeVal(){
+            if (this.multi){
+                if (typeof(this.value) === "string"){
+                    if (this.value.length === 0){
+                        this.val = [];
+                    }else{
+                        this.val = [this.value]
+                    }
+                }
             }else{
-                this.val = [this.value]
+                if (typeof(this.value) === "object"){
+                    if (this.value.length === 0){
+                        this.val = "";
+                    }else{
+                        this.val = this.value.join(" ")
+                    }
+                }
             }
-        }
-        for (let i=0; i<this.items.length; i++){
-            if (this.val.indexOf(this.items[i][this.itemValueField]) !== -1){
-                this.displayValue += this.items[i][this.itemTextField] + ",";
+            for (let i=0; i<this.items.length; i++){
+                if (this.val.indexOf(this.items[i][this.itemValueField]) !== -1){
+                    this.displayValue += this.items[i][this.itemTextField] + ",";
+                }
             }
-        }
-        if (this.displayValue.length > 0){
-            this.displayValue = this.displayValue.substring(0,this.displayValue.length-1);
+            if (this.displayValue.length > 0){
+                this.displayValue = this.displayValue.substring(0,this.displayValue.length-1);
+            }
         }
     },
+
+    mounted(){
+        this.computeVal();
+    },
+
     computed: {
         displayLabel: function(){
             return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
     watch: {
+        value(){
+            this.val = this.value;
+            this.computeVal();
+        },
+
         val(){
-            if (this.val.length > 0){
-                let tmp = this.val;//.split(",");
-                for (let i=0; i<tmp.length; i++){
-                    if (tmp[i] === ""){
-                        tmp.splice(i, 1);
-                        i--;
+            if (this.multi){
+                if (this.val.length > 0){
+                    let tmp = this.val;//.split(",");
+                    for (let i=0; i<tmp.length; i++){
+                        if (tmp[i] === ""){
+                            tmp.splice(i, 1);
+                            i--;
+                        }
                     }
+                    this.val = tmp;//.join(",");
+                    this.$emit('edited', tmp);
+                }else{
+                    this.$emit('edited', JSON.stringify([]));
                 }
-                this.val = tmp;//.join(",");
-                this.$emit('edited', tmp);
             }else{
-                this.$emit('edited', JSON.stringify([]));
+                this.$emit('edited', this.val);
             }
         },
     }

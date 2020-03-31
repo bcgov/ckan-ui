@@ -16,6 +16,7 @@ export default {
         "Datasets": "Jeu de données | Jeux de données",
         "datasets": "Jeu de données | Jeux de données",
         "Organizations": "Le organisation | Les organisations",
+        "organizations": "le organisation | les organisations",
         'Subscribe to Blog Posts': "S'abonner aux articles du blog",
         "About": "Sur",
         "Home": "Accueil",
@@ -52,6 +53,7 @@ export default {
         "Last Modified": "Dernière modification",
         "using": "en utilisant",
         "filter": "filtre | filtres",
+        "Filter": "Filtre | Filtres",
         "Public Datasets": "Jeux de données publics",
         "Catalogue records with data that can be viewed and accessed by anyone.": "Cataloguer les notices avec des données accessibles à tous",
         "Restricted Datasets": "Ensembles de données restreints",
@@ -246,5 +248,10 @@ export default {
         "Edit": "Éditer",
         "Add Member": "Ajouter un membre",
         "Private": "Privé",
+        "Search Datasets in this organization": "Rechercher des jeux de données dans cette organisation",
+        "Parent": "Parent",
+        "Result": "Résultat | Résultats",
+        "result": "résultat | résultats",
+        "Back to": "Retour à",
     }
 };

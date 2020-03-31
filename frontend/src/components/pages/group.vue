@@ -50,7 +50,15 @@
                                 <v-img contain height="50px" :src="imgSrc" v-on:error="onImgError"></v-img>
                             </v-row>
                             <v-row wrap class="py-5">
-                                {{group.description}}
+                                <Markdown
+                                    name="desc"
+                                    :value="group.description"
+                                    label=""
+                                    :editing="false"
+                                    :field="{}"
+                                    :disabled="false"
+                                    placeholder="">
+                                </Markdown>
                             </v-row>
                             <v-row class="borderTop">
                                 <MemberList :groupId="group.id" :members="members"></MemberList>
@@ -62,7 +70,7 @@
         </v-row>
         <v-row wrap>
             <v-row wrap>
-                <v-col cols=12 sm=8 order=2 order-sm=1>
+                <v-col cols=11 sm=8>
                     <ListPage
                         :key="'listPage-'+facetFilterIndex"
                         :replaceSearchTip="true" 
@@ -70,7 +78,7 @@
                         :forceFilter="'groups:('+group.name+')'"
                     ></ListPage>
                 </v-col>
-                <v-col cols=12 sm=4 order=1 order-sm=2>
+                <v-col cols=1 sm=4>
                     <v-row>
                         <v-col cols=12>
                             <FacetFilters
@@ -121,6 +129,7 @@
     import ListPage from '../dataset/ListPage'
     import FacetFilters from '../dataset/FacetFilters';
     import MemberList from '../groups/MemberList';
+    import Markdown from '../form/components/Markdown';
     import Edit from '../groups/edit';
 
     import { mapState } from 'vuex';
@@ -139,6 +148,7 @@
             ListPage: ListPage,
             FacetFilters: FacetFilters,
             MemberList: MemberList,
+            Markdown: Markdown,
             Edit: Edit,
         },
         data () {

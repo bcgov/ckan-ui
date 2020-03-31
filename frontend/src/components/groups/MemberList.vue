@@ -26,6 +26,7 @@ import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 export default{
+
     props: {
         members: Array,
         groupId: String

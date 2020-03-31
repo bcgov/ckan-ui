@@ -116,6 +116,21 @@
                 >
                 </Tags>
                 <Autocomplete
+                    v-else-if="field.preset==='autocomplete' && field.choices_helper && field.choices_helper=='available_parent_orgs'"
+                    :name="field.field_name"
+                    :multi="false"
+                    :value="available_parent_org_value"
+                    :label="field.label"
+                    :editing="editing"
+                    :placeholder="field.form_placeholder"
+                    :field="field"
+                    :scope="scope"
+                    :items="selectableUserOrgs"
+                    :disabled="disabled"
+                    @edited="(newValue) => { updateValues('groups', newValue) }"
+                >
+                </Autocomplete>
+                <Autocomplete
                     v-else-if="field.preset==='autocomplete'"
                     :name="field.field_name"
                     :value="values[field.field_name] ? values[field.field_name] : ''"
@@ -335,6 +350,16 @@ export default {
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
         }),
+
+        available_parent_org_value: function(){
+            let val = (this.values.groups && this.values.groups[0] && this.values.groups[0].name) ? this.values.groups[0].name : ""
+            if (val.length == 0){
+                //eslint-disable-next-line
+                console.log("no name, using full group");
+                val = (this.values.groups && this.values.groups[0]) ? this.values.groups[0] : ""
+            }
+            return val;
+        },
 
         orgArray: function(){
             let orgs = [];

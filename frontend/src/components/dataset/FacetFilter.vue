@@ -6,12 +6,13 @@
                 <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader">
                     <v-row dense>
                         <v-col cols="10">
-                            <v-badge inline color="red" >
+                            <v-badge inline color="red" v-if="numApplied>0">
                                 <template v-slot:badge>
-                                    <span v-if="numApplied>0">{{numApplied}}</span>
+                                    <span>{{numApplied}}</span>
                                 </template>
                                 <span>{{$tc(name)}}</span>
                             </v-badge>
+                            <span v-else>{{$tc(name)}}</span>
                         </v-col>
                     </v-row>
                 </v-expansion-panel-header>

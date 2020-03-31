@@ -1,5 +1,6 @@
 var addRoutes = function(router){
     let request = require('request');
+    let auth = require('../../modules/auth');
     const NodeCache = require( "node-cache" );
     const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
 
@@ -64,20 +65,27 @@ var addRoutes = function(router){
         let authObj = {};
     
         if (req.user){
-        authObj = {
-            'headers': {
-            'Authorization': req.user.jwt
-            }
-        };
+            authObj = {
+                'headers': {
+                    'Authorization': req.user.jwt
+                }
+            };
         }else{
-        console.log("no user");
+            console.log("no user");
         }
+
+        let noCache = (typeof(req.query) !== "undefined") ? true : false;
+        noCache = (noCache && typeof(req.query.nocache) !== "undefined") ? true : false;
+        noCache = (noCache && (req.query.nocache === "true")) ? true : false;
     
         cache.get(orgCacheKey, function(err, value){
-            if ( (!err) && (value !== undefined) ){
-                res.json(value);
-                return;
+            if ( !noCache ){
+                if ( (!err) && (value !== undefined) ){
+                    res.json(value);
+                    return;
+                }
             }
+            
             //if here there either was an error or it wasn't defined hit the api
             request(reqUrl, authObj, function(err, apiRes, body){
             if (err) {
@@ -141,6 +149,110 @@ var addRoutes = function(router){
     
     
     });
+
+
+    router.post('/organization', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        const reqUrl = url + "/api/3/action/organization_create";
+
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+
+        //CKAN requires the group type be set to group or it will not create correctly
+        req.body['type'] = "organization";
+
+        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                res.json(json);
+            } catch (ex) {
+                console.error("Error reading json from ckan", ex);
+                res.json({ error: ex, body: body });
+            }
+        });
+
+    });
+
+    router.put('/organization/:id', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        const reqUrl = url + "/api/3/action/organization_update";
+
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+        
+
+        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                res.json(json);
+            } catch (ex) {
+                console.error("Error reading json from ckan", ex);
+                res.json({ error: ex, body: body });
+            }
+        });
+
+    });
+
+    router.delete('/organization/:groupId', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        const reqUrl = url + "/api/3/action/organization_delete";
+
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+
+        if (!req.params.groupId){
+            return res.json({error: "No Group ID specified"});
+        }
+
+        console.log("DELETING organization", req.params.groupId);
+
+        request({ method: 'POST', uri: reqUrl, json: {id: req.params.groupId}, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                res.json(json);
+            } catch (ex) {
+                console.error("Error reading json from ckan", ex);
+                res.json({ error: ex, body: body });
+            }
+        });
+    });
+
     return router;
 };
 

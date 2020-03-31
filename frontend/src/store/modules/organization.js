@@ -5,6 +5,12 @@ const state = {
     orgList: {},
     userOrgs: [],
     searchText: "",
+    organization: {},
+    unmodifiedOrg: {},
+    groupMembers: [],
+    loading: false,
+    schemas: {},
+    currUserFollowingCurrGroup: false,
 };
 
 const getters = {
@@ -39,9 +45,59 @@ const getters = {
 }
 
 const actions = {
+
+    followGroup({ state, commit }, apiKey){
+        ckanServ.followGroup(state.organization.id, apiKey).then( () => {
+            //get if user following
+            ckanServ.getGroupFollowing(state.organization.id).then( async(data) => {
+                if (data.success){
+                    commit('setCurrUserFollowingCurrGroup', {following: data.result});
+                }
+            });
+        });
+    },
+
+    unfollowGroup({ state, commit }, apiKey){
+        ckanServ.unfollowGroup(state.organization.id, apiKey).then( () => {
+            //get if user following
+            ckanServ.getGroupFollowing(state.organization.id).then( async(data) => {
+                if (data.success){
+                    commit('setCurrUserFollowingCurrGroup', {following: data.result});
+                }
+            });
+        });
+    },
+
+    newOrg({ commit }){
+        commit('setOrg', {org: {}});
+    },
+
+    setOrg({ state }) {
+        let organization = JSON.parse(JSON.stringify(state.organization));
+        return ckanServ.putOrg(organization);
+    },
+
+    createOrg({ state }) {
+        return ckanServ.postOrg(state.organization);
+    },
+
+    getSchema({ commit }){
+        ckanServ.getOrgSchema().then((data) => {
+            commit('setSchema', { schema: data.result });
+        });
+    },
+
     getOrgs({ commit }) {
         if (Object.entries(state.orgList).length == 0) {
             ckanServ.getOrgList().then((data) => {
+                commit('setOrgList', { orgList: data.orgList });
+            });
+        }
+    },
+
+    getOrgsNoCache({ commit }) {
+        if (Object.entries(state.orgList).length == 0) {
+            ckanServ.getOrgListNoCache().then((data) => {
                 commit('setOrgList', { orgList: data.orgList });
             });
         }
@@ -53,16 +109,80 @@ const actions = {
                 commit('setUserOrgList', { orgList: data });
             });
         }
+    },
+
+    getOrg({commit}, {id}){
+        commit('setLoading', {loading: true});
+        //get members
+        ckanServ.getGroupMembers(id).then( async(data) => {
+            if (data.success){
+                let members = data.result;
+                for (let i=0; i<members.length; i++){
+                    var user = await ckanServ.getUser(members[i][0]);
+                    if (user.success){
+                        members[i].push(user.result.display_name);
+                    }
+                }
+                commit('setCurrentMemberList', {members: members});
+            }
+        });
+
+        ckanServ.getGroupFollowing(id).then( async(data) => {
+            if (data.success){
+                commit('setCurrUserFollowingCurrGroup', {following: data.result});
+            }
+        });
+
+        ckanServ.getOrgSchema().then((data) => {
+            commit('setSchema', { schema: data.result });
+        });
+
+        if (state.userOrgs.length == 0) {
+            ckanServ.getUserOrgList().then((data) => {
+                commit('setUserOrgList', { orgList: data });
+            });
+        }
+        
+        ckanServ.getOrganization(id).then( (data) => {
+            if (data.success) {
+                commit('setOrg', {org: data.result});
+            } else {
+                commit('setOrg', {org: {}});
+            }
+            commit('setLoading', {loading: false});
+        });
     }
+    
 }
 
 const mutations = {
+    setCurrentMemberList(state, {members}){
+        state.groupMembers = members;
+    },
+
+    setCurrUserFollowingCurrGroup(state, {following}){
+        state.currUserFollowingCurrGroup = following;
+    },
+
     setOrgList(state, { orgList }) {
         state.orgList = Object.assign({}, orgList);
     },
 
     setSearchText(state, { searchText }) {
         state.searchText = searchText;
+    },
+
+    setOrg(state, { org }){
+        state.unmodifiedOrg = Object.assign(state.unmodifiedOrg, {}, org);
+        state.organization = Object.assign(state.organization, {}, org);
+    },
+
+    setLoading(state, { loading }){
+        state.loading = loading;
+    },
+
+    setSchema(state, { schema }){
+        state.schemas = Object.assign(state.schemas, {organization: schema});
     },
 
     setUserOrgList(state, { orgList }) {
@@ -78,6 +198,10 @@ const mutations = {
         }
 
         state.userOrgs = Object.assign({}, userOrgs);
+    },
+
+    setCurrentNotUnmod(state, {group}) {
+        state.organization = Object.assign({}, group);
     },
 }
 

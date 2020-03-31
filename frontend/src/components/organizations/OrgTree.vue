@@ -4,7 +4,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'">
           <span>
-            <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: id }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
+            <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: org.org.name }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
             <p v-else>{{orgName}} {{count > 0 ? '' : ''}}</p>
           </span>
           <template v-slot:actions>

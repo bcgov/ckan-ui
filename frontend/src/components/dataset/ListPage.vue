@@ -113,6 +113,9 @@
         currentPage(newVal){
             this.skip = this.rows*(newVal-1);
             this.getDatasets();
+        },
+        forceFilter(){
+            this.getDatasets();
         }
     },
 

@@ -7,12 +7,12 @@
     </v-container>
     <v-container fluid v-else class="px-0">
         <v-row wrap>
-            <v-col cols=12 sm=8 order=2 order-sm=1>
+            <v-col cols=11 sm=8>
                 <ListPage
                     :key="'listPage-'+facetFilterIndex"
                 ></ListPage>
             </v-col>
-            <v-col cols=12 sm=4 order=1 order-sm=2>
+            <v-col cols=1 sm=4>
                 <FacetFilters
                     v-on:facetFilter="facetFilter"
                 ></FacetFilters>

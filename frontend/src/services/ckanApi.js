@@ -46,7 +46,12 @@ export class CkanApi {
 
     getOrgList() {
         const url = '/api/ckan/organizations';
-        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    getOrgListNoCache() {
+        const url = '/api/ckan/organizations?nocache=true';
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
     getUserOrgList() {
@@ -199,6 +204,26 @@ export class CkanApi {
     unfollowGroup(groupId, apiKey){
         const url = '/api/ckan/group/'+groupId+'/unfollow';
         return axios.delete(url, { data: {api_key: apiKey} }, {withCredentials: true}).then(response => response.data);
+    }
+
+    getOrgSchema(){
+        let url = '/api/ckan/orgSchema';
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    postOrg(group) {
+        const url = '/api/ckan/organization';
+        return axios.post(url, group, {withCredentials: true}).then(response => response.data);
+    }
+
+    putOrg(group) {
+        const url = '/api/ckan/organization/'+group.id;
+        return axios.put(url, group, {withCredentials: true}).then(response => response.data);
+    }
+
+    deleteOrg(id){
+        const url = '/api/ckan/organization/'+id;
+        return axios.delete(url, { withCredentials: true }).then(response => response.data);
     }
     
 }

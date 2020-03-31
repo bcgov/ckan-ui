@@ -6,6 +6,20 @@
         </div>
     </v-container>
     <v-container v-else fluid>
+        <v-alert
+            :value="showFormSuccess"
+            class="fixed"
+            dismissible
+            type="success">
+            {{formSuccess}}
+        </v-alert>
+        <v-alert
+            :value="showFormError"
+            class="fixed"
+            dismissible
+            type="error">
+            {{formError}}
+        </v-alert>
         <v-row wrap>
             <v-col cols=12 class="">
                 <h2 class="primary-text">{{$tc('Organizations', 2)}}</h2>
@@ -54,7 +68,20 @@
                     </v-card>
                 </v-row>
                 <v-row class="manageSection mb-5" v-if="sysAdmin">
-                    <v-btn class="primary" :to="{name: 'group_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                    <v-dialog
+                        v-model="editDialog"
+                        width="75%"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="primary fullWidth" v-on="on">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                        </template>
+                        <Edit
+                            :create="true"
+                            v-on:closeEdit='editDialog = false'
+                            v-on:editStatus="editStatus"
+                        >
+                        </Edit>
+                    </v-dialog>
                 </v-row>
                 <v-row>
                     <v-card elevation=0>
@@ -73,6 +100,7 @@
 
 <script>
     import OrgTree from '../organizations/OrgTree'
+    import Edit from '../organizations/edit';
 
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics();
@@ -81,7 +109,8 @@
 
     export default {
         components: {
-            OrgTree: OrgTree
+            OrgTree: OrgTree,
+            Edit: Edit,
         },
 
         data() {
@@ -92,6 +121,11 @@
                 aboutExpanded: 0,
                 searchT: this.searchText ? this.searchText : "",
                 manageExpanded: 0,
+                editDialog: false,
+                formSuccess: "",
+                formError: "",
+                showFormError: false,
+                showFormSuccess: false,
             }
         },
 
@@ -114,6 +148,15 @@
         },
 
         methods: {
+            editStatus(status){
+                this.formSuccess = status.success;
+                this.formError = status.error;
+                this.showFormError = status.showError;
+                this.showFormSuccess = status.showSuccess;
+                if (this.showFormSuccess){
+                    this.editDialog = false;
+                }
+            },
             search: function(e){
                 if (e.keyCode === 13) {
                     this.$store.commit('organization/setSearchText', {searchText: e.target.value});
@@ -160,6 +203,7 @@
         mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.searchT = this.searchText;
+            this.$store.dispatch('organization/getSchema');
             this.$store.dispatch('organization/getOrgs');
         }
     }
@@ -194,5 +238,9 @@
     .manageSection .v-expansion-panel-content__wrap{
         padding: 0 !important;
         padding-top: 5px !important;
+    }
+
+    .fullWidth{
+        width: 100%;
     }
 </style>

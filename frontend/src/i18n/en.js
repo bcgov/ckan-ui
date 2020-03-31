@@ -16,6 +16,7 @@ export default {
         "Datasets": "Dataset | Datasets",
         "datasets": "dataset | datasets",
         "Organizations": "Organization | Organizations",
+        "organizations": "organization | organizations",
         'Subscribe to Blog Posts': "Subscribe to Blog Posts",
         "About": "About",
         "Home": "Home",
@@ -52,6 +53,7 @@ export default {
         "Last Modified": "Last Modified",
         "using": "using",
         "filter": "filter | filters",
+        "Filter": "Filter | Filters",
         "Public Datasets": "Public Datasets",
         "Catalogue records with data that can be viewed and accessed by anyone.": "Catalogue records with data that can be viewed and accessed by anyone.",
         "Restricted Datasets": "Restricted Datasets",
@@ -243,5 +245,10 @@ export default {
         "Edit": "Edit",
         "Add Member": "Add Member",
         "Private": "Private",
+        "Search Datasets in this organization": "Search Datasets in this organization",
+        "Parent": "Parent",
+        "Result": "Result | Results",
+        "result": "result | results",
+        "Back to": "Back to",
     }
 };
