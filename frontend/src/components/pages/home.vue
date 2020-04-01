@@ -4,20 +4,20 @@
         <v-row>
             <v-col cols=12>
                 <v-row align="center" justify="center">
-                    <v-card tile class="mx-3 pa-6" height="200px" width="200px" ><p style="font-size: 50pt">BC</p></v-card>
-                    <v-card tile class="mx-3 pa-6" height="200px" width="200px"><p style="font-size: 50pt">💖</p></v-card>
-                    <v-card tile class="mx-3 pa-6" height="200px" width="200px"><p style="font-size: 50pt">{{$tc('Data')}}</p></v-card>
+                    <v-card class="mx-3 pa-6 pitch-card" height="180px" width="160px" ><p style="font-size: 36pt">BC</p></v-card>
+                    <v-card class="mx-3 pa-6 pitch-card" height="180px" width="160px"><p style="font-size: 36pt">💖</p></v-card>
+                    <v-card class="mx-3 pa-6 pitch-card" height="180px" width="160px"><p style="font-size: 36pt">{{$tc('Data')}}</p></v-card>
                 </v-row>
             </v-col>
             <v-col cols=12>
                 <v-row align="center" justify="center">
                     <v-col xs="12" md="8">
-                        <v-text-field ref="searchBox" outlined background-color="text_background" color="primary" append-icon="mdi-magnify" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
+                        <v-text-field class="home-search" ref="searchBox" solo hide-details background-color="text_background" color="primary" append-icon="mdi-magnify" v-model="searchText" :label="$tc('SearchDatasets')" v-on:keyup="search"></v-text-field>
                     </v-col>
                 </v-row>
             </v-col>
             <v-col cols=12>
-                <p>{{$tc('TrySearchingFor')}}</p>
+                <p class="search-suggestion mb-0">{{$tc('TrySearchingFor')}}</p>
                 <v-carousel interval="3000" cycle xs6 :show-arrows="false" hide-delimiters height="40px">
                     <v-carousel-item v-for="(item, i) in searchSuggestions" :key="i">
                         <p><a v-on:click="termClick">{{item}}</a></p>
@@ -82,5 +82,16 @@
     }
     .raise {
         margin-bottom: 45px;
+    }
+    .pitch-card {
+        border-radius: 5px !important;
+    }
+    .home-search {
+        border-radius: 2px;
+        border: 2px solid #003366;
+    }
+    .search-suggestion {
+        font-size: 23px;
+        color: #494949;
     }
 </style>
