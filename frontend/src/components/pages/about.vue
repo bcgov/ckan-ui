@@ -1,65 +1,150 @@
 <template>
-    <v-container fluid>
-        <Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb>
-        <v-card>
-            <v-card-text>
-                <p>
-                    The BC Data catalogue helps users to find, understand and explore data. The catalogue also provides
-                    contact information so that data users can contact Data Custodians for additional information if
-                    required.
-                </p>
 
-                <p>
-                    DataBC manages the BC Data Catalogue software and infrastructure, and delivers user training and authorization management.
-                </p>
-
-                <p>
-                    Data, APIs and Applications registered and presented through the BC Data Catalogue are managed and
-                    provided by Data Custodians from across the broader public service. Each Data Custodian is typically a
-                    Director or Executive Director of an Organizational unit such as a Branch or Division. The Data
-                    Custodial Organizations are visible under the <router-link to="organizations">Organizations</router-link> tab.
-                </p>
-
-                <p>
-                    DataBC helps the Province manage data as an asset. It enables public servants and citizens to share and
-                    use data. DataBC delivers on this mandate by providing leadership in : data governance and
-                    custodianship; data licensing; literacy and outreach; data cataloging; data provisioning; geographic
-                    data integration and management; location based services and web mapping applications.
-                </p>
-
-                <p>
-                    To learn more about DataBC please visit our <a href="http://www.data.gov.bc.ca/dbc/about/index.page">website</a>
-                </p>
-
-                <p>
-                    British Columbia's Data Catalogue is powered by <a href="http://ckan.org/">CKAN</a>.
-                </p>
-            </v-card-text>
-        </v-card>
-    </v-container>
+    <v-card>
+        <v-card-title class="header">
+            <span>{{$tc('About')}}</span>
+            <v-spacer></v-spacer>
+            <v-btn text small depressed class="noHover" @click="close"><v-icon color="text">mdi-close</v-icon></v-btn>
+        </v-card-title>
+        <v-card-text>
+            <v-alert
+                :value="formSuccess"
+                class="fixed"
+                dismissible
+                type="success">
+                {{formMessage}}
+            </v-alert>
+            <v-alert
+                :value="formError"
+                class="fixed"
+                dismissible
+                type="error">
+                {{formMessage}}
+            </v-alert>
+            <div class="my-4">
+                <v-progress-circular
+                    indeterminate
+                    color="light-blue"
+                    v-if="loading"
+                ></v-progress-circular>
+                <Markdown
+                    v-else
+                    name="about"
+                    :value="about"
+                    label=""
+                    :editing="editing"
+                    :field="{}"
+                    scope="about"
+                    :disabled="disabled"
+                    @edited="(newValue) => { updateValues(newValue) }"
+                ></Markdown>
+            </div>
+        </v-card-text>
+        <v-card-actions>
+            <span v-if="!editing" class="wide text-right align-right">
+                <v-spacer></v-spacer>
+                <v-btn @click="editing = true" class="mr-3" color="primary">Edit</v-btn>
+            </span>
+            <span v-else class="wide text-right align-right">
+                <v-spacer></v-spacer>
+                <v-btn @click="save" class="mr-3"  color="primary">Save</v-btn>
+                <v-btn @click="cancel" class="mr-3">Cancel</v-btn>
+            </span>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>
-    import Breadcrumb from '../breadcrumb/Breadcrumb'
-    import {Analytics} from '../../services/analytics'
+    import {Analytics} from '../../services/analytics';
     const analyticsServ = new Analytics()
+
+    import Markdown from '../form/components/Markdown';
+    
+    import { CkanApi } from '../../services/ckanApi';
+    const ckanServ = new CkanApi();
+
+    import { mapState } from 'vuex';
 
     export default {
         components: {
-            Breadcrumb: Breadcrumb
+            Markdown: Markdown
         },
 
         data() {
             return {
-                breadcrumbs: [
-                    {icon: "home", label: 'Home', route: '/'},
-                    {label: 'About'}
-                ]
+                originalAbout: '',
+                about: '',
+                editing: false,
+                disabled: false,
+                loading: true,
+                formSuccess: false,
+                formError: false,
+                formMessage: "Succesfully udpated",
+            }
+        },
+        computed: {
+            ...mapState({
+                userLoading: state => state.user.loading,
+                sysAdmin: state => state.user.sysAdmin,
+            }),
+
+            showEdit: function(){
+                // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
+                //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+
+                return ( (!this.editing) && (!this.userLoading) && (this.sysAdmin) );
+
             }
         },
         mounted() {
+            this.getAbout();
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
+        },
+        methods: {
+            getAbout(){
+                ckanServ.getAbout().then((data) => {
+                    this.about = data.result;
+                    this.originalAbout = this.about;
+                    this.loading = false;
+                });
+            },
+            close(){
+                this.$emit('closeDialog');
+            },
+            updateValues(value){
+                this.about = value;
+            },
+            save(){
+                this.disabled = true;
+                ckanServ.putAbout(this.about).then( (data) => {
+                    if (data.success){
+                        this.formSuccess = true;
+                        this.formError = false;
+                        this.formMessage = "Succesfully udpated";
+                        this.editing = false;
+                    }else{
+                        this.formSuccess = false;
+                        this.formError = true;
+                        this.formMessage = "Error updating";
+                    }
+                });
+            },
+            cancel(){
+                this.about = this.originalAbout;
+                this.editing = false;
+            }
         }
     }
 
 </script>
+
+
+<style>
+    .header{
+        background: var(--v-primary-base);
+        color: var(--v-text-base);
+    }
+    .wide{
+        width: 100%;
+    }
+</style>

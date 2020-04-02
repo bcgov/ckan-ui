@@ -102,6 +102,11 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
+    putAbout(about) {
+        const url = '/api/ckan/about';
+        return axios.put(url, {about: about}, {withCredentials: true}).then(response => response.data);
+    }
+
     getDatasetSchema(type) {
         let url = '/api/ckan/datasetSchema';
         if (typeof(type) !== "undefined"){
