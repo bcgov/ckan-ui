@@ -1,5 +1,11 @@
 <template>
   <span>
+    <v-dialog
+      v-model="aboutDialog"
+    >
+      <About @closeDialog="closeAbout"></About>
+    </v-dialog>
+
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
       <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10">
@@ -59,8 +65,15 @@
                       <v-list-item v-else color="text" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
                       <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                       <template v-for="(item, key) in menuTertiary">
+                        
+                        <span v-if="item.dialog" :key="'secondary-menu-'+key">
+                          <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true" v-text="$tc(item.title, 2)"></v-list-item>
+                        </span>
+                        
+                        <span v-else :key="'secondary-menu-'+key">
                           <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                           <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                        </span>
                       </template>
                     </v-list>
                 <!-- </v-col>
@@ -96,16 +109,19 @@ import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
 
 // import User from './user/user'
+import About from './pages/about';
 
 export default {
   components: {
     //   User: User
+    About: About
   },
   props: [],
   data () {
     let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
         searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
+        aboutDialog: false,
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
         showSearch: false,
@@ -191,12 +207,18 @@ export default {
             },
             {
                 "title": "About",
-                "link": "/about"
+                "link": "/about",
+                "dialog": true
             },
         ]
     }
   },
   methods:{
+
+      closeAbout: function(){
+        this.aboutDialog = false;
+      },
+
       search: function(e){
           if (e.keyCode === 13) {
             this.showSearch = false;

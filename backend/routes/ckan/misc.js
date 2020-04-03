@@ -244,42 +244,89 @@ var addRoutes = function(router){
     /* GET ckan about */
     router.get('/about', auth.removeExpired, function(req, res, next) {
 
-    let config = require('config');
-    let url = config.get('ckan');
+        let config = require('config');
+        let url = config.get('ckan');
 
-    let keys = Object.keys(req.query);
-    let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about";
+        let keys = Object.keys(req.query);
+        let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about";
 
-    let authObj = {};
+        let authObj = {};
 
-    if (req.user){
-        authObj = {
-            'auth': {
-                'bearer': req.user.jwt
+        if (req.user){
+            authObj = {
+                'auth': {
+                    'bearer': req.user.jwt
+                }
+            };
+        }
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+            console.log(err);
+            res.json({error: err});
+            return;
             }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            if (apiRes.statusCode !== 200){
+                return res.json({
+                    "success": false,
+                    "result": 'The BC Data catalogue helps users to find, understand and explore data. The catalogue also provides contact information so that data users can contact Data Custodians for additional information if required. DataBC  manages the BC Data Catalogue software and infrastructure, and delivers user training and authorization management. Data, APIs and Applications registered and presented through the BC Data Catalogue are managed and provided by Data Custodians from across the broader public service. Each Data Custodian is typically a Director or Executive Director of an Organizational unit such as a Branch or Division. The Data Custodial Organizations are visible under the [Organizations](http://catalogue.data.gov.bc.ca/organization) tab. DataBC helps the Province manage data as an asset.  It enables public servants and citizens to share and use data.  DataBC delivers on this mandate by providing leadership in : data governance and custodianship; data licensing; literacy and outreach; data cataloging;  data provisioning; geographic data integration and management;  location based services and web mapping applications. To learn more about DataBC please visit our [website](http://www.data.gov.bc.ca/dbc/about/index.page) British Columbia\'s Data Catalogue is powered by [CKAN](http://ckan.org/).'
+                });
+            }
+
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+
+    });
+
+    /* UPDATE ckan about */
+    router.put('/about', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+    
+        const reqUrl = url + "/api/3/action/config_option_update";
+    
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+    
+        console.log("UPDATING ABOUT", req.body);
+
+        let body = {
+            'ckan.site_about': req.body.about
         };
-    }
+    
+        request({ method: 'POST', uri: reqUrl, json: body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
 
-    request(reqUrl, authObj, function(err, apiRes, body){
-        if (err) {
-        console.log(err);
-        res.json({error: err});
-        return;
-        }
-        if (apiRes.statusCode !== 200){
-            console.log("Body Status? ", apiRes.statusCode);
-        }
-
-        try {
-            let json = JSON.parse(body);
-            res.json(json);
-        }catch(ex){
-            console.error("Error reading json from ckan", ex);
-            res.json({error: ex});
-        }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+    
+            try {
+                let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                res.json(json);
+            } catch (ex) {
+                console.error("Error reading json from ckan", ex);
+                res.json({ error: ex, body: body });
+            }
+        });
+    
     });
 
-    });
 
 
 

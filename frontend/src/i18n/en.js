@@ -250,5 +250,6 @@ export default {
         "Result": "Result | Results",
         "result": "result | results",
         "Back to": "Back to",
+        "Subscribe to New Data": "Subscribe to New Data",
     }
 };

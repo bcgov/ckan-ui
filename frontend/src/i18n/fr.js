@@ -253,5 +253,6 @@ export default {
         "Result": "Résultat | Résultats",
         "result": "résultat | résultats",
         "Back to": "Retour à",
+        "Subscribe to New Data": "Abonnez-vous aux nouvelles données",
     }
 };
