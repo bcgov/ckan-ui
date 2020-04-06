@@ -193,7 +193,13 @@ analyticsServ.ga().then( (gajson) => {
             govYellow: "#FCBA19",
             label_text: '#333333',
             sub_label_text: "#777777",
-            menu_secondary: "#38598A"
+            menu_secondary: "#38598A",
+            data_background: "#F2F2F2",
+            icon: "#CCCCCC",
+            faded_text: "#494949",
+            filter_colour: "#38598A",
+            label_colour: "#1A5A96",
+            label_border: "#DDDDDD"
           },
           light: {
             primary: '#003366',
@@ -209,7 +215,13 @@ analyticsServ.ga().then( (gajson) => {
             govYellow: "#FCBA19",
             label_text: '#333333',
             sub_label_text: "#777777",
-            menu_secondary: "#38598A"
+            menu_secondary: "#38598A",
+            data_background: "#F2F2F2",
+            icon: "#CCCCCC",
+            faded_text: "#494949",
+            filter_colour: "#38598A",
+            label_colour: "#1A5A96",
+            label_border: "#DDDDDD"
           }
         }
     }

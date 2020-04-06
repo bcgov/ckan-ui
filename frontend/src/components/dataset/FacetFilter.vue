@@ -3,9 +3,9 @@
         <v-expansion-panels :key="'facetPanel'+name+updates" multiple v-model="model" class="mb-3">
             <v-expansion-panel>
                 
-                <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader">
-                    <v-row dense>
-                        <v-col cols="10">
+                <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader headerHeight py-0">
+                    <v-row dense >
+                        <v-col cols="10" class="headerHeight py-0">
                             <v-badge inline color="red" v-if="numApplied>0">
                                 <template v-slot:badge>
                                     <span>{{numApplied}}</span>
@@ -17,26 +17,31 @@
                     </v-row>
                 </v-expansion-panel-header>
                 
-                <v-expansion-panel-content class="facet-no-border">
+                <v-expansion-panel-content class=" mt-4 facet-no-border">
                     <div>
                         <v-row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                             <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
-                                <span v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
-                                    <v-chip 
-                                        v-for="(filter, i) in filters[k]" 
-                                        :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
-                                        label
-                                        :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2 mr-2' : 'active pointer mb-2 mr-2'"
+                                <v-row v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
+                                    <div
+                                        v-for="(filter, i) in filters[k]"  
+                                        :class="filteredOn.indexOf(filter.name) === -1 ? 'order-last' : ' active order-first'"
                                         :key="'filter-'+key+'-'+i"
-                                        v-on:click="filterOn(filter, k)">
-                                        <span class="bold">
-                                            {{filter.display_name}}
-                                            <v-icon v-if="filteredOn.indexOf(filter.name) === -1">mdi-plus-circle</v-icon>
-                                            <v-icon v-else>mdi-close-circle</v-icon>
-                                            
-                                        </span>
-                                    </v-chip>
-                                </span>
+                                    >
+                                        <v-chip 
+                                            :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
+                                            label
+                                            :class="'chip pointer mr-2 py-0 mb-2' + (filteredOn.indexOf(filter.name) === -1 ? '' : ' active')"
+                                            :key="'filterchip-'+key+'-'+i"
+                                            v-on:click="filterOn(filter, k)">
+                                            <span>
+                                                {{filter.display_name}}
+                                                <v-icon small class="chipIcon" v-if="filteredOn.indexOf(filter.name) === -1">mdi-plus-circle</v-icon>
+                                                <v-icon small class="chipIcon" v-else>mdi-close-circle</v-icon>
+                                                
+                                            </span>
+                                        </v-chip>
+                                    </div>
+                                </v-row>
                             </span>
                         </v-row>
                         <v-row wrap v-for="(info, header) in field.information" :key="'facet-info-'+header">
@@ -283,9 +288,34 @@ export default{
         background: none;
     }
 
+    .chip{
+        height: 42px;
+        color: var(--v-label_colour-base);
+        font-weight: normal;
+        font-size: 16px;
+        background: var(--v-text_background-base);
+        border: 1px solid var(--v-label_border-base)
+    }
+
+    .chip.active{
+        color: var(--v-text-base);
+        font-weight: bold;
+        background: var(--v-label_colour-base);
+        border: none;
+    }
+
+    .chipIcon{
+        color: var(--v-label_colour-base);
+    }
+
+    .chip.active .chipIcon{
+        color: var(--v-text-base);
+    }
+
     .filterPanelHeader{
-        background: var(--v-primary-base) !important;
-        color: var(--v-text-base) !important
+        background: var(--v-filter_colour-base) !important;
+        color: var(--v-text-base) !important;
+        font-weight: bold;
     }
 
     .borderBottom{
@@ -318,10 +348,6 @@ export default{
 
     .open .facetIcon{
         color: black;
-    }
-
-    .bold{
-        font-weight: bold;
     }
 
     .facetLabel{
@@ -387,5 +413,18 @@ export default{
         box-shadow: none;
     }
 
+
+</style>
+
+<style>
+.headerHeight{
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+}
+
+.v-expansion-panel--active>.v-expansion-panel-header.headerHeight{
+    min-height: unset;
+}
 
 </style>
