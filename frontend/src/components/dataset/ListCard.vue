@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid align-center align-content-center justify-center>
-      <v-row wrap dense>
+  <v-container fluid align-center align-content-center justify-center class="mb-4">
+      <v-row wrap dense class="my-0 py-0">
           <v-col cols=12>
             <h3>
                 <router-link :id="'dataset-link-'+record.id" :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
@@ -10,15 +10,15 @@
           </v-col>
       </v-row>
       
-      <v-row wrap dense>
-          <v-col cols=12 my-0 py-0>
-              <p v-line-clamp:1.5="2" >{{description}}</p>
+      <v-row wrap dense class="my-0 py-0">
+          <v-col cols=12 class="my-0 py-0">
+              <p class="mb-0 pb-0 faded" v-line-clamp:1.5="2" >{{description}}</p>
           </v-col>
       </v-row>
 
-      <v-row wrap dense>
-        <v-col cols=4><strong>Published: {{publishDate}}</strong></v-col>
-        <v-col cols=8 class="text-right"><strong>Data Types:{{types}}</strong></v-col>
+      <v-row wrap dense class="my-0 py-0">
+        <v-col cols=4 class="faded"><strong>{{$tc('Published')}}: {{publishDate}}</strong></v-col>
+        <v-col cols=8 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
       </v-row>
 
 
@@ -39,11 +39,11 @@ export default {
         types: function(){
             var types = '';
             for (var i=0; i<this.resourceTypes.length; i++){
-                types += this.resourceTypes[i] + ",";
+                types += this.resourceTypes[i] + ", ";
             }
 
             if (types.length > 0){
-                types = types.substring(0, types.length-1);
+                types = types.substring(0, types.length-2);
             }
 
             return types;
@@ -175,6 +175,10 @@ export default {
 
     .dataset-resources {
       float: right;
+    }
+
+    .faded{
+        color: var(--v-faded-base);
     }
 
 </style>

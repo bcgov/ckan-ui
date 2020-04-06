@@ -88,7 +88,7 @@
     }
     .home-search {
         border-radius: 2px;
-        border: 2px solid #003366;
+        border: 2px solid var(--v-primary-base);
     }
     .search-suggestion {
         font-size: 23px;

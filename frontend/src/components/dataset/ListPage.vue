@@ -4,22 +4,31 @@
         </v-row>
         <v-row wrap dense>
             <v-col cols=12>
-                <v-text-field id="dataset-search" class="searchbox" v-model="findText" :label="( (!replaceSearchTip) ? ($tc('SearchDatasets') + ' ') : '') + $tc(addToSearchTip)" v-on:keyup="search" outlined append-icon="search"></v-text-field>
+                <v-text-field 
+                    solo 
+                    id="dataset-search" 
+                    class="searchbox" 
+                    hide-details 
+                    v-model="findText" 
+                    :label="( (!replaceSearchTip) ? ($tc('SearchDatasets') + ' ') : '') + $tc(addToSearchTip)" 
+                    v-on:keyup="search" 
+                    append-icon="search">
+                </v-text-field>
             </v-col>
         </v-row>
         <v-row wrap dense>
             <v-col cols=4>
                 <span>
                     {{count}} {{$tc('datasets', count)}} {{$tc('found', count)}}
-                    <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
+                    <!-- <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
-                    <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span>
+                    <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span> -->
                 </span>
             </v-col>
             <v-col cols=3>
             </v-col>
             <v-col cols=2 class="text-right">
-                <span>{{$tc('Order By')}}:</span>
+                <span class="faded">{{$tc('Order By')}}:</span>
             </v-col>
             <v-col cols=3>
                 <v-select dense append-icon="mdi-menu-down" persistent-hint class="borderless mt-n1" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
@@ -46,7 +55,11 @@
                     <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
                     <v-row class="mb-3">
                         <v-col cols=8>
-                            <v-pagination prev-icon="mdi-chevron-double-left" next-icon="mdi-chevron-double-right" :length="Math.ceil(count/rows)" :total-visible="pageButtonLimit" v-model="currentPage"></v-pagination>
+                            <v-pagination 
+                            :length="Math.ceil(count/rows)" 
+                            :total-visible="pageButtonLimit" 
+                            v-model="currentPage">
+                            </v-pagination>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -306,9 +319,21 @@
 </script>
 
 <style>
+    .searchbox i.theme--light.v-icon{
+        color: var(--v-icon-primary);
+    }
 </style>
 
 <style scoped>
+
+    .v-pagination{
+        width: auto;
+    }
+
+    .faded {
+        color: var(--v-faded_text-base);
+    }
+
     .anchorText{
         color: var(--v-text-base);    
     }
@@ -329,8 +354,12 @@
         background: var(--v-secondary-base);
     }
 
-    .searchbox{
+    .searchbox {
         height: 55px;
+        background: var(--v-text_background-base);
+        border: 2px solid;
+        border-color: var(--v-primary-base);
+        border-radius: 2px;
     }
 
     .borderless{
@@ -344,7 +373,7 @@
     .borderless .v-input__slot:before{
         border: none !important;
     }
-    .v-pagination__item.v-pagination__item--active.primary{
+    /* .v-pagination__item.v-pagination__item--active.primary{
         margin: 0px;
     }
     .v-pagination__navigation.v-pagination__navigation--disabled{
@@ -360,5 +389,5 @@
 
     .v-pagination__navigation{
         margin: 0px;
-    }
+    } */
 </style>

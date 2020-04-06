@@ -5,17 +5,22 @@
             <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container fluid v-else class="px-0">
-        <v-row wrap>
-            <v-col cols=11 sm=8>
+    <v-container fluid v-else class="px-md-10 my-4">
+        <v-row wrap class="mr-md-1">
+            <v-col cols=10 sm=7>
                 <ListPage
                     :key="'listPage-'+facetFilterIndex"
                 ></ListPage>
             </v-col>
-            <v-col cols=1 sm=4>
-                <FacetFilters
-                    v-on:facetFilter="facetFilter"
-                ></FacetFilters>
+            <v-col cols=1 sm=1></v-col>
+            <v-col cols=1 sm=4 class="mt-9 pt-9">
+                <v-row class="mt-9 mb-9"></v-row>
+                
+                    <FacetFilters
+                        class="mt-9 pt-9"
+                        v-on:facetFilter="facetFilter"
+                    ></FacetFilters>
+                
             </v-col>
         </v-row>
     </v-container>
@@ -55,3 +60,11 @@
     }
   }
 </script>
+
+<style>
+    .fixed{
+        position: fixed;
+        top: 0px;
+        right: 0px;
+    }
+</style>
