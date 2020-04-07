@@ -199,7 +199,8 @@ analyticsServ.ga().then( (gajson) => {
             faded_text: "#494949",
             filter_colour: "#38598A",
             label_colour: "#1A5A96",
-            label_border: "#DDDDDD"
+            label_border: "#DDDDDD",
+            error_text: "#D8292F",
           },
           light: {
             primary: '#003366',
@@ -221,7 +222,8 @@ analyticsServ.ga().then( (gajson) => {
             faded_text: "#494949",
             filter_colour: "#38598A",
             label_colour: "#1A5A96",
-            label_border: "#DDDDDD"
+            label_border: "#DDDDDD",
+            error_text: "#D8292F",
           }
         }
     }

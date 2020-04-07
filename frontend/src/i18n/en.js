@@ -245,11 +245,12 @@ export default {
         "Edit": "Edit",
         "Add Member": "Add Member",
         "Private": "Private",
-        "Search Datasets in this organization": "Search Datasets in this organization",
+        "Search for Datasets in this organization": "Search for Datasets in this organization",
         "Parent": "Parent",
         "Result": "Result | Results",
         "result": "result | results",
         "Back to": "Back to",
         "Subscribe to New Data": "Subscribe to New Data",
+        "list": "list",
     }
 };
