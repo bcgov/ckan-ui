@@ -27,7 +27,7 @@
         </v-row>
         <v-row wrap dense class="d-flex d-sm-none mr-md-1">
              <v-col cols=12 v-if="sysAdmin">
-                <v-expansion-panels v-model="manageExpanded">
+                <v-expansion-panels v-model="manageExpanded" class="noShadow noRadius">
                     <v-expansion-panel>
                         <v-expansion-panel-header class="sideBarHeader">{{$tc('Manage')}}</v-expansion-panel-header>
                         <v-expansion-panel-content dense class="manageSection">
@@ -37,7 +37,7 @@
                 </v-expansion-panels>
             </v-col>
             <v-col cols=12>
-                <v-expansion-panels v-model="aboutExpanded">
+                <v-expansion-panels v-model="aboutExpanded" class="noShadow noRadius">
                     <v-expansion-panel>
                         <v-expansion-panel-header class="sideBarHeader">{{$tc('Organizations', 2)}}</v-expansion-panel-header>
                         <v-expansion-panel-content class="orgAbout">
@@ -71,13 +71,13 @@
                 <OrgTree :top="true" v-for="(org, key) in orgList" :key="'org-tree-'+key" :passedOrg="{key: org, org: orgs[org]}"></OrgTree>
             </v-col>
             <v-col cols=1 sm=1></v-col>
-            <v-col cols=4 class="d-none d-sm-block fixedmd rightZero">
+            <v-col cols=4 class="d-none d-sm-block fixed rightZero mr-md-11">
                 <v-row class="manageSection mb-0 mr-md-1" v-if="sysAdmin">
-                    <v-card elevation=0>
+                    <v-card elevation=0 class="noShadow noRadius">
                         <v-card-title class='sideBarHeader mb-2'>{{$tc('Manage', 2)}}</v-card-title>
                     </v-card>
                 </v-row>
-                <v-row class="manageSection mb-5 mr-md-1" v-if="sysAdmin">
+                <v-row class="manageSection mb-5 mr-md-1 noShadow noRadius" v-if="sysAdmin">
                     <v-dialog
                         v-model="editDialog"
                         width="75%"
@@ -253,7 +253,17 @@
         color: var(--v-text-base);
         background: var(--v-menu_secondary-base);
         border-radius: 0;
-        min-height: 64px;
+        min-height: 40px;
+        height: 40px;
+        line-height: 20px;
+    }
+
+    .noShadow{
+        box-shadow: none;
+    }
+
+    .noRadius{
+        border-radius: 0;
     }
     
     .primary-text{
@@ -298,4 +308,10 @@
     .searchbox i.theme--light.v-icon{
         color: var(--v-icon-primary);
     }
+</style>
+
+<style>
+.noShadow .v-expansion-panel:before{
+    box-shadow: none;
+}
 </style>
