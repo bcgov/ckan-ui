@@ -1,6 +1,6 @@
 <template>
   <v-container class="mb-2 py-0 px-0" v-if="typeof(org.org) !== 'undefined'">
-    <v-expansion-panels flat tile :readonly="count === 0" :class="count === 0 ? 'noPointer' : ''">
+    <v-expansion-panels flat tile :readonly="count === 0" :class="'noShadow' + (count === 0 ? ' noPointer' : '')">
       <v-expansion-panel>
         <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'">
           <span>
@@ -73,6 +73,10 @@ export default{
     cursor: pointer;
   }
 
+  .noShadow{
+    box-shadow: none;
+  }
+
   .hoverHighlight{
     text-decoration: none;
   }
@@ -118,4 +122,10 @@ export default{
   }
 
 
+</style>
+
+<style>
+  .noShadow .v-expansion-panel:before{
+    box-shadow: none;
+  }
 </style>
