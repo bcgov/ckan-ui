@@ -3,7 +3,11 @@
     <v-dialog
       v-model="aboutDialog"
     >
-      <About @closeDialog="closeAbout"></About>
+      <div class="aboutD">
+        <div class="mx-md-10 my-0 mx-0">
+          <About @closeDialog="closeAbout" class="mr-md-5 mr-0"></About>
+        </div>
+      </div>
     </v-dialog>
 
     <div class="headerSpacer"></div>
@@ -300,6 +304,10 @@ export default {
       border-radius: unset;
   }
 
+  .aboutD{
+    width: 100%;
+  }
+
 </style>
 
 <style>
@@ -400,4 +408,20 @@ export default {
     margin-bottom: 0px !important;
   }
 
+</style>
+
+<style>
+    .v-overlay--active .v-overlay__scrim{
+      background: rgb(0, 0, 0) !important;
+      opacity: .5 !important;
+    }
+
+    .v-dialog.v-dialog--active{
+      background: none;
+      box-shadow: none
+    }
+
+    .v-dialog.v-dialog--active{
+      margin: 0;
+    }
 </style>

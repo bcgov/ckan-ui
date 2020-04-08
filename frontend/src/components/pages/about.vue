@@ -1,12 +1,12 @@
 <template>
 
-    <v-card>
+    <v-card tile>
         <v-card-title class="header">
             <span>{{$tc('About')}}</span>
             <v-spacer></v-spacer>
-            <v-btn text small depressed class="noHover" @click="close"><v-icon color="text">mdi-close</v-icon></v-btn>
+            <v-btn text small depressed class="noHover closeButton" @click="close"><v-icon color="text">mdi-close</v-icon></v-btn>
         </v-card-title>
-        <v-card-text>
+        <v-card-text :class="'px-0 content' + (editing ? ' editing' : '')">
             <v-alert
                 :value="formSuccess"
                 class="fixed"
@@ -41,14 +41,14 @@
             </div>
         </v-card-text>
         <v-card-actions>
-            <span v-if="!editing" class="wide text-right align-right">
+            <span v-if="showEdit" class="wide text-right align-right">
                 <v-spacer></v-spacer>
                 <v-btn @click="editing = true" class="mr-3" color="primary">Edit</v-btn>
             </span>
-            <span v-else class="wide text-right align-right">
+            <span v-else-if="sysAdmin" class="wide text-right align-right">
                 <v-spacer></v-spacer>
                 <v-btn @click="save" class="mr-3"  color="primary">Save</v-btn>
-                <v-btn @click="cancel" class="mr-3">Cancel</v-btn>
+                <v-btn @click="cancel" class="cancelButton mr-3">Cancel</v-btn>
             </span>
         </v-card-actions>
     </v-card>
@@ -141,10 +141,40 @@
 
 <style>
     .header{
-        background: var(--v-primary-base);
+        background: var(--v-menu_secondary-base);
         color: var(--v-text-base);
+        font-size: 16px;
+        font-weight: normal;
     }
+
+    .editing{
+        background: var(--v-data_background-base);
+    }
+
     .wide{
         width: 100%;
+    }
+
+    .closeButton{
+        position: absolute !important;
+        right: 0px;
+    }
+
+    .content p{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
+    }
+
+    .content p a{
+        text-decoration: none;
+        color: var(--v-label_colour-base);
+    }
+
+    .cancelButton{
+        background: var(--v-text_background-base);
+        border: 2px solid var(--v-primary-base);
+        color: var(--v-primary-base);
+        font-weight: normal;
+        font-size: 16px;
     }
 </style>
