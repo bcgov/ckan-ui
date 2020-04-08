@@ -248,11 +248,12 @@ export default {
         "Edit": "Éditer",
         "Add Member": "Ajouter un membre",
         "Private": "Privé",
-        "Search Datasets in this organization": "Rechercher des jeux de données dans cette organisation",
+        "Search for Datasets in this organization": "Rechercher des jeux de données dans cette organisation",
         "Parent": "Parent",
         "Result": "Résultat | Résultats",
         "result": "résultat | résultats",
         "Back to": "Retour à",
         "Subscribe to New Data": "Abonnez-vous aux nouvelles données",
+        "list": "liste",
     }
 };
