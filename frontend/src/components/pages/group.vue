@@ -1,11 +1,11 @@
 <template>
-    <v-container v-if="error">
+    <v-container v-if="error" class="groupContainer px-md-10 py-4">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid>
+    <v-container v-else fluid class="groupContainer px-md-10 py-4">
         <v-alert
             :value="group.state === 'deleted'"
             type="warning">
@@ -27,7 +27,7 @@
         </v-alert>
 
         <v-row>
-            <router-link to='/groups' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon>Back to groups list</router-link>
+            <router-link to='/groups' class="nounderline labelText"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Groups', 2)}} {{$tc('list')}}</router-link>
         </v-row>
         <v-row>
             <v-col cols=12 sm=8><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
@@ -37,7 +37,7 @@
                     width="75%"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" text small depressed class="noHover" color="secondary">{{$tc('Learn more about this')}} {{$tc('groups', 1)}}</v-btn>
+                        <v-btn v-on="on" text small depressed class="noHover labelText">{{$tc('Learn more about this')}} {{$tc('groups', 1)}}</v-btn>
                     </template>
                     <v-card>
                         <v-card-title class="header">
@@ -69,8 +69,8 @@
             </v-col>
         </v-row>
         <v-row wrap>
-            <v-row wrap>
-                <v-col cols=11 sm=8>
+            <v-row wrap class="mr-md-1">
+                <v-col cols=11 sm=7>
                     <ListPage
                         :key="'listPage-'+facetFilterIndex"
                         :replaceSearchTip="true" 
@@ -78,6 +78,7 @@
                         :forceFilter="'groups:('+group.name+')'"
                     ></ListPage>
                 </v-col>
+                <v-col cols=0 sm=1></v-col>
                 <v-col cols=1 sm=4>
                     <v-row>
                         <v-col cols=12>
@@ -88,11 +89,11 @@
                     </v-row>
                     <span class="d-none d-sm-block text-left">
                         <v-row>
-                            <v-btn text small depressed class="noHover mx-0" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                            <v-btn text small depressed class="noHover mx-0 px-0 labelText" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
                         </v-row>
                         <v-row v-if="loggedIn">
-                            <v-btn text v-if="following" small depressed class="noHover mx-0" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
-                            <v-btn text v-else           small depressed class="noHover mx-0" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            <v-btn text v-if="following" small depressed class="noHover mx-0 px-0 labelText" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                            <v-btn text v-else           small depressed class="noHover mx-0 px-0 labelText" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
                             
                         </v-row>
 
@@ -104,7 +105,7 @@
                                 width="75%"
                             >
                                 <template v-slot:activator="{ on }">
-                                    <v-btn v-on="on" text small depressed class="noHover mx-0" color="secondary"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                                    <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 labelText"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
                                 </template>
                                 <Edit
                                     v-on:closeEdit='editDialog = false'
@@ -115,7 +116,7 @@
                         </v-row>
                             
                         <v-row class="mb-5" v-if="canDeleteResources">
-                            <v-btn text small depressed class="noHover mx-0" color="error" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            <v-btn text small depressed class="noHover mx-0 px-0 errorText" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </v-row>
                     </span>
                 </v-col>
@@ -311,6 +312,22 @@
 </script>
 
 <style scoped>
+
+.labelText{
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--v-label_colour-base);
+}
+
+.errorText{
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--v-error_text-base);
+}
+
+.groupContainer{
+    background: var(--v-data_background-base);
+}
 
 .header{
     background: var(--v-primary-base);
