@@ -5,31 +5,31 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid>
+    <v-container v-else fluid class="orgContainer px-md-10 my-4">
         <v-alert
             :value="showFormSuccess"
-            class="fixed"
+            class="fixed mr-md-1"
             dismissible
             type="success">
             {{formSuccess}}
         </v-alert>
         <v-alert
             :value="showFormError"
-            class="fixed"
+            class="fixed mr-md-1"
             dismissible
             type="error">
             {{formError}}
         </v-alert>
-        <v-row wrap>
+        <v-row wrap class="mr-md-1">
             <v-col cols=12 class="">
                 <h2 class="primary-text">{{$tc('Organizations', 2)}}</h2>
             </v-col>
         </v-row>
-        <v-row wrap dense class="d-flex d-sm-none">
+        <v-row wrap dense class="d-flex d-sm-none mr-md-1">
              <v-col cols=12 v-if="sysAdmin">
                 <v-expansion-panels v-model="manageExpanded">
                     <v-expansion-panel>
-                        <v-expansion-panel-header class="header">{{$tc('Manage')}}</v-expansion-panel-header>
+                        <v-expansion-panel-header class="sideBarHeader">{{$tc('Manage')}}</v-expansion-panel-header>
                         <v-expansion-panel-content dense class="manageSection">
                             <v-btn class="primary" :to="{name: 'organization_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
                         </v-expansion-panel-content>
@@ -39,35 +39,45 @@
             <v-col cols=12>
                 <v-expansion-panels v-model="aboutExpanded">
                     <v-expansion-panel>
-                        <v-expansion-panel-header class="header">{{$tc('Organizations', 2)}}</v-expansion-panel-header>
-                        <v-expansion-panel-content>
+                        <v-expansion-panel-header class="sideBarHeader">{{$tc('Organizations', 2)}}</v-expansion-panel-header>
+                        <v-expansion-panel-content class="orgAbout">
                             {{$tc('orgAbout')}}
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-col>
         </v-row>
-        <v-row wrap dense class="mb-0 pb-0">
-            <v-col cols=12 sm=8>
-                <v-text-field solo v-model="searchT" append-icon="search" :label="$tc('Search') + ' ' + $tc('Organizations', 2)" v-on:keyup="search"></v-text-field>
+        <v-row wrap dense class="mb-0 pb-0 mr-md-1">
+            <v-col cols=11 sm=7>
+                <v-text-field 
+                    solo 
+                    id="dataset-search" 
+                    class="searchbox" 
+                    hide-details 
+                    v-model="searchT" 
+                    :label="$tc('Search') + ' ' + $tc('Organizations', 2) + ' ' + $tc('found')"
+                    v-on:keyup="search" 
+                    append-icon="search">
+                </v-text-field>
             </v-col>
         </v-row>
-        <v-row wrap dense class="mt-0 pt-0">
+        <v-row wrap dense class="mt-0 pt-0 mr-md-1">
           <v-col cols=4>
               {{count}} {{$tc('Organizations', count)}}
           </v-col>
       </v-row>
-        <v-row wrap align-center justify-center class="mb-8">
-            <v-col cols=12 sm=8>
-                <OrgTree :top="true" v-for="(org, key) in orgs" :key="'org-tree-'+key" :org="{key: key, org: org}"></OrgTree>
+        <v-row wrap align-center justify-center class="mb-8 mr-md-1">
+            <v-col cols=11 sm=7>
+                <OrgTree :top="true" v-for="(org, key) in orgList" :key="'org-tree-'+key" :passedOrg="{key: org, org: orgs[org]}"></OrgTree>
             </v-col>
-            <v-col cols=4 class="d-none d-sm-block">
-                <v-row class="manageSection mb-0" v-if="sysAdmin">
+            <v-col cols=1 sm=1></v-col>
+            <v-col cols=4 class="d-none d-sm-block fixedmd rightZero">
+                <v-row class="manageSection mb-0 mr-md-1" v-if="sysAdmin">
                     <v-card elevation=0>
-                        <v-card-title class='header mb-2'>{{$tc('Manage', 2)}}</v-card-title>
+                        <v-card-title class='sideBarHeader mb-2'>{{$tc('Manage', 2)}}</v-card-title>
                     </v-card>
                 </v-row>
-                <v-row class="manageSection mb-5" v-if="sysAdmin">
+                <v-row class="manageSection mb-5 mr-md-1" v-if="sysAdmin">
                     <v-dialog
                         v-model="editDialog"
                         width="75%"
@@ -83,10 +93,10 @@
                         </Edit>
                     </v-dialog>
                 </v-row>
-                <v-row>
+                <v-row class="mr-md-1">
                     <v-card elevation=0>
-                        <v-card-title class='header mb-2'>{{$tc('Organizations', 2)}}</v-card-title>
-                        <v-card-text>
+                        <v-card-title class='header sideBarHeader mb-2'>{{$tc('Organizations', 2)}}</v-card-title>
+                        <v-card-text class="orgAbout">
                             {{$tc('orgAbout')}}
                         </v-card-text>
                     </v-card>
@@ -144,7 +154,12 @@
                 organizations: state => state.organization.orgList,
                 sysAdmin: state => state.user.sysAdmin,
                 searchText: state => state.organization.searchText,
-            })
+            }),
+
+            orgList: function(){
+                var r = Object.keys(this.orgs);
+                return r.sort();
+            }
         },
 
         methods: {
@@ -180,7 +195,7 @@
                         }
                     }
 
-                    this.orgs = result;
+                    this.orgs = Object.assign({}, result);
                     this.count = Object.keys(this.orgs).length;
                 }
 
@@ -211,6 +226,18 @@
 </script>
 
 <style scoped>
+    .orgContainer{
+        background: var(--v-data_background-base);
+    }
+
+    .searchbox {
+        height: 55px;
+        background: var(--v-text_background-base);
+        border: 2px solid;
+        border-color: var(--v-primary-base);
+        border-radius: 2px;
+    }
+
     .raise {
         margin-bottom: 45px;
     }
@@ -219,6 +246,15 @@
         background-color: var(--v-primary-base);
         color: var(--v-text-base);
     }
+
+    .sideBarHeader{
+        font-weight: bold;
+        font-size: 16px;
+        color: var(--v-text-base);
+        background: var(--v-menu_secondary-base);
+        border-radius: 0;
+        min-height: 64px;
+    }
     
     .primary-text{
         color: var(--v-primary-base)
@@ -226,6 +262,21 @@
 
     .manageSection .v-card, .manageSection .v-card__title, .manageSection a.primary{
         width: 100%;
+    }
+
+    .fixed{
+        position: fixed;
+    }
+
+    .rightZero{
+        right: 0;
+    }
+    
+    .orgAbout{
+        font-weight: bold;
+        font-size: 16px;
+        color: var(--v-faded_text-base);
+        box-shadow: 0 5px 5px rgba(0, 0, 0, .2);
     }
 
 </style>
@@ -242,5 +293,9 @@
 
     .fullWidth{
         width: 100%;
+    }
+
+    .searchbox i.theme--light.v-icon{
+        color: var(--v-icon-primary);
     }
 </style>
