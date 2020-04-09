@@ -170,7 +170,7 @@
         color: var(--v-faded_text-base);
     }
 
-    .content *{
+    .content ol{
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
@@ -180,7 +180,7 @@
         color: var(--v-primary-base);
     }
 
-    .content p a{
+    .content * a{
         text-decoration: none;
         color: var(--v-label_colour-base);
     }
