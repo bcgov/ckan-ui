@@ -1,8 +1,16 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1">
-        <label class="label">{{$tc(displayLabel)}}: </label>
+        <label class="label">
+            {{$tc(displayLabel)}}&nbsp;
+            <v-tooltip right v-if="field.help_text">
+                <template v-slot:activator="{ on }">
+                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                </template>
+                <span>{{field.help_text}}</span>
+            </v-tooltip>
+        </label>
         <div v-if="!editing">
-            <p>{{value}}</p>
+            <p class="value">{{value}}</p>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
@@ -61,6 +69,12 @@ export default {
 
 <style scoped>
     label.label{
-        color: var(--v-label_text-base);
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    p.value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
     }
 </style>

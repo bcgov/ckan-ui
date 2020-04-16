@@ -1,5 +1,5 @@
 <template>
-    <v-card hover tile style="margin-bottom:.5rem">
+    <v-card hover tile style="margin-bottom:.5rem" :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
         <v-container fluid>
             <v-row wrap align-center fill-height>
                 <v-col cols=12 class="py-0">
@@ -10,9 +10,9 @@
             </v-row>
             <v-row wrap align-center fill-height>
                 <v-col align-start cols=9 class="py-0">
-                    <span left class="resource-info">
+                    <label left class="label">
                         {{useResource.metadata.format}}
-                    </span>
+                    </label>
                     <span v-if="useResource.metadata.size" class="resource-info ml-4">
                         {{(useResource.metadata.size/1000).toFixed(1)}} MB
                     </span>
@@ -20,22 +20,21 @@
                 <v-col align-end cols=3 class="py-0">
                     <v-menu offset-y left nudge-left>
                         <template v-slot:activator="{ on: menu }">
-                            <v-btn text block small v-on="{...menu}">
-                                <v-icon>mdi-dots-horizontal</v-icon>
+                            <v-btn text class="dot-button" small v-on="{...menu}">
+                                <v-icon right>mdi-dots-horizontal</v-icon>
                             </v-btn>
                         </template>
                         <v-list dense>
-                            <v-list-item v-if="!loadPOW" flat :href="useResource.metadata.url">Download</v-list-item>
+                            <v-list-item v-if="!loadPOW" flat :href="useResource.metadata.url" color="label_colour">Download</v-list-item>
                             <powButton v-else :resource="useResource.metadata"/>
-                            <v-list-item v-if="!datasetBeingEdited" flat
+                            <v-list-item v-if="!datasetBeingEdited" flat color="label_colour"
                                 :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
                                 >View</v-list-item>
-                            <v-list-item v-if="!datasetBeingEdited" flat @click.stop="dialog = true">Preview</v-list-item>
-                            <v-list-item v-if="!!useResource.hasSchema" flat @click.stop="schemaDialog = true">View Schema (JSON Table Schema)</v-list-item>
-                            <v-list-item v-if="showEdit" flat
+                            <v-list-item v-if="!!useResource.hasSchema" flat @click.stop="schemaDialog = true" color="label_colour">View Schema (JSON Table Schema)</v-list-item>
+                            <v-list-item v-if="showEdit" flat color="label_colour"
                                 :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
                                 >Edit</v-list-item>
-                            <v-list-item v-if="canDelete" @click="deleteResource" color="error" >Delete</v-list-item>
+                            <v-list-item v-if="canDelete" @click="deleteResource" color="error_text" >Delete</v-list-item>
                         </v-list>
                     </v-menu>
                 </v-col>
@@ -112,8 +111,8 @@ export default {
 
 <style scoped>
 
-label.label{
-    color: var(--v-label_text-base);
+.label{
+    color: var(--v-faded_text-base);
 }
 
 .resource-info{
@@ -128,6 +127,19 @@ div[role="listitem"]{
     padding-left: 5px;
     padding-right: 5px;
     width: 100%;
+}
+
+.dot-button {
+    float: right;
+    padding-right: 0px !important;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled).label_colour--text{
+    color: var(--v-label_colour-base) !important;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled).error_text--text{
+    color: var(--v-error_text-base) !important;
 }
 
 </style>

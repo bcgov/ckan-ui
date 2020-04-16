@@ -1,7 +1,15 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1">
-        <label class="label">{{$tc(displayLabel)}}</label>
-        <span v-if="!editing" v-html="displayValue"></span>
+        <label class="label">
+            {{$tc(displayLabel)}}&nbsp;
+            <v-tooltip right v-if="field.help_text">
+                <template v-slot:activator="{ on }">
+                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                </template>
+                <span>{{field.help_text}}</span>
+            </v-tooltip>
+        </label>
+        <span v-if="!editing" v-html="displayValue" class="value"></span>
         <div v-else>
             <div class="toolbar">
                 <v-btn tabindex="-1" icon small @click="add('#')">H1</v-btn>
@@ -118,6 +126,12 @@ export default {
 
 <style scoped>
     label.label{
-        color: var(--v-label_text-base);
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    .value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
     }
 </style>

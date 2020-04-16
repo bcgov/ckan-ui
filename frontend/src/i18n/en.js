@@ -252,5 +252,6 @@ export default {
         "Back to": "Back to",
         "Subscribe to New Data": "Subscribe to New Data",
         "list": "list",
+        "Show Groups": "View the group(s) this dataset belongs to"
     }
 };

@@ -1,11 +1,19 @@
 <template>
     <div>
         <div v-if="!editing">
-            <label>{{$tc(label)}}: </label>
+            <label class="label">
+                {{$tc(displayLabel)}}&nbsp;
+                <v-tooltip right v-if="field.help_text">
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    <span>{{field.help_text}}</span>
+                </v-tooltip>
+            </label>
             <span>{{val}}</span>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
-            <v-textarea 
+            <v-textarea
                 :label="$tc(displayLabel)"
                 :name="name"
                 v-model="val"

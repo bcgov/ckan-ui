@@ -1,8 +1,16 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1">
-        <label class="label">{{$tc(label)}}: </label>
+        <label class="label">
+            {{$tc(displayLabel)}}&nbsp;
+            <v-tooltip right v-if="field.help_text">
+                <template v-slot:activator="{ on }">
+                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                </template>
+                <span>{{field.help_text}}</span>
+            </v-tooltip>
+        </label>
         <div v-if="!editing">
-            <p>{{displayValue}}</p>
+            <p class="value">{{displayValue}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-autocomplete
@@ -134,6 +142,12 @@ export default {
 
 <style scoped>
     label.label{
-        color: var(--v-label_text-base);
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    .value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
     }
 </style>
