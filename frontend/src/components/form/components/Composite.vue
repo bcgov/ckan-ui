@@ -1,13 +1,21 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1 mb-4">
-        <label class="label">{{$tc(displayLabel)}}</label>
+        <label class="label">
+            {{$tc(displayLabel)}}&nbsp;
+            <v-tooltip right v-if="field.help_text">
+                <template v-slot:activator="{ on }">
+                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                </template>
+                <span>{{field.help_text}}</span>
+            </v-tooltip>
+        </label>
         <div v-if="!editing">
             <div class="mb-2">
                 <div v-if="!hasDisplayed || !value.displayed">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
                         <v-row v-if="sub.display_snippet !== null" align="center">
                             <v-col cols=3 class="py-1">
-                                <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
+                                <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                             </v-col>
                             <v-col cols=9 class="py-1">
                                 <span v-if="value">
@@ -17,8 +25,8 @@
                                     <span v-else-if="sub.field_name === 'email'">
                                         <a :href="'mailto:'+value[sub.field_name]">{{value[sub.field_name]}}</a>
                                     </span>
-                                    <span v-else-if="sub.preset === 'select'">{{getDisplayValue(sub, value[sub.field_name])}}</span>
-                                    <span v-else>{{value[sub.field_name]}}</span>
+                                    <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
+                                    <span v-else class="value">{{value[sub.field_name]}}</span>
                                 </span>
                                 <span v-else></span>
                             </v-col>
@@ -31,7 +39,7 @@
         <div v-else :key="'composite'+field.field_name">
             <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                 <v-col cols=2 class="pb-0">
-                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}:</label>
+                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                 </v-col>
                 <v-col cols=10 class="pb-0">
                     <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
@@ -201,13 +209,21 @@ export default {
 
 <style scoped>
     label.label{
-        color: var(--v-label_text-base);
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
     }
     label.sub-label{
-        color: var(--v-sub_label_text-base);
-        font-weight: normal;
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    .value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
     }
     hr{
-        color: var(--v-sub_label_text-lighten3);
+        color: var(--v-icon-base);
+        border-bottom: 0px;
     }
 </style>

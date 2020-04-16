@@ -1,11 +1,27 @@
 <template>
     <div>
         <div v-if="!editing">
-            <label>{{$tc(label)}}: </label>
-            <span>{{value}}</span>
+            <label class="label">
+                {{$tc(displayLabel)}}&nbsp;
+                <v-tooltip right v-if="field.help_text">
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    <span>{{field.help_text}}</span>
+                </v-tooltip>
+            </label>
+            <p class="value">{{value}}</p>
         </div>
         <div v-else>
-            <label>{{$tc(displayLabel)}}</label>
+            <label class="label">
+                {{$tc(displayLabel)}}&nbsp;
+                <v-tooltip right v-if="field.help_text">
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    <span>{{field.help_text}}</span>
+                </v-tooltip>
+            </label>
             <div v-if="allowURL">
                 <v-switch
                     v-model="isURL"
@@ -25,7 +41,7 @@
             </ValidationProvider>
             <div v-else>
                 <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
-                    <v-file-input 
+                    <v-file-input
                         :label="$tc(displayLabel)"
                         :name="name"
                         v-model="val"
@@ -86,4 +102,13 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    p.value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
+    }
 </style>

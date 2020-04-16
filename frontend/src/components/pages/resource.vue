@@ -1,16 +1,16 @@
 <template>
-    <v-container v-if="dataLoading || schemaLoading" fluid>
+    <v-container v-if="dataLoading || schemaLoading" fluid class="main-area">
         <v-row row align-center justify-center>
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
         </v-row>
     </v-container>
-    <v-container v-else-if="datasetError" fluid>
+    <v-container v-else-if="datasetError" fluid class="main-area">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> An Error Occured: {{datasetError.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else grid-list-md class="main-area">
+    <v-container v-else grid-list-md fluid class="main-area">
         <v-alert
             :value="resource.state === 'deleted'"
             type="warning">
@@ -32,16 +32,16 @@
         </v-alert>
 
         <!-- <powButton :dataset="dataset"/> -->
-        <v-row align-content="start">
-            <v-btn left text color="primary" class="ml-5" :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }"><v-icon>mdi-arrow-left</v-icon>Back to Dataset</v-btn>
+        <v-row>
+            <router-link :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }" class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 1)}}</router-link>
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
-                    <v-col cols=12 md=8 v-if="!!schema">
-                        <v-toolbar color="secondary">
-                            <v-toolbar-title color="white">Resource Details</v-toolbar-title>
+                    <v-col cols=11 md=7 v-if="!!schema">
+                        <v-toolbar color="label_colour" flat>
+                            <v-toolbar-title class="title">Resource Details</v-toolbar-title>
                         </v-toolbar>
                         <DynamicForm
                             :schema="schema.resource_fields"
@@ -54,9 +54,10 @@
                         >
                         </DynamicForm>
                     </v-col>
-                    <v-col cols=12 md=4>
-                        <v-toolbar color="secondary">
-                            <v-toolbar-title>Access</v-toolbar-title>
+                    <v-col cols=1 sm=1></v-col>
+                    <v-col cols=4 class="d-none d-sm-block fixed rightZero mr-md-11">
+                        <v-toolbar color="label_colour" flat>
+                            <v-toolbar-title class="title">Access</v-toolbar-title>
                         </v-toolbar>
                         <v-container v-if="resource">
                             <v-row v-if="loadPOW">
@@ -66,13 +67,15 @@
                             </v-row>
                             <v-row v-else>
                                 <v-col cols=12>
-                                    <v-btn block color="primary" :href="resource.url"><v-icon>mdi-cloud-download-outline</v-icon>Download</v-btn>
+                                    <v-btn depressed block color="primary" :href="resource.url" class="ctrl-button">
+                                        <v-icon>mdi-cloud-download-outline</v-icon>&nbsp;Download
+                                    </v-btn>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols=12>
-                                    <v-btn block color="primary" @click.stop="previewDialog = true">
-                                        <v-icon>mdi-scan-helper</v-icon>Preview
+                                    <v-btn depressed block color="text" @click.stop="previewDialog = true" class="ctrl-button preview-button">
+                                        <v-icon>mdi-fullscreen</v-icon>&nbsp;Preview
                                         <v-dialog
                                             eager
                                             v-model="previewDialog"
@@ -89,7 +92,7 @@
                             </v-row>
                             <v-row v-if="!!resource.hasSchema">
                                 <v-col cols=12>
-                                    <v-btn block color="primary" @click.stop="schemaDialog = true">
+                                    <v-btn depressed block color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
                                         <v-icon>mdi-code-json</v-icon>View Schema (JSON Table Schema)
                                         <v-dialog
                                             eager
@@ -106,20 +109,21 @@
                                 </v-col>
                             </v-row>
                         </v-container>
-                        <v-toolbar color="secondary">
-                            <v-toolbar-title>Resources</v-toolbar-title>
+                        <v-toolbar color="label_colour" flat>
+                            <v-toolbar-title class="title">Other Resources</v-toolbar-title>
                         </v-toolbar>
                         <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                         <v-row wrap v-if="!createMode">
                             <v-col cols=12>
-                                <v-btn text small color="secondary" v-clipboard="() => permalink">{{$tc("Permalink")}}</v-btn>
+                                <v-btn text small color="label_colour" class="lower-button" v-clipboard="() => permalink" @click="snackbar = true">{{$tc("Copy Permalink")}}</v-btn>
+                                <v-snackbar v-model="snackbar" timeout=2000><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode && showEdit">
                             <v-col cols=12>
-                                <v-btn text color="primary" @click="toggleEdit">{{$tc("Edit Resource")}}</v-btn>
+                                <v-btn text color="label_colour" class="lower-button" @click="toggleEdit">{{$tc("Edit Resource")}}</v-btn>
                                 <br>
-                                <v-btn text color="error" @click="deleteDataset">{{$tc("Delete Resource")}}</v-btn>
+                                <v-btn text color="error_text" class="lower-button" @click="deleteDataset">{{$tc("Delete Resource")}}</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -169,7 +173,8 @@ export default {
             textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments'],
             error: this.datasetError,
             previewDialog: false,
-            schemaDialog: false
+            schemaDialog: false,
+            snackbar: false
         };
     },
     // watch: {
@@ -386,11 +391,19 @@ h5 {
 <style scoped>
 .fixed{
     position: fixed;
-    z-index: 50;
+}
+.rightZero{
+    right: 0;
+}
+.nounderline{
+    text-decoration: none;
+    font-size: 16px;
+    color: var(--v-label_colour-base);
 }
 .main-area {
     margin-top: 20px;
     margin-bottom: 45px;
+    background: var(--v-data_background-base);
 }
 ul {
     list-style-type: none;
@@ -409,11 +422,29 @@ ul {
     right: 0;
     z-index: 10;
 }
-
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--v-menu_secondary-base);
+}
 .v-btn{
     margin-right: 5px;
 }
 .v-toolbar__title{
     color: var(--v-text-base)
+}
+.ctrl-button {
+    font-size: 16px;
+    font-weight: bold;
+    height: 50px !important;
+}
+.preview-button {
+    border-style: solid !important;
+    border-color: var(--v-primary-base) !important;
+    border-width: 2px !important;
+    color: var(--v-primary-base);
+}
+.lower-button {
+    font-size: 16px;;
 }
 </style>

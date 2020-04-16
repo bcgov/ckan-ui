@@ -2,13 +2,13 @@
     <div class="pow-container" style="width: 100%">
         <v-dialog v-model="dialog" width="900">
             <template v-slot:activator="{ on }">
-                <v-btn v-if="btn" block color="primary" v-on="on">
+                <v-btn v-if="btn" depressed block color="primary" v-on="on" class="ctrl-button">
                     <!-- @click="startOrder()" -->
-                    Access&nbsp;
+                    <v-icon>mdi-folder-information-outline</v-icon>&nbsp;Request Access
                 </v-btn>
-                <v-list-item v-else text block color="secondary" v-on="on">
+                <v-list-item v-else text block color="label_colour" v-on="on">
                     <!-- @click="startOrder()" -->
-                    Access&nbsp;
+                    <v-icon>mdi-folder-information-outline</v-icon>&nbsp;Request Access
                 </v-list-item>
             </template>
             <!-- change to vue component and move methods to here -->
@@ -187,5 +187,15 @@ export default {
         height: 450px;
         width: 100%;
         border: none
+    }
+
+    .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled).label_colour--text{
+        color: var(--v-label_colour-base) !important;
+    }
+
+    .ctrl-button {
+        font-size: 16px;
+        font-weight: bold;
+        height: 50px !important;
     }
 </style>
