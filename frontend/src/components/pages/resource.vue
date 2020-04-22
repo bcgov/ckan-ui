@@ -43,6 +43,12 @@
                         <v-toolbar color="label_colour" flat>
                             <v-toolbar-title class="title">Resource Details</v-toolbar-title>
                         </v-toolbar>
+                        <v-row v-if="editing">
+                            <v-col cols=12>
+                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
+                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                            </v-col>
+                        </v-row>
                         <DynamicForm
                             :schema="schema.resource_fields"
                             :textFields="textFields"
@@ -53,6 +59,12 @@
                             @updated="(field, value) => updateResource(field, value)"
                         >
                         </DynamicForm>
+                        <v-row v-if="editing">
+                            <v-col cols=12>
+                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
+                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                            </v-col>
+                        </v-row>
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
                     <v-col cols=4 class="d-none d-sm-block fixed rightZero mr-md-11">
