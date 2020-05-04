@@ -201,6 +201,7 @@ analyticsServ.ga().then( (gajson) => {
             label_colour: "#1A5A96",
             label_border: "#DDDDDD",
             error_text: "#D8292F",
+            home_label: "#888888"
           },
           light: {
             primary: '#003366',
@@ -224,6 +225,7 @@ analyticsServ.ga().then( (gajson) => {
             label_colour: "#1A5A96",
             label_border: "#DDDDDD",
             error_text: "#D8292F",
+            home_label: "#888888"
           }
         }
     }
