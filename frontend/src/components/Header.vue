@@ -13,92 +13,83 @@
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
       <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10">
-        <!-- Navbar content -->
-        <a id="header-gov-logo" href="https://www2.gov.bc.ca">
-            <img
-                src="@/assets/images/17_gov3_bc_logo.svg"
-                width="auto" height="30"
-                alt="B.C. Government Logo">
-        </a>
-        <v-toolbar-title><v-btn text depressed large height="100%" id="header-home" class="title hidden-sm-and-down font-weight-black" color="text" to="/">{{$tc("DataCatalogue")}}</v-btn></v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-container fluid class="header-container py-0">
+            <v-row class="header-row">
+                <v-col cols=7 class="py-0 h-100">
+                <!-- Navbar content -->
+                    <a id="header-gov-logo" href="https://www2.gov.bc.ca" class="v-top">
+                        <img
+                            src="@/assets/images/bc_mark.png"
+                            width="auto" height="100%"
+                            alt="B.C. Government Logo">
+                    </a>
+                    <v-btn text depressed large id="header-home" class="title hidden-sm-and-down font-weight-black h-100 v-top" color="text" to="/">{{$tc("DataCatalogue")}}</v-btn>
+                </v-col>
+                <v-col cols=5 class="py-0 pr-0 h-100">
+                    <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
+                        <template v-slot:activator="{ on }">
+                        <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                            <v-icon large>mdi-menu</v-icon>
+                        </v-btn>
+                        </template>
+                        <!-- <v-row justify-left fill-height class="secondary_color">
+                            <v-col cols=12 class="gov-yellow-border-top"> -->
+                                <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
+                                <v-list-item v-if="!loggedIn" color="text" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
+                                <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
+                                <template v-for="(item, key) in menuTertiary">
+
+                                    <span v-if="item.dialog" :key="'secondary-menu-'+key">
+                                    <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true" v-text="$tc(item.title, 2)"></v-list-item>
+                                    </span>
+
+                                    <span v-else :key="'secondary-menu-'+key">
+                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    </span>
+                                </template>
+                                <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" :href="logInUrl" @click="logout">{{$tc("Logout")}}</v-list-item>
+                                </v-list>
+                            <!-- </v-col>
+                            <v-col cols=12 class="primary_color gov-yellow-border-top"> -->
+                                <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
+                                <template v-for="(item, key) in menuSecondary">
+                                    <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                </template>
+                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
+                                </v-list>
+                            <!-- </v-col>
+                        </v-row> -->
+                    </v-menu>
+                    <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%" class="v-top float-right">
+                        <v-icon large>mdi-magnify</v-icon>
+                    </v-btn>
+                    <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">English</v-btn>
+                    <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">Français</v-btn>
+                    <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
+                    <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down header-button v-top float-right" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
 
 
-          <!--<v-btn text id="nav-old" v-if="classicUrl" class="navbar-link lvl2-link hidden-sm-and-down" :href="classicUrl">{{$tc('Classic')}}</v-btn>-->
-
-          <!-- <User v-if="loggedIn" :user="user"></User>
-          <v-btn text id="nav-login" v-else class="navbar-link lvl2-link hidden-sm-and-down" :href="logInUrl" @click="clearStorage"> {{$tc("LogIn")}}</v-btn>
-
-          <v-menu offset-y bottom color="primary">
-            <template v-slot:activator="{ on }">
-              <v-btn text v-on="on" id="header-language">
-                {{$tc("Language")}}
-              </v-btn>
-            </template>
-            <v-row align-center justify-center fill-height class="secondary_color">
-                <v-col cols=12>
-                    <v-list dense class="header-menu-secondary">
-                      <v-list-item id="header-language-en" @click="setLanguage('en')">English</v-list-item>
-                      <v-list-item id="header-language-fr" @click="setLanguage('fr')">Français</v-list-item>
-                    </v-list>
                 </v-col>
             </v-row>
-          </v-menu> -->
-
-          <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
-          <v-btn v-else depressed text large id="logout-btn" class="hidden-sm-and-down header-button" @click="logout" height="100%"><v-icon left>mdi-account</v-icon> {{$tc('Logout')}}</v-btn>
-          <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down header-button" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
-          <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button" @click="setLanguage('en')" height="100%">English</v-btn>
-          <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button" @click="setLanguage('fr')" height="100%">Français</v-btn>
-
-          <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%">
-            <v-icon large>mdi-magnify</v-icon>
-          </v-btn>
-
-
-          <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
-            <template v-slot:activator="{ on }">
-              <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="menu_secondary" height="100%">
-                <v-icon large>mdi-menu</v-icon>
-              </v-btn>
-            </template>
-            <!-- <v-row justify-left fill-height class="secondary_color">
-                <v-col cols=12 class="gov-yellow-border-top"> -->
-                    <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
-                      <v-list-item v-if="!loggedIn" color="text" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
-                      <v-list-item v-else color="text" id="mobile-logout-btn" class="hidden-md-and-up" :href="logInUrl" @click="logout">{{$tc("Logout")}}<v-icon right>mdi-account</v-icon></v-list-item>
-                      <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
-                      <template v-for="(item, key) in menuTertiary">
-                        
-                        <span v-if="item.dialog" :key="'secondary-menu-'+key">
-                          <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true" v-text="$tc(item.title, 2)"></v-list-item>
-                        </span>
-                        
-                        <span v-else :key="'secondary-menu-'+key">
-                          <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                          <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                        </span>
-                      </template>
-                    </v-list>
-                <!-- </v-col>
-                <v-col cols=12 class="primary_color gov-yellow-border-top"> -->
-                    <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
-                      <template v-for="(item, key) in menuSecondary">
-                          <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                          <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                      </template>
-                      <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
-                      <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
-                    </v-list>
-                <!-- </v-col>
-            </v-row> -->
-          </v-menu>
-
+        </v-container>
       </v-toolbar>
       <v-container class="search-bar gov-yellow-border-bottom gov-yellow-border-top" v-show="showSearch" py-0 px-12>
         <v-row wrap align-content="center" class="search-row">
           <v-col class="py-0">
-            <v-text-field ref="headerSearch" id="header-search" :label="$tc('SearchDatasets')" v-model="searchText" solo hide-details v-on:keyup="search" append-icon="mdi-magnify"></v-text-field>
+            <v-text-field
+                ref="headerSearch"
+                id="header-search"
+                :label="$tc('SearchDatasets')"
+                v-model="searchText"
+                solo
+                hide-details
+                v-on:keyup="search"
+                append-icon="mdi-magnify"
+                @click:append="search">
+            </v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -224,7 +215,7 @@ export default {
       },
 
       search: function(e){
-          if (e.keyCode === 13) {
+          if (e.keyCode === 13 || e.type === 'click') {
             this.showSearch = false;
             this.$store.commit('search/setSearchText', this.searchText);
             if (this.$route.path !== '/datasets'){
@@ -308,6 +299,10 @@ export default {
     width: 100%;
   }
 
+  .h-100 {
+      height: 100% !important;
+  }
+
 </style>
 
 <style>
@@ -316,6 +311,9 @@ export default {
   }
   .header-button {
       font-size: 16px !important;
+  }
+  .v-top {
+      vertical-align: top;
   }
 
   .gov-header{
@@ -406,6 +404,14 @@ export default {
   .v-text-field.v-text-field--solo .v-input__slot{
     box-shadow: unset !important;
     margin-bottom: 0px !important;
+  }
+
+  .header-container {
+      height: 65px !important;
+  }
+
+  .header-row {
+      height: 65px !important;
   }
 
 </style>

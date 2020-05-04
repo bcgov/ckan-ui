@@ -78,7 +78,7 @@
                                 <v-btn text small color="label_colour" class="lower-button" v-clipboard="() => permalink" @click="snackbar = true">
                                     <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                                 </v-btn>
-                                <v-snackbar v-model="snackbar" timeout=2000><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
+                                <v-snackbar v-model="snackbar" timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                                 <br>
                                 <v-btn text small color="label_colour" class="lower-button">
                                     <v-icon>mdi-folder-table-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
