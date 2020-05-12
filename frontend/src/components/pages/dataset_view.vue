@@ -33,7 +33,9 @@
 
         <!-- <powButton :dataset="dataset"/> -->
         <v-row>
-            <router-link to='/datasets' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</router-link>
+            <v-col cols=12 class="ml-2">
+                <router-link to='/datasets' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</router-link>
+            </v-col>
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -373,9 +375,9 @@ h5 {
     color: var(--v-label_colour-base);
 }
 .main-area {
-    margin-top: 20px;
     margin-bottom: 45px;
     background: var(--v-data_background-base);
+    padding-left: 68px;
 }
 ul {
     list-style-type: none;
