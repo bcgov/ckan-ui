@@ -5,7 +5,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid class="groupContainer pr-md-10 py-4">
+    <v-container v-else fluid class="groupContainer px-md-11 py-4">
         <v-alert
             :value="showFormSuccess"
             class="fixed"
@@ -20,7 +20,7 @@
             type="error">
             {{formError}}
         </v-alert>
-        <v-row wrap>
+        <v-row wrap class="mr-md-1 pl-6">
             <v-col cols=12 class="">
                 <h2 class="primary-text">{{$tc('Groups', 2)}}</h2>
             </v-col>
@@ -77,16 +77,16 @@
           <v-col cols=4 class="fadedText">
               {{count}} {{$tc('Groups', count)}}
           </v-col>
-      </v-row>
-        <v-row wrap class="mb-8 mr-md-1 pl-">
+        </v-row>
+        <v-row wrap class="mb-8 mr-md-1 pl-6">
             <v-col cols=12 sm=7>
                 <GroupCard v-for="(group, key) in groups" :key="'group-'+key" :group="group" v-on:groupClicked="navTo(group)" class="pointer"></GroupCard>
             </v-col>
             <v-col sm=1></v-col>
-            <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-2">
+            <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-1 mr-10">
                 <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
                     <v-col cols=12>
-                        <h4>{{$tc('Manage', 2)}}</h4>
+                        <h4 class="color-text">{{$tc('Manage', 2)}}</h4>
                     </v-col>
                 </v-row>
                 <v-row class="fullWidth mr-0" v-if="sysAdmin">
@@ -110,12 +110,12 @@
                 <v-row class="fullWidth mr-0"></v-row>
                 <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
                     <v-col cols=12>
-                        <h4>{{$tc('Groups', 2)}}</h4>
+                        <h4 class="color-text">{{$tc('Groups', 2)}}</h4>
                     </v-col>
                 </v-row>
                 <v-row class="fullWidth mr-0">
                     <v-col class="px-0" cols=12>
-                        <v-card tile elevation=0>
+                        <v-card tile>
                             <v-card-text class="groupAbout">
                                 {{$tc('groupAbout')}}
                             </v-card-text>
@@ -226,10 +226,9 @@
     }
 
     .addGroup{
-        height: 50px;
+        height: 50px !important;
         font-weight: bold;
         font-size: 16px;
-        color: var(--v-text-base);
     }
 
     .noRadius{
@@ -246,7 +245,7 @@
 
     .groupContainer{
         background: var(--v-data_background-base);
-        padding-left: 68px;
+        min-height: 100%;
     }
 
     .raise {
@@ -301,10 +300,13 @@
     }
 
     .groupAbout{
-        font-weight: bold;
         font-size: 16px;
         color: var(--v-faded-text-base);
         background: var(--v-text-background-base);
+    }
+
+    .color-text {
+        color: var(--v-text-base);
     }
 
 </style>

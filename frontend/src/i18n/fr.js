@@ -31,6 +31,7 @@ export default {
         "Viewing Dataset": "Affichage du jeu de données",
         "Dataset": "Jeux de donnée | Jeux de données",
         "dataset": "Jeux de donnée | Jeux de données",
+        "Dataset Details": "Détails du jeu de données",
         "Order By": "Ordonnè par",
         "found": "trouvé | trouvés",
         "Clear all": "Tout effacer",
@@ -74,6 +75,7 @@ export default {
         "Projection Name*": "Nom de projection*",
         "Supplemental Information": "Information supplémentaire",
         "Supplemental Information*": "Information supplémentaire*",
+        "Resource": "Ressource | Ressources",
         "Resource Access Method": "Méthode d'accès aux ressources",
         "Resource Access Method*": "Méthode d'accès aux ressources*",
         "Resource Storage Location": "Emplacement de stockage des ressources",
@@ -86,6 +88,7 @@ export default {
         "Resource Update Cycle*": "Cycle de mise à jour des ressources*",
         "Resource Description": "Description de la ressource",
         "Resource Description*": "Description de la ressource*",
+        "Resource Details": "Détails des ressources",
         "JSON Table Schema": "Schéma de la table JSON",
         "JSON Table Schema*": "Schéma de la table JSON*",
         "URL": "URL",
@@ -255,5 +258,7 @@ export default {
         "Back to": "Retour à",
         "Subscribe to New Data": "Abonnez-vous aux nouvelles données",
         "list": "liste",
+        "Access": "Accès",
+        "Other Resources": "Autres Ressources"
     }
 };

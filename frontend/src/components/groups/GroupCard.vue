@@ -9,12 +9,12 @@
       </div>
     </v-card-title>
   </v-card> -->
-    <v-container class="mb-2 cardContainer cardHeight py-0 px-0 elevation-5" @click="$emit('groupClicked')">
-        <v-row dense align="center" class="cardHeight py-0"> 
+    <v-container class="mb-2 cardContainer cardHeight py-0 elevation-5" @click="$emit('groupClicked')">
+        <v-row dense align="center" class="cardHeight py-0">
           <v-col cols=2>
             <v-img position="left center" alt="Logo" height="120px" contain :src="image" v-on:error="onImgError"></v-img>
           </v-col>
-          <v-col cols=9>
+          <v-col cols=9 class="pl-2">
             <v-row dense>
               <span class="groupName">{{name}}</span>
             </v-row>
@@ -39,7 +39,7 @@ export default{
     props: {
         group: Object
     },
-    
+
     data() {
         return {
             id: this.group.id,
@@ -58,7 +58,7 @@ export default{
         return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';
       }
     },
-    
+
     methods: {
 
       gotoGroup: function(){
@@ -73,9 +73,9 @@ export default{
 
     mounted() {
       ckanServ.getGroup(this.id).then((data) => {
-            
+
         this.datasets = data.result.packages;
-            
+
         this.loading = false;
       });
     }

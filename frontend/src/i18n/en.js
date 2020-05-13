@@ -31,6 +31,7 @@ export default {
         "Viewing Dataset": "Viewing Dataset",
         "Dataset": "Dataset | Datasets",
         "dataset": "dataset | datasets",
+        "Dataset Details": "Dataset Details",
         "Order By": "Order By",
         "found": "found",
         "Clear all": "Clear all",
@@ -74,6 +75,7 @@ export default {
         "Projection Name*": "Projection Name*",
         "Supplemental Information": "Supplemental Information",
         "Supplemental Information*": "Supplemental Information*",
+        "Resource": "Resource | Resources",
         "Resource Access Method": "Resource Access Method",
         "Resource Access Method*": "Resource Access Method*",
         "Resource Storage Location": "Resource Storage Location",
@@ -86,6 +88,7 @@ export default {
         "Resource Update Cycle*": "Resource Update Cycle*",
         "Resource Description": "Resource Description",
         "Resource Description*": "Resource Description*",
+        "Resource Details": "Resource Details",
         "JSON Table Schema": "JSON Table Schema",
         "JSON Table Schema*": "JSON Table Schema*",
         "URL": "URL",
@@ -252,6 +255,8 @@ export default {
         "Back to": "Back to",
         "Subscribe to New Data": "Subscribe to New Data",
         "list": "list",
-        "Show Groups": "View the group(s) this dataset belongs to"
+        "Show Groups": "View the group(s) this dataset belongs to",
+        "Access": "Access",
+        "Other Resources": "Other Resources"
     }
 };

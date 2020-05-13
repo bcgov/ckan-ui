@@ -92,7 +92,7 @@
                 ></FacetFilters>
                 <v-container class="d-none d-sm-block text-left">
                     <v-row>
-                        <v-btn text small depressed class="noHover mx-0 basicText" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                        <v-btn text small depressed class="noHover mx-0 px-0 basicText" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
                     </v-row>
                     <v-row v-if="loggedIn">
                         <!-- <v-btn text v-if="following" small depressed class="noHover mx-0 basicText" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
@@ -107,7 +107,7 @@
                             width="75%"
                         >
                             <template v-slot:activator="{ on }">
-                                <v-btn v-on="on" text small depressed class="noHover mx-0 basicText" color="secondary"><v-icon>mdi-pencil-outline</v-icon>{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 basicText" color="secondary"><v-icon>mdi-pencil-outline</v-icon>{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
                             </template>
                             <Edit
                                 v-on:closeEdit='editDialog = false'
@@ -118,7 +118,7 @@
                     </v-row>
 
                     <v-row class="mb-5" v-if="canDeleteResources">
-                        <v-btn text small depressed class="noHover mx-0 deleteText" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                        <v-btn text small depressed class="noHover mx-0 px-0 deleteText" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
                     </v-row>
                 </v-container>
             </v-col>

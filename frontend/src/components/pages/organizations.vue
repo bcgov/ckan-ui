@@ -31,7 +31,7 @@
                     <v-expansion-panel>
                         <v-expansion-panel-header class="sideBarHeader">{{$tc('Manage')}}</v-expansion-panel-header>
                         <v-expansion-panel-content dense class="manageSection">
-                            <v-btn class="primary" :to="{name: 'organization_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                            <v-btn class="primary manage-button" :to="{name: 'organization_create'}">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -71,10 +71,10 @@
                 <OrgTree :top="true" v-for="(org, key) in orgList" :key="'org-tree-'+key" :passedOrg="{key: org, org: orgs[org]}"></OrgTree>
             </v-col>
             <v-col cols=1 sm=1></v-col>
-            <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-2">
+            <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-1 mr-10">
                 <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
                     <v-col cols=12>
-                        <h4>{{$tc('Manage', 2)}}</h4>
+                        <h4 class="color-text">{{$tc('Manage', 2)}}</h4>
                     </v-col>
                 </v-row>
                 <v-row class="fullWidth mr-0" v-if="sysAdmin">
@@ -98,12 +98,12 @@
                 <v-row class="fullWidth mr-0"></v-row>
                 <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
                     <v-col cols=12>
-                        <h4>{{$tc('Organizations', 2)}}</h4>
+                        <h4 class="color-text">{{$tc('Organizations', 2)}}</h4>
                     </v-col>
                 </v-row>
                 <v-row class="fullWidth mr-0">
                     <v-col class="px-0" cols=12>
-                        <v-card tile elevation=0>
+                        <v-card tile>
                             <v-card-text class="orgAbout">
                                 {{$tc('orgAbout')}}
                             </v-card-text>
@@ -255,7 +255,7 @@
         background-color: var(--v-primary-base);
     }
 
-    .header h4 {
+    .color-text {
         color: var(--v-text-base);
     }
 
@@ -291,8 +291,8 @@
     .manage-button {
         font-weight: bold;
         font-size: 16px;
-        height: 50px;
-    };
+        height: 50px !important;
+    }
 
     .fixed{
         position: fixed;
