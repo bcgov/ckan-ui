@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs" divider="/">
+    <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs pl-3 py-0" divider="/">
       <template v-slot:item="props">
         <router-link class="crumb" v-if="props.item.route && props.item.icon" :to="props.item.route" exact><v-icon>{{props.item.icon}}</v-icon></router-link>
         <router-link class="crumb" v-else-if="props.item.route" :to="props.item.route" exact>{{props.item.translate ? $tc(props.item.label) : props.item.label}}</router-link>

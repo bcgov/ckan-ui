@@ -5,7 +5,7 @@
             <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container fluid v-else class="px-md-10 my-4">
+    <v-container fluid v-else class="px-md-11 my-4">
         <v-row wrap class="mr-md-1">
             <v-col cols=10 sm=7>
                 <ListPage
@@ -14,13 +14,10 @@
             </v-col>
             <v-col cols=1 sm=1></v-col>
             <v-col cols=1 sm=4 class="mt-9 pt-9">
-                <v-row class="mt-9 mb-9"></v-row>
-                
-                    <FacetFilters
-                        class="mt-9 pt-9"
-                        v-on:facetFilter="facetFilter"
-                    ></FacetFilters>
-                
+                <FacetFilters
+                    class="mt-9 pt-9"
+                    v-on:facetFilter="facetFilter"
+                ></FacetFilters>
             </v-col>
         </v-row>
     </v-container>
@@ -31,7 +28,7 @@
   import {Analytics} from '../../services/analytics'
   const analyticsServ = new Analytics()
 
-  
+
   import ListPage from '../dataset/ListPage'
   import FacetFilters from '../dataset/FacetFilters'
 
@@ -39,7 +36,7 @@
     components: {
         ListPage: ListPage,
         FacetFilters: FacetFilters
-        
+
     },
 
     data() {

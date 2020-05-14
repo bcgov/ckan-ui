@@ -5,7 +5,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid class="groupContainer px-md-10 py-4">
+    <v-container v-else fluid class="groupContainer px-md-11 py-4">
         <v-alert
             :value="group.state === 'deleted'"
             type="warning">
@@ -27,17 +27,19 @@
         </v-alert>
 
         <v-row>
-            <router-link to='/groups' class="nounderline labelText"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Groups', 2)}} {{$tc('list')}}</router-link>
+            <v-col cols=12 class="ml-6">
+                <router-link to='/groups' class="nounderline labelText"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Groups', 2)}} {{$tc('list')}}</router-link>
+            </v-col>
         </v-row>
         <v-row>
-            <v-col cols=12 sm=8><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
-            <v-col cols=12 sm=4>
+            <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
+            <v-col cols=12 sm=4 class="pl-0">
                 <v-dialog
                     v-model="infoDialog"
                     width="75%"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" text small depressed class="noHover labelText">{{$tc('Learn more about this')}} {{$tc('groups', 1)}}</v-btn>
+                        <v-btn v-on="on" text small depressed class="noHover labelText pl-0">{{$tc('Learn more about this')}} {{$tc('groups', 1)}}</v-btn>
                     </template>
                     <v-card>
                         <v-card-title class="header">
@@ -68,59 +70,54 @@
                 </v-dialog>
             </v-col>
         </v-row>
-        <v-row wrap>
-            <v-row wrap class="mr-md-1">
-                <v-col cols=11 sm=7>
-                    <ListPage
-                        :key="'listPage-'+facetFilterIndex"
-                        :replaceSearchTip="true" 
-                        addToSearchTip="Search Datasets in this group"
-                        :forceFilter="'groups:('+group.name+')'"
-                    ></ListPage>
-                </v-col>
-                <v-col cols=0 sm=1></v-col>
-                <v-col cols=1 sm=4>
+        <v-row wrap class="mr-md-1">
+            <v-col cols=10 sm=7>
+                <ListPage
+                    :key="'listPage-'+facetFilterIndex"
+                    :replaceSearchTip="true"
+                    addToSearchTip="Search Datasets in this group"
+                    :forceFilter="'groups:('+group.name+')'"
+                ></ListPage>
+            </v-col>
+            <v-col cols=0 sm=1></v-col>
+            <v-col cols=1 sm=4 class="mt-9 pt-9">
+                <FacetFilters
+                    class="mt-9 pt-9"
+                    v-on:facetFilter="facetFilter"
+                ></FacetFilters>
+                <v-container class="d-none d-sm-block text-left">
                     <v-row>
-                        <v-col cols=12>
-                            <FacetFilters
-                                v-on:facetFilter="facetFilter"
-                            ></FacetFilters>
-                        </v-col>
+                        <v-btn text small depressed class="noHover mx-0 px-0 labelText" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
                     </v-row>
-                    <span class="d-none d-sm-block text-left">
-                        <v-row>
-                            <v-btn text small depressed class="noHover mx-0 px-0 labelText" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
-                        </v-row>
-                        <v-row v-if="loggedIn">
-                            <v-btn text v-if="following" small depressed class="noHover mx-0 px-0 labelText" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
-                            <v-btn text v-else           small depressed class="noHover mx-0 px-0 labelText" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
-                            
-                        </v-row>
+                    <v-row v-if="loggedIn">
+                        <v-btn text v-if="following" small depressed class="noHover mx-0 px-0 labelText" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                        <v-btn text v-else           small depressed class="noHover mx-0 px-0 labelText" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
 
-                        <v-row></v-row>
+                    </v-row>
 
-                        <v-row v-if="showEdit" class="mt-6">
-                            <v-dialog
-                                v-model="editDialog"
-                                width="75%"
+                    <v-row></v-row>
+
+                    <v-row v-if="showEdit" class="mt-6">
+                        <v-dialog
+                            v-model="editDialog"
+                            width="75%"
+                        >
+                            <template v-slot:activator="{ on }">
+                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 labelText"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            </template>
+                            <Edit
+                                v-on:closeEdit='editDialog = false'
+                                v-on:editStatus="editStatus"
                             >
-                                <template v-slot:activator="{ on }">
-                                    <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 labelText"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
-                                </template>
-                                <Edit
-                                    v-on:closeEdit='editDialog = false'
-                                    v-on:editStatus="editStatus"
-                                >
-                                </Edit>
-                            </v-dialog>
-                        </v-row>
-                            
-                        <v-row class="mb-5" v-if="canDeleteResources">
-                            <v-btn text small depressed class="noHover mx-0 px-0 errorText" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
-                        </v-row>
-                    </span>
-                </v-col>
-            </v-row>
+                            </Edit>
+                        </v-dialog>
+                    </v-row>
+
+                    <v-row class="mb-5" v-if="canDeleteResources">
+                        <v-btn text small depressed class="noHover mx-0 px-0 errorText" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
+                    </v-row>
+                </v-container>
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -200,11 +197,11 @@
                 }
                 return (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
             },
-            
+
             permalink: function(){
                 return window.location.origin+'/group/'+this.group.id
             },
-            
+
             showEdit: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
@@ -225,8 +222,8 @@
             },
 
             group(newVal) {
-                let currentlyLoadingGroup = this.loading;   
-                this.facetFilterIndex += 1; 
+                let currentlyLoadingGroup = this.loading;
+                this.facetFilterIndex += 1;
                 this.loading = Object.keys(newVal).length == 0;
                 if (currentlyLoadingGroup != this.loading){
                     this.breadcrumbs[1].label = this.group.title;
@@ -302,7 +299,7 @@
             },
 
         },
-        
+
         mounted(){
             this.getGroup();
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);

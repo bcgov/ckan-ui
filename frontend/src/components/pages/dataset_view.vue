@@ -33,16 +33,20 @@
 
         <!-- <powButton :dataset="dataset"/> -->
         <v-row>
-            <router-link to='/datasets' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</router-link>
+            <v-col cols=12 class="ml-2">
+                <router-link to='/datasets' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</router-link>
+            </v-col>
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <v-toolbar color="label_colour" flat>
-                            <v-toolbar-title class="title">Dataset Details</v-toolbar-title>
-                        </v-toolbar>
+                        <v-row class="header-bar mb-0 mr-0" align-content="center">
+                            <v-col cols=12>
+                                <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
+                            </v-col>
+                        </v-row>
                         <v-row v-if="editing">
                             <v-col cols=12>
                                 <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
@@ -68,30 +72,36 @@
                         </v-row>
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
-                    <v-col cols=4 class="d-none d-sm-block fixed rightZero mr-md-11">
-                        <v-toolbar color="label_colour" flat>
-                            <v-toolbar-title class="title">Resources</v-toolbar-title>
-                        </v-toolbar>
-                        <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-                        <v-row wrap v-if="!createMode">
+                    <v-col cols=4 class="d-none d-sm-block pr-0">
+                        <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
-                                <v-btn text small color="label_colour" class="lower-button" v-clipboard="() => permalink" @click="snackbar = true">
+                                <h4 class="color-text">{{$tc('Resource', 2)}}</h4>
+                            </v-col>
+                        </v-row>
+                        <v-row class="fullWidth mr-0">
+                            <v-col cols=12 class="px-0 py-0 my-n2">
+                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                            </v-col>
+                        </v-row>
+                        <v-row wrap v-if="!createMode" class="fullWidth mr-0">
+                            <v-col cols=12 class="pl-0">
+                                <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
                                     <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                                 </v-btn>
                                 <v-snackbar v-model="snackbar" timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                                 <br>
-                                <v-btn text small color="label_colour" class="lower-button">
+                                <v-btn text small color="label_colour" class="lower-button mx-0 px-0">
                                     <v-icon>mdi-folder-table-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
                                 </v-btn>
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode && showEdit">
-                            <v-col cols=12>
-                                <v-btn text color="label_colour" class="lower-button" @click="toggleEdit">
+                            <v-col cols=12 class="pl-0">
+                                <v-btn text color="label_colour" class="lower-button mx-0 px-0" @click="toggleEdit">
                                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
                                 </v-btn>
                                 <br>
-                                <v-btn text color="error_text" class="lower-button" @click="deleteDataset">
+                                <v-btn text color="error_text" class="lower-button mx-0 px-0" @click="deleteDataset">
                                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
                                 </v-btn>
                             </v-col>
@@ -373,9 +383,10 @@ h5 {
     color: var(--v-label_colour-base);
 }
 .main-area {
-    margin-top: 20px;
     margin-bottom: 45px;
     background: var(--v-data_background-base);
+    padding-left: 68px;
+    padding-right: 56px;
 }
 ul {
     list-style-type: none;
@@ -402,8 +413,8 @@ ul {
 .v-btn{
     margin-right: 5px;
 }
-.v-toolbar__title{
-    color: var(--v-text-base)
+.color-text {
+    color: var(--v-text-base);
 }
 .lower-button {
     font-size: 16px;;
@@ -418,5 +429,13 @@ ul {
     border-color: var(--v-primary-base) !important;
     border-width: 2px !important;
     color: var(--v-primary-base) !important;
+}
+.header-bar {
+    width: 100%;
+    background-color: var(--v-menu_secondary-base);
+    color: var(--v-text-base);
+}
+.fullWidth{
+    width: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid align-center align-content-center justify-center class="mb-4">
+  <v-container fluid align-center align-content-center justify-center class="mb-4 pl-0">
       <v-row wrap dense class="my-0 py-0">
           <v-col cols=12>
             <h3>
@@ -9,7 +9,7 @@
             </h3>
           </v-col>
       </v-row>
-      
+
       <v-row wrap dense class="my-0 py-0">
           <v-col cols=12 class="my-0 py-0">
               <p class="mb-0 pb-0 faded" v-line-clamp:1.5="2" >{{description}}</p>
@@ -29,7 +29,7 @@
 
 export default {
     components: {
-        
+
     },
     props: {
         record: Object,
@@ -94,7 +94,7 @@ export default {
         //         icon = "code"
         //         tooltip = "Web Service / API"
         //         break
-            
+
         //     case "WebService":
         //         icon = "code"
         //         tooltip = "Web Service / API"

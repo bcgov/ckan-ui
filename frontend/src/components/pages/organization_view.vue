@@ -1,11 +1,11 @@
 <template>
-    <v-container v-if="error" class="orgContainer px-md-10 my-4">
+    <v-container v-if="error" class="orgContainer px-md-10 py-4">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid class="orgContainer px-md-10 my-4">
+    <v-container v-else fluid class="orgContainer px-md-10 py-4">
         <v-alert
             :value="group.state === 'deleted'"
             type="warning">
@@ -27,10 +27,12 @@
         </v-alert>
 
         <v-row>
-            <router-link to='/organization' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Organizations', 2)}} {{$tc('list')}}</router-link>
+            <v-col cols=12 class="ml-6">
+                <router-link to='/organization' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Organizations', 2)}} {{$tc('list')}}</router-link>
+            </v-col>
         </v-row>
         <v-row class="mr-md-1">
-            <v-col cols=12 sm=8><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
+            <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
             <v-col cols=12 sm=4>
                 <v-dialog
                     v-model="infoDialog"
@@ -68,64 +70,58 @@
                 </v-dialog>
             </v-col>
         </v-row>
-        <v-row wrap>
-            <v-row wrap class="mr-md-2">
-                <v-col cols=11 sm=7>
-                    <v-progress-circular
-                        v-if="loading"
-                        indeterminate
-                        color="light-blue"
-                    ></v-progress-circular>
-                    <ListPage
-                        v-else
-                        :key="'listPage-'+facetFilterIndex+forceLoad"
-                        :replaceSearchTip="true" 
-                        addToSearchTip="Search for Datasets in this organization"
-                        :forceFilter="'organization:('+group.name+')'"
-                    ></ListPage>
-                </v-col>
-                <v-col cols=0 sm=1></v-col>
-                <v-col cols=1 sm=4>
+        <v-row wrap class="mr-md-1">
+            <v-col cols=10 sm=7>
+                <v-progress-circular
+                    v-if="loading"
+                    indeterminate
+                    color="light-blue"
+                ></v-progress-circular>
+                <ListPage
+                    v-else
+                    :key="'listPage-'+facetFilterIndex+forceLoad"
+                    :replaceSearchTip="true"
+                    addToSearchTip="Search for Datasets in this organization"
+                    :forceFilter="'organization:('+group.name+')'"
+                ></ListPage>
+            </v-col>
+            <v-col cols=0 sm=1></v-col>
+            <v-col cols=1 sm=4 class="mt-9 pt-9">
+                <FacetFilters
+                    v-on:facetFilter="facetFilter"
+                ></FacetFilters>
+                <v-container class="d-none d-sm-block text-left">
                     <v-row>
-                        <v-col cols=12>
-                            <FacetFilters
-                                v-on:facetFilter="facetFilter"
-                            ></FacetFilters>
-                        </v-col>
+                        <v-btn text small depressed class="noHover mx-0 px-0 basicText" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
                     </v-row>
-                    <span class="d-none d-sm-block text-left">
-                        <v-row>
-                            <v-btn text small depressed class="noHover mx-0 basicText" color="secondary" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
-                        </v-row>
-                        <v-row v-if="loggedIn">
-                            <!-- <v-btn text v-if="following" small depressed class="noHover mx-0 basicText" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
-                            <v-btn text v-else           small depressed class="noHover mx-0 basicText" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Organizations',1)}}</v-btn> -->
-                        </v-row>
+                    <v-row v-if="loggedIn">
+                        <!-- <v-btn text v-if="following" small depressed class="noHover mx-0 basicText" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
+                        <v-btn text v-else           small depressed class="noHover mx-0 basicText" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Organizations',1)}}</v-btn> -->
+                    </v-row>
 
-                        <v-row></v-row>
+                    <v-row></v-row>
 
-                        <v-row v-if="showEdit" class="mt-6">
-                            <v-dialog
-                                v-model="editDialog"
-                                width="75%"
+                    <v-row v-if="showEdit" class="mt-6">
+                        <v-dialog
+                            v-model="editDialog"
+                            width="75%"
+                        >
+                            <template v-slot:activator="{ on }">
+                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 basicText" color="secondary"><v-icon>mdi-pencil-outline</v-icon>{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                            </template>
+                            <Edit
+                                v-on:closeEdit='editDialog = false'
+                                v-on:editStatus="editStatus"
                             >
-                                <template v-slot:activator="{ on }">
-                                    <v-btn v-on="on" text small depressed class="noHover mx-0 basicText" color="secondary"><v-icon>mdi-pencil-outline</v-icon>{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
-                                </template>
-                                <Edit
-                                    v-on:closeEdit='editDialog = false'
-                                    v-on:editStatus="editStatus"
-                                >
-                                </Edit>
-                            </v-dialog>
-                        </v-row>
-                            
-                        <v-row class="mb-5" v-if="canDeleteResources">
-                            <v-btn text small depressed class="noHover mx-0 deleteText" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
-                        </v-row>
-                    </span>
-                </v-col>
-            </v-row>
+                            </Edit>
+                        </v-dialog>
+                    </v-row>
+
+                    <v-row class="mb-5" v-if="canDeleteResources">
+                        <v-btn text small depressed class="noHover mx-0 px-0 deleteText" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                    </v-row>
+                </v-container>
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -185,7 +181,7 @@
             }
         },
         computed: {
-            
+
             ...mapState({
                 members: state => state.organization.groupMembers,
                 group: state => state.organization.unmodifiedOrg,
@@ -211,7 +207,7 @@
             permalink: function(){
                 return window.location.origin+'/organization/'+this.group.id
             },
-            
+
             showEdit: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
@@ -293,7 +289,7 @@
             },
         },
 
-            
+
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getOrganization();

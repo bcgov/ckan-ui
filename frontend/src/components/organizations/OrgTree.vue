@@ -2,11 +2,11 @@
   <v-container class="mb-2 py-0 px-0" v-if="typeof(org.org) !== 'undefined'">
     <v-expansion-panels flat tile :readonly="count === 0" :class="'noShadow' + (count === 0 ? ' noPointer' : '')">
       <v-expansion-panel>
-        <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'">
+        <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'" class="py-2">
           <span>
             <v-icon v-if="count > 0" :color="top ? 'text' : 'label_colour'">mdi-chevron-down</v-icon>
             <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: org.org.name }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
-            <p v-else>{{orgName}} {{count > 0 ? '' : ''}}</p>
+            <p v-else class="d-inline">{{orgName}} {{count > 0 ? '' : ''}}</p>
           </span>
           <template v-slot:actions>
             <span></span>
@@ -59,7 +59,7 @@ export default{
         }else{
           this.org = this.passedOrg;
         }
-        
+
         this.children =  this.org.org.children ? this.org.org.children.sort() : [];
         this.count = this.children.length;
 

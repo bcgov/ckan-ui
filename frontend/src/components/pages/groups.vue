@@ -5,7 +5,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid class="groupContainer px-md-10 py-4">
+    <v-container v-else fluid class="groupContainer px-md-11 py-4">
         <v-alert
             :value="showFormSuccess"
             class="fixed"
@@ -20,7 +20,7 @@
             type="error">
             {{formError}}
         </v-alert>
-        <v-row wrap>
+        <v-row wrap class="mr-md-1 pl-6">
             <v-col cols=12 class="">
                 <h2 class="primary-text">{{$tc('Groups', 2)}}</h2>
             </v-col>
@@ -62,13 +62,13 @@
         </v-row>
         <v-row wrap dense class="mb-0 pb-0 d-none mr-md-1">
             <v-col cols=12 sm=8>
-                <v-text-field 
-                    solo 
-                    class="searchbox" 
-                    hide-details 
-                    v-model="searchText" 
+                <v-text-field
+                    solo
+                    class="searchbox"
+                    hide-details
+                    v-model="searchText"
                     :label="$tc('Search') + ' ' + $tc('Groups', 2) + ' ' + $tc('found')"
-                    v-on:keyup="search" 
+                    v-on:keyup="search"
                     append-icon="search">
                 </v-text-field>
             </v-col>
@@ -77,25 +77,26 @@
           <v-col cols=4 class="fadedText">
               {{count}} {{$tc('Groups', count)}}
           </v-col>
-      </v-row>
-        <v-row wrap align="start" class="mb-8 mr-md-2">
+        </v-row>
+        <v-row wrap class="mb-8 mr-md-1 pl-6">
             <v-col cols=12 sm=7>
                 <GroupCard v-for="(group, key) in groups" :key="'group-'+key" :group="group" v-on:groupClicked="navTo(group)" class="pointer"></GroupCard>
             </v-col>
             <v-col sm=1></v-col>
-            <v-col cols=4 class="d-none d-sm-block fixed rightZero mr-md-11">
-                <v-row class="manageSection mb-0" v-if="sysAdmin">
-                    <v-card elevation=0 class="noShadow noRadius">
-                        <v-card-title class='sideBarHeader mb-2'>{{$tc('Manage', 2)}}</v-card-title>
-                    </v-card>
+            <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-1 mr-10">
+                <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
+                    <v-col cols=12>
+                        <h4 class="color-text">{{$tc('Manage', 2)}}</h4>
+                    </v-col>
                 </v-row>
-                <v-row class="manageSection mb-5" v-if="sysAdmin">
+                <v-row class="fullWidth mr-0" v-if="sysAdmin">
+                    <v-col cols=12 class="px-0">
                     <v-dialog
                         v-model="editDialog"
                         width="75%"
                     >
                         <template v-slot:activator="{ on }">
-                            <v-btn v-on="on" class="addGroup primary">{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            <v-btn v-on="on" class="addGroup primary" block>{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </template>
                         <Edit
                             :create="true"
@@ -104,14 +105,22 @@
                         >
                         </Edit>
                     </v-dialog>
+                    </v-col>
                 </v-row>
-                <v-row>
-                    <v-card elevation=0 class="differentShadow">
-                        <v-card-title class='sideBarHeader mb-2'>{{$tc('Groups', 2)}}</v-card-title>
-                        <v-card-text class="groupAbout">
-                            {{$tc('groupAbout')}}
-                        </v-card-text>
-                    </v-card>
+                <v-row class="fullWidth mr-0"></v-row>
+                <v-row class="manageSection mb-0 mr-0" align-content="center" v-if="sysAdmin">
+                    <v-col cols=12>
+                        <h4 class="color-text">{{$tc('Groups', 2)}}</h4>
+                    </v-col>
+                </v-row>
+                <v-row class="fullWidth mr-0">
+                    <v-col class="px-0" cols=12>
+                        <v-card tile>
+                            <v-card-text class="groupAbout">
+                                {{$tc('groupAbout')}}
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
                 </v-row>
             </v-col>
         </v-row>
@@ -157,7 +166,7 @@
             this.$store.dispatch('group/getGroups');
             this.count = this.groups.length;
         },
-        
+
         watch: {
             groups(newVal){
                 this.count = newVal.length;
@@ -199,7 +208,7 @@
                 }
             },
 
-            findGroups() {   
+            findGroups() {
                 this.$store.dispatch('group/searchGroups', {searchText: this.searchText});
                 this.count = this.groups.length;
             },
@@ -217,12 +226,9 @@
     }
 
     .addGroup{
-        height: 50px;
+        height: 50px !important;
         font-weight: bold;
         font-size: 16px;
-        color: var(--v-text-base);
-        box-shadow: none;
-        border-radius: 4px;
     }
 
     .noRadius{
@@ -239,6 +245,7 @@
 
     .groupContainer{
         background: var(--v-data_background-base);
+        min-height: 100%;
     }
 
     .raise {
@@ -250,10 +257,12 @@
         color: var(--v-text-base);
     }
 
-    .differentShadow{
-        box-shadow: 0 5px 5px rgba(0, 0, 0, .2).
+    .manageSection {
+        width: 100%;
+        background-color: var(--v-menu_secondary-base);
+        color: var(--v-text-base);
     }
-    
+
     .sideBarHeader{
         height: 40px;
         line-height: 20px;
@@ -268,7 +277,7 @@
         font-weight: bold;
     }
 
-    .manageSection .v-card, .manageSection .v-card__title, .manageSection a.primary, .manageSection button.primary{
+    .fullWidth{
         width: 100%;
     }
 
@@ -291,10 +300,13 @@
     }
 
     .groupAbout{
-        font-weight: bold;
         font-size: 16px;
         color: var(--v-faded-text-base);
         background: var(--v-text-background-base);
+    }
+
+    .color-text {
+        color: var(--v-text-base);
     }
 
 </style>
