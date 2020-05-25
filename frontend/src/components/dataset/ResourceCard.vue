@@ -1,11 +1,11 @@
 <template>
-    <v-card hover tile style="margin-bottom:.5rem" :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
+    <v-card hover tile style="margin-bottom:.5rem">
         <v-container fluid>
             <v-row wrap align-center fill-height>
                 <v-col cols=12 class="py-0">
-                    <label class="label">
+                    <router-link class="label label-link" :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
                         {{useResource.metadata.name}}
-                    </label>
+                    </router-link>
                 </v-col>
             </v-row>
             <v-row wrap align-center fill-height>
@@ -113,6 +113,13 @@ export default {
 
 .label{
     color: var(--v-faded_text-base);
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration-line: none;
+}
+
+.label-link:hover{
+    text-decoration-line: underline;
 }
 
 .resource-info{
