@@ -48,7 +48,7 @@
                                     <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                                     </span>
                                 </template>
-                                <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" :href="logInUrl" @click="logout">{{$tc("Logout")}}</v-list-item>
+                                <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" @click="logout">{{$tc("Logout")}}</v-list-item>
                                 </v-list>
                             <!-- </v-col>
                             <v-col cols=12 class="primary_color gov-yellow-border-top"> -->

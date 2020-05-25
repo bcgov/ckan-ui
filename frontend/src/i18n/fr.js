@@ -229,6 +229,8 @@ export default {
         "Edit Dataset": "Modifier le Jeu de Données",
         "Delete Dataset": "Supprimer le Jeu de Données",
         "Show Groups": "Afficher les groupes auxquels appartient cet ensemble de données",
+        "Add to Group": "Ajouter au groupe",
+        "Stop Adding to Groups": "Arrêter l'ajout aux groupes",
         "Expand All": "Développer Tout",
         "Collapse All": "Réduire tout",
         "Download Permissions": "Autorisations de téléchargement",

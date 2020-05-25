@@ -84,15 +84,69 @@
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode" class="fullWidth mr-0">
-                            <v-col cols=12 class="pl-0">
+                            <v-col cols=12 class="pl-0" v-if="!editing">
                                 <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
                                     <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                                 </v-btn>
                                 <v-snackbar v-model="snackbar" timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                                 <br>
-                                <v-btn text small color="label_colour" class="lower-button mx-0 px-0">
-                                    <v-icon>mdi-folder-table-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
-                                </v-btn>
+                                <v-dialog v-model="infoDialog" width="75%">
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn v-on="on" text small color="label_colour" class="lower-button mx-0 px-0">
+                                            <v-icon>mdi-folder-table-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
+                                        </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title class="header">
+                                            <span>{{$tc('Groups', 2) + ' including ' + dataset.title}}</span>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text small depressed class="noHover" @click="infoDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-container fluid>
+                                                <v-row>
+                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : dataset.groups.length}})</h2></span>
+                                                    <v-spacer></v-spacer>
+                                                    <span v-if="showEdit">
+                                                        <h4>
+                                                            <v-btn text depressed color="primary" @click="addingGroups = !addingGroups">
+                                                                <span v-if="!addingGroups">{{$tc('Add to Group')}}</span>
+                                                                <span v-else>{{$tc('Stop Adding to Groups')}}</span>
+                                                            </v-btn>
+                                                        </h4>
+                                                    </span>
+                                                </v-row>
+
+                                                <v-row wrap v-if="dataset.groups.length > 0 && !addingGroups">
+                                                    <v-col md=6 cols=12 v-for="(group, id) in dataset.groups" :key="'selected-group-'+id">
+                                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
+                                                            <v-col cols=10>{{group.title}}</v-col>
+                                                            <v-col cols=2><v-btn v-if="showEdit" @click="removeGroup(group.id)" text depressed class="noHover"><v-icon>mdi-close</v-icon></v-btn></v-col>
+                                                        </v-row>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-row wrap v-else-if="userGroups.length > 0 && addingGroups">
+                                                    <v-col md=6 cols=12 v-for="(group, id) in availableGroups" :key="'available-group-'+id">
+                                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
+                                                            <v-col cols=10>{{group.title}}</v-col>
+                                                            <v-col cols=2><v-btn v-if="showEdit" @click="addGroup(group.id)" text depressed class="noHover"><v-icon>mdi-plus</v-icon></v-btn></v-col>
+                                                        </v-row>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-row wrap v-else-if="addingGroups">
+                                                    <v-col cols=12>
+                                                        <p>There are no groups available to add this dataset to</p>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-row wrap v-else>
+                                                    <v-col cols=12>
+                                                        <p>This dataset is not currently in any groups</p>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-dialog>
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode && showEdit">
@@ -142,6 +196,8 @@ export default {
             showFormSuccess: false,
             schemaName: schemaName,
             disabled: false,
+            infoDialog: false,
+            addingGroups: false,
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "dataset_create",
             textFields: [
@@ -212,7 +268,8 @@ export default {
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
             userOrgs: state => state.organization.userOrgs,
-            datasetError: state => state.dataset.error
+            datasetError: state => state.dataset.error,
+            userGroups: state => state.group.userGroups
         }),
 
         canDeleteResources: function(){
@@ -229,6 +286,22 @@ export default {
                 return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             }
             return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+        },
+
+        availableGroups: function() {
+            let retGroups = [];
+            for (let group of this.userGroups) {
+                let alreadySelected = false;
+                for (let selectedGroup of this.dataset.groups) {
+                    if (group.id === selectedGroup.id) {
+                        alreadySelected = true;
+                    }
+                }
+                if (!alreadySelected) {
+                    retGroups.push(group);
+                }
+            }
+            return retGroups;
         }
     },
 
@@ -262,6 +335,13 @@ export default {
         },
         toggleEdit() {
             this.editing = !this.editing;
+            this.formError = '';
+            this.showFormError = false;
+            this.formSuccess = '';
+            this.showFormSuccess = false;
+        },
+        clearEdit() {
+            this.editing = false;
             this.formError = '';
             this.showFormError = false;
             this.formSuccess = '';
@@ -331,7 +411,7 @@ export default {
                 this.showFormError = true;
                 this.showFormSuccess = false;
             }else{
-                this.toggleEdit();
+                this.clearEdit();
                 if (this.createMode){
                     this.$router.replace({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
                 }
@@ -348,12 +428,33 @@ export default {
             this.dataset[field] = newValue;
             this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
         },
+        removeGroup(id) {
+            for (let i = 0; i < this.dataset.groups.length; i++) {
+                if (this.dataset.groups[i].id === id) {
+                    this.dataset.groups.splice(i, 1);
+                    break;
+                }
+            }
+            this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
+            this.submit();
+        },
+        addGroup(id) {
+            for (let i = 0; i < this.availableGroups.length; i++) {
+                if (this.availableGroups[i].id === id) {
+                    this.dataset.groups.push(this.availableGroups[i]);
+                    break;
+                }
+            }
+            this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
+            this.submit();
+        }
     },
 
     mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
+        this.$store.dispatch("group/getUserGroups");
         this.getDataset();
     },
 
@@ -437,5 +538,8 @@ ul {
 }
 .fullWidth{
     width: 100%;
+}
+.borderBottom{
+    border-bottom: 1px solid var(--v-home_label-base);
 }
 </style>

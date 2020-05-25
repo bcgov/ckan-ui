@@ -256,6 +256,8 @@ export default {
         "Subscribe to New Data": "Subscribe to New Data",
         "list": "list",
         "Show Groups": "View the group(s) this dataset belongs to",
+        "Add to Group": "Add to Group",
+        "Stop Adding to Groups": "Stop Adding to Groups",
         "Access": "Access",
         "Other Resources": "Other Resources"
     }
