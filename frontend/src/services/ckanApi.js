@@ -92,6 +92,11 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
+    getUserGroupList() {
+        const url = '/api/ckan/userGroups';
+        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
+    }
+
     getGroup(id) {
         const url = '/api/ckan/group/'+id;
         return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
@@ -230,5 +235,5 @@ export class CkanApi {
         const url = '/api/ckan/organization/'+id;
         return axios.delete(url, { withCredentials: true }).then(response => response.data);
     }
-    
+
 }

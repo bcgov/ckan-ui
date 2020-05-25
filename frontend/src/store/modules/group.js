@@ -12,6 +12,7 @@ const state = {
     groupActivity: [],
     groupMembers: [],
     currUserFollowingCurrGroup: false,
+    userGroups: []
 };
 
 const actions = {
@@ -59,6 +60,12 @@ const actions = {
         ckanServ.getGroupList().then((data) => {
             commit('setGroupList', { groups: data.result });
             commit('setSearchedGroups', { searchedGroups: data.result });
+        });
+    },
+
+    getUserGroups({ commit }) {
+        ckanServ.getUserGroupList().then((data) => {
+            commit('setUserGroupList', { groups: data.result });
         });
     },
 
@@ -139,6 +146,10 @@ const mutations = {
 
     setGroupList(state, { groups }) {
         state.groups = groups;
+    },
+
+    setUserGroupList(state, { groups }) {
+        state.userGroups = groups;
     },
 
     clearAbort(state){
