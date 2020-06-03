@@ -10,10 +10,10 @@
             </v-row>
             <v-row wrap align-center fill-height>
                 <v-col align-start cols=9 class="py-0">
-                    <label left class="label">
+                    <label left class="sublabel">
                         {{useResource.metadata.format}}
                     </label>
-                    <span v-if="useResource.metadata.size" class="resource-info ml-4">
+                    <span v-if="useResource.metadata.size" class="sublabel ml-4">
                         {{(useResource.metadata.size/1000).toFixed(1)}} MB
                     </span>
                 </v-col>
@@ -122,8 +122,10 @@ export default {
     text-decoration-line: underline;
 }
 
-.resource-info{
-    color: var(--v-label_text-lighten3);
+.sublabel{
+    color: var(--v-faded_text-base);
+    font-weight: normal;
+    font-size: 16px;
 }
 
 .container {

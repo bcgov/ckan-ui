@@ -1,6 +1,6 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1">
-        <h2 v-if="!editing" class="title">
+        <h2 v-if="!editing" class="title-field">
             {{value}}
         </h2>
         <div v-else>
@@ -73,7 +73,7 @@ export default {
         font-weight: bold;
         color: var(--v-faded_text-base);
     }
-    .title {
+    .title-field {
         font-size: 23px;
         font-weight: bold;
         color: var(--v-faded_text-base);

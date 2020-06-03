@@ -21,7 +21,8 @@
                     :placeholder="placeholder"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
-                    outline
+                    solo
+                    outlined dense
                 ></v-text-field>
             </ValidationProvider>
         </div>

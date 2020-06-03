@@ -178,7 +178,8 @@ export default {
     }
 
     .faded{
-        color: var(--v-faded-base);
+        color: var(--v-faded_text-base);
+        font-size: 14px;
     }
 
 </style>

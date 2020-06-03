@@ -42,17 +42,19 @@
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <v-row class="header-bar mb-0 mr-0" align-content="center">
-                            <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
-                            </v-col>
-                        </v-row>
-                        <v-row v-if="editing">
-                            <v-col cols=12>
-                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
-                            </v-col>
-                        </v-row>
+                        <v-container class="py-0">
+                            <v-row class="header-bar mb-0 mr-0" align-content="center">
+                                <v-col cols=12>
+                                    <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
+                                </v-col>
+                            </v-row>
+                            <v-row v-if="editing">
+                                <v-col cols=12>
+                                    <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
+                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"
@@ -535,6 +537,7 @@ ul {
     width: 100%;
     background-color: var(--v-menu_secondary-base);
     color: var(--v-text-base);
+    height: 40px;
 }
 .fullWidth{
     width: 100%;

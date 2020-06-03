@@ -4,34 +4,30 @@
         </v-row>
         <v-row wrap dense>
             <v-col cols=12>
-                <v-text-field 
-                    solo 
-                    id="dataset-search" 
-                    class="searchbox" 
-                    hide-details 
-                    v-model="findText" 
-                    :label="( (!replaceSearchTip) ? ($tc('SearchDatasets') + ' ') : '') + $tc(addToSearchTip)" 
-                    v-on:keyup="search" 
-                    append-icon="search">
+                <v-text-field
+                    solo
+                    id="dataset-search"
+                    class="searchbox"
+                    hide-details
+                    v-model="findText"
+                    :label="( (!replaceSearchTip) ? ($tc('SearchDatasets') + ' ') : '') + $tc(addToSearchTip)"
+                    v-on:keyup="search"
+                    color="home_label"
+                    append-icon="search"
+                    @click:append="search">
                 </v-text-field>
             </v-col>
         </v-row>
         <v-row wrap dense>
-            <v-col cols=4>
+            <v-col cols=12>
                 <span>
                     {{count}} {{$tc('datasets', count)}} {{$tc('found', count)}}
                     <!-- <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
                     <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span> -->
                 </span>
-            </v-col>
-            <v-col cols=3>
-            </v-col>
-            <v-col cols=2 class="text-right">
-                <span class="faded">{{$tc('Order By')}}:</span>
-            </v-col>
-            <v-col cols=3>
-                <v-select dense append-icon="mdi-menu-down" persistent-hint class="borderless mt-n1" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
+                <v-select dense append-icon="mdi-menu-down" hide-details class="borderless mt-n1 float-right" color="faded-text" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
+                <span class="faded float-right">{{$tc('Order By')}}:&nbsp;</span>
             </v-col>
         </v-row>
         <!-- <v-row wrap align-center justify-center pt-2 pb-3> -->
@@ -55,9 +51,9 @@
                     <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
                     <v-row class="mb-3">
                         <v-col cols=8>
-                            <v-pagination 
-                            :length="Math.ceil(count/rows)" 
-                            :total-visible="pageButtonLimit" 
+                            <v-pagination
+                            :length="Math.ceil(count/rows)"
+                            :total-visible="pageButtonLimit"
                             v-model="currentPage">
                             </v-pagination>
                         </v-col>
@@ -76,7 +72,7 @@
   import { mapState } from 'vuex'
 
   import ListCard from '../dataset/ListCard'
-  
+
   export default {
     components: {
         ListCard: ListCard,
@@ -96,7 +92,7 @@
             default: false
         }
     },
-    
+
     data() {
       return {
           loading: true,
@@ -174,7 +170,7 @@
         // },
 
         search: function(e){
-            if (e.keyCode === 13) {
+            if (e.keyCode === 13 || e.type === 'click') {
                 this.$store.commit('search/setSearchText', this.findText);
             }
         },
@@ -196,10 +192,10 @@
             let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
-            
+
             this.searchedText = this.searchText;
-            
-            if (this.searchText !== ""){    
+
+            if (this.searchText !== ""){
                 if (this.advanced){
                    q += "q=" + this.searchText + "&"
                 }else{
@@ -335,7 +331,7 @@
     }
 
     .anchorText{
-        color: var(--v-text-base);    
+        color: var(--v-text-base);
     }
 
     .facetFilter{
@@ -372,6 +368,12 @@
 <style>
     .borderless .v-input__slot:before{
         border: none !important;
+    }
+    .borderless .v-input__slot:after{
+        border: none !important;
+    }
+    .v-select__selections input{
+        width: 1em;
     }
     /* .v-pagination__item.v-pagination__item--active.primary{
         margin: 0px;

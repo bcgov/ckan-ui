@@ -259,6 +259,7 @@ export default {
         "Add to Group": "Add to Group",
         "Stop Adding to Groups": "Stop Adding to Groups",
         "Access": "Access",
-        "Other Resources": "Other Resources"
+        "Other Resources": "Other Resources",
+        "Search for organization": "Search for organization"
     }
 };

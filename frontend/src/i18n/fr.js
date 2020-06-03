@@ -261,6 +261,7 @@ export default {
         "Subscribe to New Data": "Abonnez-vous aux nouvelles données",
         "list": "liste",
         "Access": "Accès",
-        "Other Resources": "Autres Ressources"
+        "Other Resources": "Autres Ressources",
+        "Search for organization": "Rechercher une organisation"
     }
 };

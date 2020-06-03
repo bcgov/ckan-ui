@@ -28,6 +28,7 @@ export default{
 
     .crumb{
       color: var(--v-label_colour-base);
+      text-decoration: none;
     }
 </style>
 
@@ -36,5 +37,9 @@ export default{
     font-weight: bold;
     font-size: 23px;
     color: var(--v-faded_text-base);
+  }
+
+  .theme--light.v-breadcrumbs.breadcrumbs .v-breadcrumbs__divider {
+      color: var(--v-faded_text-base);
   }
 </style>
