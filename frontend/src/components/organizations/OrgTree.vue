@@ -1,7 +1,7 @@
 <template>
   <v-container class="mb-2 py-0 px-0" v-if="typeof(org.org) !== 'undefined'">
     <v-expansion-panels flat tile :readonly="count === 0" :class="'noShadow' + (count === 0 ? ' noPointer' : '')">
-      <v-expansion-panel>
+      <v-expansion-panel class="no-background">
         <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'" class="py-2">
           <span>
             <v-icon v-if="count > 0" :color="top ? 'text' : 'label_colour'">mdi-chevron-down</v-icon>
@@ -12,7 +12,7 @@
             <span></span>
           </template>
         </v-expansion-panel-header>
-        <v-expansion-panel-content class="pt-3" v-if="count > 0">
+        <v-expansion-panel-content class="pt-3 mr-n6 mb-n4" v-if="count > 0">
           <org-tree :top="false" v-for="org in children" :key="'org-tree-'+id+'-'+org.id" :passedOrg="{key: org.title, org: org}"></org-tree>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -102,11 +102,27 @@ export default{
     color: var(--v-text-base);
     font-weight: bold;
     font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    min-height: 40px;
+    vertical-align: middle;
   }
 
   .subHeader{
     color: var(--v-primary-base);
     background: var(--v-text-base);
+    height: 40px;
+    line-height: 40px;
+    min-height: 40px;
+    vertical-align: middle;
+  }
+
+  .v-expansion-panel--active>.v-expansion-panel-header.filterPanelHeader{
+    min-height: unset;
+  }
+
+  .v-expansion-panel--active>.v-expansion-panel-header.subHeader{
+    min-height: unset;
   }
 
   .filterPanelHeader .orgLink{
@@ -115,6 +131,12 @@ export default{
 
   .subHeader .orgLink{
     color: var(--v-label_colour-base);
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .v-expansion-panels .no-background.v-expansion-panel {
+    background: none;
   }
 
   [type=button].noPointer, button.noPointer{

@@ -96,7 +96,7 @@
                         width="75%"
                     >
                         <template v-slot:activator="{ on }">
-                            <v-btn v-on="on" class="addGroup primary" block>{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
+                            <v-btn v-on="on" class="addGroup primary" tile block>{{$tc('Add') + ' ' + $tc('Groups', 1)}}</v-btn>
                         </template>
                         <Edit
                             :create="true"
@@ -115,7 +115,7 @@
                 </v-row>
                 <v-row class="fullWidth mr-0">
                     <v-col class="px-0" cols=12>
-                        <v-card tile>
+                        <v-card tile class="aboutCard">
                             <v-card-text class="groupAbout">
                                 {{$tc('groupAbout')}}
                             </v-card-text>
@@ -261,6 +261,7 @@
         width: 100%;
         background-color: var(--v-menu_secondary-base);
         color: var(--v-text-base);
+        height: 40px;
     }
 
     .sideBarHeader{
@@ -297,6 +298,10 @@
 
     .rightZero{
         right: 0;
+    }
+
+    .aboutCard {
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, .2);
     }
 
     .groupAbout{

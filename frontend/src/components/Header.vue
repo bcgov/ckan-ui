@@ -4,8 +4,8 @@
       v-model="aboutDialog"
     >
       <div class="aboutD">
-        <div class="mx-md-10 my-0 mx-0">
-          <About @closeDialog="closeAbout" class="mr-md-5 mr-0"></About>
+        <div class="mx-md-12 my-0 mx-0">
+          <About @closeDialog="closeAbout" class="ml-md-5 mr-md-2 mr-0"></About>
         </div>
       </div>
     </v-dialog>

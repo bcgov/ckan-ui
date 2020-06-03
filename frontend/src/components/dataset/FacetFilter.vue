@@ -1,33 +1,33 @@
 <template>
     <div v-show="maxFilters > 1">
-        <v-expansion-panels :key="'facetPanel'+name+updates" multiple v-model="model" class="mb-3">
-            <v-expansion-panel>
-                
+        <v-expansion-panels tile flat :key="'facetPanel'+name+updates" multiple v-model="model" class="mb-3">
+            <v-expansion-panel class="no-background">
+
                 <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader headerHeight py-0">
                     <v-row dense >
                         <v-col cols="10" class="headerHeight py-0">
-                            <v-badge inline color="red" v-if="numApplied>0">
+                            <!-- <v-badge inline color="red" v-if="numApplied>0">
                                 <template v-slot:badge>
                                     <span>{{numApplied}}</span>
                                 </template>
                                 <span>{{$tc(name)}}</span>
-                            </v-badge>
-                            <span v-else>{{$tc(name)}}</span>
+                            </v-badge> -->
+                            <span>{{$tc(name)}}</span>
                         </v-col>
                     </v-row>
                 </v-expansion-panel-header>
-                
+
                 <v-expansion-panel-content class=" mt-4 facet-no-border">
                     <div>
                         <v-row wrap v-for="(facet, key) in field.facets" :key="'facet-'+key">
                             <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
                                 <v-row v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
                                     <div
-                                        v-for="(filter, i) in filters[k]"  
+                                        v-for="(filter, i) in filters[k]"
                                         :class="filteredOn.indexOf(filter.name) === -1 ? 'order-last' : ' active order-first'"
                                         :key="'filter-'+key+'-'+i"
                                     >
-                                        <v-chip 
+                                        <v-chip
                                             :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
                                             label
                                             :class="'chip pointer mr-2 py-0 mb-2' + (filteredOn.indexOf(filter.name) === -1 ? '' : ' active')"
@@ -37,7 +37,7 @@
                                                 {{filter.display_name}}
                                                 <v-icon small class="chipIcon" v-if="filteredOn.indexOf(filter.name) === -1">mdi-plus-circle</v-icon>
                                                 <v-icon small class="chipIcon" v-else>mdi-close-circle</v-icon>
-                                                
+
                                             </span>
                                         </v-chip>
                                     </div>
@@ -54,13 +54,13 @@
             </v-expansion-panel>
         </v-expansion-panels>
 
-        
+
         <!-- <v-container px-0  :id="'facet-'+name" align-center align-content-center justify-center class="facet" fluid @click="toggleDrawer()" :class="{'open': showDrawer, 'closed': !showDrawer}">
             <v-badge overlap color="red" class="facetBadge">
                 <template v-slot:badge>
                     <span v-if="numApplied>0">{{numApplied}}</span>
                 </template>
-                
+
                 <v-container fluid pa-0 ma-0>
                     <v-row wrap>
                         <v-col cols=12 class="text-xs-center">
@@ -70,7 +70,7 @@
                     <v-row wrap>
                         <v-col cols=12 class="text-xs-center facetLabel">{{$tc(name)}}</v-col>
                     </v-row>
-                </v-container>            
+                </v-container>
             </v-badge>
         </v-container>
 
@@ -92,8 +92,8 @@
                         <span v-for="(f, k) in facet" :key="'facet-facet-'+k">
                             <span v-if="typeof(filters[k]) !== 'undefined' && filters[k].length > 1">
                                 <v-col cols=12 pb-2>{{$tc(facet[k])}}</v-col>
-                                <v-chip 
-                                    v-for="(filter, i) in filters[k]" 
+                                <v-chip
+                                    v-for="(filter, i) in filters[k]"
                                     :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
                                     :class="filteredOn.indexOf(filter.name) === -1 ? 'pointer mb-2' : 'active pointer mb-2'"
                                     :key="'filter-'+key+'-'+i"
@@ -173,7 +173,7 @@ export default{
             }
         }
     },
-    
+
 
     methods: {
 
@@ -242,7 +242,7 @@ export default{
                     ckanServ.getDatasets(query).then((data) => {
 
                         this.filters[Object.keys(this.field.facets[i])[0]] = data.result.search_facets[Object.keys(self.field.facets[i])[0]].items
-                        
+
                         this.filters[Object.keys(this.field.facets[i])[0]].sort(function(a, b){
                             return (a.name < b.name) ? -1 : 1
                         })
@@ -293,14 +293,14 @@ export default{
         color: var(--v-label_colour-base);
         font-weight: normal;
         font-size: 16px;
-        background: var(--v-text_background-base);
+        background: var(--v-text_background-base) !important;
         border: 1px solid var(--v-label_border-base)
     }
 
     .chip.active{
         color: var(--v-text-base);
         font-weight: bold;
-        background: var(--v-label_colour-base);
+        background: var(--v-label_colour-base) !important;
         border: none;
     }
 
@@ -357,8 +357,8 @@ export default{
     .open .facetLabel{
         color: black;
     }
-    
-    
+
+
     .theme--light.v-chip:not(.v-chip--active).active{
         background: var(--v-primary-base);
         color: var(--v-text-base)
@@ -409,6 +409,10 @@ export default{
         box-shadow: none;
     }
 
+    .v-expansion-panels .no-background.v-expansion-panel {
+        background: none;
+    }
+
     .v-expansion-panel:before{
         box-shadow: none;
     }
@@ -418,8 +422,9 @@ export default{
 
 <style>
 .headerHeight{
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
+    min-height: 40px;
     vertical-align: middle;
 }
 

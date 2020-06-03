@@ -196,6 +196,6 @@ export default {
     .ctrl-button {
         font-size: 16px;
         font-weight: bold;
-        height: 50px !important;
+        height: 40px !important;
     }
 </style>

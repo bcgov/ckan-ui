@@ -1,6 +1,5 @@
 <template>
-
-    <v-card tile>
+    <v-card tile class="about-card">
         <v-card-title class="header">
             <span>{{$tc('About')}}</span>
             <v-spacer></v-spacer>
@@ -43,12 +42,12 @@
         <v-card-actions>
             <span v-if="showEdit" class="wide text-right align-right">
                 <v-spacer></v-spacer>
-                <v-btn @click="editing = true" class="mr-3" color="primary">Edit</v-btn>
+                <v-btn @click="editing = true" depressed class="mr-3 control-button" color="primary">Edit</v-btn>
             </span>
             <span v-else-if="sysAdmin" class="wide text-right align-right">
                 <v-spacer></v-spacer>
-                <v-btn @click="save" class="mr-3"  color="primary">Save</v-btn>
-                <v-btn @click="cancel" class="cancelButton mr-3">Cancel</v-btn>
+                <v-btn @click="save" depressed class="mr-3 control-button" color="primary">Save</v-btn>
+                <v-btn @click="cancel" depressed class="cancelButton mr-3">Cancel</v-btn>
             </span>
         </v-card-actions>
     </v-card>
@@ -59,7 +58,7 @@
     const analyticsServ = new Analytics()
 
     import Markdown from '../form/components/Markdown';
-    
+
     import { CkanApi } from '../../services/ckanApi';
     const ckanServ = new CkanApi();
 
@@ -175,21 +174,26 @@
         color: var(--v-faded_text-base);
     }
 
-    .content a{
-        font-size: 16px;
-        color: var(--v-primary-base);
-    }
-
     .content * a{
         text-decoration: none;
-        color: var(--v-label_colour-base);
+        font-size: 16px;
+        color: var(--v-label_colour-base) !important;
     }
 
-    .cancelButton{
+    .v-btn.v-btn--depressed.cancelButton{
         background: var(--v-text_background-base);
         border: 2px solid var(--v-primary-base);
         color: var(--v-primary-base);
         font-weight: normal;
         font-size: 16px;
+    }
+
+    .v-btn.v-btn--depressed.control-button{
+        font-weight: normal;
+        font-size: 16px;
+    }
+
+    .about-card {
+        background-color: var(--v-data_background-base) !important;
     }
 </style>
