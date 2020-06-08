@@ -4,33 +4,27 @@
             <v-btn @click="show = true" text class="anchorText">{{$tc('Filter')}} {{$tc('Result', 2)}}</v-btn>
         </v-row>
         <v-row wrap dense class="mb-3 d-sm-block d-none fixedHeight">
-            <v-col cols=5 class="flex pr-0">
-                <v-btn class="filterColour leftRadius filterSize fixedHeight" @click="expand">{{$tc('Expand All')}}</v-btn>
-            </v-col>
-
-            <v-col cols=2 class="flex px-0">
-                <v-btn class="filterColour noCursor noBorder filterSize fixedHeight"> | </v-btn>
-            </v-col>
-
-            <v-col cols=5 class="flex pl-0">
-                <v-btn class="filterColour rightRadius filterSize fixedHeight" @click="collapse">{{$tc('Collapse All')}}</v-btn>
+            <v-col cols=12 class="pr-0">
+                <v-btn tile depressed class="filterColour fixedHeight" @click="expand">{{$tc('Expand All')}}</v-btn>
+                <v-btn tile depressed class="filterColour noCursor px-0 fixedHeight" width="1em" min-width="1em"> | </v-btn>
+                <v-btn tile depressed class="filterColour fixedHeight" @click="collapse">{{$tc('Collapse All')}}</v-btn>
             </v-col>
         </v-row>
         <span :class="show ? 'full' : ''">
             <v-row v-show="show">
-                <v-btn text @click="show = false"><v-icon color="primary">mdi-arrow-left</v-icon>{{$tc('Back to')}} {{$tc('result', 2)}}</v-btn>
+                <v-btn tile depressed @click="show = false"><v-icon color="primary">mdi-arrow-left</v-icon>{{$tc('Back to')}} {{$tc('result', 2)}}</v-btn>
             </v-row>
             <v-row v-show="show" wrap dense class="mb-3 text-left">
                 <v-col cols=5 class="flex pr-0">
-                    <v-btn class="filterColour leftRadius filterSize fixedHeight" @click="expand">{{$tc('Expand All')}}</v-btn>
+                    <v-btn tile depressed class="filterColour filterSize fixedHeight" @click="expand">{{$tc('Expand All')}}</v-btn>
                 </v-col>
 
                 <v-col cols=2 class="flex px-0">
-                    <v-btn class="filterColour noCursor noBorder filterSize fixedHeight"> | </v-btn>
+                    <v-btn tile depressed class="filterColour noCursor noBorder filterSize fixedHeight" width="1em" min-width="1em"> | </v-btn>
                 </v-col>
 
                 <v-col cols=5 class="flex pl-0">
-                    <v-btn class="filterColour rightRadius filterSize fixedHeight" @click="collapse">{{$tc('Collapse All')}}</v-btn>
+                    <v-btn tile depressed class="filterColour filterSize fixedHeight" @click="collapse">{{$tc('Collapse All')}}</v-btn>
                 </v-col>
             </v-row>
             <span v-for="(facet, facetKey) in facets" :key="'facet-section-'+facetKey" :class="'d-sm-block d-none' + ( show ? ' d-block' : '')">
@@ -77,7 +71,7 @@ export default{
             facetOpen: state => state.dataset.facetOpen,
         }),
     },
-    
+
 
     methods: {
 
@@ -121,7 +115,7 @@ export default{
 
 <style scoped>
 .anchorText{
-    color: var(--v-text-base);    
+    color: var(--v-text-base);
 }
 
 .flex{
@@ -138,11 +132,6 @@ export default{
     top: calc(50% - 75px);
     margin-right: -65px;
     cursor: pointer;
-}
-
-.v-btn:not(.v-btn--round).v-size--default{
-    margin-left: 0px;
-    margin-right: 0px;
 }
 
 .noCursor{
@@ -171,16 +160,20 @@ export default{
 }
 
 .fixedHeight{
-    height: 55px;
+    height: 40px;
 }
 
 .fixedHeight.v-btn:not(.v-btn--round).v-size--default{
-    height: 55px;
+    height: 40px;
 }
 
 .filterColour{
     background: var(--v-filter_colour-base) !important;
     color: var(--v-text-base);
+}
+
+.filterColour:hover{
+    opacity: unset;
 }
 
 @media (max-width: 599px){

@@ -37,7 +37,7 @@
             <hr>
         </div>
         <div v-else :key="'composite'+field.field_name">
-            <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
+            <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key" align="center">
                 <v-col cols=2 class="pb-0">
                     <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                 </v-col>
@@ -46,7 +46,7 @@
                         <v-checkbox
                             dense
                             class="mt-0"
-                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
@@ -57,7 +57,7 @@
 
                     <ValidationProvider v-else-if="sub.field_name==='org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
-                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :items="orgArray"
@@ -73,7 +73,7 @@
 
                     <ValidationProvider v-else-if="sub.preset==='select'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
-                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :items="sub.choices"
@@ -88,23 +88,48 @@
                     </ValidationProvider>
 
                     <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
-                        <v-text-field
+                        <!-- <v-text-field
                             outlined dense
                             hide-details="auto"
-                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
                             @input="modified">
-                        </v-text-field>
+                        </v-text-field> -->
+                        <v-menu
+                            v-model="dateMenuOpen"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                        >
+                            <template v-slot:activator="{ on }">
+                            <v-text-field
+                                outlined dense
+                                hide-details="auto"
+                                :name="field.field_name+'.'+sub.field_name"
+                                v-model="value[sub.field_name]"
+                                label="Picker without buttons"
+                                :placeholder="sub.form_placeholder"
+                                :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                :disabled="disabled"
+                                @input="modified"
+                                readonly
+                                v-on="on"
+                            ></v-text-field>
+                            </template>
+                            <v-date-picker v-model="model[sub.field_name]" @input="dateMenuOpen = false"></v-date-picker>
+                        </v-menu>
                     </ValidationProvider>
 
                     <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(sub.required ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-text-field
                             outlined dense
                             hide-details="auto"
-                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -117,7 +142,7 @@
                         <v-text-field
                             outlined dense
                             hide-details="auto"
-                            :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
@@ -130,7 +155,7 @@
                         <v-text-field
                             outlined dense
                             hide-details="auto"
-                            :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
+                            :name="field.field_name+'.'+sub.field_name"
                             v-model="value[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
@@ -162,6 +187,7 @@ export default {
     data() {
         return {
             hasDisplayed: false,
+            dateMenuOpen: false,
         }
     },
     methods: {

@@ -238,7 +238,8 @@
                     :disabled="disabled"
                     :scope="scope"
                     :parentObject="values"
-                    :editing="editing">
+                    :editing="editing"
+                    :placeholder="field.form_placeholder">
                 </ImageUrl>
                 <Checkbox
                     v-else-if="field.field_name==='private'"

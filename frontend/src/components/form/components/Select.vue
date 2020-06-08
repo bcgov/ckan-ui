@@ -86,6 +86,12 @@ export default {
         })
     },
 
+    watch: {
+        selectableOptions: function(){
+            this.initItems();
+        }
+    },
+
     methods: {
         onChange: function(){
             if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){

@@ -50,7 +50,7 @@ export default {
   }
 
   #app{
-    font-family: "BC Sans",Roboto,sans-serif;
+    font-family: "BC Sans",sans-serif;
   }
   .v-card--flat{
     background-color: transparent !important;

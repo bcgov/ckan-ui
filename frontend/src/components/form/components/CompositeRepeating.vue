@@ -43,7 +43,7 @@
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
-                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}{{(sub.required) ? '*' : ''}}</label>
                     </v-col>
                     <v-col cols=10 class="pb-0">
                         <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
@@ -92,7 +92,7 @@
                         </ValidationProvider>
 
                         <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
-                            <v-text-field
+                            <!-- <v-text-field
                                 outlined dense
                                 hide-details="auto"
                                 :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
@@ -101,7 +101,29 @@
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 :disabled="disabled"
                                 @input="modified">
-                            </v-text-field>
+                            </v-text-field> -->
+                            <v-menu
+                                :ref="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="290px"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-text-field
+                                        outlined dense
+                                        hide-details="auto"
+                                        :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
+                                        v-model="model[repeatedIndex][sub.field_name]"
+                                        :placeholder="sub.form_placeholder"
+                                        :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                        :disabled="disabled"
+                                        readonly
+                                        v-on="on"
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker :disabled="disabled" v-model="model[repeatedIndex][sub.field_name]" @input="modified(field.field_name+'['+repeatedIndex+'].'+sub.field_name);"></v-date-picker>
+                            </v-menu>
                         </ValidationProvider>
 
                         <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(sub.required ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
@@ -182,6 +204,7 @@ export default {
         return {
             model: [{}],
             hasDisplayed: false,
+            dateMenuOpen: false,
         }
     },
     methods: {
@@ -198,9 +221,14 @@ export default {
         removeRecord: function(index) {
             this.model.splice(index,1);
         },
-        modified: function() {
+
+        modified: function(refName) {
+            if ( (typeof(refName) !== "undefined") && (typeof(this.$refs[refName]) !== "undefined") ){
+                this.$refs[refName] = false;
+            }
             this.$emit('edited', JSON.stringify(this.model));
         },
+
         getDisplayValue: function(field, value) {
             if (field.choices) {
                 for (let choice of field.choices) {

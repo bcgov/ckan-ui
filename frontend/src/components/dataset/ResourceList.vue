@@ -11,7 +11,12 @@
                     :showEdit="createMode || showEdit"
                     :datasetBeingEdited="datasetBeingEdited"
                 ></ResourceCard>
-                <v-card v-if="!createMode && showEdit" hover outlined tile class="new-resource" style="margin-bottom:.5rem">
+                <v-card
+                    v-if="!createMode && showEdit"
+                    hover outlined tile
+                    :to="{ name: 'resource_create', params: { datasetId: dataset.id }}"
+                    class="new-resource"
+                    style="margin-bottom:.5rem">
                     <v-container fluid>
                         <v-row align-center>
                             <v-col cols=12 align-self="center">

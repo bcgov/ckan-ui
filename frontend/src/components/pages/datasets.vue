@@ -5,7 +5,7 @@
             <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container fluid v-else class="px-md-11 my-4">
+    <v-container fluid v-else class="px-md-11 main-area">
         <v-row wrap class="mr-md-1">
             <v-col cols=10 sm=7>
                 <ListPage
@@ -15,7 +15,7 @@
             <v-col cols=1 sm=1></v-col>
             <v-col cols=1 sm=4 class="mt-9 pt-9">
                 <FacetFilters
-                    class="mt-9 pt-9"
+                    class="mt-6 pt-6"
                     v-on:facetFilter="facetFilter"
                 ></FacetFilters>
             </v-col>
@@ -63,5 +63,9 @@
         position: fixed;
         top: 0px;
         right: 0px;
+    }
+    .main-area {
+        margin-bottom: 45px;
+        background: var(--v-data_background-base);
     }
 </style>

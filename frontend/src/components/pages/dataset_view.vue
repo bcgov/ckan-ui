@@ -21,12 +21,14 @@
                 <v-alert
                     v-model="showFormSuccess"
                     dismissible
+                    class="fixedAlert"
                     type="success">
                     {{formSuccess}}
                 </v-alert>
                 <v-alert
                     v-model="showFormError"
                     dismissible
+                    class="fixedAlert"
                     type="error">
                     {{formError}}
                 </v-alert>
@@ -44,17 +46,19 @@
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <v-row class="header-bar mb-0 mr-0" align-content="center">
-                            <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
-                            </v-col>
-                        </v-row>
-                        <v-row v-if="editing">
-                            <v-col cols=12>
-                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
-                            </v-col>
-                        </v-row>
+                        <v-container class="py-0">
+                            <v-row class="header-bar mb-0 mr-0" align-content="center">
+                                <v-col cols=12>
+                                    <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
+                                </v-col>
+                            </v-row>
+                            <v-row v-if="editing">
+                                <v-col cols=12>
+                                    <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
+                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"
@@ -107,7 +111,7 @@
                                         <v-card-text>
                                             <v-container fluid>
                                                 <v-row>
-                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : dataset.groups.length}})</h2></span>
+                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : (dataset.groups ? dataset.groups.length : 0)}})</h2></span>
                                                     <v-spacer></v-spacer>
                                                     <span v-if="showEdit">
                                                         <h4>
@@ -119,7 +123,7 @@
                                                     </span>
                                                 </v-row>
 
-                                                <v-row wrap v-if="dataset.groups.length > 0 && !addingGroups">
+                                                <v-row wrap v-if="dataset.groups && dataset.groups.length > 0 && !addingGroups">
                                                     <v-col md=6 cols=12 v-for="(group, id) in dataset.groups" :key="'selected-group-'+id">
                                                         <v-row align-content="center" align="center" class="borderBottom mr-3">
                                                             <v-col cols=10>{{group.title}}</v-col>
@@ -127,7 +131,7 @@
                                                         </v-row>
                                                     </v-col>
                                                 </v-row>
-                                                <v-row wrap v-else-if="userGroups.length > 0 && addingGroups">
+                                                <v-row wrap v-else-if="userGroups && userGroups.length > 0 && addingGroups">
                                                     <v-col md=6 cols=12 v-for="(group, id) in availableGroups" :key="'available-group-'+id">
                                                         <v-row align-content="center" align="center" class="borderBottom mr-3">
                                                             <v-col cols=10>{{group.title}}</v-col>
@@ -313,6 +317,7 @@ export default {
             for (let i = 0; i<userOA.length; i++){
                 let trimLabel = userOA[i].label.trim()
                 let id = (this.organizations[trimLabel] && this.organizations[trimLabel].name) ? this.organizations[trimLabel].name : "";
+                id = (id === "") ? userOA[i].value : "";
                 if (id !== ""){
                     orgArr.push({
                         label: userOA[i].label,
@@ -326,7 +331,7 @@ export default {
 
     methods: {
         getUserOrgs() {
-            if (this.userOrgs.length <= 0){
+            if (!this.userOrgs || this.userOrgs.length <= 0){
                 this.$store.dispatch("organization/getUserOrgs");
             }
         },
@@ -523,6 +528,10 @@ ul {
     right: 0;
     z-index: 10;
 }
+.fixedAlert{
+    position: fixed;
+    top: 64px;
+}
 .title {
     font-size: 16px;
     font-weight: bold;
@@ -552,6 +561,7 @@ ul {
     width: 100%;
     background-color: var(--v-menu_secondary-base);
     color: var(--v-text-base);
+    height: 40px;
 }
 .fullWidth{
     width: 100%;

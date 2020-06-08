@@ -22,7 +22,7 @@
         </v-alert>
         <v-row wrap class="mr-md-1 pl-6">
             <v-col cols=12 class="">
-                <h2 class="primary-text">{{$tc('Organizations', 2)}}</h2>
+                <h2 class="title-text">{{$tc('Organizations', 2)}}</h2>
             </v-col>
         </v-row>
         <v-row wrap dense class="d-flex d-sm-none mr-md-1">
@@ -55,7 +55,7 @@
                     class="searchbox"
                     hide-details
                     v-model="searchT"
-                    :label="$tc('Search') + ' ' + $tc('Organizations', 2) + ' ' + $tc('found')"
+                    :label="$tc('Search for organization')"
                     v-on:keyup="search"
                     append-icon="search">
                 </v-text-field>
@@ -84,7 +84,7 @@
                             width="75%"
                         >
                             <template v-slot:activator="{ on }">
-                                <v-btn class="primary manage-button" block v-on="on">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
+                                <v-btn class="primary manage-button" tile block v-on="on">{{$tc('Add')}} {{$tc('Organizations', 1)}}</v-btn>
                             </template>
                             <Edit
                                 :create="true"
@@ -278,14 +278,16 @@
         border-radius: 0;
     }
 
-    .primary-text{
-        color: var(--v-primary-base)
+    .title-text{
+        color: var(--v-label_colour-base);
+        font-size: 23px;;
     }
 
     .manageSection {
         width: 100%;
         background-color: var(--v-menu_secondary-base);
         color: var(--v-text-base);
+        height: 40px;
     }
 
     .manage-button {
@@ -303,7 +305,6 @@
     }
 
     .orgAbout{
-        font-weight: bold;
         font-size: 16px;
         color: var(--v-faded_text-base);
         box-shadow: 0 5px 5px rgba(0, 0, 0, .2);

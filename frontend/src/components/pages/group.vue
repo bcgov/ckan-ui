@@ -75,7 +75,7 @@
                 <ListPage
                     :key="'listPage-'+facetFilterIndex"
                     :replaceSearchTip="true"
-                    addToSearchTip="Search Datasets in this group"
+                    addToSearchTip="Search for datasets in this group"
                     :forceFilter="'groups:('+group.name+')'"
                 ></ListPage>
             </v-col>
@@ -87,11 +87,11 @@
                 ></FacetFilters>
                 <v-container class="d-none d-sm-block text-left">
                     <v-row>
-                        <v-btn text small depressed class="noHover mx-0 px-0 labelText" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>{{$tc('Copy Permalink')}}</v-btn>
+                        <v-btn text small depressed class="noHover mx-0 px-0 labelText" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc('Copy Permalink')}}</v-btn>
                     </v-row>
                     <v-row v-if="loggedIn">
-                        <v-btn text v-if="following" small depressed class="noHover mx-0 px-0 labelText" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
-                        <v-btn text v-else           small depressed class="noHover mx-0 px-0 labelText" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
+                        <v-btn text v-if="following" small depressed class="noHover mx-0 px-0 labelText" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>&nbsp;{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
+                        <v-btn text v-else           small depressed class="noHover mx-0 px-0 labelText" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>&nbsp;{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
 
                     </v-row>
 
@@ -103,7 +103,7 @@
                             width="75%"
                         >
                             <template v-slot:activator="{ on }">
-                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 labelText"><v-icon>mdi-pencil</v-icon>{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 labelText"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
                             </template>
                             <Edit
                                 v-on:closeEdit='editDialog = false'
@@ -114,7 +114,7 @@
                     </v-row>
 
                     <v-row class="mb-5" v-if="canDeleteResources">
-                        <v-btn text small depressed class="noHover mx-0 px-0 errorText" @click="deleteGroup"><v-icon>mdi-delete</v-icon>{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
+                        <v-btn text small depressed class="noHover mx-0 px-0 errorText" @click="deleteGroup"><v-icon>mdi-delete-outline</v-icon>&nbsp;{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
                     </v-row>
                 </v-container>
             </v-col>
