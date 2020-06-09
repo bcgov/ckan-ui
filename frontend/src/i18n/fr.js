@@ -262,6 +262,7 @@ export default {
         "list": "liste",
         "Access": "Accès",
         "Other Resources": "Autres Ressources",
-        "Search for organization": "Rechercher une organisation"
+        "Search for organization": "Rechercher d'organisation",
+        "Saving please wait": "Enregistrement veuillez patienter",
     }
 };

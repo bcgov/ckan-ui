@@ -11,25 +11,29 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-alert
-            :value="dataset.state === 'deleted'"
-            type="warning">
-            You are viewing a deleted dataset
-        </v-alert>
-        <v-alert
-            :value="showFormSuccess"
-            class="fixed"
-            dismissible
-            type="success">
-            {{formSuccess}}
-        </v-alert>
-        <v-alert
-            :value="showFormError"
-            class="fixed"
-            dismissible
-            type="error">
-            {{formError}}
-        </v-alert>
+        <v-row>
+            <v-col cols=12>
+                <v-alert
+                    :value="dataset.state === 'deleted'"
+                    type="warning">
+                    You are viewing a deleted dataset
+                </v-alert>
+                <v-alert
+                    v-model="showFormSuccess"
+                    dismissible
+                    class="fixedAlert"
+                    type="success">
+                    {{formSuccess}}
+                </v-alert>
+                <v-alert
+                    v-model="showFormError"
+                    dismissible
+                    class="fixedAlert"
+                    type="error">
+                    {{formError}}
+                </v-alert>
+            </v-col>
+        </v-row>
 
         <!-- <powButton :dataset="dataset"/> -->
         <v-row>
@@ -61,7 +65,7 @@
                             :editing="editing"
                             :values="dataset"
                             :disabled="disabled"
-                            :selectableUserOrgs="userOrgs"
+                            :selectableUserOrgs="userOrgsArr"
                             ref="dynoForm"
                             @updated="(field, value) => updateDataset(field, value)"
                         >
@@ -69,7 +73,7 @@
                         <v-row v-if="editing">
                             <v-col cols=12>
                                 <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -90,7 +94,7 @@
                                 <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
                                     <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                                 </v-btn>
-                                <v-snackbar v-model="snackbar" timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
+                                <v-snackbar v-model="snackbar" :timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                                 <br>
                                 <v-dialog v-model="infoDialog" width="75%">
                                     <template v-slot:activator="{ on }">
@@ -107,7 +111,7 @@
                                         <v-card-text>
                                             <v-container fluid>
                                                 <v-row>
-                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : dataset.groups.length}})</h2></span>
+                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : (dataset.groups ? dataset.groups.length : 0)}})</h2></span>
                                                     <v-spacer></v-spacer>
                                                     <span v-if="showEdit">
                                                         <h4>
@@ -119,7 +123,7 @@
                                                     </span>
                                                 </v-row>
 
-                                                <v-row wrap v-if="dataset.groups.length > 0 && !addingGroups">
+                                                <v-row wrap v-if="dataset.groups && dataset.groups.length > 0 && !addingGroups">
                                                     <v-col md=6 cols=12 v-for="(group, id) in dataset.groups" :key="'selected-group-'+id">
                                                         <v-row align-content="center" align="center" class="borderBottom mr-3">
                                                             <v-col cols=10>{{group.title}}</v-col>
@@ -127,7 +131,7 @@
                                                         </v-row>
                                                     </v-col>
                                                 </v-row>
-                                                <v-row wrap v-else-if="userGroups.length > 0 && addingGroups">
+                                                <v-row wrap v-else-if="userGroups && userGroups.length > 0 && addingGroups">
                                                     <v-col md=6 cols=12 v-for="(group, id) in availableGroups" :key="'available-group-'+id">
                                                         <v-row align-content="center" align="center" class="borderBottom mr-3">
                                                             <v-col cols=10>{{group.title}}</v-col>
@@ -261,6 +265,7 @@ export default {
 
         ...mapState({
             dataset: state => state.dataset.dataset,
+            organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
@@ -304,12 +309,29 @@ export default {
                 }
             }
             return retGroups;
+        },
+
+        userOrgsArr(){
+            let orgArr = [];
+            let userOA = Object.values(this.userOrgs);
+            for (let i = 0; i<userOA.length; i++){
+                let trimLabel = userOA[i].label.trim()
+                let id = (this.organizations[trimLabel] && this.organizations[trimLabel].name) ? this.organizations[trimLabel].name : "";
+                id = (id === "") ? userOA[i].value : "";
+                if (id !== ""){
+                    orgArr.push({
+                        label: userOA[i].label,
+                        value: id
+                    });
+                }
+            }
+            return orgArr;
         }
     },
 
     methods: {
         getUserOrgs() {
-            if (this.userOrgs.length <= 0){
+            if (!this.userOrgs || this.userOrgs.length <= 0){
                 this.$store.dispatch("organization/getUserOrgs");
             }
         },
@@ -474,9 +496,7 @@ h5 {
 </style>
 
 <style scoped>
-.fixed{
-    position: fixed;
-}
+
 .rightZero{
     right: 0;
 }
@@ -507,6 +527,10 @@ ul {
     bottom: 50px;
     right: 0;
     z-index: 10;
+}
+.fixedAlert{
+    position: fixed;
+    top: 64px;
 }
 .title {
     font-size: 16px;

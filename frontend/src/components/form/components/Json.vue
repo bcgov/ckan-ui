@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
         <div v-if="!editing">
             <label class="label">
                 {{$tc(displayLabel)}}&nbsp;
@@ -24,7 +24,7 @@
                 outline
             ></v-textarea>
         </ValidationProvider>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -84,4 +84,7 @@ export default {
 </script>
 
 <style scoped>
+.fullWidth{
+    width: 100%;
+}
 </style>

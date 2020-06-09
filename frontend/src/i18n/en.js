@@ -260,6 +260,9 @@ export default {
         "Stop Adding to Groups": "Stop Adding to Groups",
         "Access": "Access",
         "Other Resources": "Other Resources",
-        "Search for organization": "Search for organization"
+        "Search for organization": "Search for organization",
+        "Edit Dataset": "Edit Dataset",
+        "Delete Dataset": "Delete Dataset",
+        "Saving please wait": "Saving please wait",
     }
 };

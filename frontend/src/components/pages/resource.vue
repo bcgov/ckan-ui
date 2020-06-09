@@ -142,7 +142,7 @@
                                 <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
                                     <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                                 </v-btn>
-                                <v-snackbar v-model="snackbar" timeout=2000><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
+                                <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
                             </v-col>
                         </v-row>
                         <v-row wrap v-if="!createMode && showEdit">
@@ -151,7 +151,7 @@
                                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                                 </v-btn>
                                 <br>
-                                <v-btn text color="error_text" class="lower-button mx-0 px-0" @click="deleteDataset">
+                                <v-btn text color="error_text" class="lower-button mx-0 px-0" @click="deleteResource">
                                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
                                 </v-btn>
                             </v-col>

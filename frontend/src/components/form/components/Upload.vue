@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-col cols=12 class="pb-0 pt-1">
         <div v-if="!editing">
             <label class="label">
                 {{$tc(displayLabel)}}&nbsp;
@@ -51,7 +51,7 @@
                 </ValidationProvider>
             </div>
         </div>
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -110,5 +110,9 @@ export default {
     p.value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+
+    .fullWidth{
+        width: 100%;
     }
 </style>
