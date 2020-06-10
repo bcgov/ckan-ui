@@ -88,40 +88,27 @@
                     </ValidationProvider>
 
                     <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
-                        <!-- <v-text-field
-                            outlined dense
-                            hide-details="auto"
-                            :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
-                            :placeholder="sub.form_placeholder"
-                            :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            :disabled="disabled"
-                            @input="modified">
-                        </v-text-field> -->
                         <v-menu
-                            v-model="dateMenuOpen"
-                            :close-on-content-click="false"
+                            :ref="field.field_name+'.'+sub.field_name"
                             :nudge-right="40"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                         >
                             <template v-slot:activator="{ on }">
-                            <v-text-field
-                                outlined dense
-                                hide-details="auto"
-                                :name="field.field_name+'.'+sub.field_name"
-                                v-model="value[sub.field_name]"
-                                label="Picker without buttons"
-                                :placeholder="sub.form_placeholder"
-                                :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                :disabled="disabled"
-                                @input="modified"
-                                readonly
-                                v-on="on"
-                            ></v-text-field>
+                                <v-text-field
+                                    outlined dense
+                                    hide-details="auto"
+                                    :name="field.field_name+'.'+sub.field_name"
+                                    v-model="value[sub.field_name]"
+                                    :placeholder="sub.form_placeholder"
+                                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                                    :disabled="disabled"
+                                    readonly
+                                    v-on="on"
+                                ></v-text-field>
                             </template>
-                            <v-date-picker v-model="model[sub.field_name]" @input="dateMenuOpen = false"></v-date-picker>
+                            <v-date-picker :disabled="disabled" v-model="model[sub.field_name]" @input="modified(field.field_name+'.'+sub.field_name);"></v-date-picker>
                         </v-menu>
                     </ValidationProvider>
 
@@ -204,7 +191,10 @@ export default {
         removeRecord: function(index) {
             this.model.splice(index,1);
         },
-        modified: function() {
+        modified: function(refName) {
+            if ( (typeof(refName) !== "undefined") && (typeof(this.$refs[refName]) !== "undefined") ){
+                this.$refs[refName] = false;
+            }
             this.$emit('edited', JSON.stringify(this.model));
         },
         getDisplayValue: function(field, value) {
