@@ -11,7 +11,8 @@
         </label>
         <div v-if="!editing">
             <p v-if="field.field_name === 'owner_org'"><router-link :to="{ name: 'organization_view', params: { organizationId: orgName(value) }}">{{orgTitle(value)}}</router-link></p>
-            <p v-else class="value">{{translate ? $tc(displayValue) : displayValue}}</p>
+            <p v-else class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</p>
+            <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
 
     props: {
@@ -73,6 +74,7 @@ export default {
             displayValue: "",
             val: this.value,
             scopeName: this.scope + '.' + this.name,
+            validValue: false,
         }
     },
 
@@ -83,6 +85,9 @@ export default {
         ...mapGetters("organization", {
             orgTitle: "titleByID",
             orgName: "nameByID"
+        }),
+        ...mapState({
+            sysAdmin: state => state.user.sysAdmin,
         })
     },
 
@@ -101,6 +106,7 @@ export default {
         },
         initItems: function(){
             this.items = [];
+            this.displayValue = this.value;
 
             if (this.includeBlank){
                 this.items.push({label: '', value: ''});
@@ -121,6 +127,7 @@ export default {
 
                     if (item.value == this.value){
                         this.displayValue = item.label;
+                        this.validValue = true;
                     }
 
 
@@ -150,5 +157,9 @@ export default {
     p.value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+
+    span.errorText{
+        font-size: 10px;
     }
 </style>
