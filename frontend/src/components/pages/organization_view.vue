@@ -89,6 +89,7 @@
             <v-col cols=1 sm=4 class="mt-9 pt-9">
                 <FacetFilters
                     v-on:facetFilter="facetFilter"
+                    :hideFacets="hideFacets"
                 ></FacetFilters>
                 <v-container class="d-none d-sm-block text-left">
                     <v-row>
@@ -178,6 +179,7 @@
                 editDialog: false,
                 imgError: false,
                 forceLoad: 0,
+                hideFacets: ['Organizations'],
             }
         },
         computed: {
