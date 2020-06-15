@@ -125,13 +125,22 @@ const actions = {
 	},
 	setResource({ state }) {
         let resource = JSON.parse(JSON.stringify(state.resource));
+        let formD = new FormData();
+        for ( let key in resource ) {
+            formD.append(key, resource[key]);
+        }
         return ckanServ.updateResource(resource);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
 	},
 	createResource({ state }) {
-        return ckanServ.createResource(state.resource);
+        let resource = JSON.parse(JSON.stringify(state.resource));
+        let formD = new FormData();
+        for ( let key in resource ) {
+            formD.append(key, resource[key]);
+        }
+        return ckanServ.createResource(formD);
     },
     addContact({ commit }) {
         commit('setAddContact');

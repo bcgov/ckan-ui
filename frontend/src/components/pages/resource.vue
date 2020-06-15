@@ -51,7 +51,7 @@
                             <v-row v-if="editing">
                                 <v-col cols=12>
                                     <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -68,7 +68,7 @@
                         <v-row v-if="editing">
                             <v-col cols=12>
                                 <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -207,13 +207,18 @@ export default {
             snackbar: false
         };
     },
-    // watch: {
+    watch: {
     //     getAbort(newVal) {
     //         if(newVal==true) {
     //             this.$router.push('/datasets');
     //         }
     //     },
-    // },
+
+        datasetId(newVal){
+            this.resource['package_id'] = newVal;
+            this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
+        }
+    },
     computed: {
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
@@ -372,6 +377,7 @@ export default {
 
             let result = {};
             if (this.createMode){
+
                 result = await this.$store.dispatch("dataset/createResource")
             }else{
                 result = await this.$store.dispatch("dataset/setResource");
