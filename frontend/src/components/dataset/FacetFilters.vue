@@ -88,12 +88,12 @@ export default{
         },
 
         changeFacetsOpen(open){
-            let keys = Object.keys(this.facetOpen);
+            let keys = Object.keys(this.facets);
             for (let i=0; i<keys.length; i++){
                 if (open){
-                    this.openFacet(keys[i]);
+                    this.openFacet(this.facets[keys[i]].name);
                 }else{
-                    this.closeFacet(keys[i]);
+                    this.closeFacet(this.facets[keys[i]].name);
                 }
             }
         },
