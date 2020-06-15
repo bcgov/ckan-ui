@@ -197,6 +197,7 @@ export default {
         "Creating a new Dataset": "Création d'un nouveau jeu de données",
         "Replacement Record": "Enregistrement de remplacement",
         "Who can download this data?": "Qui peut télécharger ces données?",
+        "Who can download this data?*": "Qui peut télécharger ces données?*",
         "Object Name": "Nom d'objet",
         "ISO Topic Category": "Catégorie de sujet ISO",
         "Spatial Datatype": "Type de données spatial",

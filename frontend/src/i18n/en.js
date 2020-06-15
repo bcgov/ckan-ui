@@ -264,5 +264,6 @@ export default {
         "Edit Dataset": "Edit Dataset",
         "Delete Dataset": "Delete Dataset",
         "Saving please wait": "Saving please wait",
+        "Who can download this data?*": "Who can download this data?*",
     }
 };
