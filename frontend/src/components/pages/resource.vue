@@ -252,7 +252,7 @@ export default {
             return this.$route.params.datasetId;
         },
         resourceId: function resourceId() {
-            return this.$route.params.resourceId;
+            return this.$route.params.resourceId || null;
         },
         // editLink: function editLink() {
         //     return "/dataset/" + this.datasetId + "/edit";
@@ -265,7 +265,7 @@ export default {
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
-            dataLoading: state => state.dataset.dataLoading,
+            dataLoading: state => state.dataset.resourceLoading,
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
@@ -304,15 +304,19 @@ export default {
                     }
                 }
             )
-            if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
-                this.$store.dispatch("dataset/getResource", { id: this.resourceId }) // .then(() => {
-                //     this.schema = this.$store.state.dataset.schemas[this.schemaName]
-                // });
+            if (!this.createMode && this.dataLoading) {
+                this.$store.dispatch("dataset/getResource", { id: this.resourceId });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
                 this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
             });
-            //this.$router.push('/datasets');
+        },
+        getDataset() {
+            if ((!this.dataset) && (typeof(this.datasetId) !== "undefined")) {
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
+                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
+                });
+            }
         },
         toggleEdit() {
             this.editing = !this.editing;
@@ -400,8 +404,7 @@ export default {
 
     mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        // this.getUserOrgs();
-        // this.$store.dispatch("organization/getOrgs");
+        this.getDataset();
         this.getResource();
     },
 
