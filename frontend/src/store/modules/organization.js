@@ -1,4 +1,5 @@
 import { CkanApi } from '../../services/ckanApi';
+import Vue from 'vue';
 const ckanServ = new CkanApi();
 
 const state = {
@@ -173,8 +174,10 @@ const mutations = {
     },
 
     setOrg(state, { org }){
-        state.unmodifiedOrg = Object.assign(state.unmodifiedOrg, {}, org);
-        state.organization = Object.assign(state.organization, {}, org);
+        // state.unmodifiedOrg = Object.assign(state.unmodifiedOrg, {}, org);
+        // state.organization = Object.assign(state.organization, {}, org);
+        state.unmodifiedOrg = Vue.set(state.unmodifiedOrg, {}, org);
+        state.organization = Vue.set(state.organization, {}, org);
     },
 
     setLoading(state, { loading }){

@@ -1,4 +1,5 @@
 import { CkanApi } from '../../services/ckanApi';
+import Vue from 'vue';
 const ckanServ = new CkanApi();
 
 const state = {
@@ -157,7 +158,7 @@ const mutations = {
     },
 
     setSchema(state, { schema }) {
-        state.groupSchemas = Object.assign(state.groupSchemas, {group: schema});
+        state.groupSchemas = Vue.set(state.groupSchemas, {group: schema});
     },
 
     setSearchText(state, { searchText }) {
@@ -170,13 +171,13 @@ const mutations = {
 
     setCurrentGroup(state, { group, error }) {
         state.abort = error ? error : false;
-        state.group = Object.assign({}, group);
-        state.unmodifiedGroup = Object.assign({}, group);
+        state.group = Vue.set({}, group);
+        state.unmodifiedGroup = Vue.set({}, group);
     },
 
     setCurrentNotUnmod(state, {group}) {
         state.abort = false;
-        state.group = Object.assign({}, group);
+        state.group = Vue.set({}, group);
     },
 }
 
