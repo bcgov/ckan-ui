@@ -124,14 +124,23 @@ const actions = {
         return ckanServ.putDataset(dataset);
 	},
 	setResource({ state }) {
-        let resource = JSON.parse(JSON.stringify(state.resource));
-        return ckanServ.updateResource(resource);
+        delete state.resource.metadata.metadata;
+        let formD = new FormData();
+        for ( let key in state.resource ) {
+            formD.append(key, state.resource[key]);
+        }
+        return ckanServ.updateResource(state.resource);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
 	},
 	createResource({ state }) {
-        return ckanServ.createResource(state.resource);
+        let resource = JSON.parse(JSON.stringify(state.resource));
+        let formD = new FormData();
+        for ( let key in resource ) {
+            formD.append(key, resource[key]);
+        }
+        return ckanServ.createResource(formD);
     },
     addContact({ commit }) {
         commit('setAddContact');
@@ -156,6 +165,12 @@ const actions = {
 	},
 	resetResource({ commit }) {
         commit('resetResource');
+    },
+    newDataset({ commit }) {
+        commit('clearDataset');
+    },
+    newResource({ commit }) {
+        commit('clearResource');
     }
 };
 
@@ -235,6 +250,9 @@ const mutations = {
     },
     resetDataset(state) {
         state.dataset = Object.assign({}, state.unmodifiedDataset);
+    },
+    resetResource(state) {
+        state.resource = Object.assign({}, state.unmodifiedResource);
     },
     abortDataset(state) {
         state.shouldAbortDataset = true;

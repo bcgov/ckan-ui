@@ -51,7 +51,7 @@
                             <v-row v-if="editing">
                                 <v-col cols=12>
                                     <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -68,7 +68,7 @@
                         <v-row v-if="editing">
                             <v-col cols=12>
                                 <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
+                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -207,13 +207,18 @@ export default {
             snackbar: false
         };
     },
-    // watch: {
+    watch: {
     //     getAbort(newVal) {
     //         if(newVal==true) {
     //             this.$router.push('/datasets');
     //         }
     //     },
-    // },
+
+        datasetId(newVal){
+            this.resource['package_id'] = newVal;
+            this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
+        }
+    },
     computed: {
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
@@ -252,7 +257,7 @@ export default {
             return this.$route.params.datasetId;
         },
         resourceId: function resourceId() {
-            return this.$route.params.resourceId;
+            return this.$route.params.resourceId || null;
         },
         // editLink: function editLink() {
         //     return "/dataset/" + this.datasetId + "/edit";
@@ -265,7 +270,7 @@ export default {
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
-            dataLoading: state => state.dataset.dataLoading,
+            dataLoading: state => state.dataset.resourceLoading,
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
@@ -303,16 +308,23 @@ export default {
                         //this.$router.push('/datasets');
                     }
                 }
-            )
-            if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
-                this.$store.dispatch("dataset/getResource", { id: this.resourceId }) // .then(() => {
-                //     this.schema = this.$store.state.dataset.schemas[this.schemaName]
-                // });
+            );
+            if (this.createMode) {
+                this.$store.dispatch("dataset/newResource");
+            }
+            if (!this.createMode && (typeof(this.resource) === 'undefined' || !this.resource.id)) {
+                this.$store.dispatch("dataset/getResource", { id: this.resourceId });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
                 this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
             });
-            //this.$router.push('/datasets');
+        },
+        getDataset() {
+            if ((!this.dataset) || (typeof(this.datasetId) !== "undefined")) {
+                this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
+                    this.schema = this.$store.state.dataset.schemas[this.schemaName]
+                });
+            }
         },
         toggleEdit() {
             this.editing = !this.editing;
@@ -358,6 +370,10 @@ export default {
             this.disabled = true;
             const isValid = await this.$refs.observer.validate();
 
+            if (!this.resource['package_id']) {
+                this.resource['package_id'] = this.datasetId;
+            }
+
             if (!isValid){
                 this.formError = "Please fix the fields in error before submitting";
                 this.showFormError = true;
@@ -368,6 +384,7 @@ export default {
 
             let result = {};
             if (this.createMode){
+
                 result = await this.$store.dispatch("dataset/createResource")
             }else{
                 result = await this.$store.dispatch("dataset/setResource");
@@ -400,8 +417,7 @@ export default {
 
     mounted (){
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        // this.getUserOrgs();
-        // this.$store.dispatch("organization/getOrgs");
+        this.getDataset();
         this.getResource();
     },
 

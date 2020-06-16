@@ -14,7 +14,7 @@
                 <v-card
                     v-if="!createMode && showEdit"
                     hover outlined tile
-                    :to="{ name: 'resource_create', params: { datasetId: dataset.id }}"
+                    :to="{ name: 'resource_create', params: { datasetId: dataset.name }}"
                     class="new-resource"
                     style="margin-bottom:.5rem">
                     <v-container fluid>
