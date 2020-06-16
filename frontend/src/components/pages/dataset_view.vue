@@ -345,7 +345,10 @@ export default {
                         //this.$router.push('/datasets');
                     }
                 }
-            )
+            );
+            if (this.createMode) {
+                this.$store.dispatch("dataset/newDataset");
+            }
             if ((!this.createMode) && ((this.dataLoading) && (this.schemaLoading)) || (typeof(this.datasetId) !== "undefined")) {
                 this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
                     this.schema = this.$store.state.dataset.schemas[this.schemaName]

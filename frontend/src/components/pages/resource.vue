@@ -308,8 +308,11 @@ export default {
                         //this.$router.push('/datasets');
                     }
                 }
-            )
-            if (!this.createMode && this.dataLoading) {
+            );
+            if (this.createMode) {
+                this.$store.dispatch("dataset/newResource");
+            }
+            if (!this.createMode && (typeof(this.resource) === 'undefined' || !this.resource.id)) {
                 this.$store.dispatch("dataset/getResource", { id: this.resourceId });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
@@ -317,7 +320,7 @@ export default {
             });
         },
         getDataset() {
-            if ((!this.dataset) && (typeof(this.datasetId) !== "undefined")) {
+            if ((!this.dataset) || (typeof(this.datasetId) !== "undefined")) {
                 this.$store.dispatch("dataset/getDataset", { id: this.datasetId }).then(() => {
                     this.schema = this.$store.state.dataset.schemas[this.schemaName]
                 });
@@ -366,6 +369,10 @@ export default {
         async submit(){
             this.disabled = true;
             const isValid = await this.$refs.observer.validate();
+
+            if (!this.resource['package_id']) {
+                this.resource['package_id'] = this.datasetId;
+            }
 
             if (!isValid){
                 this.formError = "Please fix the fields in error before submitting";
