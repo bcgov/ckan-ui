@@ -126,30 +126,30 @@ const actions = {
         //delete dataset.resources;
         return ckanServ.putDataset(dataset);
 	},
-	setResource({ state }) {
+	async setResource({ state }) {
         delete state.resource.metadata.metadata;
         let formD = new FormData();
         for ( let key in state.resource ) {
             formD.append(key, state.resource[key]);
         }
-        authServ.getToken().then(() => {
-            return ckanServ.updateResource(state.resource);
-        });
+        await authServ.getToken().then();
+        return ckanServ.updateResource(state.resource);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
 	},
-	createResource({ state }) {
+    
+    async createResource({ state }) {
         let resource = JSON.parse(JSON.stringify(state.resource));
         let formD = new FormData();
         for ( let key in resource ) {
             formD.append(key, resource[key]);
         }
 
-        authServ.getToken().then(() => {
-            return ckanServ.createResource(formD);
-        });
+        await authServ.getToken().then();
+        return ckanServ.createResource(formD);
     },
+
     addContact({ commit }) {
         commit('setAddContact');
     },
