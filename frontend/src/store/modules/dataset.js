@@ -132,8 +132,8 @@ const actions = {
         for ( let key in state.resource ) {
             formD.append(key, state.resource[key]);
         }
-        await authServ.getToken().then();
-        return ckanServ.updateResource(state.resource);
+        let tok = await authServ.getToken().then();
+        return ckanServ.updateResource(state.resource, tok);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
@@ -146,8 +146,8 @@ const actions = {
             formD.append(key, resource[key]);
         }
 
-        await authServ.getToken().then();
-        return ckanServ.createResource(formD);
+        let tok = await authServ.getToken().then();
+        return ckanServ.createResource(formD, tok);
     },
 
     addContact({ commit }) {
