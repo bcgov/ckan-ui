@@ -1,6 +1,9 @@
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
+import { Auth } from '../../services/auth';
+const authServ = new Auth();
+
 import { ResourceApi } from '../../services/resourceApi';
 const resourceServ = new ResourceApi();
 
@@ -129,7 +132,9 @@ const actions = {
         for ( let key in state.resource ) {
             formD.append(key, state.resource[key]);
         }
-        return ckanServ.updateResource(state.resource);
+        authServ.getToken().then(() => {
+            return ckanServ.updateResource(state.resource);
+        });
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
@@ -140,7 +145,10 @@ const actions = {
         for ( let key in resource ) {
             formD.append(key, resource[key]);
         }
-        return ckanServ.createResource(formD);
+
+        authServ.getToken().then(() => {
+            return ckanServ.createResource(formD);
+        });
     },
     addContact({ commit }) {
         commit('setAddContact');

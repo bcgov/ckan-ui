@@ -143,6 +143,7 @@ export class CkanApi {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + jwt
             },
+            withCredentials: true,
             data: data,
         };
         return axios(options).then(response => response.data);
@@ -158,6 +159,7 @@ export class CkanApi {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + jwt
             },
+            withCredentials: true,
             data: data,
         };
         return axios(options).then(response => response.data);
