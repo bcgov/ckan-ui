@@ -128,26 +128,26 @@ const actions = {
 	},
 	async setResource({ state }) {
         delete state.resource.metadata.metadata;
+        let resource = JSON.parse(JSON.stringify(state.resource));
         let formD = new FormData();
-        for ( let key in state.resource ) {
-            formD.append(key, state.resource[key]);
+        for ( let key in resource ) {
+            formD.append(key, resource[key]);
         }
         let tok = await authServ.getToken().then();
-        return ckanServ.updateResource(state.resource, tok);
+        return ckanServ.updateResource(resource, tok['jwt']);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
 	},
-    
+
     async createResource({ state }) {
         let resource = JSON.parse(JSON.stringify(state.resource));
         let formD = new FormData();
         for ( let key in resource ) {
             formD.append(key, resource[key]);
         }
-
         let tok = await authServ.getToken().then();
-        return ckanServ.createResource(formD, tok);
+        return ckanServ.createResource(formD, tok['jwt']);
     },
 
     addContact({ commit }) {
