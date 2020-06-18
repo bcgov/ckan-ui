@@ -1,6 +1,9 @@
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
+import { Auth } from '../../services/auth';
+const authServ = new Auth();
+
 import { ResourceApi } from '../../services/resourceApi';
 const resourceServ = new ResourceApi();
 
@@ -123,25 +126,30 @@ const actions = {
         //delete dataset.resources;
         return ckanServ.putDataset(dataset);
 	},
-	setResource({ state }) {
+	async setResource({ state }) {
         delete state.resource.metadata.metadata;
-        let formD = new FormData();
-        for ( let key in state.resource ) {
-            formD.append(key, state.resource[key]);
-        }
-        return ckanServ.updateResource(state.resource);
-    },
-    createDataset({ state }) {
-        return ckanServ.postDataset(state.dataset);
-	},
-	createResource({ state }) {
         let resource = JSON.parse(JSON.stringify(state.resource));
         let formD = new FormData();
         for ( let key in resource ) {
             formD.append(key, resource[key]);
         }
-        return ckanServ.createResource(formD);
+        let tok = await authServ.getToken().then();
+        return ckanServ.updateResource(resource, tok['jwt']);
     },
+    createDataset({ state }) {
+        return ckanServ.postDataset(state.dataset);
+	},
+
+    async createResource({ state }) {
+        let resource = JSON.parse(JSON.stringify(state.resource));
+        let formD = new FormData();
+        for ( let key in resource ) {
+            formD.append(key, resource[key]);
+        }
+        let tok = await authServ.getToken().then();
+        return ckanServ.createResource(formD, tok['jwt']);
+    },
+
     addContact({ commit }) {
         commit('setAddContact');
     },
