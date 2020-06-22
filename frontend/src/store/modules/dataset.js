@@ -129,12 +129,22 @@ const actions = {
 	async setResource({ state }) {
         delete state.resource.metadata.metadata;
         let resource = JSON.parse(JSON.stringify(state.resource));
+        delete resource.raw_data;
+        delete resource.schema;
+        delete resource['content-length'];
+        delete resource['content-type'];
+        delete resource.schema;
+        delete resource.schemaError;
         let formD = new FormData();
         for ( let key in resource ) {
-            formD.append(key, resource[key]);
+            if( typeof(resource[key]) === "object"){
+                formD.append(key, JSON.stringify(resource[key]));
+            }else if ( (resource[key] !== null) && (resource[key] !== "") ){
+                formD.append(key, resource[key]);
+            }
         }
         let tok = await authServ.getToken().then();
-        return ckanServ.updateResource(resource, tok['jwt']);
+        return ckanServ.updateResource(formD, tok['jwt']);
     },
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
