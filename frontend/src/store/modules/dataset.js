@@ -127,20 +127,16 @@ const actions = {
         return ckanServ.putDataset(dataset);
 	},
 	async setResource({ state }) {
-        delete state.resource.metadata.metadata;
-        let resource = JSON.parse(JSON.stringify(state.resource));
-        delete resource.raw_data;
-        delete resource.schema;
-        delete resource['content-length'];
-        delete resource['content-type'];
-        delete resource.schema;
-        delete resource.schemaError;
+
+        let dontAppend = ['metadata', 'raw_data', 'schema', 'content-length', 'content-type', 'schemaError', 'hasSchema'];
         let formD = new FormData();
-        for ( let key in resource ) {
-            if( typeof(resource[key]) === "object"){
-                formD.append(key, JSON.stringify(resource[key]));
-            }else if ( (resource[key] !== null) && (resource[key] !== "") ){
-                formD.append(key, resource[key]);
+        for ( let key in state.resource ) {
+            if ( (dontAppend.indexOf(key) === -1) && ( (state.resource[key] !== null) && (state.resource[key] !== "") )){
+                if( typeof(state.resource[key]) === "object"){
+                    formD.append(key, JSON.stringify(state.resource[key]));
+                }else{
+                    formD.append(key, state.resource[key]);
+                }
             }
         }
         let tok = await authServ.getToken().then();
