@@ -3,6 +3,11 @@
 ## Requirements
 - CKAN (with solr/postgres), running
 
+## Components
+This repository consists of two components a frontend and a backend. There is a helm chart to deploy this as part of the bcgov/helm-charts repo. 
+
+The frontend uses asynchronous calls to the backend (bridge) which handles the calls to all of the other services like CKAN,Keycloak (SSO),Google Analytics, etc. These services are outside of the scope of this document but are expected to exist for this to work. The backend bridge upon getting the information from the service can perform some formatting and return it to the frontend. Additionally the backend may use caching or anything else as needed to better serve the end user from a reliability and speed perspective. Dokerfiles are provided and the frontend is hosted with Caddy server, the backend bridge is expected to be run from a place it is easily accessible to the frontend at a HOSTNAME variable passed into the frontend image. The backend image expects to be provided a configuration file that matches the format of backend/config/(default|dev).json.
+
 ## Backend
 Modify backend/config/dev.json (or test/prod as might be the case) by copying the template and overriding the values 
 custom to your environment (Ckan url, solr url, port)
