@@ -57,8 +57,8 @@
                                     <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                                     <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
                                 </template>
-                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">English</v-list-item>
-                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">Français</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">EN</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">FR</v-list-item>
                                 </v-list>
                             <!-- </v-col>
                         </v-row> -->
@@ -66,10 +66,10 @@
                     <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%" class="v-top float-right">
                         <v-icon large>mdi-magnify</v-icon>
                     </v-btn>
-                    <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">English</v-btn>
-                    <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">Français</v-btn>
+                    <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>
+                    <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">FR</v-btn>
                     <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
-                    <v-btn v-if="showCreate" depressed text large id="add-dataset" class="hidden-sm-and-down header-button v-top float-right" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
+                    <v-btn v-if="showCreate" depressed text large id="add-dataset-btn" class="hidden-sm-and-down header-button v-top float-right" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
 
 
                 </v-col>
@@ -314,6 +314,10 @@ export default {
   }
   .v-top {
       vertical-align: top;
+  }
+
+  #login-btn, #mobile-login-btn, #add-dataset-btn, #mobile-add-dataset-btn{
+    font-weight: bold;
   }
 
   .gov-header{
