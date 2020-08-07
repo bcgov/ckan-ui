@@ -1,7 +1,7 @@
 <template>
     <v-col cols=12 class="pb-0 pt-1 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
+            {{$tc(displayLabel)}}{{(field.required) ? '*' : ''}}&nbsp;
             <v-tooltip right v-if="field.help_text">
                 <template v-slot:activator="{ on }">
                     <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
@@ -164,7 +164,7 @@ export default {
         field: Object,
         dataset: Object,
         value: {
-            type: Object,
+            type: [Object, String],
             default: () => { return {}; }
         },
         editing: Boolean,
@@ -209,6 +209,13 @@ export default {
                 }
             }
             return value;
+        }
+    },
+    watch: {
+        value(){
+            if (typeof(this.value) === "string"){
+                this.value = {};
+            }
         }
     },
     computed: {
