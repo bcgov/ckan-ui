@@ -127,8 +127,8 @@ const actions = {
         return ckanServ.putDataset(dataset);
 	},
 	async setResource({ state }) {
-        delete state.resource.metadata.metadata;
-        let resource = JSON.parse(JSON.stringify(state.resource));
+
+        let dontAppend = ['metadata', 'raw_data', 'schema', 'content-length', 'content-type', 'schemaError', 'hasSchema'];
         let formD = new FormData();
         for ( let key in resource ) {
             if (resource[key] !== null){
