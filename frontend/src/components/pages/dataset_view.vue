@@ -161,7 +161,7 @@
                                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
                                 </v-btn>
                                 <br>
-                                <v-btn text color="error_text" class="lower-button mx-0 px-0" @click="deleteDataset">
+                                <v-btn v-if="isAdmin" text color="error_text" class="lower-button mx-0 px-0" @click="deleteDataset">
                                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
                                 </v-btn>
                             </v-col>

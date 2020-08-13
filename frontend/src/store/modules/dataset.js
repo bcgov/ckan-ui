@@ -131,11 +131,14 @@ const actions = {
         let resource = JSON.parse(JSON.stringify(state.resource));
         let formD = new FormData();
         for ( let key in resource ) {
-            formD.append(key, resource[key]);
+            if (resource[key] !== null){
+                formD.append(key, resource[key]);
+            }
         }
         let tok = await authServ.getToken().then();
-        return ckanServ.updateResource(resource, tok['jwt']);
+        return ckanServ.updateResource(formD, tok['jwt']);
     },
+
     createDataset({ state }) {
         return ckanServ.postDataset(state.dataset);
 	},
