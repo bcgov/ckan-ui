@@ -11,7 +11,7 @@
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                <div v-if="!hasDisplayed || !model[repeatedIndex].displayed">
+                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true))">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <v-row v-if="sub.display_snippet !== null" align="center">
                             <v-col cols=3 class="py-1">

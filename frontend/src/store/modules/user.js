@@ -69,7 +69,7 @@ const actions = {
         if ( (loggedIn) && user.userPermissions ){
             userPermissions = user.userPermissions;
             sysAdmin = user.sysAdmin;
-            isAdmin = user.isAdmin;
+            isAdmin = user.isAdmin || user.sysAdmin;
             isEditor = user.isEditor;
         }else{
             userPermissions = {};

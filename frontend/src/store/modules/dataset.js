@@ -127,12 +127,12 @@ const actions = {
         return ckanServ.putDataset(dataset);
 	},
 	async setResource({ state }) {
-
+        
         let dontAppend = ['metadata', 'raw_data', 'schema', 'content-length', 'content-type', 'schemaError', 'hasSchema'];
         let formD = new FormData();
-        for ( let key in resource ) {
-            if (resource[key] !== null){
-                formD.append(key, resource[key]);
+        for ( let key in state.resource ) {
+            if ( (state.resource[key] !== null) && (dontAppend.indexOf(key) === -1) ){
+                formD.append(key, state.resource[key]);
             }
         }
         let tok = await authServ.getToken().then();

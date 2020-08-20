@@ -3,6 +3,7 @@ var addRoutes = function(router){
     let auth = require('../../modules/auth');
     const NodeCache = require( "node-cache" );
     const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+    const orgCacheKey = 'orgDict';
 
     /* GET organization. */
     router.get('/organization', function(req, res, next) {
@@ -56,7 +57,7 @@ var addRoutes = function(router){
     
         let config = require('config');
         let url = config.get('ckan');
-        let orgCacheKey = 'orgDict';
+        
         let orgTTL = 86400;
     
         //let keys = Object.keys(req.query);
@@ -175,6 +176,7 @@ var addRoutes = function(router){
             }
 
             try {
+                cache.del(orgCacheKey);
                 let json = typeof(body) === 'string' ? JSON.parse(body) : body;
                 res.json(json);
             } catch (ex) {
@@ -208,6 +210,7 @@ var addRoutes = function(router){
 
             try {
                 let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                cache.del(orgCacheKey);
                 res.json(json);
             } catch (ex) {
                 console.error("Error reading json from ckan", ex);
@@ -245,6 +248,7 @@ var addRoutes = function(router){
 
             try {
                 let json = typeof(body) === 'string' ? JSON.parse(body) : body;
+                cache.del(orgCacheKey);
                 res.json(json);
             } catch (ex) {
                 console.error("Error reading json from ckan", ex);
