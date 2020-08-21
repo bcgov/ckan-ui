@@ -39,7 +39,7 @@
             </div>
             <hr>
         </div>
-        <div v-else :key="'composite'+field.field_name">
+        <div v-else :key="'composite'+field.field_name+rerenderKey">
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
@@ -200,14 +200,40 @@ export default {
             default: false
         },
     },
+
+    watch: {
+        fieldValue: function(){
+            this.updateValues();
+        }
+    },
+
     data() {
         return {
             model: [{}],
             hasDisplayed: false,
             dateMenuOpen: false,
+            rerenderKey: 0,
         }
     },
+
     methods: {
+        updateValues: function(){
+            this.rerenderKey++;
+            if (this.dataset[this.field.field_name]){
+                let value = JSON.parse(this.dataset[this.field.field_name]);
+                for (let i=0; i<value.length; i++){
+                    this.model[i] = {};
+                    for (let j=0; j<this.field.subfields.length; j++){
+                        if (value && value[i] && value[i][this.field.subfields[j].field_name]){
+                            this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
+                        }else{
+                            this.model[i][this.field.subfields[j].field_name] = "";
+                        }
+                    }
+                }
+            }
+        },
+        
         addRecord: function() {
             let model = {}
             for (let i=0; i<this.field.subfields.length; i++){
@@ -247,7 +273,10 @@ export default {
         ...mapGetters("organization", {
             orgTitle: "titleByID",
             orgName: "nameByID"
-        })
+        }),
+        fieldValue: function(){
+            return this.dataset[this.field.field_name];
+        }
     },
     mounted(){
         if (this.dataset[this.field.field_name]){

@@ -217,6 +217,10 @@ const mutations = {
     },
     setCurrentNotUnmodDataset(state, {dataset}) {
         state.dataset = Object.assign({}, dataset);
+        
+        if (typeof(state.dataset['type']) !== "undefined"){
+            Vue.set(state.dataset, 'type', state.dataset['type']);
+        }
     },
     setCurrentResource(state, { resource }) {
         state.resource = Object.assign({}, resource);

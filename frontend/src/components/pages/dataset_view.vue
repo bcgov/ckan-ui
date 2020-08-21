@@ -206,6 +206,8 @@ export default {
             addingGroups: false,
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "dataset_create",
+            urlEdited: false,
+            expectedNameUpdate: false,
             textFields: [
                 'object_name',
                 'replacement_record',
@@ -216,7 +218,8 @@ export default {
                 'record_archive_date',
                 'record_last_modified'],
             error: this.datasetError,
-            snackbar: false
+            snackbar: false,
+            formDefaults: {},
         };
     },
     watch: {
@@ -448,11 +451,49 @@ export default {
             }
             this.disabled = false;
         },
-        updateDataset(field, newValue){
+
+        async updateDataset(field, newValue){
+            this.dataset[field] = newValue;
+
             if (typeof(this.dataset.type) === "undefined"){
                 this.dataset.type = "bcdc_dataset";
             }
-            this.dataset[field] = newValue;
+
+            if (field === "name"){
+                if (!this.expectedNameUpdate){
+                    this.urlEdited = true;
+                }
+                this.expectedNameUpdate = false;
+            }else if (field === 'title'){
+                if (!this.urlEdited){
+                    this.dataset.name = newValue.toLowerCase().replace(' ', '-');
+                    this.expectedNameUpdate = true;
+                }
+
+            }else if (field === 'owner_org'){
+                this.formDefaults.contacts = {};
+                this.formDefaults.contacts.org = newValue;
+                if (!this.dataset.contacts){
+                    this.dataset.contacts = "[]";
+                }
+                    let changed = false;
+                    let c = JSON.parse(this.dataset.contacts);
+                    if (c.length === 0){
+                        c[0] = {};
+                        c[0].org = false;
+                    }
+                    for (let i=0; i<c.length; i++){
+                        if (!c[i].org){
+                            c[i].org = newValue;
+                            changed = true;
+                        }
+                    }
+                    if (changed){
+                        let newC = JSON.stringify(c);
+                        this.dataset.contacts = newC;
+                    }
+            }
+            
             this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
         },
         removeGroup(id) {
