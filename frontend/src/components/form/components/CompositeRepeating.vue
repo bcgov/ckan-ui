@@ -199,12 +199,16 @@ export default {
             type: Boolean,
             default: false
         },
+        formDefaults: {
+            type: Object,
+            default: () => {}
+        },
     },
 
     watch: {
         fieldValue: function(){
             this.updateValues();
-        }
+        },
     },
 
     data() {
@@ -237,7 +241,11 @@ export default {
         addRecord: function() {
             let model = {}
             for (let i=0; i<this.field.subfields.length; i++){
-                model[this.field.subfields[i].field_name] = "";
+                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
+                    model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
+                }else{
+                    model[this.field.subfields[i].field_name] = "";
+                }
                 if (this.field.subfields[i].field_name.toLowerCase() === "displayed"){
                     this.hasDisplayed = true;
                 }

@@ -151,6 +151,7 @@
                     :orgArray="orgArray"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :scope="scope"
+                    :form-defaults="formDefaults[field.field_name]"
                     :disabled="disabled"
                     :field="field">
                 </CompositeRepeating>
@@ -161,6 +162,7 @@
                     :orgArray="orgArray"
                     :scope="scope"
                     :disabled="disabled"
+                    :form-defaults="formDefaults.contacts"
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field">
                 </CompositeRepeating>
@@ -337,12 +339,17 @@ export default {
         area: {
             type: String,
             default: "/dataset/"
+        },
+        formDefaults: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
         return {
         }
     },
+
     computed:{
         ...mapState({
             orgList: state => state.organization.orgList,

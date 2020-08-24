@@ -67,6 +67,7 @@
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
                             ref="dynoForm"
+                            :form-defaults="formDefaults"
                             @updated="(field, value) => updateDataset(field, value)"
                         >
                         </DynamicForm>
@@ -174,6 +175,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
@@ -472,7 +474,7 @@ export default {
 
             }else if (field === 'owner_org'){
                 this.formDefaults.contacts = {};
-                this.formDefaults.contacts.org = newValue;
+                Vue.set(this.formDefaults, 'contacts', {org: newValue});
                 if (!this.dataset.contacts){
                     this.dataset.contacts = "[]";
                 }
