@@ -39,13 +39,15 @@
                                 <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                                 <template v-for="(item, key) in menuTertiary">
 
-                                    <span v-if="item.dialog" :key="'secondary-menu-'+key">
-                                    <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true" v-text="$tc(item.title, 2)"></v-list-item>
-                                    </span>
-
-                                    <span v-else :key="'secondary-menu-'+key">
-                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <span :key="'secondary-menu-'+key">
+                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)">
+                                      {{$tc(item.title, 2)}}
+                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                    </v-list-item>
+                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key">
+                                      {{$tc(item.title, 2)}}
+                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                    </v-list-item>
                                     </span>
                                 </template>
                                 <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" @click="logout">{{$tc("Logout")}}</v-list-item>
@@ -54,8 +56,22 @@
                             <v-col cols=12 class="primary_color gov-yellow-border-top"> -->
                                 <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
                                 <template v-for="(item, key) in menuSecondary">
-                                    <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <span v-if="item.dialog" :key="'secondary-menu-'+key">
+                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                    </span>
+                                    <span v-else :key="'secondary-menu-'+key">
+                                      <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                      <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                    </span>
                                 </template>
                                 <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">EN</v-list-item>
                                 <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">FR</v-list-item>
@@ -123,10 +139,10 @@ export default {
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         menuSecondary: [
-            {
-                "title": "What is DataBC?",
-                "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
-            },
+            // {
+            //     "title": "What is DataBC?",
+            //     "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
+            // },
             // {
             //     "title": "Dataset Usage",
             //     "link": "/usage"
@@ -135,16 +151,21 @@ export default {
                 "title": "Geographic Services",
                 "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
             },
+            // {
+            //     "title": "Blog",
+            //     "href": "https://engage.gov.bc.ca/data/"
+            // },
+            // {
+            //     "title": "Developers",
+            //     "href": "https://www.bcdevexchange.org/"
+            // },
             {
-                "title": "Blog",
-                "href": "https://engage.gov.bc.ca/data/"
+                "title": "About",
+                "link": "/about",
+                "dialog": true
             },
             {
-                "title": "Developers",
-                "href": "https://www.bcdevexchange.org/"
-            },
-            {
-                "title": "Contact",
+                "title": "Contact Data BC",
                 "href": "https://forms.gov.bc.ca/databc-contact-us/"
             },
             {
@@ -179,32 +200,28 @@ export default {
     menuTertiary() {
         return [
             {
-                "title": "Datasets",
+                "title": "Data Catalogue Home",
                 "link": "/datasets"
             },
             {
-                "title": "Organizations",
+                "title": "Explore by Organizations",
                 "link": "/organization"
             },
             {
-                "title": "Groups",
+                "title": "Explore Dataset Groups",
                "link": "/groups"
             },
             {
-                "icon": "mdi-rss",
+                "icon": "mdi-rss-box",
+                "iconColour": "orange",
                 "title": "Subscribe to New Data",
                 "href": this.classicUrl + '/feeds/recent.rss'
             },
-            {
-                "icon": "mdi-rss",
-                "title": "Subscribe to Blog Posts",
-                "href": "https://engage.gov.bc.ca/data/feed/"
-            },
-            {
-                "title": "About",
-                "link": "/about",
-                "dialog": true
-            },
+            // {
+            //     "icon": "mdi-rss",
+            //     "title": "Subscribe to Blog Posts",
+            //     "href": "https://engage.gov.bc.ca/data/feed/"
+            // },
         ]
     }
   },
