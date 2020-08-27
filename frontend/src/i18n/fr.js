@@ -265,5 +265,9 @@ export default {
         "Other Resources": "Autres Ressources",
         "Search for organization": "Rechercher d'organisation",
         "Saving please wait": "Enregistrement veuillez patienter",
+        "Data Catalogue Home": "Accueil du catalogue de données",
+        "Explore by Organizations": "Explorer par organisations",
+        "Explore Dataset Groups": "Explorer les groupes de jeux de données",
+        "Contact Data BC": "Contactez DataBC"
     }
 };
