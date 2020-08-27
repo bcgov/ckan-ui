@@ -139,7 +139,7 @@
     }
     .pitch-card {
         border-radius: 5px !important;
-        box-shadow: 0px 5px 5px black;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     }
     .home-search {
         border-radius: 3px;
