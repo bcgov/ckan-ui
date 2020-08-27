@@ -28,7 +28,7 @@
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
                         <template v-slot:activator="{ on }">
-                        <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                        <v-btn depressed tile large v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
                             <v-icon large>mdi-menu</v-icon>
                         </v-btn>
                         </template>
@@ -63,9 +63,7 @@
                             <!-- </v-col>
                         </v-row> -->
                     </v-menu>
-                    <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%" class="v-top float-right">
-                        <v-icon large>mdi-magnify</v-icon>
-                    </v-btn>
+                    
                     <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>
                     <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">FR</v-btn>
                     <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
@@ -76,23 +74,7 @@
             </v-row>
         </v-container>
       </v-toolbar>
-      <v-container class="search-bar gov-yellow-border-bottom gov-yellow-border-top" v-show="showSearch" py-0 px-12>
-        <v-row wrap align-content="center" class="search-row">
-          <v-col class="py-0">
-            <v-text-field
-                ref="headerSearch"
-                id="header-search"
-                :label="$tc('SearchDatasets')"
-                v-model="searchText"
-                solo
-                hide-details
-                v-on:keyup="search"
-                append-icon="mdi-magnify"
-                @click:append="search">
-            </v-text-field>
-          </v-col>
-        </v-row>
-      </v-container>
+      
     </header>
   </span>
 </template>
@@ -115,11 +97,9 @@ export default {
   data () {
     let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
-        searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         aboutDialog: false,
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
-        showSearch: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         menuSecondary: [
@@ -214,23 +194,6 @@ export default {
         this.aboutDialog = false;
       },
 
-      search: function(e){
-          if (e.keyCode === 13 || e.type === 'click') {
-            this.showSearch = false;
-            this.$store.commit('search/setSearchText', this.searchText);
-            if (this.$route.path !== '/datasets'){
-              this.$router.push('/datasets');
-            }
-
-          }
-      },
-      searchClick: function(){
-          this.showSearch = !this.showSearch
-          this.$nextTick(() => {
-            this.$refs.headerSearch.focus();
-          })
-      },
-
       setLanguage: function(local){
         if (!this.loadedLanguages.includes(local)){
           var self = this;
@@ -264,12 +227,6 @@ export default {
     this.$store.dispatch('user/getCurrentUser')
 
     let self = this;
-    this.$store.subscribe((mutation) => {
-        if (mutation.type === 'search/setSearchText'){
-            self.searchText = this.$store.state.search.searchText;
-        }
-
-    });
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;
@@ -325,17 +282,6 @@ export default {
     width: 100%;
     top: 0px;
     z-index: 100;
-  }
-
-  .search-bar{
-    position: absolute;
-    background: white;
-    width: 100%;
-    max-width: none !important;
-    height: 60px;
-  }
-  .search-row{
-      height: 100%;
   }
 
   div .v-list__tile {
