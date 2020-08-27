@@ -17,7 +17,7 @@
             <v-row class="header-row">
                 <v-col cols=7 class="py-0 h-100">
                 <!-- Navbar content -->
-                    <a id="header-gov-logo" href="https://www2.gov.bc.ca" class="v-top">
+                    <a id="header-gov-logo" href="/" class="v-top">
                         <img
                             src="@/assets/images/bc_mark.png"
                             width="auto" height="100%"
