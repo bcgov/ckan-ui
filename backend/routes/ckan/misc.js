@@ -98,7 +98,7 @@ var addRoutes = function(router){
             icon: "",
             facets: [
                 {
-                    edc_state: 'States'
+                    publish_state: 'States'
                 },
             ]
         },

@@ -125,10 +125,8 @@
 </template>
 
 <script>
-import {CkanApi} from '../../services/ckanApi'
-const ckanServ = new CkanApi()
 
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default{
     props: {
@@ -139,7 +137,6 @@ export default{
 
     data: function(){
         return {
-            filters: {},
             loading: false,
             collapseId: "facet-"+this.field+"-collapse",
             collapseProp: "v-b-toggle.collapse"+this.collapseId,
@@ -151,7 +148,6 @@ export default{
             count: {},
             numFilters: 0,
             totalCount: 0,
-            maxFilters: 0,
             updates: 0,
         }
     },
@@ -159,11 +155,29 @@ export default{
     computed: {
         ...mapState({
             filtered: state => state.search.facets,
-            facet: state => state.dataset.facets,
+            facets: state => state.dataset.facets,
             open(state){
                 return state.dataset.facetOpen[this.field.name];
             }
         }),
+        maxFilters: function(){
+            var keys = Object.keys(this.filters);
+            let rv = 2;
+            for (var j=0; j<keys.length; j++){
+                rv += this.filters[keys[j]].length;
+            }
+            return rv;
+        },
+        filters: function(){
+            let filters = {};
+            for (let i=0; i<this.field.facets.length; i++){
+                let fk = Object.keys(this.field.facets[i])[0];
+                if ( (typeof(this.facets) === "object") && (typeof(this.facets[fk]) !== "undefined") ){
+                    filters[fk] = this.facets[fk][fk];
+                }
+            }
+            return filters;
+        },
         model: {
             get: function(){
                 return this.open ? [0] : [];
@@ -176,6 +190,10 @@ export default{
 
 
     methods: {
+
+        ...mapActions({
+            getFacet: 'dataset/getFacet'
+        }),
 
         togglePanel: function(){
             this.$store.commit('dataset/setFacetOpen', {facet: this.field.name, open: !this.open})
@@ -227,36 +245,7 @@ export default{
             this.$emit('facetFilter');
         },
 
-        getFacet(){
-            for (let i=0; i<this.field.facets.length; i++){
-                if ( (typeof(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]) !== "undefined") && (localStorage["facet-"+Object.keys(this.field.facets[i])[0]].length > 0) ){
-
-                    this.filters = JSON.parse(localStorage["facet-"+Object.keys(this.field.facets[i])[0]]);
-                    var keys = Object.keys(this.filters);
-                    for (var j=0; j<keys.length; j++){
-                        this.maxFilters += this.filters[keys[j]].length;
-                    }
-                }else{
-                    let query = "?facet.field=[\""+Object.keys(this.field.facets[i])[0]+"\"]&facet.limit=-1&rows=0";
-                    var self = this;
-                    ckanServ.getDatasets(query).then((data) => {
-
-                        this.filters[Object.keys(this.field.facets[i])[0]] = data.result.search_facets[Object.keys(self.field.facets[i])[0]].items
-
-                        this.filters[Object.keys(this.field.facets[i])[0]].sort(function(a, b){
-                            return (a.name < b.name) ? -1 : 1
-                        })
-
-                        localStorage["facet-"+Object.keys(this.field.facets[i])[0]] = JSON.stringify(this.filters)
-                        var keys = Object.keys(this.filters);
-                        for (var j=0; j<keys.length; j++){
-                            this.maxFilters += this.filters[keys[j]].length;
-                        }
-                        this.loading = false
-                    });
-                }
-            }
-        },
+        
 
         preFilter: function(){
 
@@ -275,7 +264,7 @@ export default{
     },
 
     mounted(){
-        this.getFacet()
+        this.getFacet({facets: this.field.facets, facetName: this.name});
         this.preFilter();
     }
 }

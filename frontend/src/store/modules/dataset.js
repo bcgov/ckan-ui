@@ -22,6 +22,7 @@ const state = {
     error: null,
     facetList: {},
     facetOpen: {},
+    facets: {}
 };
 
 const getters = {
@@ -70,6 +71,29 @@ const actions = {
             ckanServ.getFacets().then((data) => {
                 commit('setFacetList', { facetList: data });
             });
+        }
+    },
+
+    getFacet({state}, {facets, facetName}){
+        //eslint-disable-next-line
+        console.log("facet " + facetName);
+        var filters = {};
+        for (let i=0; i<facets.length; i++){
+            let firstKey = Object.keys(facets[i])[0];
+            if ( (typeof(state.facets[firstKey]) === "undefined") || (state.facets[firstKey].length <= 0) ){
+                let query = "?facet.field=[\""+firstKey+"\"]&facet.limit=-1&rows=0";
+                ckanServ.getDatasets(query).then((data) => {
+
+                    filters[firstKey] = data.result.search_facets[firstKey].items
+
+                    filters[firstKey].sort(function(a, b){
+                        return (a.name < b.name) ? -1 : 1
+                    })
+
+                    Vue.set(state.facets, firstKey, filters);
+                    state.facets[firstKey] = filters;
+                });
+            }
         }
     },
 
