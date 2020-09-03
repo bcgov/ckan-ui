@@ -52,6 +52,7 @@ export default {
         "Descending": "Descending",
         "Publish Date": "Publish Date",
         "Last Modified": "Last Modified",
+        "Metadata Modified": "Metadata Modified",
         "using": "using",
         "filter": "filter | filters",
         "Filter": "Filter | Filters",
