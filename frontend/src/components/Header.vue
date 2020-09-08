@@ -39,12 +39,12 @@
                                 <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                                 <template v-for="(item, key) in menuTertiary">
 
-                                    <span :key="'secondary-menu-'+key">
-                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)">
+                                    <span :key="'tertiary-menu-'+key">
+                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiary-menu-'+key" v-text="$tc(item.title, 2)">
                                       {{$tc(item.title, 2)}}
                                       <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
                                     </v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key">
+                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiary-menu-'+key">
                                       {{$tc(item.title, 2)}}
                                       <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
                                     </v-list-item>
@@ -63,11 +63,11 @@
                                       </v-list-item>
                                     </span>
                                     <span v-else :key="'secondary-menu-'+key">
-                                      <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key">
+                                      <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key">
                                         {{$tc(item.title, 2)}}
                                         <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
                                       </v-list-item>
-                                      <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key">
+                                      <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key">
                                         {{$tc(item.title, 2)}}
                                         <v-icon :color="item.iconColour">{{item.icon}}</v-icon>
                                       </v-list-item>
