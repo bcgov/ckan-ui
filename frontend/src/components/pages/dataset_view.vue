@@ -11,7 +11,99 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
+        <v-row class="mt-0 fauxbar">
+            <v-col cols=12>
+                <v-btn color="primary" small text depressed to='/datasets'><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</v-btn>
+                <v-btn small text depressed v-if="!editing" color="label_colour" class="" v-clipboard="() => permalink" @click="snackbar = true">
+                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
+                </v-btn>
+                <v-dialog v-if="!editing" v-model="infoDialog" width="75%">
+                    <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" text small color="label_colour" class="">
+                            <v-icon>mdi-scatter-plot-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title class="header">
+                            <span>{{$tc('Groups', 2) + ' including ' + dataset.title}}</span>
+                            <v-spacer></v-spacer>
+                            <v-btn text small depressed class="noHover" @click="infoDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container fluid>
+                                <v-row>
+                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : (dataset.groups ? dataset.groups.length : 0)}})</h2></span>
+                                    <v-spacer></v-spacer>
+                                    <span v-if="showEdit">
+                                        <h4>
+                                            <v-btn text depressed color="primary" @click="addingGroups = !addingGroups">
+                                                <span v-if="!addingGroups">{{$tc('Add to Group')}}</span>
+                                                <span v-else>{{$tc('Stop Adding to Groups')}}</span>
+                                            </v-btn>
+                                        </h4>
+                                    </span>
+                                </v-row>
+
+                                <v-row wrap v-if="dataset.groups && dataset.groups.length > 0 && !addingGroups">
+                                    <v-col md=6 cols=12 v-for="(group, id) in dataset.groups" :key="'selected-group-'+id">
+                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
+                                            <v-col cols=10>{{group.title}}</v-col>
+                                            <v-col cols=2><v-btn v-if="showEdit" @click="removeGroup(group.id)" text depressed class="noHover"><v-icon>mdi-close</v-icon></v-btn></v-col>
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+                                <v-row wrap v-else-if="userGroups && userGroups.length > 0 && addingGroups">
+                                    <v-col md=6 cols=12 v-for="(group, id) in availableGroups" :key="'available-group-'+id">
+                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
+                                            <v-col cols=10>{{group.title}}</v-col>
+                                            <v-col cols=2><v-btn v-if="showEdit" @click="addGroup(group.id)" text depressed class="noHover"><v-icon>mdi-plus</v-icon></v-btn></v-col>
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+                                <v-row wrap v-else-if="addingGroups">
+                                    <v-col cols=12>
+                                        <p>There are no groups available to add this dataset to</p>
+                                    </v-col>
+                                </v-row>
+                                <v-row wrap v-else>
+                                    <v-col cols=12>
+                                        <p>This dataset is not currently in any groups</p>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
+
+                <v-btn text small depressed color="primary" v-if="!showEdit"  v-scroll-to="{
+                    el: '#endOfForm',
+                    x: false,
+                    y: true
+                }">
+                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
+                    {{$tc('Scroll to Bottom')}}
+                </v-btn>
+
+                <v-btn text small depressed v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
+                    <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
+                </v-btn>
+
+                <v-btn text small depressed v-if="!createMode && showEdit" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}" color="label_colour">
+                    <v-icon color="primary">mdi-plus</v-icon>
+                    {{$tc('Add Resource')}}
+                </v-btn>
+
+                <v-btn text small depressed v-if="!createMode && showEdit && isAdmin" color="error_text" @click="deleteDataset">
+                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
+                </v-btn>
+
+                <v-btn v-if="editing" depressed @click="cancel">{{$tc('Cancel')}}</v-btn>
+
+                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit(errors)">{{$tc('Save')}}</v-btn>
+            </v-col>
+        </v-row>
         <v-row>
+            <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
             <v-col cols=12>
                 <v-alert
                     :value="dataset.state === 'deleted'"
@@ -35,30 +127,13 @@
             </v-col>
         </v-row>
 
-        <!-- <powButton :dataset="dataset"/> -->
-        <v-row>
-            <v-col cols=12 class="ml-2">
-                <router-link to='/datasets' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</router-link>
-            </v-col>
+        <v-row class="mb-4">
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <v-container class="py-0">
-                            <v-row class="header-bar mb-0 mr-0" align-content="center">
-                                <v-col cols=12>
-                                    <h4 class="color-text">{{$tc('Dataset Details', 1)}}</h4>
-                                </v-col>
-                            </v-row>
-                            <v-row v-if="editing">
-                                <v-col cols=12>
-                                    <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit(errors)">Save</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-container>
                         <DynamicForm
                             :schema="schema.dataset_fields"
                             :textFields="textFields"
@@ -71,12 +146,7 @@
                             @updated="(field, value) => updateDataset(field, value)"
                         >
                         </DynamicForm>
-                        <v-row v-if="editing">
-                            <v-col cols=12>
-                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
-                            </v-col>
-                        </v-row>
+                        <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
                     <v-col cols=4 class="d-none d-sm-block pr-0">
@@ -88,83 +158,6 @@
                         <v-row class="fullWidth mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
                                 <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
-                            </v-col>
-                        </v-row>
-                        <v-row wrap v-if="!createMode" class="fullWidth mr-0">
-                            <v-col cols=12 class="pl-0" v-if="!editing">
-                                <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
-                                    <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
-                                </v-btn>
-                                <v-snackbar v-model="snackbar" :timeout=2000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
-                                <br>
-                                <v-dialog v-model="infoDialog" width="75%">
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn v-on="on" text small color="label_colour" class="lower-button mx-0 px-0">
-                                            <v-icon>mdi-folder-table-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
-                                        </v-btn>
-                                    </template>
-                                    <v-card>
-                                        <v-card-title class="header">
-                                            <span>{{$tc('Groups', 2) + ' including ' + dataset.title}}</span>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text small depressed class="noHover" @click="infoDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
-                                        </v-card-title>
-                                        <v-card-text>
-                                            <v-container fluid>
-                                                <v-row>
-                                                    <span><h2 class="inline">{{$tc('Groups', 2)}} ({{addingGroups ? availableGroups.length : (dataset.groups ? dataset.groups.length : 0)}})</h2></span>
-                                                    <v-spacer></v-spacer>
-                                                    <span v-if="showEdit">
-                                                        <h4>
-                                                            <v-btn text depressed color="primary" @click="addingGroups = !addingGroups">
-                                                                <span v-if="!addingGroups">{{$tc('Add to Group')}}</span>
-                                                                <span v-else>{{$tc('Stop Adding to Groups')}}</span>
-                                                            </v-btn>
-                                                        </h4>
-                                                    </span>
-                                                </v-row>
-
-                                                <v-row wrap v-if="dataset.groups && dataset.groups.length > 0 && !addingGroups">
-                                                    <v-col md=6 cols=12 v-for="(group, id) in dataset.groups" :key="'selected-group-'+id">
-                                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
-                                                            <v-col cols=10>{{group.title}}</v-col>
-                                                            <v-col cols=2><v-btn v-if="showEdit" @click="removeGroup(group.id)" text depressed class="noHover"><v-icon>mdi-close</v-icon></v-btn></v-col>
-                                                        </v-row>
-                                                    </v-col>
-                                                </v-row>
-                                                <v-row wrap v-else-if="userGroups && userGroups.length > 0 && addingGroups">
-                                                    <v-col md=6 cols=12 v-for="(group, id) in availableGroups" :key="'available-group-'+id">
-                                                        <v-row align-content="center" align="center" class="borderBottom mr-3">
-                                                            <v-col cols=10>{{group.title}}</v-col>
-                                                            <v-col cols=2><v-btn v-if="showEdit" @click="addGroup(group.id)" text depressed class="noHover"><v-icon>mdi-plus</v-icon></v-btn></v-col>
-                                                        </v-row>
-                                                    </v-col>
-                                                </v-row>
-                                                <v-row wrap v-else-if="addingGroups">
-                                                    <v-col cols=12>
-                                                        <p>There are no groups available to add this dataset to</p>
-                                                    </v-col>
-                                                </v-row>
-                                                <v-row wrap v-else>
-                                                    <v-col cols=12>
-                                                        <p>This dataset is not currently in any groups</p>
-                                                    </v-col>
-                                                </v-row>
-                                            </v-container>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-dialog>
-                            </v-col>
-                        </v-row>
-                        <v-row wrap v-if="!createMode && showEdit">
-                            <v-col cols=12 class="pl-0">
-                                <v-btn text color="label_colour" class="lower-button mx-0 px-0" @click="toggleEdit">
-                                    <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
-                                </v-btn>
-                                <br>
-                                <v-btn v-if="isAdmin" text color="error_text" class="lower-button mx-0 px-0" @click="deleteDataset">
-                                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
-                                </v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -614,5 +607,13 @@ ul {
 }
 .borderBottom{
     border-bottom: 1px solid var(--v-home_label-base);
+}
+
+.fauxbar{
+    position: fixed;
+    top: 65px;
+    background-color: var(--v-data_background-base);
+    z-index: 5;
+    width: 100%;
 }
 </style>
