@@ -20,7 +20,7 @@
                 <v-dialog v-if="!editing" v-model="infoDialog" width="75%">
                     <template v-slot:activator="{ on }">
                         <v-btn v-on="on" text small color="label_colour" class="">
-                            <v-icon>mdi-scatter-plot-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
+                            <v-icon>mdi-hexagon-multiple-outline</v-icon>&nbsp;{{$tc("Show Groups")}}
                         </v-btn>
                     </template>
                     <v-card>
