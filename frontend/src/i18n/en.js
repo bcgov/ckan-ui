@@ -265,5 +265,9 @@ export default {
         "Delete Dataset": "Delete Dataset",
         "Saving please wait": "Saving please wait",
         "Who can download this data?*": "Who can download this data?*",
+        "Data Catalogue Home": "Data Catalogue Home",
+        "Explore by Organizations": "Explore by Organizations",
+        "Explore Dataset Groups": "Explore Dataset Groups",
+        "Contact Data BC": "Contact DataBC",
     }
 };
