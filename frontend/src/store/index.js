@@ -34,6 +34,7 @@ export default new Vuex.Store({
 			'user.loading',
 			'dataset.schemas',
 			'dataset.facetList',
+			'dataset.facets',
 			'dataset.facetOpen',
 			'organization.orgList',
 			'organization.searchText',
