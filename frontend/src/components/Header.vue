@@ -17,7 +17,7 @@
             <v-row class="header-row">
                 <v-col cols=7 class="py-0 h-100">
                 <!-- Navbar content -->
-                    <a id="header-gov-logo" href="https://www2.gov.bc.ca" class="v-top">
+                    <a id="header-gov-logo" href="/" class="v-top">
                         <img
                             src="@/assets/images/bc_mark.png"
                             width="auto" height="100%"
@@ -28,7 +28,7 @@
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
                         <template v-slot:activator="{ on }">
-                        <v-btn depressed tile large @click="showSearch = false" v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                        <v-btn depressed tile large v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
                             <v-icon large>mdi-menu</v-icon>
                         </v-btn>
                         </template>
@@ -39,13 +39,15 @@
                                 <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                                 <template v-for="(item, key) in menuTertiary">
 
-                                    <span v-if="item.dialog" :key="'secondary-menu-'+key">
-                                    <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true" v-text="$tc(item.title, 2)"></v-list-item>
-                                    </span>
-
-                                    <span v-else :key="'secondary-menu-'+key">
-                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <span :key="'tertiary-menu-'+key">
+                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiary-menu-'+key" v-text="$tc(item.title, 2)">
+                                      {{$tc(item.title, 2)}}
+                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                    </v-list-item>
+                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiary-menu-'+key">
+                                      {{$tc(item.title, 2)}}
+                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                    </v-list-item>
                                     </span>
                                 </template>
                                 <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" @click="logout">{{$tc("Logout")}}</v-list-item>
@@ -54,8 +56,22 @@
                             <v-col cols=12 class="primary_color gov-yellow-border-top"> -->
                                 <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
                                 <template v-for="(item, key) in menuSecondary">
-                                    <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiarry-menu-'+key" v-text="$tc(item.title, 2)"></v-list-item>
+                                    <span v-if="item.dialog" :key="'secondary-menu-'+key">
+                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                    </span>
+                                    <span v-else :key="'secondary-menu-'+key">
+                                      <v-list-item v-if="item.link" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'secondary-menu-'+key">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                      <v-list-item v-else-if="item.title !== ''" left fixed :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'secondary-menu-'+key">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                    </span>
                                 </template>
                                 <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" class="hidden-md-and-up" @click="setLanguage('en')">EN</v-list-item>
                                 <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" class="hidden-md-and-up" @click="setLanguage('fr')">FR</v-list-item>
@@ -63,9 +79,7 @@
                             <!-- </v-col>
                         </v-row> -->
                     </v-menu>
-                    <v-btn depressed tile large @click="searchClick" id="header-search" color="govYellow" height="100%" class="v-top float-right">
-                        <v-icon large>mdi-magnify</v-icon>
-                    </v-btn>
+                    
                     <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>
                     <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">FR</v-btn>
                     <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
@@ -76,23 +90,7 @@
             </v-row>
         </v-container>
       </v-toolbar>
-      <v-container class="search-bar gov-yellow-border-bottom gov-yellow-border-top" v-show="showSearch" py-0 px-12>
-        <v-row wrap align-content="center" class="search-row">
-          <v-col class="py-0">
-            <v-text-field
-                ref="headerSearch"
-                id="header-search"
-                :label="$tc('SearchDatasets')"
-                v-model="searchText"
-                solo
-                hide-details
-                v-on:keyup="search"
-                append-icon="mdi-magnify"
-                @click:append="search">
-            </v-text-field>
-          </v-col>
-        </v-row>
-      </v-container>
+      
     </header>
   </span>
 </template>
@@ -115,18 +113,16 @@ export default {
   data () {
     let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
-        searchText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         aboutDialog: false,
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
-        showSearch: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         menuSecondary: [
-            {
-                "title": "What is DataBC?",
-                "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
-            },
+            // {
+            //     "title": "What is DataBC?",
+            //     "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
+            // },
             // {
             //     "title": "Dataset Usage",
             //     "link": "/usage"
@@ -135,16 +131,21 @@ export default {
                 "title": "Geographic Services",
                 "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
             },
+            // {
+            //     "title": "Blog",
+            //     "href": "https://engage.gov.bc.ca/data/"
+            // },
+            // {
+            //     "title": "Developers",
+            //     "href": "https://www.bcdevexchange.org/"
+            // },
             {
-                "title": "Blog",
-                "href": "https://engage.gov.bc.ca/data/"
+                "title": "About",
+                "link": "/about",
+                "dialog": true
             },
             {
-                "title": "Developers",
-                "href": "https://www.bcdevexchange.org/"
-            },
-            {
-                "title": "Contact",
+                "title": "Contact Data BC",
                 "href": "https://forms.gov.bc.ca/databc-contact-us/"
             },
             {
@@ -179,32 +180,28 @@ export default {
     menuTertiary() {
         return [
             {
-                "title": "Datasets",
+                "title": "Data Catalogue Home",
                 "link": "/datasets"
             },
             {
-                "title": "Organizations",
+                "title": "Explore by Organizations",
                 "link": "/organization"
             },
             {
-                "title": "Groups",
+                "title": "Explore Dataset Groups",
                "link": "/groups"
             },
             {
-                "icon": "mdi-rss",
+                "icon": "mdi-rss-box",
+                "iconColour": "orange",
                 "title": "Subscribe to New Data",
                 "href": this.classicUrl + '/feeds/recent.rss'
             },
-            {
-                "icon": "mdi-rss",
-                "title": "Subscribe to Blog Posts",
-                "href": "https://engage.gov.bc.ca/data/feed/"
-            },
-            {
-                "title": "About",
-                "link": "/about",
-                "dialog": true
-            },
+            // {
+            //     "icon": "mdi-rss",
+            //     "title": "Subscribe to Blog Posts",
+            //     "href": "https://engage.gov.bc.ca/data/feed/"
+            // },
         ]
     }
   },
@@ -212,23 +209,6 @@ export default {
 
       closeAbout: function(){
         this.aboutDialog = false;
-      },
-
-      search: function(e){
-          if (e.keyCode === 13 || e.type === 'click') {
-            this.showSearch = false;
-            this.$store.commit('search/setSearchText', this.searchText);
-            if (this.$route.path !== '/datasets'){
-              this.$router.push('/datasets');
-            }
-
-          }
-      },
-      searchClick: function(){
-          this.showSearch = !this.showSearch
-          this.$nextTick(() => {
-            this.$refs.headerSearch.focus();
-          })
       },
 
       setLanguage: function(local){
@@ -264,12 +244,6 @@ export default {
     this.$store.dispatch('user/getCurrentUser')
 
     let self = this;
-    this.$store.subscribe((mutation) => {
-        if (mutation.type === 'search/setSearchText'){
-            self.searchText = this.$store.state.search.searchText;
-        }
-
-    });
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;
@@ -325,17 +299,6 @@ export default {
     width: 100%;
     top: 0px;
     z-index: 100;
-  }
-
-  .search-bar{
-    position: absolute;
-    background: white;
-    width: 100%;
-    max-width: none !important;
-    height: 60px;
-  }
-  .search-row{
-      height: 100%;
   }
 
   div .v-list__tile {

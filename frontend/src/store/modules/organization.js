@@ -193,8 +193,15 @@ const mutations = {
             return;
         }
 
+        let tmp = {};
         for (let i=0; i<orgList.result.length; i++){
-            userOrgs.push({value:orgList.result[i].id , label: orgList.result[i].display_name});
+            tmp[orgList.result[i].display_name] = orgList.result[i].id;
+        }
+
+        let keys = Object.keys(tmp).sort();
+
+        for (let i=0; i<keys.length; i++){
+            userOrgs.push({value: tmp[keys[i]] , label: keys[i]});
         }
 
         state.userOrgs = Object.assign({}, userOrgs);

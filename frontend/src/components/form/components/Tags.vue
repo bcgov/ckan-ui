@@ -13,7 +13,7 @@
             <p class="value">{{val.join(', ')}}</p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
-            <v-autocomplete
+            <v-combobox
                 :name="name"
                 :loading="loading"
                 v-model="val"
@@ -27,9 +27,11 @@
                 multiple
                 :search-input.sync="search"
                 outlined dense
+                :delimiters="[',']"
                 :disabled="disabled"
+                @input="search = null"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-            ></v-autocomplete>
+            ></v-combobox>
         </ValidationProvider>
     </v-col>
 </template>

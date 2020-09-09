@@ -52,6 +52,7 @@ export default {
         "Descending": "Descending",
         "Publish Date": "Publish Date",
         "Last Modified": "Last Modified",
+        "Metadata Modified": "Metadata Modified",
         "using": "using",
         "filter": "filter | filters",
         "Filter": "Filter | Filters",
@@ -270,5 +271,9 @@ export default {
         "Add Resource": "Add Resource",
         "Save": "Save",
         "Cancel": "Cancel",
+        "Data Catalogue Home": "Data Catalogue Home",
+        "Explore by Organizations": "Explore by Organizations",
+        "Explore Dataset Groups": "Explore Dataset Groups",
+        "Contact Data BC": "Contact DataBC"
     }
 };
