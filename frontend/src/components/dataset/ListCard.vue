@@ -17,8 +17,15 @@
       </v-row>
 
       <v-row wrap dense class="my-0 py-0">
-        <v-col cols=4 class="faded"><strong>{{$tc('Published')}}: {{publishDate}}</strong></v-col>
-        <v-col cols=8 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
+          <v-col cols=12 class="my-0 py-0">
+              <router-link class="noUnderline" :to="{name: 'organization_view', params: {organizationId: orgId}}">{{org}}</router-link>
+          </v-col>
+      </v-row>
+
+      <v-row wrap dense class="my-0 py-0">
+        <v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>
+        <v-col cols=3 class="faded">{{$tc('Published')}}: {{publishDate}}</v-col>
+        <v-col cols=5 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
       </v-row>
 
 
@@ -54,7 +61,8 @@ export default {
         if (typeof(this.record.id) === "undefined" ){
             return {
                 resourceTypes: [],
-                publishDate: ""
+                publishDate: "",
+                metaModDate: ""
             }
         }
         let resourceTypes = []
@@ -108,6 +116,9 @@ export default {
         let date = new Date(this.record.metadata_created)
         let pubDate = date.getFullYear() + "-" + (date.getMonth() <= 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1)) + "-" + date.getDate();
 
+        let d2 = new Date(this.record.metadata_modified)
+        let modDate = d2.getFullYear() + "-" + (d2.getMonth() <= 10 ? "0"+(d2.getMonth()+1) : (d2.getMonth()+1)) + "-" + d2.getDate();
+
         return {
             publishDate: pubDate ? pubDate : "",
             resourceTypes: resourceTypes,
@@ -115,6 +126,9 @@ export default {
             id: this.record.id,
             title: this.record.title,
             name: this.record.name,
+            org: this.record.organization.title,
+            orgId: this.record.organization.name,
+            metaModDate: modDate ? modDate : "",
             //iconName: icon,
             //iconToolTip: tooltip,
             primMarkers: [{
@@ -128,6 +142,10 @@ export default {
 </script>
 
 <style scoped>
+    .noUnderline{
+        text-decoration: none;
+    }
+
     .dataset-markers{
         float: right;
     }
