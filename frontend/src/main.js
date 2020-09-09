@@ -21,7 +21,6 @@ import { ValidationProvider } from 'vee-validate';
 import { extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 
-
 const analyticsServ = new Analytics()
 
 Vue.config.productionTip = false;
@@ -40,6 +39,10 @@ Vue.use(VueI18n);
 Vue.use(lineClamp, {});
 
 Vue.use(Clipboard);
+
+var VueScrollTo = require('vue-scrollto');
+ 
+Vue.use(VueScrollTo);
 
 // Vue.use(VeeValidate, {});
 Vue.component('ValidationProvider', ValidationProvider);

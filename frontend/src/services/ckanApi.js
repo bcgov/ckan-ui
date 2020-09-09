@@ -163,9 +163,6 @@ export class CkanApi {
             data: data,
         };
 
-        for (let value of data.values()){
-            console.log("VALUES", value);
-        }
         return axios(options).then(response => response.data);
     }
 
