@@ -11,6 +11,63 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
+        <v-row class="mt-0 fauxbar">
+            <v-col cols=12>
+                <v-btn v-if="!editing" small depressed text :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }" color="primary">
+                    <v-icon color="primary">mdi-arrow-left</v-icon> 
+                    {{$tc('Back to')}} {{$tc('Datasets', 1)}}
+                </v-btn>
+                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
+                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                </v-btn>
+                <v-btn v-if="!editing" small depressed text color="primary" @click.stop="previewDialog = true">
+                    <v-icon>mdi-fullscreen</v-icon>&nbsp;{{$tc('Preview')}}
+                    <v-dialog
+                        eager
+                        v-model="previewDialog"
+                        fullscreen
+                        transition="dialog-bottom-transition"
+                    >
+                        <Preview
+                            :resource="resource"
+                            v-on:closePreviewDialog="previewDialog = false"
+                        ></Preview>
+                    </v-dialog>
+                </v-btn>
+                <v-btn v-if="!editing" small depressed text color="primary" v-clipboard="() => permalink" @click="snackbar = true">
+                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
+                </v-btn>
+
+                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
+
+                <v-btn v-if="!!resource.hasSchema" depressed block color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
+                    <v-icon>mdi-code-json</v-icon>View Schema (JSON Table Schema)
+                    <v-dialog
+                        eager
+                        v-model="schemaDialog"
+                        fullscreen
+                        transition="dialog-bottom-transition"
+                    >
+                        <JsonTable
+                            :resource="resource"
+                            v-on:closePreviewDialog="schemaDialog = false"
+                        ></JsonTable>
+                    </v-dialog>
+                </v-btn>
+
+                <v-btn v-if="!editing" small depressed text color="primary" @click="toggleEdit">
+                    <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
+                </v-btn>
+                
+                <v-btn v-if="!editing" small depressed text color="error_text" @click="deleteResource">
+                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
+                </v-btn>
+                
+                <v-btn v-if="editing" small depressed text @click="cancel">Cancel</v-btn>
+                <v-btn v-if="editing" small depressed text color="primary" type="submit" @click="submit()">Save</v-btn>
+            </v-col>
+        </v-row>
+        <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
         <v-alert
             :value="resource.state === 'deleted'"
             type="warning">
@@ -32,29 +89,12 @@
         </v-alert>
 
         <!-- <powButton :dataset="dataset"/> -->
-        <v-row>
-            <v-col cols=12 class="ml-2">
-                <router-link :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }" class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 1)}}</router-link>
-            </v-col>
-        </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
-                <v-row fill-height>
+                <v-row fill-height class="pt-5">
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <v-container class="py-0">
-                            <v-row class="header-bar mb-0 mr-0" align-content="center">
-                                <v-col cols=12>
-                                    <h4 class="color-text">{{$tc('Resource Details', 1)}}</h4>
-                                </v-col>
-                            </v-row>
-                            <v-row v-if="editing">
-                                <v-col cols=12>
-                                    <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                    <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-container>
+                        <h4 class="mt-5">{{dataset.title}}</h4>
                         <DynamicForm
                             :schema="schema.resource_fields"
                             :textFields="textFields"
@@ -65,95 +105,19 @@
                             @updated="(field, value) => updateResource(field, value)"
                         >
                         </DynamicForm>
-                        <v-row v-if="editing">
-                            <v-col cols=12>
-                                <v-btn depressed class="float-right ctrl-button preview-button" @click="cancel">Cancel</v-btn>
-                                <v-btn depressed color="primary" class="float-right ctrl-button" type="submit" @click="submit()">Save</v-btn>
-                            </v-col>
-                        </v-row>
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
                     <v-col cols=4 class="d-none d-sm-block pr-0">
-                        <v-row class="header-bar mb-0 mr-0" align-content="center">
-                            <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Access', 1)}}</h4>
-                            </v-col>
-                        </v-row>
-                        <v-row class="fullWidth mr-0" v-if="resource && loadPOW">
-                            <v-col cols=12 class="px-0 pb-0">
-                                <powButton :resource="resource" btn/>
-                            </v-col>
-                        </v-row>
-                        <v-row class="fullWidth mr-0" v-else-if="resource">
-                            <v-col cols=12 class="px-0 pb-0">
-                                <v-btn depressed block color="primary" :href="resource.url" class="ctrl-button">
-                                    <v-icon>mdi-cloud-download-outline</v-icon>&nbsp;Download
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                        <v-row class="fullWidth mr-0">
-                            <v-col cols=12 class="px-0">
-                                <v-btn depressed block color="text" @click.stop="previewDialog = true" class="ctrl-button preview-button">
-                                    <v-icon>mdi-fullscreen</v-icon>&nbsp;Preview
-                                    <v-dialog
-                                        eager
-                                        v-model="previewDialog"
-                                        fullscreen
-                                        transition="dialog-bottom-transition"
-                                    >
-                                        <Preview
-                                            :resource="resource"
-                                            v-on:closePreviewDialog="previewDialog = false"
-                                        ></Preview>
-                                    </v-dialog>
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                        <v-row v-if="!!resource.hasSchema">
-                            <v-col cols=12>
-                                <v-btn depressed block color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
-                                    <v-icon>mdi-code-json</v-icon>View Schema (JSON Table Schema)
-                                    <v-dialog
-                                        eager
-                                        v-model="schemaDialog"
-                                        fullscreen
-                                        transition="dialog-bottom-transition"
-                                    >
-                                        <JsonTable
-                                            :resource="resource"
-                                            v-on:closePreviewDialog="schemaDialog = false"
-                                        ></JsonTable>
-                                    </v-dialog>
-                                </v-btn>
-                            </v-col>
+                        <v-row class="mb-4">
                         </v-row>
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
                                 <h4 class="color-text">{{$tc('Other Resources', 1)}}</h4>
                             </v-col>
                         </v-row>
-                        <v-row class="fullWidth mr-0">
+                        <v-row class="fullWidth mt-0 pt-0 mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
                                 <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
-                            </v-col>
-                        </v-row>
-                        <v-row wrap v-if="!createMode">
-                            <v-col cols=12 class="pl-0">
-                                <v-btn text small color="label_colour" class="lower-button mx-0 px-0" v-clipboard="() => permalink" @click="snackbar = true">
-                                    <v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc("Copy Permalink")}}
-                                </v-btn>
-                                <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
-                            </v-col>
-                        </v-row>
-                        <v-row wrap v-if="!createMode && showEdit">
-                            <v-col cols=12 class="pl-0">
-                                <v-btn text color="label_colour" class="lower-button mx-0 px-0" @click="toggleEdit">
-                                    <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
-                                </v-btn>
-                                <br>
-                                <v-btn text color="error_text" class="lower-button mx-0 px-0" @click="deleteResource">
-                                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
-                                </v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -498,9 +462,18 @@ ul {
     width: 100%;
     background-color: var(--v-menu_secondary-base);
     color: var(--v-text-base);
-    height: 40px;
+    height: 50px;
 }
 .fullWidth{
     width: 100%;
 }
+
+.fauxbar{
+    position: fixed;
+    top: 65px;
+    background-color: var(--v-data_background-base);
+    z-index: 5;
+    width: 100%;
+}
+
 </style>

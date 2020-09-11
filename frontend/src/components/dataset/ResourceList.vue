@@ -1,7 +1,7 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container fluid grid-list-md class="mt-0 pt-0">
         <v-row align-space-around justify-start fill-height>
-            <v-col cols=12 class="px-0">
+            <v-col cols=12 class="pt-0 px-0">
                 <ResourceCard
                     v-for="(resource, index) in resources"
                     v-bind:key="resource.id"

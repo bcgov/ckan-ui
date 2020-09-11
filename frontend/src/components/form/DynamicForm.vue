@@ -187,7 +187,7 @@
                     @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     :field="field">
                 </Composite>
-                <CompositeRepeating
+                <TableRepeating
                     v-show="!editing"
                     v-else-if="field.display_snippet==='bcgw_details.html'"
                     :editing="false"
@@ -196,7 +196,7 @@
                     :field="field"
                     :dataset="values"
                     :orgArray="orgArray">
-                </CompositeRepeating>
+                </TableRepeating>
                 <TextInput
                     v-else-if="textFields.indexOf(field.field_name)>=0"
                     :name="field.field_name"
@@ -297,6 +297,7 @@ import Upload from './components/Upload';
 import Json from "./components/Json";
 import Checkbox from "./components/Checkbox";
 import ImageUrl from "./components/ImageUrl";
+import TableRepeating from "./components/TableRepeating";
 
 export default {
     components: {
@@ -314,6 +315,7 @@ export default {
         Autocomplete: Autocomplete,
         Checkbox: Checkbox,
         ImageUrl: ImageUrl,
+        TableRepeating: TableRepeating
     },
     props: {
         schema: Array,

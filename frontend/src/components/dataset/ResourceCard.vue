@@ -1,5 +1,5 @@
 <template>
-    <v-card hover tile style="margin-bottom:.5rem">
+    <v-card hover tile>
         <v-container fluid>
             <v-row wrap align-center fill-height>
                 <v-col cols=12 class="py-0">

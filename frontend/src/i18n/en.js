@@ -274,6 +274,14 @@ export default {
         "Data Catalogue Home": "Data Catalogue Home",
         "Explore by Organizations": "Explore by Organizations",
         "Explore Dataset Groups": "Explore Dataset Groups",
-        "Contact Data BC": "Contact DataBC"
+        "Contact Data BC": "Contact DataBC",
+        "Share link copied": "Share link copied",
+        "Download": "Download",
+        "Preview": "Preview",
+        "Share": "Share",
+        "Edit Resource": "Edit Resource",
+        "Delete Resource": "Delete Resource",
+        "Request Access": "Request Access",
+        "Viewing Resource": "Viewing Resource",
     }
 };
