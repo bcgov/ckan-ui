@@ -1,25 +1,23 @@
 <template>
-    <div class="pow-container" style="width: 100%">
-        <v-dialog v-model="dialog" width="900">
-            <template v-slot:activator="{ on }">
-                <v-btn v-if="btn" depressed block color="primary" v-on="on" class="ctrl-button">
-                    <!-- @click="startOrder()" -->
-                    <v-icon>mdi-folder-information-outline</v-icon>&nbsp;Request Access
-                </v-btn>
-                <v-list-item v-else text block color="label_colour" v-on="on">
-                    <!-- @click="startOrder()" -->
-                    Request Access
-                </v-list-item>
-            </template>
-            <!-- change to vue component and move methods to here -->
-            <powModal @powMounted="startOrder()"/>
-            <!-- <v-card height="90%">
+    <v-dialog v-model="dialog" width="900">
+        <template v-slot:activator="{ on }">
+            <v-btn v-if="btn" small depressed text color="primary" v-on="on">
+                <!-- @click="startOrder()" -->
+                <v-icon>mdi-folder-information-outline</v-icon>&nbsp;{{$tc('Request Access')}}
+            </v-btn>
+            <v-list-item v-else text block color="label_colour" v-on="on">
+                <!-- @click="startOrder()" -->
+                Request Access
+            </v-list-item>
+        </template>
+        <!-- change to vue component and move methods to here -->
+        <powModal @powMounted="startOrder()"/>
+        <!-- <v-card height="90%">
 
-                <iframe :src="full_ui_url" id="powModal"></iframe>
+            <iframe :src="full_ui_url" id="powModal"></iframe>
 
-            </v-card> -->
-        </v-dialog>
-    </div>
+        </v-card> -->
+    </v-dialog>
 </template>
 
 <script>

@@ -243,7 +243,7 @@ export default {
   mounted: function(){
     this.$store.dispatch('user/getCurrentUser')
 
-    let self = this;
+    //let self = this;
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;
