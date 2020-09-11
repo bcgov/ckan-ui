@@ -55,6 +55,15 @@
                     </v-dialog>
                 </v-btn>
 
+                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
+                    el: '#endOfForm',
+                    x: false,
+                    y: true
+                }">
+                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
+                    {{$tc('Scroll to Bottom')}}
+                </v-btn>
+
                 <v-btn v-if="!editing" small depressed text color="primary" @click="toggleEdit">
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
@@ -105,6 +114,7 @@
                             @updated="(field, value) => updateResource(field, value)"
                         >
                         </DynamicForm>
+                        <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
                     <v-col cols=4 class="d-none d-sm-block pr-0">
