@@ -209,6 +209,9 @@ export default {
         fieldValue: function(){
             this.updateValues();
         },
+        formDefaults: function(){
+            this.rerenderKey++;
+        }
     },
 
     data() {
@@ -222,7 +225,6 @@ export default {
 
     methods: {
         updateValues: function(){
-            //this.rerenderKey++;
             if (this.dataset[this.field.field_name]){
                 let value = JSON.parse(this.dataset[this.field.field_name]);
                 for (let i=0; i<value.length; i++){
