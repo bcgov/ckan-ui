@@ -74,9 +74,7 @@ const actions = {
         }
     },
 
-    getFacet({state}, {facets, facetName}){
-        //eslint-disable-next-line
-        console.log("facet " + facetName);
+    getFacet({state}, {facets}){
         var filters = {};
         for (let i=0; i<facets.length; i++){
             let firstKey = Object.keys(facets[i])[0];
