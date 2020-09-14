@@ -163,7 +163,7 @@
         height: 120px;
         border-top-left-radius: inherit;
         border-top-right-radius: inherit;
-        box-shadow: 0px 2px 2px;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     }
     .pitch-title {
         color: var(--v-text-base);
