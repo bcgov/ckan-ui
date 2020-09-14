@@ -222,7 +222,7 @@ export default {
 
     methods: {
         updateValues: function(){
-            this.rerenderKey++;
+            //this.rerenderKey++;
             if (this.dataset[this.field.field_name]){
                 let value = JSON.parse(this.dataset[this.field.field_name]);
                 for (let i=0; i<value.length; i++){
