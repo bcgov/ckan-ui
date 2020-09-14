@@ -364,8 +364,6 @@ export default {
         available_parent_org_value: function(){
             let val = (this.values.groups && this.values.groups[0] && this.values.groups[0].name) ? this.values.groups[0].name : ""
             if (val.length == 0){
-                //eslint-disable-next-line
-                console.log("no name, using full group");
                 val = (this.values.groups && this.values.groups[0]) ? this.values.groups[0] : ""
             }
             return val;
