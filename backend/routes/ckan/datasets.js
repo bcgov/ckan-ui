@@ -178,6 +178,7 @@ var addRoutes = function(router){
             return res.json({error: "No Dataset ID specified"});
         }
     
+        //note that it won't show as deleted until solr reruns
         console.log("DELETING PACKAGE", req.params.datasetId);
     
         request({ method: 'POST', uri: reqUrl, json: {id: req.params.datasetId}, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
