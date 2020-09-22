@@ -6,40 +6,48 @@
         </div>
     </v-container>
     <v-container v-else fluid class="orgContainer px-md-10 py-4">
-        <v-alert
-            :value="group.state === 'deleted'"
-            type="warning">
-            You are viewing a deleted organization
-        </v-alert>
-        <v-alert
-            :value="showFormSuccess"
-            class="fixed"
-            dismissible
-            type="success">
-            {{formSuccess}}
-        </v-alert>
-        <v-alert
-            :value="showFormError"
-            class="fixed"
-            dismissible
-            type="error">
-            {{formError}}
-        </v-alert>
-
-        <v-row>
-            <v-col cols=12 class="ml-6">
-                <router-link to='/organization' class="nounderline"><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Organizations', 2)}} {{$tc('list')}}</router-link>
+        <v-row wrap class="mt-0 pa-0 fauxbar">
+            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
+                <v-alert
+                    :value="group.state === 'deleted'"
+                    type="warning">
+                    You are viewing a deleted organization
+                </v-alert>
+                <v-alert
+                    :value="showFormSuccess"
+                    class="fixed"
+                    dismissible
+                    type="success">
+                    {{formSuccess}}
+                </v-alert>
+                <v-alert
+                    :value="showFormError"
+                    class="fixed"
+                    dismissible
+                    type="error">
+                    {{formError}}
+                </v-alert>
             </v-col>
-        </v-row>
-        <v-row class="mr-md-1">
-            <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
-            <v-col cols=12 sm=4>
+            <v-col cols=12>
+                
+                <v-btn text small depressed color="primary" class="noBack" to='/organization'>
+                    <v-icon color="primary">mdi-arrow-left</v-icon> 
+                    {{$tc('Back to')}} {{$tc('Organizations', 2)}} {{$tc('list')}}
+                </v-btn>
+
+                <v-btn text small depressed color="primary" v-clipboard="() => permalink" @click="snackbar = true">
+                    <v-icon>mdi-share-variant</v-icon>
+                    &nbsp;{{$tc('Copy Permalink')}}
+                </v-btn>
+
                 <v-dialog
                     v-model="infoDialog"
                     width="75%"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" text small depressed class="noHover basicText" color="label_colour">{{$tc('Learn more about this')}} {{$tc('organizations', 1)}}</v-btn>
+                        <v-btn v-on="on" text small depressed color="primary">
+                            <v-icon>mdi-information-outline</v-icon> 
+                            &nbsp;{{$tc('Learn more about this')}} {{$tc('organizations', 1)}}</v-btn>
                     </template>
                     <v-card>
                         <v-card-title class="header">
@@ -68,7 +76,33 @@
                         </v-card-text>
                     </v-card>
                 </v-dialog>
+
+                <v-dialog
+                    v-if="showEdit"
+                    v-model="editDialog"
+                    width="75%"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                    </template>
+                    <Edit
+                        v-on:closeEdit='editDialog = false'
+                        v-on:editStatus="editStatus"
+                    >
+                    </Edit>
+                </v-dialog>
+
+                <v-btn v-if="canDeleteResources" text small depressed color="error" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>&nbsp;{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
+
             </v-col>
+        </v-row>
+
+        <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
+
+        <v-row class="mb-7"></v-row>
+
+        <v-row class="mr-md-1">
+            <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
         </v-row>
         <v-row wrap class="mr-md-1">
             <v-col cols=10 sm=7>
@@ -92,35 +126,12 @@
                     :hideFacets="hideFacets"
                 ></FacetFilters>
                 <v-container class="d-none d-sm-block text-left">
-                    <v-row>
-                        <v-btn text small depressed class="noHover mx-0 px-0 basicText" color="label_colour" v-clipboard="() => permalink"><v-icon>mdi-content-copy</v-icon>&nbsp;{{$tc('Copy Permalink')}}</v-btn>
-                    </v-row>
                     <v-row v-if="loggedIn">
                         <!-- <v-btn text v-if="following" small depressed class="noHover mx-0 basicText" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
                         <v-btn text v-else           small depressed class="noHover mx-0 basicText" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Organizations',1)}}</v-btn> -->
                     </v-row>
 
                     <v-row></v-row>
-
-                    <v-row v-if="showEdit" class="mt-6">
-                        <v-dialog
-                            v-model="editDialog"
-                            width="75%"
-                        >
-                            <template v-slot:activator="{ on }">
-                                <v-btn v-on="on" text small depressed class="noHover mx-0 px-0 basicText" color="label_colour"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
-                            </template>
-                            <Edit
-                                v-on:closeEdit='editDialog = false'
-                                v-on:editStatus="editStatus"
-                            >
-                            </Edit>
-                        </v-dialog>
-                    </v-row>
-
-                    <v-row class="mb-5" v-if="canDeleteResources">
-                        <v-btn text small depressed class="noHover mx-0 px-0 deleteText" @click="deleteOrg"><v-icon>mdi-delete-outline</v-icon>&nbsp;{{$tc('Delete') + ' ' + $tc('Organizations', 1)}}</v-btn>
-                    </v-row>
                 </v-container>
             </v-col>
         </v-row>
@@ -178,6 +189,7 @@
                 infoDialog: false,
                 editDialog: false,
                 imgError: false,
+                snackbar: false,
                 forceLoad: 0,
                 hideFacets: ['Organizations'],
             }
@@ -351,5 +363,18 @@
     .borderTop{
         border-top: 3px solid;
         border-color: var(--v-govYellow-base);
+    }
+
+    .noBack.v-btn:before{
+        background: none;
+    }
+
+    .fauxbar{
+        position: fixed;
+        top: 65px;
+        left: 0px;
+        background-color: var(--v-data_background-base);
+        z-index: 5;
+        right: 0px;
     }
 </style>

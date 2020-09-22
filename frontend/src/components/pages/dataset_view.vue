@@ -11,7 +11,29 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row class="mt-0 fauxbar">
+        <v-row wrap class="mt-0 pa-0 fauxbar">
+            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
+                <v-alert
+                    :value="dataset.state === 'deleted'"
+                    class="mb-0"
+                    type="warning">
+                    You are viewing a deleted dataset
+                </v-alert>
+                <v-alert
+                    v-model="showFormSuccess"
+                    dismissible
+                    class="fixedAlert mb-0"
+                    type="success">
+                    {{formSuccess}}
+                </v-alert>
+                <v-alert
+                    v-model="showFormError"
+                    dismissible
+                    class="fixedAlert mb-0"
+                    type="error">
+                    {{formError}}
+                </v-alert>
+            </v-col>
             <v-col cols=12>
                 <v-btn color="primary" small text depressed to='/datasets'><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</v-btn>
                 <v-btn small text depressed v-if="!editing" color="label_colour" class="" v-clipboard="() => permalink" @click="snackbar = true">
@@ -102,32 +124,12 @@
                 <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit(errors)">{{$tc('Save')}}</v-btn>
             </v-col>
         </v-row>
-        <v-row>
-            <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
-            <v-col cols=12>
-                <v-alert
-                    :value="dataset.state === 'deleted'"
-                    type="warning">
-                    You are viewing a deleted dataset
-                </v-alert>
-                <v-alert
-                    v-model="showFormSuccess"
-                    dismissible
-                    class="fixedAlert"
-                    type="success">
-                    {{formSuccess}}
-                </v-alert>
-                <v-alert
-                    v-model="showFormError"
-                    dismissible
-                    class="fixedAlert"
-                    type="error">
-                    {{formError}}
-                </v-alert>
-            </v-col>
-        </v-row>
+        
+        <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
 
-        <v-row class="mb-4">
+        <v-row class="mt-5 mb-9"></v-row>
+
+        <v-row class="mb-9">
         </v-row>
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -612,8 +614,9 @@ ul {
 .fauxbar{
     position: fixed;
     top: 65px;
+    left: 0px;
     background-color: var(--v-data_background-base);
     z-index: 5;
-    width: 100%;
+    right: 0px;
 }
 </style>

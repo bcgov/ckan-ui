@@ -76,10 +76,10 @@ export default {
         computeVal(){
             if (this.multi){
                 if (typeof(this.value) === "string"){
-                    if (this.value.length === 0){
-                        this.val = [];
+                    if ( (this.value.length === 0) || (this.value === "[]") ){
+                        this.val = "";
                     }else{
-                        this.val = [this.value]
+                        this.val = this.value.join(" ");
                     }
                 }
             }else{
@@ -130,7 +130,7 @@ export default {
                     this.val = tmp;//.join(",");
                     this.$emit('edited', tmp);
                 }else{
-                    this.$emit('edited', JSON.stringify([]));
+                    this.$emit('edited', JSON.stringify());
                 }
             }else{
                 this.$emit('edited', this.val);

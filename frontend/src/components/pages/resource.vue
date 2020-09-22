@@ -11,7 +11,30 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row class="mt-0 fauxbar">
+        <v-row class="mt-0 wrap fauxbar">
+            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
+                <v-alert
+                    :value="resource.state === 'deleted'"
+                    type="warning">
+                    You are viewing a deleted resource
+                </v-alert>
+                <v-alert
+                    :value="showFormSuccess"
+                    class="fixed"
+                    @input="showFormSuccess = false;"
+                    dismissible
+                    type="success">
+                    {{formSuccess}}
+                </v-alert>
+                <v-alert
+                    :value="showFormError"
+                    class="fixed"
+                    @input="showFormError = false;"
+                    dismissible
+                    type="error">
+                    {{formError}}
+                </v-alert>
+            </v-col>
             <v-col cols=12>
                 <v-btn v-if="!editing" small depressed text :to="{ name: 'dataset_view', params: { datasetId: dataset.name } }" color="primary">
                     <v-icon color="primary">mdi-arrow-left</v-icon> 
@@ -76,26 +99,10 @@
                 <v-btn v-if="editing" small depressed text color="primary" type="submit" @click="submit()">Save</v-btn>
             </v-col>
         </v-row>
+        
         <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
-        <v-alert
-            :value="resource.state === 'deleted'"
-            type="warning">
-            You are viewing a deleted resource
-        </v-alert>
-        <v-alert
-            :value="showFormSuccess"
-            class="fixed"
-            dismissible
-            type="success">
-            {{formSuccess}}
-        </v-alert>
-        <v-alert
-            :value="showFormError"
-            class="fixed"
-            dismissible
-            type="error">
-            {{formError}}
-        </v-alert>
+
+        <v-row class="mb-9"></v-row>
 
         <!-- <powButton :dataset="dataset"/> -->
 
@@ -358,10 +365,25 @@ export default {
 
             let result = {};
             if (this.createMode){
-
-                result = await this.$store.dispatch("dataset/createResource")
+                try{
+                    result = await this.$store.dispatch("dataset/createResource")
+                }catch(ex){
+                    this.formError = "Unknown Error";
+                    this.showFormError = true;
+                    this.showFormSuccess = false;
+                    this.disabled = false;
+                    return;
+                }
             }else{
-                result = await this.$store.dispatch("dataset/setResource");
+                try{
+                    result = await this.$store.dispatch("dataset/setResource");
+                }catch(ex){
+                    this.formError = "Unknown Error";
+                    this.showFormError = true;
+                    this.showFormSuccess = false;
+                    this.disabled = false;
+                    return;
+                }
             }
             if (!result || !result.success || result.success === false){
                 if (result.error.message){
@@ -420,6 +442,11 @@ h5 {
     font-size: 16px;
     color: var(--v-label_colour-base);
 }
+.alertBar{
+    position: absolute;
+    z-index: 10;
+}
+
 .main-area {
     margin-bottom: 45px;
     background: var(--v-data_background-base);
@@ -483,7 +510,8 @@ ul {
     top: 65px;
     background-color: var(--v-data_background-base);
     z-index: 5;
-    width: 100%;
+    left: 0px;
+    right: 0px;
 }
 
 </style>
