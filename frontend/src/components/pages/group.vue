@@ -6,7 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
-        <v-row wrap class="mt-0 pa-0 fauxbar">
+        <v-row wrap class="mt-0 px-0 py-4 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"
@@ -98,7 +98,7 @@
 
         <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
 
-        <v-row class="mb-7"></v-row>
+        <v-row class="mt-7 mb-7"></v-row>
 
         <v-row>
             <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
@@ -113,9 +113,9 @@
                 ></ListPage>
             </v-col>
             <v-col cols=0 sm=1></v-col>
-            <v-col cols=1 sm=4 class="mt-9 pt-9">
+            <v-col cols=1 sm=4 class="mt-9 pt-0">
                 <FacetFilters
-                    class="mt-9 pt-9"
+                    class="mt-9"
                     v-on:facetFilter="facetFilter"
                 ></FacetFilters>
                 <v-container class="d-none d-sm-block text-left">

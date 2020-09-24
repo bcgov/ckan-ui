@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!editing">
+    <div v-if="!editing" class="py-2">
         <label class="label">
             {{$tc(displayLabel)}}&nbsp;
             <v-tooltip right v-if="field.help_text">
@@ -11,7 +11,7 @@
         </label>
         <span>{{!!value ? trueDisplay : falseDisplay}}</span>
     </div>
-    <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+    <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)" class="py-2">
         <v-checkbox
             :name="name"
             v-model="val"

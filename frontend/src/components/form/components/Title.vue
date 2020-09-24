@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="pb-0 pt-1">
+    <v-col cols=12 class="py-2">
         <h2 v-if="!editing" class="title-field">
             {{value}}
         </h2>

@@ -11,7 +11,7 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row wrap class="mt-0 pa-0 fauxbar">
+        <v-row wrap class="mt-0 px-0 py-4 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
                 <v-alert
                     :value="dataset.state === 'deleted'"

@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="pb-0 pt-1">
+    <v-col cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label">
                 {{$tc(displayLabel)}}&nbsp;
@@ -10,7 +10,8 @@
                     <span>{{field.help_text}}</span>
                 </v-tooltip>
             </label>
-            <p class="value">{{value}}</p>
+            <a v-if="isURL" class="value" :href="value">{{value}}</a>
+            <p v-else class="value">{{value}}</p>
         </div>
         <div v-else>
             <label class="label">

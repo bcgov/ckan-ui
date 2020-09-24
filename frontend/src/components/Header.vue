@@ -181,6 +181,10 @@ export default {
         return [
             {
                 "title": "Data Catalogue Home",
+                "link": "/"
+            },
+            {
+                "title": "Explore Datasets",
                 "link": "/datasets"
             },
             {
