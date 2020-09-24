@@ -11,7 +11,7 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row class="mt-0 wrap fauxbar">
+        <v-row class="mt-0 px-0 py-4 wrap fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
                 <v-alert
                     :value="resource.state === 'deleted'"
@@ -110,7 +110,13 @@
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height class="pt-5">
                     <v-col cols=11 md=7 v-if="!!schema">
-                        <h4 class="mt-5">{{dataset.title}}</h4>
+                        <v-container>
+                            <v-row>
+                                <v-col cols=12>
+                                    <h4 class="mt-5">{{dataset.title}}</h4>
+                                </v-col>
+                            </v-row>
+                        </v-container>
                         <DynamicForm
                             :schema="schema.resource_fields"
                             :textFields="textFields"
@@ -512,6 +518,10 @@ ul {
     z-index: 5;
     left: 0px;
     right: 0px;
+}
+
+.theme--light.v-btn--active:before, .theme--light.v-btn--active:hover:before, .theme--light.v-btn:focus:before{
+    opacity: 0;
 }
 
 </style>

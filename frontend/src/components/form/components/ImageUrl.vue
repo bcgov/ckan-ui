@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="pb-0 pt-1">
+    <v-col cols=12 class="py-2">
         <div v-if="!editing">
             <v-img :src="imgSrc" v-on:error="onImgError"></v-img>
         </div>

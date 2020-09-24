@@ -22,9 +22,9 @@
             <v-col cols=12>
                 <span>
                     {{count}} {{$tc('datasets', count)}} {{$tc('found', count)}}
-                    <!-- <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
+                    <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
-                    <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span> -->
+                    <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span>
                 </span>
                 <v-select dense append-icon="mdi-menu-down" hide-details class="borderless mt-n1 float-right" color="faded-text" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
                 <span class="faded float-right">{{$tc('Order By')}}:&nbsp;</span>
