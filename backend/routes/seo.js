@@ -9,7 +9,6 @@ function genSiteMap(user, res, xml){
     let url = config.get('ckan');
     
     const reqUrl = url + "/sitemap." + ((xml) ? 'xml' : 'html'); 
-    console.log("SITEMAP: " + reqUrl);
 
     let options = {
         url: reqUrl,
@@ -22,12 +21,9 @@ function genSiteMap(user, res, xml){
         options.headers = {
             'Authorization': 'Bearer ' + user.jwt
         };
-    }else{
-        console.log(user);
     }
 
     let resp = axios(options).then( (response) => {
-        console.log("SM", response);
         res.end(response.data);
     });
 }
