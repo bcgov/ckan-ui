@@ -101,6 +101,10 @@
 
         <v-row class="mt-7 mb-7"></v-row>
 
+        <v-row class="workingSpinner" v-if="disabled">
+            <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+        </v-row>
+
         <v-row class="mr-1 md-1">
             <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
         </v-row>
@@ -376,5 +380,13 @@
         background-color: var(--v-data_background-base);
         z-index: 5;
         right: 0px;
+    }
+    
+    .workingSpinner{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -35px;
+        margin-top: 35px;
     }
 </style>

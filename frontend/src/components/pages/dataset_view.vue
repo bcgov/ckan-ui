@@ -132,6 +132,10 @@
         <v-row class="mb-9">
         </v-row>
 
+        <v-row class="workingSpinner" v-if="disabled">
+            <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+        </v-row>
+
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height>
@@ -440,7 +444,7 @@ export default {
             }else{
                 this.clearEdit();
                 if (this.createMode){
-                    this.$router.replace({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
+                    this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
                 }
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
@@ -463,7 +467,7 @@ export default {
                 this.expectedNameUpdate = false;
             }else if (field === 'title'){
                 if (!this.urlEdited){
-                    this.dataset.name = newValue.toLowerCase().replace(' ', '-');
+                    this.dataset.name = newValue.toLowerCase().replace(/ /g, '-');
                     this.expectedNameUpdate = true;
                 }
 
@@ -609,6 +613,14 @@ ul {
 }
 .borderBottom{
     border-bottom: 1px solid var(--v-home_label-base);
+}
+
+.workingSpinner{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: 35px;
 }
 
 .fauxbar{
