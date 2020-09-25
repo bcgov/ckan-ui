@@ -195,6 +195,7 @@
                 imgError: false,
                 snackbar: false,
                 forceLoad: 0,
+                disabled: false,
                 hideFacets: ['Organizations'],
             }
         },
