@@ -16,6 +16,8 @@ let authRouter = require('./routes/auth');
 let resourceRouter = require('./routes/resource');
 let analyticsRouter = require('./routes/analytics');
 
+let seoRouter = require('./routes/seo');
+
 let app = express();
 
 app.use(logger('dev'));
@@ -102,6 +104,8 @@ app.use('/api', authRouter);
 app.use('/status', function(req, res){
   res.json({"status": "OK"}).status(200);
 });
+
+app.use('/', seoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
