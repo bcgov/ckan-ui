@@ -3,7 +3,7 @@
         <v-row>
             <span><h2 class="inline">Members</h2><h2 class="inline noBold">({{members.length}})</h2></span>
             <v-spacer></v-spacer>
-            <span><h4><v-btn text depressed color="primary">{{$tc('Add Member')}}</v-btn></h4></span>
+            <span v-if="false"><h4><v-btn  v-if="sysAdmin" text depressed color="primary">{{$tc('Add Member')}}</v-btn></h4></span>
         </v-row>
 
         <v-row wrap>
