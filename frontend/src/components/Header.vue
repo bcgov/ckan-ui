@@ -39,15 +39,15 @@
                                 <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
                                 <template v-for="(item, key) in menuTertiary">
 
-                                    <span :key="'tertiary-menu-'+key">
-                                    <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiary-menu-'+key" v-text="$tc(item.title, 2)">
-                                      {{$tc(item.title, 2)}}
-                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
-                                    </v-list-item>
-                                    <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiary-menu-'+key">
-                                      {{$tc(item.title, 2)}}
-                                      <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
-                                    </v-list-item>
+                                    <span :key="'tertiary-menu-'+key" v-if="((!item.loggedIn) || (loggedIn))">
+                                      <v-list-item v-if="item.link" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :to="item.link" :key="'tertiary-menu-'+key" v-text="$tc(item.title, 2)">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
+                                      <v-list-item v-else-if="item.title !== ''" color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" :href="item.href" :key="'tertiary-menu-'+key">
+                                        {{$tc(item.title, 2)}}
+                                        <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
+                                      </v-list-item>
                                     </span>
                                 </template>
                                 <v-list-item v-if="loggedIn" color="text" id="mobile-logout-btn" @click="logout">{{$tc("Logout")}}</v-list-item>
@@ -181,7 +181,8 @@ export default {
         return [
             {
                 "title": "Account Settings",
-                "link": "/user"
+                "link": "/user",
+                "loggedIn": true
             },
             {
                 "title": "Data Catalogue Home",
