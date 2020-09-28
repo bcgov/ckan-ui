@@ -34,6 +34,10 @@
                     {{formError}}
                 </v-alert>
 
+                <v-row class="workingSpinner" v-if="disabled">
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-row>
+
                 <ValidationObserver ref="observer" v-slot="{ validate }" slim>
                     <v-form ref="form" @submit.prevent="nothing">
                         <DynamicForm
@@ -226,5 +230,13 @@ export default {
 
 .noHover:hover:before{
     opacity: 0;
+}
+
+.workingSpinner{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: 35px;
 }
 </style>

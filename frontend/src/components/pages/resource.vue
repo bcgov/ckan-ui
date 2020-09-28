@@ -104,6 +104,10 @@
 
         <v-row class="mb-9"></v-row>
 
+        <v-row class="workingSpinner" v-if="disabled">
+            <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+        </v-row>
+
         <!-- <powButton :dataset="dataset"/> -->
 
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
@@ -522,6 +526,14 @@ ul {
 
 .theme--light.v-btn--active:before, .theme--light.v-btn--active:hover:before, .theme--light.v-btn:focus:before{
     opacity: 0;
+}
+
+.workingSpinner{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: 35px;
 }
 
 </style>
