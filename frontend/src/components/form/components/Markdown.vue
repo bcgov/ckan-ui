@@ -46,7 +46,7 @@ export default {
         label: String,
         editing: Boolean,
         placeholder: String,
-        field: Object,
+        field: [Object,String],
         scope: String,
         disabled: {
             type: Boolean,

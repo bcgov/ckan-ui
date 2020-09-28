@@ -218,10 +218,11 @@
                 return this.$route.params.organizationId;
             },
             imgSrc: function(){
-                if (this.imgError){
+                let imgUrl = (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+                if ( (this.imgError) || (imgUrl === "") ){
                     return "/placeholder-organization.png"
                 }
-                return (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+                return imgUrl;
             },
             permalink: function(){
                 return window.location.origin+'/organization/'+this.group.id
