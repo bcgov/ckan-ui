@@ -180,6 +180,10 @@ export default {
     menuTertiary() {
         return [
             {
+                "title": "Account Settings",
+                "link": "/user"
+            },
+            {
                 "title": "Data Catalogue Home",
                 "link": "/"
             },
