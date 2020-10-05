@@ -94,16 +94,16 @@ var addRoutes = function(router){
             ]
         },
         states:{
-            name: "State",
+            name: "Record Status",
             icon: "",
             facets: [
                 {
-                    publish_state: 'States'
+                    publish_state: 'State'
                 },
             ]
         },
         organizations:{
-            name: "Organizations",
+            name: "Source Organization",
             icon: "supervised_user_circle",
             facets: [
             {

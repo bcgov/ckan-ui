@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 const state = {
     facets: {},
     totalFilters: 0,
@@ -14,7 +16,8 @@ const actions = {}
 
 const mutations = {
     clearAllFacets(state){
-        state.facets = {};
+        state.totalFilters = 0;
+        Vue.set(state, 'facets', {});
     },
 
     toggleFacet(state, { facet, filter }) {

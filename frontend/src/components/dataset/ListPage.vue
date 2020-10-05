@@ -13,14 +13,16 @@
                     :label="( (!replaceSearchTip) ? ($tc('SearchDatasets') + ' ') : '') + $tc(addToSearchTip)"
                     v-on:keyup="search"
                     color="home_label"
-                    append-icon="search"
-                    @click:append="search">
+                    :append-icon="(findText.length > 0 ) ? 'clear' : 'search'"
+                    @click:clear="findText = ''"
+                    @click:append="findText = ''; search({type: 'click', keycode: 13})">
                 </v-text-field>
             </v-col>
         </v-row>
         <v-row wrap dense>
             <v-col cols=12>
                 <span>
+                    <v-icon v-if="totalFilters > 0" color="primary">mdi-filter</v-icon>
                     {{count}} {{$tc('datasets', count)}} {{$tc('found', count)}}
                     <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
@@ -112,7 +114,7 @@
               { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
-              { value: "record_publish_date desc", text: this.$tc("Publish Date") },
+              { value: "record_publish_date desc", text: this.$tc("First Published") },
               { value: "record_last_modified desc", text: this.$tc("Last Modified") }
           ],
       }

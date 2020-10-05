@@ -116,8 +116,8 @@
                     :forceFilter="'groups:('+group.name+')'"
                 ></ListPage>
             </v-col>
-            <v-col cols=0 sm=1></v-col>
-            <v-col cols=1 sm=4 class="mt-9 pt-0">
+            <!-- <v-col cols=0 sm=1></v-col> -->
+            <v-col cols=2 sm=5 class="mt-9 pt-0">
                 <FacetFilters
                     class="mt-9"
                     v-on:facetFilter="facetFilter"
