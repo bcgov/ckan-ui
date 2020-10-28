@@ -37,7 +37,7 @@ export default {
         "Clear all": "Clear all",
         "OK": "OK",
         "Sectors": "Sectors",
-        "Data Types": "Data Types",
+        "Data Types": "Resource Data Types",
         "Dataset types": "Dataset Types",
         "Format": "Format",
         "Permissions": "Permissions",
@@ -230,7 +230,7 @@ export default {
         "Expand All": "Expand All",
         "Collapse All": "Collapse All",
         "Download Permissions": "Download Permissions",
-        "Licenses": "Licenses",
+        "Licenses": "Licence",
         "Add Dataset": "Add Dataset",
         "What are": "What are",
         "orgAbout": "The responsibility to manage Datasets, APIs and Applications (collectively resources) and the descriptive information about these resources (metadata), rests with the organizations that have Data Custodial responsibility for the resources. In the public sector this is typically a branch of a ministry. In this case the Data Custodian is the Director or Executive Director of the branch.",
@@ -283,5 +283,10 @@ export default {
         "Delete Resource": "Delete Resource",
         "Request Access": "Request Access",
         "Viewing Resource": "Viewing Resource",
+        "First Published": "First Published",
+        "Account Settings": "Account Settings",
+        "Reset": "Reset",
+        "Record Status": "Record Status",
+        "Source Organization": "Source Organization",
     }
 };

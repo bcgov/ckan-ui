@@ -302,8 +302,8 @@ export default{
     }
 
     .filterPanelHeader{
-        background: var(--v-filter_colour-base) !important;
-        color: var(--v-text-base) !important;
+        background: var(--v-text-base) !important;
+        color: var(--v-filter_colour-base) !important;
         font-weight: bold;
     }
 
@@ -389,8 +389,10 @@ export default{
     }
 
     .theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
-        color: var(--v-text-base) !important;
+        color: var(--v-label_colour-base) !important;
     }
+    
+
 
     .facet-no-border{
         border: none;

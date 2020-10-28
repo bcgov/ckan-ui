@@ -37,7 +37,7 @@ export default {
         "Clear all": "Tout effacer",
         "OK": "D'accord",
         "Sectors": "Secteurs",
-        "Data Types": "Types de données",
+        "Data Types": "Types de données de ressources",
         "Dataset types": "Types de données",
         "Format": "Format",
         "Permissions": "Les permissions",
@@ -236,7 +236,7 @@ export default {
         "Expand All": "Développer Tout",
         "Collapse All": "Réduire tout",
         "Download Permissions": "Autorisations de téléchargement",
-        "Licenses": "Licences",
+        "Licenses": "Licence",
         "Add Dataset": "Ajouter un jeu de données",
         "What are": "Quels sont",
         "orgAbout": "La responsabilité de gérer les ensembles de données, les API et les applications (collectivement les ressources) et les informations descriptives sur ces ressources (métadonnées) incombe aux organisations qui ont la responsabilité de la conservation des données pour les ressources. Dans le secteur public, il s'agit généralement d'une branche d'un ministère. Dans ce cas, le dépositaire des données est le directeur ou le directeur exécutif de la succursale.",
@@ -283,5 +283,10 @@ export default {
         "Delete Resource": "Supprimer la ressource",
         "Request Access": "Demande d'accès",
         "Viewing Resource": "Affichage de la ressource",
+        "First Published": "Première publication",
+        "Account Settings": "Paramètres du compte",
+        "Reset": "Réinitialiser",
+        "Record Status": "Statut d'enregistrement",
+        "Source Organization": "Organisation source",
     }
 };

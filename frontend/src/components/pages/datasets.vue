@@ -12,8 +12,8 @@
                     :key="'listPage-'+facetFilterIndex"
                 ></ListPage>
             </v-col>
-            <v-col cols=1 sm=1></v-col>
-            <v-col cols=1 sm=4 class="mt-9 pt-9">
+            <!-- <v-col cols=1 sm=1></v-col> -->
+            <v-col cols=2 sm=5 class="mt-9 pt-9">
                 <FacetFilters
                     class="mt-6 pt-6"
                     v-on:facetFilter="facetFilter"
