@@ -283,5 +283,7 @@ export default {
         "Delete Resource": "Delete Resource",
         "Request Access": "Request Access",
         "Viewing Resource": "Viewing Resource",
+        "Scroll to Top": "Scroll to Top",
+        "Permalink URL Copied to Clipboard": "Permalink URL Copied to Clipboard",
     }
 };

@@ -283,5 +283,8 @@ export default {
         "Delete Resource": "Supprimer la ressource",
         "Request Access": "Demande d'accès",
         "Viewing Resource": "Affichage de la ressource",
+        "Scroll to Top": "Faire défiler vers le haut",
+        "Permalink URL Copied to Clipboard": "URL du lien permanent copiée dans le presse-papiers",
+        
     }
 };
