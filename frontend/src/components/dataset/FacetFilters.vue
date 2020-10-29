@@ -3,11 +3,20 @@
         <v-row wrap class="rotate d-sm-none d-block">
             <v-btn @click="show = true" text class="anchorText">{{$tc('Filter')}} {{$tc('Result', 2)}}</v-btn>
         </v-row>
-        <v-row wrap dense class="mb-3 d-sm-block d-none fixedHeight">
-            <v-col cols=12 class="pr-0">
-                <v-btn tile depressed class="filterColour fixedHeight" @click="expand">{{$tc('Expand All')}}</v-btn>
-                <v-btn tile depressed class="filterColour noCursor px-0 fixedHeight" width="1em" min-width="1em"> | </v-btn>
-                <v-btn tile depressed class="filterColour fixedHeight" @click="collapse">{{$tc('Collapse All')}}</v-btn>
+        <v-row wrap dense class="mb-8 d-sm-block d-none fixedHeight">
+            <v-col cols=12 class="px-0 pb-0 pt-1 my-0">
+                <h3 class="facetHeader">
+                    {{$tc('Filter Search Results')}}
+                </h3>
+            </v-col>
+            <v-col cols=12 class="px-0">
+                <span>
+                    <v-btn tile depressed class="fixedHeight ml-3 px-0 filterControls" @click="expand">{{$tc('Expand All')}}</v-btn>
+                    <v-btn tile depressed text class="noCursor px-0 fixedHeight filterControls filterControlNoClick" width="1em" min-width="1em"> | </v-btn>
+                    <v-btn tile depressed class="fixedHeight px-0 filterControls" @click="collapse">{{$tc('Collapse All')}}</v-btn>
+                    <v-btn tile depressed text class="noCursor px-0 fixedHeight filterControls filterControlNoClick" width="1em" min-width="1em"> | </v-btn>
+                    <v-btn tile depressed class="fixedHeight px-0 filterControls" @click="reset">{{$tc('Reset')}}</v-btn>
+                </span>
             </v-col>
         </v-row>
         <span :class="show ? 'full' : ''">
@@ -28,7 +37,7 @@
                 </v-col>
             </v-row>
             <span v-for="(facet, facetKey) in facets" :key="'facet-section-'+facetKey" :class="'d-sm-block d-none' + ( show ? ' d-block' : '')">
-                <span v-if="hideFacets.indexOf(facet.name)===-1">
+                <span v-if="hideFacets.indexOf(facet.name)===-1" :key="'facetFilterSpan-'+facetKey+'-'+redrawKey">
                     <FacetFilter
                         :name="facet.name"
                         :found="0"
@@ -61,7 +70,8 @@ export default{
 
     data: function(){
         return {
-            show: false
+            show: false,
+            redrawKey: 0
         }
     },
 
@@ -98,6 +108,12 @@ export default{
             }
         },
 
+        reset: function(){
+            this.$store.commit('search/clearAllFacets', {});
+            this.redrawKey++;
+            this.$emit('facetFilter');
+        },
+
         openFacet: function(name){
             this.$store.commit('dataset/setFacetOpen', { facet: name, open: true})
         },
@@ -116,6 +132,11 @@ export default{
 <style scoped>
 .anchorText{
     color: var(--v-text-base);
+}
+
+.facetHeader{
+    font-weight: bold;
+    color: var(--v-faded_text-base);
 }
 
 .flex{
@@ -174,6 +195,23 @@ export default{
 
 .filterColour:hover{
     opacity: unset;
+}
+
+.filterControls{
+    color: var(--v-label_colour-base);
+    
+}
+
+.filterControlNoClick{
+    pointer-events: none;
+}
+
+.filterControls.v-btn:not(.v-btn--text):not(.v-btn--outlined):hover:before {
+    opacity: 0;
+}
+
+.floatRight{
+    float: right;
 }
 
 @media (max-width: 599px){

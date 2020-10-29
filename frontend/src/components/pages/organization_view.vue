@@ -6,7 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="orgContainer px-md-10 py-4">
-        <v-row wrap class="mt-0 py-4 px-md-15 fauxbar">
+        <v-row wrap class="mt-0 py-4 mx-md-15 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"
@@ -120,11 +120,11 @@
                     :key="'listPage-'+facetFilterIndex+forceLoad"
                     :replaceSearchTip="true"
                     addToSearchTip="Search for Datasets in this organization"
-                    :forceFilter="'organization:('+group.name+')'"
+                    :forceFilter="forceFilter"
                 ></ListPage>
             </v-col>
-            <v-col cols=0 sm=1></v-col>
-            <v-col cols=1 sm=4 class="mt-9 pt-0">
+            <!-- <v-col cols=0 sm=1></v-col> -->
+            <v-col cols=2 sm=5 class="mt-9 pt-0">
                 <FacetFilters
                     v-on:facetFilter="facetFilter"
                     :hideFacets="hideFacets"
@@ -212,7 +212,23 @@
                 ckanUser: state => state.user.ckanUser,
                 loading: state => state.organization.loading,
                 following: state => state.organization.currUserFollowingCurrGroup,
+                orgList: state => state.organization.orgList,
             }),
+
+            forceFilter: function(){
+                let fq = 'organization:(';
+                if (this.orgList[this.group.title]){
+                    let orgListEntry = this.orgList[this.group.title];
+                    if (orgListEntry && orgListEntry.children && (orgListEntry.children.length > 0)){
+                        for (let i=0; i<orgListEntry.children.length; i++){
+                            fq += orgListEntry.children[i].name + ' OR ';
+                        }
+                    }
+                }
+                
+                fq += this.group.name+')';
+                return fq;
+            },
 
             organizationId: function organizationId() {
                 return this.$route.params.organizationId;
@@ -382,6 +398,8 @@
         background-color: var(--v-data_background-base);
         z-index: 5;
         right: 0px;
+        border-bottom: 1px solid;
+        border-color: var(--v-label_border-base);
     }
     
     .workingSpinner{

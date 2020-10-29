@@ -11,7 +11,8 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row wrap class="mt-0 px-0 py-4 fauxbar">
+        <v-row id="topOfForm"></v-row>
+        <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
                 <v-alert
                     :value="dataset.state === 'deleted'"
@@ -125,7 +126,7 @@
             </v-col>
         </v-row>
         
-        <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">Copied to Clipboard!</span></v-snackbar>
+        <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
 
         <v-row class="mt-5 mb-9"></v-row>
 
@@ -170,6 +171,16 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
+        <v-row>
+            <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop" v-scroll-to="{
+                el: '#topOfForm',
+                x: false,
+                y: true
+            }">
+                <v-icon>mdi-format-vertical-align-top</v-icon>
+                {{$tc('Scroll to Top')}}
+            </v-btn>
+        </v-row>
     </v-container>
 </template>
 
@@ -209,6 +220,7 @@ export default {
             createMode: this.$route.name === "dataset_create",
             urlEdited: false,
             expectedNameUpdate: false,
+            notAtTop: false,
             textFields: [
                 'object_name',
                 'replacement_record',
@@ -516,6 +528,13 @@ export default {
             }
             this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
             this.submit();
+        },
+
+        catchScroll() {
+            this.notAtTop = false;
+            if (window.pageYOffset > 50){
+                this.notAtTop = true;
+            }
         }
     },
 
@@ -525,6 +544,10 @@ export default {
         this.$store.dispatch("organization/getOrgs");
         this.$store.dispatch("group/getUserGroups");
         this.getDataset();
+        window.addEventListener('scroll', this.catchScroll)
+    },
+    destroyed () {
+        window.removeEventListener('scroll', this.catchScroll)
     },
 
 };
@@ -545,6 +568,13 @@ h5 {
 .rightZero{
     right: 0;
 }
+
+.scrollTop{
+    position: fixed;
+    bottom: 55px; 
+    right: 10px;
+}
+
 .nounderline{
     text-decoration: none;
     font-size: 16px;
@@ -630,5 +660,8 @@ ul {
     background-color: var(--v-data_background-base);
     z-index: 5;
     right: 0px;
+    border-bottom: 1px solid;
+    border-color: var(--v-label_border-base);
 }
+
 </style>

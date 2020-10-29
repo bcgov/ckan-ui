@@ -23,8 +23,8 @@
       </v-row>
 
       <v-row wrap dense class="my-0 py-0">
-        <v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>
-        <v-col cols=3 class="faded">{{$tc('Published')}}: {{publishDate}}</v-col>
+        <!--<v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>-->
+        <v-col cols=5 class="faded">{{$tc('First Published')}}: {{publishDate}}</v-col>
         <v-col cols=5 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
       </v-row>
 

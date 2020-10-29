@@ -6,7 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
-        <v-row wrap class="mt-0 px-md-15 py-4 fauxbar">
+        <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"
@@ -116,8 +116,8 @@
                     :forceFilter="'groups:('+group.name+')'"
                 ></ListPage>
             </v-col>
-            <v-col cols=0 sm=1></v-col>
-            <v-col cols=1 sm=4 class="mt-9 pt-0">
+            <!-- <v-col cols=0 sm=1></v-col> -->
+            <v-col cols=2 sm=5 class="mt-9 pt-0">
                 <FacetFilters
                     class="mt-9"
                     v-on:facetFilter="facetFilter"
@@ -375,6 +375,8 @@
     background-color: var(--v-data_background-base);
     z-index: 5;
     right: 0px;
+    border-bottom: 1px solid;
+    border-color: var(--v-label_border-base);
 }
 
 .workingSpinner{

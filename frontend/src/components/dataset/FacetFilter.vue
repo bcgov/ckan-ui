@@ -302,9 +302,9 @@ export default{
     }
 
     .filterPanelHeader{
-        background: var(--v-filter_colour-base) !important;
-        color: var(--v-text-base) !important;
-        font-weight: bold;
+        background: var(--v-text-base) !important;
+        color: var(--v-faded_text-base) !important;
+        /* font-weight: bold; */
     }
 
     .borderBottom{
@@ -389,8 +389,10 @@ export default{
     }
 
     .theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
-        color: var(--v-text-base) !important;
+        color: var(--v-label_colour-base) !important;
     }
+    
+
 
     .facet-no-border{
         border: none;
@@ -419,6 +421,10 @@ export default{
 
 .v-expansion-panel--active>.v-expansion-panel-header.headerHeight{
     min-height: unset;
+}
+
+.theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
+    color: var(--v-faded_text-base) !important;
 }
 
 </style>
