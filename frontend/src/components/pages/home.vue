@@ -1,14 +1,60 @@
 <template>
   <v-container splash-container fluid align-center justify-center fill-height class="raise">
+    <v-dialog
+        v-model="cardDialog">
+
+        <v-card class="card-card">
+            <v-card-title class="header">
+                <span>{{$tc('File Types')}}</span>
+                <v-spacer></v-spacer>
+                <v-btn text small depressed class="noHover closeButton" @click="cardDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+            </v-card-title>
+            <v-card-text>
+                <h3>{{$tc('Open Standard Data')}}</h3>
+                <div><span class="bold">json</span> {{$tc('JavaScript Object Notation standard data file')}}</div>
+                <div><span class="bold">openapi-json</span> {{$tc('OpenAPI that returns data in JSON format')}}</div>
+                <br />
+
+                <h4>{{$tc('Geospatial Data')}}</h4>
+                <div><span class="bold">arcgis_rest</span> {{$tc('ArcGIS REST API')}}</div>
+                <div><span class="bold">e00</span> {{$tc('ESRI ArcInfo interchange file')}}</div>
+                <div><span class="bold">fgdb</span> {{$tc('ESRI File Geodatabase format')}}</div>
+                <div><span class="bold">geojson</span> {{$tc('Open standard format representing simple geographical features')}}</div>
+                <div><span class="bold">kml</span> {{$tc('Google Earth file')}}</div>
+                <div><span class="bold">kmz</span> {{$tc('Keyhole Markup Language')}}</div>
+                <div><span class="bold">shp</span> {{$tc('ESRI Shapefile')}}</div>
+                <div><span class="bold">wms</span> {{$tc('Web Map Service')}}</div>
+                <br />
+
+                <h3>{{$tc('Tabular Data')}}</h3>
+                <div><span class="bold">csv</span> {{$tc('Comma Separated Value')}}</div>
+                <div><span class="bold">xls</span> {{$tc('Microsoft Excel (97-2003)')}}</div>
+                <div><span class="bold">xlsx</span> {{$tc('Microsoft Excel (2007)')}}</div>
+                <br />
+
+                <h3>{{$tc('Documents')}}</h3>
+                <div><span class="bold">html</span> {{$tc('Hypertext Markup Language')}}</div>
+                <div><span class="bold">pdf</span> {{$tc('Portable Document Format')}}</div>
+                <div><span class="bold">txt</span> {{$tc('Plain Text')}}t</div>
+                <div><span class="bold">xml</span> {{$tc('Extensible Markup Language')}}</div>
+                <br />
+
+                <h3>{{$tc('Archives')}}</h3>
+                <div><span class="bold">zip</span> {{$tc('Compressed Archive File')}}</div>
+                <br />
+            </v-card-text>
+        </v-card>
+
+    </v-dialog>
 
         <v-row>
             <v-col cols=12>
                 <v-row align="center" justify="center">
-                    <v-card class="mx-3 pitch-card" height="180px" width="160px" >
+                    <v-card to="./datasets" class="mx-3 pitch-card" height="180px" width="160px" >
                         <v-container py-0>
                             <v-row class="pitch-header" align-content="center">
                                 <v-col cols=12>
-                                    <h3 class="pitch-title">Browse thousands of government datasets</h3>
+                                    <h3 class="pitch-title">{{$tc('Browse thousands of government datasets')}}</h3>
                                 </v-col>
                             </v-row>
                             <v-row align-content="center" class="pitch-lower">
@@ -19,11 +65,11 @@
                             </v-row>
                         </v-container>
                     </v-card>
-                    <v-card class="mx-3 pitch-card" height="180px" width="160px" >
+                    <v-card class="mx-3 hover pitch-card" @click="cardDialog=true" height="180px" width="160px" >
                         <v-container py-0>
                             <v-row class="pitch-header" align-content="center">
                                 <v-col cols=12>
-                                    <h3 class="pitch-title">Download data in a wide variety of file formats</h3>
+                                    <h3 class="pitch-title">{{$tc('Access data in a wide variety of file formats')}}</h3>
                                 </v-col>
                             </v-row>
                             <v-row align-content="center" class="pitch-lower">
@@ -34,11 +80,11 @@
                             </v-row>
                         </v-container>
                     </v-card>
-                    <v-card class="mx-3 pitch-card" height="180px" width="160px" >
+                    <v-card class="mx-3 pitch-card" :href="decodeURI(logInUrl)" height="180px" width="160px" >
                         <v-container py-0>
                             <v-row class="pitch-header" align-content="center">
                                 <v-col cols=12>
-                                    <h3 class="pitch-title">Login with IDIR and gain access to even more data</h3>
+                                    <h3 class="pitch-title">{{$tc('Login with IDIR and gain access to even more data')}}</h3>
                                 </v-col>
                             </v-row>
                             <v-row align-content="center" class="pitch-lower">
@@ -89,6 +135,8 @@
   export default{
       data () {
         return {
+          logInUrl: "/api/login?r=/",
+          cardDialog: false,
           searchText: "",
           searchSuggestions: [
               "Crown",
@@ -98,6 +146,7 @@
           ]
         }
       },
+
       methods:{
         search: function(e){
             // eslint-disable-next-line no-console
@@ -129,6 +178,29 @@
 </style>
 
 <style scoped>
+    .hover{
+        cursor: pointer;
+    }
+
+    .card-card {
+        background-color: var(--v-data_background-base) !important;
+    }
+
+    .header{
+        background: var(--v-menu_secondary-base);
+        color: var(--v-text-base);
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .cardD{
+        background: white;
+    }
+
+    span.bold{
+        font-weight: bold;
+    }
+
     a,p{
         /* color: white !important; */
         font-size: 20px;
