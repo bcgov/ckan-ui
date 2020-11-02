@@ -239,7 +239,7 @@ export default {
         "Copy Permalink": "Share",
         "Unfollow Group": "Unfollow Group",
         "Learn more about this": "Learn more about this",
-        "groupAbout": "You can use Groups to create and manage collections of datasets. This could be to catalogue datasets for a particular project or team, or on a particular theme, or as a very simple way to help people find and search your own published datasets.",
+        "groupAbout": "Groups are used to collect datasets for a particular project or on a particular theme. These groups are managed by DataBC Data Catalogue team",
         "Search": "Search",
         "Manage": "Manage",
         "Add": "Add",
