@@ -91,7 +91,7 @@
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="!editing && showEdit" small depressed text color="error_text" @click="deleteResource">
+                <v-btn v-if="!editing && canDeleteResources" small depressed text color="error_text" @click="deleteResource">
                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
                 </v-btn>
                 
@@ -281,6 +281,14 @@ export default {
             }
             return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
         },
+
+        canDeleteResources: function(){
+            if (!this.dataset.organization){
+                return false;
+            }
+            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+        },
+
     },
 
     methods: {
