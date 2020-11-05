@@ -9,34 +9,40 @@
                 </v-col>
             </v-row>
             <v-row wrap align-center fill-height>
-                <v-col align-start cols=9 class="py-0">
-                    <label left class="sublabel">
-                        {{useResource.metadata.format}}
-                    </label>
-                    <span v-if="useResource.metadata.size" class="sublabel ml-4">
-                        {{(useResource.metadata.size/1000).toFixed(1)}} MB
-                    </span>
+                <v-col cols=12 class="py-0">
+                    <p class="faded" v-line-clamp:1.5="2" >{{useResource.metadata.description}}</p>
                 </v-col>
-                <v-col align-end cols=3 class="py-0">
-                    <v-menu offset-y left nudge-left>
-                        <template v-slot:activator="{ on: menu }">
-                            <v-btn text class="dot-button" small v-on="{...menu}">
-                                <v-icon right>mdi-dots-horizontal</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-list dense>
-                            <v-list-item v-if="!loadPOW" flat :href="useResource.metadata.url" color="label_colour">Download</v-list-item>
-                            <powButton v-else :resource="useResource.metadata"/>
-                            <v-list-item v-if="!datasetBeingEdited" flat color="label_colour"
-                                :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
-                                >View</v-list-item>
-                            <v-list-item v-if="!!useResource.hasSchema" flat @click.stop="schemaDialog = true" color="label_colour">View Schema (JSON Table Schema)</v-list-item>
-                            <v-list-item v-if="showEdit" flat color="label_colour"
-                                :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}"
-                                >Edit</v-list-item>
-                            <v-list-item v-if="canDelete" @click="deleteResource" color="error_text" >Delete</v-list-item>
-                        </v-list>
-                    </v-menu>
+            </v-row>
+            <v-row wrap align-center fill-height>
+                <v-col align-start cols=12 class="py-0">
+                    <span>
+                        <label left class="sublabel">
+                            {{useResource.metadata.format}}
+                        </label>
+                        <span v-if="useResource.metadata.size" class="sublabel ml-4">
+                            {{(useResource.metadata.size/1000).toFixed(1)}} MB
+                        </span>
+                    </span>
+                    <span class="floatRight">
+                        <v-btn v-if="!loadPOW" class="px-0" small depressed text :href="useResource.metadata.url" color="label_colour">
+                            Download
+                        </v-btn>
+                        <powButton v-else :btn="true" :resource="useResource.metadata"/>
+                        <v-btn v-if="!datasetBeingEdited" small depressed text class="px-0" color="label_colour"
+                                :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
+                            View
+                        </v-btn>
+                        <v-btn v-if="!!useResource.hasSchema" small depressed text class="px-0" @click.stop="schemaDialog = true" color="label_colour">
+                            View Schema (JSON Table Schema)
+                        </v-btn>
+                        <v-btn v-if="showEdit" small depressed text class="px-0 mx-0" color="label_colour"
+                            :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
+                            <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                        <v-btn v-if="canDelete" @click="deleteResource" small depressed text class="px-0 mx-0" color="error_text" >
+                            <v-icon>mdi-trash-can-outline</v-icon>
+                        </v-btn>
+                    </span>
                 </v-col>
 
             </v-row>
@@ -124,8 +130,8 @@ export default {
 
 .sublabel{
     color: var(--v-faded_text-base);
-    font-weight: normal;
-    font-size: 16px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 .container {
@@ -151,4 +157,12 @@ div[role="listitem"]{
     color: var(--v-error_text-base) !important;
 }
 
+.faded{
+    color: var(--v-faded_text-base);
+    font-size: 14px;
+}
+
+.floatRight{
+    float: right;
+}
 </style>
