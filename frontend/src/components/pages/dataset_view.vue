@@ -155,7 +155,7 @@
                         <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
-                    <v-col cols=4 class="d-none d-sm-block pr-0" v-show="!editing">
+                    <v-col cols=4 class="d-none d-sm-block pr-0" v-if="!editing">
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
                                 <h4 class="color-text">{{$tc('Resource', 2)}}</h4>
