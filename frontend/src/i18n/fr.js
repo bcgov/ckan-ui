@@ -288,5 +288,10 @@ export default {
         "Reset": "Réinitialiser",
         "Record Status": "Statut d'enregistrement",
         "Source Organization": "Organisation source",
+        "Click here to attach file": "Cliquez ici pour joindre le fichier",
+        "File": "Fichier",
+        "Creating a new Resource": "Créer une nouvelle ressource",
+        "Explore Datasets": "Explorer les ensembles de données",
+        "Tracking": "Suivi",
     }
 };
