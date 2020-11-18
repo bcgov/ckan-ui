@@ -1,0 +1,21 @@
+name: Lint frontend
+
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+    branches: [dev, master]
+
+jobs:
+  frontend:
+    name: Lint frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+        working-directory: frontend
+
+      - name: Lint frontend
+        run: npm run lint
