@@ -245,7 +245,7 @@ export default {
         "Copy Permalink": "Partager",
         "Unfollow Group": "Se désabonner du groupe",
         "Learn more about this": "En savoir plus",
-        "groupAbout": "Vous pouvez utiliser les groupes pour créer et gérer des collections d'ensembles de données. Cela pourrait être de cataloguer des ensembles de données pour un projet ou une équipe particulier, ou sur un thème particulier, ou comme un moyen très simple d'aider les gens à trouver et à rechercher vos propres ensembles de données publiés.",
+        "groupAbout": "Les groupes sont utilisés pour collecter des ensembles de données pour un projet particulier ou sur un thème particulier. Ces groupes sont gérés par l'équipe DataBC Data Catalog",
         "Search": "Chercher",
         "Manage": "Gérer",
         "Add": "Ajouter",

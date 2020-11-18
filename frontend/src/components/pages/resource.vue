@@ -11,6 +11,7 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
+        <v-row id="topOfResForm"></v-row>
         <v-row class="mt-0 py-4 wrap px-md-15 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
                 <v-alert
@@ -91,7 +92,7 @@
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="!editing && showEdit" small depressed text color="error_text" @click="deleteResource">
+                <v-btn v-if="!editing && canDeleteResources" small depressed text color="error_text" @click="deleteResource">
                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
                 </v-btn>
                 
@@ -151,6 +152,16 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
+        <v-row>
+            <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop" v-scroll-to="{
+                el: '#topOfResForm',
+                x: false,
+                y: true
+            }">
+                <v-icon>mdi-format-vertical-align-top</v-icon>
+                {{$tc('Scroll to Top')}}
+            </v-btn>
+        </v-row>
     </v-container>
 </template>
 
@@ -195,7 +206,8 @@ export default {
             error: this.datasetError,
             previewDialog: false,
             schemaDialog: false,
-            snackbar: false
+            snackbar: false,
+            notAtTop: false,
         };
     },
     watch: {
@@ -281,6 +293,14 @@ export default {
             }
             return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
         },
+
+        canDeleteResources: function(){
+            if (!this.dataset.organization){
+                return false;
+            }
+            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+        },
+
     },
 
     methods: {
@@ -323,6 +343,12 @@ export default {
             this.showFormError = false;
             this.formSuccess = '';
             this.showFormSuccess = false;
+        },
+        catchScroll() {
+            this.notAtTop = false;
+            if (window.pageYOffset > 50){
+                this.notAtTop = true;
+            }
         },
         async deleteResource(){
             const response = await ckanServ.deleteResource(this.resourceId);
@@ -425,6 +451,10 @@ export default {
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getDataset();
         this.getResource();
+        window.addEventListener('scroll', this.catchScroll)
+    },
+    destroyed () {
+        window.removeEventListener('scroll', this.catchScroll)
     },
 
 };
@@ -522,6 +552,12 @@ ul {
     z-index: 5;
     left: 0px;
     right: 0px;
+}
+
+.scrollTop{
+    position: fixed;
+    bottom: 55px; 
+    right: 10px;
 }
 
 .theme--light.v-btn--active:before, .theme--light.v-btn--active:hover:before, .theme--light.v-btn:focus:before{
