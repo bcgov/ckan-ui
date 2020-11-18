@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",
-    "serve": "NODE_ENV=dev nodemon ./bin/www"
+    "serve": "NODE_ENV=dev nodemon ./bin/www",
+    "lint": "npx eslint ."
   },
   "dependencies": {
     "atob": "^2.1.2",
