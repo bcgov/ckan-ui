@@ -290,7 +290,6 @@ export default {
         "Reset": "Réinitialiser",
         "Record Status": "Statut d'enregistrement",
         "Source Organization": "Organisation source",
-
         "Explore Datasets": "Explorer les ensembles de données",
         "Filter Search Results": "Filtrer les résultats de la recherche",
         "Tracking": "Suivi", 
@@ -321,5 +320,10 @@ export default {
         "Access data in a wide variety of file formats": "Accédez aux données dans une grande variété de formats de fichiers",
         "Login with IDIR and gain access to even more data": "Connectez-vous avec IDIR et accédez à encore plus de données",
         "Browse thousands of government datasets": "Parcourez des milliers de jeux de données gouvernementaux",
+        "Click here to attach file": "Cliquez ici pour joindre le fichier",
+        "File": "Fichier",
+        "Creating a new Resource": "Créer une nouvelle ressource",
+        "Explore Datasets": "Explorer les ensembles de données",
+        "Tracking": "Suivi",
     }
 };

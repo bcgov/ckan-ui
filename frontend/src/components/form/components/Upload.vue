@@ -24,10 +24,16 @@
                 </v-tooltip>
             </label>
             <div v-if="allowURL">
-                <v-switch
-                    v-model="isURL"
-                    :label="isURL ? 'URL' : 'File'"
-                ></v-switch>
+                <v-radio-group v-model="isURL" row>
+                    <v-radio
+                        label="URL"
+                        :value="true">
+                    </v-radio>
+                    <v-radio
+                        label="File"
+                        :value="false">
+                    </v-radio>
+                </v-radio-group>
             </div>
             <ValidationProvider v-if="isURL" :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
                 <v-text-field
@@ -43,9 +49,10 @@
             <div v-else>
                 <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
                     <v-file-input
-                        :label="$tc(displayLabel)"
+                        :label="$tc('File')"
                         :name="name"
                         v-model="val"
+                        :placeholder="$tc('Click here to attach file')"
                         :disabled="disabled"
                         :error-messages="errors.length > 0 ? [errors[0]] : []" >
                     </v-file-input>

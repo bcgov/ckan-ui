@@ -290,7 +290,6 @@ export default {
         "Reset": "Reset",
         "Record Status": "Record Status",
         "Source Organization": "Source Organization",
-
         "Explore Datasets": "Explore Datasets",
         "Filter Search Results": "Filter Search Results",
         "Tracking": "Tracking", 
@@ -321,5 +320,10 @@ export default {
         "Access data in a wide variety of file formats": "Access data in a wide variety of file formats",
         "Login with IDIR and gain access to even more data": "Login with IDIR and gain access to even more data",
         "Browse thousands of government datasets": "Browse thousands of government datasets",
+        "Click here to attach file": "Click here to attach file",
+        "File": "File",
+        "Creating a new Resource": "Creating a new Resource",
+        "Explore Datasets": "Explore Datasets",
+        "Tracking": "Tracking",
     }
 };
