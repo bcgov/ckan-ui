@@ -11,7 +11,7 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area">
-        <v-row class="mt-0 px-0 py-4 wrap fauxbar">
+        <v-row class="mt-0 py-4 wrap px-md-15 fauxbar">
             <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
                 <v-alert
                     :value="resource.state === 'deleted'"
@@ -87,11 +87,11 @@
                     {{$tc('Scroll to Bottom')}}
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text color="primary" @click="toggleEdit">
+                <v-btn v-if="!editing && showEdit" small depressed text color="primary" @click="toggleEdit">
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="!editing" small depressed text color="error_text" @click="deleteResource">
+                <v-btn v-if="!editing && showEdit" small depressed text color="error_text" @click="deleteResource">
                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
                 </v-btn>
                 
@@ -134,7 +134,7 @@
                         <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
-                    <v-col cols=4 class="d-none d-sm-block pr-0">
+                    <v-col cols=4 class="d-none d-sm-block pr-0" v-if="!editing">
                         <v-row class="mb-4">
                         </v-row>
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
