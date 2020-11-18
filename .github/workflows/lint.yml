@@ -1,4 +1,4 @@
-name: Lint frontend
+name: Run lint on frontend/backend
 
 on:
   push:
