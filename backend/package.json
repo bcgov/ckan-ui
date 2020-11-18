@@ -41,7 +41,9 @@
     "extends": [
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-unused-vars": "off"
+    },
     "parserOptions": {
       "ecmaVersion": 12,
       "sourceType": "module"

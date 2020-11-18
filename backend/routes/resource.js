@@ -150,7 +150,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 try{
                     let s = await getResourceSchema(responseObj, [], []);
                     console.log("INFERRED", s);
-                    responseObj.schema = JSON.parse(JSON.stringify(s));;
+                    responseObj.schema = JSON.parse(JSON.stringify(s));
                     responseObj.schemaInferred = false;
                     console.log("INFERRED", s);
                     responseObj.hasSchema = responseObj.schema !== null && Object.keys(responseObj.schema).length > 0;
