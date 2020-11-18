@@ -29,6 +29,21 @@
     "xlsx": "^0.14.1"
   },
   "devDependencies": {
+    "eslint": "^7.13.0",
     "nodemon": "^1.18.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    }
   }
 }
