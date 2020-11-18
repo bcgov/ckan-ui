@@ -19,3 +19,4 @@ jobs:
 
       - name: Lint frontend
         run: npm run lint
+        working-directory: frontend
