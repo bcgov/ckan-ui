@@ -14,28 +14,30 @@
                 <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true))">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="( (typeof(sub.hide_if_empty) === 'undefined') || (!sub.hide_if_empty) || (model[repeatedIndex][sub.field_name] != '') )">
-                            <v-row v-if="sub.display_snippet !== null" align="center">
-                                <v-col v-if="( (typeof(sub.no_label) === 'undefined') || (!sub.no_label) )" cols=3 class="py-1">
-                                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
-                                </v-col>
-                                <v-col cols=9 class="py-1">
-                                    <span v-if="model[repeatedIndex]">
-                                        <span v-if="sub.field_name === 'org'">
-                                            <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
+                            <span v-if="!sub.field_name != 'displayed'">
+                                <v-row v-if="sub.display_snippet !== null" align="center">
+                                    <v-col v-if="( (typeof(sub.no_label) === 'undefined') || (!sub.no_label) )" cols=3 class="py-1">
+                                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                                    </v-col>
+                                    <v-col cols=9 class="py-1">
+                                        <span v-if="model[repeatedIndex]">
+                                            <span v-if="sub.field_name === 'org'">
+                                                <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
+                                            </span>
+                                            <span v-else-if="sub.field_name === 'url'">
+                                                <a v-if="( (typeof(sub.truncate) === 'undefined') || (!sub.truncate) )" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                <a v-else v-line-clamp:1.5="1" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                            </span>
+                                            <span v-else-if="sub.field_name === 'email'">
+                                                <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                            </span>
+                                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
+                                            <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                         </span>
-                                        <span v-else-if="sub.field_name === 'url'">
-                                            <a v-if="( (typeof(sub.truncate) === 'undefined') || (!sub.truncate) )" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                            <a v-else v-line-clamp:1.5="1" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                        </span>
-                                        <span v-else-if="sub.field_name === 'email'">
-                                            <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                        </span>
-                                        <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
-                                        <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
-                                    </span>
-                                    <span v-else></span>
-                                </v-col>
-                            </v-row>
+                                        <span v-else></span>
+                                    </v-col>
+                                </v-row>
+                            </span>
                         </span>
                     </div>
                 </div>
