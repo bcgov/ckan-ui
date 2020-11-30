@@ -3,7 +3,7 @@
         <template v-slot:activator="{ on }">
             <v-btn v-if="btn" small depressed text color="primary" v-on="on">
                 <!-- @click="startOrder()" -->
-                <v-icon>mdi-folder-information-outline</v-icon>&nbsp;{{$tc('Request Access')}}
+                <!-- <v-icon>mdi-folder-information-outline</v-icon>&nbsp; -->{{$tc('Request Access')}}
             </v-btn>
             <v-list-item v-else text block color="label_colour" v-on="on">
                 <!-- @click="startOrder()" -->

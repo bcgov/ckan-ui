@@ -102,8 +102,17 @@ var addRoutes = function(router){
                 },
             ]
         },
+        groups:{
+            name: "Groups",
+            icon: "supervised_user_circle",
+            facets: [
+            {
+                groups: 'Groups'
+            }
+            ],
+        },
         organizations:{
-            name: "Source Organization",
+            name: "Organizations",
             icon: "supervised_user_circle",
             facets: [
             {

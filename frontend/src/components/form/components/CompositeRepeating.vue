@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2 mb-4">
+    <v-col v-if="anyShown || editing" cols=12 class="py-2 mb-4">
         <label class="label">
             {{$tc(displayLabel)}}&nbsp;
             <v-tooltip right v-if="field.help_text">
@@ -225,6 +225,7 @@ export default {
             hasDisplayed: false,
             dateMenuOpen: false,
             rerenderKey: 0,
+            anyShown: false,
         }
     },
 
@@ -252,9 +253,6 @@ export default {
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
                 }else{
                     model[this.field.subfields[i].field_name] = "";
-                }
-                if (this.field.subfields[i].field_name.toLowerCase() === "displayed"){
-                    this.hasDisplayed = true;
                 }
             }
             this.model.push(model);
@@ -294,6 +292,7 @@ export default {
         }
     },
     mounted(){
+        this.anyShown = false;
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [{}];
@@ -306,9 +305,18 @@ export default {
                     }else{
                         this.model[i][this.field.subfields[j].field_name] = "";
                     }
+                    if (this.field.subfields[j].field_name.toLowerCase() === "displayed"){
+                        this.hasDisplayed = true;
+                        if (this.model[i][this.field.subfields[j].field_name] === true){
+                            this.anyShown = true;
+                        }
+                    }
                 }
             }
             this.$emit('edited', JSON.stringify(this.model));
+        }
+        if (!this.hasDisplayed){
+            this.anyShown = true;
         }
     },
 };

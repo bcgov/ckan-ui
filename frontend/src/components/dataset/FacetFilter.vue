@@ -303,8 +303,8 @@ export default{
 
     .filterPanelHeader{
         background: var(--v-text-base) !important;
-        color: var(--v-filter_colour-base) !important;
-        font-weight: bold;
+        color: var(--v-faded_text-base) !important;
+        /* font-weight: bold; */
     }
 
     .borderBottom{
@@ -421,6 +421,10 @@ export default{
 
 .v-expansion-panel--active>.v-expansion-panel-header.headerHeight{
     min-height: unset;
+}
+
+.theme--light.v-expansion-panels .v-expansion-panel-header .v-expansion-panel-header__icon .v-icon{
+    color: var(--v-faded_text-base) !important;
 }
 
 </style>
