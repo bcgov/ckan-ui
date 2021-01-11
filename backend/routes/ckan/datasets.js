@@ -1,6 +1,35 @@
+const { format } = require('morgan');
+
 var addRoutes = function(router){
     let request = require('request');
     let auth = require('../../modules/auth');
+
+    function formatDatasetBody(body){
+        let convertBack = false;
+        if (body.dates){
+            if (typeof(body.dates) === "string"){
+                convertBack = true;
+                body.dates = JSON.parse(body.dates);
+            }
+            console.log(body.dates);
+            for (let i=0; i<body.dates.length; i++){
+                console.log(body.dates[i]);
+                if (body.dates[i].type.toLowerCase() === "published"){
+                    body.record_publish_date = body.dates[i].date;
+                }else if (body.dates[i].type.toLowerCase() === "created"){
+                    body.record_create_date = body.dates[i].date;
+                }else if (body.dates[i].type.toLowerCase() === "archived"){
+                    body.record_archive_date = body.dates[i].date;
+                }else if (body.dates[i].type.toLowerCase() === "modified"){
+                    body.record_last_modified = body.dates[i].date;
+                }
+            }
+            if (convertBack){
+                body.dates = JSON.stringify(body.dates);
+            }
+        }
+        return body;
+    }
 
 
     /* GET search ckan datasets. */
@@ -108,8 +137,10 @@ var addRoutes = function(router){
         }
     
         console.log("CREATING PACKAGE", req.body);
+
+        let postBody = formatDatasetBody(req.body);
     
-        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+        request({ method: 'POST', uri: reqUrl, json: postBody, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
             if (err) {
                 console.log(err);
                 res.json({ error: err });
@@ -141,8 +172,10 @@ var addRoutes = function(router){
         }
     
         console.log("CREATING PACKAGE", req.body);
+
+        let postBody = formatDatasetBody(req.body);
     
-        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+        request({ method: 'POST', uri: reqUrl, json: postBody, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
             if (err) {
                 console.log(err);
                 res.json({ error: err });

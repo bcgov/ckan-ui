@@ -1,266 +1,268 @@
 <template>
     <v-container>
         <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey">
-                <Title
-                    v-if="field.preset==='title' || field.field_name === 'title'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                <div v-if="field.label !== ''" style="width: 100%;">
+                    <Title
+                        v-if="field.preset==='title' || field.field_name === 'title'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        >
+                    </Title>
+                    <Select
+                        v-else-if="field.preset==='dataset_organization' && ( (field.field_name=='owner_org') || (field.field_name=='org') )"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :options="orgArray"
+                        :selectableOptions="selectableUserOrgs"
+                        emitOnChange="orgSelect"
+                        @orgSelect="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        :translate="false"
+                        :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
+                    </Select>
+                    <Select
+                        v-else-if="field.preset==='select' && field.field_name=='dataset_type'"
+                        :name="field.field_name"
+                        :value="values.dataset_type"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :options="field.choices"
+                        emitOnChange="edited"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
+                    </Select>
+                    <Select
+                        v-else-if="field.preset==='select' && ( (field.field_name=='projection_name') || (field.field_name==='resource_storage_format') )"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :options="field.choices"
+                        emitOnChange="edited"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        :translate="false"
+                        :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
+                    </Select>
+                    <Select
+                        v-else-if="field.preset==='select'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :options="field.choices"
+                        emitOnChange="edited"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
+                    </Select>
+                    <Slug
+                        v-else-if="field.preset==='dataset_slug' || field.form_snippet==='slug.html'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :area="area"
+                        :placeholder="field.form_placeholder">
+                    </Slug>
+                    <Markdown
+                        v-else-if="field.form_snippet==='markdown.html'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :placeholder="field.form_placeholder">
+                    </Markdown>
+                    <Tags
+                        v-else-if="field.preset==='tag_string_autocomplete'"
+                        :name="field.field_name"
+                        :value="values['tags'] ? values['tags'] : ''"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :autoCompleteSource="field.form_attrs['data-module-source']"
+                        :field="field"
+                        :scope="scope"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     >
-                </Title>
-                <Select
-                    v-else-if="field.preset==='dataset_organization' && ( (field.field_name=='owner_org') || (field.field_name=='org') )"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :options="orgArray"
-                    :selectableOptions="selectableUserOrgs"
-                    emitOnChange="orgSelect"
-                    @orgSelect="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    :translate="false"
-                    :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
-                </Select>
-                <Select
-                    v-else-if="field.preset==='select' && field.field_name=='dataset_type'"
-                    :name="field.field_name"
-                    :value="values.dataset_type"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :options="field.choices"
-                    emitOnChange="edited"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
-                </Select>
-                <Select
-                    v-else-if="field.preset==='select' && ( (field.field_name=='projection_name') || (field.field_name==='resource_storage_format') )"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :options="field.choices"
-                    emitOnChange="edited"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    :translate="false"
-                    :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
-                </Select>
-                <Select
-                    v-else-if="field.preset==='select'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :options="field.choices"
-                    emitOnChange="edited"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
-                </Select>
-                <Slug
-                    v-else-if="field.preset==='dataset_slug' || field.form_snippet==='slug.html'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :scope="scope"
-                    :area="area"
-                    :placeholder="field.form_placeholder">
-                </Slug>
-                <Markdown
-                    v-else-if="field.form_snippet==='markdown.html'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :placeholder="field.form_placeholder">
-                </Markdown>
-                <Tags
-                    v-else-if="field.preset==='tag_string_autocomplete'"
-                    :name="field.field_name"
-                    :value="values['tags'] ? values['tags'] : ''"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :autoCompleteSource="field.form_attrs['data-module-source']"
-                    :field="field"
-                    :scope="scope"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                >
-                </Tags>
-                <Autocomplete
-                    v-else-if="field.preset==='autocomplete' && field.choices_helper && field.choices_helper=='available_parent_orgs'"
-                    :name="field.field_name"
-                    :multi="false"
-                    :value="available_parent_org_value"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :field="field"
-                    :scope="scope"
-                    :items="selectableUserOrgs"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues('groups', newValue) }"
-                >
-                </Autocomplete>
-                <Autocomplete
-                    v-else-if="field.preset==='autocomplete'"
-                    :name="field.field_name"
-                    :value="values[field.field_name] ? values[field.field_name] : ''"
-                    :label="field.label"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder"
-                    :field="field"
-                    :scope="scope"
-                    :items="field.choices"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                >
-                </Autocomplete>
-                <CompositeRepeating
-                    v-else-if="field.preset==='composite_repeating'"
-                    :dataset="values"
-                    :editing="editing"
-                    :orgArray="orgArray"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :scope="scope"
-                    :form-defaults="formDefaults[field.field_name]"
-                    :disabled="disabled"
-                    :field="field">
-                </CompositeRepeating>
-                <CompositeRepeating
-                    v-else-if="field.preset==='contact_repeating'"
-                    :dataset="values"
-                    :editing="editing"
-                    :orgArray="orgArray"
-                    :scope="scope"
-                    :disabled="disabled"
-                    :form-defaults="formDefaults.contacts"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field">
-                </CompositeRepeating>
-                <License
-                    v-else-if="field.form_snippet==='license.html'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :scope="scope"
-                    :placeholder="field.form_placeholder">
-                </License>
-                <Composite
-                    v-else-if="field.preset==='composite'"
-                    :editing="editing"
-                    :value="values[field.field_name]"
-                    :scope="scope"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field">
-                </Composite>
-                <TableRepeating
-                    v-show="!editing"
-                    v-else-if="field.display_snippet==='bcgw_details.html'"
-                    :editing="false"
-                    :disabled="disabled"
-                    :scope="scope"
-                    :field="field"
-                    :dataset="values"
-                    :orgArray="orgArray">
-                </TableRepeating>
-                <TextInput
-                    v-else-if="textFields.indexOf(field.field_name)>=0"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :scope="scope"
-                    :editing="editing">
-                </TextInput>
-                <Json
-                    v-else-if="field.form_snippet==='json.html'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :editing="editing">
-                </Json>
-                <Upload
-                    v-else-if="field.form_snippet==='upload.html'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :scope="scope"
-                    :parentObject="values"
-                    :editing="editing">
-                </Upload>
-                <ImageUrl
-                    v-else-if="field.label === 'Image URL'"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
-                    :field="field"
-                    :disabled="disabled"
-                    :scope="scope"
-                    :parentObject="values"
-                    :editing="editing"
-                    :placeholder="field.form_placeholder">
-                </ImageUrl>
-                <Checkbox
-                    v-else-if="field.field_name==='private'"
-                    v-show="loggedIn"
-                    :name="field.field_name"
-                    :value="values[field.field_name]"
-                    :label="field.label"
-                    :editing="editing"
-                    :field="field"
-                    :scope="scope"
-                    trueDisplay="yes"
-                    falseDisplay="no"
-                    :disabled="disabled"
-                    @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    </Tags>
+                    <Autocomplete
+                        v-else-if="field.preset==='autocomplete' && field.choices_helper && field.choices_helper=='available_parent_orgs'"
+                        :name="field.field_name"
+                        :multi="false"
+                        :value="available_parent_org_value"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :field="field"
+                        :scope="scope"
+                        :items="selectableUserOrgs"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues('groups', newValue) }"
                     >
-                </Checkbox>
+                    </Autocomplete>
+                    <Autocomplete
+                        v-else-if="field.preset==='autocomplete'"
+                        :name="field.field_name"
+                        :value="values[field.field_name] ? values[field.field_name] : ''"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :field="field"
+                        :scope="scope"
+                        :items="field.choices"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                    >
+                    </Autocomplete>
+                    <CompositeRepeating
+                        v-else-if="field.preset==='composite_repeating'"
+                        :dataset="values"
+                        :editing="editing"
+                        :orgArray="orgArray"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :scope="scope"
+                        :form-defaults="formDefaults[field.field_name]"
+                        :disabled="disabled"
+                        :field="field">
+                    </CompositeRepeating>
+                    <CompositeRepeating
+                        v-else-if="field.preset==='contact_repeating'"
+                        :dataset="values"
+                        :editing="editing"
+                        :orgArray="orgArray"
+                        :scope="scope"
+                        :disabled="disabled"
+                        :form-defaults="formDefaults.contacts"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field">
+                    </CompositeRepeating>
+                    <License
+                        v-else-if="field.form_snippet==='license.html'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :placeholder="field.form_placeholder">
+                    </License>
+                    <Composite
+                        v-else-if="field.preset==='composite'"
+                        :editing="editing"
+                        :value="values[field.field_name]"
+                        :scope="scope"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field">
+                    </Composite>
+                    <TableRepeating
+                        v-show="!editing"
+                        v-else-if="field.display_snippet==='bcgw_details.html'"
+                        :editing="false"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :field="field"
+                        :dataset="values"
+                        :orgArray="orgArray">
+                    </TableRepeating>
+                    <TextInput
+                        v-else-if="textFields.indexOf(field.field_name)>=0"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :editing="editing">
+                    </TextInput>
+                    <Json
+                        v-else-if="field.form_snippet==='json.html'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :editing="editing">
+                    </Json>
+                    <Upload
+                        v-else-if="field.form_snippet==='upload.html'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :parentObject="values"
+                        :editing="editing">
+                    </Upload>
+                    <ImageUrl
+                        v-else-if="field.label === 'Image URL'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
+                        :field="field"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :parentObject="values"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder">
+                    </ImageUrl>
+                    <Checkbox
+                        v-else-if="field.field_name==='private'"
+                        v-show="loggedIn"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :field="field"
+                        :scope="scope"
+                        trueDisplay="yes"
+                        falseDisplay="no"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        >
+                    </Checkbox>
 
-                <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
-                <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
+                    <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
+                    <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
+                </div>
         </v-row>
         <!-- <span v-if="!editing">
             <v-col
