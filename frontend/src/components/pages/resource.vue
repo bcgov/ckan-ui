@@ -210,6 +210,10 @@ export default {
             notAtTop: false,
         };
     },
+    beforeRouteUpdate(to, from, next) {
+        this.getResource(to.params.resourceId);
+        next();
+    },
     watch: {
     //     getAbort(newVal) {
     //         if(newVal==true) {
@@ -309,7 +313,11 @@ export default {
         //         this.$store.dispatch("organization/getUserOrgs");
         //     }
         // },
-        getResource() {
+        getResource(id) {
+            if (typeof(id) === "undefined"){
+                id = this.resourceId;
+            }
+            this.$store.commit("dataset/clearResource");
             let self = this;
             let unsub = this.$store.subscribe(
                 (mutation, state) => {
@@ -323,8 +331,8 @@ export default {
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
             }
-            if (!this.createMode && (typeof(this.resource) === 'undefined' || !this.resource.id)) {
-                this.$store.dispatch("dataset/getResource", { id: this.resourceId });
+            if (!this.createMode) {
+                this.$store.dispatch("dataset/getResource", { id: id });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
                 this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});
