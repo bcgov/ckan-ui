@@ -7,6 +7,7 @@ import group from './modules/group';
 import tag from './modules/tag';
 import search from './modules/search';
 import pow from './modules/pow';
+import nav from './modules/nav';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -19,7 +20,8 @@ export default new Vuex.Store({
 		group,
 		tag,
 		search,
-		pow
+		pow,
+		nav,
 	},
 	plugins: [createPersistedState({
 		paths: [
@@ -41,6 +43,10 @@ export default new Vuex.Store({
 			'search.facets',
 			'search.totalFilters',
 			'search.searchText',
+			'nav.currentPage',
+			'nav.lastPage',
+			'nav.navHistory',
+			'nav.lastListPage',
 		]
 	})]
 })

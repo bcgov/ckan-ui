@@ -13,6 +13,8 @@ const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/
 const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
 const resource = () => import(/* webpackChunkName: "resource" */ "../components/pages/resource");
 
+import store from '../store/index';
+
 Vue.use(Router);
 
 let r = new Router({
@@ -150,6 +152,25 @@ let r = new Router({
 
 r.beforeEach((to, from, next) => {
     window.currentUrl = to.fullPath;
+    store.commit('nav/setCurrentPage', window.currentUrl);
+
+    switch(to.name){
+        case "Datasets":
+        case "Groups":
+        case "Organizations":
+            store.commit('nav/setLastListPage', window.currentUrl);
+            break;
+
+    }
+
+    switch(to.name){
+        case "Datasets":
+        case "organization_view":
+        case "group_view":
+            store.commit('nav/setLastDatasetListPage', window.currentUrl);
+            break;
+
+    }
     window.previousUrl = from.fullPath;
     next();
 });
