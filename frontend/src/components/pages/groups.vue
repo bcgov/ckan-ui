@@ -49,7 +49,7 @@
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-col>
-            <v-col cols=12>
+            <v-col cols=12 class="pt-0 mt-0">
                 <v-expansion-panels v-model="aboutExpanded" class="differentShadow noRadius">
                     <v-expansion-panel>
                         <v-expansion-panel-header class="sideBarHeader">{{$tc('Groups', 2)}}</v-expansion-panel-header>
@@ -114,7 +114,7 @@
                     </v-col>
                 </v-row>
                 <v-row class="fullWidth mr-0">
-                    <v-col class="px-0" cols=12>
+                    <v-col class="px-0 pt-0 mt-0" cols=12>
                         <v-card tile class="aboutCard">
                             <v-card-text class="groupAbout">
                                 {{$tc('groupAbout')}}

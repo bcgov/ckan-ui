@@ -309,7 +309,7 @@ const mutations = {
     },
     clearError(state) {
         state.error = null;
-    }
+    },
 };
 
 export default {
