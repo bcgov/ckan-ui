@@ -11,9 +11,8 @@ var addRoutes = function(router){
                 convertBack = true;
                 body.dates = JSON.parse(body.dates);
             }
-            console.log(body.dates);
+            
             for (let i=0; i<body.dates.length; i++){
-                console.log(body.dates[i]);
                 if (body.dates[i].type.toLowerCase() === "published"){
                     body.record_publish_date = body.dates[i].date;
                 }else if (body.dates[i].type.toLowerCase() === "created"){
