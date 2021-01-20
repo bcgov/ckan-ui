@@ -2,9 +2,9 @@
   <v-container class="mb-2 py-0 px-0" v-if="typeof(org.org) !== 'undefined'">
     <v-expansion-panels flat tile :readonly="count === 0" :class="'noShadow' + (count === 0 ? ' noPointer' : '')">
       <v-expansion-panel class="no-background">
-        <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'" class="py-2">
+        <v-expansion-panel-header :class="top ? 'filterPanelHeader' : 'subHeader'" class="py-2 px-0">
           <span>
-            <v-icon v-if="count > 0" :color="top ? 'text' : 'label_colour'">mdi-chevron-down</v-icon>
+            <v-icon v-if="count > 0" class="px-2" :color="top ? 'text' : 'label_colour'">mdi-chevron-down</v-icon>
             <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: org.org.name }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
             <p v-else class="d-inline">{{orgName}} {{count > 0 ? '' : ''}}</p>
           </span>

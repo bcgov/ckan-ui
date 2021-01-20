@@ -26,7 +26,7 @@
             </v-col>
         </v-row>
         <v-row wrap dense class="d-flex d-sm-none mr-md-1">
-             <v-col cols=12 v-if="sysAdmin">
+            <v-col cols=12 v-if="sysAdmin">
                 <v-expansion-panels v-model="manageExpanded" class="noShadow noRadius">
                     <v-expansion-panel>
                         <v-expansion-panel-header class="sideBarHeader">{{$tc('Manage')}}</v-expansion-panel-header>
@@ -101,8 +101,8 @@
                         <h4 class="color-text">{{$tc('Organizations', 2)}}</h4>
                     </v-col>
                 </v-row>
-                <v-row class="fullWidth mr-0">
-                    <v-col class="px-0" cols=12>
+                <v-row class="fullWidth mr-0 pt-0">
+                    <v-col class="px-0 pt-0" cols=12>
                         <v-card tile>
                             <v-card-text class="orgAbout">
                                 {{$tc('orgAbout')}}
