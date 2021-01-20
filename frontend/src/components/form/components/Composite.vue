@@ -14,10 +14,9 @@
                 <div v-if="!hasDisplayed || !value.displayed">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
                         <v-row v-if="sub.display_snippet !== null" align="center">
-                            <v-col cols=3 class="py-1">
-                                <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
-                            </v-col>
-                            <v-col cols=9 class="py-1">
+                            <v-col cols=12 class="py-1">
+                                <label class="sub-label fixedWidth">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                            
                                 <span v-if="value">
                                     <span v-if="sub.display_snippet === 'url'">
                                         <a :href="value[sub.field_name]" style="text-overflow: ellipsis">{{value[sub.field_name]}}</a>
@@ -26,9 +25,10 @@
                                         <a :href="'mailto:'+value[sub.field_name]">{{value[sub.field_name]}}</a>
                                     </span>
                                     <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
+                                    <span v-else-if=" value[sub.field_name] === ''" class="value">{{$tc('Not Provided')}}</span>
                                     <span v-else class="value">{{value[sub.field_name]}}</span>
                                 </span>
-                                <span v-else></span>
+                                <span v-else>{{$tc('Not Provided')}}</span>
                             </v-col>
                         </v-row>
                     </div>
@@ -234,6 +234,10 @@ export default {
 </script>
 
 <style scoped>
+    .fixedWidth{
+        width: 300px;
+        display: inline-block;
+    }
     label.label{
         font-size: 16px;
         font-weight: bold;

@@ -323,5 +323,6 @@ export default {
         "Click here to attach file": "Cliquez ici pour joindre le fichier",
         "File": "Fichier",
         "Creating a new Resource": "Créer une nouvelle ressource",
+        "Not provided": "Non fourni",
     }
 };
