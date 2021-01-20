@@ -140,7 +140,7 @@
                         </v-row>
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Other Resources', 1)}}</h4>
+                                <h4 class="color-text pb-1">{{$tc('Other Resources', 1)}}</h4>
                             </v-col>
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">

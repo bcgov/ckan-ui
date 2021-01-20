@@ -14,10 +14,8 @@
                 <v-dialog v-if="!editing" v-model="expandDialog" width="100%">
                     <template v-slot:activator="{ on }">
                         <v-row>
-                            <v-col cols=10>
-                            </v-col>
                             <v-col cols=2>
-                                <v-btn v-on="on" text small color="label_colour" style="float: right">
+                                <v-btn v-on="on" text small color="label_colour">
                                     <v-icon>mdi-fullscreen</v-icon>&nbsp;{{$tc("Expand")}}
                                 </v-btn>
                             </v-col>

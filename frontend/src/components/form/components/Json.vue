@@ -1,7 +1,7 @@
 <template>
     <v-col cols=12 class="py-2">
         <div v-if="!editing">
-            <label class="label">
+            <label class="label fixedWidth">
                 {{$tc(displayLabel)}}&nbsp;
                 <v-tooltip right v-if="field.help_text">
                     <template v-slot:activator="{ on }">
@@ -10,7 +10,7 @@
                     <span>{{field.help_text}}</span>
                 </v-tooltip>
             </label>
-            <span>{{val}}</span>
+            <span>{{ (empty) ? $tc("Not provided") : val  }}</span>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-textarea
@@ -53,6 +53,9 @@ export default {
     computed: {
         displayLabel: function(){
             return this.label + (this.field.required ? '*' : '');
+        },
+        empty: function(){
+            return ( (!this.val) || (this.val === "{}") || (this.val === "") );
         }
     },
     watch: {
@@ -86,5 +89,10 @@ export default {
 <style scoped>
 .fullWidth{
     width: 100%;
+}
+
+.fixedWidth{
+    width: 300px;
+    display: inline-block;
 }
 </style>
