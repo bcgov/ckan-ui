@@ -28,7 +28,7 @@
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
                         <template v-slot:activator="{ on }">
-                        <v-btn depressed tile large v-on="on" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                        <v-btn depressed tile large v-on="on" @click="showSearch = false" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
                             <v-icon large>mdi-menu</v-icon>
                         </v-btn>
                         </template>
@@ -80,6 +80,10 @@
                         </v-row> -->
                     </v-menu>
                     
+                    <v-btn depressed text large @click="showSearch=!showSearch" height="100%" class="hidden-sm-and-down header-button v-top float-right">
+                      <v-icon x-large>search</v-icon>
+                    </v-btn>
+
                     <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>
                     <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">FR</v-btn>
                     <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
@@ -87,6 +91,23 @@
 
 
                 </v-col>
+            </v-row>
+            <v-row wrap v-if="showSearch" class="searchRow pb-1">
+              <v-col cols=12>
+                <v-text-field
+                    solo
+                    id="header-search"
+                    class="searchbox"
+                    hide-details
+                    v-model="findText"
+                    :label="$tc('SearchDatasets')"
+                    v-on:keyup="search"
+                    color="home_label"
+                    :append-icon="(findText.length > 0 ) ? 'clear' : 'search'"
+                    @click:clear="findText = ''"
+                    @click:append="findText = ''; search({type: 'click', keycode: 13})">
+                </v-text-field>
+              </v-col>
             </v-row>
         </v-container>
       </v-toolbar>
@@ -118,6 +139,9 @@ export default {
         logoutUrl: "/api/logout?r="+window.location.pathname,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
+        showSearch: false,
+        searchedText: "",
+        findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         menuSecondary: [
             // {
             //     "title": "What is DataBC?",
@@ -247,7 +271,15 @@ export default {
             delete localStorage[keys[i]];
         }
         window.location.href = this.logoutUrl
-      }
+      },
+
+      search: function(e){
+          if (e.keyCode === 13 || e.type === 'click') {
+              this.showSearch = false;
+              this.$store.commit('search/setSearchText', this.findText);
+          }
+      },
+
   },
   mounted: function(){
     this.$store.dispatch('user/getCurrentUser')
@@ -270,6 +302,11 @@ export default {
 
 <style scoped>
 
+  .searchbox {
+    height: 55px;
+    background: var(--v-text_background-base);
+  }
+
   .headerSpacer{
     top: 0px;
     height: 65px;
@@ -288,7 +325,12 @@ export default {
 
 </style>
 
+
 <style>
+  .searchbox i.theme--light.v-icon{
+      color: var(--v-icon-primary);
+  }
+
   .v-application a.title.v-btn {
       font-size: 36px !important;
   }
@@ -388,6 +430,16 @@ export default {
 
   .header-row {
       height: 65px !important;
+  }
+
+  .searchRow{
+    background: var(--v-data_background-base);
+    border: 2px solid;
+    border-color: var(--v-primary-base);
+    border-radius: 2px;
+    border-top: 0;
+    height: 100%;
+    min-height: 80px;
   }
 
 </style>

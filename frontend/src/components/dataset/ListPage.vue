@@ -28,8 +28,8 @@
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
                     <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span>
                 </span>
-                <v-select dense append-icon="mdi-menu-down" hide-details class="borderless mt-n1 float-right" color="faded-text" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
-                <span class="faded float-right">{{$tc('Order By')}}:&nbsp;</span>
+                <v-select dense append-icon="mdi-menu-down" hide-details class="borderless float-right" color="faded-text" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
+                <span class="faded float-right orderLabel">{{$tc('Order By')}}:&nbsp;</span>
             </v-col>
         </v-row>
         <!-- <v-row wrap align-center justify-center pt-2 pb-3> -->
@@ -50,9 +50,11 @@
                     No results
                 </div>
                 <div v-else>
-                    <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
+                    <v-row>
+                        <ListCard v-for="dataset in datasets" :key="'dataset-'+dataset.id" :record="dataset"></ListCard>
+                    </v-row>
                     <v-row class="mb-3">
-                        <v-col cols=8>
+                        <v-col cols=12 class="text-center">
                             <v-pagination
                             :length="Math.ceil(count/rows)"
                             :total-visible="pageButtonLimit"
@@ -363,6 +365,11 @@
     .borderless{
         margin: 0;
         padding-top: 0;
+    }
+
+    .orderLabel{
+        height: 26px;
+        line-height: 26px;
     }
 
 </style>
