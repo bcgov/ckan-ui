@@ -12,7 +12,7 @@
 
       <v-row wrap dense class="my-0 py-0">
           <v-col cols=12 class="my-0 py-0">
-              <p class="mb-0 pb-0 faded" v-line-clamp:1.5="2" >{{description}}</p>
+              <p class="mb-0 pb-0 faded normalWordBreak" v-line-clamp:1.5="2" >{{description}}</p>
           </v-col>
       </v-row>
 
@@ -25,7 +25,7 @@
       <v-row wrap dense class="my-0 py-0">
         <!--<v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>-->
         <v-col cols=5 class="faded">{{$tc('First Published')}}: {{publishDate}}</v-col>
-        <v-col cols=5 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
+        <v-col cols=7 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
       </v-row>
 
 
@@ -198,6 +198,10 @@ export default {
     .faded{
         color: var(--v-faded_text-base);
         font-size: 14px;
+    }
+
+    .normalWordBreak{
+        word-break: normal !important;
     }
 
 </style>
