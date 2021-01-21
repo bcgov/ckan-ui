@@ -140,7 +140,7 @@
                         </v-row>
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Other Resources', 1)}}</h4>
+                                <h4 class="color-text pb-1">{{$tc('Other Resources', 1)}}</h4>
                             </v-col>
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">
@@ -209,6 +209,10 @@ export default {
             snackbar: false,
             notAtTop: false,
         };
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.getResource(to.params.resourceId);
+        next();
     },
     watch: {
     //     getAbort(newVal) {
@@ -309,7 +313,11 @@ export default {
         //         this.$store.dispatch("organization/getUserOrgs");
         //     }
         // },
-        getResource() {
+        getResource(id) {
+            if (typeof(id) === "undefined"){
+                id = this.resourceId;
+            }
+            this.$store.commit("dataset/clearResource");
             let self = this;
             let unsub = this.$store.subscribe(
                 (mutation, state) => {
@@ -323,8 +331,8 @@ export default {
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
             }
-            if (!this.createMode && (typeof(this.resource) === 'undefined' || !this.resource.id)) {
-                this.$store.dispatch("dataset/getResource", { id: this.resourceId });
+            if (!this.createMode) {
+                this.$store.dispatch("dataset/getResource", { id: id });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
                 this.$store.commit('dataset/setSchemaLoading', {schemaLoading: false});

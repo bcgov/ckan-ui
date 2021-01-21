@@ -323,7 +323,6 @@ export default {
         "Click here to attach file": "Click here to attach file",
         "File": "File",
         "Creating a new Resource": "Creating a new Resource",
-        "Explore Datasets": "Explore Datasets",
-        "Tracking": "Tracking",
+        "Not provided": "Not provided",
     }
 };

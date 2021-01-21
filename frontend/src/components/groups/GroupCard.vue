@@ -12,7 +12,7 @@
     <v-container class="pl-5 cardContainer cardHeight py-0" @click="$emit('groupClicked')">
         <v-row dense align="center" class="cardHeight py-0">
           <v-col cols=2>
-            <v-img position="left center" alt="Logo" height="120px" contain :src="image" v-on:error="onImgError"></v-img>
+            <v-img position="left center" alt="Logo" class="ma-1" max-height="120px" contain :src="image" v-on:error="onImgError"></v-img>
           </v-col>
           <v-col cols=9 class="pl-2">
               <v-container>

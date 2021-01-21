@@ -99,7 +99,7 @@ app.use('/api/solr', solrRouter);
 app.use('/api/resource', resourceRouter);
 app.use('/api/ckan', ckanRouter);
 app.use('/api/pow', powRouter);
-app.use('/api/analytics', analyticsRouter);
+app.use('/api/an', analyticsRouter);
 app.use('/api', authRouter);
 app.use('/status', function(req, res){
   res.json({"status": "OK"}).status(200);

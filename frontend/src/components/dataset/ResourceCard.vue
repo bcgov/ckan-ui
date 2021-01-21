@@ -8,12 +8,12 @@
                     </router-link>
                 </v-col>
             </v-row>
-            <v-row wrap align-center fill-height>
+            <v-row wrap align-center fill-height class="py-0">
                 <v-col cols=12 class="py-0">
-                    <p class="faded" v-line-clamp:1.5="2" >{{useResource.metadata.description}}</p>
+                    <p class="faded pb-0 mb-2" v-line-clamp:1.5="2" >{{useResource.metadata.description}}</p>
                 </v-col>
             </v-row>
-            <v-row wrap align-center fill-height>
+            <v-row wrap align-center fill-height class="py-0">
                 <v-col align-start cols=12 class="py-0">
                     <span>
                         <label left class="sublabel">

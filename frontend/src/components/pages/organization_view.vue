@@ -106,7 +106,7 @@
         </v-row>
 
         <v-row class="mr-1 md-1">
-            <v-col cols=12 sm=8 class="pl-6"><h3><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
+            <v-col cols=12 sm=8 class="pl-6"><h3 class="pt-4"><Breadcrumb :breadcrumbs="breadcrumbs"></Breadcrumb></h3></v-col>
         </v-row>
         <v-row wrap class="mr-1 md-1">
             <v-col cols=10 sm=7>
