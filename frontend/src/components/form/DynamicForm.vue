@@ -21,6 +21,7 @@
                         :value="values[field.field_name]"
                         :label="field.label"
                         :editing="editing"
+                        :multilineDisplay="true"
                         :placeholder="field.form_placeholder"
                         :options="orgArray"
                         :selectableOptions="selectableUserOrgs"

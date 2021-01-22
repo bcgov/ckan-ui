@@ -172,7 +172,7 @@
             </v-form>
         </ValidationObserver>
         <v-row>
-            <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop" v-scroll-to="{
+            <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop pa-4" v-scroll-to="{
                 el: '#topOfForm',
                 x: false,
                 y: true
