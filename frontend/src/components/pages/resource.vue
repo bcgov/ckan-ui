@@ -101,7 +101,7 @@
             </v-col>
         </v-row>
         
-        <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
+        <v-snackbar v-model="snackbar" style="position: absolute;" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
 
         <v-row class="mb-9"></v-row>
 
