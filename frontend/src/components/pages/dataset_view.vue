@@ -36,7 +36,7 @@
                 </v-alert>
             </v-col>
             <v-col cols=12>
-                <v-btn color="primary" small text depressed :to='(lastList) ? lastList : "/dataset"'><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</v-btn>
+                <v-btn color="primary" small text depressed :to='(lastList) ? lastList : "/datasets"'><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</v-btn>
                 <v-btn small text depressed v-if="!editing" color="label_colour" class="" v-clipboard="() => permalink" @click="snackbar = true">
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>

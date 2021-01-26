@@ -153,6 +153,7 @@ let r = new Router({
 r.beforeEach((to, from, next) => {
     window.currentUrl = to.fullPath;
     store.commit('nav/setCurrentPage', window.currentUrl);
+    store.commit('dataset/clearDataset')
 
     switch(to.name){
         case "Datasets":
