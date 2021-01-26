@@ -2,8 +2,7 @@
     <v-card tile class="about-card">
         <v-card-title class="header">
             <span>{{$tc('About')}}</span>
-            <v-spacer></v-spacer>
-            <v-btn text small depressed class="noHover closeButton" @click="close"><v-icon color="text">mdi-close</v-icon></v-btn>
+            <v-btn text small depressed class="noHover closeButton mr-7" @click="close"><v-icon color="text">mdi-close</v-icon></v-btn>
         </v-card-title>
         <v-card-text :class="'px-0 content' + (editing ? ' editing' : '')">
             <v-alert
@@ -195,5 +194,6 @@
 
     .about-card {
         background-color: var(--v-data_background-base) !important;
+        padding-right: 20px;
     }
 </style>
