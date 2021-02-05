@@ -32,7 +32,7 @@
                     dismissible
                     class="fixedAlert mb-0"
                     type="error">
-                    {{formError}}
+                    <span v-html="formError"></span>
                 </v-alert>
             </v-col>
             <v-col cols=12>
@@ -448,7 +448,33 @@ export default {
                 }else if (result.error.type && result.error.type[0]){
                     this.formError = result.error.type[0];
                 }else if (result.error){
-                    this.formError = result.error;
+                    let keys = Object.keys(result.error);
+                    let fe = '';
+                    for (var i=0; i<keys.length; i++){
+                        if (keys[i] === "resources"){ 
+                            for (var j=0; j<result.error[keys[i]].length; j++){
+                                fe += "Resource " + j +": "
+                                let keys2 = Object.keys(result.error[keys[i]][j]);
+                                for (let k=0; k<keys2.length; k++){
+                                    try{
+                                        fe += "  " + keys2[k].substring(0,1).toUpperCase() + keys2[k].substring(1) + " - " + result.error[keys[i]][j][keys2[k]][0];
+                                    }catch(e){
+                                        fe += "  " + keys2[k].substring(0,1).toUpperCase() + keys2[k].substring(1) + " - " + JSON.stringify(result.error[keys[i]][j][keys2[k]]);
+                                    }
+                                    fe += "<br />";
+                                }
+                            }
+                        }else if (keys[i] !== '__type'){
+                            try{
+                                fe += keys[i].substring(0,1).toUpperCase() + keys[i].substring(1) + ": " + result.error[keys[i]][0];
+                            }catch(e){
+                                fe += keys[i].substring(0,1).toUpperCase() + keys[i].substring(1) + ": " + JSON.stringify(result.error[keys[i]]);
+                            }
+                            fe += "<br />";
+                        }
+                        
+                    }
+                    this.formError = fe;
                 }else{
                     this.formError = "Unknown Error";
                 }
