@@ -61,7 +61,7 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
   profile.sysAdmin = false;
   profile.isAdmin = false;
   profile.isEditor = false;
-  profile.userPermissions = [];
+  profile.userPermissions = {};
 
   for (let i=0; i<profile.groups.length; i++){
     let g = profile.groups[i];
@@ -94,6 +94,60 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
 
 // set up passport
 passport.use('oidc', strategy);
+
+app.use('/api/version', function(req, res){
+  var hash = (process.env.GITHASH) ? process.env.GITHASH : "";
+  var pjson = require('./package.json');
+  var v = pjson.version;
+
+  var version = v
+  if (hash !== ""){
+      version += "-"+hash
+  }
+
+  let config = require('config');
+  let url = config.get('ckan');
+
+  let reqUrl = url + "/api/3/action/status_show";
+  let request = require('request');
+
+  const NodeCache = require( "node-cache" );
+  const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+  const cacheKey = 'ckanVersion';
+
+  let ckanV = cache.get(cacheKey);
+
+  if (ckanV !== undefined){
+    return res.json({
+      v: v,
+      hash: hash,
+      version: version,
+      ckanV: ckanV,
+      name: 'ckan-ui'
+    });
+  }
+  request(reqUrl, {}, function(err, apiRes, body){
+    ckanV = "?"
+    try{
+      body = JSON.parse(body);
+    }catch(ex){
+
+    }
+    ckanV = (body && body.result && body.result.ckan_version) ? body.result.ckan_version : "?";
+    console.log(ckanV);
+    if (ckanV !== "?"){
+      cache.set(cacheKey, ckanV);
+    }
+
+    return res.json({
+      v: v,
+      hash: hash,
+      version: version,
+      ckanV: ckanV,
+      name: 'ckan-ui'
+    });      
+  });
+})
 
 app.use('/api/solr', solrRouter);
 app.use('/api/resource', resourceRouter);

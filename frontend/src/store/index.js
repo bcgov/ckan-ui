@@ -8,6 +8,7 @@ import tag from './modules/tag';
 import search from './modules/search';
 import pow from './modules/pow';
 import nav from './modules/nav';
+import version from './modules/version';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -22,6 +23,7 @@ export default new Vuex.Store({
 		search,
 		pow,
 		nav,
+		version,
 	},
 	plugins: [createPersistedState({
 		paths: [
