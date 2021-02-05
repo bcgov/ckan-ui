@@ -96,8 +96,8 @@
                     <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="editing" small depressed text @click="cancel">Cancel</v-btn>
-                <v-btn v-if="editing" small depressed text color="primary" type="submit" @click="submit()">Save</v-btn>
+                <v-btn v-if="editing" depressed @click="cancel">Cancel</v-btn>
+                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit()">Save</v-btn>
             </v-col>
         </v-row>
         
