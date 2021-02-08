@@ -57,6 +57,8 @@
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-accessibility" href="http://gov.bc.ca/webaccessibility/">{{$tc('Accessibility')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-copyright" href="http://gov.bc.ca/copyright">{{$tc('Copyright')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" href="https://www2.gov.bc.ca/gov/content/home/contact-us">{{$tc('Contact Us')}}</v-btn>
+                  <span class="vinfo">Version: {{showVersion}}</span>
+                  <span class="vinfo">Api Version: {{apiVersion}}</span>
               </v-col>
           </v-row>
         </v-container>
@@ -66,6 +68,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -80,9 +83,35 @@ export default {
     return {
       trackingDialog: false
     }
+  },
+  computed: {
+    ...mapState({
+            version: state => state.version.version,
+            v: state => state.version.v,
+            hash: state => state.version.hash,
+            apiVersion: state => state.version.apiVersion,
+    }),
+    showVersion: function(){
+      return this.v + "-" + this.hash.substring(0,7);
+    }
+  },
+  watch: {
+    $route(to){
+      this.$store.dispatch('version/getVersion')
+    }
   }
 }
 </script>
+
+<style scoped>
+
+  .vinfo{
+    font-size: 10px;
+    color: var(--v-text-base);
+    padding-right: 5px;
+  }
+
+</style>
 
 <style>
     .footer {
@@ -117,4 +146,6 @@ export default {
         font-size: 16px;
         font-weight: normal;
     }
+    
+
 </style>

@@ -10,7 +10,11 @@
             </v-tooltip>
         </label>
         <div v-if="!editing">
-            <p class="value">{{val.join(', ')}}</p>
+            <p class="value">
+                <span v-for="(v, k) in val" :key="name+'-link-'+k"> 
+                    <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(val.length-1)) ? "" : ", ")}} 
+                </span>
+            </p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-combobox
@@ -83,6 +87,11 @@ export default {
             return this.label + (this.editing && this.field.required ? '*' : '');
         }
     },
+    methods: {
+        searchDatasets(findText){
+            this.$store.commit('search/setSearchTextAndRedirect', findText);
+        }
+    },
     watch: {
         val(){
             if (this.val.length > 0){
@@ -129,5 +138,9 @@ export default {
     p.value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+
+    .underline{
+        text-decoration: underline;
     }
 </style>

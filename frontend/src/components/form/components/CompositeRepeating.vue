@@ -14,12 +14,12 @@
                 <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true))">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="( (typeof(sub.hide_if_empty) === 'undefined') || (!sub.hide_if_empty) || (model[repeatedIndex][sub.field_name] != '') )">
-                            <span v-if="!sub.field_name != 'displayed'">
+                            <span v-if="sub.field_name != 'displayed'">
                                 <v-row v-if="sub.display_snippet !== null" align="center">
-                                    <v-col v-if="( (typeof(sub.no_label) === 'undefined') || (!sub.no_label) )" cols=3 class="py-1">
-                                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
-                                    </v-col>
-                                    <v-col cols=9 class="py-1">
+                                    
+                                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                                    
+                                    <span class="py-1">
                                         <span v-if="model[repeatedIndex]">
                                             <span v-if="sub.field_name === 'org'">
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
@@ -35,7 +35,7 @@
                                             <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                         </span>
                                         <span v-else></span>
-                                    </v-col>
+                                    </span>
                                 </v-row>
                             </span>
                         </span>
@@ -299,8 +299,11 @@ export default {
             let value = JSON.parse(this.dataset[this.field.field_name]);
             for (let i=0; i<value.length; i++){
                 this.model[i] = {};
+
                 for (let j=0; j<this.field.subfields.length; j++){
-                    if (value && value[i] && value[i][this.field.subfields[j].field_name]){
+                    if (value && value[i] && !value[i][this.field.subfields[j].field_name] && this.field.subfields[j].field_name === "displayed" && value[i]['private']){
+                        this.model[i][this.field.subfields[j].field_name] = (( value[i]['private'] === true) || (value[i]['private'].toLowerCase() === "display") || (value[i]['private'].toLowerCase() === "displayed") );
+                    }else if (value && value[i] && value[i][this.field.subfields[j].field_name]){
                         this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
                     }else{
                         this.model[i][this.field.subfields[j].field_name] = "";
@@ -331,6 +334,8 @@ export default {
     label.sub-label{
         font-size: 16px;
         font-weight: bold;
+        width: 287px; /*no idea why this is what makes it line up...*/
+        margin-left: 24px;
         color: var(--v-faded_text-base);
     }
     .value{

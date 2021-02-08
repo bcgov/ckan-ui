@@ -1,6 +1,6 @@
 {
   "name": "ckan-ui-bridge",
-  "version": "0.0.0",
+  "version": "1.9.0",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",

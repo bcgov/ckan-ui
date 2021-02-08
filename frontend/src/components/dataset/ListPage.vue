@@ -116,8 +116,8 @@
               { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
-              { value: "record_publish_date desc", text: this.$tc("First Published") },
-              { value: "record_last_modified desc", text: this.$tc("Last Modified") }
+              { value: "metadata_created desc", text: this.$tc("First Published") },
+              { value: "metadata_modified desc", text: this.$tc("Last Modified") }
           ],
       }
     },

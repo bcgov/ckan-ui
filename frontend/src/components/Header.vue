@@ -1,14 +1,14 @@
 <template>
   <span>
-    <v-dialog
-      v-model="aboutDialog"
-    >
-      <div class="aboutD">
-        <div class="mx-md-12 my-0 mx-0">
-          <About @closeDialog="closeAbout" class="ml-md-5 mr-md-2 mr-0"></About>
-        </div>
-      </div>
-    </v-dialog>
+    <span class="d-none d-sm-flex d-xs-flex">
+      <v-dialog
+        v-model="aboutDialog"
+        :max-width="($vuetify.breakpoint.mdAndUp) ? '700px' : '100%'"
+        :fullscreen="($vuetify.breakpoint.smAndDown) ? true : false"
+      >
+        <About @closeDialog="closeAbout" class="ml-md-5 mr-md-2 mr-0"></About>
+      </v-dialog>
+    </span>
 
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
@@ -313,10 +313,6 @@ export default {
   }
   .v-menu__content{
       border-radius: unset;
-  }
-
-  .aboutD{
-    width: 100%;
   }
 
   .h-100 {

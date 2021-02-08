@@ -40,6 +40,11 @@ const mutations = {
 
     setSearchText(state, text ) {
         state.searchText = text;
+    },
+
+    setSearchTextAndRedirect(state, text ){
+        state.searchText = text;
+        window.location.href = "/datasets";
     }
 }
 

@@ -113,11 +113,18 @@ export default {
         //         break
         // }
 
+        let formatDate = function(date){
+            let y = date.getFullYear();
+            let m = (date.getMonth() < 9 ? "0"+(date.getMonth()+1) : (date.getMonth()+1))
+            let d = (date.getDate() < 10 ? "0"+(date.getDate()) : (date.getDate()));
+            return y + "-" + m + "-" + d
+        }
+
         let date = new Date(this.record.metadata_created)
-        let pubDate = date.getFullYear() + "-" + (date.getMonth() <= 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1)) + "-" + date.getDate();
+        let pubDate = formatDate(date)
 
         let d2 = new Date(this.record.metadata_modified)
-        let modDate = d2.getFullYear() + "-" + (d2.getMonth() <= 10 ? "0"+(d2.getMonth()+1) : (d2.getMonth()+1)) + "-" + d2.getDate();
+        let modDate = formatDate(d2)
 
         return {
             publishDate: pubDate ? pubDate : "",

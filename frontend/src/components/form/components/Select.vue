@@ -1,6 +1,6 @@
 <template>
     <v-col cols=12 class="py-2">
-        <label class="label fixedWidth">
+        <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
             {{$tc(displayLabel)}}&nbsp;
             <v-tooltip right v-if="field.help_text">
                 <template v-slot:activator="{ on }">
@@ -9,7 +9,7 @@
                 <span>{{field.help_text}}</span>
             </v-tooltip>
         </label>
-        <span v-if="!editing">
+        <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
             <span v-if="field.field_name === 'owner_org'"><router-link :to="{ name: 'organization_view', params: { organizationId: orgName(value) }}">{{orgTitle(value)}}</router-link></span>
             <span v-else class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</span>
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
@@ -67,6 +67,10 @@ export default {
             type: Boolean,
             default: false
         },
+        multilineDisplay: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -149,6 +153,9 @@ export default {
 </script>
 
 <style scoped>
+    .block{
+        display: block;
+    }
     label.label{
         font-size: 16px;
         font-weight: bold;
