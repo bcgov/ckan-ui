@@ -138,10 +138,11 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 } else if (apiRes.headers['content-type'] === "application/pdf"){
                     responseObj.type = "pdf"
                     responseObj.url = resourceUrl
+                    var btoa = require('btoa');
                     responseObj.raw_data = btoa(unescape(encodeURIComponent(body)))
                 } else {
                     if(!body) {
-                        resource.hasSchema = false
+                        responseObj.hasSchema = false
                     }
                 }
             }
@@ -150,7 +151,7 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
                 try{
                     let s = await getResourceSchema(responseObj, [], []);
                     console.log("INFERRED", s);
-                    responseObj.schema = JSON.parse(JSON.stringify(s));;
+                    responseObj.schema = JSON.parse(JSON.stringify(s));
                     responseObj.schemaInferred = false;
                     console.log("INFERRED", s);
                     responseObj.hasSchema = responseObj.schema !== null && Object.keys(responseObj.schema).length > 0;

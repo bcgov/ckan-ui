@@ -100,9 +100,9 @@ var addRoutes = function(router){
     
             try {
                 let json = JSON.parse(body);
-                orgList = {};
-                topLevelOrgs = [];
-                subOrgs = [];
+                let orgList = {};
+                let topLevelOrgs = [];
+                let subOrgs = [];
                 for (let i=0; i<json.result.length; i++) {
                     let org = json.result[i];
                 if (org.child_of.length === 0) {

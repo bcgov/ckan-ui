@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",
-    "serve": "NODE_ENV=dev nodemon ./bin/www"
+    "serve": "NODE_ENV=dev nodemon ./bin/www",
+    "lint": "npx eslint ."
   },
   "dependencies": {
     "atob": "^2.1.2",
@@ -29,6 +30,23 @@
     "xlsx": "^0.14.1"
   },
   "devDependencies": {
+    "eslint": "^7.13.0",
     "nodemon": "^1.18.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-unused-vars": "off"
+    },
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    }
   }
 }

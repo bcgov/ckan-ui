@@ -127,11 +127,12 @@ app.use('/api/version', function(req, res){
     });
   }
   request(reqUrl, {}, function(err, apiRes, body){
-    ckanV = "?"
+    
     try{
       body = JSON.parse(body);
+      ckanV = "?"
     }catch(ex){
-
+      ckanV = "?"
     }
     ckanV = (body && body.result && body.result.ckan_version) ? body.result.ckan_version : "?";
     console.log(ckanV);

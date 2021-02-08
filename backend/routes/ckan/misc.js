@@ -14,7 +14,7 @@ var addRoutes = function(router){
     /* GET facets. */
     router.get('/facets', auth.removeExpired, function(req, res, next) {
 
-    facets = {
+    const facets = {
         // sectors:{
         //         name: "Sectors",
         //         icon: "business",
@@ -139,7 +139,7 @@ var addRoutes = function(router){
         let url = config.get('ckan');
 
         let reqUrl = url + "/api/3/action/tag_list";
-        authObj = {};
+        let authObj = {};
 
         request(reqUrl, authObj, function(err, apiRes, body){
             if (err) {
