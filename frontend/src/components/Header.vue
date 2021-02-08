@@ -277,6 +277,7 @@ export default {
           if (e.keyCode === 13 || e.type === 'click') {
               this.showSearch = false;
               this.$store.commit('search/setSearchText', this.findText);
+              this.$router.push('/datasets')
           }
       },
 
