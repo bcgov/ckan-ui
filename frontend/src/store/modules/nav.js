@@ -3,6 +3,7 @@ const state = {
     lastPage: "",
     lastListPage: "",
     lastDatasetListPage: "",
+    lastDatasetListPageTo: "",
     navHistory: [],
 };
 
@@ -28,6 +29,10 @@ const mutations = {
 
     setLastDatasetListPage(state, page){
         state.lastDatasetListPage = page;
+    },
+
+    setLastDatasetListPageTo(state, page){
+        state.lastDatasetListPageTo = page;
     },
 }
 

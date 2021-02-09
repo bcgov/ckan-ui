@@ -169,6 +169,11 @@ r.beforeEach((to, from, next) => {
         case "organization_view":
         case "group_view":
             store.commit('nav/setLastDatasetListPage', window.currentUrl);
+            if (to.name !== store.state.nav.lastDatasetListPageTo){
+                store.commit('search/setSearchText', "");
+                store.commit('search/clearAllFacets');
+            }
+            store.commit('nav/setLastDatasetListPageTo', to.name);
             break;
 
     }
