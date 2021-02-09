@@ -96,7 +96,7 @@ export default {
     }
   },
   watch: {
-    $route(to){
+    $route(){
       this.$store.dispatch('version/getVersion')
     }
   }
