@@ -49,8 +49,10 @@ export default {
                 types += this.resourceTypes[i] + ", ";
             }
 
-            if (types.length > 0){
+            if (types.length > 2){
                 types = types.substring(0, types.length-2);
+            }else{
+                types = this.$tc("None");
             }
 
             return types;
