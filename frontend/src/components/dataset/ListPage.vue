@@ -116,7 +116,7 @@
               { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
-              { value: "metadata_created desc", text: this.$tc("First Published") },
+              { value: "metadata_created desc", text: this.$tc("First Published") }
           ],
       }
     },
