@@ -324,5 +324,9 @@ export default {
         "File": "Fichier",
         "Creating a new Resource": "Créer une nouvelle ressource",
         "Not provided": "Non fourni",
+        "None": "Aucune",
+        "Protected-A": "Protégé-A",
+        "Protected-B": "Protégé-C",
+        "Protected-C": "Protégé-C",
     }
 };

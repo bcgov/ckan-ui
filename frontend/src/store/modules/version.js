@@ -1,5 +1,4 @@
 import { Version } from '../../services/version';
-import Vue from 'vue';
 const vServ = new Version();
 
 const state = {
@@ -10,7 +9,7 @@ const state = {
 };
 
 const actions = {
-    async getVersion({ commit, state }) {
+    async getVersion({ commit }) {
         let res = await vServ.getVersion();
         commit('setVersion', {version: res.version});
         commit('setV', {v: res.v});
