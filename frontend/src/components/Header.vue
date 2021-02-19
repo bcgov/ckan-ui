@@ -36,7 +36,7 @@
                             <v-col cols=12 class="gov-yellow-border-top"> -->
                                 <v-list dense class="header-menu not-rounded gov-yellow-border-bottom">
                                 <v-list-item v-if="!loggedIn" color="text" id="mobile-login-btn" class="hidden-md-and-up" :href="logInUrl" @click="clearStorage">{{$tc("LogIn")}}</v-list-item>
-                                <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" :to="{name: 'dataset_create'}">{{$tc("Add Dataset")}}</v-list-item>
+                                <v-list-item v-if="showCreate" color="text" id="mobile-add-dataset-btn" class="hidden-md-and-up" @click="addDataset">{{$tc("Add Dataset")}}</v-list-item>
                                 <template v-for="(item, key) in menuTertiary">
 
                                     <span :key="'tertiary-menu-'+key" v-if="((!item.loggedIn) || (loggedIn))">
@@ -87,7 +87,7 @@
                     <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>
                     <v-btn v-if="this.$i18n.locale != 'fr'" depressed text large id="french-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('fr')" height="100%">FR</v-btn>
                     <v-btn v-if="!loggedIn" depressed text large id="login-btn" class="hidden-sm-and-down header-button v-top float-right" :href="logInUrl" @click="clearStorage" height="100%">{{$tc("LogIn")}}</v-btn>
-                    <v-btn v-if="showCreate" depressed text large id="add-dataset-btn" class="hidden-sm-and-down header-button v-top float-right" :to="{name: 'dataset_create'}" height="100%">{{$tc('Add Dataset')}}</v-btn>
+                    <v-btn v-if="showCreate" depressed text large id="add-dataset-btn" class="hidden-sm-and-down header-button v-top float-right" @click="addDataset" height="100%">{{$tc('Add Dataset')}}</v-btn>
 
 
                 </v-col>
@@ -242,6 +242,17 @@ export default {
 
       closeAbout: function(){
         this.aboutDialog = false;
+      },
+
+      addDataset: async function(){
+
+        if (this.$router.currentRoute.name === 'dataset_view'){
+          await this.$store.commit('dataset/clearDataset');
+          await this.$store.commit('dataset/clearResource');
+          this.$router.push({name: 'dataset_create'});
+        }else if (this.$router.currentRoute.name !== "dataset_create"){
+          this.$router.push({name: 'dataset_create'});
+        }
       },
 
       setLanguage: function(local){
