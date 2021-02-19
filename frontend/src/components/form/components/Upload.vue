@@ -37,7 +37,7 @@
             </div>
             <ValidationProvider v-if="isURL" :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
                 <v-text-field
-                    :label="$tc(displayLabel)"
+                    :label="$tc('Enter URL')"
                     :name="name"
                     v-model="val"
                     :placeholder="placeholder"
