@@ -232,7 +232,11 @@ export default {
                 'record_last_modified'],
             error: this.datasetError,
             snackbar: false,
-            formDefaults: {},
+            formDefaults: {
+                contacts: {
+                    displayed: true,
+                },
+            },
         };
     },
     watch: {
@@ -511,8 +515,10 @@ export default {
                 }
 
             }else if (field === 'owner_org'){
-                this.formDefaults.contacts = {};
-                Vue.set(this.formDefaults, 'contacts', {org: newValue});
+                if (!this.formDefaults.contacts){
+                    this.formDefaults.contacts = {};
+                }
+                Vue.set(this.formDefaults.contacts, 'org', newValue);
                 if (!this.dataset.contacts){
                     this.dataset.contacts = "[]";
                 }
