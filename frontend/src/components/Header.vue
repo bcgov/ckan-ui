@@ -80,8 +80,8 @@
                         </v-row> -->
                     </v-menu>
                     
-                    <v-btn depressed text large @click="showSearch=!showSearch" height="100%" class="hidden-sm-and-down header-button v-top float-right">
-                      <v-icon x-large>search</v-icon>
+                    <v-btn depressed tile text large @click="showSearch=!showSearch" height="100%" class="hidden-sm-and-down v-top float-right">
+                      <v-icon large>search</v-icon>
                     </v-btn>
 
                     <v-btn v-if="this.$i18n.locale != 'en'" depressed text large id="english-btn" class="hidden-sm-and-down header-button v-top float-right" @click="setLanguage('en')" height="100%">EN</v-btn>

@@ -101,7 +101,7 @@
             </v-col>
         </v-row>
         
-        <v-snackbar v-model="snackbar" style="position: absolute;" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
+        <v-snackbar v-model="snackbar" style="position: absolute;" :timeout=2000><span class="mx-auto permalink">{{$tc('Share link copied')}}</span></v-snackbar>
 
         <v-row class="mb-9"></v-row>
 
@@ -511,6 +511,10 @@ ul {
 .metadata {
     padding-top: 0px;
     padding-left: 0px;
+}
+.permalink{
+    font-size: 16px;
+    font-weight: bold;
 }
 .button-container{
     position: fixed;
