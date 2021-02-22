@@ -42,8 +42,6 @@ export default {
         "Format": "Format",
         "Permissions": "Permissions",
         "Download permission": "Download Permission",
-        "License": "License",
-        "License*": "License*",
         "States": "States",
         "Relevance": "Relevance",
         "Popular": "Popular",
