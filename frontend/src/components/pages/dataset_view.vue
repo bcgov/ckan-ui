@@ -232,7 +232,11 @@ export default {
                 'record_last_modified'],
             error: this.datasetError,
             snackbar: false,
-            formDefaults: {},
+            formDefaults: {
+                contacts: {
+                    displayed: true,
+                },
+            },
         };
     },
     watch: {
@@ -505,7 +509,23 @@ export default {
                     this.dataset.type = "bcdc_dataset";
                 }
 
-                if (field === "name"){
+
+                if (field === 'owner_org'){
+                    if (!this.formDefaults.contacts){
+                        this.formDefaults.contacts = {};
+                    }
+                    Vue.set(this.formDefaults.contacts, 'org', newValue);
+                    if (!this.dataset.contacts){
+                        this.dataset.contacts = "[]";
+                    }
+                    let changed = false;
+                    let c = JSON.parse(this.dataset.contacts);
+                    if (c.length === 0){
+                        c[0] = {};
+                        c[0].org = false;
+                    }
+
+                }else if (field === "name"){
                     if (!this.expectedNameUpdate){
                         this.urlEdited = true;
                     }
@@ -522,22 +542,22 @@ export default {
                     if (!this.dataset.contacts){
                         this.dataset.contacts = "[]";
                     }
-                        let changed = false;
-                        let c = JSON.parse(this.dataset.contacts);
-                        if (c.length === 0){
-                            c[0] = {};
-                            c[0].org = false;
+                    let changed = false;
+                    let c = JSON.parse(this.dataset.contacts);
+                    if (c.length === 0){
+                        c[0] = {};
+                        c[0].org = false;
+                    }
+                    for (let i=0; i<c.length; i++){
+                        if (!c[i].org){
+                            c[i].org = newValue;
+                            changed = true;
                         }
-                        for (let i=0; i<c.length; i++){
-                            if (!c[i].org){
-                                c[i].org = newValue;
-                                changed = true;
-                            }
-                        }
-                        if (changed){
-                            let newC = JSON.stringify(c);
-                            this.dataset.contacts = newC;
-                        }
+                    }
+                    if (changed){
+                        let newC = JSON.stringify(c);
+                        this.dataset.contacts = newC;
+                    }
                 }
                 
                 this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );

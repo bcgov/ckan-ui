@@ -317,6 +317,16 @@ export default {
                 }
             }
             this.$emit('edited', JSON.stringify(this.model));
+        }else{
+            let model = {}
+            for (let i=0; i<this.field.subfields.length; i++){
+                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
+                    model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
+                }else{
+                    model[this.field.subfields[i].field_name] = "";
+                }
+            }
+            this.model[0] = model;
         }
         if (!this.hasDisplayed){
             this.anyShown = true;
