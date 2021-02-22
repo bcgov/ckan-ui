@@ -245,6 +245,11 @@ export default {
                 this.$router.push('/datasets');
             }
         },
+        dataset(){
+            if (this.$route.name === "dataset_create"){
+                this.editing = true;
+            }
+        },
     },
     computed: {
         nonSchemaFields: function() {
@@ -497,31 +502,46 @@ export default {
         },
 
         async updateDataset(field, newValue){
-            this.dataset[field] = newValue;
+            if (this.dataset !== {}){
+                this.dataset[field] = newValue;
 
-            if (typeof(this.dataset.type) === "undefined"){
-                this.dataset.type = "bcdc_dataset";
-            }
-
-            if (field === "name"){
-                if (!this.expectedNameUpdate){
-                    this.urlEdited = true;
-                }
-                this.expectedNameUpdate = false;
-            }else if (field === 'title'){
-                if (!this.urlEdited){
-                    this.dataset.name = newValue.toLowerCase().replace(/ /g, '-');
-                    this.expectedNameUpdate = true;
+                if (typeof(this.dataset.type) === "undefined"){
+                    this.dataset.type = "bcdc_dataset";
                 }
 
-            }else if (field === 'owner_org'){
-                if (!this.formDefaults.contacts){
+
+                if (field === 'owner_org'){
+                    if (!this.formDefaults.contacts){
+                        this.formDefaults.contacts = {};
+                    }
+                    Vue.set(this.formDefaults.contacts, 'org', newValue);
+                    if (!this.dataset.contacts){
+                        this.dataset.contacts = "[]";
+                    }
+                    let changed = false;
+                    let c = JSON.parse(this.dataset.contacts);
+                    if (c.length === 0){
+                        c[0] = {};
+                        c[0].org = false;
+                    }
+
+                }else if (field === "name"){
+                    if (!this.expectedNameUpdate){
+                        this.urlEdited = true;
+                    }
+                    this.expectedNameUpdate = false;
+                }else if (field === 'title'){
+                    if ( (!this.urlEdited) && (newValue) ){
+                        this.dataset.name = newValue.toLowerCase().replace(/ /g, '-');
+                        this.expectedNameUpdate = true;
+                    }
+
+                }else if (field === 'owner_org'){
                     this.formDefaults.contacts = {};
-                }
-                Vue.set(this.formDefaults.contacts, 'org', newValue);
-                if (!this.dataset.contacts){
-                    this.dataset.contacts = "[]";
-                }
+                    Vue.set(this.formDefaults, 'contacts', {org: newValue});
+                    if (!this.dataset.contacts){
+                        this.dataset.contacts = "[]";
+                    }
                     let changed = false;
                     let c = JSON.parse(this.dataset.contacts);
                     if (c.length === 0){
@@ -538,9 +558,10 @@ export default {
                         let newC = JSON.stringify(c);
                         this.dataset.contacts = newC;
                     }
+                }
+                
+                this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
             }
-            
-            this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
         },
         removeGroup(id) {
             for (let i = 0; i < this.dataset.groups.length; i++) {

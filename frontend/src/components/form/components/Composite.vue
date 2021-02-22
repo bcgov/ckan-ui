@@ -47,7 +47,7 @@
                             dense
                             class="mt-0"
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
                             hide-details="auto"
@@ -58,7 +58,7 @@
                     <ValidationProvider v-else-if="sub.field_name==='org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :items="orgArray"
                             item-text="label"
@@ -74,7 +74,7 @@
                     <ValidationProvider v-else-if="sub.preset==='select'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :items="sub.choices"
                             item-text="label"
@@ -87,7 +87,7 @@
                         </v-select>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="((field.field_name.toLowerCase().indexOf('date')>=0) || (sub.preset === 'date') )" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-menu
                             :ref="field.field_name+'.'+sub.field_name"
                             :nudge-right="40"
@@ -100,7 +100,7 @@
                                     outlined dense
                                     hide-details="auto"
                                     :name="field.field_name+'.'+sub.field_name"
-                                    v-model="value[sub.field_name]"
+                                    v-model="model[sub.field_name]"
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     :disabled="disabled"
@@ -117,7 +117,7 @@
                             outlined dense
                             hide-details="auto"
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
@@ -130,7 +130,7 @@
                             outlined dense
                             hide-details="auto"
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -143,7 +143,7 @@
                             outlined dense
                             hide-details="auto"
                             :name="field.field_name+'.'+sub.field_name"
-                            v-model="value[sub.field_name]"
+                            v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -178,6 +178,7 @@ export default {
         return {
             hasDisplayed: false,
             dateMenuOpen: false,
+            model: {}
         }
     },
     methods: {
@@ -213,9 +214,7 @@ export default {
     },
     watch: {
         value(){
-            if (typeof(this.value) === "string"){
-                this.value = {};
-            }
+            this.model = JSON.parse(this.value[this.field.field_name]);
         }
     },
     computed: {
@@ -224,11 +223,16 @@ export default {
         }
     },
     mounted(){
-        // if (this.dataset[this.field.field_name]){
+         if (this.value[this.field.field_name]){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
-        //     this.model = JSON.parse(this.dataset[this.field.field_name]);
+            this.model = JSON.parse(this.value[this.field.field_name]);
         //     this.$emit('edited', JSON.stringify(this.model));
-        // }
+        }
+        for (let i=0; i<this.field.subfields.length; i++){
+            if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
+                this.model[this.field.subfields[i]] = "";
+            }
+        }
     },
 };
 </script>
