@@ -227,7 +227,7 @@
         text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
     }
     .splash-container {
-        background-image: url("../../assets/images/500_F_291596098_6nXL0nza5UgVMniyp8e92v1JKyANtgbq.jpg");
+        background-image: url("../../assets/images/summer_background.jpg");
         background-size: cover;
     }
     .pitch-header {
