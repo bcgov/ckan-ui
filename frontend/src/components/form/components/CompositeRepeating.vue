@@ -17,7 +17,7 @@
                             <span v-if="sub.field_name != 'displayed'">
                                 <v-row v-if="sub.display_snippet !== null" align="center">
                                     
-                                    <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                                    <label v-if="model[repeatedIndex]" class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                                     
                                     <span class="py-1">
                                         <span v-if="model[repeatedIndex]">
