@@ -25,14 +25,13 @@
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
                                             </span>
                                             <span v-else-if="sub.field_name === 'url'">
-                                                <a v-if="( (typeof(sub.truncate) === 'undefined') || (!sub.truncate) )" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                                <a v-else v-line-clamp:1.5="1" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                <a v-line-clamp:1.5="1" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
                                             </span>
                                             <span v-else-if="sub.field_name === 'email'">
-                                                <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                <a v-line-clamp:1.5="1" :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
                                             </span>
-                                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
-                                            <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
+                                            <span v-else-if="sub.preset === 'select'" v-line-clamp:1.5="1" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
+                                            <span v-else v-line-clamp:1.5="1" class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                         </span>
                                         <span v-else></span>
                                     </span>
