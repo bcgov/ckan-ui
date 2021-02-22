@@ -231,6 +231,8 @@ export default {
         "Collapse All": "Collapse All",
         "Download Permissions": "Download Permissions",
         "Licenses": "Licence",
+        "License": "Licence",
+        "License*": "Licence*",
         "Add Dataset": "Add Dataset",
         "What are": "What are",
         "orgAbout": "The responsibility to manage Datasets, APIs and Applications (collectively resources) and the descriptive information about these resources (metadata), rests with the organizations that have Data Custodial responsibility for the resources. In the public sector this is typically a branch of a ministry. In this case the Data Custodian is the Director or Executive Director of the branch.",
