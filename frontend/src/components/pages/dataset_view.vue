@@ -4,6 +4,11 @@
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
         </v-row>
     </v-container>
+    <v-container v-else-if="datasetError && datasetError.toLowerCase() === 'not found'" fluid class="main-area">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> 404 Not Found: No such dataset</h1>
+        </div>
+    </v-container>
     <v-container v-else-if="datasetError" fluid class="main-area">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> An Error Occured: {{datasetError.code}}</h1>
