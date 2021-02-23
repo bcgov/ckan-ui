@@ -97,7 +97,7 @@
             </v-col>
         </v-row>
 
-        <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto">{{$tc('Share link copied')}}</span></v-snackbar>
+        <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto permalink">{{$tc('Share link copied')}}</span></v-snackbar>
 
         <v-row class="mt-7 mb-7"></v-row>
 
@@ -400,6 +400,11 @@
         right: 0px;
         border-bottom: 1px solid;
         border-color: var(--v-label_border-base);
+    }
+
+    .permalink{
+        font-size: 16px;
+        font-weight: bold;
     }
     
     .workingSpinner{
