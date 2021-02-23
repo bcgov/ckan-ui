@@ -55,5 +55,6 @@
   },
 
   "authGroupSeperator": "/",
-  "sysAdminGroup": "admin"
+  "sysAdminGroup": "admin",
+  "adminApiKey": "adminApiKeyHere"
 }
