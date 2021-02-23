@@ -152,6 +152,7 @@
             // eslint-disable-next-line no-console
             if (e.keyCode === 13 || e.type === 'click') {
                 this.$store.commit('search/setSearchText', this.searchText );
+                this.$store.commit('search/setClearOnRedirect', false);
                 this.$router.push('/datasets');
             }
         },
