@@ -259,17 +259,14 @@ var addRoutes = function(router){
         let keys = Object.keys(req.query);
         let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about";
 
-        let authObj = {};
+        const options = {
+            url: reqUrl,
+            headers: {
+                'Authorization': config.get('adminApiKey')
+            }
+        };
 
-        if (req.user){
-            authObj = {
-                'auth': {
-                    'bearer': req.user.jwt
-                }
-            };
-        }
-
-        request(reqUrl, authObj, function(err, apiRes, body){
+        request(options, function(err, apiRes, body){
             if (err) {
             console.log(err);
             res.json({error: err});
@@ -282,7 +279,7 @@ var addRoutes = function(router){
             if (apiRes.statusCode !== 200){
                 return res.json({
                     "success": false,
-                    "result": 'The BC Data catalogue helps users to find, understand and explore data. The catalogue also provides contact information so that data users can contact Data Custodians for additional information if required. DataBC  manages the BC Data Catalogue software and infrastructure, and delivers user training and authorization management. Data, APIs and Applications registered and presented through the BC Data Catalogue are managed and provided by Data Custodians from across the broader public service. Each Data Custodian is typically a Director or Executive Director of an Organizational unit such as a Branch or Division. The Data Custodial Organizations are visible under the [Organizations](http://catalogue.data.gov.bc.ca/organization) tab. DataBC helps the Province manage data as an asset.  It enables public servants and citizens to share and use data.  DataBC delivers on this mandate by providing leadership in : data governance and custodianship; data licensing; literacy and outreach; data cataloging;  data provisioning; geographic data integration and management;  location based services and web mapping applications. To learn more about DataBC please visit our [website](http://www.data.gov.bc.ca/dbc/about/index.page) British Columbia\'s Data Catalogue is powered by [CKAN](http://ckan.org/).'
+                    "result": 'Tx'
                 });
             }
 
