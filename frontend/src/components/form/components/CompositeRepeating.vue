@@ -19,19 +19,19 @@
                                     
                                     <label v-if="model[repeatedIndex]" class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                                     
-                                    <span class="py-1">
+                                    <span class="py-1 valueSpan" v-line-clamp:1.5="1">
                                         <span v-if="model[repeatedIndex]">
                                             <span v-if="sub.field_name === 'org'">
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
                                             </span>
                                             <span v-else-if="sub.field_name === 'url'">
-                                                <a v-line-clamp:1.5="1" :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                <a :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
                                             </span>
                                             <span v-else-if="sub.field_name === 'email'">
-                                                <a v-line-clamp:1.5="1" :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
                                             </span>
-                                            <span v-else-if="sub.preset === 'select'" v-line-clamp:1.5="1" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
-                                            <span v-else v-line-clamp:1.5="1" class="value">{{model[repeatedIndex][sub.field_name]}}</span>
+                                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
+                                            <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                         </span>
                                         <span v-else></span>
                                     </span>
@@ -346,6 +346,10 @@ export default {
         width: 287px; /*no idea why this is what makes it line up...*/
         margin-left: 24px;
         color: var(--v-faded_text-base);
+    }
+
+    .valueSpan{
+        max-width: calc(100% - 330px);
     }
     .value{
         font-size: 16px;
