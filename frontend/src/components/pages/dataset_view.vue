@@ -131,7 +131,7 @@
             </v-col>
         </v-row>
         
-        <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
+        <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto permalink">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
 
         <v-row class="mt-5 mb-9"></v-row>
 
@@ -710,6 +710,11 @@ ul {
     left: 50%;
     margin-left: -35px;
     margin-top: 35px;
+}
+
+.permalink{
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .fauxbar{

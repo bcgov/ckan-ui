@@ -3,7 +3,8 @@ import Vue from 'vue';
 const state = {
     facets: {},
     totalFilters: 0,
-    searchText: ""
+    searchText: "",
+    clearOnRedirect: true
 };
 
 const getters = {
@@ -40,6 +41,10 @@ const mutations = {
 
     setSearchText(state, text ) {
         state.searchText = text;
+    },
+
+    setClearOnRedirect(state, clear ) {
+        state.clearOnRedirect = clear;
     },
 
     setSearchTextAndRedirect(state, text ){
