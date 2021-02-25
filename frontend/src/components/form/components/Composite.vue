@@ -214,7 +214,11 @@ export default {
     },
     watch: {
         value(){
-            this.model = JSON.parse(this.value[this.field.field_name]);
+            if (typeof(this.value) === 'string'){
+                this.model = JSON.parse(this.value);
+            }else{
+                this.model = this.value;
+            }
         }
     },
     computed: {
