@@ -10,7 +10,7 @@
             </v-tooltip>
         </label>
         <div v-if="!editing">
-            <p class="value">{{value}}</p>
+            <p class="value">{{displayValue}}</p>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             val: this.value,
+            displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
             validate: ((this.field.required)? 'required' : ''),
             scopeName: this.scope + '.' + this.name,
         }

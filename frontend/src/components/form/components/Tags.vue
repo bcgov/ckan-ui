@@ -14,6 +14,7 @@
                 <span v-for="(v, k) in val" :key="name+'-link-'+k"> 
                     <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(val.length-1)) ? "" : ", ")}} 
                 </span>
+                <span v-if="val.length === 0">{{$tc('Not Provided')}}</span>
             </p>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
