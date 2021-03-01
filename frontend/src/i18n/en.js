@@ -117,6 +117,7 @@ export default {
         "Temporal Extent": "Temporal Extent",
         "Temporal Extent*": "Temporal Extent*",
         "Archived Date": "Archived Date",
+        "Archived": "Archived",
         "Archived Date*": "Archived Date*",
         "Published Date": "Published Date",
         "Published Date*": "Published Date*",
