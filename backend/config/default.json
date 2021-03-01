@@ -56,5 +56,7 @@
 
   "authGroupSeperator": "/",
   "sysAdminGroup": "admin",
-  "adminApiKey": "adminApiKeyHere"
+  "adminApiKey": "adminApiKeyHere",
+
+  "landingTerms": ["Crown", "Waste", "Fire", "Lightning"]
 }

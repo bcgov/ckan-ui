@@ -9,6 +9,11 @@ export class CkanApi {
         return axios.get(url).then(response => response.data);
     }
 
+    getLandingTerms() {
+        const url = '/api/ckan/landingTerms';
+        return axios.get(url).then(response => response.data);
+    }
+
     getDatasets(queryString) {
         const url = '/api/ckan/search'+queryString;
         return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);

@@ -9,6 +9,14 @@ var addRoutes = function(router){
         return res.json({url: url});
     });
 
+    //intend for this to be querying a ckan plugin for popular search terms eventually
+    router.get('/landingTerms', function(req, res, next){
+        let config = require('config');
+        let terms = config.get('landingTerms');
+
+        return res.json({terms: terms});
+    });
+
 
 
     /* GET facets. */

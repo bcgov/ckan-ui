@@ -1,10 +1,14 @@
 import Vue from 'vue';
 
+import { CkanApi } from '../../services/ckanApi';
+const ckanServ = new CkanApi();
+
 const state = {
     facets: {},
     totalFilters: 0,
     searchText: "",
-    clearOnRedirect: true
+    clearOnRedirect: true,
+    landingTerms: []
 };
 
 const getters = {
@@ -13,12 +17,22 @@ const getters = {
     }
 }
 
-const actions = {}
+const actions = {
+    getLandingTerms({ commit }) {
+        ckanServ.getLandingTerms().then( (data) => {
+            commit('setLandingTerms', {terms: data.terms});
+        });
+    }
+}
 
 const mutations = {
     clearAllFacets(state){
         state.totalFilters = 0;
         Vue.set(state, 'facets', {});
+    },
+
+    setLandingTerms(state, {terms}){
+        state.landingTerms = terms;
     },
 
     toggleFacet(state, { facet, filter }) {
