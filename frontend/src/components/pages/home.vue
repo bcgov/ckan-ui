@@ -117,7 +117,7 @@
             </v-col>
             <v-col cols=12>
                 <p class="search-suggestion mb-0 mx-auto">{{$tc('TrySearchingFor')}}</p>
-                <v-carousel interval="3000" cycle xs6 :show-arrows="false" hide-delimiters height="40px" class="search-suggestion mx-auto">
+                <v-carousel interval="3000" cycle xs6 :show-arrows="false" hide-delimiters height="40px" class="search-suggestion mx-auto" :key="'carousel-'+redrawIndex">
                     <v-carousel-item v-for="(item, i) in searchSuggestions" :key="i">
                         <p><a v-on:click="termClick" class="search-suggestion shadow">{{item}}</a></p>
                     </v-carousel-item>
@@ -132,19 +132,28 @@
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
 
+    import { mapState } from "vuex";
+
   export default{
       data () {
         return {
           logInUrl: "/api/login?r=/",
           cardDialog: false,
           searchText: "",
-          searchSuggestions: [
-              "Crown",
-              "Waste",
-              "Fire",
-              "Lightning"
-          ]
+          redrawIndex: 0,
         }
+      },
+
+      computed: {
+        ...mapState({
+            searchSuggestions: state => state.search.landingTerms,
+        })
+      },
+
+      watch: {
+          searchSuggestions: function(){
+              this.redrawIndex++;
+          }
       },
 
       methods:{
@@ -162,6 +171,7 @@
         }
       },
       mounted() {
+          this.$store.dispatch('search/getLandingTerms');
           analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
       }
   }
