@@ -15,7 +15,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid grid-list-md class="main-area">
+    <v-container v-else fluid grid-list-md class="main-area" :key="'datasetCRUD-'+redrawIndex">
         <v-row id="topOfForm"></v-row>
         <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
             <v-col cols=10 v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
@@ -244,6 +244,7 @@ export default {
                     displayed: true,
                 },
             },
+            redrawIndex: 0,
         };
     },
     watch: {
@@ -256,6 +257,9 @@ export default {
             if (this.$route.name === "dataset_create"){
                 this.editing = true;
             }
+        },
+        $route (to, from){
+            this.redrawIndex++;
         },
     },
     computed: {
