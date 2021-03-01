@@ -13,7 +13,7 @@
     <v-container v-else fluid grid-list-md class="main-area">
         <v-row id="topOfResForm"></v-row>
         <v-row class="mt-0 py-4 wrap px-md-15 fauxbar">
-            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
+            <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
                 <v-alert
                     :value="resource.state === 'deleted'"
                     type="warning">
@@ -21,7 +21,6 @@
                 </v-alert>
                 <v-alert
                     :value="showFormSuccess"
-                    class="fixed"
                     @input="showFormSuccess = false;"
                     dismissible
                     type="success">
@@ -29,7 +28,6 @@
                 </v-alert>
                 <v-alert
                     :value="showFormError"
-                    class="fixed"
                     @input="showFormError = false;"
                     dismissible
                     type="error">
@@ -102,6 +100,8 @@
         </v-row>
         
         <v-snackbar v-model="snackbar" style="position: absolute;" :timeout=2000><span class="mx-auto permalink">{{$tc('Share link copied')}}</span></v-snackbar>
+
+        <v-row class="mt-12 mb-12" v-if="showFormError || showFormSuccess || resource.state === 'deleted'"></v-row>
 
         <v-row class="mb-9"></v-row>
 

@@ -13,7 +13,7 @@
     <v-container v-else fluid grid-list-md class="main-area">
         <v-row id="topOfForm"></v-row>
         <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
-            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
+            <v-col cols=10 v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
                 <v-alert
                     :value="dataset.state === 'deleted'"
                     class="mb-0"
@@ -23,14 +23,14 @@
                 <v-alert
                     v-model="showFormSuccess"
                     dismissible
-                    class="fixedAlert mb-0"
+                    class="mb-0"
                     type="success">
                     {{formSuccess}}
                 </v-alert>
                 <v-alert
                     v-model="showFormError"
                     dismissible
-                    class="fixedAlert mb-0"
+                    class="mb-0"
                     type="error">
                     <span v-html="formError"></span>
                 </v-alert>
@@ -127,6 +127,8 @@
         </v-row>
         
         <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto permalink">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
+
+        <v-row class="mt-12 mb-12" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'"></v-row>
 
         <v-row class="mt-5 mb-9"></v-row>
 
@@ -717,8 +719,9 @@ ul {
     top: 65px;
     left: 0px;
     background-color: var(--v-data_background-base);
-    z-index: 5;
+    z-index: 55;
     right: 0px;
+    width: 100%;
     border-bottom: 1px solid;
     border-color: var(--v-label_border-base);
 }

@@ -7,7 +7,7 @@
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
         <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
-            <v-col cols=12 style="width: 100%;" class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
+            <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"
                     type="warning">
@@ -15,14 +15,12 @@
                 </v-alert>
                 <v-alert
                     :value="showFormSuccess"
-                    class="fixed"
                     dismissible
                     type="success">
                     {{formSuccess}}
                 </v-alert>
                 <v-alert
                     :value="showFormError"
-                    class="fixed"
                     dismissible
                     type="error">
                     {{formError}}
@@ -98,6 +96,7 @@
 
         <v-snackbar v-model="snackbar" :timeout=2000><span class="mx-auto permalink">{{$tc('Share link copied')}}</span></v-snackbar>
 
+        <v-row class="mt-12 mb-12" v-if="showFormError || showFormSuccess || group.state === 'deleted'"></v-row>
         <v-row class="mt-7 mb-7"></v-row>
 
         <v-row class="workingSpinner" v-if="disabled">
