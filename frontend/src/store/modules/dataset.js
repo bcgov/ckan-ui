@@ -55,7 +55,7 @@ const actions = {
                     });
                 }
             } else {
-                commit('setError', {error: data.error});
+                commit('setError', {error: data.error.message});
                 commit('setSchemaLoading', {schemaLoading: false});
                 commit('setDatasetLoading', {datasetLoading: false});
             }
@@ -295,7 +295,7 @@ const mutations = {
         state.shouldAbortDataset = true;
     },
     setError(state, { error }) {
-        state.error = Object.assign({}, error);
+        Vue.set(state, 'error', error);
     },
     setFacetList(state, { facetList }) {
         state.facetList = Object.assign({}, facetList);
