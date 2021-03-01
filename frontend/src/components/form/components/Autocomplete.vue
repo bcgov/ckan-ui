@@ -98,6 +98,8 @@ export default {
             }
             if (this.displayValue.length > 0){
                 this.displayValue = this.displayValue.substring(0,this.displayValue.length-1);
+            }else{
+                this.displayValue = this.$tc("Not Provided");
             }
         }
     },

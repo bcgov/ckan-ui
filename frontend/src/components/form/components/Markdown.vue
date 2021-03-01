@@ -66,7 +66,7 @@ export default {
             if (typeof(this.model)==="string"){
                 return marked(this.model);
             }else{
-                return marked("");
+                return marked(this.$tc("Not Provided"));
             }
         },
         displayLabel: function(){

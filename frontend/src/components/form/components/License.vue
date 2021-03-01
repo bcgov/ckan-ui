@@ -75,7 +75,11 @@ export default {
                     for (let i=0; i<self.licenses.length; i++){
                         self.licenseLookup[self.licenses[i].id] = self.licenses[i].title;
                     }
-                    self.displayValue = self.licenseLookup[self.val];
+                    try{
+                        self.displayValue = self.licenseLookup[self.val];
+                    }catch(e){
+                        self.displayValue = self.$tc("Not Provided");
+                    }
                 }
             });
         }

@@ -33,7 +33,7 @@
                                             <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
                                             <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                         </span>
-                                        <span v-else></span>
+                                        <span v-else>{{$tc('Not Provided')}}</span>
                                     </span>
                                 </v-row>
                             </span>
