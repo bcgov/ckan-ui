@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey">
+        <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey+'-'+redrawIndex">
                 <div v-if="field.label !== ''" style="width: 100%;">
                     <Title
                         v-if="field.preset==='title' || field.field_name === 'title'"
@@ -62,6 +62,7 @@
                         :scope="scope"
                         :disabled="disabled"
                         :translate="false"
+                        :conditionalRedraw="redrawIndex"
                         :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                     </Select>
                     <Select
@@ -77,6 +78,7 @@
                         :field="field"
                         :scope="scope"
                         :disabled="disabled"
+                        :conditionalRedraw="redrawIndex"
                         :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                     </Select>
                     <Slug
@@ -352,6 +354,8 @@ export default {
     },
     data() {
         return {
+            redrawIndex: 0,
+            conditionalFields: [],
         }
     },
 
@@ -393,7 +397,7 @@ export default {
         },
 
         processedSchema: function(){
-            return this.schema ? this.schema.filter( field => {
+            let rv = this.schema ? this.schema.filter( field => {
                         // Only show on display if display snippet not specifically set to null
                 return ((!this.editing && field.display_snippet !== null)
                             // Only show on editing if form snippet not specifically set to null
@@ -409,10 +413,32 @@ export default {
                                 && (this.sysAdmin || this.isAdmin
                                     || (this.values.organization && this.userPermissions[this.values.organization.name] === "editor")))
             }) : [];
+
+            if (this.schema){
+                this.conditionalFields = [];
+                for (let i=0; i<this.schema.length; i++){
+                    let f = this.schema[i]
+                    if ( (typeof(f.conditional_field) !== 'undefined') && (typeof(f.conditional_values) !== 'undefined') ){
+                        this.conditionalFields.indexOf(f.conditional_field) === -1 ? this.conditionalFields.push(f.conditional_field) : false;
+                    }
+                }
+            }
+
+            return rv;
+        },
+    },
+
+    watch: {
+        schema: function(){
+            
         }
     },
+
     methods: {
         updateValues(field, newValue){
+            if (this.conditionalFields.indexOf(field) >= 0){
+                this.redrawIndex++;
+            }
             Vue.set(this.values, field, newValue);
             this.$emit("updated", field, newValue);
         },

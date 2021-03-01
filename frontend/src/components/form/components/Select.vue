@@ -43,8 +43,10 @@ export default {
         editing: Boolean,
         placeholder: String,
         options: [Array, Object],
+        conditionalRedraw: Number,
         includeBlank: Boolean,
         emitOnChange: String,
+        
         labelField: {
             type: String,
             default: "label"
@@ -97,6 +99,9 @@ export default {
 
     watch: {
         selectableOptions: function(){
+            this.initItems();
+        },
+        conditionalRedraw: function(){
             this.initItems();
         }
     },
