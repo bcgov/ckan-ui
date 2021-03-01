@@ -328,5 +328,8 @@ export default {
         "Protected-A": "Protected-A",
         "Protected-B": "Protected-B",
         "Protected-C": "Protected-C",
+        "Enter URL": "Enter URL",
+        "Biweekly": "Biweekly",
+        "Nightly": "Nightly",
     }
 };
