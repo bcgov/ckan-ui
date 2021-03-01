@@ -22,10 +22,7 @@ var addRoutes = function(router){
             return;
         }
 
-        const USER_PERMISSION = "dataset_create";
-
-        let reqUrl = url + "/api/3/action/organization_list_for_user?permission="+USER_PERMISSION+"&id="+req.user._json.preferred_username;
-        console.log("USER ORG URL ", reqUrl);
+        let reqUrl = url + "/api/3/action/organization_list_for_user?id="+req.user._json.preferred_username;
 
         request(reqUrl, authObj, function(err, apiRes, body){
             if (err) {
