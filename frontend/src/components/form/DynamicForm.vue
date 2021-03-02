@@ -353,9 +353,19 @@ export default {
         }
     },
     data() {
+        let cf = [];
+        if (this.schema){
+            cf = [];
+            for (let i=0; i<this.schema.length; i++){
+                let f = this.schema[i]
+                if ( (typeof(f.conditional_field) !== 'undefined') && (typeof(f.conditional_values) !== 'undefined') ){
+                    cf.indexOf(f.conditional_field) === -1 ? cf.push(f.conditional_field) : false;
+                }
+            }
+        }
         return {
             redrawIndex: 0,
-            conditionalFields: [],
+            conditionalFields: cf,
         }
     },
 
@@ -414,6 +424,12 @@ export default {
                                     || (this.values.organization && this.userPermissions[this.values.organization.name] === "editor")))
             }) : [];
 
+            return rv;
+        },
+    },
+
+    watch: {
+        schema: function(){
             if (this.schema){
                 this.conditionalFields = [];
                 for (let i=0; i<this.schema.length; i++){
@@ -423,19 +439,13 @@ export default {
                     }
                 }
             }
-
-            return rv;
-        },
-    },
-
-    watch: {
-        schema: function(){
-            
+            console.log("CF from schema watch", conditionalFields);
         }
     },
 
     methods: {
         updateValues(field, newValue){
+
             if (this.conditionalFields.indexOf(field) >= 0){
                 this.redrawIndex++;
             }
