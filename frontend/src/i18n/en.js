@@ -332,5 +332,7 @@ export default {
         "Enter URL": "Enter URL",
         "Biweekly": "Biweekly",
         "Nightly": "Nightly",
+        "Name*": "Name*",
+        "External": "External",
     }
 };
