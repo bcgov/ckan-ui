@@ -439,7 +439,6 @@ export default {
                     }
                 }
             }
-            console.log("CF from schema watch", conditionalFields);
         }
     },
 
