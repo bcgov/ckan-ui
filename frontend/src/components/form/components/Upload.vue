@@ -70,6 +70,7 @@ export default {
         name: String,
         value: [String, Object, Array, Boolean, File],
         label: String,
+        currentlyUrl: [String, Boolean],
         editing: Boolean,
         placeholder: String,
         field: Object,
@@ -81,11 +82,16 @@ export default {
         parentObject: Object,
     },
     data() {
+        let iu = (typeof(this.currentlyUrl) === "boolean") ? this.currentlyUrl : null;
+        iu = (typeof(this.currentlyUrl) === "string") ? (this.currentlyUrl.toLowerCase()==='true') : iu;
+        iu = ( (iu === null) && (typeof(this.isURL) !== "undefined") ) ? this.isUrl : iu;
+        iu = ( (iu === null) && (this.field.field_name === "url") ) ? (this.field.field_name === "url"): iu;
+
         return {
             val: this.value,
             validate: ((this.field.required) ? 'required' : ''),
             allowURL: this.field.field_name === "url",
-            isURL: this.field.field_name === "url" ? true : false,
+            isURL: iu,
             scopeName: this.scope + '.' + this.name,
             api: null,
         }
@@ -100,6 +106,9 @@ export default {
             this.val = this.value;
         },
         val(){
+            this.$emit('edited', this.isURL, this.val);
+        },
+        isURL(){
             this.$emit('edited', this.isURL, this.val);
         },
     },
