@@ -114,12 +114,11 @@ var addRoutes = function(router){
         
             try {
                 let json = JSON.parse(body);
-                console.log(json)
-                //new json
-                res.json(json);
+                return res.json(json);
+                
             }catch(ex){
                 console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
+                return res.json({error: ex});
             }
         });
     

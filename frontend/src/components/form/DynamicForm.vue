@@ -229,6 +229,7 @@
                         :label="field.label"
                         @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
                         :field="field"
+                        :currentlyUrl="(typeof(values[field.field_name])==='string' && values[field.field_name].length>0) ? true : values['isUrl']"
                         :disabled="disabled"
                         :scope="scope"
                         :parentObject="values"
@@ -453,7 +454,13 @@ export default {
         },
         updateUploadValues(field, isUrl, newValue){
             this.$emit("updated", "isUrl", isUrl);
-            this.$emit("updated", field, newValue);
+            if (isUrl){
+                this.$emit("updated", field, newValue);
+                this.$emit("updated", 'upload', null);
+            }else{
+                this.$emit("updated", field, "");
+                this.$emit("updated", 'upload', newValue);
+            }
         }
     },
 }
