@@ -294,7 +294,19 @@ export default {
                 if (typeof(c) === "string"){
                     c = JSON.parse(c);
                 }
-                c = c[0]
+
+                let setC = false;
+                for (let i=0; i<c.length; i++){
+                    if (c[i].displayed){
+                        c = c[i];
+                        setC = true;
+                        break;
+                    }
+                }
+
+                if (!setC){
+                    return ''
+                }
                 
                 link += c.email
             }else{
