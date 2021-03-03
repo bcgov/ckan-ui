@@ -11,7 +11,7 @@
     </v-container>
     <v-container v-else-if="datasetError" fluid class="main-area">
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{datasetError.code}}</h1>
+            <h1><v-icon x-large>error</v-icon> An Error Occurred: {{datasetError.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
@@ -110,6 +110,11 @@
                 }">
                     <v-icon>mdi-format-vertical-align-bottom</v-icon>
                     {{$tc('Scroll to Bottom')}}
+                </v-btn>
+
+                <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
+                    <v-icon>mdi-email</v-icon>
+                    {{$tc('Contact')}}
                 </v-btn>
 
                 <v-btn text small depressed v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
@@ -279,6 +284,33 @@ export default {
             });
             keys.sort();
             return keys;
+        },
+
+        mailLink(){
+            let link="mailto:"
+            let c = null;
+            if (this.dataset && this.dataset.contacts && this.dataset.contacts[0]){
+                c = this.dataset.contacts;
+                if (typeof(c) === "string"){
+                    c = JSON.parse(c);
+                }
+                c = c[0]
+                
+                link += c.email
+            }else{
+                return '';
+            }
+            link += '?subject=Questions about '+this.dataset.title
+            link += '&body='
+            link += "Hi "+c.name+",%0D%0A%0D%0A";
+            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
+            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
+            link += "Hi! My name is ... and I am a ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
+            link += "I was hoping to find information about ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
+            link += "Is there someone I can contact to find out more about ....%0D%0A"
+            return link;
         },
 
         getAbort() {
