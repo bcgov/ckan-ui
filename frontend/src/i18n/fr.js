@@ -334,5 +334,7 @@ export default {
         "Nightly": "Chaque nuit",
         "Name*": "Nom*",
         "External": "Externe",
+        "Not Provided": "Non fourni",
+        "Expand": "Développer",
     }
 };

@@ -334,5 +334,7 @@ export default {
         "Nightly": "Nightly",
         "Name*": "Name*",
         "External": "External",
+        "Not Provided": "Not Provided",
+        "Expand": "Expand",
     }
 };
