@@ -19,14 +19,14 @@
                             
                                 <span v-if="value">
                                     <span v-if="sub.display_snippet === 'url'">
-                                        <a :href="value[sub.field_name]" style="text-overflow: ellipsis">{{value[sub.field_name]}}</a>
+                                        <a :href="model[sub.field_name]" style="text-overflow: ellipsis">{{model[sub.field_name]}}</a>
                                     </span>
                                     <span v-else-if="sub.field_name === 'email'">
-                                        <a :href="'mailto:'+value[sub.field_name]">{{value[sub.field_name]}}</a>
+                                        <a :href="'mailto:'+model[sub.field_name]">{{model[sub.field_name]}}</a>
                                     </span>
                                     <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
-                                    <span v-else-if=" value[sub.field_name] === ''" class="value">{{$tc('Not Provided')}}</span>
-                                    <span v-else class="value">{{value[sub.field_name]}}</span>
+                                    <span v-else-if=" model[sub.field_name] === ''" class="value">{{$tc('Not Provided')}}</span>
+                                    <span v-else class="value">{{model[sub.field_name]}}</span>
                                 </span>
                                 <span v-else>{{$tc('Not Provided')}}</span>
                             </v-col>
@@ -213,7 +213,7 @@ export default {
         }
     },
     watch: {
-        value(){
+        value: function(){
             if (typeof(this.value) === 'string'){
                 this.model = JSON.parse(this.value);
             }else{
@@ -227,9 +227,9 @@ export default {
         }
     },
     mounted(){
-         if (this.value[this.field.field_name]){
+         if (this.value){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
-            this.model = JSON.parse(this.value[this.field.field_name]);
+            this.model = JSON.parse(this.value);
         //     this.$emit('edited', JSON.stringify(this.model));
         }
         for (let i=0; i<this.field.subfields.length; i++){
