@@ -9,6 +9,28 @@ const resourceServ = new ResourceApi();
 
 import Vue from 'vue';
 
+formatResourceBody = function(resource){
+    try{
+        delete resource.created;
+        delete resource.last_modified;
+        delete resource.metadata;
+        delete resource.raw_data;
+        delete resource.schema;
+        delete resource.content-length;
+        delete resource.content-type;
+        delete resource.schemaError;
+        delete resource.hasSchema;
+    }catch(e){
+        console.error("Format resource", e);
+    }
+    try{
+        let j = JSON.parse(resource.json_table_schema);
+    }catch(ex){
+        resource.json_table_schema = {};
+    }
+    return resource;
+}
+
 const state = {
     dataset: {},
     shouldAbortDataset: false,
@@ -150,12 +172,11 @@ const actions = {
 	},
 	async setResource({ state }) {
         
-        let dontAppend = ['metadata', 'raw_data', 'schema', 'content-length', 'content-type', 'schemaError', 'hasSchema'];
+        let resource = JSON.parse(JSON.stringify(state.resource));
+        resource = formatResourceBody(resource);
         let formD = new FormData();
-        for ( let key in state.resource ) {
-            if ( (state.resource[key] !== null) && (dontAppend.indexOf(key) === -1) ){
-                formD.append(key, state.resource[key]);
-            }
+        for ( let key in resource ) {
+                formD.append(key, resource[key]);
         }
         let tok = await authServ.getToken().then();
         return ckanServ.updateResource(formD, tok['jwt']);
@@ -167,10 +188,12 @@ const actions = {
 
     async createResource({ state }) {
         let resource = JSON.parse(JSON.stringify(state.resource));
+        resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
             formD.append(key, resource[key]);
         }
+        
         let tok = await authServ.getToken().then();
         return ckanServ.createResource(formD, tok['jwt']);
     },
