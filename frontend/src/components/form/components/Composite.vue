@@ -229,7 +229,11 @@ export default {
     mounted(){
          if (this.value){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
-            this.model = JSON.parse(this.value);
+            if (typeof(this.value) === 'string'){
+                this.model = JSON.parse(this.value);
+            }else{
+                this.model = this.value;
+            }
         //     this.$emit('edited', JSON.stringify(this.model));
         }
         for (let i=0; i<this.field.subfields.length; i++){
