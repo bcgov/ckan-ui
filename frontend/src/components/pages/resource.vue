@@ -6,7 +6,7 @@
     </v-container>
     <v-container v-else-if="datasetError" fluid class="main-area">
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{datasetError.code}}</h1>
+            <h1><v-icon x-large>error</v-icon> An Error Occurred: {{datasetError.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>

@@ -141,7 +141,7 @@ var dwdspowapi = window.dwdspowapi;
 			// make sure the submitted order is valid
 			//var checkOrder = this.persistOrder(order);
 			var validOrder = this.validate();
-			var msg = 'An unknown error occured submitting your Order. Please contact the DWDS administrator.';
+			var msg = 'An unknown error occurred submitting your Order. Please contact the DWDS administrator.';
 			
 			if (validOrder) {
 				// when are using a site minder secured site we have to post to the public order service
@@ -161,7 +161,7 @@ var dwdspowapi = window.dwdspowapi;
 			}
 		};
 		Order.prototype.calcOrderSize = function(onSuccess, onError) {
-			var msg = 'An unknown error occured calculating your Order Size.';
+			var msg = 'An unknown error occurred calculating your Order Size.';
 			$.ajax({
 					type : "POST",
 					headers: { 

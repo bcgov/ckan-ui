@@ -19,7 +19,7 @@
                 type="error">
                 {{formMessage}}
             </v-alert>
-            <div class="my-4">
+            <div class="my-4 mr-3">
                 <v-progress-circular
                     indeterminate
                     color="light-blue"
@@ -39,11 +39,11 @@
             </div>
         </v-card-text>
         <v-card-actions>
-            <span v-if="showEdit" class="wide text-right align-right">
+            <span v-if="showEdit" class="wide text-right align-right mr-3">
                 <v-spacer></v-spacer>
                 <v-btn @click="editing = true" depressed class="mr-3 control-button" color="primary">Edit</v-btn>
             </span>
-            <span v-else-if="sysAdmin" class="wide text-right align-right">
+            <span v-else-if="sysAdmin" class="wide text-right align-right mr-3">
                 <v-spacer></v-spacer>
                 <v-btn @click="save" depressed class="mr-3 control-button" color="primary">Save</v-btn>
                 <v-btn @click="cancel" depressed class="cancelButton mr-3">Cancel</v-btn>
@@ -194,6 +194,5 @@
 
     .about-card {
         background-color: var(--v-data_background-base) !important;
-        padding-right: 20px;
     }
 </style>

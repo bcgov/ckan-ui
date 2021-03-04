@@ -1,12 +1,12 @@
 <template>
     <v-container v-if="error" class="groupContainer px-md-10 py-4">
         <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occured: {{error.code}}</h1>
+            <h1><v-icon x-large>error</v-icon> An Error Occurred: {{error.code}}</h1>
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
-        <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
+        <v-row wrap class="mt-0 px-md-15 py-4 fauxbar">
             <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"
