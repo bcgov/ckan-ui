@@ -587,7 +587,7 @@ export default {
                     this.expectedNameUpdate = false;
                 }else if (field === 'title'){
                     if ( (!this.urlEdited) && (newValue) ){
-                        this.dataset.name = newValue.toLowerCase().replace(/ /g, '-');
+                        this.dataset.name = newValue.toLowerCase().replace(/[^A-Za-z0-9_]+/g, '-');
                         this.expectedNameUpdate = true;
                     }
 

@@ -109,7 +109,7 @@ export default {
         let API_KEY_ORIGIN = 'https://gwa.apps.gov.bc.ca'
         return {
             page: 1,
-            basePreviewURL: '//apps.gov.bc.ca/pub/dmf-viewer/?siteid=7535188336326689232&maponly&wmsservices=',
+            basePreviewURL: '//bcdc-smk.data.gov.bc.ca/?siteid=7535188336326689232&maponly&smk-layer=wms,https://openmaps.gov.bc.ca/geo/pub/wms,pub:',
             apiKey: '',
             getApiKeyDialog: false,
             apiKeyOrigin: API_KEY_ORIGIN,
@@ -141,10 +141,13 @@ export default {
                     previewInfo = this.resource.metadata.preview_info;
                 }
 
-                let retURL = this.basePreviewURL + previewInfo.preview_map_service_url;
-                retURL += previewInfo.layer_name ? '&wmslayers=' + previewInfo.layer_name : '';
-                retURL += previewInfo.preview_latitude && previewInfo.preview_longitude ? '&ll=' + previewInfo.preview_latitude + ',' + previewInfo.preview_longitude : '';
-                retURL += previewInfo.preview_zoom_level ? '&z=' + previewInfo.preview_zoom_level : '';
+                let retURL = this.basePreviewURL + previewInfo.layer_name;
+                let smkCenter = '';
+                if (previewInfo.preview_longitude && previewInfo.preview_latitude && previewInfo.preview_zoom_level){
+                    smkCenter = "&smk-center=" + previewInfo.preview_longitude + "," + previewInfo.preview_latitude + "," + previewInfo.preview_zoom_level
+                }
+                retURL += smkCenter;
+
                 return retURL;
             }
             return false;
