@@ -1,7 +1,7 @@
 <template>
     <v-container v-if="error">
         <div row align-center justify-center>
-            <h1><v-icon x-large>mdi-alert-circle</v-icon> An Error Occured: {{error.code}}</h1>
+            <h1><v-icon x-large>mdi-alert-circle</v-icon> An Error Occurred: {{error.code}}</h1>
             <p><v-icon x-large>mdi-emoticon-sad-outline</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
