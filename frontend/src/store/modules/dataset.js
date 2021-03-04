@@ -17,7 +17,7 @@ var formatResourceBody = function(resource){
         delete resource.raw_data;
         delete resource.schema;
         delete resource['content-length'];
-        delete resource.content-type;
+        delete resource.['content-type'];
         delete resource.schemaError;
         delete resource.hasSchema;
     }catch(e){
