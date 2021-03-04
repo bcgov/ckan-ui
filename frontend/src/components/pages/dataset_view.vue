@@ -114,7 +114,7 @@
 
                 <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
                     <v-icon>mdi-email</v-icon>
-                    {{$tc('Contact')}}
+                    {{$tc('Contact Data Expert')}}
                 </v-btn>
 
                 <v-btn text small depressed v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
