@@ -3,6 +3,7 @@
     <span class="d-none d-sm-flex d-xs-flex">
       <v-dialog
         v-model="aboutDialog"
+        scrollable
         :max-width="($vuetify.breakpoint.mdAndUp) ? '700px' : '100%'"
         :fullscreen="($vuetify.breakpoint.smAndDown) ? true : false"
       >
