@@ -6,7 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
-        <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
+        <v-row wrap class="mt-0 px-md-15 py-4 fauxbar">
             <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
                     :value="group.state === 'deleted'"

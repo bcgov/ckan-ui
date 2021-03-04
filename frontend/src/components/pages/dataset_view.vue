@@ -17,7 +17,7 @@
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area" :key="'datasetCRUD-'+redrawIndex">
         <v-row id="topOfForm"></v-row>
-        <v-row wrap class="mt-0 mx-md-15 py-4 fauxbar">
+        <v-row wrap class="mt-0 px-md-15 py-4 fauxbar">
             <v-col cols=10 v-if="showFormError || showFormSuccess || dataset.state === 'deleted'">
                 <v-alert
                     :value="dataset.state === 'deleted'"
