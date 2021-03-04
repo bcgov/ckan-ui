@@ -9,18 +9,19 @@ const resourceServ = new ResourceApi();
 
 import Vue from 'vue';
 
-formatResourceBody = function(resource){
+var formatResourceBody = function(resource){
     try{
         delete resource.created;
         delete resource.last_modified;
         delete resource.metadata;
         delete resource.raw_data;
         delete resource.schema;
-        delete resource.content-length;
-        delete resource.content-type;
+        delete resource['content-length'];
+        delete resource['content-type'];
         delete resource.schemaError;
         delete resource.hasSchema;
     }catch(e){
+        //eslint-disable-next-line
         console.error("Format resource", e);
     }
     try{
