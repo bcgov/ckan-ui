@@ -336,5 +336,6 @@ export default {
         "External": "Externe",
         "Not Provided": "Non fourni",
         "Expand": "Développer",
+        "Contact Data Expert": "Contacter Data Expert",
     }
 };
