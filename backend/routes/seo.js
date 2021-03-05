@@ -2,8 +2,11 @@ let express = require ('express');
 let router = express.Router();
 let axios = require('axios');
 let auth = require('../modules/auth');
+const dotenv = require('dotenv');
 const config = require('config');
 const { response } = require('../app');
+
+dotenv.config();
 
 function genSiteMap(user, res, xml){
     let url = config.get('ckan');
@@ -41,7 +44,11 @@ router.get('/sitemap.xml', auth.removeExpired, async function(req, res, next) {
 router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
 
     let r = "User-agent: *\n";
-    r += "Disallow: /\n";
+
+    if ( process.env.DEPLOYMENT_ENV !== 'PROD' ){
+        r += "Disallow: /\n";
+    }
+
     r += "Disallow: /api/\n";
     r += "Disallow: /dataset/activity\n";
     r += "Disallow: /dataset/*/history\n";
@@ -52,10 +59,14 @@ router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
     r += "Disallow: /tag/\n";
     r += "Disallow: /user/\n";
     r += "\n";
-    r += "User-agent: AdsBot-Google\n";
-    r += "User-agent: AdsBot-Google-Mobile\n";
-    r += "Disallow: /\n";
-    r += "\n";
+
+    if ( process.env.DEPLOYMENT_ENV !== 'PROD' ){
+        r += "User-agent: AdsBot-Google\n";
+        r += "User-agent: AdsBot-Google-Mobile\n";
+        r += "Disallow: /\n";
+        r += "\n";
+    }
+
     r += "User-agent: *\n";
     r += "Crawl-Delay: 10\n";
 
