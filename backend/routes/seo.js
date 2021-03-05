@@ -2,11 +2,8 @@ let express = require ('express');
 let router = express.Router();
 let axios = require('axios');
 let auth = require('../modules/auth');
-const dotenv = require('dotenv');
 const config = require('config');
 const { response } = require('../app');
-
-dotenv.config();
 
 function genSiteMap(user, res, xml){
     let url = config.get('ckan');
