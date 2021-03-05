@@ -41,6 +41,7 @@ router.get('/sitemap.xml', auth.removeExpired, async function(req, res, next) {
 router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
 
     let r = "User-agent: *\n";
+    r += "Disallow: /*\n";
     r += "Disallow: /api/\n";
     r += "Disallow: /dataset/activity\n";
     r += "Disallow: /dataset/*/history\n";
