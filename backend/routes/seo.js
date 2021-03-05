@@ -41,7 +41,7 @@ router.get('/sitemap.xml', auth.removeExpired, async function(req, res, next) {
 router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
 
     let r = "User-agent: *\n";
-    r += "Disallow: /*\n";
+    r += "Disallow: /\n";
     r += "Disallow: /api/\n";
     r += "Disallow: /dataset/activity\n";
     r += "Disallow: /dataset/*/history\n";
@@ -51,6 +51,10 @@ router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
     r += "Disallow: /revision/\n";
     r += "Disallow: /tag/\n";
     r += "Disallow: /user/\n";
+    r += "\n";
+    r += "User-agent: AdsBot-Google\n";
+    r += "User-agent: AdsBot-Google-Mobile\n";
+    r += "Disallow: /\n";
     r += "\n";
     r += "User-agent: *\n";
     r += "Crawl-Delay: 10\n";
