@@ -234,13 +234,13 @@ export default {
             }else{
                 this.model = this.value;
             }
-        //     this.$emit('edited', JSON.stringify(this.model));
         }
         for (let i=0; i<this.field.subfields.length; i++){
             if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
                 this.model[this.field.subfields[i]] = "";
             }
         }
+        this.$emit('edited', JSON.stringify(this.model));
     },
 };
 </script>
