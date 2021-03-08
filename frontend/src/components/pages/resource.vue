@@ -451,6 +451,31 @@ export default {
         },
         updateResource(field, newValue){
             this.resource[field] = newValue;
+
+            if (field === "bcdc_type"){
+                let geoExtent = this.resource['geographic_extent'];
+            
+                if (!geoExtent || !geoExtent['north_bound_latitude']){
+                    if (!geoExtent){
+                        geoExtent = {};
+                    }
+                    geoExtent.north_bound_latitude = "60.0";
+                }
+
+                if (!geoExtent['east_bound_longitude']){
+                    geoExtent.east_bound_longitude = "-113.5";
+                }
+
+                if (!geoExtent['south_bound_latitude']){
+                    geoExtent.south_bound_latitude = "48.0";
+                }
+
+                if (!geoExtent['west_bound_longitude']){
+                    geoExtent.west_bound_longitude = "-139.5";
+                }
+                this.resource['geographic_extent'] = geoExtent;
+            }
+
             this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
         },
     },
