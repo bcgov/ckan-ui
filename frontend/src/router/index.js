@@ -12,6 +12,7 @@ const user = () => import(/* webpackChunkName: "user" */ "../components/pages/us
 const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/pages/404");
 const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
 const resource = () => import(/* webpackChunkName: "resource" */ "../components/pages/resource");
+const siteUsage = () => import(/* webpackChunkName: "usage" */ "../components/pages/usage");
 
 import store from '../store/index';
 
@@ -122,6 +123,14 @@ let r = new Router({
             component: about,
             meta: {
                 title: "About"
+            }
+        },
+        {
+            path: '/usage',
+            name: 'siteUsage',
+            component: siteUsage,
+            meta: {
+                title: "Site Usage"
             }
         },
         {

@@ -229,6 +229,10 @@ export default {
                 "title": "Subscribe to New Data",
                 "href": this.classicUrl + '/feeds/recent.rss'
             },
+            {
+                "title": "Usage",
+                "href": '/usage'
+            },
             // {
             //     "icon": "mdi-rss",
             //     "title": "Subscribe to Blog Posts",
