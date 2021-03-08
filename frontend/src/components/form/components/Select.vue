@@ -117,7 +117,7 @@ export default {
             this.items = [];
             this.displayValue = this.value;
 
-            if (this.includeBlank){
+            if ((this.includeBlank) && (!this.field.required)){
                 this.items.push({label: '', value: ''});
             }
 

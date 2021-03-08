@@ -549,6 +549,7 @@ export default {
                 if (this.createMode){
                     this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
                 }
+                this.editing = false;
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;

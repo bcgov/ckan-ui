@@ -1,4 +1,4 @@
 export default 
 {
-    "timeout": 8000
+    "timeout": 10000
 }

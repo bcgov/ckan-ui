@@ -27,6 +27,7 @@ router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
 });
 
 router.use('/logout', function(req, res, next){
+    req.session.destroy();
     var redirectTo = req.query.r || config.get('frontend');
     req.logout();
     res.redirect(redirectTo);

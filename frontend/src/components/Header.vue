@@ -121,6 +121,9 @@ import { mapState } from 'vuex'
 import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
 
+import { Auth } from '../services/auth';
+const authServ = new Auth();
+
 // import User from './user/user'
 import About from './pages/about';
 
@@ -140,6 +143,7 @@ export default {
         classicUrl: '',
         showSearch: false,
         searchedText: "",
+        stayLoggedIn: false,
         findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         menuSecondary: [
             // {
@@ -182,6 +186,9 @@ export default {
       this.logInUrl = "/api/login?r="+to.fullPath;
       this.$store.dispatch('user/getCurrentUser')
     },
+    loggedIn(){
+      this.preserveToken();
+    }
   },
   computed: {
     ...mapState({
@@ -239,8 +246,29 @@ export default {
   },
   methods:{
 
+      preserveToken: function(){
+        let timeOut = 1000 * 60 // 1 minute
+        timeOut *= 5; // 5 minutes
+
+        if (this.loggedIn){
+          if (!this.stayLoggedIn){
+            this.stayLoggedIn = setInterval(this.keepAlive, timeOut);
+          }
+        }else{
+          if (this.stayLoggedIn){
+            clearInterval(this.stayLoggedIn);
+            this.stayLoggedIn = false;
+          }
+        }
+      },
+      
       closeAbout: function(){
         this.aboutDialog = false;
+      },
+
+      keepAlive: function(){
+        //no need to await as we don't really care about the token here
+        authServ.getToken();
       },
 
       addDataset: async function(){
@@ -297,6 +325,8 @@ export default {
     this.$store.dispatch('user/getCurrentUser')
 
     //let self = this;
+
+    this.preserveToken();
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;
