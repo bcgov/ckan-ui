@@ -110,6 +110,17 @@
                 </v-text-field>
               </v-col>
             </v-row>
+            <v-row wrap v-if="showLoggedOut" class="mt-n3">
+              
+              <v-col cols=12>
+                <v-alert
+                  dense
+                  dismissible
+                  type="warning">
+                  You have been logged out
+                </v-alert>
+              </v-col>
+            </v-row>
         </v-container>
       </v-toolbar>
       
@@ -141,6 +152,7 @@ export default {
         aboutDialog: false,
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
+        showLoggedOut: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         showSearch: false,
@@ -187,6 +199,9 @@ export default {
     $route(to){
       this.logInUrl = "/api/login?r="+to.fullPath;
       this.$store.dispatch('user/getCurrentUser')
+      if (this.$route.query.loggedOut === "true"){
+        this.showLoggedOut = true;
+      }
     },
     loggedIn(){
       this.preserveToken();
@@ -311,6 +326,7 @@ export default {
             delete localStorage[keys[i]];
         }
         window.location.href = this.logoutUrl
+        
       },
 
       search: function(e){
@@ -324,6 +340,9 @@ export default {
 
   },
   mounted: function(){
+    if (this.$route.query.loggedOut === "true"){
+      this.showLoggedOut = true;
+    }
     this.$store.dispatch('user/getCurrentUser')
 
     //let self = this;
