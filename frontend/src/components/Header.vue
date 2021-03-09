@@ -201,6 +201,8 @@ export default {
       this.$store.dispatch('user/getCurrentUser')
       if (this.$route.query.loggedOut === "true"){
         this.showLoggedOut = true;
+      }else{
+        this.showLoggedOut = false;
       }
     },
     loggedIn(){

@@ -23,12 +23,36 @@ router.use('/log', passport.authenticate('oidc'), function(req, res, next){
 });
 
 router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
-    res.redirect(config.get('frontend')+req.session.r);
+
+    let redirectTo = config.get('frontend')+req.session.r;
+    let find = "loggedOut=true"
+    let firstIndex = redirectTo.indexOf(find);
+    if (firstIndex >= 0){
+        let secondIndex = firstIndex + find.length;
+        if (redirectTo.length > secondIndex){
+            secondIndex += 1;
+        }else{
+            firstIndex -= 1;
+        }
+        let r = redirectTo.substring(0, firstIndex)
+        r += redirectTo.substring(secondIndex);
+        redirectTo = r;
+    }
+
+    res.redirect(redirectTo);
 });
 
 router.use('/logout', function(req, res, next){
     req.session.destroy();
     var redirectTo = req.query.r || config.get('frontend');
+    redirectTo += redirectTo.indexOf("?") >= 0 ? "&" : "?";
+    redirectTo += "loggedOut=true";
+
+    if (config.has('oidc.logout')){
+        redirectTo = encodeURIComponent(redirectTo);
+        redirectTo = config.get('oidc.logout') + "?redirect_uri=" + redirectTo
+    }
+
     req.logout();
     res.redirect(redirectTo);
 });
