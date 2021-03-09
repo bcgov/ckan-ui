@@ -10,7 +10,12 @@
             </v-tooltip>
         </label>
         <div v-if="!editing">
-            <p class="value">{{displayValue}}</p>
+            <span v-if="licenseUrlLookup[val]">
+                <a :href="licenseUrlLookup[val]">{{displayValue}}</a>
+            </span>
+            <span v-else>
+                <p class="value">{{displayValue}}</p>
+            </span>
         </div>
         <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
@@ -61,6 +66,7 @@ export default {
             displayValue: this.value,
             licenses: [],
             licenseLookup: {},
+            licenseUrlLookup: {},
             val: this.value,
             scopeName: this.scope + '.' + this.name,
         }
@@ -74,6 +80,7 @@ export default {
                 if (self.licenses) {
                     for (let i=0; i<self.licenses.length; i++){
                         self.licenseLookup[self.licenses[i].id] = self.licenses[i].title;
+                        self.licenseUrlLookup[self.licenses[i].id] = self.licenses[i].url;
                     }
                     try{
                         self.displayValue = self.licenseLookup[self.val];
