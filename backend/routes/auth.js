@@ -45,8 +45,8 @@ router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
 router.use('/logout', function(req, res, next){
     req.session.destroy();
     var redirectTo = req.query.r || config.get('frontend');
-    redirectTo += redirecTo.indexOf("?") >= 0 ? "&" : "?";
-    redirecTo += "loggedOut=true";
+    redirectTo += redirectTo.indexOf("?") >= 0 ? "&" : "?";
+    redirectTo += "loggedOut=true";
 
     if (config.has('oidc.logout')){
         redirectTo = encodeURIComponent(redirectTo);
