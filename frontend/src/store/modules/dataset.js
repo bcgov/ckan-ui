@@ -32,6 +32,12 @@ var formatResourceBody = function(resource){
 
     if ( (resource.iso_topic_category) && (typeof(resource.iso_topic_category)==="object") ){
         resource.iso_topic_category = JSON.stringify(resource.iso_topic_category);
+        let iso = JSON.parse(resource.iso_topic_category);
+        if (iso.length === 1){
+            resource.iso_topic_category = iso[0];
+        }else if (iso.length === 0){
+            resource.iso_topic_category = "";
+        }
     }
     
     return resource;
