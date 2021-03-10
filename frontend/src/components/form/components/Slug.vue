@@ -47,7 +47,7 @@ export default {
     data() {
         return {
             val: this.value,
-            validate: {required: this.field.required, slug: true},
+            validate: {required: ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ), slug: true},
             scopeName: this.scope + '.' + this.name,
             prefix: window.location.origin + this.area,
         }
@@ -62,11 +62,13 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
     mounted() {
-        if (this.field.required){
+        let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+        if (required){
             this.validate['required'] = true;
         }
     },

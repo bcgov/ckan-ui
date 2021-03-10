@@ -204,6 +204,11 @@ export default {
       }else{
         this.showLoggedOut = false;
       }
+
+      if ( (!this.loggedIn) && (to.fullPath === "/dataset/create") ){
+        this.$router.push("/");
+      }
+
     },
     loggedIn(){
       this.preserveToken();

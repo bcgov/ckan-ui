@@ -108,7 +108,7 @@
                     <Tags
                         v-else-if="field.preset==='tag_string_autocomplete'"
                         :name="field.field_name"
-                        :value="values['tags'] ? values['tags'] : ''"
+                        :value="values[field.field_name] ? values[field.field_name] : ''"
                         :label="field.label"
                         :editing="editing"
                         :placeholder="field.form_placeholder"
@@ -116,6 +116,7 @@
                         :field="field"
                         :scope="scope"
                         :disabled="disabled"
+                        :redrawIndex="redrawIndex"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     >
                     </Tags>
@@ -226,6 +227,7 @@
                         v-else-if="field.form_snippet==='upload.html'"
                         :name="field.field_name"
                         :value="values[field.field_name]"
+                        :upload="values['upload']"
                         :label="field.label"
                         @edited="(isUrl, newValue) => { updateUploadValues(field.field_name, isUrl, newValue) }"
                         :field="field"

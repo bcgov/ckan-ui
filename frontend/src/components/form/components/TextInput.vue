@@ -45,13 +45,14 @@ export default {
         return {
             val: this.value,
             displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
-            validate: ((this.field.required)? 'required' : ''),
+            validate: ( ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
             scopeName: this.scope + '.' + this.name,
         }
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
     watch: {

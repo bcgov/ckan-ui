@@ -17,7 +17,7 @@
                 <p class="value">{{displayValue}}</p>
             </span>
         </div>
-        <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+        <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
                 :name="name"
                 v-model="val"
@@ -94,7 +94,8 @@ export default {
 
     computed: {
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
 

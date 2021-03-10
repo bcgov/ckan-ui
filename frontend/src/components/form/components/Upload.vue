@@ -51,7 +51,7 @@
                     <v-file-input
                         :label="$tc('File')"
                         :name="name"
-                        v-model="val"
+                        v-model="fileVal"
                         :placeholder="$tc('Click here to attach file')"
                         :disabled="disabled"
                         :error-messages="errors.length > 0 ? [errors[0]] : []" >
@@ -68,7 +68,8 @@ export default {
 
     props: {
         name: String,
-        value: [String, Object, Array, Boolean, File],
+        value: [String, Object, Array, Boolean],
+        upload: [String, File],
         label: String,
         currentlyUrl: [String, Boolean],
         editing: Boolean,
@@ -89,7 +90,8 @@ export default {
 
         return {
             val: this.value,
-            validate: ((this.field.required) ? 'required' : ''),
+            fileVal: (this.upload) ? this.upload : null,
+            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
             allowURL: this.field.field_name === "url",
             isURL: iu,
             scopeName: this.scope + '.' + this.name,
@@ -98,7 +100,8 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (required ? '*' : '');
         },
     },
     watch: {
@@ -108,8 +111,16 @@ export default {
         val(){
             this.$emit('edited', this.isURL, this.val);
         },
+        fileVal(){
+            this.$emit('edited', this.isURL, this.fileVal);
+        },
         isURL(){
-            this.$emit('edited', this.isURL, this.val);
+            if (this.isUrl){
+                this.$emit('edited', this.isURL, this.val);
+            }else{
+                this.$emit('edited', this.isURL, this.fileVal);
+            }
+            
         },
     },
     mounted(){
