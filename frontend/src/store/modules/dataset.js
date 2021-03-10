@@ -174,7 +174,9 @@ const actions = {
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
         
-        delete dataset.resources;
+        for (let i=0; i<dataset.resources.length; i++){
+            dataset.resources[i] = formatResourceBody(dataset.resources[i]);
+        }
         
         return ckanServ.putDataset(dataset);
 	},
