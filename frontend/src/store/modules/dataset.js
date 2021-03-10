@@ -173,7 +173,9 @@ const actions = {
     },
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
-        //delete dataset.resources;
+        
+        delete dataset.resources;
+        
         return ckanServ.putDataset(dataset);
 	},
 	async setResource({ state }) {

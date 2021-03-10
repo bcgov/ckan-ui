@@ -11,7 +11,7 @@
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true))">
+                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true) || loggedIn)">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="( (typeof(sub.hide_if_empty) === 'undefined') || (!sub.hide_if_empty) || (model[repeatedIndex][sub.field_name] != '') )">
                             <span v-if="sub.field_name != 'displayed'">
@@ -190,7 +190,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
 
     props: {
@@ -286,12 +286,18 @@ export default {
             orgTitle: "titleByID",
             orgName: "nameByID"
         }),
+        ...mapState({
+            loggedIn: state => state.user.loggedIn,
+        }),
         fieldValue: function(){
             return this.dataset[this.field.field_name];
         }
     },
     mounted(){
         this.anyShown = false;
+        if (this.loggedIn){
+            this.anyShown = true;
+        }
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [{}];
