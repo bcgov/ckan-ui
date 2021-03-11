@@ -31,6 +31,7 @@ let r = new Router({
         {
             path: '/datasets',
             name: 'Datasets',
+            alias: '/dataset',
             component: datasets,
             meta: {
                 title: "Datasets"
