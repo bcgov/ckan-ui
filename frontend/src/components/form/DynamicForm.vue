@@ -108,7 +108,7 @@
                     <Tags
                         v-else-if="field.preset==='tag_string_autocomplete'"
                         :name="field.field_name"
-                        :value="values[field.field_name] ? values[field.field_name] : ''"
+                        :value="values[field.field_name] ? values[field.field_name] : (values['tags'] ? values['tags'] : '')"
                         :label="field.label"
                         :editing="editing"
                         :placeholder="field.form_placeholder"
