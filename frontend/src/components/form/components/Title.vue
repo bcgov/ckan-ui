@@ -13,7 +13,7 @@
                     <span>{{field.help_text}}</span>
                 </v-tooltip>
             </label>
-            <ValidationProvider :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
                 <v-text-field
                     :name="name"
                     v-model="val"
@@ -61,7 +61,8 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
 };
