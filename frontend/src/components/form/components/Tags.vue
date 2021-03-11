@@ -1,6 +1,6 @@
 <template>
     <v-col cols=12 class="py-2">
-        {{rerender()}}
+        {{firstRender ? rerender() : ''}}
         <label class="label">
             {{$tc(displayLabel)}}&nbsp;
             <v-tooltip right v-if="field.help_text">
@@ -73,8 +73,12 @@ export default {
     },
     data(){
         var self = this;
+        let v = typeof(this.value) === "object" ? this.value.map(function(item){
+                return item[self.itemTextField]
+            }) : []
         return {
             loading: false,
+            firstRender: true,
             search: null,
             val: typeof(this.value) === "object" ? this.value.map(function(item){
                 return item[self.itemTextField]
@@ -96,14 +100,23 @@ export default {
             this.$store.commit('search/setSearchTextAndRedirect', findText);
         },
         rerender(){
-            if (typeof(this.value) === "object"){
-                this.val = this.value.map(function(item){
+            this.firstRender = false;
+            let self = this;
+            if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "object") ){
+                let v = this.value.map(function(item){
                     return item[self.itemTextField]
                 });
+                
+                this.val = v;
 
-                this.items = this.value.map(function(item){
-                    return item[self.itemTextField]
-                })
+                this.items = v;
+            }else if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "string") ){
+                let v = this.value;
+                
+                this.val = v;
+
+                this.items = v;
+
             }else if ( (typeof(this.value) === "string") && (this.value.length > 0) ){
                 this.val = this.value.split(",");
                 this.items = this.value.split(",");
@@ -156,9 +169,6 @@ export default {
                 }
                 this.loading = false;
             });
-        },
-        mounted(){
-            this.rerender();
         }
     }
 };

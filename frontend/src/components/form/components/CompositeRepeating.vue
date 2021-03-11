@@ -20,7 +20,8 @@
                                     <label v-if="model[repeatedIndex]" class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1">
-                                        <span v-if="model[repeatedIndex] && (model[repeatedIndex].length > 0)">
+
+                                        <span v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
                                             <span v-if="sub.field_name === 'org'">
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
                                             </span>
