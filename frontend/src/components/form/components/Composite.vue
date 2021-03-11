@@ -42,7 +42,7 @@
                     <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                 </v-col>
                 <v-col cols=10 class="pb-0">
-                    <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-checkbox
                             dense
                             class="mt-0"
@@ -55,7 +55,7 @@
                         </v-checkbox>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="sub.field_name==='org'" :rules="( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="sub.field_name==='org'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
@@ -71,7 +71,7 @@
                         </v-select>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="sub.preset==='select'" :rules="( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="sub.preset==='select'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-select
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
@@ -87,7 +87,7 @@
                         </v-select>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="((field.field_name.toLowerCase().indexOf('date')>=0) || (sub.preset === 'date') )" :rules="(( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="((field.field_name.toLowerCase().indexOf('date')>=0) || (sub.preset === 'date') )" :rules="(( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-menu
                             :ref="field.field_name+'.'+sub.field_name"
                             :nudge-right="40"
@@ -112,7 +112,7 @@
                         </v-menu>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-text-field
                             outlined dense
                             hide-details="auto"
@@ -125,7 +125,7 @@
                         </v-text-field>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: ( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)), url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: ( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)), url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-text-field
                             outlined dense
                             hide-details="auto"
@@ -138,7 +138,7 @@
                         </v-text-field>
                     </ValidationProvider>
 
-                    <ValidationProvider v-else :rules="( sub.required || (sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                    <ValidationProvider v-else :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                         <v-text-field
                             outlined dense
                             hide-details="auto"
