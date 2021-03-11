@@ -96,6 +96,7 @@ let r = new Router({
         {
             path: '/groups',
             name: 'Groups',
+            alias: '/group',
             component: groups,
             meta: {
                 title: "Groups"
