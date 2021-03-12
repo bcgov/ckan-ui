@@ -158,6 +158,7 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="dataset"
+                            :startingValues="unmodifiedDataset"
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
                             ref="dynoForm"
@@ -345,6 +346,7 @@ export default {
 
         ...mapState({
             dataset: state => state.dataset.dataset,
+            unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,

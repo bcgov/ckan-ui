@@ -81,6 +81,22 @@
                         :conditionalRedraw="redrawIndex"
                         :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
                     </Select>
+                    <StateMachine
+                        v-else-if="field.preset==='state_machine'"
+                        :name="field.field_name"
+                        :value="values[field.field_name]"
+                        :label="field.label"
+                        :editing="editing"
+                        :placeholder="field.form_placeholder"
+                        :options="field.choices"
+                        emitOnChange="edited"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field"
+                        :scope="scope"
+                        :initialValue="startingValues[field.field_name]"
+                        :disabled="disabled"
+                        :includeBlank="field.form_include_blank_choice ? field.form_include_blank_choice : false">
+                    </StateMachine>
                     <Slug
                         v-else-if="field.preset==='dataset_slug' || field.form_snippet==='slug.html'"
                         :name="field.field_name"
@@ -293,6 +309,7 @@ import Vue from 'vue';
 
 import Title from './components/Title';
 import Select from './components/Select';
+import StateMachine from './components/StateMachine';
 import Slug from './components/Slug';
 import Markdown from './components/Markdown';
 import Tags from './components/Tags';
@@ -323,7 +340,8 @@ export default {
         Autocomplete: Autocomplete,
         Checkbox: Checkbox,
         ImageUrl: ImageUrl,
-        TableRepeating: TableRepeating
+        TableRepeating: TableRepeating,
+        StateMachine: StateMachine
     },
     props: {
         schema: Array,
@@ -341,6 +359,10 @@ export default {
         selectableUserOrgs: {
             type: Array,
             default: () => {return [];}
+        },
+        startingValues: {
+            type: Object,
+            default: () => {return {};}
         },
         disabled: {
             type: Boolean,
