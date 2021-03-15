@@ -113,7 +113,7 @@
                 </v-btn>
 
                 <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
-                    <v-icon>mdi-email</v-icon>
+                    <v-icon>mdi-email-outline</v-icon>
                     {{$tc('Contact Data Expert')}}
                 </v-btn>
 
