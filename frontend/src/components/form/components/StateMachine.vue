@@ -17,10 +17,12 @@
             <div>
                 {{$tc('Current Value:')}} {{computedValue}}
             </div>
-            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
-                <v-btn color="primary" v-for="(state,k) in nextStates" :key="field.name+'-'+k+'-state-button'" @click="click(state.state)">
-                    {{labelLookup[state.state]}}
-                </v-btn>
+            <v-btn color="primary" v-for="(state,k) in nextStates" :key="field.name+'-'+k+'-state-button'" @click="click(state.state)">
+                {{labelLookup[state.state]}}
+            </v-btn>
+            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">                
+                <input type="text" style="display: none" v-model="val" />
+                <div class="errors">{{errors.length > 0 ? errors[0] : ""}}</div>
             </ValidationProvider>
         </span>
     </v-col>
@@ -176,5 +178,8 @@ export default {
     .fixedWidth{
         width: 300px;
         display: inline-block;
+    }
+    .errors{
+        color: var(--v-error_text-base)
     }
 </style>
