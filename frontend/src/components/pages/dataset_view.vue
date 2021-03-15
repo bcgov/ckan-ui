@@ -264,8 +264,10 @@ export default {
                 this.editing = true;
             }
         },
-        $route (to, from){
+        $route (to){
             this.redrawIndex++;
+            this.editing = (to.name === "dataset_create");
+            this.createMode = (to.name === "dataset_create");
         },
     },
     computed: {
@@ -548,13 +550,16 @@ export default {
                 this.showFormSuccess = false;
             }else{
                 this.clearEdit();
-                if (this.createMode){
-                    this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
-                }
+                
                 this.editing = false;
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;
+                if (this.createMode){
+                    this.createMode = false;
+                    this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
+                }
+                this.redrawIndex++;
             }
             this.disabled = false;
         },

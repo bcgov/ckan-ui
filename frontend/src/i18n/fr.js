@@ -341,6 +341,8 @@ export default {
         "Not downloadable": "Non téléchargeable",
         "Government and Business BCeID": "Gouvernement et entreprises BCeID",
         "ISO Topic Category*": "Catégorie de sujet ISO*",
-        "Spatial Datatype*": "Type de données spatial*"
+        "Spatial Datatype*": "Type de données spatial*",
+        "Current Value:": "Valeur actuelle:",
+        "Licence*": "Licence*",
     }
 };

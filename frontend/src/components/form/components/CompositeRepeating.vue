@@ -215,6 +215,15 @@ export default {
             this.updateValues();
         },
         formDefaults: function(){
+            for (let i=0; i<this.field.subfields.length; i++){
+                let fieldName = this.field.subfields[i].field_name;
+                for (let j=0; j<this.model.length; j++){
+                    let def = this.formDefaults[fieldName];
+                    if ( (!this.model[j][fieldName]) && (def) ){
+                        this.model[j][fieldName] = def;
+                    }
+                }
+            }
             this.rerenderKey++;
         }
     },
