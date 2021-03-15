@@ -132,7 +132,7 @@
 
                 <v-btn v-if="editing" depressed @click="cancel">{{$tc('Cancel')}}</v-btn>
 
-                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit(errors)">{{$tc('Save')}}</v-btn>
+                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit">{{$tc('Save')}}</v-btn>
             </v-col>
         </v-row>
         
