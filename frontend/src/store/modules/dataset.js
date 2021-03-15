@@ -268,6 +268,7 @@ const mutations = {
     clearDataset(state){
         //state.dataset = {};
         Vue.set(state, 'dataset', {});
+        Vue.set(state, 'unmodifiedDataset', {});
         state.datasetLoading = false;
         state.shouldAbortDataset = false;
 	},
@@ -286,7 +287,7 @@ const mutations = {
         state.unmodifiedDataset = Object.assign({}, dataset);
     },
     setCurrentNotUnmodDataset(state, {dataset}) {
-        state.dataset = Object.assign({}, dataset);
+        Vue.set(state, 'dataset', dataset);
         
         if (typeof(state.dataset['type']) !== "undefined"){
             Vue.set(state.dataset, 'type', state.dataset['type']);
