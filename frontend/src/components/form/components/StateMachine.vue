@@ -10,25 +10,21 @@
             </v-tooltip>
         </label>
         <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
-            <span v-if="field.field_name === 'owner_org'"><router-link :to="{ name: 'organization_view', params: { organizationId: orgName(value) }}">{{orgTitle(value)}}</router-link></span>
-            <span v-else class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</span>
+            <span class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</span>
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
-        <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
-            <v-select
-                :key="'select'+name"
-                :name="name"
-                v-model="val"
-                :placeholder="placeholder"
-                :items="items"
-                item-text="label"
-                item-value="value"
-                @change="onChange"
-                :disabled="disabled"
-                :error-messages="errors.length > 0 ? [errors[0]] : []"
-                outlined dense>
-            </v-select>
-        </ValidationProvider>
+        <span v-else>
+            <div>
+                {{$tc('Current Value:')}} {{computedValue}}
+            </div>
+            <v-btn color="primary" v-for="(state,k) in nextStates" :key="field.name+'-'+k+'-state-button'" @click="click(state.state)">
+                {{labelLookup[state.state]}}
+            </v-btn>
+            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">                
+                <input type="text" style="display: none" v-model="val" />
+                <div class="errors">{{errors.length > 0 ? errors[0] : ""}}</div>
+            </ValidationProvider>
+        </span>
     </v-col>
 </template>
 
@@ -39,6 +35,7 @@ export default {
     props: {
         name: String,
         value: String,
+        initialValue: String,
         label: String,
         editing: Boolean,
         placeholder: String,
@@ -76,15 +73,18 @@ export default {
     },
     data() {
         return {
-            items: [],
             displayValue: "",
             val: this.value,
             scopeName: this.scope + '.' + this.name,
             validValue: false,
+            nextStates: [],
+            labelLookup: {},
+            computedValue: "",
         }
     },
 
     computed: {
+
         displayLabel: function(){
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (this.editing && required ? '*' : '');
@@ -99,35 +99,39 @@ export default {
     },
 
     watch: {
-        selectableOptions: function(){
+        selectableOptions: function(newOpts, oldOpts){
+            if (newOpts.length === oldOpts.length){
+                if (JSON.stringify(newOpts) === JSON.stringify(oldOpts)){
+                    return;
+                }
+            }
             this.initItems();
         },
-        conditionalRedraw: function(){
-            this.initItems();
+        value: function(){
+            this.val = this.value;
         }
     },
 
+    mounted() {
+        this.initItems();
+    },
+
     methods: {
-        onChange: function(){
+
+        click: function(state){
+            this.val = state;
             if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){
                 this.$emit(this.emitOnChange, this.val);
             }
-            this.$emit('input',this. val)
+            this.$emit('input',this.val);
+            this.computedValue = this.labelLookup[this.val];
         },
+
         initItems: function(){
-            this.items = [];
-            this.displayValue = this.value;
 
-
-            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
-            if ((this.includeBlank) && (!required)){
-                this.items.push({label: '', value: ''});
-            }
-
-            if (this.selectableOptions.length > 0 ){
-                for (let i=0; i<this.selectableOptions.length; i++){
-                    this.items.push(this.selectableOptions[i]);
-                }
+            if (!this.initialValue || this.initialValue===""){
+                this.nextStates = [this.field.startState];
+                this.displayValue = "Not Provided"
             }
 
             if (typeof(this.options) !== "undefined"){
@@ -136,26 +140,19 @@ export default {
                     var item = {};
                     item.label = this.translate ? this.$tc(this.options[keys[i]][this.labelField]) : this.options[keys[i]][this.labelField];
                     item.value = this.options[keys[i]][this.valueField];
+                    item.validTo = this.options[keys[i]].validTo;
+                    this.labelLookup[item.value] = item.label
 
-                    if (item.value == this.value){
+                    if (item.value == this.initialValue){
                         this.displayValue = item.label;
                         this.validValue = true;
+                        this.nextStates = item.validTo;
                     }
-
-
-                    if (this.selectableOptions.length === 0 ){
-                        this.items.push(item);
-                    }
-
-                    //this.items[this.options[keys[i]].label] = this.options[keys[i]].value;
                 }
             }
+            this.computedValue = this.labelLookup[this.val];
 
         }
-    },
-
-    mounted(){
-        this.initItems();
     }
 };
 </script>
@@ -181,5 +178,8 @@ export default {
     .fixedWidth{
         width: 300px;
         display: inline-block;
+    }
+    .errors{
+        color: var(--v-error_text-base)
     }
 </style>

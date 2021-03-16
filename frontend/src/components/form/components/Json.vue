@@ -46,13 +46,14 @@ export default {
     data() {
         return {
             val: (typeof(this.value) !== 'string') ? JSON.stringify(this.value) : this.value,
-            validate: ((this.field.required)? 'required' : ''),
+            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
             scopeName: this.scope + '.' + this.name,
         }
     },
     computed: {
         displayLabel: function(){
-            return this.label + (this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (required ? '*' : '');
         },
         empty: function(){
             return ( (!this.val) || (this.val === "{}") || (this.val === "") );

@@ -32,6 +32,7 @@ let r = new Router({
         {
             path: '/datasets',
             name: 'Datasets',
+            alias: '/dataset',
             component: datasets,
             meta: {
                 title: "Datasets"
@@ -96,6 +97,7 @@ let r = new Router({
         {
             path: '/groups',
             name: 'Groups',
+            alias: '/group',
             component: groups,
             meta: {
                 title: "Groups"

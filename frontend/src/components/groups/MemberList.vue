@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container fluid v-if="members.length > 0">
         <v-row>
             <span><h2 class="inline">Members</h2><h2 class="inline noBold">({{members.length}})</h2></span>
             <v-spacer></v-spacer>

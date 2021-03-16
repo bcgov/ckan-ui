@@ -19,7 +19,7 @@
                 <v-btn tabindex="-1" icon small @click="wrap('**')"><v-icon>mdi-format-bold</v-icon></v-btn>
                 <v-btn tabindex="-1" icon small @click="wrap('~~')"><v-icon>mdi-format-strikethrough</v-icon></v-btn>
             </div>
-            <ValidationProvider :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
                 <v-textarea
                     ref="ta"
                     :name="name"
@@ -70,7 +70,8 @@ export default {
             }
         },
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
 

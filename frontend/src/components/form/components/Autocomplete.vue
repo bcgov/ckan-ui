@@ -12,7 +12,7 @@
         <div v-if="!editing">
             <p class="value">{{displayValue}}</p>
         </div>
-        <ValidationProvider v-else :rules="(field.required)? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+        <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-autocomplete
                 :name="name"
                 :loading="loading"
@@ -110,7 +110,8 @@ export default {
 
     computed: {
         displayLabel: function(){
-            return this.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (this.editing && required ? '*' : '');
         }
     },
     watch: {

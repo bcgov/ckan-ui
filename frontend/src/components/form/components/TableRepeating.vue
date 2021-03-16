@@ -291,7 +291,8 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.field.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.field.label + (this.editing && required ? '*' : '');
         },
 
         headers: function(){

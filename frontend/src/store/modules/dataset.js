@@ -27,8 +27,19 @@ var formatResourceBody = function(resource){
     try{
         let j = JSON.parse(resource.json_table_schema);
     }catch(ex){
-        resource.json_table_schema = {};
+        resource.json_table_schema = "{}";
     }
+
+    if ( (resource.iso_topic_category) && (typeof(resource.iso_topic_category)==="object") ){
+        resource.iso_topic_category = JSON.stringify(resource.iso_topic_category);
+        let iso = JSON.parse(resource.iso_topic_category);
+        if (iso.length === 1){
+            resource.iso_topic_category = iso[0];
+        }else if (iso.length === 0){
+            resource.iso_topic_category = "";
+        }
+    }
+    
     return resource;
 }
 
@@ -168,16 +179,29 @@ const actions = {
     },
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
-        //delete dataset.resources;
+        
+        for (let i=0; i<dataset.resources.length; i++){
+            dataset.resources[i] = formatResourceBody(dataset.resources[i]);
+        }
+        
         return ckanServ.putDataset(dataset);
 	},
 	async setResource({ state }) {
-        
-        let resource = JSON.parse(JSON.stringify(state.resource));
+        let resource = state.resource;
+        delete resource.metadata;
+        delete resource.raw_data;
+        delete resource.schema;
+        delete resource.size;
+        delete resource.cache_last_updated;
+        delete resource['content-length'];
+        delete resource['content-type'];
+        delete resource.schemaError;
+        delete resource.hasSchema;
+        resource = JSON.parse(JSON.stringify(resource));
         resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
-                formD.append(key, resource[key]);
+            formD.append(key, resource[key]);
         }
         let tok = await authServ.getToken().then();
         return ckanServ.updateResource(formD, tok['jwt']);
@@ -244,6 +268,7 @@ const mutations = {
     clearDataset(state){
         //state.dataset = {};
         Vue.set(state, 'dataset', {});
+        Vue.set(state, 'unmodifiedDataset', {});
         state.datasetLoading = false;
         state.shouldAbortDataset = false;
 	},
@@ -262,7 +287,7 @@ const mutations = {
         state.unmodifiedDataset = Object.assign({}, dataset);
     },
     setCurrentNotUnmodDataset(state, {dataset}) {
-        state.dataset = Object.assign({}, dataset);
+        Vue.set(state, 'dataset', dataset);
         
         if (typeof(state.dataset['type']) !== "undefined"){
             Vue.set(state.dataset, 'type', state.dataset['type']);

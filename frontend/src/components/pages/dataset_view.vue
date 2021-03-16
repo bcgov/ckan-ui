@@ -113,7 +113,7 @@
                 </v-btn>
 
                 <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
-                    <v-icon>mdi-email</v-icon>
+                    <v-icon>mdi-email-outline</v-icon>
                     {{$tc('Contact Data Expert')}}
                 </v-btn>
 
@@ -132,7 +132,7 @@
 
                 <v-btn v-if="editing" depressed @click="cancel">{{$tc('Cancel')}}</v-btn>
 
-                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit(errors)">{{$tc('Save')}}</v-btn>
+                <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit">{{$tc('Save')}}</v-btn>
             </v-col>
         </v-row>
         
@@ -158,6 +158,7 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="dataset"
+                            :startingValues="unmodifiedDataset"
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
                             ref="dynoForm"
@@ -263,8 +264,10 @@ export default {
                 this.editing = true;
             }
         },
-        $route (to, from){
+        $route (to){
             this.redrawIndex++;
+            this.editing = (to.name === "dataset_create");
+            this.createMode = (to.name === "dataset_create");
         },
     },
     computed: {
@@ -345,6 +348,7 @@ export default {
 
         ...mapState({
             dataset: state => state.dataset.dataset,
+            unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,
@@ -546,12 +550,16 @@ export default {
                 this.showFormSuccess = false;
             }else{
                 this.clearEdit();
-                if (this.createMode){
-                    this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
-                }
+                
+                this.editing = false;
                 this.formSuccess = "Successfully updated";
                 this.showFormSuccess = true;
                 this.showFormError = false;
+                if (this.createMode){
+                    this.createMode = false;
+                    this.$router.push({name: "dataset_view", params: {datasetId: this.dataset.name}}, this.getDataset);
+                }
+                this.redrawIndex++;
             }
             this.disabled = false;
         },

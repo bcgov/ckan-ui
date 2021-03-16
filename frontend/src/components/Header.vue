@@ -74,8 +74,10 @@
                                       </v-list-item>
                                     </span>
                                 </template>
-                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" id="mobile-english-btn" @click="setLanguage('en')">{{$tc('Language')}}: EN</v-list-item>
-                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" id="mobile-french-btn" @click="setLanguage('fr')">{{$tc('Language')}}: FR</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" class="hidden-sm-and-down" id="english-btn" @click="setLanguage('en')">English</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-sm-and-down" id="french-btn" @click="setLanguage('fr')">Français</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" class="hidden-md-and-up" id="mobile-english-btn" @click="setLanguage('en')">EN</v-list-item>
+                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-md-and-up" id="mobile-french-btn" @click="setLanguage('fr')">FR</v-list-item>
                                 </v-list>
                             <!-- </v-col>
                         </v-row> -->
@@ -108,6 +110,17 @@
                 </v-text-field>
               </v-col>
             </v-row>
+            <v-row wrap v-if="showLoggedOut" class="mt-n3">
+              
+              <v-col cols=12>
+                <v-alert
+                  dense
+                  dismissible
+                  type="warning">
+                  You have been logged out
+                </v-alert>
+              </v-col>
+            </v-row>
         </v-container>
       </v-toolbar>
       
@@ -120,6 +133,9 @@ import { mapState } from 'vuex'
 
 import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
+
+import { Auth } from '../services/auth';
+const authServ = new Auth();
 
 // import User from './user/user'
 import About from './pages/about';
@@ -136,10 +152,12 @@ export default {
         aboutDialog: false,
         logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
         logoutUrl: "/api/logout?r="+window.location.pathname,
+        showLoggedOut: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
         showSearch: false,
         searchedText: "",
+        stayLoggedIn: false,
         findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         menuSecondary: [
             // {
@@ -181,7 +199,20 @@ export default {
     $route(to){
       this.logInUrl = "/api/login?r="+to.fullPath;
       this.$store.dispatch('user/getCurrentUser')
+      if (this.$route.query.loggedOut === "true"){
+        this.showLoggedOut = true;
+      }else{
+        this.showLoggedOut = false;
+      }
+
+      if ( (!this.loggedIn) && (to.fullPath === "/dataset/create") ){
+        this.$router.push("/");
+      }
+
     },
+    loggedIn(){
+      this.preserveToken();
+    }
   },
   computed: {
     ...mapState({
@@ -243,8 +274,29 @@ export default {
   },
   methods:{
 
+      preserveToken: function(){
+        let timeOut = 1000 * 60 // 1 minute
+        timeOut *= 5; // 5 minutes
+
+        if (this.loggedIn){
+          if (!this.stayLoggedIn){
+            this.stayLoggedIn = setInterval(this.keepAlive, timeOut);
+          }
+        }else{
+          if (this.stayLoggedIn){
+            clearInterval(this.stayLoggedIn);
+            this.stayLoggedIn = false;
+          }
+        }
+      },
+      
       closeAbout: function(){
         this.aboutDialog = false;
+      },
+
+      keepAlive: function(){
+        //no need to await as we don't really care about the token here
+        authServ.getToken();
       },
 
       addDataset: async function(){
@@ -285,6 +337,7 @@ export default {
             delete localStorage[keys[i]];
         }
         window.location.href = this.logoutUrl
+        
       },
 
       search: function(e){
@@ -298,9 +351,14 @@ export default {
 
   },
   mounted: function(){
+    if (this.$route.query.loggedOut === "true"){
+      this.showLoggedOut = true;
+    }
     this.$store.dispatch('user/getCurrentUser')
 
     //let self = this;
+
+    this.preserveToken();
 
     if (localStorage.classicUrl){
         this.classicUrl = localStorage.classicUrl;

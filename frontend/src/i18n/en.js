@@ -337,5 +337,12 @@ export default {
         "Not Provided": "Not Provided",
         "Expand": "Expand",
         "Contact Data Expert": "Contact Data Expert",
+        "Licence": "Licence",
+        "Not downloadable": "Not downloadable",
+        "Government and Business BCeID": "Government and Business BCeID",
+        "ISO Topic Category*": "ISO Topic Category*",
+        "Spatial Datatype*": "Spatial Datatype*",
+        "Current Value:": "Current Value:",
+        "Licence*": "Licence*",
     }
 };

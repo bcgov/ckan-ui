@@ -116,7 +116,7 @@ const actions = {
         commit('setLoading', {loading: true});
         //get members
         ckanServ.getGroupMembers(id).then( async(data) => {
-            if (data.success){
+            if ((data.success) && (!data.result.error)){
                 let members = data.result;
                 for (let i=0; i<members.length; i++){
                     var user = await ckanServ.getUser(members[i][0]);
@@ -125,6 +125,8 @@ const actions = {
                     }
                 }
                 commit('setCurrentMemberList', {members: members});
+            }else{
+                commit('setCurrentMemberList', {members: []});
             }
         });
 

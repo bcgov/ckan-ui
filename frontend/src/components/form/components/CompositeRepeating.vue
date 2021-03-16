@@ -11,7 +11,7 @@
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true))">
+                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true) || loggedIn)">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="( (typeof(sub.hide_if_empty) === 'undefined') || (!sub.hide_if_empty) || (model[repeatedIndex][sub.field_name] != '') )">
                             <span v-if="sub.field_name != 'displayed'">
@@ -20,7 +20,8 @@
                                     <label v-if="model[repeatedIndex]" class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1">
-                                        <span v-if="model[repeatedIndex]">
+
+                                        <span v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
                                             <span v-if="sub.field_name === 'org'">
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
                                             </span>
@@ -47,10 +48,10 @@
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
-                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}{{(sub.required) ? '*' : ''}}</label>
+                        <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}{{( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? '*' : ''}}</label>
                     </v-col>
                     <v-col cols=10 class="pb-0">
-                        <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-if="sub.preset=='multiple_checkbox'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-checkbox
                                 dense
                                 class="mt-0"
@@ -63,7 +64,7 @@
                             </v-checkbox>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else-if="sub.field_name==='org'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else-if="sub.field_name==='org'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-select
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
@@ -79,7 +80,7 @@
                             </v-select>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else-if="sub.preset==='select'" :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else-if="sub.preset==='select'" :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-select
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
@@ -95,7 +96,7 @@
                             </v-select>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(sub.required ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else-if="field.field_name.toLowerCase().indexOf('date')>=0" :rules="(( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'date_format:yyyy-mm-dd'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <!-- <v-text-field
                                 outlined dense
                                 hide-details="auto"
@@ -130,7 +131,7 @@
                             </v-menu>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(sub.required ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('email')>=0" :rules="(( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required|' : '') + 'email'" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-text-field
                                 outlined dense
                                 hide-details="auto"
@@ -143,7 +144,7 @@
                             </v-text-field>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: !!sub.required, url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else-if="sub.field_name.toLowerCase().indexOf('url')>=0" :rules="{required: ( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)), url: {require_tld: true, require_host: true}}" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-text-field
                                 outlined dense
                                 hide-details="auto"
@@ -156,7 +157,7 @@
                             </v-text-field>
                         </ValidationProvider>
 
-                        <ValidationProvider v-else :rules="sub.required ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
+                        <ValidationProvider v-else :rules="( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? 'required' : ''" v-slot="{ errors }" :name="(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)">
                             <v-text-field
                                 outlined dense
                                 hide-details="auto"
@@ -190,7 +191,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
 
     props: {
@@ -214,6 +215,15 @@ export default {
             this.updateValues();
         },
         formDefaults: function(){
+            for (let i=0; i<this.field.subfields.length; i++){
+                let fieldName = this.field.subfields[i].field_name;
+                for (let j=0; j<this.model.length; j++){
+                    let def = this.formDefaults[fieldName];
+                    if ( (!this.model[j][fieldName]) && (def) ){
+                        this.model[j][fieldName] = def;
+                    }
+                }
+            }
             this.rerenderKey++;
         }
     },
@@ -280,11 +290,15 @@ export default {
     },
     computed: {
         displayLabel: function(){
-            return this.field.label + (this.editing && this.field.required ? '*' : '');
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.field.label + (this.editing && required ? '*' : '');
         },
         ...mapGetters("organization", {
             orgTitle: "titleByID",
             orgName: "nameByID"
+        }),
+        ...mapState({
+            loggedIn: state => state.user.loggedIn,
         }),
         fieldValue: function(){
             return this.dataset[this.field.field_name];
@@ -292,6 +306,9 @@ export default {
     },
     mounted(){
         this.anyShown = false;
+        if (this.loggedIn){
+            this.anyShown = true;
+        }
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [{}];
