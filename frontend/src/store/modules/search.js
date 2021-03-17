@@ -63,6 +63,7 @@ const mutations = {
 
     setSearchTextAndRedirect(state, text ){
         state.searchText = text;
+        state.clearOnRedirect = false;
         window.location.href = "/datasets";
     }
 }

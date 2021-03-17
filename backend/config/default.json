@@ -1,10 +1,10 @@
 {
   "solr": "http://localhost:8982/solr",
   "solrCore": "ckan",
-  "ckan": "http://localhost:5000",
+  "ckan": "http://127.0.0.1:5000",
   "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
-  "classicUi": "http://localhost:5000",
+  "classicUi": "http://127.0.0.1:5000",
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",

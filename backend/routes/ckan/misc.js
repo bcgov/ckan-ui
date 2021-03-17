@@ -9,6 +9,27 @@ var addRoutes = function(router){
         return res.json({url: url});
     });
 
+    router.get('/rss', function(req, res, next){
+        let config = require('config');
+        
+        let url = config.get('ckan');
+
+        let reqUrl = url + "/feeds/recent.rss";
+        let authObj = {};
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+            let oldUrl = config.get('classicUi');
+            let newUrl = config.get('frontend');
+            if (body){
+                let b = body.replace(oldUrl, newUrl);
+                b = b.replace("/feeds/recent.rss", "/api/ckan/rss");
+                return res.end(b);
+            }return res.end('Sorry there was an error getting the rss feed: ', err)
+        });
+
+        
+    });
+
     //intend for this to be querying a ckan plugin for popular search terms eventually
     router.get('/landingTerms', function(req, res, next){
         let config = require('config');

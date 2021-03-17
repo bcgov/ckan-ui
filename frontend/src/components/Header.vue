@@ -258,8 +258,8 @@ export default {
                 "icon": "mdi-rss-box",
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
-                "href": this.classicUrl + '/feeds/recent.rss'
-            },
+                "href": '/api/ckan/rss'
+            }
             // {
             //     "icon": "mdi-rss",
             //     "title": "Subscribe to Blog Posts",
