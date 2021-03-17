@@ -14,12 +14,16 @@
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
         <span v-else>
-            <div>
-                {{$tc('Current Value:')}} {{computedValue}}
-            </div>
-            <v-btn color="primary" v-for="(state,k) in nextStates" :key="field.name+'-'+k+'-state-button'" @click="click(state.state)">
-                {{labelLookup[state.state]}}
-            </v-btn>
+            <v-stepper alt-labels :value="stepNo">
+                <v-stepper-header>
+                    <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button'">
+                        <v-stepper-step :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo)">
+                            {{labelLookup[state.state]}}
+                        </v-stepper-step> 
+                        <v-divider></v-divider>
+                    </span>
+                </v-stepper-header>
+            </v-stepper>
             <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">                
                 <input type="text" style="display: none" v-model="val" />
                 <div class="errors">{{errors.length > 0 ? errors[0] : ""}}</div>
@@ -43,6 +47,7 @@ export default {
         conditionalRedraw: Number,
         includeBlank: Boolean,
         emitOnChange: String,
+        orgName: String,
         
         labelField: {
             type: String,
@@ -80,6 +85,7 @@ export default {
             nextStates: [],
             labelLookup: {},
             computedValue: "",
+            stepNo: 0,
         }
     },
 
@@ -89,12 +95,9 @@ export default {
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (this.editing && required ? '*' : '');
         },
-        ...mapGetters("organization", {
-            orgTitle: "titleByID",
-            orgName: "nameByID"
-        }),
         ...mapState({
             sysAdmin: state => state.user.sysAdmin,
+            userPermissions: state => state.user.userPermissions,
         })
     },
 
@@ -118,8 +121,9 @@ export default {
 
     methods: {
 
-        click: function(state){
+        click: function(state, step){
             this.val = state;
+            this.stepNo = step;
             if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){
                 this.$emit(this.emitOnChange, this.val);
             }
@@ -130,12 +134,14 @@ export default {
         initItems: function(){
 
             if (!this.initialValue || this.initialValue===""){
-                this.nextStates = [this.field.startState];
+                this.nextStates = [JSON.parse(JSON.stringify(this.field.startState))];
                 this.displayValue = "Not Provided"
             }
 
+            let keys = Object.keys(this.options);
+            let currentStateItem = {};
             if (typeof(this.options) !== "undefined"){
-                let keys = Object.keys(this.options);
+                
                 for (var i=0; i<keys.length; i++){
                     var item = {};
                     item.label = this.translate ? this.$tc(this.options[keys[i]][this.labelField]) : this.options[keys[i]][this.labelField];
@@ -146,10 +152,39 @@ export default {
                     if (item.value == this.initialValue){
                         this.displayValue = item.label;
                         this.validValue = true;
-                        this.nextStates = item.validTo;
+                        this.nextStates = JSON.parse(JSON.stringify(item.validTo));
+                        currentStateItem = item;
+                        this.stepNo = i;
                     }
                 }
             }
+            this.nextStates.push({state: currentStateItem.value, by: []})
+
+            let sysAdmin = this.sysAdmin;
+            let admin = (this.userPermissions[this.orgName] === "admin") 
+            let editor = (this.userPermissions[this.orgName] === "editor")
+
+            let sortedNext = []
+            for (let i=0; i<keys.length; i++){
+                for (let j=0; j<this.nextStates.length; j++){
+                    let added = false;
+                    if (this.options[keys[i]][this.valueField] === this.nextStates[j].state){
+                        sortedNext.push(this.nextStates[j]);
+                        added = true;
+                    }
+                    if (added){
+                        let by = sortedNext[sortedNext.length - 1].by;
+                        let allowed = ( (by.length === 0) || (sysAdmin && by.indexOf('sysadmin') != -1) );
+                        allowed = ( (allowed) || (admin && by.indexOf('admin') != -1) );
+                        allowed = ( (allowed) || (editor && by.indexOf('editor') != -1) );
+                        sortedNext[sortedNext.length - 1].allowed = allowed;
+                        sortedNext[sortedNext.length - 1].stepNo = i;
+                    }
+                }
+            }
+
+            this.nextStates = JSON.parse(JSON.stringify(sortedNext));
+
             this.computedValue = this.labelLookup[this.val];
 
         }
@@ -181,5 +216,24 @@ export default {
     }
     .errors{
         color: var(--v-error_text-base)
+    }
+
+    .fauxButton{
+        cursor: pointer;
+    }
+
+    .fauxDisabled{
+        cursor: not-allowed;
+    }
+
+</style>
+
+<style>
+    .fauxButton:hover span.v-stepper__step__step{
+        background: var(--v-secondary-base) !important;
+    }
+
+    .fauxDisabled:hover span.v-stepper__step__step{
+        background: var(--v-error-base) !important;
     }
 </style>

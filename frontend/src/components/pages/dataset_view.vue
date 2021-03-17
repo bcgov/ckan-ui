@@ -103,7 +103,7 @@
                     </v-card>
                 </v-dialog>
 
-                <v-btn text small depressed color="primary" v-if="!showEdit"  v-scroll-to="{
+                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
                     el: '#endOfForm',
                     x: false,
                     y: true
@@ -161,6 +161,7 @@
                             :startingValues="unmodifiedDataset"
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
+                            :orgName="(dataset && dataset.organization && dataset.organization.name) ? dataset.organization.name : ''"
                             ref="dynoForm"
                             :form-defaults="formDefaults"
                             @updated="(field, value) => updateDataset(field, value)"
@@ -511,11 +512,11 @@ export default {
                 result = await this.$store.dispatch("dataset/setDataset");
             }
             if (!result || !result.success || result.success === false){
-                if (result.error.message){
+                if (result && result.error && result.error.message){
                     this.formError = result.error.message;
-                }else if (result.error.type && result.error.type[0]){
+                }else if (result && result.error && result.error.type && result.error.type[0]){
                     this.formError = result.error.type[0];
-                }else if (result.error){
+                }else if (result && result.error){
                     let keys = Object.keys(result.error);
                     let fe = '';
                     for (var i=0; i<keys.length; i++){
