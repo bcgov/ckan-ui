@@ -112,6 +112,11 @@ export default {
         },
         value: function(){
             this.val = this.value;
+        },
+        orgName: function(newName, oldName){
+            if (oldName !== newName){
+                this.initItems();
+            }
         }
     },
 

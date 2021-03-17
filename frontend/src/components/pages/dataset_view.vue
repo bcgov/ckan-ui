@@ -161,7 +161,7 @@
                             :startingValues="unmodifiedDataset"
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
-                            :orgName="(dataset && dataset.organization && dataset.organization.name) ? dataset.organization.name : ''"
+                            :orgName="dynoFormOrgName"
                             ref="dynoForm"
                             :form-defaults="formDefaults"
                             @updated="(field, value) => updateDataset(field, value)"
@@ -200,7 +200,7 @@
 
 <script>
 import Vue from 'vue';
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
 
@@ -234,6 +234,7 @@ export default {
             createMode: this.$route.name === "dataset_create",
             urlEdited: false,
             expectedNameUpdate: false,
+            dynoFormOrgName: '',
             notAtTop: false,
             textFields: [
                 'object_name',
@@ -264,6 +265,7 @@ export default {
             if (this.$route.name === "dataset_create"){
                 this.editing = true;
             }
+            this.calcDynoFormOrgName()
         },
         $route (to){
             this.redrawIndex++;
@@ -272,6 +274,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters("organization", {
+            orgName: "nameByID"
+        }),
+        
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
             let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
@@ -416,6 +422,16 @@ export default {
     },
 
     methods: {
+
+        calcDynoFormOrgName(){
+            let name = (this.dataset && this.dataset.organization && this.dataset.organization.name) ? this.dataset.organization.name : '';
+            let byId = (this.dataset && this.dataset.owner_org) ? this.orgName(this.dataset.owner_org) : '';
+            if ((name === '') && (byId)){
+                name = byId;
+            }
+            this.dynoFormOrgName=name;
+        },
+
         getUserOrgs() {
             if (!this.userOrgs || this.userOrgs.length <= 0){
                 this.$store.dispatch("organization/getUserOrgs");
@@ -575,6 +591,7 @@ export default {
 
 
                 if (field === 'owner_org'){
+                    this.calcDynoFormOrgName();
                     if (!this.formDefaults.contacts){
                         this.formDefaults.contacts = {};
                     }
