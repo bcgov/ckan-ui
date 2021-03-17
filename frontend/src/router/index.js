@@ -127,14 +127,14 @@ let r = new Router({
                 title: "About"
             }
         },
-        {
-            path: '/usage',
-            name: 'siteUsage',
-            component: siteUsage,
-            meta: {
-                title: "Site Usage"
-            }
-        },
+        // {
+        //     path: '/usage',
+        //     name: 'siteUsage',
+        //     component: siteUsage,
+        //     meta: {
+        //         title: "Site Usage"
+        //     }
+        // },
         {
             path: '/user',
             name: 'user',
