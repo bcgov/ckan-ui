@@ -145,8 +145,8 @@ export default {
             this.$store.commit('pow/setPowConfig', {pow_config: response})
 
             var scripts = [
-                '../../js/dwds-POW-api.js',
-                '../../js/xdLocalStorage.js'
+                '/js/dwds-POW-api.js',
+                '/js/xdLocalStorage.js'
             ];
 
             scripts.map(function(script) {

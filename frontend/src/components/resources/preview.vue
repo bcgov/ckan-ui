@@ -136,7 +136,7 @@ export default {
 
                 let previewInfo = {}
                 try {
-                    previewInfo = JSON.parse(previewInfo);
+                    previewInfo = JSON.parse(this.resource.metadata.preview_info);
                 }catch(ex){
                     previewInfo = this.resource.metadata.preview_info;
                 }

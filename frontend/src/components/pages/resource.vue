@@ -114,7 +114,7 @@
         <ValidationObserver ref="observer" v-slot="{ validate }" slim>
             <v-form ref="form" @submit.prevent="nothing">
                 <v-row fill-height class="pt-5">
-                    <v-col cols=11 :md="siblings(resource.id).length>0 ? 7 : 11" v-if="!!schema">
+                    <v-col cols=11 :md="(resource.id && siblings(resource.id) && siblings(resource.id).length>0) ? 7 : 11" v-if="!!schema">
                         <v-container>
                             <v-row>
                                 <v-col cols=12>
@@ -135,7 +135,7 @@
                         <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
-                    <v-col cols=4 class="d-none d-sm-block pr-0" v-if="!editing && siblings(resource.id).length > 0">
+                    <v-col cols=4 class="d-none d-sm-block pr-0" v-if="!editing && resource.id && siblings(resource.id) && siblings(resource.id).length>0">
                         <v-row class="mb-4">
                         </v-row>
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
