@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md class="mt-0 pt-0">
         <v-row align-space-around justify-start fill-height>
             <v-col cols=12 class="pt-0 px-0">
-                <div v-if="resources.length === 0" class="mt-3 text-center">
+                <div v-if="resources && resources.length === 0" class="mt-3 text-center">
                     No resources provided
                 </div>
                 <ResourceCard

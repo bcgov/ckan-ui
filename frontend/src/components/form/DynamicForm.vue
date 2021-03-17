@@ -90,6 +90,7 @@
                         :placeholder="field.form_placeholder"
                         :options="field.choices"
                         emitOnChange="edited"
+                        :orgName="orgName"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                         :field="field"
                         :scope="scope"
@@ -363,6 +364,10 @@ export default {
         startingValues: {
             type: Object,
             default: () => {return {};}
+        },
+        orgName: {
+            type: String,
+            default: ""
         },
         disabled: {
             type: Boolean,
