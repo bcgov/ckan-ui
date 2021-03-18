@@ -570,6 +570,7 @@ export default {
                 
                 this.editing = false;
                 this.formSuccess = "Successfully updated";
+                await this.$store.commit("dataset/setCurrentDataset", { dataset: this.dataset });
                 this.showFormSuccess = true;
                 this.showFormError = false;
                 if (this.createMode){

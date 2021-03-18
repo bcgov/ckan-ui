@@ -267,6 +267,7 @@ const mutations = {
     },
     clearDataset(state){
         //state.dataset = {};
+        //Vue.set(state, 'dataset', {publish_state: "DRAFT"});
         Vue.set(state, 'dataset', {});
         Vue.set(state, 'unmodifiedDataset', {});
         state.datasetLoading = false;

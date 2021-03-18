@@ -23,6 +23,7 @@
                 <v-textarea
                     ref="ta"
                     :name="name"
+                    :label="field.form_placeholder"
                     v-model="model"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"

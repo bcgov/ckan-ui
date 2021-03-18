@@ -15,7 +15,15 @@
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
                         <v-row v-if="sub.display_snippet !== null" align="center">
                             <v-col cols=12 class="py-1">
-                                <label class="sub-label fixedWidth">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
+                                <label class="sub-label fixedWidth">
+                                    {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
+                                    <v-tooltip right v-if="sub.help_text">
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                                        </template>
+                                        <span>{{sub.help_text}}</span>
+                                    </v-tooltip>
+                                </label>
                             
                                 <span v-if="value">
                                     <span v-if="sub.display_snippet === 'url'">
