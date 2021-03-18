@@ -193,7 +193,7 @@ export default {
     data() {
         let schemaName = 'bcdc_dataset';
         return {
-            editing: this.$route.name === "resource_create",
+            editing: ( this.$route.name === "resource_create" || (this.$route.query && this.$route.query.editing) ),
             formError: '',
             showFormError: false,
             formSuccess: '',
