@@ -10,17 +10,17 @@
             </v-tooltip>
         </label>
         <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
-            <span class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</span>
+            <span class="value mb-0 pb-0">{{translate ? $tc(this.labelLookup[this.val]) : this.labelLookup[this.val]}}</span>
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
         <span v-else>
             <v-stepper alt-labels :value="stepNo">
                 <v-stepper-header>
-                    <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button'">
-                        <v-stepper-step :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo)">
+                    <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button-'+redrawIndex">
+                        <v-stepper-step :complete="stepNo === state.stepNo" :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo, state.allowed)">
                             {{labelLookup[state.state]}}
                         </v-stepper-step> 
-                        <v-divider></v-divider>
+                        <v-divider v-if="parseInt(k) < (nextStates.length - 1)"></v-divider>
                     </span>
                 </v-stepper-header>
             </v-stepper>
@@ -78,14 +78,13 @@ export default {
     },
     data() {
         return {
-            displayValue: "",
             val: this.value,
             scopeName: this.scope + '.' + this.name,
             validValue: false,
             nextStates: [],
             labelLookup: {},
-            computedValue: "",
-            stepNo: 0,
+            stepNo: -1,
+            redrawIndex: 0
         }
     },
 
@@ -126,21 +125,24 @@ export default {
 
     methods: {
 
-        click: function(state, step){
-            this.val = state;
-            this.stepNo = step;
-            if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){
-                this.$emit(this.emitOnChange, this.val);
+        click: function(state, step, allowed){
+            if (allowed){
+                this.val = state;
+                this.stepNo = step;
+                if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){
+                    this.$emit(this.emitOnChange, this.val);
+                }
+                this.$emit('input',this.val);
+                this.computedValue = this.labelLookup[this.val];
+                this.redrawIndex++;
+                
             }
-            this.$emit('input',this.val);
-            this.computedValue = this.labelLookup[this.val];
         },
 
         initItems: function(){
 
             if (!this.initialValue || this.initialValue===""){
                 this.nextStates = [JSON.parse(JSON.stringify(this.field.startState))];
-                this.displayValue = "Not Provided"
             }
 
             let keys = Object.keys(this.options);
@@ -155,7 +157,6 @@ export default {
                     this.labelLookup[item.value] = item.label
 
                     if (item.value == this.initialValue){
-                        this.displayValue = item.label;
                         this.validValue = true;
                         this.nextStates = JSON.parse(JSON.stringify(item.validTo));
                         currentStateItem = item;
@@ -190,7 +191,7 @@ export default {
 
             this.nextStates = JSON.parse(JSON.stringify(sortedNext));
 
-            this.computedValue = this.labelLookup[this.val];
+            this.redrawIndex++;
 
         }
     }
