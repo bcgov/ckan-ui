@@ -36,7 +36,7 @@
                             View Schema (JSON Table Schema)
                         </v-btn>
                         <v-btn v-if="showEdit" small depressed text class="px-0 mx-0" color="label_colour"
-                            :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
+                            :to="{ name: 'resource_view', query: { editing: true }, params: { datasetId: dataset.name, resourceId: resource.id }}">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn v-if="canDelete" @click="deleteResource" small depressed text class="px-0 mx-0" color="error_text" >
