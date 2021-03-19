@@ -206,7 +206,7 @@ const actions = {
         resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
-            if (key != 'upload'){
+            if (key !== 'upload'){
                 formD.append(key, resource[key]);
             }else{
                 formD.append(key, upload);
@@ -222,11 +222,16 @@ const actions = {
 	},
 
     async createResource({ state }) {
+        let upload = state.resource.upload;
         let resource = JSON.parse(JSON.stringify(state.resource));
         resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
-            formD.append(key, resource[key]);
+            if (key !== 'upload'){
+                formD.append(key, resource[key]);
+            }else{
+                formD.append(key, upload);
+            }
         }
         
         let tok = await authServ.getToken().then();
