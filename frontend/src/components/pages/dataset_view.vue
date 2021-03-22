@@ -121,6 +121,11 @@
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
                 </v-btn>
 
+                <v-btn text small depressed v-if="!createMode && showEdit" @click="copyDataset" color="label_colour">
+                    <v-icon color="primary">mdi-content-copy</v-icon>
+                    {{$tc('Copy') + ' ' + $tc('Datasets',1)}}
+                </v-btn>
+
                 <v-btn text small depressed v-if="!createMode && showEdit" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}" color="label_colour">
                     <v-icon color="primary">mdi-plus</v-icon>
                     {{$tc('Add Resource')}}
@@ -469,6 +474,22 @@ export default {
             this.formSuccess = '';
             this.showFormSuccess = false;
         },
+
+        async copyDataset(){
+            this.createMode = true;
+            this.editing = true;
+            let d = JSON.parse(JSON.stringify(this.dataset));
+            delete d.title;
+            delete d.name;
+            delete d.id;
+            delete d.publish_state;
+            delete d.resources;
+            await this.$store.commit("dataset/setCurrentDataset", { dataset: d });
+            this.expectedNameUpdate = false;
+            this.urlEdited = false;
+            this.redrawIndex++;
+        },
+
         clearEdit() {
             this.editing = false;
             this.formError = '';
