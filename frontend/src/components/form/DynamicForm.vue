@@ -484,11 +484,11 @@ export default {
         updateUploadValues(field, isUrl, newValue){
             this.$emit("updated", "isUrl", isUrl);
             if (isUrl){
-                this.$emit("updated", field, newValue);
                 this.$emit("updated", 'upload', null);
+                this.$emit("updated", field, newValue);
             }else{
-                this.$emit("updated", field, "");
                 this.$emit("updated", 'upload', newValue);
+                this.$emit("updated", field, "");
             }
         }
     },

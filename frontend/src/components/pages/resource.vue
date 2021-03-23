@@ -10,7 +10,7 @@
             <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
         </div>
     </v-container>
-    <v-container v-else fluid grid-list-md class="main-area">
+    <v-container v-else fluid grid-list-md class="main-area" :key="'resourceCRUD-'+redrawIndex">
         <v-row id="topOfResForm"></v-row>
         <v-row class="mt-0 py-4 wrap px-md-15 fauxbar">
             <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
@@ -39,9 +39,25 @@
                     <v-icon color="primary">mdi-arrow-left</v-icon> 
                     {{$tc('Back to')}} {{$tc('Datasets', 1)}}
                 </v-btn>
-                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
-                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+
+                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
+                    el: '#endOfForm',
+                    x: false,
+                    y: true
+                }">
+                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
+                    {{$tc('Scroll to Bottom')}}
                 </v-btn>
+
+                <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
+                    <v-icon>mdi-email-outline</v-icon>
+                    {{$tc('Contact Data Expert')}}
+                </v-btn>
+
+                <v-btn v-if="!editing" small depressed text color="primary" v-clipboard="() => permalink" @click="snackbar = true">
+                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
+                </v-btn>
+
                 <v-btn v-if="!editing" small depressed text color="primary" @click.stop="previewDialog = true">
                     <v-icon>mdi-fullscreen</v-icon>&nbsp;{{$tc('Preview')}}
                     <v-dialog
@@ -55,9 +71,6 @@
                             v-on:closePreviewDialog="previewDialog = false"
                         ></Preview>
                     </v-dialog>
-                </v-btn>
-                <v-btn v-if="!editing" small depressed text color="primary" v-clipboard="() => permalink" @click="snackbar = true">
-                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
                 <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
@@ -77,13 +90,12 @@
                     </v-dialog>
                 </v-btn>
 
-                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
-                    el: '#endOfForm',
-                    x: false,
-                    y: true
-                }">
-                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
-                    {{$tc('Scroll to Bottom')}}
+                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
+                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                </v-btn>
+
+                <v-btn v-if="!editing && showEdit" small depressed text color="primary" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}">
+                    <v-icon>mdi-plus</v-icon>&nbsp;{{$tc("Add Resource")}}
                 </v-btn>
 
                 <v-btn v-if="!editing && showEdit" small depressed text color="primary" @click="toggleEdit">
@@ -208,6 +220,7 @@ export default {
             schemaDialog: false,
             snackbar: false,
             notAtTop: false,
+            redrawIndex: 0
         };
     },
     beforeRouteUpdate(to, from, next) {
@@ -224,11 +237,61 @@ export default {
         datasetId(newVal){
             this.resource['package_id'] = newVal;
             this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
-        }
+        },
+
+        $route (to){
+            this.redrawIndex++;
+            this.editing = ( to.name === "resource_create" || (to.query && to.query.editing) ),
+            this.createMode = (to.name === "resource_create");
+            if (this.createMode) {
+                this.$store.dispatch("dataset/newResource");
+            }else{
+                this.$store.dispatch("dataset/getResource", { id: this.resourceId });
+            }
+        },
     },
     computed: {
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
+        },
+
+        mailLink(){
+            let link="mailto:"
+            let c = null;
+            if (this.dataset && this.dataset.contacts){
+                c = this.dataset.contacts;
+                if (typeof(c) === "string"){
+                    c = JSON.parse(c);
+                }
+
+                let setC = false;
+                for (let i=0; i<c.length; i++){
+                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
+                        c = c[i];
+                        setC = true;
+                        break;
+                    }
+                }
+
+                if (!setC){
+                    return ''
+                }
+                
+                link += c.email
+            }else{
+                return '';
+            }
+            link += '?subject=Questions about '+this.dataset.title
+            link += '&body='
+            link += "Hi "+c.name+",%0D%0A%0D%0A";
+            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
+            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
+            link += "Hi! My name is ... and I am a ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
+            link += "I was hoping to find information about ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
+            link += "Is there someone I can contact to find out more about ....%0D%0A"
+            return link;
         },
 
         nonSchemaFields: function() {
@@ -330,8 +393,7 @@ export default {
             );
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
-            }
-            if (!this.createMode) {
+            }else{
                 this.$store.dispatch("dataset/getResource", { id: id });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {

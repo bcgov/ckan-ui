@@ -42,9 +42,16 @@
             </v-col>
             <v-col cols=12>
                 <v-btn color="primary" small text depressed :to='(lastList) ? lastList : "/datasets"'><v-icon color="primary">mdi-arrow-left</v-icon> {{$tc('Back to')}} {{$tc('Datasets', 2)}} {{$tc('list')}}</v-btn>
-                <v-btn small text depressed v-if="!editing" color="label_colour" class="" v-clipboard="() => permalink" @click="snackbar = true">
-                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
+
+                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
+                    el: '#endOfForm',
+                    x: false,
+                    y: true
+                }">
+                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
+                    {{$tc('Scroll to Bottom')}}
                 </v-btn>
+
                 <v-dialog v-if="!editing" v-model="infoDialog" width="75%">
                     <template v-slot:activator="{ on }">
                         <v-btn v-on="on" text small color="label_colour" class="">
@@ -103,18 +110,13 @@
                     </v-card>
                 </v-dialog>
 
-                <v-btn text small depressed color="primary" v-if="!editing"  v-scroll-to="{
-                    el: '#endOfForm',
-                    x: false,
-                    y: true
-                }">
-                    <v-icon>mdi-format-vertical-align-bottom</v-icon>
-                    {{$tc('Scroll to Bottom')}}
-                </v-btn>
-
                 <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
                     <v-icon>mdi-email-outline</v-icon>
                     {{$tc('Contact Data Expert')}}
+                </v-btn>
+
+                <v-btn small text depressed v-if="!editing" color="label_colour" class="" v-clipboard="() => permalink" @click="snackbar = true">
+                    <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
                 <v-btn text small depressed v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
@@ -304,7 +306,7 @@ export default {
         mailLink(){
             let link="mailto:"
             let c = null;
-            if (this.dataset && this.dataset.contacts && this.dataset.contacts[0]){
+            if (this.dataset && this.dataset.contacts){
                 c = this.dataset.contacts;
                 if (typeof(c) === "string"){
                     c = JSON.parse(c);
@@ -312,7 +314,7 @@ export default {
 
                 let setC = false;
                 for (let i=0; i<c.length; i++){
-                    if (c[i].displayed){
+                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
                         c = c[i];
                         setC = true;
                         break;

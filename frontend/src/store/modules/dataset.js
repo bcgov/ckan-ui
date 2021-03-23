@@ -64,9 +64,13 @@ const getters = {
         if (typeof(id) === 'undefined') {
             return state.dataset.resources;
         } else {
-            return state.dataset.resources.filter( resource => {
-                return resource.id !== id;
-            });
+            if (state.dataset.resources){
+                return state.dataset.resources.filter( resource => {
+                    return resource.id !== id;
+                });
+            }else{
+                return [];
+            }
         }
     }
 };
@@ -197,12 +201,18 @@ const actions = {
         delete resource['content-type'];
         delete resource.schemaError;
         delete resource.hasSchema;
+        let upload = resource.upload;
         resource = JSON.parse(JSON.stringify(resource));
         resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
-            formD.append(key, resource[key]);
+            if (key !== 'upload'){
+                formD.append(key, resource[key]);
+            }else{
+                formD.append(key, upload);
+            }
         }
+
         let tok = await authServ.getToken().then();
         return ckanServ.updateResource(formD, tok['jwt']);
     },
@@ -212,11 +222,16 @@ const actions = {
 	},
 
     async createResource({ state }) {
+        let upload = state.resource.upload;
         let resource = JSON.parse(JSON.stringify(state.resource));
         resource = formatResourceBody(resource);
         let formD = new FormData();
         for ( let key in resource ) {
-            formD.append(key, resource[key]);
+            if (key !== 'upload'){
+                formD.append(key, resource[key]);
+            }else{
+                formD.append(key, upload);
+            }
         }
         
         let tok = await authServ.getToken().then();
