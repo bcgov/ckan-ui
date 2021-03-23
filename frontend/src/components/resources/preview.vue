@@ -153,12 +153,13 @@ export default {
             return false;
         },
         iMapUrl: function() {
-            if (this.resource && this.resource.metadata && this.resource.metadata.preview_info) {
+            if (this.resource && ( (this.resource.metadata && this.resource.metadata.preview_info)) || (this.resource.preview_info) ) {
                 let previewInfo = {};
                 try {
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
                     previewInfo = JSON.parse(previewInfo);
                 }catch(ex){
-                    previewInfo = this.resource.metadata.preview_info
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
                 }
 
 
