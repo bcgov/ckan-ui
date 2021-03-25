@@ -1,30 +1,61 @@
 <template>
-  <div class="grey lighten-3" style="margin:auto;height:100%" justify-center fill-height>
-	<v-toolbar color="#38598a" dark>
-	<v-toolbar-title>Data and Resources</v-toolbar-title>
-	</v-toolbar>
-    <v-container fluid grid-list-md>
-      <v-layout column align-space-around justify-start fill-height>
-        <ResourceCard v-for="resource in resources" v-bind:key="resource.id" :resource="resource"></ResourceCard>
-      </v-layout>
+    <v-container fluid grid-list-md class="mt-0 pt-0">
+        <v-row align-space-around justify-start fill-height>
+            <v-col cols=12 class="pt-0 px-0">
+                <div v-if="resources && resources.length === 0" class="mt-3 text-center">
+                    No resources provided
+                </div>
+                <ResourceCard
+                    v-else
+                    v-for="(resource, index) in resources"
+                    v-bind:key="resource.id"
+                    :resource="resource"
+                    :resourceIndex="index"
+                    :canDelete="canDelete"
+                    :showEdit="createMode || showEdit"
+                    :datasetBeingEdited="datasetBeingEdited"
+                ></ResourceCard>
+            </v-col>
+        </v-row>
     </v-container>
-  </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import ResourceCard from "./ResourceCard";
 
-import ResourceCard from "./ResourceCard"
 export default {
     components: {
-        ResourceCard
+        ResourceCard,
     },
     props: {
-        resources: Array
+        resources: Array,
+        showEdit: Boolean,
+        createMode: Boolean,
+        canDelete: {
+            type: Boolean,
+            default: false,
+        },
+        datasetBeingEdited: Boolean,
     },
-}
-
+    computed: {
+        ...mapState({
+            dataset: state => state.dataset.dataset
+        })
+    },
+    data(){
+        return{
+            createDialog: false,
+        }
+    }
+};
 </script>
 
 <style scoped>
-    @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+.v-toolbar__title{
+    color: var(--v-text-base)
+}
+.new-resource{
+    border-style: dashed !important;
+}
 </style>

@@ -1,0 +1,146 @@
+<template>
+    <v-col cols=12 class="py-2">
+        <div v-if="!editing">
+            <label class="label">
+                {{$tc(displayLabel)}}&nbsp;
+                <v-tooltip right v-if="field.help_text">
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    <span>{{field.help_text}}</span>
+                </v-tooltip>
+            </label>
+            <a v-if="isURL" class="value" :href="value">{{value}}</a>
+            <p v-else class="value">{{value}}</p>
+        </div>
+        <div v-else>
+            <label class="label">
+                {{$tc(displayLabel)}}&nbsp;
+                <v-tooltip right v-if="field.help_text">
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
+                    </template>
+                    <span>{{field.help_text}}</span>
+                </v-tooltip>
+            </label>
+            <div v-if="allowURL">
+                <v-radio-group v-model="isURL" row>
+                    <v-radio
+                        label="URL"
+                        :value="true">
+                    </v-radio>
+                    <v-radio
+                        label="File"
+                        :value="false">
+                    </v-radio>
+                </v-radio-group>
+            </div>
+            <ValidationProvider v-if="isURL" :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
+                <v-text-field
+                    :label="$tc('Enter URL')"
+                    :name="name"
+                    v-model="val"
+                    :placeholder="placeholder"
+                    :error-messages="errors.length > 0 ? [errors[0]] : []"
+                    :disabled="disabled"
+                    outline
+                ></v-text-field>
+            </ValidationProvider>
+            <div v-else>
+                <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
+                    <v-file-input
+                        :label="$tc('File')"
+                        :name="name"
+                        v-model="fileVal"
+                        :placeholder="$tc('Click here to attach file')"
+                        :disabled="disabled"
+                        :error-messages="errors.length > 0 ? [errors[0]] : []" >
+                    </v-file-input>
+                </ValidationProvider>
+            </div>
+        </div>
+    </v-col>
+</template>
+
+<script>
+
+export default {
+
+    props: {
+        name: String,
+        value: [String, Object, Array, Boolean],
+        upload: [String, File],
+        label: String,
+        currentlyUrl: [String, Boolean],
+        editing: Boolean,
+        placeholder: String,
+        field: Object,
+        scope: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        parentObject: Object,
+    },
+    data() {
+        let iu = (typeof(this.currentlyUrl) === "boolean") ? this.currentlyUrl : null;
+        iu = (typeof(this.currentlyUrl) === "string") ? (this.currentlyUrl.toLowerCase()==='true') : iu;
+        iu = ( (iu === null) && (typeof(this.isURL) !== "undefined") ) ? this.isUrl : iu;
+        iu = ( (iu === null) && (this.field.field_name === "url") ) ? (this.field.field_name === "url"): iu;
+
+        return {
+            val: this.value,
+            fileVal: (this.upload) ? this.upload : null,
+            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
+            allowURL: this.field.field_name === "url",
+            isURL: iu,
+            scopeName: this.scope + '.' + this.name,
+            api: null,
+        }
+    },
+    computed: {
+        displayLabel: function(){
+            let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
+            return this.label + (required ? '*' : '');
+        },
+    },
+    watch: {
+        value(){
+            this.val = this.value;
+        },
+        val(){
+            this.$emit('edited', this.isURL, this.val);
+        },
+        fileVal(){
+            this.$emit('edited', this.isURL, this.fileVal);
+        },
+        isURL(){
+            if (this.isUrl){
+                this.$emit('edited', this.isURL, this.val);
+            }else{
+                this.$emit('edited', this.isURL, this.fileVal);
+            }
+            
+        },
+    },
+    mounted(){
+    }
+
+};
+</script>
+
+<style scoped>
+    label.label{
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
+    p.value{
+        font-size: 16px;
+        color: var(--v-faded_text-base);
+    }
+
+    .fullWidth{
+        width: 100%;
+    }
+</style>

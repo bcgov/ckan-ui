@@ -20,7 +20,42 @@ export default {
 </script>
 
 <style>
+
+  @font-face{
+    font-family: 'BC Sans';
+    src: url("/fonts/BCSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face{
+    font-family: 'BC Sans';
+    src: url("/fonts/BCSans-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  @font-face{
+    font-family: 'BC Sans';
+    src: url("/fonts/BCSans-BoldItalic.woff") format("woff");
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  @font-face{
+    font-family: 'BC Sans';
+    src: url("/fonts/BCSans-Italic.woff") format("woff");
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  #app{
+    font-family: "BC Sans",sans-serif;
+  }
   .v-card--flat{
-    background-color: #fafafa !important;
+    background-color: transparent !important;
+  }
+  *{
+    text-transform: none !important;
   }
 </style>

@@ -1,99 +1,149 @@
 <template>
-  <div>
-      <div class="dataset-markers">
-          <ul>
-              <SectorBadge v-for="primMarker in primMarkers" :name="primMarker.name" :key="'dataset-' + id + '-' + primMarker.name + '-badge'"></SectorBadge>
-          </ul>
-      </div>
+  <v-container fluid align-center align-content-center justify-center class="mb-4 pl-0">
+      <v-row wrap dense class="my-0 py-0">
+          <v-col cols=12>
+            <h3>
+                <router-link :id="'dataset-link-'+record.id" :to="{ name: 'dataset_view', params: { datasetId: name }}" class="titleLink">
+                    <span>{{title}}</span>
+                </router-link>
+            </h3>
+          </v-col>
+      </v-row>
 
-      <div class="dataset-marker-type-icon">
-          <i class="fa fa-2x icon icon-2x" v-bind:class="['fa-'+iconName, 'icon-'+iconName]"></i>
-      </div>
+      <v-row wrap dense class="my-0 py-0">
+          <v-col cols=12 class="my-0 py-0">
+              <p class="mb-0 pb-0 faded normalWordBreak" v-line-clamp:1.5="2" >{{description}}</p>
+          </v-col>
+      </v-row>
 
-      <h3 class="dataset-heading">
-          <router-link :to="{ name: 'dataset_view', params: { datasetId: id }}">{{name}}</router-link>
-      </h3>
+      <v-row wrap dense class="my-0 py-0">
+          <v-col cols=12 class="my-0 py-0">
+              <router-link class="noUnderline" :to="{name: 'organization_view', params: {organizationId: orgId}}">{{org}}</router-link>
+          </v-col>
+      </v-row>
 
-      <div class="dataset-decription">
-          {{description}}
-      </div>
-
-      <div class="flex-fill-end">
-          <ul class="dataset-resources unstyled">
-              <FormatBadge v-for="type in resourceTypes" v-bind:key="'dataset-' + id + '-' + type" :type="type"></FormatBadge>
-          </ul>
-      </div>
-
-      <div class="dates">
-          Record Published: {{publishDate}}
-      </div>
+      <v-row wrap dense class="my-0 py-0">
+        <!--<v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>-->
+        <v-col cols=5 class="faded">{{$tc('First Published')}}: {{publishDate}}</v-col>
+        <v-col cols=7 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
+      </v-row>
 
 
-  </div>
+  </v-container>
 </template>
 
 <script>
 
-import SectorBadge from "../badges/SectorBadge"
-import FormatBadge from "../badges/FormatBadge"
 export default {
     components: {
-        SectorBadge,
-        FormatBadge
+
     },
     props: {
         record: Object,
+    },
+
+    computed: {
+        types: function(){
+            var types = '';
+            for (var i=0; i<this.resourceTypes.length; i++){
+                types += this.resourceTypes[i] + ", ";
+            }
+
+            if (types.length > 2){
+                types = types.substring(0, types.length-2);
+            }else{
+                types = this.$tc("None");
+            }
+
+            return types;
+        }
     },
 
     data: function() {
         if (typeof(this.record.id) === "undefined" ){
             return {
                 resourceTypes: [],
-                publishDate: ""
+                publishDate: "",
+                metaModDate: ""
             }
         }
         let resourceTypes = []
-        for (let i=0; i<this.record.resources.length; i++){
-            let format = this.record.resources[i].format
-            if (resourceTypes.indexOf(format) === -1) {
-                resourceTypes.push(format)
+        if (typeof(this.record.resources) !== "undefined"){
+            for (let i=0; i<this.record.resources.length; i++){
+                let format = this.record.resources[i].format
+                if (resourceTypes.indexOf(format) === -1) {
+                    resourceTypes.push(format)
+                }
             }
+
+            resourceTypes.sort(function(a, b){
+                return a < b ? -1 : 1;
+            });
         }
 
-        let icon = ""
+        // let icon = ""
+        // let tooltip = ""
 
-        switch(this.record.type){
-            case "Geographic":
-                icon = "globe"
-                break
+        // switch(this.record.type){
+        //     case "Geographic":
+        //         icon = "public"
+        //         tooltip = "Geographic"
+        //         break
 
-            case "Dataset":
-                icon = "table"
-                break
+        //     case "Dataset":
+        //         icon = "table_chart"
+        //         tooltip = "Dataset"
+        //         break
 
-            case "Application":
-                icon = "cogs"
-                break
+        //     case "Application":
+        //         icon = "web_asset"
+        //         tooltip = "Application"
+        //         break
 
-            case "Api":
-                icon = "code"
-                break
+        //     case "Api":
+        //         icon = "code"
+        //         tooltip = "Web Service / API"
+        //         break
 
-            default:
-                icon = ""
-                break
+        //     case "WebService":
+        //         icon = "code"
+        //         tooltip = "Web Service / API"
+        //         break
+
+        //     default:
+        //         icon = ""
+        //         break
+        // }
+
+        let formatDate = function(date){
+            let y = date.getFullYear();
+            let m = (date.getMonth() < 9 ? "0"+(date.getMonth()+1) : (date.getMonth()+1))
+            let d = (date.getDate() < 10 ? "0"+(date.getDate()) : (date.getDate()));
+            return y + "-" + m + "-" + d
         }
+
+        let date = new Date(this.record.metadata_created)
+        let pubDate = formatDate(date)
+
+        let d2 = new Date(this.record.metadata_modified)
+        let modDate = formatDate(d2)
 
         return {
-            publishDate: this.record.record_publish_date,
+            publishDate: pubDate ? pubDate : "",
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,
-            name: this.record.title,
-            iconName: icon,
+            title: this.record.title,
+            name: this.record.name,
+            org: this.record.organization.title,
+            orgId: this.record.organization.name,
+            metaModDate: modDate ? modDate : "",
+            //iconName: icon,
+            //iconToolTip: tooltip,
             primMarkers: [{
                 name: this.record.sector
-            }]
+            }],
+            sector: this.record.sector
         };
     },
 }
@@ -101,9 +151,20 @@ export default {
 </script>
 
 <style scoped>
-    @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+    .noUnderline{
+        text-decoration: none;
+    }
+
     .dataset-markers{
         float: right;
+    }
+
+    .titleLink{
+        text-decoration: none;
+    }
+
+    .titleLink:hover{
+        text-decoration: underline;
     }
 
     .dataset-heading a {
@@ -141,10 +202,15 @@ export default {
 
     .dataset-resources {
       float: right;
-      clear: both;
-      padding-bottom: 3px;
-      margin-top:-8px;
-      margin-right: -20px;
+    }
+
+    .faded{
+        color: var(--v-faded_text-base);
+        font-size: 14px;
+    }
+
+    .normalWordBreak{
+        word-break: normal !important;
     }
 
 </style>

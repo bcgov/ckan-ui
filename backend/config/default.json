@@ -1,9 +1,10 @@
 {
   "solr": "http://localhost:8982/solr",
   "solrCore": "ckan",
-  "ckan": "http://localhost:5000",
-  "secret": "secret",
+  "ckan": "http://127.0.0.1:5000",
+  "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
+  "classicUi": "http://127.0.0.1:5000",
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",
@@ -14,5 +15,48 @@
     "clientSecret": "{ClientSecret}",
     "callbackURL": "http://localhost:3000/api/callback",
     "scope": "openid profile offline_access"
-  }
+  },
+
+  "pow": {
+      "past_orders_nbr": 5,
+      "custom_aoi_url": "https://aoi.apps.gov.bc.ca",
+      "persist_config": true,
+      "enable_mow": false,
+      "public_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi",
+      "secure_url": "https://delivery.apps.gov.bc.ca/ext/dwds-pow",
+      "ui_path": "/jsp/dwds_pow_current_order.jsp?",
+      "order_source": "bcdc",
+      "order_details": {
+        "aoi_type": 0,
+        "aoi": null,
+        "clipping_method_type_id": 0,
+        "ordering_application": "BCDC",
+        "format_type": 3,
+        "csr_type": 4,
+        "metadata_url": "https://catalogue.data.gov.bc.ca/dataset/"
+      }
+  },
+
+  "ofi": {
+    "api": {
+      "convert_to_single_res": true,
+      "dev_secure_call": true,
+      "public_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi",
+      "secure_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi/secure"
+    }
+  },
+
+  "snowplow": {
+      "enabled": false,
+      "collector": "snowPlowCollectorUrl",
+      "protocol": "http",
+      "port": 8080,
+      "appId": "ckan"
+  },
+
+  "authGroupSeperator": "/",
+  "sysAdminGroup": "admin",
+  "adminApiKey": "adminApiKeyHere",
+
+  "landingTerms": ["Crown", "Waste", "Fire", "Lightning"]
 }
