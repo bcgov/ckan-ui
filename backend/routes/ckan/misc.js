@@ -1,4 +1,7 @@
 var addRoutes = function(router){
+    const NodeCache = require( "node-cache" );
+    const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+    const usageCacheKey = 'usage'
     let request = require('request');
     let auth = require('../../modules/auth');
 
@@ -29,6 +32,116 @@ var addRoutes = function(router){
 
         
     });
+
+    router.get('/usage', function(req, res, next){
+        let config = require('config');
+        
+        let url = config.get('ckan');
+
+        let reqUrl = url + "/api/3/action/site-usage";
+        let authObj = {};
+
+        let cacheKey = usageCacheKey;
+
+        if (typeof(req.query) !== "undefined"){
+            let addedToUrl = false;
+            if (req.query.start_year){
+                addedToUrl = true;
+                reqUrl += "?start_year=" + req.query.start_year
+                cacheKey += "/sy" + req.query.start_year
+            }
+
+            if (req.query.start_month){
+                reqUrl += (addedToUrl) ? "&" : "?";
+                addedToUrl = true;
+                reqUrl += "start_month=" + req.query.start_month
+                cacheKey += "/sm" + req.query.start_month
+            }
+
+            if (req.query.end_year){
+                reqUrl += (addedToUrl) ? "&" : "?";
+                addedToUrl = true;
+                reqUrl += "end_year=" + req.query.end_year
+                cacheKey += "/ey" + req.query.end_year
+                
+            }
+
+            if (req.query.end_month){
+                reqUrl += (addedToUrl) ? "&" : "?";
+                addedToUrl = true;
+                reqUrl += "end_month=" + req.query.end_month
+                cacheKey += "/em" + req.query.end_month
+            }
+
+            if (req.query.count){
+                reqUrl += (addedToUrl) ? "&" : "?";
+                addedToUrl = true;
+                reqUrl += "count=" + req.query.count
+                cacheKey += "/c" + req.query.count
+            }
+
+            if ( (req.query.publisher) && (req.query.publisher !== "All") ){
+                reqUrl += (addedToUrl) ? "&" : "?";
+                reqUrl += "publisher=" + req.query.publisher
+                cacheKey += "/p" + req.query.publisher
+            }
+        }
+
+        let cached = cache.get(cacheKey);
+        if (typeof(cached) !== "undefined"){
+            return res.json(cached);
+        }
+
+        console.log("usage REQ URL", reqUrl)
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                cache.set(cacheKey, json);
+                return res.json(json);
+                
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                return res.json({error: ex});
+            }
+        });
+
+        
+    });
+
+    router.get('/publishers', function(req, res, next){
+        let config = require('config');
+        
+        let url = config.get('ckan');
+
+        let reqUrl = url + "/api/3/action/publishers";
+        let authObj = {};
+
+        request(reqUrl, authObj, function(err, apiRes, body){
+            if (err) {
+                res.json({error: err});
+                return;
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                return res.json(json);
+                
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                return res.json({error: ex});
+            }
+        })
+    })
 
     //intend for this to be querying a ckan plugin for popular search terms eventually
     router.get('/landingTerms', function(req, res, next){
