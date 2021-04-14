@@ -165,6 +165,7 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="dataset"
+                            :loggedIn="loggedIn"
                             :startingValues="unmodifiedDataset"
                             :disabled="disabled"
                             :selectableUserOrgs="userOrgsArr"
@@ -375,7 +376,8 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             userGroups: state => state.group.userGroups,
-            lastList: state => state.nav.lastDatasetListPage
+            lastList: state => state.nav.lastDatasetListPage,
+            loggedIn: state => state.user.loggedIn,
         }),
 
         canDeleteResources: function(){

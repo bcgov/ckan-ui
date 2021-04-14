@@ -3,12 +3,16 @@ import Vue from 'vue';
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
+const DEFAULT_SORT_NO_TEXT_ORDER = "metadata_created desc";
+const DEFAULT_SORT_WITH_TEXT_ORDER = "score desc";
+
 const state = {
     facets: {},
     totalFilters: 0,
     searchText: "",
     clearOnRedirect: true,
-    landingTerms: []
+    landingTerms: [],
+    sortOrder: DEFAULT_SORT_NO_TEXT_ORDER,
 };
 
 const getters = {
@@ -64,7 +68,16 @@ const mutations = {
     setSearchTextAndRedirect(state, text ){
         state.searchText = text;
         state.clearOnRedirect = false;
+        state.sortOrder = DEFAULT_SORT_WITH_TEXT_ORDER;
         window.location.href = "/datasets";
+    },
+
+    setSortOrder(state, sort){
+        state.sortOrder = sort;
+    },
+
+    defaultSortOrder(state){
+        state.sortOrder = (state.searchText === "") ? DEFAULT_SORT_NO_TEXT_ORDER : DEFAULT_SORT_WITH_TEXT_ORDER;
     }
 }
 
