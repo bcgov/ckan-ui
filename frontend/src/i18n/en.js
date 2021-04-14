@@ -344,5 +344,8 @@ export default {
         "Spatial Datatype*": "Spatial Datatype*",
         "Current Value:": "Current Value:",
         "Licence*": "Licence*",
+        "View Schema (JSON Table Schema)": "View Schema (JSON Table Schema)",
+        "Newest": "Newest",
+        "Classic Catalogue": "Classic Catalogue",
     }
 };

@@ -28,7 +28,7 @@
                     <span v-if="searchedText !== '' && totalFilters > 0"> {{$tc('and')}}</span>
                     <span v-if="totalFilters > 0"> {{$tc('with')}} {{totalFilters}} {{$tc('filters applied', totalFilters)}}</span>
                 </span>
-                <v-select dense append-icon="mdi-menu-down" hide-details class="borderless float-right" color="faded-text" v-model="sortOrder" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
+                <v-select dense append-icon="mdi-menu-down" hide-details class="borderless float-right" color="faded-text" v-model="so" :items="sortOptions" item-text="text" item-value="value" v-on:change="sort"></v-select>
                 <span class="faded float-right orderLabel">{{$tc('Order By')}}:&nbsp;</span>
             </v-col>
         </v-row>
@@ -110,13 +110,13 @@
           count: 0,
           rows: 10,
           skip: 0,
-          sortOrder: "score desc",
+          so: this.sortOrder,
           sortOptions:[
               { value: "score desc", text: this.$tc("Relevance") },
               { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
-              { value: "metadata_created desc", text: this.$tc("First Published") }
+              { value: "metadata_created desc", text: this.$tc("Newest") }
           ],
       }
     },
@@ -128,6 +128,9 @@
         },
         forceFilter(){
             this.getDatasets();
+        },
+        sortOrder(){
+            this.so = this.sortOrder;
         }
     },
 
@@ -141,6 +144,7 @@
             isEditor: state => state.user.isEditor,
             userLoading: state => state.user.userLoading,
             searchText: state => state.search.searchText,
+            sortOrder: state => state.search.sortOrder,
         }),
 
     },
@@ -179,6 +183,7 @@
         },
 
         sort: function(){
+            this.$store.commit('search/setSortOrder', this.so);
             this.getDatasets()
         },
 
@@ -301,7 +306,7 @@
 
     mounted(){
         this.getFacets();
-
+        this.so = this.$store.state.search.sortOrder;
         let self = this;
         this.$store.subscribe((mutation) => {
             if (mutation.type === 'search/setSearchText'){

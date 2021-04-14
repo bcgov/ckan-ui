@@ -44,6 +44,8 @@ var addRoutes = function(router){
         }
         //if we added any we need to truncate them
         reqUrl = (keys.length > 0) ? reqUrl.substring(0, reqUrl.length-1) : reqUrl;
+
+        console.log(reqUrl)
     
         let authObj = {};
     
@@ -56,22 +58,23 @@ var addRoutes = function(router){
         }
     
         request(reqUrl, authObj, function(err, apiRes, body){
-        if (err) {
-            console.log(err);
-            res.json({error: err});
-            return;
-        }
-        if (apiRes.statusCode !== 200){
-            console.log("Body Status? ", apiRes.statusCode);
-        }
-    
-        try {
-            let json = JSON.parse(body);
-            res.json(json);
-        }catch(ex){
-            console.error("Error reading json from ckan", ex);
-            res.json({error: ex});
-        }
+            
+            if (err) {
+                console.log(err);
+                res.json({error: err});
+                return;
+            }
+            if (apiRes.statusCode !== 200){
+                console.log("Body Status? ", apiRes.statusCode, body);
+            }
+        
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
         });
     
     });

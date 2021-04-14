@@ -89,11 +89,12 @@ const actions = {
     },
 
     getOrgs({ commit }) {
-        if (Object.entries(state.orgList).length == 0) {
-            ckanServ.getOrgList().then((data) => {
-                commit('setOrgList', { orgList: data.orgList });
-            });
-        }
+        commit('setLoading', {loading: true});
+        ckanServ.getOrgList().then((data) => {
+            commit('setOrgList', { orgList: data.orgList });
+            commit('setLoading', {loading: false});
+        });
+        
     },
 
     getOrgsNoCache({ commit }) {

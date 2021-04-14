@@ -21,7 +21,7 @@
             </v-data-table>
 
 
-            <div v-else-if="resource.type === 'openapi-json'">
+            <div v-else-if="resource.format === 'openapi-json'">
                 <v-row>
                     <v-dialog
                         v-model="getApiKeyDialog">
@@ -62,6 +62,7 @@
                 </v-row>
 
                 <v-row>
+                    <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
                     <v-col cols=12 v-html="redocEle"></v-col>
                 </v-row>
             </div>

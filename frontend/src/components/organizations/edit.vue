@@ -45,6 +45,7 @@
                             :textFields="textFields"
                             :editing="true"
                             :values="group"
+                            :loggedIn="loggedIn"
                             :disabled="disabled"
                             ref="dynoForm"
                             area="/organization/"
@@ -102,6 +103,7 @@ export default {
             group: state => state.organization.organization,
             schema: state => state.organization.schemas,
             userOrgs: state => state.organization.userOrgs,
+            loggedIn: state => state.user.loggedIn,
         }),
         userOrgsArr(){
             let orgArr = [];

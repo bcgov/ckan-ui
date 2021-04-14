@@ -244,4 +244,49 @@ export class CkanApi {
         return axios.delete(url, { withCredentials: true }).then(response => response.data);
     }
 
+    getUsage(startY, startM, endY, endM, count, publisher){
+        let url = '/api/ckan/usage'
+        let addedToUrl = false;
+        if (startY){
+            addedToUrl = true;
+            url += "?start_year=" + startY
+        }
+
+        if (startM){
+            url += (addedToUrl) ? "&" : "?";
+            addedToUrl = true;
+            url += "start_month=" + startM
+        }
+
+        if (endY){
+            url += (addedToUrl) ? "&" : "?";
+            addedToUrl = true;
+            url += "end_year=" + endY
+        }
+
+        if (endM){
+            url += (addedToUrl) ? "&" : "?";
+            addedToUrl = true;
+            url += "end_month=" + endM
+        }
+
+        if (count){
+            url += (addedToUrl) ? "&" : "?";
+            addedToUrl = true;
+            url += "count=" + count
+        }
+
+        if (publisher){
+            url += (addedToUrl) ? "&" : "?";
+            url += "publisher=" + publisher
+        }
+
+        return axios.get(url, { withCredentials: true }).then(response => response.data);
+    }
+
+    getPublishers(){
+        let url = '/api/ckan/publishers'
+        return axios.get(url, { withCredentials: true }).then(response => response.data);
+    }
+
 }
