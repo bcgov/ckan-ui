@@ -67,7 +67,12 @@
           </v-col>
         </v-row>
         <v-row wrap class="mb-8 mr-md-1 pl-6">
-            <v-col cols=11 sm=7>
+
+            <v-col cols=11 sm=7 v-if="loading">
+                <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
+            </v-col>
+            
+            <v-col cols=11 sm=7 v-else>
                 <OrgTree :top="true" v-for="(org, key) in orgList" :key="'org-tree-'+key" :passedOrg="{key: org, org: orgs[org]}"></OrgTree>
             </v-col>
             <v-col cols=1 sm=1></v-col>
@@ -124,6 +129,8 @@
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics();
 
+    import Vue from 'vue';
+
     import { mapState } from 'vuex';
 
     export default {
@@ -163,6 +170,7 @@
                 organizations: state => state.organization.orgList,
                 sysAdmin: state => state.user.sysAdmin,
                 searchText: state => state.organization.searchText,
+                loading: state => state.organization.loading,
             }),
 
             orgList: function(){
@@ -204,7 +212,7 @@
                         }
                     }
 
-                    this.orgs = Object.assign({}, result);
+                    Vue.set(this, 'orgs', result);
                     this.count = Object.keys(this.orgs).length;
                 }
 

@@ -45,6 +45,7 @@
                             :textFields="textFields"
                             :editing="true"
                             :values="group"
+                            :loggedIn="loggedIn"
                             :disabled="disabled"
                             ref="dynoForm"
                             area="/group/"
@@ -98,7 +99,8 @@ export default {
     computed: {
         ...mapState({
             group: state => state.group.group,
-            schema: state => state.group.groupSchemas
+            schema: state => state.group.groupSchemas,
+            loggedIn: state => state.user.loggedIn,
         }),
     },
 

@@ -2,7 +2,7 @@ var addRoutes = function(router){
     let request = require('request');
     let auth = require('../../modules/auth');
     const NodeCache = require( "node-cache" );
-    const cache = new NodeCache( { stdTTL: 100, checkperiod: 120 } );
+    const cache = new NodeCache( { stdTTL: 0, checkperiod: 0 } );
     const orgCacheKey = 'orgDict';
 
     /* GET organization. */
@@ -89,61 +89,61 @@ var addRoutes = function(router){
             
             //if here there either was an error or it wasn't defined hit the api
             request(reqUrl, authObj, function(err, apiRes, body){
-            if (err) {
-                console.log(err);
-                res.json({error: err});
-                return;
-            }
-            if (apiRes.statusCode !== 200){
-                console.log("Body Status? ", apiRes.statusCode);
-            }
+                if (err) {
+                    console.log(err);
+                    res.json({error: err});
+                    return;
+                }
+                if (apiRes.statusCode !== 200){
+                    console.log("Body Status? ", apiRes.statusCode);
+                }
     
-            try {
-                let json = JSON.parse(body);
-                let orgList = {};
-                let topLevelOrgs = [];
-                let subOrgs = [];
-                for (let i=0; i<json.result.length; i++) {
-                    let org = json.result[i];
-                if (org.child_of.length === 0) {
-                    topLevelOrgs.push(org);
-                    if (typeof(orgList[org.title.trim()]) === "undefined"){
-                    orgList[org.title.trim()] = {id: org.id, name: org.name, title: org.title, children: []};
-                    }else{
-                        orgList[org.title.trim()].id = org.id;
-                        orgList[org.title.trim()].name = org.name;
-                        orgList[org.title.trim()].title = org.title;
-                    }
-                } else {
-                    subOrgs.push(org);
-                    for (let j=0; j<org.child_of.length; j++){
-                        let parentOrg = org.child_of[j];
-                        let orgItem = {title: org.title.trim(), name: org.name, id: org.id};
-                        if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
-                            orgList[parentOrg.title.trim()] = {};
-                            orgList[parentOrg.title.trim()].children = [orgItem];
-                        }else if (typeof(orgList[parentOrg.title.trim()].children) === "undefined") {
-                            orgList[parentOrg.title.trim()].children = [orgItem];
-                        }else{
-                            orgList[parentOrg.title.trim()].children.push(orgItem);
+                try {
+                    let json = JSON.parse(body);
+                    let orgList = {};
+                    let topLevelOrgs = [];
+                    let subOrgs = [];
+                    for (let i=0; i<json.result.length; i++) {
+                        let org = json.result[i];
+                        if (org.child_of.length === 0) {
+                            topLevelOrgs.push(org);
+                            if (typeof(orgList[org.title.trim()]) === "undefined"){
+                            orgList[org.title.trim()] = {id: org.id, name: org.name, title: org.title, children: []};
+                            }else{
+                                orgList[org.title.trim()].id = org.id;
+                                orgList[org.title.trim()].name = org.name;
+                                orgList[org.title.trim()].title = org.title;
+                            }
+                        } else {
+                            subOrgs.push(org);
+                            for (let j=0; j<org.child_of.length; j++){
+                                let parentOrg = org.child_of[j];
+                                let orgItem = {title: org.title.trim(), name: org.name, id: org.id};
+                                if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
+                                    orgList[parentOrg.title.trim()] = {};
+                                    orgList[parentOrg.title.trim()].children = [orgItem];
+                                }else if (typeof(orgList[parentOrg.title.trim()].children) === "undefined") {
+                                    orgList[parentOrg.title.trim()].children = [orgItem];
+                                }else{
+                                    orgList[parentOrg.title.trim()].children.push(orgItem);
+                                }
+                            }
                         }
                     }
+        
+                    let rv = {
+                        orgs: topLevelOrgs,
+                        suborgs: subOrgs,
+                        orgList: orgList,
+                        success: true
+                    };
+        
+                    cache.set(orgCacheKey, rv, orgTTL);
+                    res.json(rv);
+                }catch(ex){
+                    console.error("Error reading json from ckan", ex);
+                    res.json({error: ex});
                 }
-                }
-    
-                let rv = {
-                    orgs: topLevelOrgs,
-                    suborgs: subOrgs,
-                    orgList: orgList,
-                    success: true
-                };
-    
-                cache.set(orgCacheKey, rv, orgTTL);
-                res.json(rv);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
             });
         });
     

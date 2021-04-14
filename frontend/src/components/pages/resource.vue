@@ -75,8 +75,9 @@
 
                 <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
 
-                <v-btn v-if="!!resource.hasSchema" depressed block color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
-                    <v-icon>mdi-code-json</v-icon>View Schema (JSON Table Schema)
+                <v-btn v-if="!!resource.hasSchema" depressed small text color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
+                    <v-icon>mdi-code-json</v-icon>
+                    {{$tc('View Schema (JSON Table Schema)')}}
                     <v-dialog
                         eager
                         v-model="schemaDialog"
@@ -139,6 +140,7 @@
                             :textFields="textFields"
                             :editing="editing"
                             :values="resource"
+                            :loggedIn="loggedIn"
                             :disabled="disabled"
                             ref="dynoForm"
                             @updated="(field, value) => updateResource(field, value)"
@@ -345,7 +347,8 @@ export default {
             userLoading: state => state.user.loading,
             schemas: state => state.dataset.schemas,
             userOrgs: state => state.organization.userOrgs,
-            datasetError: state => state.dataset.error
+            datasetError: state => state.dataset.error,
+            loggedIn: state => state.user.loggedIn,
         }),
 
         ...mapGetters("dataset", {

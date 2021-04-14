@@ -259,6 +259,10 @@ export default {
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
                 "href": '/api/ckan/rss'
+            },
+            {
+                "title": "Classic Catalogue",
+                "href": this.classicUrl,
             }
             // {
             //     "icon": "mdi-rss",
