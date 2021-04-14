@@ -193,7 +193,10 @@ router.get('/:id', auth.removeExpired, function(req, res, next) {
 });
 
 router.get('/preview/:resourceUrl', auth.removeExpired, function(req, res, next){
+    let config = require('config');
     let url = config.get('ckan');
+
+    let resourceUrl = req.params.resourceUrl
 
     let authObj = {};
 
