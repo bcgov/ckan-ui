@@ -57,10 +57,26 @@
                             <v-row class="pt-3">
                                 <v-img contain height="50px" :src="imgSrc" v-on:error="onImgError"></v-img>
                             </v-row>
+
+                            <v-row wrap v-if="group.url !== ''">
+                                Organization URL: <a :href="group.url" target="_blank">{{group.url}}</a>
+                            </v-row>
+
                             <v-row wrap class="py-5" v-if="group.description">
                                 <Markdown
                                     name="desc"
                                     :value="group.description"
+                                    label=""
+                                    :editing="false"
+                                    :field="group.description"
+                                    :disabled="false"
+                                    placeholder="">
+                                </Markdown>
+                            </v-row>
+                            <v-row wrap class="py-5" v-else-if="group.notes">
+                                <Markdown
+                                    name="notes"
+                                    :value="group.notes"
                                     label=""
                                     :editing="false"
                                     :field="group.description"
@@ -76,7 +92,7 @@
                 </v-dialog>
 
                 <v-dialog
-                    v-if="showEdit"
+                    v-show="showEdit"
                     v-model="editDialog"
                     width="75%"
                 >
