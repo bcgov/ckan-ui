@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 USER root
-RUN echo 11 > /proc/sys/net/ipv4/tcp_syn_retries 
+RUN echo net.ipv4.tcp_syn_retries = 11 >> /etc/sysctl.conf
 USER app
 WORKDIR /app
 COPY backend/package*.json ./
