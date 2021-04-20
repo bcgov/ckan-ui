@@ -347,5 +347,9 @@ export default {
         "View Schema (JSON Table Schema)": "View Schema (JSON Table Schema)",
         "Newest": "Newest",
         "Classic Catalogue": "Classic Catalogue",
+        "Pending Publish": "Pending Publish",
+        "Dataset Usage": "Dataset Usage",
+        "Geographic Data": "Geographic Data",
+        "Copy": "Copy",
     }
 };

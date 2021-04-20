@@ -45,7 +45,7 @@ export default {
     },
     data() {
         return {
-            val: (typeof(this.value) !== 'string') ? JSON.stringify(this.value) : this.value,
+            val: (typeof(this.value) !== 'string') ? JSON.stringify(this.value, null, 2) : this.value,
             validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
             scopeName: this.scope + '.' + this.name,
         }

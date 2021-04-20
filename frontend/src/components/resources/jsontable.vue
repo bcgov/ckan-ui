@@ -4,12 +4,12 @@
           <v-btn class="no-right-margin" icon @click="$emit('closePreviewDialog')">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{name}} - Schema {{resource.schemaInferred ? '(Inferred)' : ''}}</v-toolbar-title>
+          <v-toolbar-title>{{name}} - Schema {{preview.schemaInferred ? '(Inferred)' : ''}}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
 
             <div v-if="schemaError">
-                Q{{schemaError}}
+                {{schemaError}}
             </div>
 
 
@@ -58,20 +58,21 @@ export default{
     },
     props: {
         resource: Object,
+        preview: Object,
     },
     data() {
         return {
             name: this.resource.metadata.name,
             id: this.resource.metadata.id,
-            schemaError: this.resource.schemaError,
+            schemaError: this.preview.schemaError,
             loading: false,
-            schema: this.resource.schema,
+            schema: this.preview.schema,
             fields: []
         }
     },
     mounted(){
-        if (this.resource.schema.Fields && !this.schema.fields){
-            this.schema.fields = JSON.parse(JSON.stringify(this.resource.schema.Fields))
+        if (this.preview.schema.Fields && !this.schema.fields){
+            this.schema.fields = JSON.parse(JSON.stringify(this.preview.schema.Fields))
         }
         this.fields = this.schema.fields;
     }

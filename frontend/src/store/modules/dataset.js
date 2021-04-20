@@ -56,7 +56,11 @@ const state = {
     error: null,
     facetList: {},
     facetOpen: {},
-    facets: {}
+    facets: {},
+    previewPromise: false,
+    preview: {},
+    previewLoading: false,
+    previewError: false,
 };
 
 const getters = {
@@ -150,17 +154,7 @@ const actions = {
 
         });
     },
-    //getResource(context, {datasetResourceIndex, id}){
-    // getResource(context, {id}){
-    //     if ( (typeof(context.state.resources[id]) !== "undefined") && (context.state.resource[id] !== null) ){
-    //         return context.state.resources[id];
-    //     }
-
-    //     resourceServ.getResource(id).then((data) => {
-    //         data.metadata = data
-    //         context.commit('setResource', {id: id, resource: data.metadata});
-    //     });
-    // },
+   
     getResource({ commit, dispatch, state }, { id }) {
         commit('clearError');
         commit('setResourceLoading', { resourceLoading: true });
@@ -169,6 +163,11 @@ const actions = {
                 data.metadata = data;
 				commit('setCurrentResource', { resource: data });
 				commit('setResourceLoading', { resourceLoading: false });
+                if (state.previewPromise){
+                    state.previewPromise.cancel('New preview requested');
+                }
+                let prom = dispatch('getPreview');
+                commit('setPreviewPromise', {promise: prom});
 				if (state.dataset.id !== data.package_id) {
 					dispatch('getDataset', { id: data.package_id });
 				}
@@ -181,6 +180,25 @@ const actions = {
             commit('setResourceLoading', { resourceLoading: false });
         });
     },
+
+    getPreview( { state, commit } ){
+        commit('setPreviewLoading', { loading: true });
+        resourceServ.getPreview(state.resource.url, state.resource.json_table_schema).then( ( data ) => {
+			if (data) {
+                data.metadata = data;
+				commit('setCurrentPreview', { preview: data });
+				commit('setPreviewLoading', { loading: false });
+			} else {
+                commit('setPreviewError', { error: data.error });
+                commit('setPreviewLoading', { loading: false });
+            }
+            commit('setPreviewPromise', {promise: false});
+        }).catch((e) => {
+            commit('setPreviewError', { error: e });
+            commit('setPreviewLoading', { loading: false });
+        });
+    },
+
     setDataset({ state }) {
         let dataset = JSON.parse(JSON.stringify(state.dataset));
         
@@ -313,6 +331,15 @@ const mutations = {
         state.resource = Object.assign({}, resource);
         state.unmodifiedResource = Object.assign({}, resource);
     },
+    setCurrentPreview(state, { preview }){
+        Vue.set(state, 'preview', preview);
+    },
+    setPreviewLoading(state, { loading }){
+        Vue.set(state, 'previewLoading', loading);
+    },
+    setPreviewPromise(state, {promise}){
+        Vue.set(state, 'previewPromise', promise);
+    },
     setCurrentNotUnmodResource(state, { resource }) {
         state.resource = Object.assign({}, resource);
     },
@@ -361,6 +388,9 @@ const mutations = {
     },
     setError(state, { error }) {
         Vue.set(state, 'error', error);
+    },
+    setPreviewError(state, { error }) {
+        Vue.set(state, 'previewError', error);
     },
     setFacetList(state, { facetList }) {
         state.facetList = Object.assign({}, facetList);
