@@ -3,6 +3,9 @@ let router = express.Router();
 let request = require('request');
 let auth = require('../modules/auth');
 let stringify = require('json-stringify-safe')
+
+const ROWS_TO_INFER_ON = 10;
+
 /* GET one resource. */
 router.get('/:id', auth.removeExpired, function(req, res, next) {
   let config = require('config');
@@ -69,8 +72,8 @@ router.get('/preview/:resourceUrl', auth.removeExpired, function(req, res, next)
     }
     let responseObj = {};
     try{
-        if ((req.params.json_table_schema) && (req.params.json_table_schema !== "null")){
-            responseObj.json_table_schema = JSON.parse(req.params.json_table_schema);
+        if ((req.query.json_table_schema) && (req.query.json_table_schema !== "{}") && (req.query.json_table_schema !== "null")){
+            responseObj.json_table_schema = JSON.parse(req.query.json_table_schema);
         }
     }catch(ex){
         console.error("Invalid json table schema provided, continuing without it");
@@ -78,14 +81,13 @@ router.get('/preview/:resourceUrl', auth.removeExpired, function(req, res, next)
 
     request(resourceUrl, authObj, async function(err, apiRes, body){
         var getResourceSchema = async function(resource, headers, data) {
-            const Schema = require('jsontableschema').Schema;
-            var infer = require('jsontableschema').infer;
+            const {Schema, infer} = require('tableschema');
 
             let s = null;
             if (resource && resource.json_table_schema){
                 s = resource.json_table_schema;
                 try{
-                    let model = await new Schema(s);
+                    let model = await Schema.load(s);
                     return model;
                 }catch(e){
                     console.error(e);
@@ -94,9 +96,17 @@ router.get('/preview/:resourceUrl', auth.removeExpired, function(req, res, next)
 
             } else if (headers.length>0 && data.length>0){
                 let options = {
-                    rowLimit: 2,
+                    // rowLimit: 2,
                 };
-                s = await infer(headers, data, options);
+                let h = [];
+                for (let i=0; i<headers.length; i++){
+                    h.push(headers[i].text);
+                }
+                h = [h];
+                data = h.concat(data);
+                console.log("HI", data);
+                s = await infer(data, h, options);
+                console.log("HI2");
                 return s;
             }
         }
@@ -139,12 +149,18 @@ router.get('/preview/:resourceUrl', auth.removeExpired, function(req, res, next)
                     for (let i=0; i<headerKeys.length; i++){
                         headers.push({text: headerKeys[i], value: headerKeys[i]});
                     }
+                    let top2Rows = sheetJson.slice(0, ROWS_TO_INFER_ON);
+                    for (let i=0; i<top2Rows.length; i++){
+                        top2Rows[i] = Object.values(top2Rows[i]);
+                    }
                     responseObj.headers = headers;
                     responseObj.type = "csv";
                     responseObj.data = body
                     if(!responseObj.json_table_schema) {
                         try {
-                            let s = await getResourceSchema(null, responseObj.headers, responseObj.data);
+                            console.log("inferring schema");
+                            let s = await getResourceSchema(null, responseObj.headers, top2Rows);
+                            console.log("inferred schema", s);
                             responseObj.schema = JSON.parse(JSON.stringify(s));
                             responseObj.schemaInferred = true
                             responseObj.hasSchema = typeof(responseObj.schema) !== "undefined" && Object.keys(responseObj.schema).length > 0;

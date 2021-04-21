@@ -12,34 +12,50 @@
                 {{schemaError}}
             </div>
 
-
             <div v-else-if="fields.length>0">
-                <div v-for="field in fields" :key="'schema'+((field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name)">
-                    <h3>Field: {{(field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name}}</h3>
-                    <div class="capitalize" v-if="field.type || field.descriptor.type">Type: {{field.type || field.descriptor.type}}</div>
-                    <div class="capitalize" v-if="field.description || (field.descriptor && field.descriptor.description)">Description: {{field.description || field.descriptor.description}}</div>
-                    <!-- <div>{{field.constraints}} {{ field.descriptor.constraints}}</div> -->
-                    <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field.descriptor && field.descriptor.constraints && field.descriptor.constraints.required)">Required: {{(field.constraints && typeof(field.constraints.required)!=='undefined' ? (field.constraints.required ? "Yes" : "No") : false) || field.descriptor.constraints.required ? "Yes" : "No"}}</div>
-                    <div class="capitalize" v-if="field.format || (field.descriptor && field.descriptor.format)">Format: {{field.format || field.descriptor.format}}</div>
-                    <div class="capitalize" v-if="field.descriptor">
-                        Constraints: <br />
-                        <ul>
-                            <li class="capitalize" v-for="(cons, key) in field.descriptor.constraints" :key="'constraint-'+((field.name && field.name.text ? field.name.text : false) || field.name || field.descriptor.name)+'-'+key">
-                                {{key}}: {{cons}}
-                            </li>
-                        </ul>
-                    </div>
-                    <div v-if="field.descriptor">
-                    <h4>Other Information</h4>
-                        <div v-for="(descript, key) in field.descriptor" :key="'genericInfo-'+field.name+'-'+key" class="capitalize">
-                            <span v-if="!['type', 'name', 'description', 'format', 'constraints'].includes(key)">
-                                {{key}}: {{descript}}
-                            </span>
-                        </div>
-                        <span v-if="Object.keys(field.descriptor).length==5">None</span>
-                    </div>
-                    <hr />
+                <div v-if="preview.schemaInferred">
+                    <v-radio-group v-model="showRaw" row>
+                        <v-radio
+                            label="Raw"
+                            :value="true">
+                        </v-radio>
+                        <v-radio
+                            label="Rendered"
+                            :value="false">
+                        </v-radio>
+                    </v-radio-group>
                 </div>
+                <span v-if="!showRaw">
+                    <div v-for="field in fields" :key="'schema'+((field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name)">
+                        <h3>Field: {{(field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name}}</h3>
+                        <div class="capitalize" v-if="field.type || field._descriptor.type">Type: {{field.type || field._descriptor.type}}</div>
+                        <div class="capitalize" v-if="field.description || (field._descriptor && field._descriptor.description)">Description: {{field.description || field._descriptor.description}}</div>
+                        <!-- <div>{{field.constraints}} {{ field._descriptor.constraints}}</div> -->
+                        <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field._descriptor && field._descriptor.constraints && field._descriptor.constraints.required)">Required: {{(field.constraints && typeof(field.constraints.required)!=='undefined' ? (field.constraints.required ? "Yes" : "No") : false) || field._descriptor.constraints.required ? "Yes" : "No"}}</div>
+                        <div class="capitalize" v-if="field.format || (field._descriptor && field._descriptor.format)">Format: {{field.format || field._descriptor.format}}</div>
+                        <div class="capitalize" v-if="field._descriptor">
+                            Constraints: <br />
+                            <ul>
+                                <li class="capitalize" v-for="(cons, key) in field._descriptor.constraints" :key="'constraint-'+((field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name)+'-'+key">
+                                    {{key}}: {{cons}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div v-if="field._descriptor">
+                        <h4>Other Information</h4>
+                            <div v-for="(descript, key) in field._descriptor" :key="'genericInfo-'+field.name+'-'+key" class="capitalize">
+                                <span v-if="!['type', 'name', 'description', 'format', 'constraints'].includes(key)">
+                                    {{key}}: {{descript}}
+                                </span>
+                            </div>
+                            <span v-if="Object.keys(field._descriptor).length==5">None</span>
+                        </div>
+                        <hr />
+                    </div>
+                </span>
+                <span v-else>
+                    {{preview.schema}}
+                </span>
             </div>
             <v-progress-circular
                 v-else
@@ -67,12 +83,13 @@ export default{
             schemaError: this.preview.schemaError,
             loading: false,
             schema: this.preview.schema,
-            fields: []
+            fields: [],
+            showRaw: false,
         }
     },
     mounted(){
-        if (this.preview.schema.Fields && !this.schema.fields){
-            this.schema.fields = JSON.parse(JSON.stringify(this.preview.schema.Fields))
+        if (this.preview.schema._fields && !this.schema.fields){
+            this.schema.fields = JSON.parse(JSON.stringify(this.preview.schema._fields))
         }
         this.fields = this.schema.fields;
     }

@@ -7,10 +7,10 @@
                     <template v-slot:activator="{ on }">
                         <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
                     </template>
-                    <span>{{field.help_text}}</span>
+                    <span v-html="field.help_text">}</span>
                 </v-tooltip>
             </label>
-            <span>{{ (empty) ? $tc("Not provided") : val  }}</span>
+            <span class="preserveWhite">{{ (empty) ? $tc("Not provided") : val  }}</span>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-textarea
@@ -95,5 +95,9 @@ export default {
 .fixedWidth{
     width: 300px;
     display: inline-block;
+}
+
+.preserveWhite{
+    white-space: pre;
 }
 </style>
