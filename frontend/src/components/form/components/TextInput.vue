@@ -42,10 +42,18 @@ export default {
         },
     },
     data() {
+        let v = ( ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : '');
+        if (this.name.indexOf("url") >= 0){
+            v = {
+                url: {require_tld: true, require_host: true},
+                required: (v === 'required'),
+            }
+        }
+
         return {
             val: this.value,
             displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
-            validate: ( ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
+            validate: v,
             scopeName: this.scope + '.' + this.name,
         }
     },
