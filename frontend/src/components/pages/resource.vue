@@ -79,7 +79,7 @@
                 <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
-                    <v-icon v-if="!previewLoading">mdi-code-json</v-icon>
+                    <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
                     <v-progress-circular v-else :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
                     {{$tc('View Schema (JSON Table Schema)')}}
                     <v-dialog
