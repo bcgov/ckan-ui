@@ -92,12 +92,11 @@
                 </v-dialog>
 
                 <v-dialog
-                    v-show="showEdit"
                     v-model="editDialog"
                     width="75%"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-if="showEdit" v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                        <v-btn v-show="showEdit" v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
                     </template>
                     <Edit
                         v-on:closeEdit='editDialog = false'
@@ -250,7 +249,8 @@
                 return this.$route.params.organizationId;
             },
             imgSrc: function(){
-                let imgUrl = (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+                let imgUrl = (this.group.image_display_url) ? this.group.image_display_url : this.group.image_url;
+                
                 if ( (this.imgError) || (imgUrl === "") ){
                     return "/placeholder-organization.png"
                 }
