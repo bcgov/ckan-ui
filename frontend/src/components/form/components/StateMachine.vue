@@ -11,6 +11,7 @@
         </label>
         <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
             <span class="value mb-0 pb-0">{{translate ? $tc(this.labelLookup[this.val]) : this.labelLookup[this.val]}}</span>
+            <span v-if="!validValue">{{this.val}}</span>
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
         <span v-else>
@@ -163,6 +164,9 @@ export default {
                         this.stepNo = i;
                     }
                 }
+            }
+            if (!this.validValue){
+                this.nextStates = [JSON.parse(JSON.stringify(this.field.startState))];
             }
             this.nextStates.push({state: currentStateItem.value, by: []})
 

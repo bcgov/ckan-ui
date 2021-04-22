@@ -182,6 +182,7 @@ r.beforeEach((to, from, next) => {
             store.commit('nav/setLastDatasetListPage', window.currentUrl);
             if ((to.name !== store.state.nav.lastDatasetListPageTo) && (store.state.search.clearOnRedirect)){
                 store.commit('search/setSearchText', "");
+                store.commit('search/defaultSortOrder');
                 store.commit('search/clearAllFacets');
             }
             store.commit('search/setClearOnRedirect', true);

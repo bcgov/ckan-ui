@@ -14,14 +14,19 @@
                 color="light-blue"
             ></v-progress-circular>
 
-            <v-data-table v-else-if="resource.headers && resource.headers.length>0" :items="resource.workbook" :headers="resource.headers">
+            <v-data-table v-else-if="preview.headers && preview.headers.length>0" :items="preview.workbook" :headers="preview.headers">
                 <template v-slot:items="props">
                     <td v-for="(item, key) in props.item" :key="key">{{item}}</td>
                 </template>
             </v-data-table>
 
+            <div v-else-if="preview['content-type'] && preview['content-type'].indexOf('image/')===0">
+                <v-img v-if="!imageError" contain :src="resource.url" height="200" v-on:error="onImgError"></v-img>
+                <div v-else>Error retrieving the image</div>
+            </div>
 
-            <div v-else-if="resource.format === 'openapi-json'">
+
+            <div v-else-if="preview.format === 'openapi-json'">
                 <v-row>
                     <v-dialog
                         v-model="getApiKeyDialog">
@@ -67,7 +72,7 @@
                 </v-row>
             </div>
 
-            <div v-else-if="resource.type && resource.type === 'pdf'">
+            <div v-else-if="preview.type && preview.type === 'pdf'">
                 <pdf :src="resource.url" :page="page">
                     <template slot="loading">
                         Loading...
@@ -88,7 +93,7 @@
                 <iframe :src="previewURL" frameborder="0" width="100%" :height="winHeight"></iframe>
             </div>
 
-            <div v-else-if="resource.type === '404'">We're sorry we were unable to retrieve your file</div>
+            <div v-else-if="preview.type === '404'">We're sorry we were unable to retrieve your file</div>
 
             <div v-else>We're sorry we don't currently support previewing this type of file</div>
       </v-card-text>
@@ -105,6 +110,7 @@ export default {
     },
     props: {
         resource: Object,
+        preview: Object,
     },
     data() {
         let API_KEY_ORIGIN = 'https://gwa.apps.gov.bc.ca'
@@ -115,7 +121,8 @@ export default {
             getApiKeyDialog: false,
             apiKeyOrigin: API_KEY_ORIGIN,
             apiKeyUrl: API_KEY_ORIGIN+'/ui/apiKeys',
-            apiKeyHelpUrl: 'https://github.com/bcgov/gwa/wiki/Developer-Guide'
+            apiKeyHelpUrl: 'https://github.com/bcgov/gwa/wiki/Developer-Guide',
+            imageError: false,
         }
     },
     computed: {
@@ -142,11 +149,16 @@ export default {
                     previewInfo = this.resource.metadata.preview_info;
                 }
 
+                if ( (typeof(previewInfo.layer_name) === "undefined") || (typeof(previewInfo.preview_longitude) === "undefined") ||
+                     (typeof(previewInfo.preview_latitude) === "undefined") || (typeof(previewInfo.preview_latitude) === "undefined") ||
+                     (typeof(previewInfo.preview_zoom_level) === "undefined") ){
+                         return false;
+                     }
+
                 let retURL = this.basePreviewURL + previewInfo.layer_name;
                 let smkCenter = '';
-                if (previewInfo.preview_longitude && previewInfo.preview_latitude && previewInfo.preview_zoom_level){
-                    smkCenter = "&smk-center=" + previewInfo.preview_longitude + "," + previewInfo.preview_latitude + "," + previewInfo.preview_zoom_level
-                }
+                smkCenter = "&smk-center=" + previewInfo.preview_longitude + "," + previewInfo.preview_latitude + "," + previewInfo.preview_zoom_level
+                
                 retURL += smkCenter;
 
                 return retURL;
@@ -179,7 +191,7 @@ export default {
         },
         winHeight: function() {
             return window.innerHeight - 64;
-        }
+        },
 
     },
     methods: {
@@ -195,6 +207,10 @@ export default {
             };
             window.addEventListener('message', messageFunc);
             this.getApiKeyDialog = true;
+        },
+
+        onImgError(){
+            this.imageError = true;
         },
 
         clearApiKey(){
