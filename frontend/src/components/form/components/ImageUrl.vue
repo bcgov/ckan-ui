@@ -54,7 +54,7 @@ export default {
     data() {
         return {
             val: this.value,
-            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
+            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? {required: 'required', url: {require_tld: true, require_host: true}} : {url: {require_tld: true, require_host: true}}),
             allowURL: this.field.field_name === "url",
             isURL: this.field.field_name === "url" ? true : false,
             scopeName: this.scope + '.' + this.name,

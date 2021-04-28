@@ -89,11 +89,12 @@ export default {
             formError: "",
             formSuccess: "",
             disabled: false,
-            textFields: ["short_name"],
+            textFields: ["short_name", "url"],
             loading: false,
             error: false,
-            createMode: this.create
-
+            createMode: this.create,
+            expectedNameUpdate: false,
+            urlEdited: false,
         }
     },
 
@@ -138,7 +139,23 @@ export default {
         updateGroup(field, value){
             if (field === "groups"){
                 this.group.groups = [{name: value}];
+            }else if (field === "upload"){//dynamic form forced label "Image url" to return as upload
+                this.group.image_url = value;
             }else{
+                if (this.create){
+                    if (field === "name"){
+                        if (!this.expectedNameUpdate){
+                            this.urlEdited = true;
+                        }
+                        this.expectedNameUpdate = false;
+                    }else if (field === 'title'){
+                        if ( (!this.urlEdited) && (value) ){
+                            this.group.name = value.toLowerCase().replace(/[^A-Za-z0-9_]+/g, '-');
+                            this.expectedNameUpdate = true;
+                        }
+
+                    }
+                }
                 this.group[field] = value;
             }
             this.$store.commit('organization/setCurrentNotUnmod', { group: this.group } );
