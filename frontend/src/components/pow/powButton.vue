@@ -183,9 +183,7 @@ export default {
     },
 
     destroyed () {
-        console.log("pow button destroyed");
         for (let i=0; i<this.scriptTags.length; i++){
-            console.log("removing ", this.scriptTags[i]);
             this.scriptTags[i].remove();
         }
     }
