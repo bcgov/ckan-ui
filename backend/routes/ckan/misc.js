@@ -114,8 +114,6 @@ var addRoutes = function(router){
                 return res.json({error: ex});
             }
         });
-
-        
     });
 
     router.get('/publishers', function(req, res, next){

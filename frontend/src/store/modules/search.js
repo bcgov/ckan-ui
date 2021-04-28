@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+import router from '../../router/index';
+
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
@@ -69,7 +71,7 @@ const mutations = {
         state.searchText = text;
         state.clearOnRedirect = false;
         state.sortOrder = DEFAULT_SORT_WITH_TEXT_ORDER;
-        window.location.href = "/datasets";
+        router.push('/datasets');
     },
 
     setSortOrder(state, sort){
