@@ -27,7 +27,7 @@
                                         </v-tooltip>
                                     </label>
                                     
-                                    <span class="py-1 valueSpan" v-line-clamp:1.5="1">
+                                    <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
 
                                         <span v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
                                             <span v-if="sub.field_name === 'org'">
@@ -376,6 +376,12 @@ export default {
     .valueSpan{
         max-width: calc(100% - 330px);
     }
+
+    .valueSpan:hover{
+        max-width: none;
+        width: auto;
+    }
+
     .value{
         font-size: 16px;
         color: var(--v-faded_text-base);

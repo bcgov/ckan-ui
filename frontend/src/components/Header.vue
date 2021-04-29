@@ -13,9 +13,9 @@
 
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
-      <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10 cappedHeight">
+      <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10">
         <v-container fluid class="header-container py-0">
-            <v-row class="header-row">
+            <v-row class="header-row cappedHeight">
                 <v-col cols=7 class="py-0 h-100">
                 <!-- Navbar content -->
                     <a id="header-gov-logo" href="/" class="v-top">
