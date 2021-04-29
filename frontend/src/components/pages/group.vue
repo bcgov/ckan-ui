@@ -75,10 +75,9 @@
                 <v-dialog
                     v-model="editDialog"
                     width="75%"
-                    v-if="showEdit"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn  v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
+                        <v-btn  v-on="on" v-show="showEdit" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Groups', 1)}}</v-btn>
                     </template>
                     <Edit
                         v-on:closeEdit='editDialog = false'
@@ -216,7 +215,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;
