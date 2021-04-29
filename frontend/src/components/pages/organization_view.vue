@@ -264,7 +264,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;

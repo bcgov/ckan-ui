@@ -35,7 +35,8 @@ export default {
     data() {
         return {
             dialog: false,
-            button: false
+            button: false,
+            scriptTags: [],
         }
     },
     components: {
@@ -149,10 +150,13 @@ export default {
                 '/js/xdLocalStorage.js'
             ];
 
+            let self = this;
+
             scripts.map(function(script) {
                 var el = document.createElement('script');
                 el.type = 'text/javascript';
                 el.src = script;
+                self.scriptTags.push(el);
                 document.body.appendChild(el);
                 return script;
             });
@@ -176,6 +180,12 @@ export default {
     mounted () {
         this.get_pow_config()
         this.get_ofi_config()
+    },
+
+    destroyed () {
+        for (let i=0; i<this.scriptTags.length; i++){
+            this.scriptTags[i].remove();
+        }
     }
 }
 </script>
