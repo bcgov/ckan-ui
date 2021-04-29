@@ -13,7 +13,7 @@
 
     <div class="headerSpacer"></div>
     <header class="gov-header gov-yellow-border-bottom">
-      <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10">
+      <v-toolbar color="primary" flat fixed dense height="65px" class="px-md-10 cappedHeight">
         <v-container fluid class="header-container py-0">
             <v-row class="header-row">
                 <v-col cols=7 class="py-0 h-100">
@@ -343,9 +343,7 @@ export default {
       search: function(e){
           if (e.keyCode === 13 || e.type === 'click') {
               this.showSearch = false;
-              this.$store.commit('search/setSearchText', this.findText);
-              this.$store.commit('search/setClearOnRedirect', false);
-              this.$router.push('/datasets')
+              this.$store.commit('search/setSearchTextAndRedirect', this.findText);
           }
       },
 
@@ -510,6 +508,11 @@ export default {
     border-top: 0;
     height: 100%;
     min-height: 80px;
+  }
+
+  .cappedHeight{
+    max-height: 65px;
+    overflow: hidden;
   }
 
 </style>
