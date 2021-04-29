@@ -345,6 +345,10 @@
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getOrganization();
+        },
+
+        destroyed(){
+            this.$store.commit('organization/setCurrentNotUnmod', {group: {}})
         }
 
     }
