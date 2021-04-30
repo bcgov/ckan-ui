@@ -29,20 +29,25 @@
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
 
-                                        <span v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
-                                            <span v-if="sub.field_name === 'org'">
-                                                <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
-                                            </span>
-                                            <span v-else-if="sub.field_name === 'url'">
-                                                <a :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                            </span>
-                                            <span v-else-if="sub.field_name === 'email'">
-                                                <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                            </span>
-                                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
-                                            <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
-                                        </span>
-                                        <span v-else>{{$tc('Not Provided')}}</span>
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on }">
+                                                <span v-on=on v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
+                                                    <span v-if="sub.field_name === 'org'">
+                                                        <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
+                                                    </span>
+                                                    <span v-else-if="sub.field_name === 'url'">
+                                                        <a :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                    </span>
+                                                    <span v-else-if="sub.field_name === 'email'">
+                                                        <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                                    </span>
+                                                    <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
+                                                    <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
+                                                </span>
+                                                <span v-else>{{$tc('Not Provided')}}</span>
+                                            </template>
+                                            <span>{{(model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)) ? model[repeatedIndex][sub.field_name] : tc('Not Provided')}}</span>
+                                        </v-tooltip>
                                     </span>
                                 </v-row>
                             </span>
@@ -377,9 +382,12 @@ export default {
         max-width: calc(100% - 330px);
     }
 
-    .valueSpan:hover{
-        max-width: none;
-        width: auto;
+    .fullValue{
+        display: hidden;
+    }
+
+    .valueSpan:hover .fullValue{
+        display: block;
     }
 
     .value{
