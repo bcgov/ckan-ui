@@ -22,8 +22,8 @@
       "custom_aoi_url": "https://aoi.apps.gov.bc.ca",
       "persist_config": true,
       "enable_mow": false,
-      "public_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi",
-      "secure_url": "https://delivery.apps.gov.bc.ca/ext/dwds-pow",
+      "public_url": "https://apps.gov.bc.ca/pub/dwds-ofi",
+      "secure_url": "https://apps.gov.bc.ca/ext/dwds-pow",
       "ui_path": "/jsp/dwds_pow_current_order.jsp?",
       "order_source": "bcdc",
       "order_details": {
@@ -41,8 +41,8 @@
     "api": {
       "convert_to_single_res": true,
       "dev_secure_call": true,
-      "public_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi",
-      "secure_url": "https://delivery.apps.gov.bc.ca/pub/dwds-ofi/secure"
+      "public_url": "https://apps.gov.bc.ca/pub/dwds-ofi",
+      "secure_url": "https://apps.gov.bc.ca/pub/dwds-ofi/secure"
     }
   },
 

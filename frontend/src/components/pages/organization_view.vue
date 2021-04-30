@@ -57,10 +57,26 @@
                             <v-row class="pt-3">
                                 <v-img contain height="50px" :src="imgSrc" v-on:error="onImgError"></v-img>
                             </v-row>
+
+                            <v-row wrap v-if="group.url !== ''">
+                                Organization URL: <a :href="group.url" target="_blank">{{group.url}}</a>
+                            </v-row>
+
                             <v-row wrap class="py-5" v-if="group.description">
                                 <Markdown
                                     name="desc"
                                     :value="group.description"
+                                    label=""
+                                    :editing="false"
+                                    :field="group.description"
+                                    :disabled="false"
+                                    placeholder="">
+                                </Markdown>
+                            </v-row>
+                            <v-row wrap class="py-5" v-else-if="group.notes">
+                                <Markdown
+                                    name="notes"
+                                    :value="group.notes"
                                     label=""
                                     :editing="false"
                                     :field="group.description"
@@ -76,12 +92,11 @@
                 </v-dialog>
 
                 <v-dialog
-                    v-if="showEdit"
                     v-model="editDialog"
                     width="75%"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
+                        <v-btn v-show="showEdit" v-on="on" text small depressed color="primary"><v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc('Edit') + ' ' + $tc('Organizations', 1)}}</v-btn>
                     </template>
                     <Edit
                         v-on:closeEdit='editDialog = false'
@@ -234,7 +249,8 @@
                 return this.$route.params.organizationId;
             },
             imgSrc: function(){
-                let imgUrl = (this.group.image_display_url) ? this.group.image_display_url : this.group.url;
+                let imgUrl = (this.group.image_display_url) ? this.group.image_display_url : this.group.image_url;
+                
                 if ( (this.imgError) || (imgUrl === "") ){
                     return "/placeholder-organization.png"
                 }
@@ -248,7 +264,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;
@@ -329,6 +345,10 @@
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getOrganization();
+        },
+
+        destroyed(){
+            this.$store.commit('organization/setCurrentNotUnmod', {group: {}})
         }
 
     }

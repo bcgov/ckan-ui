@@ -88,10 +88,18 @@ export default {
         iu = ( (iu === null) && (typeof(this.isURL) !== "undefined") ) ? this.isUrl : iu;
         iu = ( (iu === null) && (this.field.field_name === "url") ) ? (this.field.field_name === "url"): iu;
 
+        let v = (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : '');
+        if (iu) {
+            v = {
+                url: {require_tld: true, require_host: true},
+                required: (v === "required")
+            }
+        }
+
         return {
             val: this.value,
             fileVal: (this.upload) ? this.upload : null,
-            validate: (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''),
+            validate: v,
             allowURL: this.field.field_name === "url",
             isURL: iu,
             scopeName: this.scope + '.' + this.name,

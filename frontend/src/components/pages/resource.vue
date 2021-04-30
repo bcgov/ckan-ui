@@ -58,8 +58,10 @@
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text color="primary" @click.stop="previewDialog = true">
-                    <v-icon>mdi-fullscreen</v-icon>&nbsp;{{$tc('Preview')}}
+                <v-btn v-if="!editing" small depressed text :disabled="previewLoading" color="primary" @click.stop="previewDialog = true">
+                    <v-icon v-if="!previewLoading">mdi-fullscreen</v-icon>
+                    <v-progress-circular v-else :size="20" :width="2" color="grey" indeterminate></v-progress-circular>
+                    &nbsp;{{$tc('Preview')}}
                     <v-dialog
                         eager
                         v-model="previewDialog"
@@ -68,6 +70,7 @@
                     >
                         <Preview
                             :resource="resource"
+                            :preview="preview"
                             v-on:closePreviewDialog="previewDialog = false"
                         ></Preview>
                     </v-dialog>
@@ -75,8 +78,9 @@
 
                 <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
 
-                <v-btn v-if="!!resource.hasSchema" depressed small text color="primary" @click.stop="schemaDialog = true" class="ctrl-button">
-                    <v-icon>mdi-code-json</v-icon>
+                <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
+                    <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
+                    <v-progress-circular v-else :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
                     {{$tc('View Schema (JSON Table Schema)')}}
                     <v-dialog
                         eager
@@ -86,6 +90,7 @@
                     >
                         <JsonTable
                             :resource="resource"
+                            :preview="preview"
                             v-on:closePreviewDialog="schemaDialog = false"
                         ></JsonTable>
                     </v-dialog>
@@ -349,6 +354,10 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             loggedIn: state => state.user.loggedIn,
+
+            previewLoading: state => state.dataset.previewLoading,
+            preview: state => state.dataset.preview,
+            previewError: state => state.dataset.previewError,
         }),
 
         ...mapGetters("dataset", {

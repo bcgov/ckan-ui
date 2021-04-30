@@ -21,7 +21,7 @@ let seoRouter = require('./routes/seo');
 let app = express();
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json({limit: '10Gb'}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));

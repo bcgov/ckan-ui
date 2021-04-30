@@ -21,7 +21,7 @@ export class CkanApi {
 
     getDataset(id) {
         const url = '/api/ckan/dataset?id='+id;
-        return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
     putDataset(dataset) {
