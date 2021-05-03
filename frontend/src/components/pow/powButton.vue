@@ -93,7 +93,7 @@ export default {
                 ],
             }
 
-            //let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
+            /*let powOrder = */new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
             this.runOrder(pow_ready)
         },
 
