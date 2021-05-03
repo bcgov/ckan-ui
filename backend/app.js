@@ -73,14 +73,16 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
         profile.sysAdmin = true;
     }
 
-    if (g.indexOf(sep) !== -1){
-        let c = g.substring(g.indexOf(sep)+1);
+    parts = g.split(sep);
+
+    if (parts.length >= 2){
+        let c = parts[parts.length-1];
         if (c === "admin"){
           profile.isAdmin = true;
         }else if (c === "editor"){
           profile.isEditor = true;
         }
-        g = g.substring(0, g.indexOf(sep));
+        g = parts[parts.length-2];
         profile.userPermissions[g] = c;
     }
   }
