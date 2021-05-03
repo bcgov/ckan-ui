@@ -14,13 +14,13 @@
 -----------------------
 
 ## RESOURCES
-+	BC Data Catalogue: https://data.gov.bc.ca/
-+	User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
++ BC Data Catalogue: https://data.gov.bc.ca/
++ User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 
 # WHAT'S NEW
-## 2021
+## 2021 Beta
 ### May 2021
 + Release of Beta!
 + Decoupling back end and from end
@@ -36,14 +36,9 @@
 |New |Old|
 |:---:|:---|
 |PUBLIC | LOW-PUBLIC|
-
-
-## 2020
-### July 13, 2020
 + Security Classifications update to match OCIO Information Security Classification Guidelines
     - https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92
     - Mapping:
-
 |New |Old|
 |:---:|:---|
 |PUBLIC | LOW-PUBLIC|
