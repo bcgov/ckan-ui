@@ -33,12 +33,16 @@
 + Fields removed:
     - Sector
 + Fields renamed:
+
 |New |Old|
 |:---:|:---|
-|PUBLIC | LOW-PUBLIC|
+|Field Name | Field Name|
+
 + Security Classifications update to match OCIO Information Security Classification Guidelines
     - https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92
     - Mapping:
+
+
 |New |Old|
 |:---:|:---|
 |PUBLIC | LOW-PUBLIC|
