@@ -25,7 +25,7 @@
 + Release of Beta!
 + Decoupling back end and from end
 + JSON Schema: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
-+ Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, taset/Document, Geospatial Dataaset, Webservice/API.
++ Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
 + BC Geographic Warehouse (BCDC) items moved:
     - Data definitions moved to the resource type.
     - Map Preview using WMS moved to the Preview on resource page.
