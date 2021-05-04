@@ -73,7 +73,7 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
         profile.sysAdmin = true;
     }
 
-    parts = g.split(sep);
+    let parts = g.split(sep);
 
     if (parts.length >= 2){
         let c = parts[parts.length-1];
