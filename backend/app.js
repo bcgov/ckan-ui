@@ -102,7 +102,12 @@ app.use('/api/version', function(req, res){
   var pjson = require('./package.json');
   var v = pjson.version;
 
+  if (parseFloat(v)<2.0){
+    v += "b"
+  }
+
   var version = v
+  
   if (hash !== ""){
       version += "-"+hash
   }
