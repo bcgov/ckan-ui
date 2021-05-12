@@ -23,17 +23,21 @@
 ## 2021 Beta
 ### May 2021
 + Release of Beta!
-+ Decoupling back end and from end.
++ Decoupling backend (CKAN database and API) and frontend (Javascript).
+
+UI
 + The main page of https://data.gov.bc.ca has been simlified.
-+ Front page toolbard has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
-+ JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
++ Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
 + Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
 + BC Geographic Warehouse (BCDC) items moved:
     - Data definitions moved to the resource type.
     - Map Preview using WMS moved to the ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button on resource page tool bar.
     - Link to iMapBC specific presentations has moved to ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png)
 button on the **Preview** button on resource page.
+
+API
 + Values returned from the API are consistently using the field value and not the field label.
++ JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 
 + Fields added:
 
