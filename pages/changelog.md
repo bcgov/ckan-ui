@@ -23,20 +23,48 @@
 ## 2021 Beta
 ### May 2021
 + Release of Beta!
-+ Decoupling back end and from end
-+ JSON Schema: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
++ Decoupling back end and from end.
++ The main page of https://data.gov.bc.ca has been simlified.
++ Front page toolbard has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
++ JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 + Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
 + BC Geographic Warehouse (BCDC) items moved:
     - Data definitions moved to the resource type.
-    - Map Preview using WMS moved to the Preview on resource page.
-    - View in iMapBC moved to Preview button on resource page.
+    - Map Preview using WMS moved to the ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button on resource page tool bar.
+    - Link to iMapBC specific presentations has moved to ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png)
+button on the **Preview** button on resource page.
++ Values returned from the API are consistently using the field value and not the field label.
+
++ Fields added:
+
+|Field Label |Field Name|
+|:---:|:---|
+|JSON Table Schema | json_table_schema|
+ 
 + Fields removed:
-    - Sector
+   
+|Field Label |Field Name|Rational|
+|:---:|:---:|:---:|
+|Sector | sector|No longer used in Government|
+| |metastar_uid |Old Discovery Service unique ID|
+| |odsi_uid|Old Open Data Catalogue unique ID|
+
++ Fields moved:
+
+|Field Name|Now Nested Within|
+|:---|:---:|
+|beginning_date ; end_date| temporal_extent |
+|edc_resource_type; resource_storage_location  |extras|
+|short_name; column_name; data_type; column_comments |details|
+| preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
+
 + Fields renamed:
 
 |New |Old|
-|:---:|:---|
-|Field Name | Field Name|
+|:---:|:---:|
+|publish_state | edc_state|
+|bcdc_type|type|
+|resource_access_method|resource_storage_access_method|
 
 + Security Classifications update to match OCIO Information Security Classification Guidelines
     - https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92
