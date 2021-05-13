@@ -7,31 +7,21 @@ grand_parent: BC Data Catalogue
 has_toc: false
 ---
 
-## PUBLISHING A RECORD TO THE BC DATA CATALOGUE
+## Adding A RECORD TO THE BC DATA CATALOGUE
 
 ### **Add Dataset**
-
-**State**: When creating a new metadata record, the state will be set to DRAFT. 
+Dataset is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
 
 **Title**: This is the title of your metadata record.
 
 **URL**: This is automatically generated once the title is filled in.
 
-**Organization**: This is the Ministry or Organization under which the metadata record is created.
-
-**Sub-Organization**: This is the Sub-Organization (often the Branch or Division) under which the metadata record is created.
+**Organization**: This is the Sub-Organization (often the Branch or Division) under which the metadata record is created.
++ The Minsitry or parent organization is no longer required to be defined at the record level.
 
 **Description**: Provide a meaningful description of the dataset here. Be sure to include any information that would be relevant to an end-user of your dataset.
 
-**Purpose**: This is a summary of the intentions for which the dataset was developed.
-
-**Data Quality**: This is descriptive text that can include information about issues, completeness, consistency, etc.
-
-**Lineage Statement**: This is information about the events or source data used in constructing the data.
-
-**More info**: Any related web site URL's can be added here.
-
-**Keywords**: These are the searchable terms for the metadata record. Enter meaningful keywords here. Think of what users may use for search terms to find the dataset in the Catalogue.
+**License** describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
 
 ---------------
 ### **Contacts**
@@ -55,41 +45,58 @@ Add contacts for the following **Roles**:
 **Contact Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to Catalogue Admin's.
 
 ---------------
-### **Data Currency/Update**
 
-**Resource Status** is the status of the dataset as described by one of the types below: 
- 
-|Data Update Status| Description
-|:---|:---|
-|Ongoing|Datasets that are regularly updated should be described as ongoing.|
-|Completed|Datasets with no plan for future updates should be described as completed.
-|Destroyed|Datasets that no longer exist should be described as destroyed.|
-|Historical Archive|Datasets that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.
-|Obsolete|Datasets that that have been replaced with another dataset should be described as destroyed.
-|Planned|Datasets that do not currently exist, but are planned for the future, should be described as planned.
-|Required| 
-|Under development|Datasets that exist but are not yet completed should be described as under development.
+**Purpose**: This is a summary of the intentions for which the dataset was developed.
 
-**Date type** is used to provide details to users on when resources are created, published, modified, archived and destroyed. 
+**Data Quality**: This is descriptive text that can include information about issues, completeness, consistency, etc.
 
-**Date** is the date the resource was either created, published, modified, archived or destroyed. 
+**Lineage Statement**: This is information about the events or source data used in constructing the data.
 
-When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
+### **More Info**
+
+**Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the Permalink, thus when pages are moved around the link is not broken.
+
+**URL**: Any related web site URL's can be added here.
 
 ---------------
 ### **Access & Security**
 
-**Who can view this data?** describes who can view the BC Geographic Warehouse (BCGW) resources associated with the metadata record.
+**Security Classification**
+
+|Old BCDC Security Classication| [Information Security Classification Levels (**NEW**)](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description
+|:---|:---|:---|
+|Low - Public|**Public**|No harm to an individual, organization or government. Examples: Job postings, communications to claim clerks, business contact information, research and background papers (without copyright restrictions)
+|Low - Sensitivity|**Protected A** | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information
+|Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
+|High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
+
+
+---------------
+**Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
++ The order reflects the most accessible to the most secure
 
 |Access Type| Description
 |:---|:---|
 |Public| All users are able to access the dataset.
-|Named Users| Only specific named users can access the dataset.
 |Government and Business BCeID| Only people with government and BCeID credentials can access the dataset.
 |Government| Only government credentials can access the dataset.
+|Named Users| Only specific named users can access the dataset.
+
+---------------
+**Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
++ The order reflects the most accessible to the most secure
+
+|Access Type| Description
+|:---|:---|
+|Public| All users are able to access the dataset.
+|Government and Business BCeID| Only people with government and BCeID credentials can access the applciation.
+|Government| Only government credentials can access the dataset.
+|Named Users| Only specific named users can access the dataset.
+|Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
 
 ---------------
 **Who can view this record?** describes who can view the metadata record.
++ The order reflects the most accessible to the most secure
 
 |Access Type| Description
 |:---|:---|
@@ -97,28 +104,32 @@ When there are changes to a resource in a metadata record, a new date type and c
 |IDIR | Only IDIR credentials can view the metadata record.
 
 ---------------
-**Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
+**Keywords**: These are the searchable terms for the metadata record. Enter meaningful keywords here. Think of what users may use for search terms to find the dataset in the Catalogue.
 
-|Access Type| Description
+**State**: When creating a new metadata record, the state will be set to DRAFT once you click on this state. 
+
+**Resource Status** is the status of the dataset as described by one of the types below: 
+|Data Update Status| Description
 |:---|:---|
-|Public| All users are able to access the dataset.
-|Named Users| Only specific named users can access the dataset.
-|Government and Business BCeID| Only people with government and BCeID credentials can access the applciation.
-|Government| Only government credentials can access the dataset.
-|Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
+|Ongoing|Datasets that are regularly updated should be described as ongoing.|
+|Completed|Datasets with no plan for future updates should be described as completed.|
+|Destroyed|Datasets that no longer exist should be described as destroyed.|
+|Historical Archive|Datasets that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.|
+|Obsolete|Datasets that that have been replaced with another dataset or have long since been maintained should be described as obsolete.|
+|Planned|Datasets that do not currently exist, but are planned for the future, should be described as planned.|
+|Required|
+|Under development|Datasets that exist but are not yet completed should be described as under development.|
+
+----
+### **Record Lifecycle History**
+When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
+
+**Type** is used to provide details to users on when resources are created, published, modified, archived or destroyed. 
+
+**Date** is the date the resource was either created, published, modified, archived or destroyed. 
 
 ---------------
 
-**License** describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
-
-**Security Classification**
-
-|BCDC Security Classication| [Information Security Classification Levels](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description
-|:---|:---|:---|
-|High - Cabinet, High - Confidential, High - Sensitivity|Protected C | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
-|Medium - Personal, Medium - Sensitivity|Protected B | Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
-|Low - Sensitivity|Protected A | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information
-|Low - Public|Public|No harm to an individual, organization or government. Examples: Job postings, communications to claim clerks, business contact information, research and background papers (without copyright restrictions)
 
 ### **Add a Geographic Data Resource**
 
