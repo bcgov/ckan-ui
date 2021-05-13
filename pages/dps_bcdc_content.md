@@ -194,9 +194,11 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 
     |Spatial Datatype| Description|
     |:---|:---|
-    |SDE_BINARY| This is the older ESRI based geometry that used to be what the bcgw was, most minitiries do not use this anymore|
+    |SDE_BINARY| This is the older ESRI based geometry that used to be what the BCGW prior to 2014, most minitiries do not use this anymore.|
     |SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.|
     |ST_GEOMETRY| This is the current ESRI based geometry.|
+    |N-A| Select if not stored in a database, e.g. , shaoe file (.shp)|
+    
 
 **Object Name**: is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
 + For BC Geographic Datasets, this is what is used to populate automatically the metadata record with
@@ -238,9 +240,10 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 **Geograhic Extent**:
 + **North/South/East/West** these are autopopulated with the bounding box of the province.
 
-1. Click **Save** when done
 
-Additional resources can be added by repeating the process above or adding other resource types.
+Cick **Save** when done
+
++ itional resources can be added by repeating the process above or adding other resource types.
 
 
 ------------------------------
