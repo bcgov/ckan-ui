@@ -19,7 +19,7 @@ has_toc: true
 + [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-tabular-or-document-resource)
 + [**ADD WEBSERVICE OR API RESOURCE**](#add-weservice-or-api-resource)
 
-
+---------------
 
 ## ADD RECORD
 The button is defined as **Add Dataset** as this is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
@@ -35,10 +35,13 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 
 **License** describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
 
----------------
-### CONTACTS
+**Contacts** 
 
-Add contacts for the following **Roles**:
++ **Name**: Contact full name
++ **Email**: Contact email address
++ **Organization**: Contact organization
+    - Ministry level has been removed.
++ **Role**: Contact role type 
 1. [Point of Contact](https://bcgov.github.io/data-publication/pages/glossary.html#point_of_contact) (required) 
     + Recommend the first contact to be a generic inbox.
     + **NEW** On each record there is a **Contact Data Expert** button, this opens up an email with a defined email template that will go to the first contact listed.
@@ -48,18 +51,7 @@ Add contacts for the following **Roles**:
 6. [Data Steward](https://bcgov.github.io/data-publication/pages/glossary.html/#data-steward) (optional) 
 7. [Distributor](https://bcgov.github.io/data-publication/pages/glossary.html/#distributor) (optional) 
 
-**Name**: Contact full name
-
-**Email**: Contact email address
-
-**Organization**: Contact organization
-+ Ministry level has been removed.
-
-**Role**: Contact role type (as per the list above)
-
-**Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to those logged in as IDIR.
-
----------------
++ **Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to those logged in as IDIR.
 
 **Purpose**: This is a summary of the intentions for which the dataset was developed.
 
@@ -67,14 +59,10 @@ Add contacts for the following **Roles**:
 
 **Lineage Statement**: This is information about the events or source data used in constructing the data.
 
-### **MORE INFO**
+**More Info**
 
-**Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the Permalink, thus when pages are moved around the link is not broken.
-
-**URL**: Any related web site URL's can be added here.
-
----------------
-### ACCESS AND SECURITY
++ **Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the + Permalink, thus when pages are moved around the link is not broken.
++ **URL**: Any related web site URL's can be added here.
 
 **Security Classification**
 
@@ -85,7 +73,7 @@ Add contacts for the following **Roles**:
 |Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
 |High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
 
----------------
+
 **Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
 + The order reflects the most accessible to the most secure
 
@@ -96,7 +84,7 @@ Add contacts for the following **Roles**:
 |Government| Only government credentials can access the dataset.
 |Named Users| Only specific named users can access the dataset.
 
----------------
+
 **Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
 + The order reflects the most accessible to the most secure
 
@@ -108,7 +96,7 @@ Add contacts for the following **Roles**:
 |Named Users| Only specific named users can access the dataset.
 |Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
 
----------------
+
 **Who can view this record?** describes who can view the metadata record.
 + The order reflects the most accessible to the most secure
 
@@ -117,7 +105,7 @@ Add contacts for the following **Roles**:
 |Public | All users of the catalogue can view the metadata record.
 |IDIR | Only IDIR credentials can view the metadata record.
 
----------------
+
 **Keywords**: These are the searchable terms for the metadata record. Enter meaningful keywords here. Think of what users may use for search terms to find the dataset in the Catalogue.
 
 **State**: When creating a new metadata record, the state will be set to DRAFT once you click on this state. 
@@ -134,7 +122,7 @@ Add contacts for the following **Roles**:
 |Required|
 |Under development|Datasets that exist but are not yet completed should be described as under development.|
 
----------------
+
 ### **Record Lifecycle History**
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
 
