@@ -129,8 +129,8 @@ When there are changes to a resource in a metadata record, a new date type and c
 ---------------
 # ADD RESOURCES
 1. Resources to a record can be the following types:
-    - [Application*](#add-an application-resource)
-    - [Geographic Data**](#add-a-geographic-data-resource)
+    - [Application](#add-an application-resource)
+    - [Geographic Data](#add-a-geographic-data-resource)
     - [Tabular Data/Document](#add-a-tabular-or-document-resource)
     - [Webservice/API](#add-a-weservice-or-api-resource)
 1. Resources may reside, depending on type and size within the Catalogue database itself (Data Store) or be externally referenced.
