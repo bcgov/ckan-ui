@@ -128,14 +128,13 @@ _Note: To use the CKAN API for creating metadata, more information is available 
     + This is a change from the previous Catalogue where you had to specify the Resource Type at the begining. 
     + Follow the workflow link below for details on the specific fields for each dataset type.
 
-
-|Metadata Pages| |
-|:---|:---|
-|[Record](https://bcgov.github.io/data-publication/pages/glossary.html#record)|[Workflow](./dps_bcdc_content.md#add-record)|
-|[Application](https://bcgov.github.io/data-publication/pages/glossary.html#application)|[Workflow](./dps_bcdc_content.md#add-application-resource)|
-|[Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#dataset)|[Workflow](./dps_bcdc_content.md#add-tabular-or-document-resource)|
-|[Geographic Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#geographic_dataset)|[Workflow](./dps_bcdc_content.md#add-record#add-geographic-data-resource)|
-|[Web Service - API](https://bcgov.github.io/data-publication/pages/glossary.html#webservice_api)|[Workflow](./dps_bcdc_content.md#add-weservice-or-api-resource)|
+        |Metadata Pages| |
+        |:---|:---|
+        |[Record](https://bcgov.github.io/data-publication/pages/glossary.html#record)|[Workflow](./dps_bcdc_content.md#add-record)|
+        |[Application](https://bcgov.github.io/data-publication/pages/glossary.html#application)|[Workflow](./dps_bcdc_content.md#add-application-resource)|
+        |[Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#dataset)|[Workflow](./dps_bcdc_content.md#add-tabular-or-document-resource)|
+        |[Geographic Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#geographic_dataset)|[Workflow](./dps_bcdc_content.md#add-record#add-geographic-data-resource)|
+        |[Web Service - API](https://bcgov.github.io/data-publication/pages/glossary.html#webservice_api)|[Workflow](./dps_bcdc_content.md#add-weservice-or-api-resource)|
 
 1.  Click the **Add Dataset** button.
 
