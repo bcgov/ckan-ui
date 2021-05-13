@@ -12,10 +12,8 @@ has_toc: true
 **This document is being update to correstpond with the BC Data Catalogue Beta release**
 
 ## Table of Contents
-+ [**ADD DATASET**](#add-dataset)
-    + [**CONTACTS**](#contacts)
-    + [**MORE INFO**](#more-info)
-    + [**ACCESS AND SECURITY**](#access-and-security)
++ [**ADD RECORD**](#add-record)
++ [**ADD RESOURCE**](#add-resource)
 + [**ADD APPLICATION RESOURCE**](#add-an application-resource)
 + [**ADD GEOGRAPHIC DATA RESOURCE**](#add-a-geographic-data-resource)
 + [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-a-tabular-or-document-resource)
@@ -23,8 +21,8 @@ has_toc: true
 
 
 
-## ADD DATASET
-Dataset is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
+## ADD RECORD
+The button is defined as **Add Dataset** as this is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
 
 **Title**: This is the title of your metadata record.
 
@@ -41,22 +39,25 @@ Dataset is a CKAN term used to define the record and all it's resources. As this
 ### CONTACTS
 
 Add contacts for the following **Roles**:
-1. [Custodian](./glossary.md/#data_custodian) (required) 
-1. [Point of Contact](./glossary.md/#point_of_contact) (required) 
-1. [Business Expert](./glossary.md/#business_expert) (optional)
-1. [Distributor](./glossary.md/#distributor) (optional) 
+1. [Point of Contact](https://bcgov.github.io/data-publication/pages/glossary.html#point_of_contact) (required) 
+    + Recommend the first contact to be a generic inbox.
+    + **NEW** On each record there is a **Contact Data Expert** button, this opens up an email with a defined email template that will go to the first contact listed.
+3. [Business Expert](https://bcgov.github.io/data-publication/pages/glossary.html/#business_expert) (optional)
+4. [Data Manager](https://bcgov.github.io/data-publication/pages/glossary.html/#data-manager) (optional)
+5. [Custodian](https://bcgov.github.io/data-publication/pages/glossary.html/#data_custodian) (optional) 
+6. [Data Steward](https://bcgov.github.io/data-publication/pages/glossary.html/#data-steward) (optional) 
+7. [Distributor](https://bcgov.github.io/data-publication/pages/glossary.html/#distributor) (optional) 
 
 **Name**: Contact full name
 
 **Email**: Contact email address
 
 **Organization**: Contact organization
-
-**Sub-Organization**: Contact Sub-Organization
++ Ministry level has been removed.
 
 **Role**: Contact role type (as per the list above)
 
-**Contact Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to Catalogue Admin's.
+**Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to those logged in as IDIR.
 
 ---------------
 
@@ -133,7 +134,7 @@ Add contacts for the following **Roles**:
 |Required|
 |Under development|Datasets that exist but are not yet completed should be described as under development.|
 
-----
+---------------
 ### **Record Lifecycle History**
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
 
@@ -142,47 +143,33 @@ When there are changes to a resource in a metadata record, a new date type and c
 **Date** is the date the resource was either created, published, modified, archived or destroyed. 
 
 ---------------
+# ADD RESOURCE
+1. Resources to a record can be the following types:
++ [Application*](#add-an application-resource)
++ [Geographic Data**](#add-a-geographic-data-resource)
++ [Tabular Data/Document](#add-a-tabular-or-document-resource)
++ [Webservice/API](#add-a-weservice-or-api-resource)
+1. Resources may reside, depending on type and size within the Catalogue database itself (Data Store) or be externally referenced.
+2. Resources that are sourced from the BC Geographic Warehouse are managed differently.
+3. At times resources are only metadata about a resource that is not accessible or requires authorization to access.
+4. If a resources requires authorization, we recommend that that process or form is added as a resource to the record, e.g. [Request Archaeology Inforamtion](https://catalogue.data.gov.bc.ca/dataset/a6d58d20-8e19-46ba-b5a0-f02e436fa765/resource/cbbd35ea-8ddb-4cb4-b717-d897e5303dc3).
+
+To add a resource:
+1. Click the **Add Resource** button on the toolbar at the record leve.
+1. Fill out all the required fields for each resource type as describled below.
+
 ## ADD APPLICATION RESOURCE
 
 ## ADD GEOGRAPHIC DATA RESOURCE
 
-**ISO Topic Category**: [Topic Category Definitions](https://apps.usgs.gov/thesaurus/thesaurus-full.php?thcode=15) More information: [ISO 19115-1:2014](https://www.iso.org/standard/53798.html)  
+**Title** is the title of the resource as it will appear on the metadata record. 
 
-|Spatial Datatype| Description
-|:---|:---|
-|SDE_BINARY| This is the older ESRI based geometry that used to be what the bcgw was, most minitiries do not use this anymore
-|SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.
-|ST_GEOMETRY| This is the current ESRI based geometry.
+### RESOURCE
 
-**Object Name** is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
+**URL** is a link to a file or resource stored elsewhere, e.g., a website or FTP site.
++ For resources that are not available unless authorized a link to a webpage or form to instruct consumers how to obtain access, e.g. [Request Archaeology Inforamtion](https://catalogue.data.gov.bc.ca/dataset/a6d58d20-8e19-46ba-b5a0-f02e436fa765/resource/cbbd35ea-8ddb-4cb4-b717-d897e5303dc3)
 
-**Spatial Datatype** refers to the datatype in the database. For data stored in the BCGW, choose SDO_GEOMETRY.  If you are unsure, leave this field blank.
-
-
----------------
-### **Preview Information**
-
- **Image URL** shows a preview of the data as a static image.
-
- **Link to iMap** shows an interacive preview of the data in iMap.
- 1. Add the layer to a new iMap session
- 1. Copy the URL
- 1. Paste the URL in this field
-
-**Preview Latutude** allows you to provide a map preview centroid latitude.
-
-**Preview Longitude** allows you to provide a map preview centroid longitude.
-
-**Preview map service URL** allows you to provide an alias for the map service URL.
-
-**Preview Zoom level** allows you to provide an initial zoom level for the map preview.
-
----------------
-
-### **Geograhic Extent**
-
-**North/South/East/West** this is already done in the table
-
+**FILE** is to upload a file, e.g., CSV, directly into the Catalogue Data Store.
 
 #### BCGW Resources
 
@@ -201,43 +188,87 @@ The **Manage BCGW Resources** button will add the ability for users to custom do
 		+ **End Date** is the end date for the period the data is captured for. 
 1. Click the **Save** button.
 1. Click the **Finish** button on the _Successfully added._ pop-up.
-
-Publicly visible datasets in the BCGW that are made available in iMapBC will also have WMS and KML links created and added to the metadata record. The addition of these resources is handled through an automated script.
-
-#### FILE AND URL RESOURCES
-
-The **+Add New Resource** button allows you to upload a file that will be stored in the Catalogue Data Store, or use a link to your geographc dataset. If linking to a dataset, ensure it is in a location that is accessible for end-users.
-+ **Upload File**: Select this to upload a a file, e.g., CSV, directly into the Catalogue Data Store.
-+ **Link**: Select this to provide a link to a file stored elsewhere, e.g., a website or FTP site and enter the URL of the file.
-
-### RESOURCE DETAILS
-
-**Resource Name** is the name of the resource as it will appear on the metadata record. 
+---------------
 
 **Resource Description** is a detailed description of the resource.
 
+**Supplemental Information**: Any additional relevant information about the resource can be included here.
+
 **Resource Update Cycle** describes how often the resource is updated.
 
-**Resource Stroage Format** describes the file extension for the resource.
-
-**Resource Type** is the type of resource: Data, Reports or Abstraction.
-
-**Resource Storage Location** is the location where the resource is stored. For files that have been uploaded using the _Upload File_ above, choose Catalogue Data Store.
-
-**Resource Access Method** describes how the end-user can access the data.
-
-**Supplemental information**: Any additional relevant information about the resource can be included here.
-
-### **Temporal Extent** (optional)
+---------------
+### Temporal Extent (optional)
 If your dataset is temporal in nature, you may provide the relevant dates in this area
 
 **Beginning Date** is the start date for the preiod the data is captured for.
 
 **End Date** is the end date for the preiod the data is captured for. 
 
-### Projection
+---------------
+
+**Resource Stroage Format** describes the file extension for the resource.
+
+**Resource Storage Location** is the location where the resource is stored. For files that have been uploaded using the _Upload File_ above, choose Catalogue Data Store.
+
+**Spatial Datatype** refers to the datatype in the database. 
++ For data stored in the BC Geographic, choose SDO_GEOMETRY.  If you are unsure, choose N-A.
+
+|Spatial Datatype| Description|
+|:---|:---|
+|SDE_BINARY| This is the older ESRI based geometry that used to be what the bcgw was, most minitiries do not use this anymore|
+|SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.|
+|ST_GEOMETRY| This is the current ESRI based geometry.|
+
+**Object Name** is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
++ For BC Geographic Datasets, this is what is used to populate automatically the metadata record with
+    - The data definitions table that is extracted from the Oracle metadata.
+    - For public datasets that are available in iMapBC:
+        - The WMS resource
+        - The Network Link KML resource
+        - The Preview Map details
+        - The link to iMapBC will that dataset's specific presenatations
 
 **Projection Name** is the projection of your geographic data. Select from the drop-down list.
++ For provincial data in the BC Geographic Warehouse as well as many other databases, these are stored as ESPG 3005: NAD83 BC Albers.
+
+**JSON Table Schema** (**NEW**)
+
+**ISO Topic Category**: [Topic Category Definitions](https://apps.usgs.gov/thesaurus/thesaurus-full.php?thcode=15) More information: [ISO 19115-1:2014](https://www.iso.org/standard/53798.html)  
+
+**Resource Type** is the type of resource: Data, Reports or Abstraction.
+
+**Resource Access Method** describes how the end-user can access the data.
+
+---------------
+### **Preview Information**
++ These details are filled in automatically when:
+    - Stored in the BC Geographic Warehouse
+    - Have a public presenation in iMapBC
+    - A WMS REST endpoint created
+    - A Newwork Link KL file created.  
++ These fields can be used for other purposes
++ These values populate the **Preview** button map and **Link to iMapBC** button.
+
+**Layer Name**
+
+**Preview Latutude** allows you to provide a map preview centroid latitude.
+
+**Preview Longitude** allows you to provide a map preview centroid longitude.
+
+**Preview Map Service URL** allows you to provide an alias for the map service URL.
+
+**Preview Zoom level** allows you to provide an initial zoom level for the map preview.
+
+**Image URL** shows a preview of the data as a static image.
+
+**Link to iMap** shows an interacive preview of the data in iMapBC.
+
+---------------
+
+### **Geograhic Extent**
+
+**North/South/East/West** these are autopopulated with the bounding box of the province.
+
 
 1. Click **Save** when done
 
