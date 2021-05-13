@@ -80,8 +80,8 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
     |Access Type| Description
     |:---|:---|
     |Public| All users are able to access the dataset.
-    |Government and Business BCeID| Only people with government and BCeID credentials can access the dataset.
-    |Government| Only government credentials can access the dataset.
+    |Government and Business BCeID| Only people with IDIR and Business BCeID credentials can access the dataset.
+    |Government| Only IDIR credentials can access the dataset.
     |Named Users| Only specific named users can access the dataset.
 
 **Who can download this data?**: desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
@@ -90,10 +90,10 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
     |Access Type| Description
     |-|-|
     |Public| All users are able to access the dataset.
-    |Government and Business BCeID| Only people with government and BCeID credentials can access the applciation.
-    |Government| Only government credentials can access the dataset.
+    |Government and Business BCeID| Only people with IDIR and Business BCeID credentials can access the applciation.
+    |Government| Only IDIR credentials can access the dataset.
     |Named Users| Only specific named users can access the dataset.
-    |Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
+    |Not downloadable| Resource cannot be downloaded. Specifically for the BC Geographic Warehouse (BCGW), the dataset is not configured via the Distribution Service.
 
 **Who can view this record?**: describes who can view the metadata record.
 + The order reflects the most accessible to the most secure
@@ -129,10 +129,10 @@ When there are changes to a resource in a metadata record, a new date type and c
 ---------------
 # ADD RESOURCES
 1. Resources to a record can be the following types:
-    - [Application](#add-an application-resource)
-    - [Geographic Data](#add-a-geographic-data-resource)
-    - [Tabular Data/Document](#add-a-tabular-or-document-resource)
-    - [Webservice/API](#add-a-weservice-or-api-resource)
+    - [Application](#add-application-resource)
+    - [Geographic Data](#add-geographic-data-resource)
+    - [Tabular Data/Document](#add-tabular-or-document-resource)
+    - [Webservice/API](#add-weservice-or-api-resource)
 1. Resources may reside, depending on type and size within the Catalogue database itself (Data Store) or be externally referenced.
 2. Resources that are sourced from the BC Geographic Warehouse are managed differently.
 3. At times resources are only metadata about a resource that is not accessible or requires authorization to access.
