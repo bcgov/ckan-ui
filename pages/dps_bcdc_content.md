@@ -34,7 +34,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 
 **Description**: Provide a meaningful description of the dataset here. Be sure to include any information that would be relevant to an end-user of your dataset.
 
-**License** describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
+**License**: describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
 
 **Contacts** 
 
@@ -64,17 +64,17 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 + **Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the + Permalink, thus when pages are moved around the link is not broken.
 + **URL**: Any related web site URL's can be added here.
 
-**Security Classification**
+**Security Classification**:
 + The Security Classification has been updated and records transformated to reflect the OCIO's standard.
 
-    |Old BCDC Security Classication| [Information Security Classification Levels (**NEW**)](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description|
+    |BCDC Security Classication (**Old**)| [Information Security Classification Levels (**NEW**)](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description|
     |:---|:---|:---|
     |Low - Public|**Public**|No harm to an individual, organization or government. Examples: Job postings, communications to claim clerks, business contact information, research and background papers (without copyright restrictions)|
     |Low - Sensitivity|**Protected A** | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information|
     |Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege|
     |High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records|
 
-**Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
+**Who can view this data?**: describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
 + The order reflects the most accessible to the most secure
 
     |Access Type| Description
@@ -84,7 +84,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
     |Government| Only government credentials can access the dataset.
     |Named Users| Only specific named users can access the dataset.
 
-**Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
+**Who can download this data?**: desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
 + The order reflects the most accessible to the most secure
 
     |Access Type| Description
@@ -95,7 +95,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
     |Named Users| Only specific named users can access the dataset.
     |Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
 
-**Who can view this record?** describes who can view the metadata record.
+**Who can view this record?**: describes who can view the metadata record.
 + The order reflects the most accessible to the most secure
 
     |Access Type| Description
@@ -107,7 +107,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 
 **State**: When creating a new metadata record, the state will be set to DRAFT once you click on this state. 
 
-**Resource Status** is the status of the dataset as described by one of the types below: 
+**Resource Status**: is the status of the dataset as described by one of the types below: 
 + A dataset or record changes status over its lifecycle.
    
     |Data Update Status| Description|
@@ -121,7 +121,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
     |Required|
     |Under development|Datasets that exist but are not yet completed should be described as under development.|
 
-### **Record Lifecycle History**
+**Record Lifecycle History**:
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
 + **Type** is used to provide details to users on when resources are created, published, modified, archived or destroyed. 
 + **Date** is the date the resource was either created, published, modified, archived or destroyed. 
@@ -146,14 +146,14 @@ To add a resource:
 
 ## ADD GEOGRAPHIC DATA RESOURCE
 
-**Title** is the title of the resource as it will appear on the metadata record. 
+**Title**: is the title of the resource as it will appear on the metadata record. 
 
 ### RESOURCE
 
-+ **URL** is a link to a file or resource stored elsewhere, e.g., a website or FTP site.
++ **URL**: is a link to a file or resource stored elsewhere, e.g., a website or FTP site.
     - For resources that are not available unless authorized a link to a webpage or form to instruct consumers how to obtain access, e.g. [Request Archaeology Inforamtion](https://catalogue.data.gov.bc.ca/dataset/a6d58d20-8e19-46ba-b5a0-f02e436fa765/resource/cbbd35ea-8ddb-4cb4-b717-d897e5303dc3)
 
-+ **FILE** is to upload a file, e.g., CSV, directly into the Catalogue Data Store.
++ **FILE**: is to upload a file, e.g., CSV, directly into the Catalogue Data Store.
 
 #### BCGW Resources
 
@@ -174,25 +174,22 @@ The **Manage BCGW Resources** button will add the ability for users to custom do
 1. Click the **Finish** button on the _Successfully added._ pop-up.
 ---------------
 
-**Resource Description** is a detailed description of the resource.
+**Resource Description**: is a detailed description of the resource.
 
 **Supplemental Information**: Any additional relevant information about the resource can be included here.
 
-**Resource Update Cycle** describes how often the resource is updated.
+**Resource Update Cycle**: describes how often the resource is updated.
 
----------------
-### Temporal Extent (optional)
+**Temporal Extent**:
 If your dataset is temporal in nature, you may provide the relevant dates in this area
 + **Beginning Date** is the start date for the preiod the data is captured for.
 + **End Date** is the end date for the preiod the data is captured for. 
 
----------------
+**Resource Stroage Format**: describes the file extension for the resource.
 
-**Resource Stroage Format** describes the file extension for the resource.
+**Resource Storage Location**: is the location where the resource is stored. For files that have been uploaded using the _Upload File_ above, choose Catalogue Data Store.
 
-**Resource Storage Location** is the location where the resource is stored. For files that have been uploaded using the _Upload File_ above, choose Catalogue Data Store.
-
-**Spatial Datatype** refers to the datatype in the database. 
+**Spatial Datatype**: refers to the datatype in the database. 
 + For data stored in the BC Geographic, choose SDO_GEOMETRY.  If you are unsure, choose N-A.
 
     |Spatial Datatype| Description|
@@ -201,7 +198,7 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
     |SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.|
     |ST_GEOMETRY| This is the current ESRI based geometry.|
 
-**Object Name** is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
+**Object Name**: is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
 + For BC Geographic Datasets, this is what is used to populate automatically the metadata record with
     - The data definitions table that is extracted from the Oracle metadata.
     - For public datasets that are available in iMapBC:
@@ -210,19 +207,18 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
         - The Preview Map details
         - The link to iMapBC will that dataset's specific presenatations
 
-**Projection Name** is the projection of your geographic data. Select from the drop-down list.
+**Projection Name**: is the projection of your geographic data. Select from the drop-down list.
 + For provincial data in the BC Geographic Warehouse as well as many other databases, these are stored as ESPG 3005: NAD83 BC Albers.
 
-**JSON Table Schema** (**NEW**)
+**JSON Table Schema**: (**NEW**)
 
 **ISO Topic Category**: [Topic Category Definitions](https://apps.usgs.gov/thesaurus/thesaurus-full.php?thcode=15) More information: [ISO 19115-1:2014](https://www.iso.org/standard/53798.html)  
 
-**Resource Type** is the type of resource: Data, Reports or Abstraction.
+**Resource Type**: is the type of resource: Data, Reports or Abstraction.
 
-**Resource Access Method** describes how the end-user can access the data.
+**Resource Access Method**: describes how the end-user can access the data.
 
----------------
-### **Preview Information**
+**Preview Information**:
 + These details are filled in automatically when:
     - Stored in the BC Geographic Warehouse
     - Have a public presenation in iMapBC
@@ -231,7 +227,7 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 + These fields can be used for other purposes
 + These values populate the **Preview** button map and **Link to iMapBC** button.
 
-**Layer Name**
++ **Layer Name**
 + **Preview Latutude** allows you to provide a map preview centroid latitude.
 + **Preview Longitude** allows you to provide a map preview centroid longitude.
 + **Preview Map Service URL** allows you to provide an alias for the map service URL.
@@ -239,7 +235,7 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 + **Image URL** shows a preview of the data as a static image.
 + **Link to iMap** shows an interacive preview of the data in iMapBC.
 
-### **Geograhic Extent**
+**Geograhic Extent**:
 + **North/South/East/West** these are autopopulated with the bounding box of the province.
 
 1. Click **Save** when done
