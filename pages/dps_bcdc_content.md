@@ -65,58 +65,61 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 + **URL**: Any related web site URL's can be added here.
 
 **Security Classification**
++ The Security Classification has been updated and records transformated to reflect the OCIO's standard.
 
-|Old BCDC Security Classication| [Information Security Classification Levels (**NEW**)](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description
-|:---|:---|:---|
-|Low - Public|**Public**|No harm to an individual, organization or government. Examples: Job postings, communications to claim clerks, business contact information, research and background papers (without copyright restrictions)
-|Low - Sensitivity|**Protected A** | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information
-|Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
-|High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
+    |Old BCDC Security Classication| [Information Security Classification Levels (**NEW**)](https://www2.gov.bc.ca/assets/gov/government/services-for-government-and-broader-public-sector/information-technology-services/standards-files/information_security_classification_standard_july_17_2018.pdf)| Description|
+    |:---|:---|:---|
+    |Low - Public|**Public**|No harm to an individual, organization or government. Examples: Job postings, communications to claim clerks, business contact information, research and background papers (without copyright restrictions)|
+    |Low - Sensitivity|**Protected A** | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information|
+    |Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege|
+    |High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records|
 
 **Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
 + The order reflects the most accessible to the most secure
 
-|Access Type| Description
-|:---|:---|
-|Public| All users are able to access the dataset.
-|Government and Business BCeID| Only people with government and BCeID credentials can access the dataset.
-|Government| Only government credentials can access the dataset.
-|Named Users| Only specific named users can access the dataset.
+    |Access Type| Description
+    |:---|:---|
+    |Public| All users are able to access the dataset.
+    |Government and Business BCeID| Only people with government and BCeID credentials can access the dataset.
+    |Government| Only government credentials can access the dataset.
+    |Named Users| Only specific named users can access the dataset.
 
 **Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
 + The order reflects the most accessible to the most secure
 
-|Access Type| Description
-|:---|:---|
-|Public| All users are able to access the dataset.
-|Government and Business BCeID| Only people with government and BCeID credentials can access the applciation.
-|Government| Only government credentials can access the dataset.
-|Named Users| Only specific named users can access the dataset.
-|Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
+    |Access Type| Description
+    |-|-|
+    |Public| All users are able to access the dataset.
+    |Government and Business BCeID| Only people with government and BCeID credentials can access the applciation.
+    |Government| Only government credentials can access the dataset.
+    |Named Users| Only specific named users can access the dataset.
+    |Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
 
 **Who can view this record?** describes who can view the metadata record.
 + The order reflects the most accessible to the most secure
 
-|Access Type| Description
-|:---|:---|
-|Public | All users of the catalogue can view the metadata record.
-|IDIR | Only IDIR credentials can view the metadata record.
+    |Access Type| Description
+    |:---|:---|
+    |Public | All users of the catalogue can view the metadata record.
+    |IDIR | Only IDIR credentials can view the metadata record.
 
 **Keywords**: These are the searchable terms for the metadata record. Enter meaningful keywords here. Think of what users may use for search terms to find the dataset in the Catalogue.
 
 **State**: When creating a new metadata record, the state will be set to DRAFT once you click on this state. 
 
 **Resource Status** is the status of the dataset as described by one of the types below: 
-|Data Update Status| Description
-|:---|:---|
-|Ongoing|Datasets that are regularly updated should be described as ongoing.|
-|Completed|Datasets with no plan for future updates should be described as completed.|
-|Destroyed|Datasets that no longer exist should be described as destroyed.|
-|Historical Archive|Datasets that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.|
-|Obsolete|Datasets that that have been replaced with another dataset or have long since been maintained should be described as obsolete.|
-|Planned|Datasets that do not currently exist, but are planned for the future, should be described as planned.|
-|Required|
-|Under development|Datasets that exist but are not yet completed should be described as under development.|
++ A dataset or record changes status over its lifecycle.
+   
+    |Data Update Status| Description|
+    |:---|:---|
+    |Ongoing|Datasets that are regularly updated should be described as ongoing.|
+    |Completed|Datasets with no plan for future updates should be described as completed.|
+    |Destroyed|Datasets that no longer exist should be described as destroyed.|
+    |Historical Archive|Datasets that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.|
+    |Obsolete|Datasets that that have been replaced with another dataset or have long since been maintained should be described as obsolete.|
+    |Planned|Datasets that do not currently exist, but are planned for the future, should be described as planned.|
+    |Required|
+    |Under development|Datasets that exist but are not yet completed should be described as under development.|
 
 ### **Record Lifecycle History**
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
@@ -126,10 +129,10 @@ When there are changes to a resource in a metadata record, a new date type and c
 ---------------
 # ADD RESOURCE
 1. Resources to a record can be the following types:
-+ [Application*](#add-an application-resource)
-+ [Geographic Data**](#add-a-geographic-data-resource)
-+ [Tabular Data/Document](#add-a-tabular-or-document-resource)
-+ [Webservice/API](#add-a-weservice-or-api-resource)
+    - [Application*](#add-an application-resource)
+    - [Geographic Data**](#add-a-geographic-data-resource)
+    - [Tabular Data/Document](#add-a-tabular-or-document-resource)
+    - [Webservice/API](#add-a-weservice-or-api-resource)
 1. Resources may reside, depending on type and size within the Catalogue database itself (Data Store) or be externally referenced.
 2. Resources that are sourced from the BC Geographic Warehouse are managed differently.
 3. At times resources are only metadata about a resource that is not accessible or requires authorization to access.
@@ -192,11 +195,11 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 **Spatial Datatype** refers to the datatype in the database. 
 + For data stored in the BC Geographic, choose SDO_GEOMETRY.  If you are unsure, choose N-A.
 
-|Spatial Datatype| Description|
-|:---|:---|
-|SDE_BINARY| This is the older ESRI based geometry that used to be what the bcgw was, most minitiries do not use this anymore|
-|SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.|
-|ST_GEOMETRY| This is the current ESRI based geometry.|
+    |Spatial Datatype| Description|
+    |:---|:---|
+    |SDE_BINARY| This is the older ESRI based geometry that used to be what the bcgw was, most minitiries do not use this anymore|
+    |SDO_GEOMETRY| This is Oracle geometry and what the BCGW and NRM uses predominately as their datatype.|
+    |ST_GEOMETRY| This is the current ESRI based geometry.|
 
 **Object Name** is the object name as it appears in the BCGW: _SCHEMA.OBJECT_. Example: WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M
 + For BC Geographic Datasets, this is what is used to populate automatically the metadata record with
