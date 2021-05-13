@@ -128,14 +128,16 @@ _Note: To use the CKAN API for creating metadata, more information is available 
     + This is a change from the previous Catalogue where you had to specify the Resource Type at the begining. 
     + Follow the workflow link below for details on the specific fields for each dataset type.
 
-|Dataset Type| |
-|:---|:---|
-|[Application](./glossary.md/#application)|[Workflow](./dps_bcdc_w_application.md)|
-|[Dataset](./glossary.md/#dataset)|[Workflow](./dps_bcdc_w_dataset.md)|
-|[Geographic Dataset](./glossary.md/#geographic_dataset)|[Workflow](./dps_bcdc_w_geographic_dataset.md)|
-|[Web Service - API](./glossary.md/#webservice_api)|[Workflow](./dps_bcdc_w_webservice_api.md)|
 
-1.  Click the **Create Dataset** button.
+|Metadata Pages| |
+|:---|:---|
+|[Record](https://bcgov.github.io/data-publication/pages/glossary.html#record)|[Workflow](./dps_bcdc_content.md#add-record)|
+|[Application](https://bcgov.github.io/data-publication/pages/glossary.html#application)|[Workflow](./dps_bcdc_content.md#add-application-resource)|
+|[Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#dataset)|[Workflow](./dps_bcdc_content.md#add-tabular-or-document-resource)|
+|[Geographic Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#geographic_dataset)|[Workflow](./dps_bcdc_content.md#add-record#add-geographic-data-resource)|
+|[Web Service - API](https://bcgov.github.io/data-publication/pages/glossary.html#webservice_api)|[Workflow](./dps_bcdc_content.md#add-weservice-or-api-resource)|
+
+1.  Click the **Add Dataset** button.
 
 1. Complete all mandatory fields (minimum requirement). We suggest adding content to non-mandatory fields as this will help people to better understand and use the data as intended.
 	+ Suggestions for metadata content can be found in Tips & Tricks > [Making Useful Metadata](https://bcgov.github.io/data-publication/pages/tips_tricks_making_useful_metadata.html). 
