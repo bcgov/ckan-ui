@@ -165,7 +165,7 @@ _Notes:_
 
 ### REORDERING RESOURCES
 The **Reorder resources** button allows you to control the order of resources in the metadata record.
-+ **TO BE CONFIGURED**: This is yet to be configured.
++ **TO BE CONFIGURED**
 
 ### EDITING EXISTING RESOURCES
 
