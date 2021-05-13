@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Geographic Dataset
-nav_order: 324
+title: BCDC Content
+nav_order: 
 parent: Publication Workflow
 grand_parent: BC Data Catalogue
 has_toc: true
@@ -14,10 +14,10 @@ has_toc: true
 ## Table of Contents
 + [**ADD RECORD**](#add-record)
 + [**ADD RESOURCES**](#add-resources)
-+ [**ADD APPLICATION RESOURCE**](#add-application-resource)
-+ [**ADD GEOGRAPHIC DATA RESOURCE**](#add-geographic-data-resource)
-+ [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-tabular-or-document-resource)
-+ [**ADD WEBSERVICE OR API RESOURCE**](#add-weservice-or-api-resource)
+    - [**ADD APPLICATION RESOURCE**](#add-application-resource)
+    - [**ADD GEOGRAPHIC DATA RESOURCE**](#add-geographic-data-resource)
+    - [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-tabular-or-document-resource)
+    - [**ADD WEBSERVICE OR API RESOURCE**](#add-weservice-or-api-resource)
 
 ---------------
 
