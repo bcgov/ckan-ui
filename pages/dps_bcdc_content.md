@@ -43,14 +43,14 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 + **Organization**: Contact organization
     - Ministry level has been removed.
 + **Role**: Contact role type 
-1. [Point of Contact](https://bcgov.github.io/data-publication/pages/glossary.html#point_of_contact) (required) 
-    + Recommend the first contact to be a generic inbox.
-    + **NEW** On each record there is a **Contact Data Expert** button, this opens up an email with a defined email template that will go to the first contact listed.
-3. [Business Expert](https://bcgov.github.io/data-publication/pages/glossary.html/#business_expert) (optional)
-4. [Data Manager](https://bcgov.github.io/data-publication/pages/glossary.html/#data-manager) (optional)
-5. [Custodian](https://bcgov.github.io/data-publication/pages/glossary.html/#data_custodian) (optional) 
-6. [Data Steward](https://bcgov.github.io/data-publication/pages/glossary.html/#data-steward) (optional) 
-7. [Distributor](https://bcgov.github.io/data-publication/pages/glossary.html/#distributor) (optional) 
+    1. [Point of Contact](https://bcgov.github.io/data-publication/pages/glossary.html#point_of_contact) (required) 
+        - Recommend the first contact to be a generic inbox.
+        - **NEW** On each record there is a **Contact Data Expert** button, this opens up an email with a defined email template that will go to the first contact listed.
+    3. [Business Expert](https://bcgov.github.io/data-publication/pages/glossary.html/#business_expert) (optional)
+    4. [Data Manager](https://bcgov.github.io/data-publication/pages/glossary.html/#data-manager) (optional)
+    5. [Custodian](https://bcgov.github.io/data-publication/pages/glossary.html/#data_custodian) (optional) 
+    6. [Data Steward](https://bcgov.github.io/data-publication/pages/glossary.html/#data-steward) (optional) 
+    7. [Distributor](https://bcgov.github.io/data-publication/pages/glossary.html/#distributor) (optional) 
 
 + **Displayed**: Check this box to display the contact to all catalogue users (public access). Unchecked, this contact information will only be visible to those logged in as IDIR.
 
