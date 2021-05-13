@@ -7,13 +7,13 @@ grand_parent: BC Data Catalogue
 has_toc: true
 ---
 
-# BC DATA CATALOGUE RECORD CONTENT MANAGEMENT
+# BC DATA CATALOGUE RECORD CONTENT
 
 **This document is being update to correstpond with the BC Data Catalogue Beta release**
 
 ## Table of Contents
 + [**ADD RECORD**](#add-record)
-+ [**ADD RESOURCE**](#add-resource)
++ [**ADD RESOURCES**](#add-resources)
 + [**ADD APPLICATION RESOURCE**](#add-application-resource)
 + [**ADD GEOGRAPHIC DATA RESOURCE**](#add-geographic-data-resource)
 + [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-tabular-or-document-resource)
@@ -127,7 +127,7 @@ When there are changes to a resource in a metadata record, a new date type and c
 + **Date** is the date the resource was either created, published, modified, archived or destroyed. 
 
 ---------------
-# ADD RESOURCE
+# ADD RESOURCES
 1. Resources to a record can be the following types:
     - [Application*](#add-an application-resource)
     - [Geographic Data**](#add-a-geographic-data-resource)
