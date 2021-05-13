@@ -34,7 +34,7 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 
 **Description**: Provide a meaningful description of the dataset here. Be sure to include any information that would be relevant to an end-user of your dataset.
 
-**License**: describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
+**Licence**: describes the license the data is being published under. See [Licences](./dps_bcdc_w.md#licences) section for more info.
 
 **Contacts** 
 
