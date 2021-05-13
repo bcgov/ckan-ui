@@ -14,10 +14,10 @@ has_toc: true
 ## Table of Contents
 + [**ADD RECORD**](#add-record)
 + [**ADD RESOURCES**](#add-resources)
-    - [**ADD APPLICATION RESOURCE**](#add-application-resource)
-    - [**ADD GEOGRAPHIC DATA RESOURCE**](#add-geographic-data-resource)
-    - [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-tabular-or-document-resource)
-    - [**ADD WEBSERVICE OR API RESOURCE**](#add-weservice-or-api-resource)
+    - [**APPLICATIONS**](#add-application-resource)
+    - [**GEOGRAPHIC DATA**](#add-geographic-data-resource)
+    - [**TABULAR OR DOCUMENTS**](#add-tabular-or-document-resource)
+    - [**WEBSERVICE OR API**](#add-weservice-or-api-resource)
 
 ---------------
 
@@ -107,20 +107,18 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 
 **State**: When creating a new metadata record, the state will be set to DRAFT once you click on this state. 
 
-**Resource Status**: is the status of the dataset as described by one of the types below: 
-+ A dataset or record changes status over its lifecycle.
+**Resource Status**: is the status of the dataset, service, API or applicaiton as described by one of the types below: 
++ A resource or record changes status over its lifecycle.
    
     |Data Update Status| Description|
     |:---|:---|
-    |Ongoing|Datasets that are regularly updated should be described as ongoing.|
-    |Completed|Datasets with no plan for future updates should be described as completed.|
-    |Destroyed|Datasets that no longer exist should be described as destroyed.|
-    |Historical Archive|Datasets that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.|
-    |Obsolete|Datasets that that have been replaced with another dataset or have long since been maintained should be described as obsolete.|
-    |Planned|Datasets that do not currently exist, but are planned for the future, should be described as planned.|
+    |Ongoing|Resources that are regularly updated should be described as ongoing.|
+    |Completed|Resources with no plan for future updates should be described as completed.|
+    |Destroyed|Resources that no longer exist should be described as destroyed.|
+    |Historical Archive|Resources that exist, but have been archived (can also be desribed as no longer relevant) should be described as historical archive.|
+    |Obsolete|Resources that that have been replaced with another or have long since been maintained should be described as obsolete.|
+    |Planned|Resources that do not currently exist, but are planned for the future, should be described as planned.|
     |Required|
-    |Under development|Datasets that exist but are not yet completed should be described as under development.|
-
 **Record Lifecycle History**:
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
 + **Type** is used to provide details to users on when resources are created, published, modified, archived or destroyed. 
