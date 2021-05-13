@@ -133,7 +133,7 @@ _Note: To use the CKAN API for creating metadata, more information is available 
         |[Record](https://bcgov.github.io/data-publication/pages/glossary.html#record)|[Workflow](./dps_bcdc_content.md#add-record)|
         |[Application](https://bcgov.github.io/data-publication/pages/glossary.html#application)|[Workflow](./dps_bcdc_content.md#add-application-resource)|
         |[Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#dataset)|[Workflow](./dps_bcdc_content.md#add-tabular-or-document-resource)|
-        |[Geographic Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#geographic_dataset)|[Workflow](./dps_bcdc_content.md#add-record#add-geographic-data-resource)|
+        |[Geographic Dataset](https://bcgov.github.io/data-publication/pages/glossary.html#geographic_dataset)|[Workflow](./dps_bcdc_content.md##add-geographic-data-resource)|
         |[Web Service - API](https://bcgov.github.io/data-publication/pages/glossary.html#webservice_api)|[Workflow](./dps_bcdc_content.md#add-weservice-or-api-resource)|
 
 1.  Click the **Add Dataset** button.
@@ -165,17 +165,16 @@ _Notes:_
 
 ### REORDERING RESOURCES
 The **Reorder resources** button allows you to control the order of resources in the metadata record.
++ **TO BE CONFIGURED**: This is yet to be configured.
 
 ### EDITING EXISTING RESOURCES
 
 There are two ways to edit a resource in the metadata record: 
-+ Using the 'wrench' icon > click the **Resources** tab
-+ Using the **Explore** button on the main page:
-	+ Click the **Explore** drop down button
-	+ Click the **Edit** option to edit the resource
+1. On the resource card of the record page, click the pencil ![image](https://user-images.githubusercontent.com/32690119/118194859-f34e6b80-b3fe-11eb-9f72-13be9b382518.png) of the resource to edit.
+1. On the resource page, click the **Edit Resource** button on the toolbar.
 
 1. Make edits that follow the workflow for your dataset type under [Creating a New Metadata Record](#CREATING-A-NEW-METADATA-RECORD).
-1. Click the **Update Resource** button to save your changes.
+1. Click the **Save** button to save your changes.
 
 ### REPLACING AN EXISTING RESOURCE
 
