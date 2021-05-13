@@ -244,7 +244,7 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 
 1. Click **Save** when done
 
-Additional resources can be added by repeating the process above.
+Additional resources can be added by repeating the process above or adding other resource types.
 
 
 ------------------------------
