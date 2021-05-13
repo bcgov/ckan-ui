@@ -14,7 +14,7 @@ has_toc: true
 ## Table of Contents
 + [**ADD RECORD**](#add-record)
 + [**ADD RESOURCE**](#add-resource)
-+ [**ADD APPLICATION RESOURCE**](#add-an application-resource)
++ [**ADD APPLICATION RESOURCE**](#add-application-resource)
 + [**ADD GEOGRAPHIC DATA RESOURCE**](#add-a-geographic-data-resource)
 + [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-a-tabular-or-document-resource)
 + [**ADD WEBSERVICE OR API RESOURCE**](#add-a-weservice-or-api-resource)
