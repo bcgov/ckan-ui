@@ -25,8 +25,9 @@ has_toc: true
 The button is defined as **Add Dataset** as this is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
 
 **Title**: This is the title of your metadata record.
++ This is limited to 100 characters as it is used in the url creation.
 
-**URL**: This is automatically generated once the title is filled in.
+**URL**: This is automatically generated while typing in the Title.
 
 **Organization**: This is the Sub-Organization (often the Branch or Division) under which the metadata record is created.
 + The Minsitry or parent organization is no longer required to be defined at the record level.
@@ -60,7 +61,6 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 **Lineage Statement**: This is information about the events or source data used in constructing the data.
 
 **More Info**
-
 + **Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the + Permalink, thus when pages are moved around the link is not broken.
 + **URL**: Any related web site URL's can be added here.
 
@@ -73,7 +73,6 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 |Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
 |High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
 
-
 **Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
 + The order reflects the most accessible to the most secure
 
@@ -83,7 +82,6 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 |Government and Business BCeID| Only people with government and BCeID credentials can access the dataset.
 |Government| Only government credentials can access the dataset.
 |Named Users| Only specific named users can access the dataset.
-
 
 **Who can download this data?** desribes the security level for access to download BC Geographic Warehouse (BCGW) resources associated with the metadata record
 + The order reflects the most accessible to the most secure
@@ -96,7 +94,6 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 |Named Users| Only specific named users can access the dataset.
 |Not downloadable| The BC Geographic Warehouse (BCGW) resources cannot be downloaded.
 
-
 **Who can view this record?** describes who can view the metadata record.
 + The order reflects the most accessible to the most secure
 
@@ -104,7 +101,6 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 |:---|:---|
 |Public | All users of the catalogue can view the metadata record.
 |IDIR | Only IDIR credentials can view the metadata record.
-
 
 **Keywords**: These are the searchable terms for the metadata record. Enter meaningful keywords here. Think of what users may use for search terms to find the dataset in the Catalogue.
 
@@ -122,13 +118,10 @@ The button is defined as **Add Dataset** as this is a CKAN term used to define t
 |Required|
 |Under development|Datasets that exist but are not yet completed should be described as under development.|
 
-
 ### **Record Lifecycle History**
 When there are changes to a resource in a metadata record, a new date type and corresponding date should be added to this section.
-
-**Type** is used to provide details to users on when resources are created, published, modified, archived or destroyed. 
-
-**Date** is the date the resource was either created, published, modified, archived or destroyed. 
++ **Type** is used to provide details to users on when resources are created, published, modified, archived or destroyed. 
++ **Date** is the date the resource was either created, published, modified, archived or destroyed. 
 
 ---------------
 # ADD RESOURCE
@@ -154,10 +147,10 @@ To add a resource:
 
 ### RESOURCE
 
-**URL** is a link to a file or resource stored elsewhere, e.g., a website or FTP site.
-+ For resources that are not available unless authorized a link to a webpage or form to instruct consumers how to obtain access, e.g. [Request Archaeology Inforamtion](https://catalogue.data.gov.bc.ca/dataset/a6d58d20-8e19-46ba-b5a0-f02e436fa765/resource/cbbd35ea-8ddb-4cb4-b717-d897e5303dc3)
++ **URL** is a link to a file or resource stored elsewhere, e.g., a website or FTP site.
+    - For resources that are not available unless authorized a link to a webpage or form to instruct consumers how to obtain access, e.g. [Request Archaeology Inforamtion](https://catalogue.data.gov.bc.ca/dataset/a6d58d20-8e19-46ba-b5a0-f02e436fa765/resource/cbbd35ea-8ddb-4cb4-b717-d897e5303dc3)
 
-**FILE** is to upload a file, e.g., CSV, directly into the Catalogue Data Store.
++ **FILE** is to upload a file, e.g., CSV, directly into the Catalogue Data Store.
 
 #### BCGW Resources
 
@@ -187,10 +180,8 @@ The **Manage BCGW Resources** button will add the ability for users to custom do
 ---------------
 ### Temporal Extent (optional)
 If your dataset is temporal in nature, you may provide the relevant dates in this area
-
-**Beginning Date** is the start date for the preiod the data is captured for.
-
-**End Date** is the end date for the preiod the data is captured for. 
++ **Beginning Date** is the start date for the preiod the data is captured for.
++ **End Date** is the end date for the preiod the data is captured for. 
 
 ---------------
 
@@ -238,38 +229,20 @@ If your dataset is temporal in nature, you may provide the relevant dates in thi
 + These values populate the **Preview** button map and **Link to iMapBC** button.
 
 **Layer Name**
-
-**Preview Latutude** allows you to provide a map preview centroid latitude.
-
-**Preview Longitude** allows you to provide a map preview centroid longitude.
-
-**Preview Map Service URL** allows you to provide an alias for the map service URL.
-
-**Preview Zoom level** allows you to provide an initial zoom level for the map preview.
-
-**Image URL** shows a preview of the data as a static image.
-
-**Link to iMap** shows an interacive preview of the data in iMapBC.
-
----------------
++ **Preview Latutude** allows you to provide a map preview centroid latitude.
++ **Preview Longitude** allows you to provide a map preview centroid longitude.
++ **Preview Map Service URL** allows you to provide an alias for the map service URL.
++ **Preview Zoom level** allows you to provide an initial zoom level for the map preview.
++ **Image URL** shows a preview of the data as a static image.
++ **Link to iMap** shows an interacive preview of the data in iMapBC.
 
 ### **Geograhic Extent**
-
-**North/South/East/West** these are autopopulated with the bounding box of the province.
-
++ **North/South/East/West** these are autopopulated with the bounding box of the province.
 
 1. Click **Save** when done
 
 Additional resources can be added by repeating the process above.
 
-
-------------------------------
-
-To complete the metadata in DRAFT status you can choose either:
-
-1. **Finished** will save your metadata record for the dataset in DRAFT status or,
-
-2. **Save and Add Another** will allow you to continue adding additional resources to the metadata record.
 
 ------------------------------
 
