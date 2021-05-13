@@ -11,7 +11,7 @@ has_toc: false
 
 **This document is written for BC Data Catalogue Beta release**
 
-When data is published to the the DataBC Program through any of its services, it must also have a metadata record in the BC Data Catalogue.  DataBC has well documented Data Standards and Guidelines that are followed throughout the process for metadata creation.  The workflows described below will guide you through what your reponsibilities are as a publisher to the BC Data Catalogue and how to create a metadata record in the BC Data Catalogue.
+When data is published to the DataBC Program through any of its services, as well as published under the [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61) it must also have a metadata record in the BC Data Catalogue.  DataBC has well documented Data Standards and Guidelines that are followed throughout the process for metadata creation.  The workflows described below will guide you through what your reponsibilities are as a publisher to the BC Data Catalogue and how to create a metadata record in the BC Data Catalogue.
 
 This page is written in the context that you have reviewed all information in the 'Documentation Review' section.
 
@@ -66,11 +66,13 @@ Once you are ready, use the steps in this workflow to guide you through the proc
 
 ## HOW TO BECOME A PROVIDER TO THE CATALOGUE
 
-To become a Catalogue editor/publisher for a Sub-Organization (a Branch or Division), approval from the Data Custodian (Director or Executive Director) is required. Here are the steps to complete this:
+To become a Catalogue editor/publisher for a Sub-Organization (a Branch or Division), approval from the Data Custodian (Director or Executive Director) is required. Here are the steps to complete this, provide:
 
-1. Contact the Data Custodian to request approval for publishing/editing privileges in the Sub-Org. Be sure to note the Orgnization and Sub-Organization (as it appears in the Catalogue) in your email. If more than one person requires editing access, include them in the request as well.
-1. Once approval is received from the Custodian, forward the email including ther response to [DataBC.DA](mailto:DataBC.DA@gov.bc.ca) with the subject: "BCDC Editor Request". 
-1. A Catalogue administrator will then add you as an editor to the Sub-Org and contact you with all relavant information to get you started as an Editor in the BC Data Catalogue.
+1. Approval from the Data Custodian to for publish and manage records and data on their behalf.
+3. The name of the Ministry/Organization and Sub-Organization (as it appears in the Catalogue and if that needs to be renamed) in your email. 
+4. All names and IDIRs for those requiring access.
+5. Forward all this to [DataBC.DA](mailto:DataBC.DA@gov.bc.ca) with the subject: "BCDC Editor Request". 
+6. A Catalogue administrator will then add you as an editor to the Sub-Org and contact you with all relavant information to get you started as an Editor in the BC Data Catalogue.
 
 Organizations in the Broader Public Sector (BPS) may publish metadata records and data to the Catalogue. 
 + For datasets licensed under Open Data, these organizations will require their own Open Government Licence. See [Licenses](#Licenses) section below for more information on this.  
@@ -82,16 +84,16 @@ Organizations in the Broader Public Sector (BPS) may publish metadata records an
 
 ## LICENCES
 
-There are three licencing options for data published in the BC Data Catalogue:
+There are three licencing options for data published data in the BC Data Catalogue:
 
 1. [Access Only](https://www2.gov.bc.ca/gov/content/home/copyright)
    
    Access only is a statement of use that is restrictive as defined in the Crown Copyright Page.
-	+ “reproduction is not permitted without written permission.”
+	+ “reproduction or distribution is not permitted without written permission.”
 	+ A user is then required to request permission through the [IPP office form](https://forms.gov.bc.ca/copyright-permission-request) and does have a fee associated with it. 
 1. [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61)
  
-   It is recommended to publish data under an Open Government Licence, where possible, as it is much more permissive.
+   For data that is under the Intelectual Property or "ownership of the Province of BC and meets all the requirements of being open data, it is recommended to publish data under an Open Government Licence, where possible, as it is much more permissive.
 
    To publish a dataset under OGL-BC, [follow the full steps here](https://bcgov.github.io/data-publication/pages/open_data.html) but in brief you will need to obtain the required authorizations as noted in the [Open Data Assessment and Checklist](https://www2.gov.bc.ca/assets/download/97CF56DB283D4AE08968E4A4C7538D65). These include:
 
@@ -119,11 +121,12 @@ There are three licencing options for data published in the BC Data Catalogue:
 ## CREATING A METADATA RECORD
 _Note: To use the CKAN API for creating metadata, more information is available [here](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_api_dev_workflow.md)._
 
-1. Log into the [BC Data Catalogue](https://catalogue.data.gov.bc.ca) by clicking **Log In** on the upper right of the Catalogue page. This will take you to your dashboard. 
-1. Click the **Datasets** button on the toolbar.
+1. Log into the [BC Data Catalogue](https://catalogue.data.gov.bc.ca) by clicking **Log In** on the upper right of the toolbar.
+    + All users with an IDIR can log into the Catalogue but as an editor you will see **Add Dataset** in place of the **Log In** button.
 1. Click the [**Add Dataset**] button.
-1. Choose the dataset type that describes the type of content you are publishing.
-	+ Follow the workflow link below for details on the specific fields for each dataset type.
+1. Complete the record details to describe what you are publishing and then you will be able to add different resource types after.
+    + This is a change from the previous Catalogue where you had to specify the Resource Type at the begining. 
+    + Follow the workflow link below for details on the specific fields for each dataset type.
 
 |Dataset Type| |
 |:---|:---|
