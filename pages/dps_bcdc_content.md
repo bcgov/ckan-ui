@@ -4,12 +4,26 @@ title: Geographic Dataset
 nav_order: 324
 parent: Publication Workflow
 grand_parent: BC Data Catalogue
-has_toc: false
+has_toc: true
 ---
 
-## Adding A RECORD TO THE BC DATA CATALOGUE
+# BC DATA CATALOGUE RECORD CONTENT MANAGEMENT
 
-### **Add Dataset**
+**This document is being update to correstpond with the BC Data Catalogue Beta release**
+
+## Table of Contents
++ [**ADD DATASET**](#add-dataset)
+    + [**CONTACTS**](#contacts)
+    + [**MORE INFO**](#more-info)
+    + [**ACCESS AND SECURITY**](#access-and-security)
++ [**ADD APPLICATION RESOURCE**](#add-an application-resource)
++ [**ADD GEOGRAPHIC DATA RESOURCE**](#add-a-geographic-data-resource)
++ [**ADD TABULAR OR DOCUMENT RESOURCE**](#add-a-tabular-or-document-resource)
++ [**ADD WEBSERVICE OR API RESOURCE**](#add-a-weservice-or-api-resource)
+
+
+
+## ADD DATASET
 Dataset is a CKAN term used to define the record and all it's resources. As this word is used to mean other things, this document defines the metadata as a record.
 
 **Title**: This is the title of your metadata record.
@@ -24,7 +38,7 @@ Dataset is a CKAN term used to define the record and all it's resources. As this
 **License** describes the license the data is being published under. See [Licenses](./dps_bcdc_w.md#licenses) section for more info.
 
 ---------------
-### **Contacts**
+### CONTACTS
 
 Add contacts for the following **Roles**:
 1. [Custodian](./glossary.md/#data_custodian) (required) 
@@ -52,14 +66,14 @@ Add contacts for the following **Roles**:
 
 **Lineage Statement**: This is information about the events or source data used in constructing the data.
 
-### **More Info**
+### **MORE INFO**
 
 **Description** (**NEW**): Allows description text to notify what a link pertains to when the URL uses a Permalink, e.g., for CMS Lite pages, it is recommend to use the Permalink, thus when pages are moved around the link is not broken.
 
 **URL**: Any related web site URL's can be added here.
 
 ---------------
-### **Access & Security**
+### ACCESS AND SECURITY
 
 **Security Classification**
 
@@ -69,7 +83,6 @@ Add contacts for the following **Roles**:
 |Low - Sensitivity|**Protected A** | Confidential. Harm to an individual, organization or government. Examples: Home addresses, dates of birth, other low-risk personal information
 |Medium - Personal, Medium - Sensitivity|**Protected B**| Confidential. Serious harm to an individual, organization or government. Examples: Law enforcement and medical records, personnel evaluations and investigations, financial records, information subject to solicitor-client privilege or other legal privilege
 |High - Cabinet, High - Confidential, High - Sensitivity|**Protected C** | Confidential. Extremely grave harm to an individual, organization or government. Examples: Information about police agents and other informants, Cabinet records or Cabinet-related records
-
 
 ---------------
 **Who can view this data?** describes who can view for example BC Geographic Warehouse (BCGW) resources associated with the metadata record in tools like iMapBC.
@@ -129,9 +142,9 @@ When there are changes to a resource in a metadata record, a new date type and c
 **Date** is the date the resource was either created, published, modified, archived or destroyed. 
 
 ---------------
+## ADD APPLICATION RESOURCE
 
-
-### **Add a Geographic Data Resource**
+## ADD GEOGRAPHIC DATA RESOURCE
 
 **ISO Topic Category**: [Topic Category Definitions](https://apps.usgs.gov/thesaurus/thesaurus-full.php?thcode=15) More information: [ISO 19115-1:2014](https://www.iso.org/standard/53798.html)  
 
@@ -240,6 +253,10 @@ To complete the metadata in DRAFT status you can choose either:
 2. **Save and Add Another** will allow you to continue adding additional resources to the metadata record.
 
 ------------------------------
+
+## ADD TABULAR OR DOCUMENT RESOURCE
+
+## ADD WEBSERVICE OR API RESOURCE
 
 [RETURN TO TOP][1]
 
