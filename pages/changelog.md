@@ -2,9 +2,9 @@
 
 |**AUDIENCE**|
 |:---:|
+| *BCDC Consumers* |
 | *BCDC Data Providers* | 
 | *BCDC Administrators* | 
-| *BCDC Consumers* |
 
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
@@ -22,6 +22,7 @@
 + User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
+
 
 # WHAT'S NEW
 ## May 2021 Beta
@@ -87,7 +88,15 @@
     |Resource Storage Location|||
     |Resource Access Method|||
 
-+ Drop down values added or renamed:
++ Drop down values added:
+
+    |Field Label |Value Added|
+    |:---|:---|
+    |Contact Role| Data Manager; Custodian; Data Steward|
+    |Resource Update Cycle|Nightly|
+    |Resource Storage Format|gpkg (geopackage); multiple|
+    
++ Drop down values renamed:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
     
     |Field Label |Value Added|Old Value|
@@ -95,17 +104,13 @@
     |Security Classification |PUBLIC | LOW-PUBLIC|PROTECTED A | LOW-SENSITIVITY|
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
-    |Contact Role| Data Manager; Custodian; Data Steward| |
-    |Resource Update Cycle|Nightly|
-    |Resource Storage Format|gpkg (geopackage); multiple|
     
 + Drop down values removed:
 
     |Field Label |Value Removed|Rational|
     |:---|:---|:---|
     |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
-    
-    
+        
 ### API
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
