@@ -42,7 +42,7 @@
 
 ### FIELD AND VALUE CHANGES
 **Field Labels** are what is visible in the user interface.
-**Field Names** are what is visible from the API.
+**Field Names** are what is returned from the API.
 
 + Fields added:
 
@@ -77,16 +77,18 @@
     |short_name; column_name; data_type; column_comments |details|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
     
-+ Fields available to other resources:
-    - Additional resources fields that existed for Tabular data have now also been made available for Applications and Webservices/APIs.
++ Fields available to other resources types:
+    - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
     |Field Label|Field Name |Resource Types Added To|
     |:---|:---|:---|
-    |Resource Update Cycle|| |
-    |Temporal Extent|||
-    |Resource Stroage Format|||
-    |Resource Storage Location|||
-    |Resource Access Method|||
+    |Record Lifecylce History: Type and Date| |Record level for all types|
+    |Resource Descrition||Web Service/API ; Application|
+    |Supplimental Information||Web Service/API ; Application|
+    |Temporal Extent||Web Service/API ; Application|
+    |Resource Storage Location||Web Service/API ; Application|
+    |Resource Type||Web Service/API ; Application|
+    |Resource Access Method||Web Service/API ; Application|
 
 + Drop down values added:
 
