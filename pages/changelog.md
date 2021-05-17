@@ -9,6 +9,9 @@
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
 + [**May 2021 Beta**](#may-2021-beta)
+   - [**User Interface (UI)**](#user-interface-ui)
+   - [**Field and Value Changes**](#field-and-value-changes)
+   - [**User Management**](#user-management)
 + [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
 
 -----------------------
@@ -35,7 +38,7 @@
 + Ministry or parent organization no longer listed on records.
 + Contact Data Expert button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
 
-### FIELDS AND VALUES
+### FIELD AND VALUE CHANGES
 **Field Labels** are what is visible in the user interface.
 **Field Names** are what is visible from the API.
 
