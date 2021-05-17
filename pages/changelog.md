@@ -122,6 +122,10 @@
 ### USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
 
+### SPECS
+* CKAN: 2.7.5
+* SOLR: 7.2.1
+
 ## 2020 Pre-Beta Specs
 
 [RETURN TO TOP][1]
