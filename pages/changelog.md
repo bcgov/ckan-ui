@@ -8,8 +8,8 @@
 
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
-+ [**2021**](#2021)
-+ [**2020**](#2020)
++ [**May 2021 Beta**](#may-2021-beta)
++ [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
 
 -----------------------
 
