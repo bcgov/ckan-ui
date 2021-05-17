@@ -29,7 +29,7 @@
 + Release of Beta!
 
 ### USER INTERFACE
-+ The main page of https://data.gov.bc.ca has been simlified.
++ The main page of https://data.gov.bc.ca has been simplified.
 + Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
 + Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
 + BC Geographic Warehouse (BCGW) items have moved:
