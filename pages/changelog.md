@@ -108,6 +108,8 @@
 + JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 + See field section for changes to field names and fields being nested in ?
 
+### USER MANAGEMENT
++ Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
 
 ## 2020 Pre-Beta Specs
 
