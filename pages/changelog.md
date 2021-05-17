@@ -80,15 +80,15 @@
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
-    |Field Label|Field Name |Resource Types Added To|
+    |Label|Field Name |Resource Types Added To|
     |:---|:---|:---|
-    |Record Lifecylce History: Type and Date| |Record level for all types|
-    |Resource Descrition||Web Service/API ; Application|
-    |Supplimental Information||Web Service/API ; Application|
-    |Temporal Extent||Web Service/API ; Application|
-    |Resource Storage Location||Web Service/API ; Application|
-    |Resource Type||Web Service/API ; Application|
-    |Resource Access Method||Web Service/API ; Application|
+    |Record Lifecylce History: Type and Date|type; date |Record level for all types|
+    |Resource Descrition|resource_description|Web Service/API ; Application|
+    |Supplimental Information|supplemental_information|Web Service/API ; Application|
+    |Temporal Extent: Beginning Date; End Date|temporal_extent:beginning_date ; end_date|Web Service/API ; Application|
+    |Resource Storage Location|resource_storage_location|Web Service/API ; Application|
+    |Resource Type|resource_type|Web Service/API ; Application|
+    |Resource Access Method|Resource Access Method|Web Service/API ; Application|
 
 + **Drop down values added**:
 
