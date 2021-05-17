@@ -50,15 +50,6 @@ button on the **Preview** button on resource page.
     | |metastar_uid |Old Discovery Service unique ID|
     | |odsi_uid|Old Open Data Catalogue unique ID|
 
-+ Fields moved:
-
-    |Field Name|Now Nested Within|
-    |:---|:---|
-    |beginning_date ; end_date| temporal_extent |
-    |edc_resource_type; resource_storage_location  |extras|
-    |short_name; column_name; data_type; column_comments |details|
-    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
-
 + Fields renamed:
 
     |New |Old|
@@ -90,6 +81,14 @@ button on the **Preview** button on resource page.
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 
++ Fields moved:
+
+    |Field Name|Now Nested Within|
+    |:---|:---|
+    |beginning_date ; end_date| temporal_extent |
+    |edc_resource_type; resource_storage_location  |extras|
+    |short_name; column_name; data_type; column_comments |details|
+    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
 
 ## 2020 Pre-Beta Specs
 
