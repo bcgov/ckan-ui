@@ -27,11 +27,11 @@
 + The main page of https://data.gov.bc.ca has been simlified.
 + Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
 + Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
-+ BC Geographic Warehouse (BCDC) items moved:
-    - Data definitions moved to the resource type.
-    - Map Preview using WMS moved to the ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button on resource page tool bar.
-    - Link to iMapBC specific presentations has moved to ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png)
-button on the **Preview** button on resource page.
++ BC Geographic Warehouse (BCGW) items have moved:
+    - **Data definitions**, e.g., field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
+        - For those not downloadable from the Distribution Services, these will be managed as one offs.
+    - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
+    - **Link to iMapBC** specific presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 + Ministry or parent organization no longer listed on records.
 + Contact Data Expert button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
 
@@ -59,10 +59,20 @@ button on the **Preview** button on resource page.
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
     
++ Fields moved:
+    - For those that use the catalogue API, these changes may impact scripting.
+    
+    |Field Name|Now Nested Within|
+    |:---|:---|
+    |beginning_date ; end_date| temporal_extent |
+    |edc_resource_type; resource_storage_location  |extras|
+    |short_name; column_name; data_type; column_comments |details|
+    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
     
 + Fields available to other resources:
-
-    |Field Label|New Field Name |Resource Types Added To|
+    - Additional resources fields that existed for Tabular data have now also been made available for Applications and Webservices/APIs.
+    
+    |Field Label|Field Name |Resource Types Added To|
     |:---|:---|:---|
     |Resource Update Cycle|| |
     |Temporal Extent|||
@@ -93,15 +103,8 @@ button on the **Preview** button on resource page.
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
++ See field section for changes to field names and fields being nested in ?
 
-+ Fields moved:
-
-    |Field Name|Now Nested Within|
-    |:---|:---|
-    |beginning_date ; end_date| temporal_extent |
-    |edc_resource_type; resource_storage_location  |extras|
-    |short_name; column_name; data_type; column_comments |details|
-    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
 
 ## 2020 Pre-Beta Specs
 
