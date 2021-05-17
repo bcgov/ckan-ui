@@ -22,7 +22,8 @@
 # WHAT'S NEW
 ## May 2021 Beta
 + Release of Beta!
-+ Decoupling backend (CKAN database and API) and frontend (Javascript).
+
+### USER INTERFACE
 + The main page of https://data.gov.bc.ca has been simlified.
 + Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
 + Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
@@ -57,6 +58,17 @@ button on the **Preview** button on resource page.
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
+    
+    
++ Fields available to other resources:
+
+    |Field Label|New Field Name |Resource Types Added To|
+    |:---|:---|:---|
+    |Resource Update Cycle|| |
+    |Temporal Extent|||
+    |Resource Stroage Format|||
+    |Resource Storage Location|||
+    |Resource Access Method|||
 
 + Drop down values added or renamed:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
@@ -78,6 +90,7 @@ button on the **Preview** button on resource page.
     
     
 ### API
++ Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 
