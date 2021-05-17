@@ -44,14 +44,14 @@
 **Field Labels** are what is visible in the user interface.
 **Field Names** are what is returned from the API.
 
-+ Fields added:
++ **Fields added**:
 
     |Field Label |Field Name|
     |:---|:---|
     |JSON Table Schema | json_table_schema|
     |More Info Description|description|
  
-+ Fields removed:
++ **Fields removed**:
    
     |Field Label |Field Name|Rational|
     |:---|:---|:---|
@@ -59,7 +59,7 @@
     | |metastar_uid |Old Discovery Service unique ID|
     | |odsi_uid|Old Open Data Catalogue unique ID|
 
-+ Fields renamed:
++ **Fields renamed**:
 
     |Field Label|New Field Name |Old Field Name|
     |:---|:---|:---|
@@ -67,7 +67,7 @@
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
     
-+ Fields moved:
++ **Fields moved**:
     - For those that use the catalogue API, these changes may impact scripting.
     
     |Field Name|Now Nested Within|
@@ -77,7 +77,7 @@
     |short_name; column_name; data_type; column_comments |details|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
     
-+ Fields available to other resources types:
++ **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
     |Field Label|Field Name |Resource Types Added To|
@@ -90,7 +90,7 @@
     |Resource Type||Web Service/API ; Application|
     |Resource Access Method||Web Service/API ; Application|
 
-+ Drop down values added:
++ **Drop down values added**:
 
     |Field Label |Value Added|
     |:---|:---|
@@ -98,7 +98,7 @@
     |Resource Update Cycle|Nightly|
     |Resource Storage Format|gpkg (geopackage); multiple|
     
-+ Drop down values renamed:
++ **Drop down values renamed**:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
     
     |Field Label |Value Added|Old Value|
@@ -107,7 +107,7 @@
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
     
-+ Drop down values removed:
++ **Drop down values removed**:
 
     |Field Label |Value Removed|Rational|
     |:---|:---|:---|
