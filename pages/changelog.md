@@ -52,11 +52,11 @@ button on the **Preview** button on resource page.
 
 + Fields renamed:
 
-    |New |Old|
-    |:---|:---|
-    |publish_state | edc_state|
-    |bcdc_type|type|
-    |resource_access_method|resource_storage_access_method|
+    |Field Label|New Field Name |Old Field Name|
+    |:---|:---|:---|
+    |State| publish_state | edc_state|
+    |Type|bcdc_type|type|
+    |Resource Access Method|resource_access_method|resource_storage_access_method|
 
 + Drop down values added or renamed:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
