@@ -351,5 +351,6 @@ export default {
         "Dataset Usage": "Utilisation de l'ensemble de données",
         "Geographic Data": "Données géographiques",
         "Copy": "Copie",
+        "Provide Beta Feedback": "Fournir des commentaires bêta",
     }
 };

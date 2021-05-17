@@ -186,7 +186,7 @@ export default {
                 "dialog": true
             },
             {
-                "title": "Contact Data BC",
+                "title": "Provide Beta Feedback",
                 "href": "https://forms.gov.bc.ca/databc-contact-us/"
             },
             {
