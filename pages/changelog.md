@@ -36,6 +36,9 @@
 + Contact Data Expert button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
 
 ### FIELDS AND VALUES
+**Field Labels** are what is visible in the user interface.
+**Field Names** are what is visible from the API.
+
 + Fields added:
 
     |Field Label |Field Name|
