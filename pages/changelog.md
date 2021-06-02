@@ -32,6 +32,7 @@
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
 + Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
++ Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
 **Record Level**
 + Ministry or parent organization no longer listed on records.
