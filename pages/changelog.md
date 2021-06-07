@@ -37,6 +37,8 @@
 1. BCGW Details listed on resources that are not Geographic are still to be removed.
 1. All Editors can see all record in all states of all organizations.  
 1. Group editors and members management to be configured.  
+1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
+1. Some column mapping between production and beta did not tranlate correctly for resources with new fields, these will be scripted and updated.
 1. 
 
 **Landing Page**
