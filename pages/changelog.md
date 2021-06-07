@@ -28,7 +28,17 @@
 ## May 2021 Beta
 + Release of Beta!
 
+
+
 ### USER INTERFACE
+**Known Issues List**
+1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
+1. Geographic datasets Download vs Request Access
+1. BCGW Details listed on resources that are not Geographic are still to be removed.
+1. All Editors can see all record in all states of all organizations.  
+1. Group editors and members management to be configured.  
+1. 
+
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
 + Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
