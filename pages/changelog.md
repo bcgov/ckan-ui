@@ -88,7 +88,7 @@
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
-    |Resource Access Method|resource_storage_format|format|
+    |Resourage Storage Format|resource_storage_format|format|
     
 + **Fields moved**:
     - For those that use the catalogue API, these changes may impact scripting.
