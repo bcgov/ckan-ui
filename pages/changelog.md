@@ -99,7 +99,7 @@
     |edc_resource_type; resource_storage_location  |extras|
     |short_name; column_name; data_type; column_comments |details|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
-    |name, email, org, role, displayer|Contacts|
+    |name, email, org, role, displayed|Contacts|
     
     
 + **Fields available to other resources types**:
