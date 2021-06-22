@@ -90,15 +90,17 @@
     |Resource Access Method|resource_access_method|resource_storage_access_method|
     |Resourage Storage Format|resource_storage_format|format|
     
-+ **Fields moved**:
++ **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
     
-    |Field Name|Now Nested Within|
+    |Field Name|Field within|
     |:---|:---|
     |beginning_date ; end_date| temporal_extent |
     |edc_resource_type; resource_storage_location  |extras|
     |short_name; column_name; data_type; column_comments |details|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
+    |name, email, org, role, displayer|Contacts|
+    
     
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
