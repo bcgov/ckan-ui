@@ -89,6 +89,11 @@
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
     |Resourage Storage Format|resource_storage_format|format|
+    | |beginning_date|data_collection_start_date  | 
+    | |end_date|data_collection_end_date|
+    | |resource_type|edc_resource_type|
+    | |resource_description |description|    
+    | |suplemental_information|supplemental_info  | 
     
 + **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
