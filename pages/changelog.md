@@ -80,6 +80,7 @@
     |Sector | sector|No longer used in Government|
     | |metastar_uid |Old Discovery Service unique ID|
     | |odsi_uid|Old Open Data Catalogue unique ID|
+    | |ofi| |
 
 + **Fields renamed**:
 
