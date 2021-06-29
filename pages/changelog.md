@@ -103,12 +103,12 @@
 + **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
     
-    |Field Name|Field within|
+    |Field Name|Field within|Move to|
     |:---|:---|
     |beginning_date ; end_date| temporal_extent |
-    |edc_resource_type; resource_storage_location  |extras|
-    |short_name; column_name; data_type; column_comments |details|
-    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|
+    |edc_resource_type; resource_storage_location  |extras|from package to resource|
+    |short_name; column_name; data_type; column_comments |details|from package to resource|
+    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|
     
     
