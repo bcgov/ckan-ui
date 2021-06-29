@@ -95,6 +95,9 @@
     | |resource_type|edc_resource_type|
     | |resource_description |description|    
     | |suplemental_information|supplemental_info  | 
+    |More Info URL |url|link|
+    |Contacts Branch|org|branch|
+     
     
 + **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
