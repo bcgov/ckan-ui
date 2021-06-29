@@ -81,6 +81,10 @@
     | |metastar_uid |Old Discovery Service unique ID|
     | |odsi_uid|Old Open Data Catalogue unique ID|
     | |ofi| |
+    | |retention_expiry_date| |
+    | |metadata_standard_version| |
+    |Contact Organixation|organization| |
+    | |metadata_character_set| |
 
 + **Fields renamed**:
 
@@ -98,7 +102,11 @@
     |More Info URL |url|link|
     |Contacts Branch|org|branch|
 
-     
++ **Fields use change**:
+
+    |Field Label|Field Name|New Use |Old Use|
+    |:---|:---|:---|:---|
+    |Published by the| full_title|  Suborg |Organization and suborg concatentated|  
     
 + **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
