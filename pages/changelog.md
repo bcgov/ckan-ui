@@ -137,6 +137,7 @@
     |Security Classification |PUBLIC | LOW-PUBLIC|PROTECTED A | LOW-SENSITIVITY|
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
+    |Resource Type| document|dataset|
     
 + **Drop down values removed**:
 
