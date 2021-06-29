@@ -142,6 +142,7 @@
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
     |Resource Type| document|dataset|
+    |Projection Name| short name| full title|
     
 + **Drop down values removed**:
 
