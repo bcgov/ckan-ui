@@ -9,7 +9,7 @@
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
 + [**July 2021 Beta**](#july-2021-beta)
-   - [**User Interface (UI)**](#user-interface-ui)
+   - [**User Interface (UI)**](#user-interface)
    - [**Field and Value Changes**](#field-and-value-changes)
    - [**API**](#api)
    - [**User Management**](#user-management)
