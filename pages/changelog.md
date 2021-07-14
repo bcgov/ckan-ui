@@ -8,7 +8,7 @@
 
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
-+ [**May 2021 Beta**](#may-2021-beta)
++ [**July 2021 Beta**](#july-2021-beta)
    - [**User Interface (UI)**](#user-interface-ui)
    - [**Field and Value Changes**](#field-and-value-changes)
    - [**API**](#api)
@@ -25,7 +25,7 @@
 
 
 # WHAT'S NEW
-## May 2021 Beta
+## July 2021 Beta
 + Release of Beta!
 
 
@@ -39,7 +39,6 @@
 1. Group editors and members management to be configured.  
 1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
 1. Some column mapping between production and beta did not tranlate correctly for resources with new fields, these will be scripted and updated.
-1. 
 
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
