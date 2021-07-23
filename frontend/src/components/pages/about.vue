@@ -118,7 +118,7 @@
                     if (data.success){
                         this.formSuccess = true;
                         this.formError = false;
-                        this.formMessage = "Succesfully udpated";
+                        this.formMessage = "Succesfully updated";
                         this.editing = false;
                     }else{
                         this.formSuccess = false;
