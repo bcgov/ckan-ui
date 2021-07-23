@@ -73,9 +73,11 @@ export default {
     },
     methods: {
         deleteResource: function(){
-            ckanServ.deleteResource(this.resource.id).then( () => {
-                location.reload();
-            });
+            if (confirm("This will permanently delete this information. Continue?")) {
+                ckanServ.deleteResource(this.resource.id).then( () => {
+                    location.reload();
+                });
+            }
         }
     },
     computed: {
