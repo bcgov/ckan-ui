@@ -83,7 +83,7 @@ export default {
         parentObject: Object,
     },
     data() {
-        let isUrl;
+        let isURL;
     
         if (typeof(this.currentlyUrl) === "boolean") {
             isURL = this.currentlyUrl;
