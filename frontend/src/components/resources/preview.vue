@@ -156,8 +156,17 @@ export default {
                      }
 
                 let retURL = this.basePreviewURL + previewInfo.layer_name;
-                let smkCenter = '';
-                smkCenter = "&smk-center=" + previewInfo.preview_longitude + "," + previewInfo.preview_latitude + "," + previewInfo.preview_zoom_level
+
+                let centerTriplet = [
+                    previewInfo.preview_longitude,
+                    previewInfo.preview_latitude,
+                    previewInfo.preview_zoom_level
+                ];
+
+                let smkCenter = "";
+                if (centerTriplet.every(thing => typeof thing === "number")) {
+                    smkCenter = "&smk-center=" + centerTriplet.join(",");
+                }
                 
                 retURL += smkCenter;
 
