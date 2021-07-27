@@ -83,10 +83,12 @@ export default {
         parentObject: Object,
     },
     data() {
+        let isUrl;
+    
         if (typeof(this.currentlyUrl) === "boolean") {
-            var isURL = this.currentlyUrl;
+            isURL = this.currentlyUrl;
         } else {
-            var isURL = (
+            isURL = (
                 typeof(this.currentlyUrl) === "string" &&
                 this.currentlyUrl.toLowerCase() === "true"
             ) || this.field.field_name === "url";
