@@ -316,7 +316,10 @@
         this.so = this.$store.state.search.sortOrder;
         let self = this;
         this.$store.subscribe((mutation) => {
-            if (mutation.type.startsWith('search/setSearchText')){
+
+            // mutation could be search/setSearchTextAndRedirect too; we want to subscribe to anything that
+            // updates search text.
+            if (mutation.type.startsWith('search/setSearchText')) {
                 self.findText = this.$store.state.search.searchText;
                 self.getDatasets();
             }
