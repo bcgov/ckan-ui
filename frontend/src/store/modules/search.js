@@ -5,8 +5,7 @@ import router from '../../router/index';
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
-const DEFAULT_SORT_NO_TEXT_ORDER = "metadata_created desc";
-const DEFAULT_SORT_WITH_TEXT_ORDER = "score desc";
+const DEFAULT_SORT_ORDER = "score desc";
 
 const state = {
     facets: {},
@@ -14,7 +13,7 @@ const state = {
     searchText: "",
     clearOnRedirect: true,
     landingTerms: [],
-    sortOrder: DEFAULT_SORT_NO_TEXT_ORDER,
+    sortOrder: DEFAULT_SORT_ORDER
 };
 
 const getters = {
@@ -70,7 +69,7 @@ const mutations = {
     setSearchTextAndRedirect(state, text ){
         state.searchText = text;
         state.clearOnRedirect = false;
-        state.sortOrder = DEFAULT_SORT_WITH_TEXT_ORDER;
+        state.sortOrder = DEFAULT_SORT_ORDER;
         router.push('/datasets');
     },
 
@@ -79,7 +78,7 @@ const mutations = {
     },
 
     defaultSortOrder(state){
-        state.sortOrder = (state.searchText === "") ? DEFAULT_SORT_NO_TEXT_ORDER : DEFAULT_SORT_WITH_TEXT_ORDER;
+        state.sortOrder = DEFAULT_SORT_ORDER;
     }
 }
 
