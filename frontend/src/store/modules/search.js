@@ -70,7 +70,10 @@ const mutations = {
         state.searchText = text;
         state.clearOnRedirect = false;
         state.sortOrder = DEFAULT_SORT_ORDER;
-        router.push('/datasets');
+
+        if (location.pathname !== "/datasets") {
+            router.push('/datasets');
+        }
     },
 
     setSortOrder(state, sort){

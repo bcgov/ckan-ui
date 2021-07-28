@@ -197,7 +197,14 @@
                 this.noResults = false;
             }
 
-            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
+            // if the search is blank, and we're sorting by relevance, actually sort by newest
+            // per bcgov#509
+            let effectiveOrder = this.sortOrder;
+            if (!this.searchText || /^\s+$/.test(this.searchText) && this.sortOrder.startsWith("score")) {
+                effectiveOrder = "metadata_created desc";
+            }
+
+            let q = "?rows=" + this.rows+"&sort="+effectiveOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
 
