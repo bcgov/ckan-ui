@@ -116,8 +116,8 @@
                 <v-alert
                   dense
                   dismissible
-                  type="warning">
-                  You have been logged out
+                  type="success">
+                  You're now logged out
                 </v-alert>
               </v-col>
             </v-row>
