@@ -200,7 +200,7 @@
             // if the search is blank, and we're sorting by relevance, actually sort by newest
             // per bcgov#509
             let effectiveOrder = this.sortOrder;
-            if (!this.searchText || /^\s+$/.test(this.searchText) && this.sortOrder.startsWith("score")) {
+            if ((!this.searchText || /^\s+$/.test(this.searchText)) && this.sortOrder.startsWith("score")) {
                 effectiveOrder = "metadata_created desc";
             }
 
