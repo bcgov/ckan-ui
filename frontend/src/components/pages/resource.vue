@@ -432,26 +432,28 @@ export default {
                 this.notAtTop = true;
             }
         },
-        async deleteResource(){
-            const response = await ckanServ.deleteResource(this.resourceId);
+        async deleteResource() {
+            if (confirm("Are you sure you want to delete this resource?")) {
+                const response = await ckanServ.deleteResource(this.resourceId);
 
-            this.formSuccess = "";
-            this.formError = "";
+                this.formSuccess = "";
+                this.formError = "";
 
-            if (response.success && response.success === true && (!response.error || response.error === false)){
-                this.formSuccess = "Successfully deleted";
-                this.showFormSuccess = true;
-                this.showFormError = false;
-                return;
-            }else if (response.error){
-                this.formError = response.error;
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    return;
+                } else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    return;
+                }
+                this.formError = "Unknown error deleting resource";
                 this.showFormSuccess = false;
                 this.showFormError = true;
-                return;
             }
-            this.formError = "Unknown error deleting resource";
-            this.showFormSuccess = false;
-            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){
