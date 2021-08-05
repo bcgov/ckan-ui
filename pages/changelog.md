@@ -100,6 +100,7 @@
     | |suplemental_information|supplemental_info  | 
     |More Info URL |url|link|
     |Contacts Branch|org|branch|
+    |ISO Topic Category|iso_topic_category|iso_topic_string  | 
 
 + **Fields use change**:
 
@@ -117,6 +118,7 @@
     |short_name; column_name; data_type; column_comments |details|from package to resource|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|NA|
+    |iso_topic_category|Resource level  | 
     
     
 + **Fields available to other resources types**:
