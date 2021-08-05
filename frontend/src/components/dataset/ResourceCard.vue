@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         deleteResource: function(){
-            if (confirm("This will permanently delete this information. Continue?")) {
+            if (confirm("Are you sure you want to delete this resource?")) {
                 ckanServ.deleteResource(this.resource.id).then( () => {
                     location.reload();
                 });
