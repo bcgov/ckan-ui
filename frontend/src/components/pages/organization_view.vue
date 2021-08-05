@@ -73,17 +73,7 @@
                                     placeholder="">
                                 </Markdown>
                             </v-row>
-                            <v-row wrap class="py-5" v-else-if="group.notes">
-                                <Markdown
-                                    name="notes"
-                                    :value="group.notes"
-                                    label=""
-                                    :editing="false"
-                                    :field="group.description"
-                                    :disabled="false"
-                                    placeholder="">
-                                </Markdown>
-                            </v-row>
+
                             <v-row class="borderTop">
                                 <MemberList :groupId="group.id" :members="members"></MemberList>
                             </v-row>
