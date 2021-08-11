@@ -73,7 +73,7 @@
             </v-col>
             
             <v-col cols=11 sm=7 v-else>
-                <OrgTree :top="true" v-for="(org, key) in orgList" :key="'org-tree-'+key" :passedOrg="{key: org, org: orgs[org]}"></OrgTree>
+                <OrgTree :top="true" v-for="(org, key) in orgs" :key="'org-tree-'+key" :passedOrg="{key: key, org }"></OrgTree>
             </v-col>
             <v-col cols=1 sm=1></v-col>
             <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-1 mr-10">
