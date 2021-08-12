@@ -27,11 +27,11 @@
     "set-value": "^2.0.1",
     "snowplow-tracker": "^0.3.0",
     "tableschema": "^1.12.4",
-    "xlsx": "^0.14.1"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "eslint": "^7.13.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^2.0.12"
   },
   "eslintConfig": {
     "root": true,
