@@ -19,7 +19,7 @@
                         <label left class="sublabel">
                             {{useResource.metadata.format}}
                         </label>
-                        <span v-if="useResource.metadata.size" class="sublabel ml-4">
+                        <span v-if="useResource.metadata.size && useResource.metadata.size > 0" class="sublabel ml-4">
                             {{(useResource.metadata.size/1000).toFixed(1)}} MB
                         </span>
                     </span>
