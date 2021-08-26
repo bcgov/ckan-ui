@@ -83,27 +83,24 @@ export default {
         parentObject: Object,
     },
     data() {
-        let iu = (typeof(this.currentlyUrl) === "boolean") ? this.currentlyUrl : null;
-        iu = (typeof(this.currentlyUrl) === "string") ? (this.currentlyUrl.toLowerCase()==='true') : iu;
-        iu = ( (iu === null) && (typeof(this.isURL) !== "undefined") ) ? this.isUrl : iu;
-        iu = ( (iu === null) && (this.field.field_name === "url") ) ? (this.field.field_name === "url"): iu;
-
-        let v = (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : '');
-        if (iu) {
-            v = {
-                url: {require_tld: true, require_host: true},
-                required: (v === "required")
-            }
+        let isURL;
+    
+        if (typeof(this.currentlyUrl) === "boolean") {
+            isURL = this.currentlyUrl;
+        } else {
+            isURL = (
+                typeof(this.currentlyUrl) === "string" &&
+                this.currentlyUrl.toLowerCase() === "true"
+            ) || this.field.field_name === "url";
         }
 
         return {
             val: this.value,
             fileVal: (this.upload) ? this.upload : null,
-            validate: v,
             allowURL: this.field.field_name === "url",
-            isURL: iu,
             scopeName: this.scope + '.' + this.name,
             api: null,
+            isURL
         }
     },
     computed: {
@@ -111,6 +108,20 @@ export default {
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (required ? '*' : '');
         },
+
+        validate: function() {
+
+            let v = (( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : '');
+
+            if (this.isURL) {
+                v = {
+                    url: {require_tld: true, require_host: true},
+                    required: (v === "required")
+                }
+            }
+
+            return v;
+        }
     },
     watch: {
         value(){

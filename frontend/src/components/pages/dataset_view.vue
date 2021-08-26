@@ -502,7 +502,7 @@ export default {
             this.showFormSuccess = false;
         },
         async deleteDataset(){
-            if (confirm("This will permanently delete this information. Continue?")) {
+            if (confirm("Are you sure you want to delete this record and all its resources?")) {
 
                 const response = await ckanServ.deleteDataset(this.datasetId);
 

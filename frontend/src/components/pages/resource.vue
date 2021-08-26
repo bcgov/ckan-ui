@@ -96,7 +96,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
+                <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
                     <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
                 </v-btn>
 
@@ -147,6 +147,7 @@
                             :values="resource"
                             :loggedIn="loggedIn"
                             :disabled="disabled"
+                            :exclude="excludedFields"
                             ref="dynoForm"
                             @updated="(field, value) => updateResource(field, value)"
                         >
@@ -257,9 +258,19 @@ export default {
             }
         },
     },
+
     computed: {
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
+        },
+
+
+        excludedFields: function() {
+            if (this.loadPOW && !this.editing) {
+                return ["url"]; // hide the URL field for the non-edit screen of OFI resources
+            } else {
+                return [];
+            }
         },
 
         mailLink(){
@@ -432,26 +443,28 @@ export default {
                 this.notAtTop = true;
             }
         },
-        async deleteResource(){
-            const response = await ckanServ.deleteResource(this.resourceId);
+        async deleteResource() {
+            if (confirm("Are you sure you want to delete this resource?")) {
+                const response = await ckanServ.deleteResource(this.resourceId);
 
-            this.formSuccess = "";
-            this.formError = "";
+                this.formSuccess = "";
+                this.formError = "";
 
-            if (response.success && response.success === true && (!response.error || response.error === false)){
-                this.formSuccess = "Successfully deleted";
-                this.showFormSuccess = true;
-                this.showFormError = false;
-                return;
-            }else if (response.error){
-                this.formError = response.error;
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    return;
+                } else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    return;
+                }
+                this.formError = "Unknown error deleting resource";
                 this.showFormSuccess = false;
                 this.showFormError = true;
-                return;
             }
-            this.formError = "Unknown error deleting resource";
-            this.showFormSuccess = false;
-            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){
