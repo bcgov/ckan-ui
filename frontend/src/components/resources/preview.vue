@@ -164,7 +164,7 @@ export default {
                 ];
 
                 let smkCenter = "";
-                if (centerTriplet.every(thing => typeof thing === "number")) {
+                if (centerTriplet.every(thing => !isNaN(thing))) {
                     smkCenter = "&smk-center=" + centerTriplet.join(",");
                 }
                 
