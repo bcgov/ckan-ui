@@ -2,7 +2,7 @@ export default {
     en: {
         'data': 'data',
         'Data': 'Data',
-        'TrySearchingFor': "Try Searching for...",
+        'TrySearchingFor': "Try searching for...",
         'DataCatalogue': "Data Catalogue",
         'Classic': "Classic",
         'LogIn': "Log In",
