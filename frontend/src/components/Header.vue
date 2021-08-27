@@ -116,8 +116,8 @@
                 <v-alert
                   dense
                   dismissible
-                  type="warning">
-                  You have been logged out
+                  type="success">
+                  You're now logged out
                 </v-alert>
               </v-col>
             </v-row>
@@ -164,10 +164,10 @@ export default {
             //     "title": "What is DataBC?",
             //     "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
             // },
-            {
-                "title": "Dataset Usage",
-                "link": "/usage"
-            },
+            // {
+            //     "title": "Dataset Usage",
+            //     "link": "/usage"
+            // },
             {
                 "title": "Geographic Services",
                 "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"

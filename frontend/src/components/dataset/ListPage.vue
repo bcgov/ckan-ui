@@ -197,7 +197,14 @@
                 this.noResults = false;
             }
 
-            let q = "?rows=" + this.rows+"&sort="+this.sortOrder+"&include_drafts=true&include_private=true&"
+            // if the search is blank, and we're sorting by relevance, actually sort by newest
+            // per bcgov#509
+            let effectiveOrder = this.sortOrder;
+            if ((!this.searchText || /^\s+$/.test(this.searchText)) && this.sortOrder.startsWith("score")) {
+                effectiveOrder = "metadata_created desc";
+            }
+
+            let q = "?rows=" + this.rows+"&sort="+effectiveOrder+"&include_drafts=true&include_private=true&"
 
             let fq = "&fq="
 
@@ -309,7 +316,10 @@
         this.so = this.$store.state.search.sortOrder;
         let self = this;
         this.$store.subscribe((mutation) => {
-            if (mutation.type === 'search/setSearchText'){
+
+            // mutation could be search/setSearchTextAndRedirect too; we want to subscribe to anything that
+            // updates search text.
+            if (mutation.type.startsWith('search/setSearchText')) {
                 self.findText = this.$store.state.search.searchText;
                 self.getDatasets();
             }
