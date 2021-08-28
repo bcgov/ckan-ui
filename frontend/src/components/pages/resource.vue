@@ -58,7 +58,7 @@
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text :disabled="previewLoading" color="primary" @click.stop="previewDialog = true">
+                <v-btn v-if="!editing" small depressed text :disabled="previewLoading || !canPreview" color="primary" @click.stop="previewDialog = true">
                     <v-icon v-if="!previewLoading">mdi-fullscreen</v-icon>
                     <v-progress-circular v-else :size="20" :width="2" color="grey" indeterminate></v-progress-circular>
                     &nbsp;{{$tc('Preview')}}
@@ -260,6 +260,17 @@ export default {
     },
 
     computed: {
+
+        canPreview() {
+            return (this.preview.headers && this.preview.headers.length>0) ||
+                   (this.preview['content-type'] && this.preview['content-type'].indexOf('image/')===0) ||
+                   this.preview.format === 'openapi-json' ||
+                   this.preview.type === 'pdf' ||
+                   (this.resource.metadata &&
+                    this.resource.metadata.preview_info);
+        },
+
+
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
         },
