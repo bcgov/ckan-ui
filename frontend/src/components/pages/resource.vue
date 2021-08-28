@@ -97,7 +97,7 @@
                 </v-btn>
 
                 <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
-                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                    <v-icon>mdi-open-in-new</v-icon>&nbsp;{{$tc('Access/Download')}}
                 </v-btn>
 
                 <v-btn v-if="!editing && showEdit" small depressed text color="primary" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}">
@@ -260,6 +260,7 @@ export default {
     },
 
     computed: {
+
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
         },
