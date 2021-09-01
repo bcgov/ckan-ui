@@ -3,11 +3,18 @@
         <template v-slot:activator="{ on }">
             <v-btn v-if="btn" small depressed text color="primary" v-on="on">
                 <!-- @click="startOrder()" -->
-                <!-- <v-icon>mdi-folder-information-outline</v-icon>&nbsp; -->{{$tc('Request Access')}}
+                <!-- <v-icon>mdi-folder-information-outline</v-icon>&nbsp; -->
+
+                <v-icon v-if="icon">mdi-open-in-new</v-icon>
+
+                {{$tc('Access/Download')}}
             </v-btn>
             <v-list-item v-else text block color="label_colour" v-on="on">
+
+                <v-icon v-if="icon">mdi-open-in-new</v-icon>
+
                 <!-- @click="startOrder()" -->
-                Request Access
+                {{$tc('Access/Download')}}
             </v-list-item>
         </template>
         <!-- change to vue component and move methods to here -->
@@ -30,7 +37,8 @@ const powServ = new PowApi();
 export default {
     props: {
         resource: Object,
-        btn: Boolean
+        btn: Boolean,
+        icon: Boolean
     },
     data() {
         return {
