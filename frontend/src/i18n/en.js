@@ -2,7 +2,7 @@ export default {
     en: {
         'data': 'data',
         'Data': 'Data',
-        'TrySearchingFor': "Try Searching for...",
+        'TrySearchingFor': "Try searching for...",
         'DataCatalogue': "Data Catalogue",
         'Classic': "Classic",
         'LogIn': "Log In",
@@ -283,6 +283,7 @@ export default {
         "Edit Resource": "Edit Resource",
         "Delete Resource": "Delete Resource",
         "Request Access": "Request Access",
+        "Access/Download": "Access/Download",
         "Viewing Resource": "Viewing Resource",
         "Scroll to Top": "Scroll to Top",
         "Permalink URL Copied to Clipboard": "Permalink URL Copied to Clipboard",
