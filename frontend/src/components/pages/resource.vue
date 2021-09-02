@@ -58,7 +58,7 @@
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text :disabled="previewLoading" color="primary" @click.stop="previewDialog = true">
+                <v-btn v-if="!editing" small depressed text :disabled="previewLoading || !canPreview" color="primary" @click.stop="previewDialog = true">
                     <v-icon v-if="!previewLoading">mdi-fullscreen</v-icon>
                     <v-progress-circular v-else :size="20" :width="2" color="grey" indeterminate></v-progress-circular>
                     &nbsp;{{$tc('Preview')}}
@@ -76,7 +76,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
+                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
@@ -96,8 +96,8 @@
                     </v-dialog>
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
-                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
+                    <v-icon>mdi-open-in-new</v-icon>&nbsp;{{$tc('Access/Download')}}
                 </v-btn>
 
                 <v-btn v-if="!editing && showEdit" small depressed text color="primary" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}">
@@ -147,6 +147,7 @@
                             :values="resource"
                             :loggedIn="loggedIn"
                             :disabled="disabled"
+                            :exclude="excludedFields"
                             ref="dynoForm"
                             @updated="(field, value) => updateResource(field, value)"
                         >
@@ -257,9 +258,30 @@ export default {
             }
         },
     },
+
     computed: {
+
+        canPreview() {
+            return (this.preview.headers && this.preview.headers.length>0) ||
+                   (this.preview['content-type'] && this.preview['content-type'].indexOf('image/')===0) ||
+                   this.preview.format === 'openapi-json' ||
+                   this.preview.type === 'pdf' ||
+                   (this.resource.metadata &&
+                    this.resource.metadata.preview_info);
+        },
+
+
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
+        },
+
+
+        excludedFields: function() {
+            if (this.loadPOW && !this.editing) {
+                return ["url"]; // hide the URL field for the non-edit screen of OFI resources
+            } else {
+                return [];
+            }
         },
 
         mailLink(){
@@ -432,26 +454,28 @@ export default {
                 this.notAtTop = true;
             }
         },
-        async deleteResource(){
-            const response = await ckanServ.deleteResource(this.resourceId);
+        async deleteResource() {
+            if (confirm("Are you sure you want to delete this resource?")) {
+                const response = await ckanServ.deleteResource(this.resourceId);
 
-            this.formSuccess = "";
-            this.formError = "";
+                this.formSuccess = "";
+                this.formError = "";
 
-            if (response.success && response.success === true && (!response.error || response.error === false)){
-                this.formSuccess = "Successfully deleted";
-                this.showFormSuccess = true;
-                this.showFormError = false;
-                return;
-            }else if (response.error){
-                this.formError = response.error;
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    return;
+                } else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    return;
+                }
+                this.formError = "Unknown error deleting resource";
                 this.showFormSuccess = false;
                 this.showFormError = true;
-                return;
             }
-            this.formError = "Unknown error deleting resource";
-            this.showFormSuccess = false;
-            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){

@@ -502,25 +502,28 @@ export default {
             this.showFormSuccess = false;
         },
         async deleteDataset(){
-            const response = await ckanServ.deleteDataset(this.datasetId);
+            if (confirm("Are you sure you want to delete this record and all its resources?")) {
 
-            this.formSuccess = "";
-            this.formError = "";
+                const response = await ckanServ.deleteDataset(this.datasetId);
 
-            if (response.success && response.success === true && (!response.error || response.error === false)){
-                this.formSuccess = "Successfully deleted";
-                this.showFormSuccess = true;
-                this.showFormError = false;
-                return;
-            }else if (response.error){
-                this.formError = response.error;
+                this.formSuccess = "";
+                this.formError = "";
+
+                if (response.success && response.success === true && (!response.error || response.error === false)){
+                    this.formSuccess = "Successfully deleted";
+                    this.showFormSuccess = true;
+                    this.showFormError = false;
+                    return;
+                } else if (response.error){
+                    this.formError = response.error;
+                    this.showFormSuccess = false;
+                    this.showFormError = true;
+                    return;
+                }
+                this.formError = "Unknown error deleting dataset";
                 this.showFormSuccess = false;
                 this.showFormError = true;
-                return;
             }
-            this.formError = "Unknown error deleting dataset";
-            this.showFormSuccess = false;
-            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){
