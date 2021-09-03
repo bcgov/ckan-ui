@@ -174,6 +174,15 @@ No fields have been removed from the database but some have been removed from th
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
 + See field section for changes to field names and fields being nested in ?
++ Common queries:
+    + https://docs.ckan.org/en/ckan-2.7.3/api/
+    + object_name has moved from packages to resources.
+       + Querying resources uses "query", while packages use "q"
+       + example:
+       + https://catalogue.data.gov.bc.ca/api/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+       + will be:
+       + https://catalogue.data.gov.bc.ca/api/action/resource_search?query=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+
 
 ### USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
