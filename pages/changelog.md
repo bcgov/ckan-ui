@@ -179,9 +179,9 @@ No fields have been removed from the database but some have been removed from th
     + object_name has moved from packages to resources.
        + Querying resources uses "query", while packages use "q"
        + example:
-       + https://catalogue.data.gov.bc.ca/api/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+       + https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
        + will be:
-       + https://catalogue.data.gov.bc.ca/api/action/resource_search?query=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+       + https://catalogue.data.gov.bc.ca/api/3/action/resource_search?query=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
 
 
 ### USER MANAGEMENT
