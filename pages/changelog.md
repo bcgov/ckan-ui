@@ -82,7 +82,7 @@
 
 + **Fields added**:
 
-    |UI Label |Field Name|
+    |UI Field Label |Database Field Name|
     |:---|:---|
     |JSON Table Schema | json_table_schema|
     |More Info Description|description|
@@ -91,14 +91,14 @@
 
 No fields have been removed from the database but some have been removed from the UI.
    
-    |UI Label |Database Field Name|Rational|
+    |UI Field Label |Database Field Name|Rational|
     |:---|:---|:---|
     |Sector | sector|No longer used in Government|
     |Contact Organization|organization| |
 
 + **Fields renamed**:
 
-    |UI Label|New Database Field Name |Old Database Field Name|
+    |UI FieldLabel|New Database Field Name |Old Database Field Name|
     |:---|:---|:---|
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
@@ -114,7 +114,7 @@ No fields have been removed from the database but some have been removed from th
 
 + **Fields use change**:
 
-    |UI Label|Database Field Name|New Use |Old Use|
+    |UI Field Label|Database Field Name|New Use |Old Use|
     |:---|:---|:---|:---|
     |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
     
@@ -134,7 +134,7 @@ No fields have been removed from the database but some have been removed from th
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
-    |UI Label|Database Field Name |Resource Types Added To|
+    |UI Field Label|Database Field Name |Resource Types Added To|
     |:---|:---|:---|
     |Record Lifecylce History: Type and Date|type; date |Record level for all types|
     |Resource Descrition|resource_description|Web Service/API ; Application|
@@ -146,26 +146,29 @@ No fields have been removed from the database but some have been removed from th
 
 + **Drop down values added**:
 
-    |UI Label |Value Added|
+    |UI Field Label |Database Field Name|Value Added|
     |:---|:---|
-    |Contact Role| Data Manager; Custodian; Data Steward|
-    |Resource Update Cycle|Nightly|
-    |Resource Storage Format|gpkg (geopackage); multiple|
+    |Contact Role| contact_role| Data Manager; Custodian; Data Steward; Access Approver|
+    |Resource Update Cycle|resource_update_cycle|Nightly, Unknown|
+    |Resource Storage Format|format|gpkg (geopackage); multiple|
     
 + **Drop down values renamed**:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
     
-    |UI Label |Value Added|Old Value|
+    |UI Field Label |Value Added|Old Value|
     |:---|:---|:---|
     |Security Classification |PUBLIC | LOW-PUBLIC|PROTECTED A | LOW-SENSITIVITY|
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
     |Resource Type| document|dataset|
     |Projection Name| short name| full title|
+    |Resource Storage Location|resource_storage_location| Not Applicatble|
+    |Spatial Datatype|spatial_datatype|UNKNOWN, NA|
+    
     
 + **Drop down values removed**:
 
-    |UI Label |Value Removed|Rational|
+    |UI Field Label |Value Removed|Rational|
     |:---|:---|:---|
     |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
         
