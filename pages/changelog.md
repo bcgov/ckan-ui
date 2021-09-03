@@ -30,7 +30,7 @@
 
 
 ### USER INTERFACE
-**Known Issues List Being Addressed**
+**Some Known Issues List Yet to be Implimented and or Prioritized"
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
 1. BCGW Details listed on resources that are not Geographic are still to be review.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
@@ -43,7 +43,17 @@
 1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
     FIXED: All records for these types now have the date the metadata was created added as a default. Editors may change this to a date they wish.
 1. Some column mapping between production and beta did not tranlate correctly for resources with new fields, these will be scripted and updated.
-    FIXED: All columns have now been directed to the correct destingation.
+    FIXED: All columns have now been directed to the correct destination.
+1. Sort default to Newest
+    FIXED: Sort is now by Relevance, based on user feedback.
+1. Deletion of a Record and Resource does not prompt for a confrimation
+    FIXED: On deletion, a user is now promted to confirm.
+1. BCGW Custom Download Resource URL was visible but is not a accessible URL
+    FIXED: URL is no longer visible, thus removes confustion.
+1. Preview button is not clear for what resource types are previewable or not
+   FIXED: Preview button is greyed out for those that are not previewable.
+1. Uploaded files to the catalogue were restricted to size.
+   FIXED: Configuration is set to be the same as production Cat Classic.
 
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
@@ -77,7 +87,7 @@
     |JSON Table Schema | json_table_schema|
     |More Info Description|description|
  
-+ **Fields removed**:
++ **Fields removed and or to be removef**:
    
     |Field Label |Field Name|Rational|
     |:---|:---|:---|
