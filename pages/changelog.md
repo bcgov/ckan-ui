@@ -105,13 +105,13 @@ Beta migrated from Test
     |More Info Description|description|
  
 + **Fields removed**:
-
-No fields have been removed from the database but some have been removed from the UI.
-   
+    - No fields have been removed from the database but some have been removed from the UI.
+  
     |UI Field Label |Database Field Name|Rational|
     |:---|:---|:---|
     |Sector | sector|No longer used in Government|
     |Contact Organization|organization| |
+
 
 + **Fields renamed**:
 
@@ -168,6 +168,8 @@ No fields have been removed from the database but some have been removed from th
     |Contact Role| contact_role| Data Manager; Custodian; Data Steward; Access Approver|
     |Resource Update Cycle|resource_update_cycle|Nightly, Unknown|
     |Resource Storage Format|format|gpkg (geopackage); multiple|
+    |Resource Storage Location|resource_storage_location| Not Applicatble|
+    |Spatial Datatype|spatial_datatype|UNKNOWN, NA|
     
 + **Drop down values renamed**:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
@@ -179,8 +181,7 @@ No fields have been removed from the database but some have been removed from th
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
     |Resource Type| document|dataset|
     |Projection Name| short name| full title|
-    |Resource Storage Location|resource_storage_location| Not Applicatble|
-    |Spatial Datatype|spatial_datatype|UNKNOWN, NA|
+
     
     
 + **Drop down values removed**:
