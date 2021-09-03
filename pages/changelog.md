@@ -13,7 +13,7 @@
         - [**Record Level**](#record-level)
         - [**Resource Level**](#resource-level) 
         - [**Some Known Issues**](#some-known-issues)
-    - [**September 2, 2021**](#september-2-2021)
+    - [**Latest Updates**](#september-2-2021)
 + [**Field, Label and Value Changes**](#field-label-and-value-changes)
 + [**API**](#api)
 + [**User Management**](#user-management)
