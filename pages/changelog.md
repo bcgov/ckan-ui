@@ -40,21 +40,21 @@
 
 **Fixed Issues Since Beta Released to Editors**
 1. BCGW Geographic datasets have both Download and Request Access
-    FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
+    + FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
 1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
-    FIXED: All records for these types now have the date the metadata was created added as a default. Editors may change this to a date they wish.
+    + FIXED: All records for these types now have the date the metadata was created added as a default. Editors may change this to a date they wish.
 1. Some column mapping between production and beta did not tranlate correctly for resources with new fields, these will be scripted and updated.
-    FIXED: All columns have now been directed to the correct destination.
+    + FIXED: All columns have now been directed to the correct destination.
 1. Sort default to Newest
-    FIXED: Sort is now by Relevance, based on user feedback.
+    + FIXED: Sort is now by Relevance, based on user feedback.
 1. Deletion of a Record and Resource does not prompt for a confrimation
-    FIXED: On deletion, a user is now promted to confirm.
+    + FIXED: On deletion, a user is now promted to confirm.
 1. BCGW Custom Download Resource URL was visible but is not a accessible URL
-    FIXED: URL is no longer visible, thus removes confustion.
+    + FIXED: URL is no longer visible, thus removes confustion.
 1. Preview button is not clear for what resource types are previewable or not
-   FIXED: Preview button is greyed out for those that are not previewable.
+   + FIXED: Preview button is greyed out for those that are not previewable.
 1. Uploaded files to the catalogue were restricted to size.
-   FIXED: Configuration is set to be the same as production Cat Classic.
+   + FIXED: Configuration is set to be the same as production Cat Classic.
 
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
