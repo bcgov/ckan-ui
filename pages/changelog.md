@@ -20,6 +20,7 @@
 ## RESOURCES
 + BC Data Catalogue: https://data.gov.bc.ca/
 + User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
+    + Beta: https://bcgov.github.io/data-publication/pages/dps_bcdc_w_2.html 
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 
