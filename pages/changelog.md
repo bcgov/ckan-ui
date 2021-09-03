@@ -39,6 +39,8 @@ Not all items have been flagged in this list, some are actively being worked on 
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
 1. Group editors and members management to be configured.  
+1. The OpenAPI Console preview function is not available.
+2. The Data Usage page is not available.
 
 ## September 2 2021
 Beta updates deployed based on feedback and backlog
@@ -71,12 +73,25 @@ Beta updates deployed based on feedback and backlog
     - _Activity Stream_ removed as it did not provide value as is. Activity Stream is still available from the API.
 + Resources are now listed as resource cards to the right and their actions are their own buttons.
     - _Access/Download_, _View_, _Edit_ (pencil) availale in the _Explore_ button and drop down are now buttons on their own.
-    - NEW: Deletion (trash can image) of a resource is now available without having to be in edit mode.
+    - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
     - See Field, Label and Value changes for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
++ _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
++ _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
 ### Resource Level
-+ MenuField layout order has been change to provide consumers quick visual access to the key fields.
++ Menu Bar: Actions have been consolidated to replace the _Manage_ button and other actions.
+    - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
+    - __NEW__: _Scroll to Bottom_
+    - __NEW__: _Preview_ button is to replace:
+        -  The map insert on the Resource level for BC Geographic Warehouse public datasets.
+        -  For resource with a map preview the _Link to iMapBC_ button is available on the module.
+        -  The Data Explorer for tabular datasets that are uploaded to the catalogue.
+        -  The OpenAPI Console for APIs registered with the API Gateway.
+    - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
+    - _Access/Download_ is consistent with the other menu buttons.
+    - _Data API_ button has been removed.
++ Field layout order has been change to provide consumers quick visual access to the key fields.
     - See Field, Label and Value changes for specific changes including fields that been included from the Record level, e.g., Object Name.
 + Resource types]have moved from the Record level to allow a record to have any of the different resource types:
     - Application, Dataset/Document, Geospatial Dataset, Webservice/API.
