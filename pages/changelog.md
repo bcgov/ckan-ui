@@ -27,8 +27,8 @@
 
 # WHAT'S NEW
 ## January 27, 2021: Beta migrated from Test
-## April 22, 2021: Beta released to Admin and internal staff
-## August 8, 2021: Beta released to Editors
+## March 31, 2021: Beta released to Admin and internal staff
+## August 8, 2021: Beta released to Editors (data providers)
 ## September 2, 2021: Beta updates deployed based on feedback and backlog
 
 **Fixed Issues**
