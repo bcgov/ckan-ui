@@ -31,7 +31,7 @@
 
 
 ### USER INTERFACE
-**Some Known Issues List Yet to be Implimented and or Prioritized**
+**Some Known Issues yet to be Implemented and or Prioritized**
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
 1. BCGW Details listed on resources that are not Geographic are still to be review.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
@@ -43,14 +43,14 @@
     + FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
 1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
     + FIXED: All records for these types now have the date the metadata was created added as a default. Editors may change this to a date they wish.
-1. Some column mapping between production and beta did not tranlate correctly for resources with new fields, these will be scripted and updated.
+1. Some column mapping between production and beta did not translate correctly for resources with new fields, these will be scripted and updated.
     + FIXED: All columns have now been directed to the correct destination.
 1. Sort default to Newest
     + FIXED: Sort is now by Relevance, based on user feedback.
-1. Deletion of a Record and Resource does not prompt for a confrimation
-    + FIXED: On deletion, a user is now promted to confirm.
-1. BCGW Custom Download Resource URL was visible but is not a accessible URL
-    + FIXED: URL is no longer visible, thus removes confustion.
+1. Deletion of a Record and Resource does not prompt for a confirmation
+    + FIXED: On deletion, a user is now prompted to confirm deletion is desired.
+1. BCGW Custom Download Resource URL was visible but is not an accessible URL
+    + FIXED: URL is no longer visible, removing confusion.
 1. Preview button is not clear for what resource types are previewable or not
    + FIXED: Preview button is greyed out for those that are not previewable.
 1. Uploaded files to the catalogue were restricted to size.
