@@ -179,7 +179,7 @@ No fields have been removed from the database but some have been removed from th
 ### API
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
-+ JSON Schema now available: https://github.com/bcgov/ckanext-bcgov-schema/blob/master/ckanext/bcgov_schema/bcdc_dataset.json
++ JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 + See field section for changes to field names and fields being nested in ?
 + Common queries:
     + https://docs.ckan.org/en/ckan-2.7.3/api/
