@@ -28,7 +28,9 @@
 # WHAT'S NEW
 ## July 2021 Beta
 + Release of Beta!
-
++ Updates to Beta
+   + September 2, 2021
+ 
 
 ### USER INTERFACE
 **Some Known Issues yet to be Implemented and or Prioritized**
@@ -39,6 +41,7 @@
 1. Group editors and members management to be configured.  
 
 **Fixed Issues Since Beta Released to Editors**
+
 1. BCGW Geographic datasets have both Download and Request Access
     + FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
 1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
