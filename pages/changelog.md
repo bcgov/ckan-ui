@@ -8,13 +8,13 @@
 
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
+    - [**Some Known Issues**](#some-known-issues)
+        - [**Latest Updates**](#september-2-2021)
     - [**User Interface (UI)**](#user-interface)
         - [**Landing Page**](#landing-page)
         - [**Record Level**](#record-level)
         - [**Resource Level**](#resource-level) 
-        - [**Some Known Issues**](#some-known-issues)
-    - [**Latest Updates**](#september-2-2021)
-+ [**Field, Label and Value Changes**](#field-label-and-value-changes)
+    - [**Field, Label and Value Changes**](#field-label-and-value-changes)
 + [**API**](#api)
 + [**User Management**](#user-management)
 + [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
@@ -31,28 +31,6 @@
 
 # WHAT'S NEW
 ## USER INTERFACE
-### Landing Page
-+ The main page of https://data.gov.bc.ca has been simplified.
-+ Front page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
-+ Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
-
-### Record Level
-+ Ministry or parent organization no longer listed on records.
-+ Contact Data Expert button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
-+ Resources are now in a list of resource cards to the right.
-+ Access/Download and View a resource are now two buttons vs a drop down on the resource card.
-+ For Editors, editing can be done with the pencil on the resource card.
-+ See Field, Label and Value changes for specific changes.
-
-### Resource Level
-+ Resource types moved to resource level, instead of at dataset or "record" level to allow a dataset to have any of the different resource types: Application, Dataset/Document, Geospatial Dataset, Webservice/API.
-+ BC Geographic Warehouse (BCGW) items have moved:
-    - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
-        - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained. 
-    - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
-    - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
-+ See Field, Label and Value changes for specific changes.
-
 ### Some Known Issues
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
@@ -67,31 +45,46 @@ Beta updates deployed based on feedback and backlog
 
 **Fixed Issues**
 
-1. BCGW Geographic datasets have both Download and Request Access
-    + FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
-1. Webservice/API and Application records now have Record Lifecycle date fields added that are mandatory. These will cause editing of their resources to error.
-    + FIXED: All records for these types now have the date the metadata was created added as a default. Editors may change this to a date they wish.
-1. Some column mapping between production and beta did not translate correctly for resources with new fields, these will be scripted and updated.
-    + FIXED: All columns have now been directed to the correct destination.
-1. Sort default to Newest
-    + FIXED: Sort is now by Relevance, based on user feedback.
-1. Deletion of a Record and Resource does not prompt for a confirmation
-    + FIXED: On deletion, a user is now prompted to confirm deletion is desired.
-1. BCGW Custom Download Resource URL was visible but is not an accessible URL
-    + FIXED: URL is no longer visible, removing confusion.
-1. Preview button is not clear for what resource types are previewable or not
-   + FIXED: Preview button is greyed out for those that are not previewable.
-1. Uploaded files to the catalogue were restricted to size.
-   + FIXED: Configuration is set to be the same as production Cat Classic.
+1. Search sort is now by Relevance and not Newest.
+1. All fields and their values have now been directed to the correct destination.
+    + Field updates have been reflected in the Field, Label and Value Changes section below.
+7. Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.
+8. Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.
+5. Resources that are not previewable, the Preview button is greyed out
+6. Resources have been changed to "Access/Download" as was in production Cat Classic.
+7. Resource file size limit set to be the same as production Cat Classic.
+8. Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.
 
-## August 8 2021
-Beta released to Editors (data providers)
+### Landing Page
++ Landing page of https://data.gov.bc.ca has been simplified.
+    - Future engagement intended to determine what would provide additional value on this page.  
++ Landing page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
++ Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
-## March 31 2021
-Beta released to Admin and internal staff
+### Record Level
++ Menu Bar: Actions have been consolidated.
+    - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
+    - __NEW__: _Scroll to Bottom_
+    - __NEW__: _Add Resource_ added so that this function is no longer through editing the record itself or from the _Explore_ button.
+    - _Copy Dataset_ is now available for all records and their resources types.
+    - _Share this Record_ and _Show the Permalink_ merged into _Share_. This copiest the permalink URL to a clipboard.
+    - _Activity Stream_ removed as it did not provide value as is. Activity Stream is still available from the API.
++ Resources are now listed as resource cards to the right and their actions are their own buttons.
+    - _Access/Download_, _View_, _Edit_ (pencil) availale in the _Explore_ button and drop down are now buttons on their own.
+    - NEW: Deletion (trash can image) of a resource is now available without having to be in edit mode.
++ Field layout order has been change to provide consumers quick visual access to the key fields.
+    - See Field, Label and Value changes for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 
-## January 27 2021
-Beta migrated from Test
+### Resource Level
++ MenuField layout order has been change to provide consumers quick visual access to the key fields.
+    - See Field, Label and Value changes for specific changes including fields that been included from the Record level, e.g., Object Name.
++ Resource types]have moved from the Record level to allow a record to have any of the different resource types:
+    - Application, Dataset/Document, Geospatial Dataset, Webservice/API.
++ BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
+    - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
+        - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained. 
+    - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
+    - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
 # FIELD, LABEL AND VALUE CHANGES
 **Field Labels** are what is visible in the user interface.
@@ -211,6 +204,15 @@ Beta migrated from Test
 ### SPECS
 * CKAN: 2.7.5
 * SOLR: 7.2.1
+
+## August 8 2021
+Beta released to Editors (data providers)
+
+## March 31 2021
+Beta released to Admin and internal staff
+
+## January 27 2021
+Beta migrated from Test
 
 ## 2020 Pre-Beta Specs
 
