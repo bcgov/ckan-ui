@@ -30,7 +30,7 @@
 
 
 ### USER INTERFACE
-**Some Known Issues List Yet to be Implimented and or Prioritized"
+**Some Known Issues List Yet to be Implimented and or Prioritized**
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
 1. BCGW Details listed on resources that are not Geographic are still to be review.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
@@ -76,33 +76,29 @@
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
 
-### FIELD AND VALUE CHANGES
+### FIELD, LABEL AND VALUE CHANGES
 **Field Labels** are what is visible in the user interface.
 **Field Names** are what is returned from the API.
 
 + **Fields added**:
 
-    |Field Label |Field Name|
+    |UI Label |Field Name|
     |:---|:---|
     |JSON Table Schema | json_table_schema|
     |More Info Description|description|
  
-+ **Fields removed and or to be removef**:
++ **Fields removed**:
+
+No fields have been removed from the database but some have been removed from the UI.
    
-    |Field Label |Field Name|Rational|
+    |UI Label |Database Field Name|Rational|
     |:---|:---|:---|
     |Sector | sector|No longer used in Government|
-    | |metastar_uid |Old Discovery Service unique ID|
-    | |odsi_uid|Old Open Data Catalogue unique ID|
-    | |ofi| |
-    | |retention_expiry_date| |
-    | |metadata_standard_version| |
-    |Contact Organixation|organization| |
-    | |metadata_character_set| |
+    |Contact Organization|organization| |
 
 + **Fields renamed**:
 
-    |Field Label|New Field Name |Old Field Name|
+    |UI Label|New Database Field Name |Old Database Field Name|
     |:---|:---|:---|
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
@@ -112,21 +108,20 @@
     | |end_date|data_collection_end_date|
     | |resource_type|edc_resource_type|
     | |resource_description |description|    
-    | |suplemental_information|supplemental_info  | 
     |More Info URL |url|link|
     |Contacts Branch|org|branch|
     |ISO Topic Category|iso_topic_category|iso_topic_string  | 
 
 + **Fields use change**:
 
-    |Field Label|Field Name|New Use |Old Use|
+    |UI Label|Database Field Name|New Use |Old Use|
     |:---|:---|:---|:---|
-    |Published by the| full_title|  Suborg |Organization and suborg concatentated|  
+    |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
     
 + **Fields moved to Composet or Composent Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
     
-    |Field Name|Field within|Move to|
+    |Database Field Name|Database Field within|Move to|
     |:---|:---|:---|
     |beginning_date ; end_date| temporal_extent | NA|
     |edc_resource_type; resource_storage_location  |extras|from package to resource|
@@ -139,7 +134,7 @@
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
-    |Label|Field Name |Resource Types Added To|
+    |UI Label|Database Field Name |Resource Types Added To|
     |:---|:---|:---|
     |Record Lifecylce History: Type and Date|type; date |Record level for all types|
     |Resource Descrition|resource_description|Web Service/API ; Application|
@@ -151,7 +146,7 @@
 
 + **Drop down values added**:
 
-    |Field Label |Value Added|
+    |UI Label |Value Added|
     |:---|:---|
     |Contact Role| Data Manager; Custodian; Data Steward|
     |Resource Update Cycle|Nightly|
@@ -160,7 +155,7 @@
 + **Drop down values renamed**:
     - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
     
-    |Field Label |Value Added|Old Value|
+    |UI Label |Value Added|Old Value|
     |:---|:---|:---|
     |Security Classification |PUBLIC | LOW-PUBLIC|PROTECTED A | LOW-SENSITIVITY|
     | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
@@ -170,7 +165,7 @@
     
 + **Drop down values removed**:
 
-    |Field Label |Value Removed|Rational|
+    |UI Label |Value Removed|Rational|
     |:---|:---|:---|
     |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
         
