@@ -26,21 +26,11 @@
 
 
 # WHAT'S NEW
-## July 2021 Beta
-+ Release of Beta!
-+ Updates to Beta
-   + September 2, 2021
- 
+## March 8, 2021: Beta released to Admin and internal staff for full testing
+## August 8, 2021: Beta released to Editors
+## September 2, 2021: Updates to Beta based on feedback and backlog
 
-### USER INTERFACE
-**Some Known Issues yet to be Implemented and or Prioritized**
-1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
-1. BCGW Details listed on resources that are not Geographic are still to be review.
-    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
-1. All Editors can see all record in all states of all organizations.  
-1. Group editors and members management to be configured.  
-
-**Fixed Issues Since Beta Released to Editors**
+**Fixed Issues**
 
 1. BCGW Geographic datasets have both Download and Request Access
     + FIXED: All resources have been changed to "Access/Download" as was in production Cat Classic.
@@ -58,6 +48,15 @@
    + FIXED: Preview button is greyed out for those that are not previewable.
 1. Uploaded files to the catalogue were restricted to size.
    + FIXED: Configuration is set to be the same as production Cat Classic.
+ 
+
+### USER INTERFACE
+**Some Known Issues yet to be Implemented and or Prioritized**
+1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
+1. BCGW Details listed on resources that are not Geographic are still to be review.
+    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
+1. All Editors can see all record in all states of all organizations.  
+1. Group editors and members management to be configured.  
 
 **Landing Page**
 + The main page of https://data.gov.bc.ca has been simplified.
