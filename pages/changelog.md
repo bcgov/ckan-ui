@@ -35,32 +35,34 @@
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
-1. BCGW Details listed on resources that are not Geographic are still to be review.
+1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
-1. Group editors and members management to be configured.  
-1. The OpenAPI Console preview function is not available.
-2. The Data Usage page is not available.
+1. Group editors and members management to be configured. 
+    + All Group management can only be done by users with Admin access at this time. 
+3. The OpenAPI Console preview function is not available.
+4. The Data Usage page is not available.
 
 ## September 2 2021
-Beta updates deployed based on feedback and backlog
+Beta updates deployed based on user feedback and backlog prioritization
 
 **Fixed Issues**
 
 1. Search sort is now by Relevance and not Newest.
 1. All fields and their values have now been directed to the correct destination.
     + Field updates have been reflected in the Field, Label and Value Changes section below.
-7. Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.
-8. Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.
-5. Resources that are not previewable, the Preview button is greyed out
-6. Resources have been changed to "Access/Download" as was in production Cat Classic.
-7. Resource file size limit set to be the same as production Cat Classic.
-8. Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.
+1. Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. 
+    + Editors may change this to a date they wish.
+1. Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.
+1. Resources that are not previewable, the Preview button is greyed out
+1. Resources have been changed to "Access/Download" as was in production Cat Classic.
+1. Resource file size limit set to be the same as production Cat Classic.
+1. Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.
 
 ### Landing Page
 + Landing page of https://data.gov.bc.ca has been simplified.
-    - Future engagement intended to determine what would provide additional value on this page.  
-+ Landing page toolbar has moved to the top right pancake: Organization, Groups, About, Account Settings, Subscribe to New Data, Usage Stats, etc.
+    - Future user engagement intended to determine what would provide additional value on this page.  
++ Landing page toolbar has moved to the top right "pancake": Datasets, Organization, Groups, About, Account Settings, Subscribe to New Data, etc.
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
 ### Record Level
@@ -69,11 +71,12 @@ Beta updates deployed based on feedback and backlog
     - __NEW__: _Scroll to Bottom_
     - __NEW__: _Add Resource_ added so that this function is no longer through editing the record itself or from the _Explore_ button.
     - _Copy Dataset_ is now available for all records and their resources types.
-    - _Share this Record_ and _Show the Permalink_ merged into _Share_. This copiest the permalink URL to a clipboard.
+    - _Share this Record_ and _Show the Permalink_ merged into _Share_. This copies the permalink URL to a clipboard.
     - _Activity Stream_ removed as it did not provide value as is. Activity Stream is still available from the API.
 + Resources are now listed as resource cards to the right and their actions are their own buttons.
     - _Access/Download_, _View_, _Edit_ (pencil) availale in the _Explore_ button and drop down are now buttons on their own.
     - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
+        - Only available to Editors and Admins when records is in Draft state.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
     - See Field, Label and Value changes for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
@@ -85,7 +88,7 @@ Beta updates deployed based on feedback and backlog
     - __NEW__: _Scroll to Bottom_
     - __NEW__: _Preview_ button is to replace:
         -  The map insert on the Resource level for BC Geographic Warehouse public datasets.
-        -  For resource with a map preview the _Link to iMapBC_ button is available on the module.
+        -  For a resource with a map preview the _Link to iMapBC_ button is available on the module.
         -  The Data Explorer for tabular datasets that are uploaded to the catalogue.
         -  The OpenAPI Console for APIs registered with the API Gateway.
     - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
@@ -120,7 +123,6 @@ Beta updates deployed based on feedback and backlog
     |Sector | sector|No longer used in Government|
     |Contact Organization|organization| |
 
-
 + **Fields renamed**:
 
     |UI FieldLabel|New Database Field Name |Old Database Field Name|
@@ -154,8 +156,7 @@ Beta updates deployed based on feedback and backlog
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|NA|
     |iso_topic_category|Resource level  | 
-    
-    
+       
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
     
@@ -189,9 +190,7 @@ Beta updates deployed based on feedback and backlog
     | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
     |Resource Type| document|dataset|
     |Projection Name| short name| full title|
-
-    
-    
+     
 + **Drop down values removed**:
 
     |UI Field Label |Value Removed|Rational|
