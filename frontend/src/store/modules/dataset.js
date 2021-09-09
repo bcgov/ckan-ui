@@ -85,7 +85,7 @@ const actions = {
         commit('clearError');
         commit('setDatasetLoading', {datasetLoading: true});
         commit('setSchemaLoading', {schemaLoading: true});
-        ckanServ.getDataset(id).then((data) => {
+        return ckanServ.getDataset(id).then((data) => {
             if (data.success) {
                 if(data.result == undefined) {
                     commit('abortDataset')
@@ -158,7 +158,7 @@ const actions = {
     getResource({ commit, dispatch, state }, { id }) {
         commit('clearError');
         commit('setResourceLoading', { resourceLoading: true });
-        resourceServ.getResource(id).then( ( data ) => {
+        return resourceServ.getResource(id).then( ( data ) => {
 			if (data) {
                 data.metadata = data;
 				commit('setCurrentResource', { resource: data });
