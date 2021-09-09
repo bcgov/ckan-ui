@@ -10,6 +10,7 @@ export default {
         "SearchDatasets": "Search Data Catalogue",
         "What is DataBC?": "What is DataBC?",
         "Geographic Services": "Geographic Services",
+        "Documentation": "Documentation",
         "Blog": "Blog",
         "Developers": "Developers",
         "Contact": "Contact",
