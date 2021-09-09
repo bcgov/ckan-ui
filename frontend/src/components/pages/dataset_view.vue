@@ -362,7 +362,12 @@ export default {
         },
 
         ...mapState({
-            dataset: state => state.dataset.dataset,
+            dataset: state => {
+                if (state.dataset && state.dataset.dataset && state.dataset.dataset.title) {
+                    window.document.title = state.dataset.dataset.title + " - Datasets - Data Catalogue";
+                }
+                return state.dataset.dataset;
+            },
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
