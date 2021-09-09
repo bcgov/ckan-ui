@@ -145,7 +145,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     |:---|:---|:---|:---|
     |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
     
-+ **Fields moved to Composet or Composent Repeating Fields**:
++ **Fields moved to Composite or Composite Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
     
     |Database Field Name|Database Field within|Move to|
