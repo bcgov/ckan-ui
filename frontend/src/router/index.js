@@ -26,7 +26,7 @@ let r = new Router({
             name: 'splash',
             component: home,
             meta: {
-                title: "DataCatalogue"
+                title: "Data Catalogue"
             }
         },
         {
@@ -35,7 +35,7 @@ let r = new Router({
             alias: '/dataset',
             component: datasets,
             meta: {
-                title: "Datasets"
+                title: "Datasets - Data Catalogue"
             }
         },
         {
