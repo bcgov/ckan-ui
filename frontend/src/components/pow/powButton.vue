@@ -1,36 +1,24 @@
 <template>
-    <v-dialog v-model="dialog" width="900">
-        <template v-slot:activator="{ on }">
-            <v-btn v-if="btn" small depressed text color="primary" v-on="on">
-                <!-- @click="startOrder()" -->
-                <!-- <v-icon>mdi-folder-information-outline</v-icon>&nbsp; -->{{$tc('Request Access')}}
-            </v-btn>
-            <v-list-item v-else text block color="label_colour" v-on="on">
-                <!-- @click="startOrder()" -->
-                Request Access
-            </v-list-item>
-        </template>
-        <!-- change to vue component and move methods to here -->
-        <powModal @powMounted="startOrder()"/>
-        <!-- <v-card height="90%">
-
-            <iframe :src="full_ui_url" id="powModal"></iframe>
-
-        </v-card> -->
-    </v-dialog>
+    <v-btn v-if="btn" small depressed text color="primary" @click="startOrder">
+        <v-icon v-if="icon">mdi-open-in-new</v-icon>
+        {{$tc('Access/Download')}}
+    </v-btn>
+    <v-list-item v-else text block color="label_colour" @click="startOrder">
+        <v-icon v-if="icon">mdi-open-in-new</v-icon>
+        {{$tc('Access/Download')}}
+    </v-list-item>
 </template>
 
 <script>
-
 import {PowApi} from '../../services/powApi';
 import { mapState } from 'vuex';
-import powModal from './powModal'
 const powServ = new PowApi();
 
 export default {
     props: {
         resource: Object,
-        btn: Boolean
+        btn: Boolean,
+        icon: Boolean
     },
     data() {
         return {
@@ -38,9 +26,6 @@ export default {
             button: false,
             scriptTags: [],
         }
-    },
-    components: {
-        powModal: powModal
     },
     computed: {
         ...mapState({
@@ -61,64 +46,65 @@ export default {
     },
 
     methods: {
+
         startOrder: function() {
-            var public_url = this.get_ofi_url('/public/')
-            var secure_url = this.get_ofi_url('/secure/')
-            var run_pow = this.init_pow;
-            //(pow_initialized) ? this.runOrder :
+
             let dwdspowapi = window.dwdspowapi;
-            dwdspowapi.initialize(public_url, secure_url, this.custom_aoi_url, this.past_orders_nbr, false, false, run_pow)
-        },
-        init_pow: function(pow_ready) {
-            //pow_initialized = pow_ready
-            let dwdspowapi = window.dwdspowapi;
-            dwdspowapi.orderData = {
-                emailAddress: '',
-                aoiType: this.order_details.aoi_type,
-                aoi: this.order_details.aoi,
-                clippingMethodType: this.order_details.clipping_method_type_id,
-                orderingApplication: this.order_details.ordering_application,
-                formatType: this.order_details.format_type,
-                csrType: this.order_details.csr_type,
-                //the code below will be loaded for specific packages
-                featureItems: [
-                    {
-                    featureItem: this.resource.object_name,
-                    filterValue: '',
-                    layerName: this.dataset_title,
-                    filterType: 'No Filter',
-                    layerMetadataUrl: this.order_details.metadata_url + this.dataset_name,
-                    pctOfMax: null
+            let public_url = this.get_ofi_url('/public/');
+            let secure_url = this.get_ofi_url('/secure/');
+
+            dwdspowapi.initialize(
+                public_url,
+                secure_url,
+                this.custom_aoi_url,
+                this.past_orders_nbr,
+                false,
+                false,
+
+                () => {
+                    var qs = {
+                        publicUrl: this.get_ofi_url('/public/'),
+                        secureUrl: this.get_ofi_url('/secure/'),
+                        customAoiUrl: this.custom_aoi_url,
+                        pastOrdersNbr: this.past_orders_nbr,
+                        secureSite: false,
+                        orderSource: this.order_details.ordering_application
+                    };
+
+                    var params = Object.keys(qs).map(function(key){
+                        return encodeURIComponent(key) + '=' + encodeURIComponent(qs[key])
+                    }).join('&');
+
+
+                    dwdspowapi.orderData = {
+                        emailAddress: '',
+                        aoiType: this.order_details.aoi_type,
+                        aoi: this.order_details.aoi,
+                        clippingMethodType: this.order_details.clipping_method_type_id,
+                        orderingApplication: this.order_details.ordering_application,
+                        formatType: this.order_details.format_type,
+                        csrType: this.order_details.csr_type,
+                        //the code below will be loaded for specific packages
+                        featureItems: [
+                            {
+                            featureItem: this.resource.object_name,
+                            filterValue: '',
+                            layerName: this.dataset_title,
+                            filterType: 'No Filter',
+                            layerMetadataUrl: this.order_details.metadata_url + this.dataset_name,
+                            pctOfMax: null
+                            }
+                        ],
                     }
-                ],
-            }
 
-            /*let powOrder = */new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path)
-            this.runOrder(pow_ready)
-        },
+                    let powOrder = new dwdspowapi.Order(dwdspowapi.orderData, this.pow_ui_path);
 
-        runOrder:function() {
-            this.dwdsPowUi()
-        },
+                    var url = this.get_pow_url(this.pow_ui_path, (this.download_audience != 'Public')) + params;
+                    window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
+                }
+            );
 
-        dwdsPowUi: function() {
-            var qs = {
-                publicUrl: this.get_ofi_url('/public/'),
-                secureUrl: this.get_ofi_url('/secure/'),
-                customAoiUrl: this.custom_aoi_url,
-                pastOrdersNbr: this.past_orders_nbr,
-                secureSite: false,
-                orderSource: this.order_details.ordering_application
-            }
 
-            var params = Object.keys(qs).map(function(key){
-                return encodeURIComponent(key) + '=' + encodeURIComponent(qs[key])
-            }).join('&')
-
-            var url = this.get_pow_url(this.pow_ui_path, (this.download_audience != 'Public')) + params;
-            this.$store.commit('pow/setFullUiPath', {full_ui_path: url})
-            this.$store.commit('pow/setPowLoading', {powLoading: false})
-            //window.open(url, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
         },
 
         get_ofi_url: function(endpoint, secure) {
@@ -165,14 +151,6 @@ export default {
         async get_ofi_config() {
             const response = await powServ.getOfiConfig()
             this.$store.commit('pow/setOfiConfig', {ofi_config: response})
-        },
-
-        powOrderSuccess: function(orderID) {
-            alert('Order Id: ' + orderID);
-        },
-
-        powOrderFail: function(error) {
-            alert('Order Error: ' + error);
         }
 
     },

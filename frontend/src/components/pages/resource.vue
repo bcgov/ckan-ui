@@ -76,7 +76,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
+                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
@@ -97,7 +97,7 @@
                 </v-btn>
 
                 <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
-                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                    <v-icon>mdi-open-in-new</v-icon>&nbsp;{{$tc('Access/Download')}}
                 </v-btn>
 
                 <v-btn v-if="!editing && showEdit" small depressed text color="primary" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}">
