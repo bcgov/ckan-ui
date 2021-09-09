@@ -160,26 +160,14 @@ export default {
         stayLoggedIn: false,
         findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         menuSecondary: [
-            // {
-            //     "title": "What is DataBC?",
-            //     "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
-            // },
-            // {
-            //     "title": "Dataset Usage",
-            //     "link": "/usage"
-            // },
             {
                 "title": "Geographic Services",
                 "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
             },
-            // {
-            //     "title": "Blog",
-            //     "href": "https://engage.gov.bc.ca/data/"
-            // },
-            // {
-            //     "title": "Developers",
-            //     "href": "https://www.bcdevexchange.org/"
-            // },
+            {
+                "title": "Documentation",
+                "href": "https://www2.gov.bc.ca/gov/content?id=42230A1DCE4B442A8D72B7B11A53DA5F"
+            },
             {
                 "title": "About",
                 "link": "/about",
