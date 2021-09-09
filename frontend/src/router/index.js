@@ -51,7 +51,8 @@ let r = new Router({
             name: 'dataset_view',
             component: dataset_view,
             meta: {
-                title: "Viewing Dataset"
+                title: "Viewing Dataset",
+                dynamicTitle: true
             }
         },
         {
@@ -67,7 +68,8 @@ let r = new Router({
             name: 'resource_view',
             component: resource,
             meta: {
-                title: "Viewing Resource"
+                title: "Viewing Resource",
+                dynamicTitle: true
             }
         },
         {
