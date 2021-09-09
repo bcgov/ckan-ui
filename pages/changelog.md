@@ -201,15 +201,7 @@ Beta updates deployed based on user feedback and backlog prioritization
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See field section for changes to field names and fields being nested in ?
-+ Common queries:
-    + https://docs.ckan.org/en/ckan-2.7.3/api/
-    + object_name has moved from packages to resources.
-       + Querying resources uses "query", while packages use "q"
-       + example:
-       + https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
-       + will be:
-       + https://catalogue.data.gov.bc.ca/api/3/action/resource_search?query=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
++ See field section for changes, including object_name having been moved from packages to resources.
 
 
 ### USER MANAGEMENT
