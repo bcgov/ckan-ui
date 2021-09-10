@@ -236,24 +236,18 @@ export default {
         next();
     },
     watch: {
-    //     getAbort(newVal) {
-    //         if(newVal==true) {
-    //             this.$router.push('/datasets');
-    //         }
-    //     },
-
         datasetId(newVal){
             this.resource['package_id'] = newVal;
             this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
         },
 
-        $route (to){
+        $route(to) {
             this.redrawIndex++;
             this.editing = ( to.name === "resource_create" || (to.query && to.query.editing) ),
             this.createMode = (to.name === "resource_create");
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
-            }else{
+            } else{
                 this.$store.dispatch("dataset/getResource", { id: this.resourceId });
             }
         },
@@ -325,46 +319,30 @@ export default {
 
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
-            // let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
-            // for (var i=0; i<this.schema.resource_fields.length; i++){
-            //     remove.push(this.schema.resource_fields[i].field_name);
-            //     if (typeof(this.schema.resource_fields[i].subfields) !== "undefined"){
-            //         for (var j=0; j<this.schema.resource_fields[i].subfields.length; j++){
-            //             remove.push(this.schema.resource_fields[i].subfields[j].field_name);
-            //         }
-            //     }
-            // }
-            // keys = keys.filter(function(el){
-            //     return remove.indexOf(el) < 0;
-            // });
             keys.sort();
             return keys;
         },
 
-        // getAbort() {
-        //     return this.$store.state.dataset.shouldAbort;
-        // },
         permalink: function(){
             return window.location.origin+'/dataset/'+this.dataset.id+'/resource/'+this.resource.id
         },
 
-        // schema: function () {
-        //     return this.$store.state.dataset.schemas[this.schemaName];
-        // },
-
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
+
         resourceId: function resourceId() {
             return this.$route.params.resourceId || null;
         },
-        // editLink: function editLink() {
-        //     return "/dataset/" + this.datasetId + "/edit";
-        // },
 
         ...mapState({
             dataset: state => state.dataset.dataset,
-            resource: state => state.dataset.resource,
+            resource: state => {
+                if (state.dataset && state.dataset.dataset && state.dataset.resource && state.dataset.dataset.title && state.dataset.resource.name) {
+                    window.document.title = state.dataset.dataset.title + " - " + state.dataset.resource.name + " - Data Catalogue";
+                }
+                return state.dataset.resource;
+            },
             shouldAbort: state => state.dataset.shouldAbort,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
@@ -405,11 +383,6 @@ export default {
     },
 
     methods: {
-        // getUserOrgs() {
-        //     if (this.userOrgs.length <= 0){
-        //         this.$store.dispatch("organization/getUserOrgs");
-        //     }
-        // },
         getResource(id) {
             if (typeof(id) === "undefined"){
                 id = this.resourceId;
@@ -421,13 +394,12 @@ export default {
                     if(mutation.type == "dataset/setSchema") {
                         self.schema = state.dataset.schemas[self.schemaName];
                         unsub();
-                        //this.$router.push('/datasets');
                     }
                 }
             );
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
-            }else{
+            } else {
                 this.$store.dispatch("dataset/getResource", { id: id });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
