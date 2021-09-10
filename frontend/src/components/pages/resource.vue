@@ -108,9 +108,12 @@
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="!editing && canDeleteResources" small depressed text color="error_text" @click="deleteResource">
-                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
-                </v-btn>
+                <DeleteButton
+                        v-if="!editing && canDeleteResources"
+                        buttonText="Delete Resource"
+                        confirmationMessage="Are you sure you want to delete this resource?"
+                        @delete="deleteResource">
+                </DeleteButton>
                 
                 <v-btn v-if="editing" depressed @click="cancel">Cancel</v-btn>
                 <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit()">Save</v-btn>
@@ -200,6 +203,7 @@ import DynamicForm from '../form/DynamicForm';
 import Preview from "../resources/preview";
 import JsonTable from "../resources/jsontable";
 import powButton from "../pow/powButton";
+import DeleteButton from '../DeleteButton';
 
 export default {
     components: {
@@ -208,7 +212,8 @@ export default {
         ValidationObserver: ValidationObserver,
         Preview: Preview,
         JsonTable: JsonTable,
-        powButton: powButton
+        powButton: powButton,
+        DeleteButton
     },
     data() {
         let schemaName = 'bcdc_dataset';
@@ -427,27 +432,25 @@ export default {
             }
         },
         async deleteResource() {
-            if (confirm("Are you sure you want to delete this resource?")) {
-                const response = await ckanServ.deleteResource(this.resourceId);
+            const response = await ckanServ.deleteResource(this.resourceId);
 
-                this.formSuccess = "";
-                this.formError = "";
+            this.formSuccess = "";
+            this.formError = "";
 
-                if (response.success && response.success === true && (!response.error || response.error === false)){
-                    this.formSuccess = "Successfully deleted";
-                    this.showFormSuccess = true;
-                    this.showFormError = false;
-                    return;
-                } else if (response.error){
-                    this.formError = response.error;
-                    this.showFormSuccess = false;
-                    this.showFormError = true;
-                    return;
-                }
-                this.formError = "Unknown error deleting resource";
+            if (response.success && response.success === true && (!response.error || response.error === false)){
+                this.formSuccess = "Successfully deleted";
+                this.showFormSuccess = true;
+                this.showFormError = false;
+                return;
+            } else if (response.error){
+                this.formError = response.error;
                 this.showFormSuccess = false;
                 this.showFormError = true;
+                return;
             }
+            this.formError = "Unknown error deleting resource";
+            this.showFormSuccess = false;
+            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){
