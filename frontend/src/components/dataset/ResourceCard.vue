@@ -41,6 +41,7 @@
                         </v-btn>
                         <DeleteButton
                                 v-if="canDelete"
+                                buttonClass="px-0 mx-0"
                                 confirmationMessage="Are you sure you want to delete this resource?"
                                 @delete="deleteResource">
                         </DeleteButton>
