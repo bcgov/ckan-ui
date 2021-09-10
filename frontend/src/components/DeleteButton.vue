@@ -13,7 +13,7 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-spacer></v-spacer> <v-btn @click="cancel" color="secondary">{{$tc("Cancel")}}</v-btn> <v-btn @click="confirm" color="primary">{{$tc("Okay")}}</v-btn>
+          <v-spacer></v-spacer> <v-btn @click="cancel" color="secondary">{{$tc("Cancel")}}</v-btn> <v-btn @click="confirm" color="primary">{{$tc("Confirm")}}</v-btn>
         </v-card-actions>
     </v-card>
   </v-dialog>
