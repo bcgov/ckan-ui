@@ -111,10 +111,10 @@ Beta updates deployed based on user feedback and backlog prioritization
 
 + **Fields added**:
 
-    |UI Field Label |Database Field Name|
-    |:---|:---|
+    |UI Field Label |Database Field Name|Other Actions|
+    |:---|:---|:---|
     |JSON Table Schema | json_table_schema|
-    |More Info Description|description|
+    |More Info Description|description|Moved to composite repeating field|
  
 + **Fields removed**:
     - No fields have been removed from the database but some have been removed from the UI.
@@ -160,10 +160,10 @@ Beta updates deployed based on user feedback and backlog prioritization
     |Preview zoom level|preview_zoom_level |Results visible in Preview button|
     |Image URL| image_url |Results visible in Preview button|
     |Link to iMap|link_to_imap|Moved to button within Preview button in UI|
-    |North|north_bound_latitude|Moved to composite or composite repeating fields|
-    |South|south_bound_latitude|Moved to composite or composite repeating fields|
-    |East| east_bound_latitude |Moved to composite or composite repeating fields|
-    |West|west_bound_latitude|Moved to composite or composite repeating fields|
+    |North|north_bound_latitude|Moved to composite field|
+    |South|south_bound_latitude|Moved to composite field|
+    |East| east_bound_latitude |Moved to composite field|
+    |West|west_bound_latitude|Moved to composite field|
     |ISO Topic Category|iso_topic_category| Renamed from iso_topic_string and made into a composite field|
     |Resource Type|resource_type| Renamed from edc_resource_type|
     
