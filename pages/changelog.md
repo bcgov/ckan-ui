@@ -1,4 +1,5 @@
 # Change Log
+This page is continually updated as changes are made to the 
 
 |**AUDIENCE**|
 |:---:|
@@ -9,7 +10,7 @@
 ## Table of Contents
 + [**WHAT'S NEW**](#whats-new)
     - [**Some Known Issues**](#some-known-issues)
-        - [**Latest Updates**](#september-2-2021)
+        - [**Latest Updates**](#september-8-2021)
     - [**User Interface (UI)**](#user-interface)
         - [**Landing Page**](#landing-page)
         - [**Record Level**](#record-level)
@@ -110,8 +111,10 @@ Beta updates deployed based on user feedback and backlog prioritization
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
 # FIELD, LABEL AND VALUE CHANGES
-**Field Labels** are what is visible in the user interface.
+**Field Labels** are what is visible in the user interface (UI).
 **Field Names** are what is returned from the API.
+
+|Object|Field Label|Field Names|Action|Rational|Other Actions|
 
 + **Fields added**:
 
