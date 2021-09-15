@@ -142,6 +142,25 @@ Beta updates deployed based on user feedback and backlog prioritization
     |UI Field Label|Database Field Name|New Use |Old Use|
     |:---|:---|:---|:---|
     |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
+
++ **Fields moved from Package to Resource**:
+ |UI FieldLabel|Database Field Name |
+    |:---|:---|
+    |Object Name| object_name |
+    |Short Name|object_short_name|
+    |Object Table Name| object_table_comments |
+    |Spatial Datatype|spatial_datatype|
+    |Layer Name| layer_name |
+    |Preview latitude|preview_latitude|
+    |Preview longitude| preview_longitude |
+    |Preview map service URL|preview_map_service_url|
+    |Preview zoom level|preview_zoom_level|
+    |Image URL| image_url |
+    |Link to iMap|link_to_imap|
+    |North|north_bound_latitude|
+    |South|south_bound_latitude|
+    |East|east_bound_latitude |
+    |West|west_bound_latitude|
     
 + **Fields moved to Composite or Composite Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
@@ -153,7 +172,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     |short_name; column_name; data_type; column_comments |details|from package to resource|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|NA|
-    |iso_topic_category|Resource level  | 
+    |iso_topic_category|  | from package to resource
     |url|more_info| NA|
        
 + **Fields available to other resources types**:
