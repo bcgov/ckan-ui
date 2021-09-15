@@ -131,10 +131,10 @@ Beta updates deployed based on user feedback and backlog prioritization
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
-    | |beginning_date|data_collection_start_date  | 
-    | |end_date|data_collection_end_date|
-    | |resource_type|edc_resource_type|  
-    | |url|link|  
+    |Beginning Date |beginning_date|data_collection_start_date  | 
+    |End Date |end_date|data_collection_end_date|
+    |Resource Type |resource_type|edc_resource_type|  
+    |URL |url|link|  
     |Contacts Branch|org|branch|
     |ISO Topic Category|iso_topic_category|iso_topic_string  | 
 
@@ -148,6 +148,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     
     |UI FieldLabel|Database Field Name |Other Actions|
     |:---|:---|:---|
+    |Type| bcdc_tyoe |Copied to new field as package.type is a core field|
     |Object Name| object_name |
     |Short Name|object_short_name|
     |Object Table Name| object_table_comments |
@@ -171,13 +172,13 @@ Beta updates deployed based on user feedback and backlog prioritization
     |Database Field Name|Database Field within|Move to|
     |:---|:---|:---|
     |beginning_date ; end_date| temporal_extent | NA|
-    |edc_resource_type; resource_storage_location  |extras|from package to resource|
+    |resource_type; resource_storage_location  |extras|from package to resource|
     |short_name; column_name; data_type; column_comments |details|from package to resource|
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|NA|
-    |iso_topic_category|  | from package to resource
+    |iso_topic_category| iso_topic_category | from package to resource|
     |url|more_info| NA|
-    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |more_info| NA|
+    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |geographic_extent| from package to resource|
        
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
