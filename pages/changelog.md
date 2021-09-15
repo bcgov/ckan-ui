@@ -133,6 +133,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     | |beginning_date|data_collection_start_date  | 
     | |end_date|data_collection_end_date|
     | |resource_type|edc_resource_type|  
+    | |url|link|  
     |Contacts Branch|org|branch|
     |ISO Topic Category|iso_topic_category|iso_topic_string  | 
 
@@ -153,6 +154,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
     |name, email, org, role, displayed|Contacts|NA|
     |iso_topic_category|Resource level  | 
+    |url|more_info| NA|
        
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
