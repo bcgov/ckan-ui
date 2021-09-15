@@ -144,7 +144,8 @@ Beta updates deployed based on user feedback and backlog prioritization
     |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
 
 + **Fields moved from Package to Resource**:
- |UI FieldLabel|Database Field Name |
+    
+    |UI FieldLabel|Database Field Name |
     |:---|:---|
     |Object Name| object_name |
     |Short Name|object_short_name|
