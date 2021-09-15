@@ -171,16 +171,16 @@ Beta updates deployed based on user feedback and backlog prioritization
 + **Fields moved to Composite or Composite Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
     
-    |Database Field Name|Database Field within|Move to|
+    |Database Field Name|Database Field within|Other Actions|
     |:---|:---|:---|
     |beginning_date ; end_date| temporal_extent | NA|
-    |resource_type; resource_storage_location  |extras|from package to resource|
-    |short_name; column_name; data_type; column_comments |details|from package to resource|
-    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info|from package to resource|
+    |resource_type; resource_storage_location  |extras|Moved from package to resource|
+    |short_name; column_name; data_type; column_comments |details|Moved from package to resource|
+    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info| Movedfrom package to resource|
     |name, email, org, role, displayed|Contacts|NA|
-    |iso_topic_category| iso_topic_category | from package to resource|
+    |iso_topic_category| iso_topic_category |Moved from package to resource|
     |url|more_info| NA|
-    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |geographic_extent| from package to resource|
+    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |geographic_extent|Moved from package to resource|
        
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
