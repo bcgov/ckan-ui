@@ -23,11 +23,11 @@ module.exports = {
                 }
             },
 
-            '/apibridge': {
+            '/api': {
                 target: 'http://localhost:3000/',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/apibridge': "/apibridge"
+                    '^/api': "/api"
                 }
             }
         }
