@@ -198,7 +198,7 @@ Beta updates deployed based on user feedback and backlog prioritization
 + **Drop down values added**:
 
     |UI Field Label |Database Field Name|Value Added|
-    |:---|:---|
+    |:---|:---|:---|
     |Contact Role| contact_role| Data Manager; Custodian; Data Steward; Access Approver|
     |Resource Update Cycle|resource_update_cycle|Nightly, Unknown|
     |Resource Storage Format|format|gpkg (geopackage); multiple|
