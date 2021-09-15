@@ -45,6 +45,9 @@ Not all items have been flagged in this list, some are actively being worked on 
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
+## September 8 2021
+All API keys were regenerated in Beta and will propogate to Production at cutover. Your current API keys will not work once we have deployed the new BC Data Catalogue. 
+
 ## September 2 2021
 Beta updates deployed based on user feedback and backlog prioritization
 
