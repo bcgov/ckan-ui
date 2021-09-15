@@ -43,6 +43,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 3. The OpenAPI Console preview function is not available.
 4. The Data Usage page is not available.
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
+6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
 ## September 2 2021
 Beta updates deployed based on user feedback and backlog prioritization
