@@ -42,6 +42,7 @@ Not all items have been flagged in this list, some are actively being worked on 
     + All Group management can only be done by users with Admin access at this time. 
 3. The OpenAPI Console preview function is not available.
 4. The Data Usage page is not available.
+5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 
 ## September 2 2021
 Beta updates deployed based on user feedback and backlog prioritization
@@ -145,23 +146,24 @@ Beta updates deployed based on user feedback and backlog prioritization
 
 + **Fields moved from Package to Resource**:
     
-    |UI FieldLabel|Database Field Name |
-    |:---|:---|
+    |UI FieldLabel|Database Field Name |Other Actions|
+    |:---|:---|:---|
     |Object Name| object_name |
     |Short Name|object_short_name|
     |Object Table Name| object_table_comments |
     |Spatial Datatype|spatial_datatype|
-    |Layer Name| layer_name |
-    |Preview latitude|preview_latitude|
-    |Preview longitude| preview_longitude |
-    |Preview map service URL|preview_map_service_url|
-    |Preview zoom level|preview_zoom_level|
-    |Image URL| image_url |
-    |Link to iMap|link_to_imap|
-    |North|north_bound_latitude|
-    |South|south_bound_latitude|
-    |East|east_bound_latitude |
-    |West|west_bound_latitude|
+    |Layer Name| layer_name  |Results visible in Preview button|
+    |Preview latitude|preview_latitude |Results visible in Preview button|
+    |Preview longitude| preview_longitude  |Results visible in Preview button|
+    |Preview map service URL|preview_map_service_url |Results visible in Preview button|
+    |Preview zoom level|preview_zoom_level |Results visible in Preview button|
+    |Image URL| image_url |Results visible in Preview button|
+    |Link to iMap|link_to_imap|Moved to button within Preview button in UI|
+    |North|north_bound_latitude|Moved to composite or composite repeating fields|
+    |South|south_bound_latitude|Moved to composite or composite repeating fields|
+    |East| east_bound_latitude |Moved to composite or composite repeating fields|
+    |West|west_bound_latitude|Moved to composite or composite repeating fields|
+    |ISO Topic Category|iso_topic_category| Renamed from iso_topic_string|
     
 + **Fields moved to Composite or Composite Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
@@ -175,6 +177,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     |name, email, org, role, displayed|Contacts|NA|
     |iso_topic_category|  | from package to resource
     |url|more_info| NA|
+    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |more_info| NA|
        
 + **Fields available to other resources types**:
     - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
