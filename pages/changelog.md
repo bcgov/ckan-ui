@@ -130,11 +130,9 @@ Beta updates deployed based on user feedback and backlog prioritization
     |State| publish_state | edc_state|
     |Type|bcdc_type|type|
     |Resource Access Method|resource_access_method|resource_storage_access_method|
-    |Resourage Storage Format|resource_storage_format|format|
     | |beginning_date|data_collection_start_date  | 
     | |end_date|data_collection_end_date|
-    | |resource_type|edc_resource_type|
-    | |resource_description |description|    
+    | |resource_type|edc_resource_type|  
     |More Info URL |url|link|
     |Contacts Branch|org|branch|
     |ISO Topic Category|iso_topic_category|iso_topic_string  | 
