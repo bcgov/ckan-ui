@@ -131,7 +131,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     |:---|:---|:---|:---|
     |Type|bcdc_type|type|Copied from package to resource|
     |State| publish_state | edc_state|
-    |URL |url|link|  
+    |URL |url|link| Made into a composite field|
     |Contacts Branch|org|branch|
     |Beginning Date |beginning_date|data_collection_start_date  | 
     |End Date |end_date|data_collection_end_date|
