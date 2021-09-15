@@ -126,17 +126,17 @@ Beta updates deployed based on user feedback and backlog prioritization
 
 + **Fields renamed**:
 
-    |UI FieldLabel|New Database Field Name |Old Database Field Name|
-    |:---|:---|:---|
+    |UI FieldLabel|New Database Field Name |Old Database Field Name|Other Actions|
+    |:---|:---|:---|:---|
+    |Type|bcdc_type|type|Copied from package to resource|
     |State| publish_state | edc_state|
-    |Type|bcdc_type|type|
-    |Resource Access Method|resource_access_method|resource_storage_access_method|
-    |Beginning Date |beginning_date|data_collection_start_date  | 
-    |End Date |end_date|data_collection_end_date|
-    |Resource Type |resource_type|edc_resource_type|  
     |URL |url|link|  
     |Contacts Branch|org|branch|
-    |ISO Topic Category|iso_topic_category|iso_topic_string  | 
+    |Beginning Date |beginning_date|data_collection_start_date  | 
+    |End Date |end_date|data_collection_end_date|
+    |Resource Access Method|resource_access_method|resource_storage_access_method|Moved from package to resource|
+    |Resource Type |resource_type|edc_resource_type|  Moved from package to resource|
+    |ISO Topic Category|iso_topic_category|iso_topic_string  | Made into a composite field|
 
 + **Fields use change**:
 
@@ -164,7 +164,8 @@ Beta updates deployed based on user feedback and backlog prioritization
     |South|south_bound_latitude|Moved to composite or composite repeating fields|
     |East| east_bound_latitude |Moved to composite or composite repeating fields|
     |West|west_bound_latitude|Moved to composite or composite repeating fields|
-    |ISO Topic Category|iso_topic_category| Renamed from iso_topic_string|
+    |ISO Topic Category|iso_topic_category| Renamed from iso_topic_string and made into a composite field|
+    |Resource Type|resource_type| Renamed from edc_resource_type|
     
 + **Fields moved to Composite or Composite Repeating Fields**:
     - For those that use the catalogue API, these changes may impact scripting.
