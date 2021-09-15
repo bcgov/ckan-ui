@@ -1,10 +1,10 @@
 # Change Log
 This page is continually updated as changes are made to the 
 
-|**AUDIENCE**|
-|:---:|
-| *BCDC Consumers* |
-| *BCDC Data Providers* | 
+|**AUDIENCE**|**DESCRIPTION**|
+|:---|:---|
+| *BCDC Consumers* |Persons who use the published data in accordance to the dataset licence|
+| *BCDC Data Providers* | Person who 
 | *BCDC Administrators* | 
 
 ## Table of Contents
