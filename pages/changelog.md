@@ -133,7 +133,6 @@ Beta updates deployed based on user feedback and backlog prioritization
     | |beginning_date|data_collection_start_date  | 
     | |end_date|data_collection_end_date|
     | |resource_type|edc_resource_type|  
-    |More Info URL |url|url|
     |Contacts Branch|org|branch|
     |ISO Topic Category|iso_topic_category|iso_topic_string  | 
 
