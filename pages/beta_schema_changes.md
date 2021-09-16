@@ -19,7 +19,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + **Field Names** are what is returned from the API.
 
 ### Record Level Changes
-A Record or main pages is defined in CKAN as a Dataset or Package.
+A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed From|Moved to|Deleted|Values|Repeating or Composite|Comment|
