@@ -32,7 +32,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 
-## Current Known Issues
+## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
@@ -46,7 +46,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
-## Change Dates and Details
+## RELEASE DETAILS AND DATES
 
 |**Release**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
