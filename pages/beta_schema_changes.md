@@ -83,16 +83,17 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ||
 |Resource Storage Format|format|Y| | | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
 |Resource Storage Location|Resource Storage Location|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| | | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Object Short Name|object_short_name|Y| | | Record Level| | | |
-|Object Table Comments|object_table_comments|Y| | | Record Level| | | |
+|Spatial Datatype|spatial_datatype|Y| | | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
+|Object Short Name|object_short_name|Y| | | Record Level| | |Reviewing if this is applicable |
+|Object Table Comments|object_table_comments|Y| | | Record Level| | |Reviewing if this is applicable |
 ||
-|Details|details |Y| | | Record Level| | | |
-|Column Name|column_name|
-|Short Name|short_name|
-|Data Type|data_type|
-|Data Precision|data_precision|
-|Column Comments|column_comments|
+|Details|details |Y| | | Record Level| | | Reviewing if this is applicable|
+|Column Name|column_name|Y| | | Record Level| | | |
+|Short Name|short_name|Y| | | Record Level| | | |
+|Data Type|data_type|Y| | | Record Level| | | |
+|Data Precision|data_precision|Y| | | Record Level| | | |
+|Column Comments|column_comments|Y| | | Record Level| | | |
+||
 
 
 ### Geographic Data Resource Level Changes
@@ -123,7 +124,16 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |Data Type|data_type|Y| | | Record Level| | | |
 |Data Precision|data_precision|Y| | | Record Level| | | |
 |Column Comments|column_comments|Y| | | Record Level| | | |
+||
 |Projection Name|projection_name|Y|
+|JSON Table Schema|json_table_schema|Y| | | | | |__NEW*__ |
+|ISO Topic Category|iso_topic_category|Y|iso_topic_string | | Record Level| | | |
+|Resource Type|resource_type|Y|
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+||
+|Preview Information:|preview_info|Y| | |Record Level| | | |
+|Layer Name|layer_name|Y| | |Record Level| | | |
+|Preview Latitude|preview_latitude|Y| | |Record Level| | | |
 
 ### Webservice/APIResource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
