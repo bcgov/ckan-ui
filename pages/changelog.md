@@ -1,22 +1,24 @@
 # Change Log
-This page is continually updated as changes are made to the 
+This page is continually updated as changes are made to the BC Data Catalogue and its supporting technologies. 
 
 |**AUDIENCE**|**DESCRIPTION**|
 |:---|:---|
 | *BCDC Consumers* |Persons who use the published data in accordance to the dataset licence|
-| *BCDC Data Providers* | Person who 
-| *BCDC Administrators* | 
+| *BCDC Data Providers* | Persons who prepare and published data in the BC Data Catalogue|
+| *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
++ [**RESOURCES**](#resources)
 + [**WHAT'S NEW**](#whats-new)
-    - [**Some Known Issues**](#some-known-issues)
-        - [**Latest Updates**](#september-8-2021)
-    - [**User Interface (UI)**](#user-interface)
-        - [**Landing Page**](#landing-page)
-        - [**Record Level**](#record-level)
-        - [**Resource Level**](#resource-level) 
-    - [**Field, Label and Value Changes**](#field-label-and-value-changes)
+   * [**Changes to Environments**](#changes-to-environments)
+      + [**Some Known Issues**](#some-known-issues)
+      + [**Fixed Issues**](#fixed-issues)
++ [**Application User Interface (UI)**](#application-user-interface)
+      + [**Landing Page**](#landing-page)
+      + [**Record Level**](#record-level)
+      + [**Resource Level**](#resource-level) 
 + [**API**](#api)
++ [**Field, Label and Value Changes**](#field-label-and-value-changes)
 + [**User Management**](#user-management)
 + [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
 
@@ -25,13 +27,21 @@ This page is continually updated as changes are made to the
 ## RESOURCES
 + BC Data Catalogue: https://data.gov.bc.ca/
 + User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
-    + Beta: https://bcgov.github.io/data-publication/pages/dps_bcdc_w_2.html 
+   + Beta: https://bcgov.github.io/data-publication/pages/dps_bcdc_w_2.html 
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 
+## WHAT'S NEW
 
-# WHAT'S NEW
-## USER INTERFACE
+### Changes to Environments
+
+|**Description**|**Beta**|**Production**|
+|:---|:---:|:---:|
+|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
+|Beta updates deployed based on user feedback and backlog prioritization|02-Sep-21|TBD|
+
+## Application User Interface
+
 ### Some Known Issues
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
@@ -46,13 +56,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
-## September 8 2021
-All API keys were regenerated in Beta and will propogate to Production at cutover. Your current API keys will not work once we have deployed the new BC Data Catalogue. 
-
-## September 2 2021
-Beta updates deployed based on user feedback and backlog prioritization
-
-**Fixed Issues**
+### Fixed Issues
 
 1. Search sort is now by Relevance and not Newest.
 1. All fields and their values have now been directed to the correct destination.
@@ -72,6 +76,8 @@ Beta updates deployed based on user feedback and backlog prioritization
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
 ### Record Level
+This is also referred to as the package.
+
 + Menu Bar: Actions have been consolidated.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
     - __NEW__: _Scroll to Bottom_
@@ -110,27 +116,26 @@ Beta updates deployed based on user feedback and backlog prioritization
     - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
-# FIELD, LABEL AND VALUE CHANGES
-**Field Labels** are what is visible in the user interface (UI).
-**Field Names** are what is returned from the API.
+## API
++ Decoupling backend (CKAN database and API) and frontend (Javascript).
++ Values returned from the API are consistently using the field value and not the field label.
++ JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
++ See field section for changes, including object_name having been moved from packages to resources.
 
-|Object|Field Label|Field Names|Action|Rational|Other Actions|
+## FIELD, LABEL AND VALUE CHANGES
++ **Field Labels** are what is visible in the user interface (UI).
+   + No fields were removed from the databse, but some have been removed from the UI. 
++ **Field Names** are what is returned from the API.
 
-+ **Fields added**:
 
-    |UI Field Label |Database Field Name|Other Actions|
-    |:---|:---|:---|
-    |JSON Table Schema | json_table_schema|
-    |More Info Description|description|Moved to composite repeating field|
- 
-+ **Fields removed**:
-    - No fields have been removed from the database but some have been removed from the UI.
-  
-    |UI Field Label |Database Field Name|Rational|
-    |:---|:---|:---|
-    |Sector | sector|No longer used in Government|
-    |Contact Organization|organization| |
+|Object|Action|Field Label|Field Names|Rational|Other Actions|
+|:---|:---|:---|:---|:---|:---|
+|Record|Added|JSON Table Schema|json_table_schema| | |
+|Record|Added|More Info Description|description| |Moved to composite repeating field|
+|Record|Deleted|Sector|sector|No longer used by Government| |
+|Record|Deleted|Contact Organiztion|organization| | |
 
+_Under Review below_
 + **Fields renamed**:
 
     |UI FieldLabel|New Database Field Name |Old Database Field Name|Other Actions|
@@ -228,11 +233,7 @@ Beta updates deployed based on user feedback and backlog prioritization
     |:---|:---|:---|
     |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
         
-### API
-+ Decoupling backend (CKAN database and API) and frontend (Javascript).
-+ Values returned from the API are consistently using the field value and not the field label.
-+ JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See field section for changes, including object_name having been moved from packages to resources.
+
 
 
 ### USER MANAGEMENT
