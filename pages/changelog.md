@@ -34,6 +34,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 
+[RETURN TO TOP][1]
+
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
@@ -48,6 +50,8 @@ Not all items have been flagged in this list, some are actively being worked on 
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
+[RETURN TO TOP][1]
+
 ## RELEASE DETAILS AND DATES
 
 |**Release**|**Description**|**Beta**|**Production**|
@@ -57,6 +61,8 @@ Not all items have been flagged in this list, some are actively being worked on 
 |3|Beta released to Editors (data providers)|08-Aug-21|TBD|
 |2|Beta released to Admin and internal staff|31-Mar-21|TBD|
 |1|Beta migrated from Test|27-Jan-21|TBD|
+
+[RETURN TO TOP][1]
 
 ### Fixed Issues
 
@@ -71,6 +77,8 @@ Not all items have been flagged in this list, some are actively being worked on 
 |Resource file size limit set to be the same as production Cat Classic.|4|
 |Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.|4| 
 
+[RETURN TO TOP][1]
+
 ## WHAT'S NEW
 
 ### Application User Interface
@@ -80,6 +88,8 @@ Not all items have been flagged in this list, some are actively being worked on 
     - Future user engagement intended to determine what would provide additional value on this page.  
 + Landing page toolbar has moved to the top right "pancake": Datasets, Organization, Groups, About, Account Settings, Subscribe to New Data, etc.
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
+
+[RETURN TO TOP][1]
 
 #### Record Level
 This is also referred to as the package.
@@ -99,6 +109,8 @@ This is also referred to as the package.
     - See Field, Label and Value changes for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
+
+[RETURN TO TOP][1]
 
 #### Resource Level
 + Menu Bar: Actions have been consolidated to replace the _Manage_ button and other actions.
@@ -122,17 +134,25 @@ This is also referred to as the package.
     - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
+[RETURN TO TOP][1]
+
 #### Organizations
 _Under Construction_
 
+[RETURN TO TOP][1]
+
 #### Groups
 _Under Construction_
+
+[RETURN TO TOP][1]
 
 ### Application Programming Interface
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 + See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including object_name having been moved from packages to resources.
+
+[RETURN TO TOP][1]
 
 ## FIELD, LABEL AND VALUE CHANGES
 This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
