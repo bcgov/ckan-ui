@@ -32,18 +32,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 
-## WHAT'S NEW
-
-### Changes to Environments
-
-|**Description**|**Beta**|**Production**|
-|:---|:---:|:---:|
-|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
-|Beta updates deployed based on user feedback and backlog prioritization|02-Sep-21|TBD|
-
-## Application User Interface
-
-### Some Known Issues
+## Some Known Issues
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
@@ -57,7 +46,14 @@ Not all items have been flagged in this list, some are actively being worked on 
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
-### Fixed Issues
+## Change Dates and Details
+
+|**Description**|**Beta**|**Production**|
+|:---|:---:|:---:|
+|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
+|Beta updates deployed based on user feedback and backlog prioritization|02-Sep-21|TBD|
+
+#### Fixed Issues
 
 1. Search sort is now by Relevance and not Newest.
 1. All fields and their values have now been directed to the correct destination.
@@ -69,6 +65,10 @@ Not all items have been flagged in this list, some are actively being worked on 
 1. Resources have been changed to "Access/Download" as was in production Cat Classic.
 1. Resource file size limit set to be the same as production Cat Classic.
 1. Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.
+
+## WHAT'S NEW
+
+### Application User Interface
 
 ### Landing Page
 + Landing page of https://data.gov.bc.ca has been simplified.
