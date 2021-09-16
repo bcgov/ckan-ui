@@ -30,6 +30,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
    + Beta: https://bcgov.github.io/data-publication/pages/dps_bcdc_w_2.html 
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
++ Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 
 ## WHAT'S NEW
 
