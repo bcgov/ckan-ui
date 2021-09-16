@@ -137,7 +137,7 @@
   export default{
       data () {
         return {
-          logInUrl: "/api/login?r=/",
+          logInUrl: "/client-api/login?r=/",
           cardDialog: false,
           searchText: "",
           redrawIndex: 0,

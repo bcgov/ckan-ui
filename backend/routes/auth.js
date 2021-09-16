@@ -7,7 +7,7 @@ let config = require('config');
 
 router.use('/login', function(req, res, next){
     req.session.r = req.query.r;
-    return res.redirect('/api/log');
+    return res.redirect('/client-api/log');
 });
 
 router.use("/groupSeperator", function(req,res,next){
