@@ -51,19 +51,20 @@ Not all items have been flagged in this list, some are actively being worked on 
 |**Release**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
 |5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
-|4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md))|02-Sep-21|TBD|
+|4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|02-Sep-21|TBD|
 |3|Beta released to Editors (data providers)|08-Aug-21|TBD|
 |2|Beta released to Admin and internal staff|31-Mar-21|TBD|
 |1|Beta migrated from Test|27-Jan-21|TBD|
 
-#### Fixed Issues
+### Fixed Issues
 
-|**Issue** |**Release**|
+|**Issue**|**Release**|
+|:---|:---:|
 |Search sort is now by Relevance and not Newest.|4|
 |All fields and their values have now been directed to the correct destination. Field updates have been reflected in the Field, Label and Value Changes section below.|4|
-|Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.|
+|Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.|4|
 |Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.|4|
-|Resources that are not previewable, the Preview button is greyed out|4|
+|Resources that are not previewable, the Preview button is greyed out.|4|
 |Resources have been changed to "Access/Download" as was in production Cat Classic.|4|
 |Resource file size limit set to be the same as production Cat Classic.|4|
 |Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.|4| 
