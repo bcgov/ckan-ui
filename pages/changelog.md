@@ -54,7 +54,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 
 ## RELEASE DETAILS AND DATES
 
-|**Release**|**Description**|**Beta**|**Production**|
+|**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
 |5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
 |4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|02-Sep-21|TBD|
