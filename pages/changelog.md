@@ -8,19 +8,19 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
-+ [**RESOURCES**](#resources)
++ [**RESOURCES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resources)
++ [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
 + [**WHAT'S NEW**](#whats-new)
-   * [**Changes to Environments**](#changes-to-environments)
-      + [**Some Known Issues**](#some-known-issues)
-      + [**Fixed Issues**](#fixed-issues)
-+ [**Application User Interface (UI)**](#application-user-interface)
-      + [**Landing Page**](#landing-page)
-      + [**Record Level**](#record-level)
-      + [**Resource Level**](#resource-level) 
-+ [**API**](#api)
-+ [**Field, Label and Value Changes**](#field-label-and-value-changes)
-+ [**User Management**](#user-management)
-+ [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
+   * [**Changes to Environments**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#changes-to-environments)
+      + [**Some Known Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#some-known-issues)
+      + [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
++ [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
+      + [**Landing Page**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#landing-page)
+      + [**Record Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#record-level)
+      + [**Resource Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resource-level) 
++ [**API**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#api)
++ [**Field, Label and Value Changes**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes)
++ [**User Management**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#user-management)
 
 -----------------------
 
@@ -32,7 +32,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
 
-## Some Known Issues
+## Current Known Issues
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
 1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
@@ -130,7 +130,6 @@ This is also referred to as the package.
 + **Field Labels** are what is visible in the user interface (UI).
    + No fields were removed from the databse, but some have been removed from the UI. 
 + **Field Names** are what is returned from the API.
-
 
 |Object|Action|Field Label|Field Names|Rational|Other Actions|
 |:---|:---|:---|:---|:---|:---|
@@ -237,26 +236,13 @@ _Under Review below_
     |:---|:---|:---|
     |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
         
-
-
-
 ### USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
++ RASP configuration still resides in ADAM.
 
 ### SPECS
 * CKAN: 2.7.5
 * SOLR: 7.2.1
-
-## August 8 2021
-Beta released to Editors (data providers)
-
-## March 31 2021
-Beta released to Admin and internal staff
-
-## January 27 2021
-Beta migrated from Test
-
-## 2020 Pre-Beta Specs
 
 [RETURN TO TOP][1]
 
