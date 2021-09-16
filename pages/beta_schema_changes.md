@@ -45,7 +45,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |Name|name|N|
 ||
 |More Info:| |Y| | | | |Y| |
-|Description|descriotion|Y| | | | | |__NEW*__ |
+|Description|description|Y| | | | | |__NEW*__ |
 |URL|url|Y|link|
 ||
 |Security Classification|security_class|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
@@ -59,15 +59,22 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |Record Lifecycle History:|
 |Type|type|N|
 |Date|date|N|
+||
+|Replacement Record|replacement record|
+|Retention Expiry Date|retention_expiry_date|
+|Source Data Path|source_data_path|Y| | | | | |No longer a mandatory or URL conditional field |
 
 
-### Record Level Changes
+### Document/Tabular Data Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
-### Record Level Changes
+### Geographic Data Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
-### Record Level Changes
+### Webservice/APIResource Level Changes
+A Record or main metadata page is defined in CKAN as a Dataset or Package.
+
+### Application Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 
