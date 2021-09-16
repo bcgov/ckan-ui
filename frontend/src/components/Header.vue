@@ -150,8 +150,8 @@ export default {
     let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
         aboutDialog: false,
-        logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
-        logoutUrl: "/api/logout?r="+window.location.pathname,
+        logInUrl: "/client-api/login?r="+this.$router.history.current.fullPath,
+        logoutUrl: "/client-api/logout?r="+window.location.pathname,
         showLoggedOut: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
@@ -185,7 +185,7 @@ export default {
   },
   watch: {
     $route(to){
-      this.logInUrl = "/api/login?r="+to.fullPath;
+      this.logInUrl = "/client-api/login?r="+to.fullPath;
       this.$store.dispatch('user/getCurrentUser')
       if (this.$route.query.loggedOut === "true"){
         this.showLoggedOut = true;
@@ -247,7 +247,7 @@ export default {
                 "icon": "mdi-rss-box",
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
-                "href": '/api/ckan/rss'
+                "href": '/client-api/ckan/rss'
             },
             {
                 "title": "Classic Catalogue",

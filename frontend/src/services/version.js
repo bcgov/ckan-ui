@@ -4,7 +4,7 @@ export class Version {
     constructor(){}
 
     getVersion(){
-        const url = '/api/version'
+        const url = '/client-api/version'
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 

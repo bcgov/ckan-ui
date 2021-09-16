@@ -25,7 +25,7 @@ var addRoutes = function(router){
             let newUrl = config.get('frontend');
             if (body){
                 let b = body.replace(oldUrl, newUrl);
-                b = b.replace("/feeds/recent.rss", "/api/ckan/rss");
+                b = b.replace("/feeds/recent.rss", "/client-api/ckan/rss");
                 return res.end(b);
             }return res.end('Sorry there was an error getting the rss feed: ', err)
         });
