@@ -127,6 +127,8 @@ This is also referred to as the package.
 + See field section for changes, including object_name having been moved from packages to resources.
 
 ## FIELD, LABEL AND VALUE CHANGES
+This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur.
+
 + **Field Labels** are what is visible in the user interface (UI).
    + No fields were removed from the databse, but some have been removed from the UI. 
 + **Field Names** are what is returned from the API.
