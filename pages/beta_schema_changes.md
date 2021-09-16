@@ -4,7 +4,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |**AUDIENCE**|**DESCRIPTION**|
 |:---|:---|
 | *BCDC Consumers* |Persons who use the published data in accordance to the dataset licence|
-| *BCDC Data Providers* | Persons who prepare and published data in the BC Data Catalogue|
+| *BCDC Data Providers* | Persons who prepare and publish data in the BC Data Catalogue|
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
