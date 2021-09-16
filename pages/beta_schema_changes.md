@@ -1,4 +1,4 @@
-# Change Log
+# FIELD, LABEL AND VALUE CHANGES
 This page is continually updated as changes are made to the BC Data Catalogue and its supporting technologies. 
 
 |**AUDIENCE**|**DESCRIPTION**|
@@ -8,23 +8,10 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
-+ [**RESOURCES**](#resources)
-+ [**WHAT'S NEW**](#whats-new)
-   * [**Changes to Environments**](#changes-to-environments)
-      + [**Some Known Issues**](#some-known-issues)
-      + [**Fixed Issues**](#fixed-issues)
-+ [**Application User Interface (UI)**](#application-user-interface)
-      + [**Landing Page**](#landing-page)
-      + [**Record Level**](#record-level)
-      + [**Resource Level**](#resource-level) 
-+ [**API**](#api)
 + [**Field, Label and Value Changes**](#field-label-and-value-changes)
-+ [**User Management**](#user-management)
-+ [**2020 Pre Beta Specs**](#2020-pre-beta-specs)
+
 
 -----------------------
-
-
 
 ## FIELD, LABEL AND VALUE CHANGES
 + **Field Labels** are what is visible in the user interface (UI).
@@ -35,20 +22,26 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 A Record or main pages is defined in CKAN as a Dataset or Package.
 
 
-|UI Field Label|Database Field Name|Changes Flag|Renamed From|Moved to|Deleted|Values Changed|Repeating or Composite|Comment|
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed From|Moved to|Deleted|Values|Repeating or Composite|Comment|
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 |Title|title|N|
 |URL|name|N|
-|Published by|owner_org|Y| | |  | | |Ministry level removed|
-|Descriptiom|notes|N|
+|Published by|full_title|Y| | | | | |Ministry level removed|
+|Description|notes|N|
 |Licence|license_id|N|
-|Contacts: Name|contacts.name|Y| | | | |Y | |
-|Contacts: Email|contacts.email|Y| | | | | Y | |
-|Contacts: Organization| |Y| | | Y| | |
-|Contacts: Organization|contacts.org|Y| | | || | Was Sub-Organization|
-|Contacts: Role|contacts.role|Y| | | | | |
-|Contacts: Displayed|contacts.displayed|N| | | | | |
-|Contacts: Name|contacts.name|N| | | | | |
+||
+|Contacts:|Y| | | | |Y| |
+|Name|name|N|
+|Email|email|N |
+|Organization| |Y| | | Y| | |
+|Organization|org|Y| branch| | | | | |
+|Role|role|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Displayed|displayed|Y|private | | | | |
+|Name|name|N|
+||
+
+
+
 
 |UI Field Label|New Database Field Name |Old Database Field Name|Other Actions|
 
