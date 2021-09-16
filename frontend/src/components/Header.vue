@@ -150,8 +150,8 @@ export default {
     let locale = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     return {
         aboutDialog: false,
-        logInUrl: "/api/login?r="+this.$router.history.current.fullPath,
-        logoutUrl: "/api/logout?r="+window.location.pathname,
+        logInUrl: "/client-api/login?r="+this.$router.history.current.fullPath,
+        logoutUrl: "/client-api/logout?r="+window.location.pathname,
         showLoggedOut: false,
         loadedLanguages: locale === "fr" ? ['fr', 'en'] : ['en'],
         classicUrl: '',
@@ -160,26 +160,14 @@ export default {
         stayLoggedIn: false,
         findText: this.$store.state.search.searchText ? this.$store.state.search.searchText : "",
         menuSecondary: [
-            // {
-            //     "title": "What is DataBC?",
-            //     "href": "http://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/databc"
-            // },
-            // {
-            //     "title": "Dataset Usage",
-            //     "link": "/usage"
-            // },
             {
                 "title": "Geographic Services",
                 "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
             },
-            // {
-            //     "title": "Blog",
-            //     "href": "https://engage.gov.bc.ca/data/"
-            // },
-            // {
-            //     "title": "Developers",
-            //     "href": "https://www.bcdevexchange.org/"
-            // },
+            {
+                "title": "Documentation",
+                "href": "https://www2.gov.bc.ca/gov/content?id=42230A1DCE4B442A8D72B7B11A53DA5F"
+            },
             {
                 "title": "About",
                 "link": "/about",
@@ -197,7 +185,7 @@ export default {
   },
   watch: {
     $route(to){
-      this.logInUrl = "/api/login?r="+to.fullPath;
+      this.logInUrl = "/client-api/login?r="+to.fullPath;
       this.$store.dispatch('user/getCurrentUser')
       if (this.$route.query.loggedOut === "true"){
         this.showLoggedOut = true;
@@ -259,7 +247,7 @@ export default {
                 "icon": "mdi-rss-box",
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
-                "href": '/api/ckan/rss'
+                "href": '/client-api/ckan/rss'
             },
             {
                 "title": "Classic Catalogue",

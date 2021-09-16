@@ -133,9 +133,12 @@
                     {{$tc('Add Resource')}}
                 </v-btn>
 
-                <v-btn text small depressed v-if="!createMode && showEdit && isAdmin" color="error_text" @click="deleteDataset">
-                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
-                </v-btn>
+                <DeleteButton
+                    v-if="!createMode && showEdit && isAdmin"
+                    buttonText="Delete Dataset"
+                    confirmationMessage="Are you sure you want to delete this record and all its resources?"
+                    @delete="deleteDataset">
+                </DeleteButton>
 
                 <v-btn v-if="editing" depressed @click="cancel">{{$tc('Cancel')}}</v-btn>
 
@@ -219,12 +222,14 @@ import {CkanApi} from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 import DynamicForm from '../form/DynamicForm';
+import DeleteButton from '../DeleteButton';
 
 export default {
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
         ValidationObserver: ValidationObserver,
+        DeleteButton
     },
     data() {
         let schemaName = 'bcdc_dataset';
@@ -362,7 +367,12 @@ export default {
         },
 
         ...mapState({
-            dataset: state => state.dataset.dataset,
+            dataset: state => {
+                if (state.dataset && state.dataset.dataset && state.dataset.dataset.title) {
+                    window.document.title = state.dataset.dataset.title + " - Datasets - Data Catalogue";
+                }
+                return state.dataset.dataset;
+            },
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
@@ -502,28 +512,25 @@ export default {
             this.showFormSuccess = false;
         },
         async deleteDataset(){
-            if (confirm("Are you sure you want to delete this record and all its resources?")) {
+            const response = await ckanServ.deleteDataset(this.datasetId);
 
-                const response = await ckanServ.deleteDataset(this.datasetId);
+            this.formSuccess = "";
+            this.formError = "";
 
-                this.formSuccess = "";
-                this.formError = "";
-
-                if (response.success && response.success === true && (!response.error || response.error === false)){
-                    this.formSuccess = "Successfully deleted";
-                    this.showFormSuccess = true;
-                    this.showFormError = false;
-                    return;
-                } else if (response.error){
-                    this.formError = response.error;
-                    this.showFormSuccess = false;
-                    this.showFormError = true;
-                    return;
-                }
-                this.formError = "Unknown error deleting dataset";
+            if (response.success && response.success === true && (!response.error || response.error === false)){
+                this.formSuccess = "Successfully deleted";
+                this.showFormSuccess = true;
+                this.showFormError = false;
+                return;
+            } else if (response.error){
+                this.formError = response.error;
                 this.showFormSuccess = false;
                 this.showFormError = true;
+                return;
             }
+            this.formError = "Unknown error deleting dataset";
+            this.showFormSuccess = false;
+            this.showFormError = true;
         },
         cancel(){
             if (this.createMode){

@@ -13,7 +13,7 @@
     "userInfoURL": "https://{yourdomain}/oauth2/default/v1/userinfo",
     "clientID": "{ClientID}",
     "clientSecret": "{ClientSecret}",
-    "callbackURL": "http://localhost:3000/api/callback",
+    "callbackURL": "http://localhost:3000/client-api/callback",
     "scope": "openid profile offline_access"
   },
 

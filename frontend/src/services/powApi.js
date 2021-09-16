@@ -4,12 +4,12 @@ export class PowApi {
     constructor(){}
 
     getPowConfig(){
-        const url = '/api/pow/powConfig'
+        const url = '/client-api/pow/powConfig'
         return axios.get(url).then(response => response.data)
     }
 
     getOfiConfig(){
-        const url = '/api/pow/ofiConfig';
+        const url = '/client-api/pow/ofiConfig';
         return axios.get(url).then(response => response.data);
     }
 }
