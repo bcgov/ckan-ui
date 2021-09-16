@@ -10,17 +10,19 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## Table of Contents
 + [**RESOURCES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resources)
 + [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
++ [**RELEASE DETAILS AND DATES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#release-details-and-dates)
+   * [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
 + [**WHAT'S NEW**](#whats-new)
-   * [**Changes to Environments**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#changes-to-environments)
-      + [**Some Known Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#some-known-issues)
-      + [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
-+ [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
+   * [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
       + [**Landing Page**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#landing-page)
       + [**Record Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#record-level)
-      + [**Resource Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resource-level) 
-+ [**API**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#api)
-+ [**Field, Label and Value Changes**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes)
-+ [**User Management**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#user-management)
+      + [**Resource Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resource-level)
+      + [**Organizations**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#organizations)
+      + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
+   * [**Application Programming Interface (API)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-programming-interface)
+   * [**Field, Label and Value Changes**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes)
++ [**USER MANAGEMENT**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#user-management)
++ [**SPECS**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#specs)
 
 -----------------------
 
@@ -73,13 +75,13 @@ Not all items have been flagged in this list, some are actively being worked on 
 
 ### Application User Interface
 
-### Landing Page
+#### Landing Page
 + Landing page of https://data.gov.bc.ca has been simplified.
     - Future user engagement intended to determine what would provide additional value on this page.  
 + Landing page toolbar has moved to the top right "pancake": Datasets, Organization, Groups, About, Account Settings, Subscribe to New Data, etc.
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
-### Record Level
+#### Record Level
 This is also referred to as the package.
 
 + Menu Bar: Actions have been consolidated.
@@ -98,7 +100,7 @@ This is also referred to as the package.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
-### Resource Level
+#### Resource Level
 + Menu Bar: Actions have been consolidated to replace the _Manage_ button and other actions.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
     - __NEW__: _Scroll to Bottom_
@@ -120,20 +122,26 @@ This is also referred to as the package.
     - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
-## API
+#### Organizations
+_Under Construction_
+
+#### Groups
+_Under Construction_
+
+### Application Programming Interface
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See field section for changes, including object_name having been moved from packages to resources.
++ See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including object_name having been moved from packages to resources.
 
 ## FIELD, LABEL AND VALUE CHANGES
-This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur.
+This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
     
-### USER MANAGEMENT
+## USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
 + RASP configuration still resides in ADAM.
 
-### SPECS
+## SPECS
 * **CKAN**: _2.7._
 * **SOLR**: _7.2.1_
 
