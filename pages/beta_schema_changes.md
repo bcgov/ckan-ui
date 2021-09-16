@@ -22,7 +22,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 
-|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed From|Moved to|Deleted|Values|Repeating or Composite|Comment|
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Deleted|Values|Repeating or Composite|Comment|
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 |Title|title|N|
 |URL|name|N|
@@ -68,18 +68,54 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ### Document/Tabular Data Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Deleted|Values|Repeating or Composite|Comment|
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|Name|name|N|
+|URL|Resource|
+|Type|bcdc_type|Y| | |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Resource Description|description|
+|Supplemental Information|supplemental_info|
+|Resource Update Cycle|resource_update_cycle|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+||
+|Temporal Extent|temporal_extent|Y| | | | |Y| |
+|Beginning Date|beginning_date|
+|End Date|end_date
+||
+|Resource Storage Format|format|Y| | | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Spatial Datatype|spatial_datatype|Y| | | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+
+
+
+
 ### Geographic Data Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
+
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Deleted|Values|Repeating or Composite|Comment|
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|Name|name|N|
+|URL|Resource|
+|Type|bcdc_type|Y| | |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
 
 ### Webservice/APIResource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Deleted|Values|Repeating or Composite|Comment|
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|Name|name|N|
+|URL|Resource|
+|Type|bcdc_type|Y| | |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | |
+
 ### Application Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
+|UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Deleted|Values|Repeating or Composite|Comment|
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|Name|name|N|
+|URL|Resource|
+|Type|bcdc_type|Y| | |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
 
-
-|UI Field Label|New Database Field Name |Old Database Field Name|Other Actions|
+----
 
 
 |Object|Action|Field Label|Field Names|Rational|Other Actions|
