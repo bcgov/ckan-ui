@@ -142,7 +142,7 @@ This section has moved to a new page, found [here](https://github.com/bcgov/ckan
 + RASP configuration still resides in ADAM.
 
 ## SPECS
-* **CKAN**: _2.7._
+* **CKAN**: _2.7.5_
 * **SOLR**: _7.2.1_
 
 [RETURN TO TOP][1]
