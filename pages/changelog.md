@@ -9,9 +9,9 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ## Table of Contents
 + [**RESOURCES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resources)
-+ [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
 + [**RELEASE DETAILS AND DATES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#release-details-and-dates)
    * [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
++ [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
 + [**WHAT'S NEW**](#whats-new)
    * [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
       + [**Landing Page**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#landing-page)
@@ -33,22 +33,6 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-
-[RETURN TO TOP][1]
-
-## CURRENT KNOWN ISSUES
-Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
-
-1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
-1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
-    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
-1. All Editors can see all record in all states of all organizations.  
-1. Group editors and members management to be configured. 
-    + All Group management can only be done by users with Admin access at this time. 
-3. The OpenAPI Console preview function is not available.
-4. The Data Usage page is not available.
-5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
-6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
 [RETURN TO TOP][1]
 
@@ -76,6 +60,22 @@ Not all items have been flagged in this list, some are actively being worked on 
 |Resources have been changed to "Access/Download" as was in production Cat Classic.|4|
 |Resource file size limit set to be the same as production Cat Classic.|4|
 |Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.|4| 
+
+[RETURN TO TOP][1]
+
+## CURRENT KNOWN ISSUES
+Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
+
+1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
+1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
+    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
+1. All Editors can see all record in all states of all organizations.  
+1. Group editors and members management to be configured. 
+    + All Group management can only be done by users with Admin access at this time. 
+3. The OpenAPI Console preview function is not available.
+4. The Data Usage page is not available.
+5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
+6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
 
 [RETURN TO TOP][1]
 
