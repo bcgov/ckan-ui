@@ -193,10 +193,10 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |:---|:---|:---|:---|:---|:---|:---|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| |Record Level | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
-|Resource Description|description|Y| | | | | |__NEW*__ |
-|Supplemental Information|supplemental_info|Y| | | | | |__NEW*__ |
-|Resource Update Cycle|resource_update_cycle|Y| | | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
+|Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| 
+|Resource Description|description|Y| | | | |__NEW*__ |
+|Supplemental Information|supplemental_info|Y| | | | |__NEW*__ |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y|__NEW*__ |
 |Beginning Date|beginning_date|Y|data_collection_start_date | | |Y|__NEW*__ |
@@ -204,8 +204,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ||
 |Resource Storage Format|format|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
 |Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| | Record Level| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
-|Spatial Datatype|spatial_datatype|Y| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
+|Spatial Datatype|spatial_datatype|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
 |Object Short Name|object_short_name|Y| |Record Level | | |Reviewing if this is applicable |
 |Object Table Comments|object_table_comments|Y| |Record Level | | |Reviewing if this is applicable |
 ||
@@ -218,104 +217,4 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ||
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |Resource Type|resource_type|Y|edc_resource_type| | | |__NEW*__ |
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| |[Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| |__NEW*__  |
-
-----
-
-_Being replaced with the above tables_
-+ **Fields renamed**:
-
-    |UI FieldLabel|New Database Field Name |Old Database Field Name|Other Actions|
-    |:---|:---|:---|:---|
-    |Type|bcdc_type|type|Copied from package to resource|
-    |State| publish_state | edc_state|
-    |URL |url|link| Made into a composite field|
-    |Contacts Branch|org|branch|
-    |Beginning Date |beginning_date|data_collection_start_date  | 
-    |End Date |end_date|data_collection_end_date|
-    |Resource Access Method|resource_access_method|resource_storage_access_method|Moved from package to resource|
-    |Resource Type |resource_type|edc_resource_type|  Moved from package to resource|
-    |ISO Topic Category|iso_topic_category|iso_topic_string  | Made into a composite field|
-
-+ **Fields use change**:
-
-    |UI Field Label|Database Field Name|New Use |Old Use|
-    |:---|:---|:---|:---|
-    |Published by | owner_org|  Suborg |Organization and suborg concatentated|  
-
-+ **Fields moved from Package to Resource**:
-    
-    |UI FieldLabel|Database Field Name |Other Actions|
-    |:---|:---|:---|
-    |Type| bcdc_tyoe |Copied to new field as package.type is a core field|
-    |Object Name| object_name |
-    |Short Name|object_short_name|
-    |Object Table Name| object_table_comments |
-    |Spatial Datatype|spatial_datatype|
-    |Layer Name| layer_name  |Results visible in Preview button|
-    |Preview latitude|preview_latitude |Results visible in Preview button|
-    |Preview longitude| preview_longitude  |Results visible in Preview button|
-    |Preview map service URL|preview_map_service_url |Results visible in Preview button|
-    |Preview zoom level|preview_zoom_level |Results visible in Preview button|
-    |Image URL| image_url |Results visible in Preview button|
-    |Link to iMap|link_to_imap|Moved to button within Preview button in UI|
-    |North|north_bound_latitude|Moved to composite field|
-    |South|south_bound_latitude|Moved to composite field|
-    |East| east_bound_latitude |Moved to composite field|
-    |West|west_bound_latitude|Moved to composite field|
-    |ISO Topic Category|iso_topic_category| Renamed from iso_topic_string and made into a composite field|
-    |Resource Type|resource_type| Renamed from edc_resource_type|
-    
-+ **Fields moved to Composite or Composite Repeating Fields**:
-    - For those that use the catalogue API, these changes may impact scripting.
-    
-    |Database Field Name|Database Field within|Other Actions|
-    |:---|:---|:---|
-    |beginning_date ; end_date| temporal_extent | NA|
-    |resource_type; resource_storage_location  |extras|Moved from package to resource|
-    |short_name; column_name; data_type; column_comments |details|Moved from package to resource|
-    | preview_latitude; preview_longitude ; preview_map_service_url; preview_zoom_level ; preview_image_url; link_to_imap; layer_name; image_url|preview_info| Movedfrom package to resource|
-    |name, email, org, role, displayed|Contacts|NA|
-    |iso_topic_category| iso_topic_category |Moved from package to resource|
-    |url|more_info| NA|
-    |north_bound_latitude; south_bound_latitude; east_bound_latitude; west_bound_latitude  |geographic_extent|Moved from package to resource|
-       
-+ **Fields available to other resources types**:
-    - Additional resource fields that existed for Tabular or Geographic data have now also been made available for Applications and Webservices/APIs.
-    
-    |UI Field Label|Database Field Name |Resource Types Added To|
-    |:---|:---|:---|
-    |Record Lifecylce History: Type and Date|type; date |Record level for all types|
-    |Resource Descrition|resource_description|Web Service/API ; Application|
-    |Supplimental Information|supplemental_information|Web Service/API ; Application|
-    |Temporal Extent: Beginning Date; End Date|temporal_extent:beginning_date ; end_date|Web Service/API ; Application|
-    |Resource Storage Location|resource_storage_location|Web Service/API ; Application|
-    |Resource Type|resource_type|Web Service/API ; Application|
-    |Resource Access Method|Resource Access Method|Web Service/API ; Application|
-
-+ **Drop down values added**:
-
-    |UI Field Label |Database Field Name|Value Added|
-    |:---|:---|:---|
-    |Contact Role| contact_role| Data Manager; Custodian; Data Steward; Access Approver|
-    |Resource Update Cycle|resource_update_cycle|Nightly, Unknown|
-    |Resource Storage Format|format|gpkg (geopackage); multiple|
-    |Resource Storage Location|resource_storage_location| Not Applicatble|
-    |Spatial Datatype|spatial_datatype|UNKNOWN, NA|
-    
-+ **Drop down values renamed**:
-    - The Security Classification updated to match [OCIO Information Security Classification Guidelines](https://intranet.gov.bc.ca/intranet/content?id=2041BD1842AA4696BC76691FB9A0CE92)
-    
-    |UI Field Label |Value Added|Old Value|
-    |:---|:---|:---|
-    |Security Classification |PUBLIC | LOW-PUBLIC|PROTECTED A | LOW-SENSITIVITY|
-    | |PROTECTED B | MEDIUM-SENSITIVITY, MEDIUM-PERSONAL|
-    | |PROTECTED C | HIGH-CONFIDENTIAL, HIGH-SENSITIVITY|
-    |Resource Type| document|dataset|
-    |Projection Name| short name| full title|
-     
-+ **Drop down values removed**:
-
-    |UI Field Label |Value Removed|Rational|
-    |:---|:---|:---|
-    |Resource Status |Rejected | Records are now set back to Draft whey they do not meet the requirements of be published|
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | |[Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| |__NEW*__  |
