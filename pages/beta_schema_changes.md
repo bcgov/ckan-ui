@@ -12,7 +12,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
     - [**Record Level Changes**](#record-level-changes)
     - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
     - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
-    - [**Webservice/APIResource Level Changes**](#webservice-and-API-resource-level-changes)
+    - [**Webservice/API Resource Level Changes**](#webservice-and-API-resource-level-changes)
     - [**Application Resource Level Changes**](#application-resource-level-changes)
 -----------------------
 
