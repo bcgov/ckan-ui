@@ -48,7 +48,7 @@ Two key changes are that
 ||
 |Contacts:|contacts|Y | | | | Y| |
 |Name|name|N|
-|Email|email|N |
+|Email|email|N|
 |Organization|org|Y| branch| | | | |
 |Role|role|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
 |Displayed|displayed|Y|private | | | |
@@ -59,7 +59,7 @@ Two key changes are that
 |Lineage|lineage_statement|N|
 |Name|name|N|
 ||
-|More Info:| |Y| | | |Y| |
+|More Info:|more_info |Y| | | |Y| |
 |Description|description|Y| | | | |__NEW*__ |
 |URL|url|Y|link|
 ||
@@ -88,8 +88,8 @@ Two key changes are that
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
-|Resource Description|description|
-|Supplemental Information|supplemental_info|
+|Resource Description|description|N|
+|Supplemental Information|supplemental_info|N|
 |Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y| |
@@ -121,8 +121,8 @@ Two key changes are that
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Resource Description|description|
-|Supplemental Information|supplemental_info|
+|Resource Description|description|N|
+|Supplemental Information|supplemental_info|N|
 |Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y| |
