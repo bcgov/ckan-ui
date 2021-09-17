@@ -9,11 +9,11 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ## Table of Contents
 + [**Field, Label and Value Changes**](#field-label-and-value-changes)
-    - [**Record Level Changes**](#field-label-and-value-changes)
-    - [**Document/Tabular Data Resource Level Changes**](#field-label-and-value-changes)
-    - [**Geographic Data Resource Level Changes**](#field-label-and-value-changes)
-    - [**Webservice/APIResource Level Changes**](#field-label-and-value-changes)
-    - [**Application Resource Level Changes**](#field-label-and-value-changes)
+    - [**Record Level Changes**](#record-level-changes)
+    - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
+    - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
+    - [**Webservice/APIResource Level Changes**](#webservice-and-API-resource-level-changes)
+    - [**Application Resource Level Changes**](#application-resource-level-changes)
 -----------------------
 
 ## FIELD, LABEL AND VALUE CHANGES
@@ -80,7 +80,7 @@ Two key changes are that
 |Source Data Path|source_data_path|Y| | | | |No longer a mandatory or URL conditional field |
 
 
-### Document/Tabular Data Resource Level Changes
+### Document and Tabular Data Resource Level Changes
 
 **Change Review**
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
@@ -163,7 +163,7 @@ Two key changes are that
 |East|east_bound_longitude|Y| |Record Level | | | |
 |West|west_bound_longitude|Y| |Record Level | | | |
 
-### Webservice/APIResource Level Changes
+### Webservice and API Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
