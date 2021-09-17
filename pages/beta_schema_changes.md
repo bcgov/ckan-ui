@@ -9,8 +9,11 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ## Table of Contents
 + [**Field, Label and Value Changes**](#field-label-and-value-changes)
-
-
+    - [**Record Level Changes**](#field-label-and-value-changes)
+    - [**Document/Tabular Data Resource Level Changes**](#field-label-and-value-changes)
+    - [**Geographic Data Resource Level Changes**](#field-label-and-value-changes)
+    - [**Webservice/APIResource Level Changes**](#field-label-and-value-changes)
+    - [**Application Resource Level Changes**](#field-label-and-value-changes)
 -----------------------
 
 ## FIELD, LABEL AND VALUE CHANGES
@@ -21,6 +24,12 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ### Record Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
+Two key changes are that
+1. the resource type to define if tabular, geographic, applicaiton or webservice has moved from the Record or Package level to that of the Resource level.
+   - In doing this the field _type_ in packages was copied over to a field called _bcdc_type_ in resources.
+   - The _type_ field was populated all with the same field as this is a core ckan field.
+1. object_name, associated primarily with BC Geographic Warehouse (BCGW) datasets has moved also to the Resource level
+
 **Deleted**
 |UI Field Label|Database Field Name|Rational|
 |:---|:---|:---|
@@ -30,8 +39,8 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 **Change Review**
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
-|:---|:---|:---|:---|:---|:---|:---|:---|
-|Title|title|N|
+|:---|:---|:---:|:---|:---|:---:|:---:|:---|
+|Title|title|Y| | | | |A 100 Character limit has been set to match that of the title URL limit|
 |URL|name|N|
 |Published by|title or full_title|Y| | | | |Ministry level removed from full_title. Review needed on multiple fields with the same value now|
 |Description|notes|N|
@@ -75,7 +84,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 **Change Review**
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
@@ -108,7 +117,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ### Geographic Data Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
@@ -157,7 +166,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ### Webservice/APIResource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | |
@@ -190,7 +199,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
-|:---|:---|:---|:---|:---|:---|:---|:---|
+|:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| 
