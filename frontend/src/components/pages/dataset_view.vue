@@ -288,7 +288,8 @@ export default {
     },
     computed: {
         ...mapGetters("organization", {
-            orgName: "nameByID"
+            orgName: "nameByID",
+            ancestorsByName: "ancestorsByName"
         }),
         
         nonSchemaFields: function() {
@@ -403,7 +404,14 @@ export default {
             if (!this.dataset.organization){
                 return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
             }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            let ancestors = this.ancestorsByName(this.dataset.organization.name);
+            let canEdit = ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
+            if (!canEdit){
+                for (let i=0; i<ancestors.length; i++){
+                    canEdit = ( (canEdit) || ( (this.userPermissions[ancestors[i]] === "admin") || (this.userPermissions[ancestors[i]] === "editor") ) );
+                }
+            }
+            return canEdit;
         },
 
         availableGroups: function() {
