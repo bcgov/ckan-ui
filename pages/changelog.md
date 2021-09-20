@@ -159,7 +159,6 @@ This section has moved to a new page, found [here](https://github.com/bcgov/ckan
     
 ## USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
-+ RASP configuration still resides in ADAM.
 
 ## SPECS
 * **CKAN**: _2.7.5_
