@@ -47,6 +47,7 @@ router.get('/robots.txt', auth.removeExpired, function(req, res, next) {
     }
 
     r += "Disallow: /api/\n";
+    r += "Disallow: /client-api/\n";
     r += "Disallow: /dataset/activity\n";
     r += "Disallow: /dataset/*/history\n";
     r += "Disallow: /dataset/rate/\n";

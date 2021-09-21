@@ -4,7 +4,7 @@ export class Analytics {
     constructor(){}
 
     ga(){
-        const url = '/api/an/ga'
+        const url = '/client-api/an/ga'
         try{
             return axios.get(url, {withCredentials: true}).then(response => response.data)
         }catch(ex){
@@ -13,7 +13,7 @@ export class Analytics {
     }
 
     get(pageUrl, pageTitle, referrer){
-        const url = '/api/an?pageUrl='+pageUrl+"&pageTitle="+pageTitle+"&referrer="+referrer
+        const url = '/client-api/an?pageUrl='+pageUrl+"&pageTitle="+pageTitle+"&referrer="+referrer
         try{
             return axios.get(url, {withCredentials: true}).then(response => response.data)
         }catch(ex){
@@ -22,7 +22,7 @@ export class Analytics {
     }
 
     post(pageUrl, pageTitle, referrer){
-        const url = '/api/an?pageUrl='+encodeURI(pageUrl)+"&pageTitle="+encodeURI(pageTitle)+"&referrer="+encodeURI(referrer)
+        const url = '/client-api/an?pageUrl='+encodeURI(pageUrl)+"&pageTitle="+encodeURI(pageTitle)+"&referrer="+encodeURI(referrer)
         try{
             return axios.post(url, {}, {withCredentials: true}).then(response => response.data)
         }catch(ex){

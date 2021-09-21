@@ -4,17 +4,17 @@ export class Auth {
     constructor(){}
 
     getToken(){
-        const url = '/api/token'
+        const url = '/client-api/token'
         return axios.get(url, {withCredentials: true}).then(response => response.data)
     }
 
     groupSeperator(){
-        const url = '/api/groupSeperator';
+        const url = '/client-api/groupSeperator';
         return axios.get(url).then(response => response.data);
     }
 
     sysAdminGroup(){
-        const url = '/api/sysAdminGroup';
+        const url = '/client-api/sysAdminGroup';
         return axios.get(url).then(response => response.data);
     }
 
