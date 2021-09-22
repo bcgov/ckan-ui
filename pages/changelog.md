@@ -61,10 +61,10 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Resources have been changed to "Access/Download" as was in production Cat Classic.|4|
 |Resource file size limit set to be the same as production Cat Classic.|4|
 |Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.|4| 
-|Page Titles for SEO|6|
-|Fix logging out to end the session to prompt login|6|
-|Modifications to Delete popup messaging|6|
-|New Documentation option under Menu|6|
+|Page Titles for SEO ([#551](https://github.com/bcgov/ckan-ui/issues/551))|6|
+|Fix logging out to end the session to prompt login ([#542](https://github.com/bcgov/ckan-ui/issues/542))|6|
+|Modifications to Delete popup messaging ([#518](https://github.com/bcgov/ckan-ui/issues/518))|6|
+|New Documentation option under Menu ([#535](https://github.com/bcgov/ckan-ui/issues/535))|6|
 
 [RETURN TO TOP][1]
 
