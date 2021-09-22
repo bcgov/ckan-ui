@@ -87,9 +87,6 @@
                 </v-dialog>
 
                 <v-btn v-if="canDeleteResources" text small depressed color="error" @click="deleteGroup"><v-icon>mdi-delete-outline</v-icon>&nbsp;{{$tc('Delete') + ' ' + $tc('Groups', 1)}}</v-btn>
-
-                <v-btn text v-if="loggedIn && following" small depressed color="primary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>&nbsp;{{$tc('Unfollow') + ' ' + $tc('Groups',1)}}</v-btn>
-                <v-btn text v-else-if="loggedIn && !following" small depressed color="primary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>&nbsp;{{$tc('Follow') + ' ' + $tc('Groups',1)}}</v-btn>
             </v-col>
         </v-row>
 
