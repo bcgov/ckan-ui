@@ -134,7 +134,7 @@
                 </v-btn>
 
                 <DeleteButton
-                    v-if="!createMode && showEdit && isAdmin"
+                    v-if="shouldShowDatasetDeleteButton"
                     buttonText="Delete Dataset"
                     confirmationMessage="Are you sure you want to delete this record and all its resources?"
                     @delete="deleteDataset">
@@ -189,7 +189,7 @@
                         </v-row>
                         <v-row class="fullWidth mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="shouldShowResourceDeleteButton" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -210,6 +210,9 @@
 </template>
 
 <script>
+import { canDelete } from '@/lib/deletionAndVisibilityLogic';
+import { getUserRoleForDataset, getDatasetState } from '@/lib/util';
+
 import Vue from 'vue';
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
@@ -290,6 +293,44 @@ export default {
         ...mapGetters("organization", {
             orgName: "nameByID"
         }),
+
+        shouldShowDatasetDeleteButton: function() {
+            let roleForRecord = getUserRoleForDataset(
+                this.dataset,
+                this.user,
+                this.organizations
+            );
+
+            let datasetState;
+            try {
+                datasetState = getDatasetState(this.dataset);
+            } catch (e) {
+                return false;
+            }
+
+            return !this.createMode && canDelete(roleForRecord, "dataset", datasetState);
+        },
+
+        shouldShowResourceDeleteButton: function() {
+            // this is not a mistake; we establish a user's role
+            // using the dataset, not the resource.
+            let roleForDataset = getUserRoleForDataset(
+                this.dataset,
+                this.user,
+                this.organizations
+            );
+
+            let datasetState;
+            try {
+                datasetState = getDatasetState(this.dataset);
+            } catch (e) {
+                return false;
+            }
+
+            // !this.createMode is omitted here because it should be possible to
+            // delete resources from the dataset page either way
+            return canDelete(roleForDataset, "resource", datasetState);
+        },        
         
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
@@ -388,14 +429,8 @@ export default {
             userGroups: state => state.group.userGroups,
             lastList: state => state.nav.lastDatasetListPage,
             loggedIn: state => state.user.loggedIn,
+            user: state => state.user
         }),
-
-        canDeleteResources: function(){
-            if (!this.dataset.organization){
-                return false;
-            }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
-        },
 
         showEdit: function(){
             // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want

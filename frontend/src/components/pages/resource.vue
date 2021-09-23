@@ -109,7 +109,7 @@
                 </v-btn>
                 
                 <DeleteButton
-                        v-if="!editing && canDeleteResources"
+                        v-if="shouldShowResourceDeleteButton"
                         buttonText="Delete Resource"
                         confirmationMessage="Are you sure you want to delete this resource?"
                         @delete="deleteResource">
@@ -168,7 +168,7 @@
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
+                                <ResourceList :canDelete="shouldShowResourceDeleteButton" :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -189,6 +189,9 @@
 </template>
 
 <script>
+import { canDelete } from '@/lib/deletionAndVisibilityLogic';
+import { getUserRoleForDataset, getDatasetState } from '@/lib/util';
+
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
@@ -259,6 +262,27 @@ export default {
     },
 
     computed: {
+
+        shouldShowResourceDeleteButton: function() {
+            if (this.editing) return false;
+
+            // A user's role (editor, admin, public, etc.) is derived
+            // from the dataset, and not the resource.
+            let roleForDataset = getUserRoleForDataset(
+                this.dataset,
+                this.user,
+                this.organizations
+            );
+
+            let datasetState;
+            try {
+                datasetState = getDatasetState(this.dataset);
+            } catch (e) {
+                return false;
+            }
+
+            return !this.createMode && canDelete(roleForDataset, "resource", datasetState);
+        },
 
         canPreview() {
             return (this.preview.headers && this.preview.headers.length>0) ||
@@ -359,10 +383,11 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             loggedIn: state => state.user.loggedIn,
-
+            organizations: state => state.organization.orgList,
             previewLoading: state => state.dataset.previewLoading,
             preview: state => state.dataset.preview,
             previewError: state => state.dataset.previewError,
+            user: state => state.user
         }),
 
         ...mapGetters("dataset", {
