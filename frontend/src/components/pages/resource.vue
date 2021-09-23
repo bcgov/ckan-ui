@@ -76,7 +76,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
+                <powButton :dataset="dataset" :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
@@ -359,7 +359,7 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             loggedIn: state => state.user.loggedIn,
-
+            organizations: state => state.organization.orgList,
             previewLoading: state => state.dataset.previewLoading,
             preview: state => state.dataset.preview,
             previewError: state => state.dataset.previewError,
