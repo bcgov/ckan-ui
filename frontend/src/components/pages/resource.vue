@@ -205,7 +205,10 @@ import JsonTable from "../resources/jsontable";
 import powButton from "../pow/powButton";
 import DeleteButton from '../DeleteButton';
 
+import Permissions from '@/mixins/permissions';
+
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
@@ -349,7 +352,6 @@ export default {
                 return state.dataset.resource;
             },
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.resourceLoading,
@@ -366,23 +368,18 @@ export default {
         }),
 
         ...mapGetters("dataset", {
-            siblings: "getResourceList"
+            siblings: "getResourceList",
         }),
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        },
+        ...mapGetters("organization", {
+            ancestorsByName: "ancestorsByName",
+        }),
 
         canDeleteResources: function(){
             if (!this.dataset.organization){
                 return false;
             }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
+            return sysAdmin || admin || editor;
         },
 
     },
