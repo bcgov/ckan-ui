@@ -16,20 +16,18 @@ const state = {
 
 const getters = {
     ancestorsByName: (state) => (name) => {
-        let ancestors = [];
         for (let topOrg in state.orgList) {
             if (state.orgList[topOrg].name == name) {
-                return ancestors;
+                return [];
             }
             let children = state.orgList[topOrg].children;
             for (let child in children) {
                 if (children[child].name == name) {
-                    ancestors.push(state.orgList[topOrg].name);
-                    return ancestors;
+                    return [state.orgList[topOrg].name];
                 }
             }
         }
-        return ancestors;
+        return [];
     },
 
     titleByID: (state) => (id) => {

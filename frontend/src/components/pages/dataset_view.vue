@@ -224,7 +224,10 @@ const ckanServ = new CkanApi();
 import DynamicForm from '../form/DynamicForm';
 import DeleteButton from '../DeleteButton';
 
+import Permissions from '@/mixins/permissions.vue';
+
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
@@ -377,7 +380,6 @@ export default {
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.dataLoading,
@@ -395,23 +397,8 @@ export default {
             if (!this.dataset.organization){
                 return false;
             }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
-        },
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            let ancestors = this.ancestorsByName(this.dataset.organization.name);
-            let canEdit = ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!canEdit){
-                for (let i=0; i<ancestors.length; i++){
-                    canEdit = ( (canEdit) || ( (this.userPermissions[ancestors[i]] === "admin") || (this.userPermissions[ancestors[i]] === "editor") ) );
-                }
-            }
-            return canEdit;
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
+            return sysAdmin || admin || editor;
         },
 
         availableGroups: function() {
