@@ -24,7 +24,7 @@
     "passport": "^0.4.0",
     "passport-openidconnect": "0.0.2",
     "request": "^2.88.0",
-    "set-value": "^2.0.1",
+    "set-value": "^4.0.1",
     "snowplow-tracker": "^0.3.0",
     "tableschema": "^1.12.4",
     "xlsx": "^0.17.0"
