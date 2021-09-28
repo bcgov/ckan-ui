@@ -35,7 +35,7 @@ Two key changes are that
 **Deleted**
 |UI Field Label|Database Field Name|Rational|
 |:---|:---|:---|
-|Sector|sector|Sector is no longer used by Gov|
+|Sector|`sector`|Sector is no longer used by Gov|
 |Contact Organization|The parent or Ministry org is no longer captured |
 
 
@@ -46,40 +46,40 @@ Two key changes are that
 |URL|`name`|N|
 |Published by|`title` or `full_title`|Y| | | | |Ministry level removed from full_title. Review needed on multiple fields with the same value now|
 |Description|`notes`|N|
-|Licence|license_id|N|
+|Licence|`license_id`|N|
 ||
-|Contacts:|contacts|Y | | | | Y| |
-|Name|name|N|
-|Email|email|N|
-|Organization|org|Y| branch| | | | |
-|Role|role|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
-|Displayed|displayed|Y|private | | | |
-|Name|name|N|
+|Contacts:|`contacts`|Y | | | | Y| |
+|Name|`name`|N|
+|Email|`email`|N|
+|Organization|`org`|Y| branch| | | | |
+|Role|`role`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Displayed|`displayed`|Y|private | | | |
+|Name|`name`|N|
 ||
 |Purpose|purpose|N|
-|Data Quality|data_quality|N|
-|Lineage|lineage_statement|N|
-|Name|name|N|
+|Data Quality|`data_quality`|N|
+|Lineage|`lineage_statement`|N|
+|Name|`name`|N|
 ||
-|More Info:|more_info |Y| | | |Y| |
-|Description|description|Y| | | | |__NEW*__ |
-|URL|url|Y|link|
+|More Info:|`more_info` |Y| | | |Y| |
+|Description|`description`|Y| | | | |__NEW*__ |
+|URL|`url`|Y|link|
 ||
-|Security Classification|security_class|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
-|Who can view this data?|view_audience|N|
-|Who can dowbload this data?|download_audience|N|
-|Who can view this record?|metadata_visibility|N|
-|Keywords|tag_string|N|
-|State|publish_state|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
-|Resource Status|resource_status|N|
+|Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Who can view this data?|`view_audience`|N|
+|Who can dowbload this data?|`download_audience`|N|
+|Who can view this record?|`metadata_visibility`|N|
+|Keywords|`tag_string`|N|
+|State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Resource Status|`resource_status`|N|
 ||
-|Record Lifecycle History:|dates|Y | | | |Y| |
-|Type|type|N|
-|Date|date|N|
+|Record Lifecycle History:|`dates`|Y | | | |Y| |
+|Type|`type`|N|
+|Date|`date`|N|
 ||
-|Replacement Record|replacement record|
-|Retention Expiry Date|retention_expiry_date|
-|Source Data Path|source_data_path|Y| | | | |No longer a mandatory or URL conditional field |
+|Replacement Record|`replacement_record`|
+|Retention Expiry Date|`retention_expiry_date`|
+|Source Data Path|`source_data_path`|Y| | | | |No longer a mandatory or URL conditional field |
 
 
 ### Document and Tabular Data Resource Level Changes
@@ -123,7 +123,7 @@ Two key changes are that
 |Name|name|N|
 |Resource|url|N|
 |Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Resource Description|description|N|
+|Resource Description|`description`|N|
 |Supplemental Information|supplemental_info|N|
 |Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
 ||
