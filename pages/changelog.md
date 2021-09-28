@@ -155,7 +155,18 @@ _Under Construction_
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including object_name having been moved from packages to resources.
++ See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including `object_name` having been moved from packages to resources.
+
+**Common queries**:
+1. `object_name`
+    - `object_name` has moved to the resource level, the API query is slightly different as `object_name` is in the resource extras table.
+         + Production: https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+         + Beta: https://beta-catalogue.data.gov.bc.ca/api/3/action/package_search?q=res_extras_object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+1. `bcdc_type` (`geographic`, `dataset`, `webservice`, `application`)
+    - `bcdc_type` is now the field that contains the resource type, this was previously `type` at the package level.
+         + Production: https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=type:Geographic
+         + Beta: https://beta-catalogue.data.gov.bc.ca/api/3/action/package_search?q=res_extras_bcdc_type:geographic
+
 
 [RETURN TO TOP][1]
 
