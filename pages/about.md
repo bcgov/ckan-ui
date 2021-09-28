@@ -1,55 +1,25 @@
 ## BC Data Catalogue
 
-### Purpose
+The BC Data Catalogue is the place to find B.C. Government data, applications and web services. Government ministries and many broader public sector agencies publish their data resources in the Catalogue. The data in the catalogue can be used to make informed decisions and create opportunities for the benefit of all British Columbians.
 
-+ Finding, exploring and accessing data, services and applications that have been published by BC Government and Broader Public Sector organizations.
+The BC Data Catalogue is powered by [CKAN](http://ckan.org/) and follows the [ISO19115](https://www.iso.org/standard/53798.html) standards. The B.C. Government participates in this software project, sharing developments with a community of international users.
 
-### Documentation
-+ [Data Publication and Services](https://bcgov.github.io/data-publication/)
 
-    - [Become a Provider to the Catalogue](https://bcgov.github.io/data-publication/pages/dps_bcdc_w.html#how-to-become-a-provider-to-the-catalogue) as a member of a BC [Ministry](https://www2.gov.bc.ca/gov/content?id=70177F69BACC46A2B57ED1510B87EF1A), [Crown Corporation](https://www2.gov.bc.ca/gov/content?id=B17B9EFDD85644A892E04988DEF3C67F) or [Central Agency](https://www2.gov.bc.ca/gov/content?id=45752FABF9554E2F92A47D91961ECAC7).
+### Learn More
 
-    - [Publication and Management](https://bcgov.github.io/data-publication/pages/dps_bcdc_w.html)
+View [documentation and more information](https://www2.gov.bc.ca/gov/content?id=42230A1DCE4B442A8D72B7B11A53DA5F) about BC Data Catalogue.
 
-    -  Processes related to the Catalogue
-        - [Open Data](https://bcgov.github.io/data-publication/pages/open_data.html) and the [Open Government Licence - BC](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61)
 
-        - [BC Maphub Publication](https://bcgov.github.io/data-publication/pages/dps_maphub_w.html)
+### Contact Us
 
-        - [API Registration Metadata](https://www2.gov.bc.ca/gov/content?id=6A11B0B7F68942169DA661EC07C45DF4)
+**Dataset Questions:**  
+If you have questions about specific data, please review the Contact section and for ease of use, the Contact Data Expert button at the top of the dataset record.
 
-### Finding Data and Resources
+**Questions about the Catalogue:**  
+If you have general questions about the catalogue, please send us an email at [data@gov.bc.ca](mailto:data@gov.bc.ca).
 
-**Catalogue Search Engine**
+**Technical Support:**  
+For technical support using the catalogue, please submit a ticket [here](https://apps.nrs.gov.bc.ca/int/jira/servicedesk/customer/portals).
 
-+ Use keywords or acronyms.
-
-+ Default setting for the record display order is set to Relevance but there are other options as well.
-
-+ Facets can be used to narrow down search results.
-
-**Web Search Engines**
-
-+ Catalogue records are findable in search engines like Google.
-
-+ Not all datasets or government resources are published in the BC Data Catalogue and thus using a search engine may provide better results in finding what one is looking for.
-
-    - Include in your search terms "BC Government".
-
-### Who to Contact
-
-**About Specific Data and Resources**
-
-+ The Contact Information section in each record includes contacts specific to that record.
-
-**For Technical Support**
-
-+ For Beta - send to data@gov.bc.ca with Subject Line starting with “BETA:”.
-
-+ For Production - sent to the [DataBC Service Desk](https://apps.nrs.gov.bc.ca/int/jira/servicedesk/customer/portals)
-
-**The Catalogue:**
-
-+ Is powered by [CKAN](http://ckan.org/).
-
-+ Follows the [ISO19115](https://www.iso.org/standard/53798.html) Standards.
+**Beta Feedback:**  
+If you have feedback about the new Beta Catalogue, please email us at [data@gov.bc.ca](mailto:data@gov.bc.ca) and include "BETA Feedback" in the subject line.
