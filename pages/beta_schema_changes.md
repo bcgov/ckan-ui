@@ -42,10 +42,10 @@ Two key changes are that
 **Change Review**
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
-|Title|title|Y| | | | |A 100 Character limit has been set to match that of the title URL limit|
-|URL|name|N|
-|Published by|title or full_title|Y| | | | |Ministry level removed from full_title. Review needed on multiple fields with the same value now|
-|Description|notes|N|
+|Title|`title`|Y| | | | |A 100 Character limit has been set to match that of the title URL limit|
+|URL|`name`|N|
+|Published by|`title` or `full_title`|Y| | | | |Ministry level removed from full_title. Review needed on multiple fields with the same value now|
+|Description|`notes`|N|
 |Licence|license_id|N|
 ||
 |Contacts:|contacts|Y | | | | Y| |
