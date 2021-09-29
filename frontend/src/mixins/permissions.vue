@@ -1,12 +1,16 @@
 <script>
     
     import { mapState, mapGetters } from "vuex";
-    
+
+    import { canDelete } from '@/lib/deletionAndVisibilityLogic';
+    import { getUserRoleForDataset, getDatasetState } from '@/lib/util';
+
     export default {
         computed:{
             ...mapGetters("organization", {
                 ancestorsByName: "ancestorsByName"
             }),
+
             ...mapState({
                 dataset: state => state.dataset.dataset,
                 userPermissions: state => state.user.userPermissions,
@@ -15,6 +19,8 @@
                 dataLoading: state => state.dataset.resourceLoading,
                 schemaLoading: state => state.dataset.schemaLoading,
                 userLoading: state => state.user.loading,
+                user: state => state.user,
+                organizations: state => state.organization.orgList
             }),
 
             showEdit: function(){
@@ -41,9 +47,38 @@
                     orgname => ["admin", "editor"].includes(this.userPermissions[orgname])
                 );
             },
+
+            showDatasetDeleteButton() {
+                return this.showDatasetDeleteButtonForResourceOrDataset("dataset");
+            },
+
+
+            showResourceDeleteButton() {
+                return this.showDatasetDeleteButtonForResourceOrDataset("resource");
+            }
+
         },
 
         methods: {
+
+            showDatasetDeleteButtonForResourceOrDataset(resourceOrDataset) {
+                if (this.editing || this.createMode) return false;
+
+                let roleForRecord = getUserRoleForDataset(
+                    this.dataset, // The user's role is always calculated using the dataset.
+                    this.user,
+                    this.organizations
+                );
+                let datasetState;
+                try {
+                    datasetState = getDatasetState(this.dataset);
+                    return canDelete(roleForRecord, resourceOrDataset, datasetState);
+                } catch (e) {
+                    return false;
+                }
+            },
+
+
             getUserPermissionsForOrganization(organization_name){
                 let ancestors = []
                 if (organization_name){

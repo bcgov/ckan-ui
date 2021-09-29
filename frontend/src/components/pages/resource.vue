@@ -109,7 +109,7 @@
                 </v-btn>
                 
                 <DeleteButton
-                        v-if="!editing && canDeleteResources"
+                        v-if="showResourceDeleteButton"
                         buttonText="Delete Resource"
                         confirmationMessage="Are you sure you want to delete this resource?"
                         @delete="deleteResource">
@@ -168,7 +168,7 @@
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
+                                <ResourceList :canDelete="showResourceDeleteButton" :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>

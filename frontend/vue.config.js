@@ -79,3 +79,12 @@ module.exports = {
         }
     }
 };
+
+if (process.env.NODE_ENV === "test") {
+    // optimizations are removed for tests because otherwise
+    // the bundled version of mochapack fails to load anything
+    // at all
+    delete module.exports.configureWebpack.optimization;
+
+    module.exports.configureWebpack.target = "node";
+} 

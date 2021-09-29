@@ -1,0 +1,372 @@
+<!--
+
+  This file is referenced by the deletion-and-visibility-logic tests!
+  The HTML below was pulled directly from https://github.com/bcgov/ckan-ui/issues/519
+  It informs how canDelete and canView functions should behave.
+
+-->
+
+
+<table role="table">
+<thead>
+<tr>
+<th>Role</th>
+<th>Record Type</th>
+<th>Status</th>
+<th>Expected</th>
+<th>Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SysAdmin</td>
+<td>Resource</td>
+<td>Record = Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Resource</td>
+<td>Record = Pending Publish</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Resource</td>
+<td>Record = Published</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Resource</td>
+<td>Record = Pending Archive</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Resource</td>
+<td>Record = Archived</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Record</td>
+<td>Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Record</td>
+<td>Pending Publish</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Record</td>
+<td>Published</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Record</td>
+<td>Pending Archive</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>SysAdmin</td>
+<td>Record</td>
+<td>Archived</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Resource</td>
+<td>Record = Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Resource</td>
+<td>Record = Pending Publish</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Resource</td>
+<td>Record = Published</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Resource</td>
+<td>Record = Pending Archive</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Resource</td>
+<td>Record = Archived</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Record</td>
+<td>Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Record</td>
+<td>Pending Publish</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Record</td>
+<td>Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Record</td>
+<td>Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Record</td>
+<td>Archived</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Resource</td>
+<td>Record = Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Resource</td>
+<td>Record = Pending Publish</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Resource</td>
+<td>Record = Published</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Resource</td>
+<td>Record = Pending Archive</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Resource</td>
+<td>Record = Archived</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Record</td>
+<td>Draft</td>
+<td>Able to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Record</td>
+<td>Pending Publish</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Record</td>
+<td>Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Record</td>
+<td>Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Record</td>
+<td>Archived</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Resource</td>
+<td>Record = Draft</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Resource</td>
+<td>Record = Pending Publish</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Resource</td>
+<td>Record = Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Resource</td>
+<td>Record = Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Resource</td>
+<td>Record = Archived</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Record</td>
+<td>Draft</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Record</td>
+<td>Pending Publish</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Record</td>
+<td>Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Record</td>
+<td>Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Logged in with no Role</td>
+<td>Record</td>
+<td>Archived</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Resource</td>
+<td>Record = Draft</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Resource</td>
+<td>Record = Pending Publish</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Resource</td>
+<td>Record = Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Resource</td>
+<td>Record = Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Resource</td>
+<td>Record = Archived</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Record</td>
+<td>Draft</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Record</td>
+<td>Pending Publish</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Record</td>
+<td>Published</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Record</td>
+<td>Pending Archive</td>
+<td>Unable to delete</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>Record</td>
+<td>Archived</td>
+<td>Unable to view record</td>
+<td></td>
+</tr>
+</tbody>
+</table>

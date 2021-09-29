@@ -25,6 +25,9 @@ This is for the interfaces to the backend bridge IE apis
 src/store
 This is for the vuex store, anything that is persisted between sessions for a user should be stored in the store
 
+src/lib
+This is for shared utility functions and helper libraries that can exist independently of Vue.
+
 In the root src file you'll also find the vue boostrapping files and config.
 
 
