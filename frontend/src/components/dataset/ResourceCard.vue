@@ -27,7 +27,7 @@
                         <v-btn v-if="!loadPOW" class="px-0" small depressed text :href="useResource.metadata.url" color="label_colour">
                             {{$tc("Access/Download")}}&nbsp;
                         </v-btn>
-                        <powButton v-else :btn="true" :resource="useResource.metadata"/>
+                        <powButton v-else :btn="true" :dataset="dataset" :resource="useResource.metadata"/>
                         <v-btn v-if="!datasetBeingEdited" small depressed text class="px-0" color="label_colour"
                                 :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
                             {{$tc("View")}}

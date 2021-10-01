@@ -76,7 +76,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
+                <powButton :dataset="dataset" :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
@@ -109,7 +109,7 @@
                 </v-btn>
                 
                 <DeleteButton
-                        v-if="!editing && canDeleteResources"
+                        v-if="showResourceDeleteButton"
                         buttonText="Delete Resource"
                         confirmationMessage="Are you sure you want to delete this resource?"
                         @delete="deleteResource">
@@ -168,7 +168,7 @@
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
+                                <ResourceList :canDelete="showResourceDeleteButton" :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -205,7 +205,10 @@ import JsonTable from "../resources/jsontable";
 import powButton from "../pow/powButton";
 import DeleteButton from '../DeleteButton';
 
+import Permissions from '@/mixins/permissions';
+
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
@@ -349,7 +352,6 @@ export default {
                 return state.dataset.resource;
             },
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.resourceLoading,
@@ -359,30 +361,25 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             loggedIn: state => state.user.loggedIn,
-
+            organizations: state => state.organization.orgList,
             previewLoading: state => state.dataset.previewLoading,
             preview: state => state.dataset.preview,
             previewError: state => state.dataset.previewError,
         }),
 
         ...mapGetters("dataset", {
-            siblings: "getResourceList"
+            siblings: "getResourceList",
         }),
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        },
+        ...mapGetters("organization", {
+            ancestorsByName: "ancestorsByName",
+        }),
 
         canDeleteResources: function(){
             if (!this.dataset.organization){
                 return false;
             }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
+            return sysAdmin || admin || editor;
         },
 
     },

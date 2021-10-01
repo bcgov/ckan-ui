@@ -46,7 +46,7 @@
                                                 </span>
                                                 <span v-else>{{$tc('Not Provided')}}</span>
                                             </template>
-                                            <span>{{(model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)) ? model[repeatedIndex][sub.field_name] : tc('Not Provided')}}</span>
+                                            <span>{{(model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)) ? model[repeatedIndex][sub.field_name] : $tc('Not Provided')}}</span>
                                         </v-tooltip>
                                     </span>
                                 </v-row>

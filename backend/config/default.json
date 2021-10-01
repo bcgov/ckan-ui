@@ -5,6 +5,7 @@
   "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
   "classicUi": "http://127.0.0.1:5000",
+  "aboutPageUrl": "https://raw.githubusercontent.com/bcgov/ckan-ui/pages/pages/about.md",
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",
@@ -56,7 +57,6 @@
 
   "authGroupSeperator": "/",
   "sysAdminGroup": "admin",
-  "adminApiKey": "adminApiKeyHere",
 
   "landingTerms": ["Crown", "Waste", "Fire", "Lightning"]
 }

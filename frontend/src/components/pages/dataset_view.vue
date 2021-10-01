@@ -134,7 +134,7 @@
                 </v-btn>
 
                 <DeleteButton
-                    v-if="!createMode && showEdit && isAdmin"
+                    v-if="showDatasetDeleteButton"
                     buttonText="Delete Dataset"
                     confirmationMessage="Are you sure you want to delete this record and all its resources?"
                     @delete="deleteDataset">
@@ -189,7 +189,7 @@
                         </v-row>
                         <v-row class="fullWidth mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="showResourceDeleteButton" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -224,7 +224,10 @@ const ckanServ = new CkanApi();
 import DynamicForm from '../form/DynamicForm';
 import DeleteButton from '../DeleteButton';
 
+import Permissions from '@/mixins/permissions.vue';
+
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
@@ -288,7 +291,8 @@ export default {
     },
     computed: {
         ...mapGetters("organization", {
-            orgName: "nameByID"
+            orgName: "nameByID",
+            ancestorsByName: "ancestorsByName"
         }),
         
         nonSchemaFields: function() {
@@ -376,7 +380,6 @@ export default {
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.dataLoading,
@@ -389,22 +392,6 @@ export default {
             lastList: state => state.nav.lastDatasetListPage,
             loggedIn: state => state.user.loggedIn,
         }),
-
-        canDeleteResources: function(){
-            if (!this.dataset.organization){
-                return false;
-            }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
-        },
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        },
 
         availableGroups: function() {
             let retGroups = [];

@@ -16,6 +16,7 @@ const powServ = new PowApi();
 
 export default {
     props: {
+        dataset: Object,
         resource: Object,
         btn: Boolean,
         icon: Boolean
@@ -53,6 +54,7 @@ export default {
             let public_url = this.get_ofi_url('/public/');
             let secure_url = this.get_ofi_url('/secure/');
 
+
             dwdspowapi.initialize(
                 public_url,
                 secure_url,
@@ -67,7 +69,9 @@ export default {
                         secureUrl: this.get_ofi_url('/secure/'),
                         customAoiUrl: this.custom_aoi_url,
                         pastOrdersNbr: this.past_orders_nbr,
-                        secureSite: false,
+                        secureSite: !!(this.dataset &&
+                                       this.dataset.download_audience &&
+                                       this.dataset.download_audience.toLowerCase() !== "public"),
                         orderSource: this.order_details.ordering_application
                     };
 
