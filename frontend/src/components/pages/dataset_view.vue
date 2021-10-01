@@ -134,7 +134,7 @@
                 </v-btn>
 
                 <DeleteButton
-                    v-if="!createMode && showEdit && isAdmin"
+                    v-if="showDatasetDeleteButton"
                     buttonText="Delete Dataset"
                     confirmationMessage="Are you sure you want to delete this record and all its resources?"
                     @delete="deleteDataset">
@@ -189,7 +189,7 @@
                         </v-row>
                         <v-row class="fullWidth mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="showResourceDeleteButton" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -392,14 +392,6 @@ export default {
             lastList: state => state.nav.lastDatasetListPage,
             loggedIn: state => state.user.loggedIn,
         }),
-
-        canDeleteResources: function(){
-            if (!this.dataset.organization){
-                return false;
-            }
-            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
-            return sysAdmin || admin || editor;
-        },
 
         availableGroups: function() {
             let retGroups = [];

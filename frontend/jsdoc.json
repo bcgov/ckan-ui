@@ -1,0 +1,11 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "source": {
+    "include": ["./src"],
+    "includePattern": "\\.js$"
+  },
+  "sourceType": "module"
+}
