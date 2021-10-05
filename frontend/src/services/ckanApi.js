@@ -107,14 +107,23 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true, timeout: apiConfig.timeout}).then(response => response.data);
     }
 
-    getAbout() {
+    async getAbout() {
         const url = '/client-api/ckan/about';
-        return axios.get(url, {withCredentials: true}).then(response => response.data);
-    }
 
-    putAbout(about) {
-        const url = '/client-api/ckan/about';
-        return axios.put(url, {about: about}, {withCredentials: true}).then(response => response.data);
+
+        let aboutPageUrl;
+
+        try {
+            aboutPageUrl = (await axios.get(url, {withCredentials: true})).data.url;
+        } catch (e) {
+            return { content: "" }
+        }
+
+        try {
+            return { content: (await axios.get(aboutPageUrl)).data };
+        } catch (e) {
+            return { content: "" };
+        } 
     }
 
     getDatasetSchema(type) {
