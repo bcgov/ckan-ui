@@ -27,12 +27,14 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 Two key changes are that
-1. the resource type to define if tabular, geographic, applicaiton or webservice has moved from the Record or Package level to that of the Resource level.
+1. the resource type to define if tabular, geographic, applicaiton or webservice has moved from the **Record** or **Package** level to that of the **Resource** level.
    - In doing this the field _type_ in packages was copied over to a field called _bcdc_type_ in resources.
-   - The _type_ field was populated all with the same field as this is a core ckan field.
-1. object_name, associated primarily with BC Geographic Warehouse (BCGW) datasets has moved also to the Resource level
+   - The _type_ field was populated with the same field as this is a core ckan field.
+1. _object_name_, associated primarily with BC Geographic Warehouse (BCGW) datasets has moved also to the **Resource** level
 
 **Deleted**
+The following are fields which have been deleted from the new schema.
+
 |UI Field Label|Database Field Name|Rational|
 |:---|:---|:---|
 |Sector|`sector`|Sector is no longer used by Gov|
@@ -41,6 +43,8 @@ Two key changes are that
 [RETURN TO TOP][1]
 
 **Change Review**
+The following are fields which have been modified in the new schema.
+
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Title|`title`|Y| | | | |A 100 Character limit has been set to match that of the title URL limit|
@@ -87,6 +91,8 @@ Two key changes are that
 ### Document and Tabular Data Resource Level Changes
 
 **Change Review**
+The following are fields which have been modified in the new schema.
+
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
