@@ -232,4 +232,4 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 [RETURN TO TOP][1]
 
-[1]: #table-of-contents
+[1]: #field-label-and-value-changes
