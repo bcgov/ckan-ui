@@ -10,7 +10,7 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
-+ [**Field, Label and Value Changes**](#field-label-and-value-changes)
++ [**FIELD, LABEL AND VALUE CHANGES**](#field-label-and-value-changes)
     - [**Record Level Changes**](#record-level-changes)
     - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
     - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
