@@ -40,6 +40,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
+|7|Beta updates deployed based on user feedbak and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|TBD|
 |6|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Sep-21|TBD|
 |5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
 |4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|02-Sep-21|TBD|
@@ -65,6 +66,12 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Fix logging out to end the session to prompt login ([#542](https://github.com/bcgov/ckan-ui/issues/542))|6|
 |Modifications to Delete popup messaging ([#518](https://github.com/bcgov/ckan-ui/issues/518))|6|
 |New Documentation option under Menu ([#535](https://github.com/bcgov/ckan-ui/issues/535))|6|
+|Remove the follow button from the UI ([#566](https://github.com/bcgov/ckan-ui/issues/566))|7|
+|Remove admin key from UI config ([#553](https://github.com/bcgov/ckan-ui/issues/553))|7|
+|MVP - Update to About Page Text ([#534](https://github.com/bcgov/ckan-ui/issues/534))|7|
+|Delete functionality on Record (aka Dataset/Metadata) and associated Resources ([#519](https://github.com/bcgov/ckan-ui/issues/519))|7|
+|OFI Configuration - unable to configure secure datasets([#501](https://github.com/bcgov/ckan-ui/issues/501))|7|
+|Release 2.0.0-beta.3 Developer Checklist ([#574](https://github.com/bcgov/ckan-ui/issues/574))|7|
 
 [RETURN TO TOP][1]
 
