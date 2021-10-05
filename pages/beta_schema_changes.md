@@ -11,11 +11,12 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 
 ## Table of Contents
 + [**FIELD, LABEL AND VALUE CHANGES**](#field-label-and-value-changes)
-    - [**Record Level Changes**](#record-level-changes)
-    - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
-    - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
-    - [**Webservice/API Resource Level Changes**](#webservice-and-API-resource-level-changes)
-    - [**Application Resource Level Changes**](#application-resource-level-changes)
+   - [**Record Level Changes**](#record-level-changes)
+   - [**Resource Level Changes**](#resource-level-changes)
+      - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
+      - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
+      - [**Webservice/API Resource Level Changes**](#webservice-and-API-resource-level-changes)
+      - [**Application Resource Level Changes**](#application-resource-level-changes)
 -----------------------
 
 ## FIELD, LABEL AND VALUE CHANGES
@@ -88,7 +89,9 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Document and Tabular Data Resource Level Changes
+### Resource Level Changes
+
+#### Document and Tabular Data Resource Level Changes
 
 **Change Review**
 The following are fields which have been modified in the new schema.
@@ -125,7 +128,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Geographic Data Resource Level Changes
+#### Geographic Data Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
@@ -176,7 +179,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Webservice and API Resource Level Changes
+#### Webservice and API Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
@@ -210,7 +213,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Application Resource Level Changes
+#### Application Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
