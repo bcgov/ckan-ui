@@ -38,6 +38,7 @@ Two key changes are that
 |Sector|`sector`|Sector is no longer used by Gov|
 |Contact Organization|The parent or Ministry org is no longer captured |
 
+[RETURN TO TOP][1]
 
 **Change Review**
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
@@ -81,6 +82,7 @@ Two key changes are that
 |Retention Expiry Date|`retention_expiry_date`|
 |Source Data Path|`source_data_path`|Y| | | | |No longer a mandatory or URL conditional field |
 
+[RETURN TO TOP][1]
 
 ### Document and Tabular Data Resource Level Changes
 
@@ -115,6 +117,7 @@ Two key changes are that
 |Resource Type|resource_type|Y|
 |Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
 
+[RETURN TO TOP][1]
 
 ### Geographic Data Resource Level Changes
 
@@ -165,6 +168,8 @@ Two key changes are that
 |East|east_bound_longitude|Y| |Record Level | | | |
 |West|west_bound_longitude|Y| |Record Level | | | |
 
+[RETURN TO TOP][1]
+
 ### Webservice and API Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
@@ -196,6 +201,8 @@ Two key changes are that
 |JSON Table Schema|json_table_schema|Y| | |  | |__NEW*__ |
 |Resource Type|resource_type|Y| | | |  |__NEW*__ |
 |Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | __NEW*__ |
+
+[RETURN TO TOP][1]
 
 ### Application Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
