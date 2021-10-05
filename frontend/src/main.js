@@ -158,7 +158,11 @@ const i18n = new VueI18n({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = i18n.tc(to.meta.title);
+  // some components assume the responsibiity for setting the page title.
+  // they're identified by the dynamicTitle router meta
+  if (!to.meta.dynamicTitle) {
+    document.title = i18n.tc(to.meta.title);
+  }
   next();
 });
 

@@ -73,17 +73,7 @@
                                     placeholder="">
                                 </Markdown>
                             </v-row>
-                            <v-row wrap class="py-5" v-else-if="group.notes">
-                                <Markdown
-                                    name="notes"
-                                    :value="group.notes"
-                                    label=""
-                                    :editing="false"
-                                    :field="group.description"
-                                    :disabled="false"
-                                    placeholder="">
-                                </Markdown>
-                            </v-row>
+
                             <v-row class="borderTop">
                                 <MemberList :groupId="group.id" :members="members"></MemberList>
                             </v-row>
@@ -144,14 +134,6 @@
                     v-on:facetFilter="facetFilter"
                     :hideFacets="hideFacets"
                 ></FacetFilters>
-                <v-container class="d-none d-sm-block text-left">
-                    <v-row v-if="loggedIn">
-                        <!-- <v-btn text v-if="following" small depressed class="noHover mx-0 basicText" color="secondary" @click="unfollow"><v-icon>mdi-minus-circle-outline</v-icon>{{$tc('Unfollow') + ' ' + $tc('Organizations',1)}}</v-btn>
-                        <v-btn text v-else           small depressed class="noHover mx-0 basicText" color="secondary" @click="follow"><v-icon>mdi-plus-circle-outline</v-icon>{{$tc('Follow') + ' ' + $tc('Organizations',1)}}</v-btn> -->
-                    </v-row>
-
-                    <v-row></v-row>
-                </v-container>
             </v-col>
         </v-row>
     </v-container>

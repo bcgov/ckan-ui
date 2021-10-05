@@ -35,7 +35,11 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+
+import Permissions from '@/mixins/permissions';
+
 export default {
+    mixins: [Permissions],
 
     props: {
         name: String,
@@ -98,7 +102,10 @@ export default {
         ...mapState({
             sysAdmin: state => state.user.sysAdmin,
             userPermissions: state => state.user.userPermissions,
-        })
+        }),
+        ...mapGetters("organization", {
+            ancestorsByName: "ancestorsByName"
+        }),
     },
 
     watch: {
@@ -170,9 +177,8 @@ export default {
             }
             this.nextStates.push({state: currentStateItem.value, by: []})
 
-            let sysAdmin = this.sysAdmin;
-            let admin = (this.userPermissions[this.orgName] === "admin") 
-            let editor = (this.userPermissions[this.orgName] === "editor")
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName);
+            
 
             let sortedNext = []
             for (let i=0; i<keys.length; i++){

@@ -7,7 +7,7 @@ let config = require('config');
 
 router.use('/login', function(req, res, next){
     req.session.r = req.query.r;
-    return res.redirect('/api/log');
+    return res.redirect('/client-api/log');
 });
 
 router.use("/groupSeperator", function(req,res,next){
@@ -44,13 +44,16 @@ router.use('/callback', passport.authenticate('oidc'), function(req, res, next){
 
 router.use('/logout', function(req, res, next){
     req.session.destroy();
+
     var redirectTo = config.get('frontend') + req.query.r;
     redirectTo += redirectTo.indexOf("?") >= 0 ? "&" : "?";
     redirectTo += "loggedOut=true";
 
-    if (config.has('oidc.logout')){
-        redirectTo = encodeURIComponent(redirectTo);
-        redirectTo = config.get('oidc.logout') + "?redirect_uri=" + redirectTo
+    if (config.has('oidc.logout')) {
+        let oidcLogoutURL = new URL(config.get("oidc.logout"));
+        oidcLogoutURL.searchParams.set("client_id", config.get("oidc.clientID"));
+        oidcLogoutURL.searchParams.set("redirect_uri", redirectTo);
+        redirectTo = oidcLogoutURL.toString();
     }
 
     req.logout();

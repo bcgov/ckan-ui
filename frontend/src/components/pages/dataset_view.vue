@@ -133,9 +133,12 @@
                     {{$tc('Add Resource')}}
                 </v-btn>
 
-                <v-btn text small depressed v-if="!createMode && showEdit && isAdmin" color="error_text" @click="deleteDataset">
-                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Dataset")}}
-                </v-btn>
+                <DeleteButton
+                    v-if="showDatasetDeleteButton"
+                    buttonText="Delete Dataset"
+                    confirmationMessage="Are you sure you want to delete this record and all its resources?"
+                    @delete="deleteDataset">
+                </DeleteButton>
 
                 <v-btn v-if="editing" depressed @click="cancel">{{$tc('Cancel')}}</v-btn>
 
@@ -186,7 +189,7 @@
                         </v-row>
                         <v-row class="fullWidth mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="canDeleteResources" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
+                                <ResourceList :createMode="createMode" :showEdit="showEdit" :canDelete="showResourceDeleteButton" :datasetBeingEdited="editing" :resources="dataset.resources"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -219,12 +222,17 @@ import {CkanApi} from '../../services/ckanApi';
 const ckanServ = new CkanApi();
 
 import DynamicForm from '../form/DynamicForm';
+import DeleteButton from '../DeleteButton';
+
+import Permissions from '@/mixins/permissions.vue';
 
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
         ValidationObserver: ValidationObserver,
+        DeleteButton
     },
     data() {
         let schemaName = 'bcdc_dataset';
@@ -283,7 +291,8 @@ export default {
     },
     computed: {
         ...mapGetters("organization", {
-            orgName: "nameByID"
+            orgName: "nameByID",
+            ancestorsByName: "ancestorsByName"
         }),
         
         nonSchemaFields: function() {
@@ -362,11 +371,15 @@ export default {
         },
 
         ...mapState({
-            dataset: state => state.dataset.dataset,
+            dataset: state => {
+                if (state.dataset && state.dataset.dataset && state.dataset.dataset.title) {
+                    window.document.title = state.dataset.dataset.title + " - Datasets - Data Catalogue";
+                }
+                return state.dataset.dataset;
+            },
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.dataLoading,
@@ -379,22 +392,6 @@ export default {
             lastList: state => state.nav.lastDatasetListPage,
             loggedIn: state => state.user.loggedIn,
         }),
-
-        canDeleteResources: function(){
-            if (!this.dataset.organization){
-                return false;
-            }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
-        },
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        },
 
         availableGroups: function() {
             let retGroups = [];
@@ -512,7 +509,7 @@ export default {
                 this.showFormSuccess = true;
                 this.showFormError = false;
                 return;
-            }else if (response.error){
+            } else if (response.error){
                 this.formError = response.error;
                 this.showFormSuccess = false;
                 this.showFormError = true;

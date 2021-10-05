@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey+'-'+redrawIndex">
-                <div v-if="field.label !== ''" style="width: 100%;">
+                <div v-if="field.label !== '' && !exclude.includes(field.field_name)" style="width: 100%;">
                     <Title
                         v-if="field.preset==='title' || field.field_name === 'title'"
                         :name="field.field_name"
@@ -380,6 +380,10 @@ export default {
         formDefaults: {
             type: Object,
             default: () => {}
+        },
+        exclude: {
+            type: Array,
+            default: () => []
         }
     },
     data() {

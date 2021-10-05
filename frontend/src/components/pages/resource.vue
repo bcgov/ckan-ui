@@ -58,7 +58,7 @@
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text :disabled="previewLoading" color="primary" @click.stop="previewDialog = true">
+                <v-btn v-if="!editing" small depressed text :disabled="previewLoading || !canPreview" color="primary" @click.stop="previewDialog = true">
                     <v-icon v-if="!previewLoading">mdi-fullscreen</v-icon>
                     <v-progress-circular v-else :size="20" :width="2" color="grey" indeterminate></v-progress-circular>
                     &nbsp;{{$tc('Preview')}}
@@ -76,7 +76,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <powButton :resource="resource" v-if="!editing && resource && loadPOW" btn/>
+                <powButton :dataset="dataset" :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
                 <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
@@ -96,8 +96,8 @@
                     </v-dialog>
                 </v-btn>
 
-                <v-btn v-if="!editing" small depressed text color="primary" :href="resource.url">
-                    <v-icon>mdi-download</v-icon>&nbsp;{{$tc('Download')}}
+                <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
+                    <v-icon>mdi-open-in-new</v-icon>&nbsp;{{$tc('Access/Download')}}
                 </v-btn>
 
                 <v-btn v-if="!editing && showEdit" small depressed text color="primary" :to="{ name: 'resource_create', params: { datasetId: dataset.name }}">
@@ -108,9 +108,12 @@
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
                 
-                <v-btn v-if="!editing && canDeleteResources" small depressed text color="error_text" @click="deleteResource">
-                    <v-icon>mdi-trash-can-outline</v-icon>&nbsp;{{$tc("Delete Resource")}}
-                </v-btn>
+                <DeleteButton
+                        v-if="showResourceDeleteButton"
+                        buttonText="Delete Resource"
+                        confirmationMessage="Are you sure you want to delete this resource?"
+                        @delete="deleteResource">
+                </DeleteButton>
                 
                 <v-btn v-if="editing" depressed @click="cancel">Cancel</v-btn>
                 <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit()">Save</v-btn>
@@ -147,6 +150,7 @@
                             :values="resource"
                             :loggedIn="loggedIn"
                             :disabled="disabled"
+                            :exclude="excludedFields"
                             ref="dynoForm"
                             @updated="(field, value) => updateResource(field, value)"
                         >
@@ -164,7 +168,7 @@
                         </v-row>
                         <v-row class="fullWidth mt-0 pt-0 mr-0">
                             <v-col cols=12 class="px-0 py-0 my-n2">
-                                <ResourceList :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
+                                <ResourceList :canDelete="showResourceDeleteButton" :createMode="createMode" :showEdit="showEdit" :datasetBeingEdited="editing" :resources="siblings(resource.id)"></ResourceList>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -199,15 +203,20 @@ import DynamicForm from '../form/DynamicForm';
 import Preview from "../resources/preview";
 import JsonTable from "../resources/jsontable";
 import powButton from "../pow/powButton";
+import DeleteButton from '../DeleteButton';
+
+import Permissions from '@/mixins/permissions';
 
 export default {
+    mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
         ValidationObserver: ValidationObserver,
         Preview: Preview,
         JsonTable: JsonTable,
-        powButton: powButton
+        powButton: powButton,
+        DeleteButton
     },
     data() {
         let schemaName = 'bcdc_dataset';
@@ -235,31 +244,46 @@ export default {
         next();
     },
     watch: {
-    //     getAbort(newVal) {
-    //         if(newVal==true) {
-    //             this.$router.push('/datasets');
-    //         }
-    //     },
-
         datasetId(newVal){
             this.resource['package_id'] = newVal;
             this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
         },
 
-        $route (to){
+        $route(to) {
             this.redrawIndex++;
             this.editing = ( to.name === "resource_create" || (to.query && to.query.editing) ),
             this.createMode = (to.name === "resource_create");
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
-            }else{
+            } else{
                 this.$store.dispatch("dataset/getResource", { id: this.resourceId });
             }
         },
     },
+
     computed: {
+
+        canPreview() {
+            return (this.preview.headers && this.preview.headers.length>0) ||
+                   (this.preview['content-type'] && this.preview['content-type'].indexOf('image/')===0) ||
+                   this.preview.format === 'openapi-json' ||
+                   this.preview.type === 'pdf' ||
+                   (this.resource.metadata &&
+                    this.resource.metadata.preview_info);
+        },
+
+
         loadPOW: function() {
             return (this.resource.bcdc_type=="geographic" && ("object_name" in this.resource) && this.resource.name.toLowerCase().indexOf("custom download") !== -1);
+        },
+
+
+        excludedFields: function() {
+            if (this.loadPOW && !this.editing) {
+                return ["url"]; // hide the URL field for the non-edit screen of OFI resources
+            } else {
+                return [];
+            }
         },
 
         mailLink(){
@@ -303,48 +327,31 @@ export default {
 
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
-            // let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
-            // for (var i=0; i<this.schema.resource_fields.length; i++){
-            //     remove.push(this.schema.resource_fields[i].field_name);
-            //     if (typeof(this.schema.resource_fields[i].subfields) !== "undefined"){
-            //         for (var j=0; j<this.schema.resource_fields[i].subfields.length; j++){
-            //             remove.push(this.schema.resource_fields[i].subfields[j].field_name);
-            //         }
-            //     }
-            // }
-            // keys = keys.filter(function(el){
-            //     return remove.indexOf(el) < 0;
-            // });
             keys.sort();
             return keys;
         },
 
-        // getAbort() {
-        //     return this.$store.state.dataset.shouldAbort;
-        // },
         permalink: function(){
             return window.location.origin+'/dataset/'+this.dataset.id+'/resource/'+this.resource.id
         },
 
-        // schema: function () {
-        //     return this.$store.state.dataset.schemas[this.schemaName];
-        // },
-
         datasetId: function datasetId() {
             return this.$route.params.datasetId;
         },
+
         resourceId: function resourceId() {
             return this.$route.params.resourceId || null;
         },
-        // editLink: function editLink() {
-        //     return "/dataset/" + this.datasetId + "/edit";
-        // },
 
         ...mapState({
             dataset: state => state.dataset.dataset,
-            resource: state => state.dataset.resource,
+            resource: state => {
+                if (state.dataset && state.dataset.dataset && state.dataset.resource && state.dataset.dataset.title && state.dataset.resource.name) {
+                    window.document.title = state.dataset.dataset.title + " - " + state.dataset.resource.name + " - Data Catalogue";
+                }
+                return state.dataset.resource;
+            },
             shouldAbort: state => state.dataset.shouldAbort,
-            userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
             isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.resourceLoading,
@@ -354,40 +361,30 @@ export default {
             userOrgs: state => state.organization.userOrgs,
             datasetError: state => state.dataset.error,
             loggedIn: state => state.user.loggedIn,
-
+            organizations: state => state.organization.orgList,
             previewLoading: state => state.dataset.previewLoading,
             preview: state => state.dataset.preview,
             previewError: state => state.dataset.previewError,
         }),
 
         ...mapGetters("dataset", {
-            siblings: "getResourceList"
+            siblings: "getResourceList",
         }),
-
-        showEdit: function(){
-            // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
-            //return ( (!this.editing) && ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
-            if (!this.dataset.organization){
-                return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
-            }
-            return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.userPermissions[this.dataset.organization.name] === "editor")));
-        },
+        ...mapGetters("organization", {
+            ancestorsByName: "ancestorsByName",
+        }),
 
         canDeleteResources: function(){
             if (!this.dataset.organization){
                 return false;
             }
-            return ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor"))
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
+            return sysAdmin || admin || editor;
         },
 
     },
 
     methods: {
-        // getUserOrgs() {
-        //     if (this.userOrgs.length <= 0){
-        //         this.$store.dispatch("organization/getUserOrgs");
-        //     }
-        // },
         getResource(id) {
             if (typeof(id) === "undefined"){
                 id = this.resourceId;
@@ -399,13 +396,12 @@ export default {
                     if(mutation.type == "dataset/setSchema") {
                         self.schema = state.dataset.schemas[self.schemaName];
                         unsub();
-                        //this.$router.push('/datasets');
                     }
                 }
             );
             if (this.createMode) {
                 this.$store.dispatch("dataset/newResource");
-            }else{
+            } else {
                 this.$store.dispatch("dataset/getResource", { id: id });
             }
             this.$store.dispatch('dataset/getDatasetSchema').then(() => {
@@ -432,7 +428,7 @@ export default {
                 this.notAtTop = true;
             }
         },
-        async deleteResource(){
+        async deleteResource() {
             const response = await ckanServ.deleteResource(this.resourceId);
 
             this.formSuccess = "";
@@ -443,7 +439,7 @@ export default {
                 this.showFormSuccess = true;
                 this.showFormError = false;
                 return;
-            }else if (response.error){
+            } else if (response.error){
                 this.formError = response.error;
                 this.showFormSuccess = false;
                 this.showFormError = true;

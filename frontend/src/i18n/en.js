@@ -2,7 +2,7 @@ export default {
     en: {
         'data': 'data',
         'Data': 'Data',
-        'TrySearchingFor': "Try Searching for...",
+        'TrySearchingFor': "Try searching for...",
         'DataCatalogue': "Data Catalogue",
         'Classic': "Classic",
         'LogIn': "Log In",
@@ -10,6 +10,7 @@ export default {
         "SearchDatasets": "Search Data Catalogue",
         "What is DataBC?": "What is DataBC?",
         "Geographic Services": "Geographic Services",
+        "Documentation": "Documentation",
         "Blog": "Blog",
         "Developers": "Developers",
         "Contact": "Contact",
@@ -283,6 +284,7 @@ export default {
         "Edit Resource": "Edit Resource",
         "Delete Resource": "Delete Resource",
         "Request Access": "Request Access",
+        "Access/Download": "Access/Download",
         "Viewing Resource": "Viewing Resource",
         "Scroll to Top": "Scroll to Top",
         "Permalink URL Copied to Clipboard": "Permalink URL Copied to Clipboard",
@@ -351,5 +353,6 @@ export default {
         "Dataset Usage": "Dataset Usage",
         "Geographic Data": "Geographic Data",
         "Copy": "Copy",
+        "Provide Beta Feedback": "Provide Beta Feedback",
     }
 };

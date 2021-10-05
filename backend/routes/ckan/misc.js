@@ -25,7 +25,7 @@ var addRoutes = function(router){
             let newUrl = config.get('frontend');
             if (body){
                 let b = body.replace(oldUrl, newUrl);
-                b = b.replace("/feeds/recent.rss", "/api/ckan/rss");
+                b = b.replace("/feeds/recent.rss", "/client-api/ckan/rss");
                 return res.end(b);
             }return res.end('Sorry there was an error getting the rss feed: ', err)
         });
@@ -394,85 +394,16 @@ var addRoutes = function(router){
     router.get('/about', auth.removeExpired, function(req, res, next) {
 
         let config = require('config');
-        let url = config.get('ckan');
 
-        let keys = Object.keys(req.query);
-        let reqUrl = url + "/api/3/action/config_option_show?key=ckan.site_about";
-
-        const options = {
-            url: reqUrl,
-            headers: {
-                'Authorization': config.get('adminApiKey')
-            }
-        };
-
-        request(options, function(err, apiRes, body){
-            if (err) {
-            console.log(err);
-            res.json({error: err});
-            return;
-            }
-            if (apiRes.statusCode !== 200){
-                console.log("Body Status? ", apiRes.statusCode);
-            }
-
-            if (apiRes.statusCode !== 200){
-                return res.json({
-                    "success": false,
-                    "result": 'Tx'
-                });
-            }
-
-            try {
-                let json = JSON.parse(body);
-                res.json(json);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
-        });
-
-    });
-
-    /* UPDATE ckan about */
-    router.put('/about', auth.removeExpired, function(req, res, next) {
-        let config = require('config');
-        let url = config.get('ckan');
-    
-        const reqUrl = url + "/api/3/action/config_option_update";
-    
-        if (!req.user){
-            return res.json({error: "Not logged in"});
+        if (config.has("aboutPageUrl")) {
+            res.json({
+                "url": config.get("aboutPageUrl")
+            });
+        } else {
+            res.status(500)
+               .json({ "error": "aboutPageUrl must be provided in config" });
         }
-    
-        console.log("UPDATING ABOUT", req.body);
-
-        let body = {
-            'ckan.site_about': req.body.about
-        };
-    
-        request({ method: 'POST', uri: reqUrl, json: body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
-            if (err) {
-                console.log(err);
-                res.json({ error: err });
-                return;
-            }
-
-            if (apiRes.statusCode !== 200) {
-                console.log("Body Status? ", apiRes.statusCode);
-            }
-    
-            try {
-                let json = typeof(body) === 'string' ? JSON.parse(body) : body;
-                res.json(json);
-            } catch (ex) {
-                console.error("Error reading json from ckan", ex);
-                res.json({ error: ex, body: body });
-            }
-        });
-    
     });
-
 
 
 

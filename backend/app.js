@@ -97,7 +97,7 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
 // set up passport
 passport.use('oidc', strategy);
 
-app.use('/api/version', function(req, res){
+app.use('/client-api/version', function(req, res){
   var hash = (process.env.GITHASH) ? process.env.GITHASH : "";
   var pjson = require('./package.json');
   var v = pjson.version;
@@ -157,12 +157,12 @@ app.use('/api/version', function(req, res){
   });
 })
 
-app.use('/api/solr', solrRouter);
-app.use('/api/resource', resourceRouter);
-app.use('/api/ckan', ckanRouter);
-app.use('/api/pow', powRouter);
-app.use('/api/an', analyticsRouter);
-app.use('/api', authRouter);
+app.use('/client-api/solr', solrRouter);
+app.use('/client-api/resource', resourceRouter);
+app.use('/client-api/ckan', ckanRouter);
+app.use('/client-api/pow', powRouter);
+app.use('/client-api/an', analyticsRouter);
+app.use('/client-api', authRouter);
 app.use('/status', function(req, res){
   res.json({"status": "OK"}).status(200);
 });

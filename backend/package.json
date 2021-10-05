@@ -1,6 +1,6 @@
 {
   "name": "ckan-ui-bridge",
-  "version": "1.9.0",
+  "version": "2.0.0-beta.3",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "atob": "^2.1.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "config": "^3.0.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -24,14 +24,14 @@
     "passport": "^0.4.0",
     "passport-openidconnect": "0.0.2",
     "request": "^2.88.0",
-    "set-value": "^2.0.1",
+    "set-value": "^4.0.1",
     "snowplow-tracker": "^0.3.0",
     "tableschema": "^1.12.4",
-    "xlsx": "^0.14.1"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "eslint": "^7.13.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^2.0.12"
   },
   "eslintConfig": {
     "root": true,

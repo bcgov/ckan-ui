@@ -5,6 +5,7 @@
   "sessionSecret": "secret",
   "frontend": "http://localhost:8080",
   "classicUi": "http://127.0.0.1:5000",
+  "aboutPageUrl": "https://raw.githubusercontent.com/bcgov/ckan-ui/pages/pages/about.md",
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",
@@ -13,7 +14,7 @@
     "userInfoURL": "https://{yourdomain}/oauth2/default/v1/userinfo",
     "clientID": "{ClientID}",
     "clientSecret": "{ClientSecret}",
-    "callbackURL": "http://localhost:3000/api/callback",
+    "callbackURL": "http://localhost:3000/client-api/callback",
     "scope": "openid profile offline_access"
   },
 
@@ -56,7 +57,6 @@
 
   "authGroupSeperator": "/",
   "sysAdminGroup": "admin",
-  "adminApiKey": "adminApiKeyHere",
 
   "landingTerms": ["Crown", "Waste", "Fire", "Lightning"]
 }

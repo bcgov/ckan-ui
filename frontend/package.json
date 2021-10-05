@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -14,7 +15,7 @@
     "es6-promise": "^4.2.8",
     "marked": "^0.7.0",
     "material-design-icons-iconfont": "^4.0.5",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "pdfvuer": "^1.7.5",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2",
@@ -38,8 +39,11 @@
     "@mdi/font": "^4.9.95",
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-eslint": "^3.12.1",
-    "@vue/cli-service": "^3.12.1",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
+    "@vue/cli-service": "^4.5.13",
+    "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
+    "chai": "^4.1.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.2.3",
     "sass": "^1.32.11",
@@ -60,7 +64,18 @@
     },
     "parserOptions": {
       "parser": "babel-eslint"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "mocha": true
+        }
+      }
+    ]
   },
   "postcss": {
     "plugins": {

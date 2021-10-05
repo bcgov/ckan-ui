@@ -19,18 +19,18 @@
                         <label left class="sublabel">
                             {{useResource.metadata.format}}
                         </label>
-                        <span v-if="useResource.metadata.size" class="sublabel ml-4">
+                        <span v-if="useResource.metadata.size && useResource.metadata.size > 0" class="sublabel ml-4">
                             {{(useResource.metadata.size/1000).toFixed(1)}} MB
                         </span>
                     </span>
                     <span class="floatRight">
                         <v-btn v-if="!loadPOW" class="px-0" small depressed text :href="useResource.metadata.url" color="label_colour">
-                            Download
+                            {{$tc("Access/Download")}}&nbsp;
                         </v-btn>
-                        <powButton v-else :btn="true" :resource="useResource.metadata"/>
+                        <powButton v-else :btn="true" :dataset="dataset" :resource="useResource.metadata"/>
                         <v-btn v-if="!datasetBeingEdited" small depressed text class="px-0" color="label_colour"
                                 :to="{ name: 'resource_view', params: { datasetId: dataset.name, resourceId: resource.id}}">
-                            View
+                            {{$tc("View")}}
                         </v-btn>
                         <v-btn v-if="!!useResource.hasSchema" small depressed text class="px-0" @click.stop="schemaDialog = true" color="label_colour">
                             View Schema (JSON Table Schema)
@@ -39,9 +39,12 @@
                             :to="{ name: 'resource_view', query: { editing: true }, params: { datasetId: dataset.name, resourceId: resource.id }}">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn v-if="canDelete" @click="deleteResource" small depressed text class="px-0 mx-0" color="error_text" >
-                            <v-icon>mdi-trash-can-outline</v-icon>
-                        </v-btn>
+                        <DeleteButton
+                                v-if="canDelete"
+                                buttonClass="px-0 mx-0"
+                                confirmationMessage="Are you sure you want to delete this resource?"
+                                @delete="deleteResource">
+                        </DeleteButton>
                     </span>
                 </v-col>
 
@@ -52,8 +55,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import powButton from "../pow/powButton"
-import { CkanApi } from '../../services/ckanApi'
+import powButton from "../pow/powButton";
+import DeleteButton from '../DeleteButton';
+import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi()
 
 export default {
@@ -65,11 +69,12 @@ export default {
         canDelete: {
             type: Boolean,
             default: false,
-        },
+        }
     },
 
     components: {
-        powButton: powButton
+        powButton: powButton,
+        DeleteButton
     },
     methods: {
         deleteResource: function(){
