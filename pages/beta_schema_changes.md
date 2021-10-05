@@ -229,3 +229,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |Resource Type|resource_type|Y|edc_resource_type| | | |__NEW*__ |
 |Resource Access Method|resource_access_method|Y|resource_access_storage_method| | |[Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| |__NEW*__  |
+
+[RETURN TO TOP][1]
+
+[1]: #table-of-contents
