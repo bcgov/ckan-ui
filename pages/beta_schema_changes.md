@@ -19,9 +19,9 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 -----------------------
 
 ## FIELD, LABEL AND VALUE CHANGES
-+ **Field Labels** are what is visible in the user interface (UI).
++ **Field Labels** are what are visible in the user interface (UI).
    + No fields were removed from the databse, but some have been removed from the UI. 
-+ **Field Names** are what is returned from the API.
++ **Field Names** are what are returned from the API.
 
 ### Record Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
