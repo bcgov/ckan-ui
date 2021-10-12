@@ -1,5 +1,5 @@
 # FIELD, LABEL AND VALUE CHANGES
-This page is currently still being update to reflect any addition changes for Beta are made to the BC Data Catalogue and its supporting technologies. 
+This page is currently being updated to reflect any changes made to the BC Data Catalogue for Beta and its supporting technologies. 
 
 This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md)
 
