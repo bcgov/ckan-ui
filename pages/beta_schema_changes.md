@@ -73,7 +73,7 @@ The following are fields which have been modified in the new schema.
 ||
 |Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
 |Who can view this data?|`view_audience`|N|
-|Who can dowbload this data?|`download_audience`|N|
+|Who can download this data?|`download_audience`|N|
 |Who can view this record?|`metadata_visibility`|N|
 |Keywords|`tag_string`|N|
 |State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
