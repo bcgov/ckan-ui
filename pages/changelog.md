@@ -8,7 +8,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
-+ [**RESOURCES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resources)
++ [**RESOURCES**](changelog.md#resources)
 + [**RELEASE DETAILS AND DATES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#release-details-and-dates)
    * [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
 + [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
