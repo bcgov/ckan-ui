@@ -197,7 +197,7 @@ This is also referred to as the package.
 [RETURN TO TOP][1]
   
 ## USER MANAGEMENT
-+ Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
++ Management of Admins, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
 
 ## SPECS
 * **CKAN**: _2.7.5_
