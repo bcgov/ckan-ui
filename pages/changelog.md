@@ -10,17 +10,16 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## Table of Contents
 + [**RESOURCES**](changelog.md#resources)
 + [**RELEASE DETAILS AND DATES**](changelog.md#release-details-and-dates)
-   * [**Fixed Issues**](changelog.md#fixed-issues)
+   + [**Fixed Issues**](changelog.md#fixed-issues)
 + [**CURRENT KNOWN ISSUES**](changelog.md#current-known-issues)
 + [**WHAT'S NEW**](#whats-new)
-   * [**Application User Interface (UI)**](changelog.md#application-user-interface)
+   + [**Application User Interface (UI)**](changelog.md#application-user-interface)
       + [**Landing Page**](changelog.md#landing-page)
       + [**Record Level**](changelog.md#record-level)
       + [**Resource Level**](changelog.md#resource-level)
       + [**Organizations**](changelog.md#organizations)
       + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
-   * [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
-   * [**Field, Label and Value Changes**](changelog.md#field-label-and-value-changes)
+   + [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
 + [**USER MANAGEMENT**](changelog.md#user-management)
 + [**SPECS**](changelog.md#specs)
 
@@ -122,7 +121,7 @@ This is also referred to as the package.
     - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
         - Only available to Editors and Admins when records is in Draft state.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) section below for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
+    - See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
@@ -145,7 +144,7 @@ This is also referred to as the package.
     - _Delete Resource_ is consistent with the Delete button on the resource, without requiring editing of a resource.
     - _Data API_ button has been removed.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) section below for specific changes including fields that been included from the Record level, e.g., Object Name.
+    - See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for specific changes including fields that been included from the Record level, e.g., Object Name.
 + Resource types have moved from the Record level to allow a record to have any of the different resource types:
     - Document/Tabular Data, Geographic Data, Webservice/API, Application.
 + BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
@@ -182,7 +181,7 @@ This is also referred to as the package.
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See [Field, Label and Value Changes](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) section below for changes, including `object_name` having been moved from packages to resources.
++ See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for changes, including `object_name` having been moved from packages to resources.
 
 **Common queries**:
 1. `object_name`
@@ -196,10 +195,7 @@ This is also referred to as the package.
 
 
 [RETURN TO TOP][1]
-
-## FIELD, LABEL AND VALUE CHANGES
-This section has moved to a new page, found [here](beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
-    
+  
 ## USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
 
