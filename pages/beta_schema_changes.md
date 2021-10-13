@@ -1,7 +1,7 @@
 # FIELD, LABEL AND VALUE CHANGES
 This page is currently being updated to reflect any changes made to the BC Data Catalogue for Beta and its supporting technologies. 
 
-This page is to support the [Change Log](changelog.md)
+This page is to support the [Change Log](changelog.md#change-log)
 
 |**AUDIENCE**|**DESCRIPTION**|
 |:---|:---|
