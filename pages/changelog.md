@@ -182,7 +182,7 @@ This is also referred to as the package.
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including `object_name` having been moved from packages to resources.
++ See [Field, Label and Value Changes](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) section below for changes, including `object_name` having been moved from packages to resources.
 
 **Common queries**:
 1. `object_name`
