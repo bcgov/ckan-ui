@@ -145,7 +145,7 @@ This is also referred to as the package.
     - _Delete Resource_ is consistent with the Delete button on the resource, without requiring editing of a resource.
     - _Data API_ button has been removed.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See Field, Label and Value changes for specific changes including fields that been included from the Record level, e.g., Object Name.
+    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) section below for specific changes including fields that been included from the Record level, e.g., Object Name.
 + Resource types have moved from the Record level to allow a record to have any of the different resource types:
     - Document/Tabular Data, Geographic Data, Webservice/API, Application.
 + BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
