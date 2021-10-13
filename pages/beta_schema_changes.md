@@ -41,8 +41,6 @@ The following are fields which have been deleted from the new schema.
 |Sector|`sector`|Sector is no longer used by Gov|
 |Contact Organization| |The parent or Ministry org is no longer captured|
 
-[RETURN TO TOP][1]
-
 **Change Review**
 The following are fields which have been modified in the new schema.
 
