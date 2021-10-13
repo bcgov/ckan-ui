@@ -130,20 +130,24 @@ This is also referred to as the package.
 
 #### Resource Level
 + Menu Bar: Actions have been consolidated to replace the _Manage_ button and other actions.
+    - __NEW__: _Back to Dataset_ button added, this allows a user to navigate back to the dataset (not using the browser back button).
+    - __NEW__: _Scroll to Bottom_ allows the user to jump to the bottom of the page.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
-    - __NEW__: _Scroll to Bottom_
+    - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
     - __NEW__: _Preview_ button is to replace:
         -  The map insert on the Resource level for BC Geographic Warehouse public datasets.
         -  For a resource with a map preview the _Link to iMapBC_ button is available on the module.
         -  The Data Explorer for tabular datasets that are uploaded to the catalogue.
         -  The OpenAPI Console for APIs registered with the API Gateway.
-    - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
     - _Access/Download_ is consistent with the other menu buttons.
+    - _Add Resource_ is consistent with the _Add new resource button_ without requiring editing of a resource.
+    - _Edit Resource_ is consistent with the Manage function on the resource. 
+    - _Delete Resource_ is consistent with the Delete button on the resource, without requiring editing of a resource.
     - _Data API_ button has been removed.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
     - See Field, Label and Value changes for specific changes including fields that been included from the Record level, e.g., Object Name.
-+ Resource types]have moved from the Record level to allow a record to have any of the different resource types:
-    - Application, Dataset/Document, Geospatial Dataset, Webservice/API.
++ Resource types have moved from the Record level to allow a record to have any of the different resource types:
+    - Document/Tabular Data, Geographic Data, Webservice/API, Application.
 + BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
     - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
         - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained. 
