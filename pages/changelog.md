@@ -77,7 +77,6 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
-1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
 1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
