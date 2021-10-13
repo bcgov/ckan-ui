@@ -157,12 +157,24 @@ This is also referred to as the package.
 [RETURN TO TOP][1]
 
 #### Organizations
-_Under Construction_
++ Organizations are no longer found on the menu bar, but the user can Explore Datasets by Organizations under the **Pancake**.
++ Selecting the Parent Organization (Ministry) or any associated Organization (Branch) will display the Organization record's details.
+    - __NEW__: _Back to Organization list_ button added, this allows a user to navigate back to the Organization list (not using the browser back button).
+    - __NEW__: _Share_ was not an option from the Organization level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
+    - __NEW__: _Learn more about this organization_: presents the user with the description and image associated to the Organization, if provided.
+    - _Edit Organization_ provides the **SysAdmin User** with the ability to edit the record, as the Manage function did.
+    - _Delete Organization_ provides the **SysAdmin User** with the ability to delete Organization the record, as the Delete button did, without having to be in edit mode.
 
 [RETURN TO TOP][1]
 
 #### Groups
-_Under Construction_
++ Groups are no longer found on the menu bar, but the user can Explore Datasets by Groups under the **Pancake**.
++ Selecting the Group will display the Group record's details.
+    - __NEW__: _Back to Group list_ button added, this allows a user to navigate back to the Group list (not using the browser back button).
+    - __NEW__: _Share_ was not an option from the Group level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
+    - __NEW__: _Learn more about this group: presents the user with the description and image associated to the group, if provided.
+    - _Edit Group_ provides the **SysAdmin User** with the ability to edit the record, as the Manage function did.
+    - _Delete Group_ provides the **SysAdmin User** with the ability to delete the Group record, as the Delete button did, without having to be in edit mode.
 
 [RETURN TO TOP][1]
 
