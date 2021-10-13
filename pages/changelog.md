@@ -122,7 +122,7 @@ This is also referred to as the package.
     - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
         - Only available to Editors and Admins when records is in Draft state.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
+    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) section below for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
