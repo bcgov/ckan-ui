@@ -9,20 +9,20 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ## Table of Contents
 + [**RESOURCES**](changelog.md#resources)
-+ [**RELEASE DETAILS AND DATES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#release-details-and-dates)
-   * [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
-+ [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
++ [**RELEASE DETAILS AND DATES**](changelog.md#release-details-and-dates)
+   * [**Fixed Issues**](changelog.md#fixed-issues)
++ [**CURRENT KNOWN ISSUES**](changelog.md#current-known-issues)
 + [**WHAT'S NEW**](#whats-new)
-   * [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
-      + [**Landing Page**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#landing-page)
-      + [**Record Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#record-level)
-      + [**Resource Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resource-level)
-      + [**Organizations**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#organizations)
+   * [**Application User Interface (UI)**](changelog.md#application-user-interface)
+      + [**Landing Page**](changelog.md#landing-page)
+      + [**Record Level**](changelog.md#record-level)
+      + [**Resource Level**](changelog.md#resource-level)
+      + [**Organizations**](changelog.md#organizations)
       + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
-   * [**Application Programming Interface (API)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-programming-interface)
-   * [**Field, Label and Value Changes**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes)
-+ [**USER MANAGEMENT**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#user-management)
-+ [**SPECS**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#specs)
+   * [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
+   * [**Field, Label and Value Changes**](changelog.md#field-label-and-value-changes)
++ [**USER MANAGEMENT**](changelog.md#user-management)
++ [**SPECS**](changelog.md#specs)
 
 -----------------------
 
@@ -122,7 +122,7 @@ This is also referred to as the package.
     - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
         - Only available to Editors and Admins when records is in Draft state.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See [Field, Label and Value Changes](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
+    - See [Field, Label and Value Changes](changelog.md#field-label-and-value-changes) for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
@@ -182,7 +182,7 @@ _Under Construction_
 [RETURN TO TOP][1]
 
 ## FIELD, LABEL AND VALUE CHANGES
-This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
+This section has moved to a new page, found [here](beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
     
 ## USER MANAGEMENT
 + Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
