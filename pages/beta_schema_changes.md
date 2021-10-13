@@ -28,7 +28,7 @@ This page is to support the [Change Log](changelog.md#change-log)
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 Two key changes are that
-1. the resource type to define if tabular, geographic, applicaiton or webservice has moved from the **Record** or **Package** level to that of the **Resource** level.
+1. the resource type to define if tabular, geographic, application or webservice has moved from the **Record** or **Package** level to the **Resource** level.
    - In doing this the field _type_ in packages was copied over to a field called _bcdc_type_ in resources.
    - The _type_ field was populated with the same field as this is a core ckan field.
 1. _object_name_, associated primarily with BC Geographic Warehouse (BCGW) datasets has moved also to the **Resource** level
@@ -39,7 +39,7 @@ The following are fields which have been deleted from the new schema.
 |UI Field Label|Database Field Name|Rational|
 |:---|:---|:---|
 |Sector|`sector`|Sector is no longer used by Gov|
-|Contact Organization|The parent or Ministry org is no longer captured |
+|Contact Organization| |The parent or Ministry org is no longer captured|
 
 [RETURN TO TOP][1]
 
