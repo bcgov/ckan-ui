@@ -1,7 +1,7 @@
 # FIELD, LABEL AND VALUE CHANGES
-This page is currently still being update to reflect any addition changes for Beta are made to the BC Data Catalogue and its supporting technologies. 
+This page is currently being updated to reflect any changes made to the BC Data Catalogue for Beta and its supporting technologies. 
 
-This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md)
+This page is to support the [Change Log](changelog.md#change-log)
 
 |**AUDIENCE**|**DESCRIPTION**|
 |:---|:---|
@@ -11,11 +11,12 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 
 ## Table of Contents
 + [**FIELD, LABEL AND VALUE CHANGES**](#field-label-and-value-changes)
-    - [**Record Level Changes**](#record-level-changes)
-    - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
-    - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
-    - [**Webservice/API Resource Level Changes**](#webservice-and-API-resource-level-changes)
-    - [**Application Resource Level Changes**](#application-resource-level-changes)
+   - [**Record Level Changes**](#record-level-changes)
+   - [**Resource Level Changes**](#resource-level-changes)
+      - [**Document/Tabular Data Resource Level Changes**](#document-and-tabular-data-resource-level-changes)
+      - [**Geographic Data Resource Level Changes**](#geographic-data-resource-level-changes)
+      - [**Webservice/API Resource Level Changes**](#webservice-and-API-resource-level-changes)
+      - [**Application Resource Level Changes**](#application-resource-level-changes)
 -----------------------
 
 ## FIELD, LABEL AND VALUE CHANGES
@@ -27,7 +28,7 @@ This page is to support the [changelog](https://github.com/bcgov/ckan-ui/blob/pa
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 Two key changes are that
-1. the resource type to define if tabular, geographic, applicaiton or webservice has moved from the **Record** or **Package** level to that of the **Resource** level.
+1. the resource type to define if tabular, geographic, application or webservice has moved from the **Record** or **Package** level to the **Resource** level.
    - In doing this the field _type_ in packages was copied over to a field called _bcdc_type_ in resources.
    - The _type_ field was populated with the same field as this is a core ckan field.
 1. _object_name_, associated primarily with BC Geographic Warehouse (BCGW) datasets has moved also to the **Resource** level
@@ -38,9 +39,7 @@ The following are fields which have been deleted from the new schema.
 |UI Field Label|Database Field Name|Rational|
 |:---|:---|:---|
 |Sector|`sector`|Sector is no longer used by Gov|
-|Contact Organization|The parent or Ministry org is no longer captured |
-
-[RETURN TO TOP][1]
+|Contact Organization| |The parent or Ministry org is no longer captured|
 
 **Change Review**
 The following are fields which have been modified in the new schema.
@@ -72,7 +71,7 @@ The following are fields which have been modified in the new schema.
 ||
 |Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
 |Who can view this data?|`view_audience`|N|
-|Who can dowbload this data?|`download_audience`|N|
+|Who can download this data?|`download_audience`|N|
 |Who can view this record?|`metadata_visibility`|N|
 |Keywords|`tag_string`|N|
 |State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
@@ -88,7 +87,9 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Document and Tabular Data Resource Level Changes
+### Resource Level Changes
+
+#### Document and Tabular Data Resource Level Changes
 
 **Change Review**
 The following are fields which have been modified in the new schema.
@@ -125,7 +126,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Geographic Data Resource Level Changes
+#### Geographic Data Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
@@ -176,7 +177,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Webservice and API Resource Level Changes
+#### Webservice and API Resource Level Changes
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
@@ -210,7 +211,7 @@ The following are fields which have been modified in the new schema.
 
 [RETURN TO TOP][1]
 
-### Application Resource Level Changes
+#### Application Resource Level Changes
 A Record or main metadata page is defined in CKAN as a Dataset or Package.
 
 |UI Field Label|Database Field Name|Changes Flag|Database Field Renamed from|Moved from|Values|Repeating or Composite|Comment|
