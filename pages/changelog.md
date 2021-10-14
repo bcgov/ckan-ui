@@ -8,21 +8,20 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 | *BCDC Administrators* | Persons who assist with the publishing/retiring of data in the BC Data Catalogue|
 
 ## Table of Contents
-+ [**RESOURCES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resources)
-+ [**RELEASE DETAILS AND DATES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#release-details-and-dates)
-   * [**Fixed Issues**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues)
-+ [**CURRENT KNOWN ISSUES**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#current-known-issues)
++ [**RESOURCES**](changelog.md#resources)
++ [**RELEASE DETAILS AND DATES**](changelog.md#release-details-and-dates)
+   + [**Fixed Issues**](changelog.md#fixed-issues)
++ [**CURRENT KNOWN ISSUES**](changelog.md#current-known-issues)
 + [**WHAT'S NEW**](#whats-new)
-   * [**Application User Interface (UI)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-user-interface)
-      + [**Landing Page**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#landing-page)
-      + [**Record Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#record-level)
-      + [**Resource Level**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#resource-level)
-      + [**Organizations**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#organizations)
+   + [**Application User Interface (UI)**](changelog.md#application-user-interface)
+      + [**Landing Page**](changelog.md#landing-page)
+      + [**Record Level**](changelog.md#record-level)
+      + [**Resource Level**](changelog.md#resource-level)
+      + [**Organizations**](changelog.md#organizations)
       + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
-   * [**Application Programming Interface (API)**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#application-programming-interface)
-   * [**Field, Label and Value Changes**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes)
-+ [**USER MANAGEMENT**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#user-management)
-+ [**SPECS**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#specs)
+   + [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
++ [**USER MANAGEMENT**](changelog.md#user-management)
++ [**TECHNOLOGY SPECIFICATIONS**](changelog.md#technology-specifications)
 
 -----------------------
 
@@ -40,13 +39,14 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
-|7|Beta updates deployed based on user feedbak and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|TBD|
-|6|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Sep-21|TBD|
-|5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|TBD|
-|4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|02-Sep-21|TBD|
-|3|Beta released to Editors (data providers)|08-Aug-21|TBD|
-|2|Beta released to Admin and internal staff|31-Mar-21|TBD|
-|1|Beta migrated from Test|27-Jan-21|TBD|
+|8|Beta updates deployed based on user feedback and packlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|TBD|27-Oct-21|
+|7|Beta updates deployed based on user feedbadk and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|27-Oct-21|
+|6|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Sep-21|27-Oct-21|
+|5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|27-Oct-21|
+|4|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|02-Sep-21|27-Oct-21|
+|3|Beta released to Editors (data providers)|08-Aug-21|27-Oct-21|
+|2|Beta released to Admin and internal staff|31-Mar-21|27-Oct-21|
+|1|Beta migrated from Test|27-Jan-21|27-Oct-21|
 
 [RETURN TO TOP][1]
 
@@ -72,13 +72,14 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Delete functionality on Record (aka Dataset/Metadata) and associated Resources ([#519](https://github.com/bcgov/ckan-ui/issues/519))|7|
 |OFI Configuration - unable to configure secure datasets([#501](https://github.com/bcgov/ckan-ui/issues/501))|7|
 |Release 2.0.0-beta.3 Developer Checklist ([#574](https://github.com/bcgov/ckan-ui/issues/574))|7|
+|Dataset Published State - Security Issues and datasets found number oddities ([#468](https://github.com/bcgov/ckan-ui/issues/486))|8|
+|Ministry/Parent Org - abilities Inherited to Suborg/Branch ([#488](https://github.com/bcgov/ckan-ui/issues/488))|8|
 
 [RETURN TO TOP][1]
 
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
-1. Secure BCGW Custom Download to be configured (Named user and IDIR only datasets)
 1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
     + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
@@ -87,7 +88,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 3. The OpenAPI Console preview function is not available.
 4. The Data Usage page is not available.
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
-6. Domain value lists are inconsistent in letter case. Reviewing to make consistent.
+6. Domain value lists are inconsistent across the schema in their letter case. We will be implimenting snake_case in the future.
 
 [RETURN TO TOP][1]
 
@@ -98,7 +99,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 #### Landing Page
 + Landing page of https://data.gov.bc.ca has been simplified.
     - Future user engagement intended to determine what would provide additional value on this page.  
-+ Landing page toolbar has moved to the top right "pancake": Datasets, Organization, Groups, About, Account Settings, Subscribe to New Data, etc.
++ Landing page toolbar has moved to the top right "pancake": Account Settings (when logged in), Explore Datasets, Explore by Organization, Explore by Groups, Subscribe to New Data, Documentation, About, etc.
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
 [RETURN TO TOP][1]
@@ -107,18 +108,22 @@ Not all items have been flagged in this list, some are actively being worked on 
 This is also referred to as the package.
 
 + Menu Bar: Actions have been consolidated.
+    - __NEW__: _Back to Datasets list_ allows the user to navigate back to the list of datasets (not using the browser back button). 
+    - __NEW__: _Scroll to Bottom_ allows the user to jump to the bottom of the page.
+    - _Groups_ no functionality change, but interface has changed.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
-    - __NEW__: _Scroll to Bottom_
-    - __NEW__: _Add Resource_ added so that this function is no longer through editing the record itself or from the _Explore_ button.
-    - _Copy Dataset_ is now available for all records and their resources types.
     - _Share this Record_ and _Show the Permalink_ merged into _Share_. This copies the permalink URL to a clipboard.
+    - _Edit Dataset_ replaces the 'wrench' with no functionality change.
+    - _Copy Dataset_ is now available for all records.
+    - __NEW__: _Add Resource_ added so that this function is no longer through editing the record itself or from the _Explore_ button.
     - _Activity Stream_ removed as it did not provide value as is. Activity Stream is still available from the API.
+    - __NEW__: _Delete Dataset_ allows a user with the appropriate access (Editor or Admin of the dataset's Organizaiton) to delete a record and its resources in _Draft_ state.
 + Resources are now listed as resource cards to the right and their actions are their own buttons.
     - _Access/Download_, _View_, _Edit_ (pencil) availale in the _Explore_ button and drop down are now buttons on their own.
     - __NEW__: Deletion (trash can image) of a resource is now available without having to be in edit mode.
         - Only available to Editors and Admins when records is in Draft state.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See Field, Label and Value changes for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
+    - See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for specific changes including fields that moved from the Record to the Resource, e.g., Object Name.
 + _Map Preview_ has moved to the Resource Level specific to the BC Geographic Warehouse resourse.
 + _View in iMapBC_ button has moved to the Resource Level for the BC Geographic Warehouse resourse.
 
@@ -126,20 +131,24 @@ This is also referred to as the package.
 
 #### Resource Level
 + Menu Bar: Actions have been consolidated to replace the _Manage_ button and other actions.
+    - __NEW__: _Back to Dataset_ button added, this allows a user to navigate back to the dataset (not using the browser back button).
+    - __NEW__: _Scroll to Bottom_ allows the user to jump to the bottom of the page.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
-    - __NEW__: _Scroll to Bottom_
+    - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
     - __NEW__: _Preview_ button is to replace:
         -  The map insert on the Resource level for BC Geographic Warehouse public datasets.
         -  For a resource with a map preview the _Link to iMapBC_ button is available on the module.
         -  The Data Explorer for tabular datasets that are uploaded to the catalogue.
         -  The OpenAPI Console for APIs registered with the API Gateway.
-    - __NEW__: _Share_ was not an option from the Resource level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
     - _Access/Download_ is consistent with the other menu buttons.
+    - _Add Resource_ is consistent with the _Add new resource button_ without requiring editing of a resource.
+    - _Edit Resource_ is consistent with the Manage function on the resource. 
+    - _Delete Resource_ is consistent with the Delete button on the resource, without requiring editing of a resource.
     - _Data API_ button has been removed.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
-    - See Field, Label and Value changes for specific changes including fields that been included from the Record level, e.g., Object Name.
-+ Resource types]have moved from the Record level to allow a record to have any of the different resource types:
-    - Application, Dataset/Document, Geospatial Dataset, Webservice/API.
+    - See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for specific changes including fields that been included from the Record level, e.g., Object Name.
++ Resource types have moved from the Record level to allow a record to have any of the different resource types:
+    - Document/Tabular Data, Geographic Data, Webservice/API, Application.
 + BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
     - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
         - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained. 
@@ -149,12 +158,24 @@ This is also referred to as the package.
 [RETURN TO TOP][1]
 
 #### Organizations
-_Under Construction_
++ Organizations are no longer found on the menu bar, but the user can Explore Datasets by Organizations under the **Pancake**.
++ Selecting the Parent Organization (Ministry) or any associated Organization (Branch) will display the Organization record's details.
+    - __NEW__: _Back to Organization list_ button added, this allows a user to navigate back to the Organization list (not using the browser back button).
+    - __NEW__: _Share_ was not an option from the Organization level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
+    - __NEW__: _Learn more about this organization_: presents the user with the description and image associated to the Organization, if provided.
+    - _Edit Organization_ provides the **SysAdmin User** with the ability to edit the record, as the Manage function did.
+    - _Delete Organization_ provides the **SysAdmin User** with the ability to delete Organization the record, as the Delete button did, without having to be in edit mode.
 
 [RETURN TO TOP][1]
 
 #### Groups
-_Under Construction_
++ Groups are no longer found on the menu bar, but the user can Explore Datasets by Groups under the **Pancake**.
++ Selecting the Group will display the Group record's details.
+    - __NEW__: _Back to Group list_ button added, this allows a user to navigate back to the Group list (not using the browser back button).
+    - __NEW__: _Share_ was not an option from the Group level in the previous ittereation of this button. This copiest the permalink URL to a clipboard.
+    - __NEW__: _Learn more about this group: presents the user with the description and image associated to the group, if provided.
+    - _Edit Group_ provides the **SysAdmin User** with the ability to edit the record, as the Manage function did.
+    - _Delete Group_ provides the **SysAdmin User** with the ability to delete the Group record, as the Delete button did, without having to be in edit mode.
 
 [RETURN TO TOP][1]
 
@@ -162,7 +183,7 @@ _Under Construction_
 + Decoupling backend (CKAN database and API) and frontend (Javascript).
 + Values returned from the API are consistently using the field value and not the field label.
 + JSON Schema now available: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
-+ See Field, Label and Value Changes [section](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#field-label-and-value-changes) for changes, including `object_name` having been moved from packages to resources.
++ See [Field, Label and Value Changes](beta_schema_changes.md#field-label-and-value-changes) for changes, including `object_name` having been moved from packages to resources.
 
 **Common queries**:
 1. `object_name`
@@ -176,14 +197,11 @@ _Under Construction_
 
 
 [RETURN TO TOP][1]
-
-## FIELD, LABEL AND VALUE CHANGES
-This section has moved to a new page, found [here](https://github.com/bcgov/ckan-ui/blob/pages/pages/beta_schema_changes.md#field-label-and-value-changes), and will continue to evolve as changes occur in future releases.
-    
+  
 ## USER MANAGEMENT
-+ Management of Admin, Editors and Members of Organization and Groups has moved to being managed in Keycloak.
++ Management of Admins, Editors and Members of Organization and Groups are no longer being managed in the catalogue itself, and has moved to Keycloak.
 
-## SPECS
+## TECHNOLOGY SPECIFICATIONS
 * **CKAN**: _2.7.5_
 * **SOLR**: _7.2.1_
 
