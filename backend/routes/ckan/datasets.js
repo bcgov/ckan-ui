@@ -40,7 +40,7 @@ var addRoutes = function(router){
         let keys = Object.keys(req.query);
         let reqUrl = url + "/api/3/action/package_search?";
         for (let i=0; i<keys.length; i++){
-        reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
+            reqUrl += encodeURIComponent(keys[i]) + "=" + encodeURIComponent(req.query[keys[i]]) + "&";
         }
         //if we added any we need to truncate them
         reqUrl = (keys.length > 0) ? reqUrl.substring(0, reqUrl.length-1) : reqUrl;
@@ -93,7 +93,7 @@ var addRoutes = function(router){
             return;
         }
     
-        reqUrl += "?id="+req.query.id;
+        reqUrl += "?id="+encodeURIComponent(req.query.id);
     
         let authObj = {};
     
