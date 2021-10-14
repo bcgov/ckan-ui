@@ -21,7 +21,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
       + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
    + [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
 + [**USER MANAGEMENT**](changelog.md#user-management)
-+ [**SPECS**](changelog.md#specs)
++ [**TECHNOLOGY SPECIFICATIONS**](changelog.md#technology-specifications)
 
 -----------------------
 
@@ -201,7 +201,7 @@ This is also referred to as the package.
 ## USER MANAGEMENT
 + Management of Admins, Editors and Members of Organization and Groups are no longer being managed in the catalogue itself, and has moved to Keycloak.
 
-## SPECS
+## TECHNOLOGY SPECIFICATIONS
 * **CKAN**: _2.7.5_
 * **SOLR**: _7.2.1_
 
