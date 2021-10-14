@@ -72,8 +72,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Delete functionality on Record (aka Dataset/Metadata) and associated Resources ([#519](https://github.com/bcgov/ckan-ui/issues/519))|7|
 |OFI Configuration - unable to configure secure datasets([#501](https://github.com/bcgov/ckan-ui/issues/501))|7|
 |Release 2.0.0-beta.3 Developer Checklist ([#574](https://github.com/bcgov/ckan-ui/issues/574))|7|
-|Dataset Published State - Security Issues and datasets found number oddities ([#468](https://github.com/bcgov/ckan-ui/issues/486)|8|
-|Ministry/Parent Org - abilities Inherited to Suborg/Branch ([#488](https://github.com/bcgov/ckan-ui/issues/488)|8|
+|Dataset Published State - Security Issues and datasets found number oddities ([#468](https://github.com/bcgov/ckan-ui/issues/486))|8|
+|Ministry/Parent Org - abilities Inherited to Suborg/Branch ([#488](https://github.com/bcgov/ckan-ui/issues/488))|8|
 
 [RETURN TO TOP][1]
 
