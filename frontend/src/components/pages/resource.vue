@@ -104,10 +104,11 @@
                     <v-icon>mdi-plus</v-icon>&nbsp;{{$tc("Add Resource")}}
                 </v-btn>
 
-                <v-btn v-if="!editing && showEdit" small depressed text color="primary" @click="toggleEdit">
+                <v-btn v-if="!editing && showEdit" small depressed text color="primary"
+                    :to="{ name: 'resource_view', query: { editing: true }, params: { datasetId: dataset.name, resourceId: resource.id }}">
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Resource")}}
                 </v-btn>
-                
+
                 <DeleteButton
                         v-if="showResourceDeleteButton"
                         buttonText="Delete Resource"
@@ -415,13 +416,6 @@ export default {
                 });
             }
         },
-        toggleEdit() {
-            this.editing = !this.editing;
-            this.formError = '';
-            this.showFormError = false;
-            this.formSuccess = '';
-            this.showFormSuccess = false;
-        },
         catchScroll() {
             this.notAtTop = false;
             if (window.pageYOffset > 50){
@@ -452,10 +446,15 @@ export default {
         cancel(){
             if (this.createMode){
                 this.$router.push('/dataset/' + this.datasetId);
+            } else {
+                this.$router.push({
+                    name: 'resource_view',
+                    params: {
+                        datasetId: this.dataset.name,
+                        resourceId: this.resource.id
+                    }
+                });
             }
-
-            this.$store.commit("dataset/resetResource");
-            this.toggleEdit();
         },
 
         nothing(){
