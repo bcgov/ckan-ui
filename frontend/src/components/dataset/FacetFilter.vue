@@ -3,7 +3,7 @@
         <v-expansion-panels tile flat :key="'facetPanel'+name+updates" multiple v-model="model" class="mb-3">
             <v-expansion-panel class="no-background">
 
-                <v-expansion-panel-header @click="togglePanel" class="filterPanelHeader headerHeight py-0">
+                <v-expansion-panel-header @click="togglePanel" :id="'facetPanelHeader-'+name.replace(' ', '-')" class="filterPanelHeader headerHeight py-0">
                     <v-row dense >
                         <v-col cols="10" class="headerHeight py-0">
                             <!-- <v-badge inline color="red" v-if="numApplied>0">
@@ -28,7 +28,7 @@
                                         :key="'filter-'+key+'-'+i"
                                     >
                                         <v-chip
-                                            :id="'facet-filterOn-'+facet[k]+'-'+filter.name"
+                                            :id="'facet-filterOn-'+facet[k]+'-'+filter.name.replace(' ', '-')"
                                             label
                                             :class="'chip pointer mr-2 py-0 mb-2' + (filteredOn.indexOf(filter.name) === -1 ? '' : ' active')"
                                             :key="'filterchip-'+key+'-'+i"

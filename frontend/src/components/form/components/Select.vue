@@ -14,7 +14,7 @@
             <span v-else class="value mb-0 pb-0">{{translate ? $tc(displayValue) : displayValue}}</span>
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
-        <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+        <ValidationProvider v-else :id="'select-'+name" :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-select
                 :key="'select'+name"
                 :name="name"

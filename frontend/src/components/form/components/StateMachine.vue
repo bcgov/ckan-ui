@@ -18,7 +18,7 @@
             <v-stepper alt-labels :value="stepNo">
                 <v-stepper-header>
                     <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button-'+redrawIndex">
-                        <v-stepper-step :complete="stepNo === state.stepNo" :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo, state.allowed)">
+                        <v-stepper-step :id="labelLookup[state.state].replace(' ', '-')+'-'+name" :complete="stepNo === state.stepNo" :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo, state.allowed)">
                             {{labelLookup[state.state]}}
                         </v-stepper-step> 
                         <v-divider v-if="parseInt(k) < (nextStates.length - 1)"></v-divider>

@@ -1,0 +1,15 @@
+{
+    "url": "http://localhost:8080",
+    "browser": "chrome",
+    "screenshotPath": "screenshots",
+    "defaultUsername": "username",
+    "defaultPassword": "password",
+    "sysAdminUsername": "username",
+    "sysAdminPassword": "password",
+    "adminUsername": "username",
+    "adminPassword": "password",
+    "editorUsername": "username",
+    "editorPassword": "password",
+    "publicUsername": "username",
+    "publicPassword": "password",
+}

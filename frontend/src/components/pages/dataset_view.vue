@@ -119,7 +119,7 @@
                     <v-icon>mdi-share-variant</v-icon>&nbsp;{{$tc("Copy Permalink")}}
                 </v-btn>
 
-                <v-btn text small depressed v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
+                <v-btn text small depressed id="editDataset-btn" v-if="!createMode && showEdit" @click="toggleEdit" color="label_colour">
                     <v-icon>mdi-pencil-outline</v-icon>&nbsp;{{$tc("Edit Dataset")}}
                 </v-btn>
 

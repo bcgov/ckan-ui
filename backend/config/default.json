@@ -15,7 +15,9 @@
     "clientID": "{ClientID}",
     "clientSecret": "{ClientSecret}",
     "callbackURL": "http://localhost:3000/client-api/callback",
+    "logout": "https://{yourdomain}/logout",
     "scope": "openid profile offline_access"
+    
   },
 
   "pow": {

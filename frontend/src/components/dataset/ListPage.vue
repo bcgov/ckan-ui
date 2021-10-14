@@ -21,7 +21,7 @@
         </v-row>
         <v-row wrap dense>
             <v-col cols=12>
-                <span>
+                <span id="list-found-count">
                     <v-icon v-if="totalFilters > 0" color="primary">mdi-filter</v-icon>
                     {{count}} {{$tc('datasets', count)}} {{$tc('found', count)}}
                     <span v-if="searchedText !== ''"> {{$tc('matching')}} "{{searchedText}}"</span>
