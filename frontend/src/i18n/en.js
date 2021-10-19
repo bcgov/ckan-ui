@@ -38,7 +38,6 @@ export default {
         "Clear all": "Clear all",
         "OK": "OK",
         "Sectors": "Sectors",
-        "Data Types": "Resource Data Types",
         "Dataset types": "Dataset Types",
         "Format": "Format",
         "Permissions": "Permissions",
