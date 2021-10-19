@@ -152,6 +152,7 @@
                             :loggedIn="loggedIn"
                             :disabled="disabled"
                             :exclude="excludedFields"
+                            :excludeFromView="['preview_info']"
                             ref="dynoForm"
                             @updated="(field, value) => updateResource(field, value)"
                         >
