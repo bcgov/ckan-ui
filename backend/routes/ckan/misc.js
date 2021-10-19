@@ -216,7 +216,7 @@ var addRoutes = function(router){
             ]
         },
         dataTypes:{
-            name: "Data Types",
+            name: "Resource Storage Format",
             icon: "",
             facets: [
                 {
@@ -234,7 +234,7 @@ var addRoutes = function(router){
             ]
         },
         states:{
-            name: "Record Status",
+            name: "Publish State",
             icon: "",
             facets: [
                 {
