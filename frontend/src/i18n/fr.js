@@ -38,7 +38,6 @@ export default {
         "Clear all": "Tout effacer",
         "OK": "D'accord",
         "Sectors": "Secteurs",
-        "Data Types": "Types de données de ressources",
         "Dataset types": "Types de données",
         "Format": "Format",
         "Permissions": "Les permissions",
