@@ -28,7 +28,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## RESOURCES
 + BC Data Catalogue: https://data.gov.bc.ca/
 + User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
-   + Beta: https://bcgov.github.io/data-publication/pages/dps_bcdc_w_2.html 
+   + All pages are flipped to be for this release, for classic see https://bcgov.github.io/data-publication/pages/dps_bcdc_classic_w.html 
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
@@ -189,11 +189,11 @@ This is also referred to as the package.
 1. `object_name`
     - `object_name` has moved to the resource level, the API query is slightly different as `object_name` is in the resource extras table.
          + Production: https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
-         + Beta: https://beta-catalogue.data.gov.bc.ca/api/3/action/package_search?q=res_extras_object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
+         + Beta: https://cat.data.gov.bc.ca/api/3/action/package_search?q=res_extras_object_name:WHSE_WILDLIFE_MANAGEMENT.WAA_TRAPLINE_AREAS_SP
 1. `bcdc_type` (`geographic`, `dataset`, `webservice`, `application`)
     - `bcdc_type` is now the field that contains the resource type, this was previously `type` at the package level.
          + Production: https://catalogue.data.gov.bc.ca/api/3/action/package_search?q=type:Geographic
-         + Beta: https://beta-catalogue.data.gov.bc.ca/api/3/action/package_search?q=res_extras_bcdc_type:geographic
+         + Beta: https://cat.data.gov.bc.ca/api/3/action/package_search?q=res_extras_bcdc_type:geographic
 
 
 [RETURN TO TOP][1]
