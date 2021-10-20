@@ -1,10 +1,11 @@
 <template>
     <v-container>
         <v-row v-for="(field, fieldKey) in processedSchema" :key="'field-'+fieldKey+'-'+redrawIndex">
-                <div v-if="field.label !== '' && !exclude.includes(field.field_name)" style="width: 100%;">
+                <div v-if="field.label !== '' && !exclude.includes(field.field_name) && (editing || !excludeFromView.includes(field.field_name))" style="width: 100%;">
                     <Title
                         v-if="field.preset==='title' || field.field_name === 'title'"
                         :name="field.field_name"
+                        :key="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
                         :editing="editing"
@@ -17,6 +18,7 @@
                     </Title>
                     <Select
                         v-else-if="field.preset==='dataset_organization' && ( (field.field_name=='owner_org') || (field.field_name=='org') )"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -35,6 +37,7 @@
                     </Select>
                     <Select
                         v-else-if="field.preset==='select' && field.field_name=='dataset_type'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values.dataset_type"
                         :label="field.label"
@@ -50,6 +53,7 @@
                     </Select>
                     <Select
                         v-else-if="field.preset==='select' && ( (field.field_name=='projection_name') || (field.field_name==='resource_storage_format') )"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -67,6 +71,7 @@
                     </Select>
                     <Select
                         v-else-if="field.preset==='select'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -83,6 +88,7 @@
                     </Select>
                     <StateMachine
                         v-else-if="field.preset==='state_machine'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -100,6 +106,7 @@
                     </StateMachine>
                     <Slug
                         v-else-if="field.preset==='dataset_slug' || field.form_snippet==='slug.html'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -113,6 +120,7 @@
                     </Slug>
                     <Markdown
                         v-else-if="field.form_snippet==='markdown.html'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -124,6 +132,7 @@
                     </Markdown>
                     <Tags
                         v-else-if="field.preset==='tag_string_autocomplete'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name] ? values[field.field_name] : (values['tags'] ? values['tags'] : '')"
                         :label="field.label"
@@ -139,6 +148,7 @@
                     </Tags>
                     <Autocomplete
                         v-else-if="field.preset==='autocomplete' && field.choices_helper && field.choices_helper=='available_parent_orgs'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :multi="false"
                         :value="available_parent_org_value"
@@ -154,6 +164,7 @@
                     </Autocomplete>
                     <Autocomplete
                         v-else-if="field.preset==='autocomplete'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name] ? values[field.field_name] : ''"
                         :label="field.label"
@@ -168,6 +179,7 @@
                     </Autocomplete>
                     <CompositeRepeating
                         v-else-if="field.preset==='composite_repeating'"
+                        :key="field.field_name"
                         :dataset="values"
                         :editing="editing"
                         :orgArray="orgArray"
@@ -179,6 +191,7 @@
                     </CompositeRepeating>
                     <CompositeRepeating
                         v-else-if="field.preset==='contact_repeating'"
+                        :key="field.field_name"
                         :dataset="values"
                         :editing="editing"
                         :orgArray="orgArray"
@@ -190,6 +203,7 @@
                     </CompositeRepeating>
                     <License
                         v-else-if="field.form_snippet==='license.html'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -202,6 +216,7 @@
                     </License>
                     <Composite
                         v-else-if="field.preset==='composite'"
+                        :key="field.field_name"
                         :editing="editing"
                         :value="values[field.field_name]"
                         :scope="scope"
@@ -212,6 +227,7 @@
                     <TableRepeating
                         v-show="!editing"
                         v-else-if="field.display_snippet==='bcgw_details.html'"
+                        :key="field.field_name"
                         :editing="false"
                         :disabled="disabled"
                         :scope="scope"
@@ -221,6 +237,7 @@
                     </TableRepeating>
                     <TextInput
                         v-else-if="textFields.indexOf(field.field_name)>=0"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -232,6 +249,7 @@
                     </TextInput>
                     <Json
                         v-else-if="field.form_snippet==='json.html'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -242,6 +260,7 @@
                     </Json>
                     <Upload
                         v-else-if="field.form_snippet==='upload.html'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :upload="values['upload']"
@@ -256,6 +275,7 @@
                     </Upload>
                     <ImageUrl
                         v-else-if="field.label === 'Image URL'"
+                        :key="field.field_name"
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
@@ -269,6 +289,7 @@
                     </ImageUrl>
                     <Checkbox
                         v-else-if="field.field_name==='private'"
+                        :key="field.field_name"
                         v-show="loggedIn"
                         :name="field.field_name"
                         :value="values[field.field_name]"
@@ -284,7 +305,7 @@
                     </Checkbox>
 
                     <!-- <code>{{fieldKey}} - {{field}} - {{values[field.field_name]}}</code> -->
-                    <code v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
+                    <code :key="field.field_name" v-else>Oops, we don't know how to render {{fieldKey}} - {{field}} - {{values[field.field_name]}}, please report this entire message to our dev team</code>
                 </div>
         </v-row>
         <!-- <span v-if="!editing">
@@ -382,6 +403,10 @@ export default {
             default: () => {}
         },
         exclude: {
+            type: Array,
+            default: () => []
+        },
+        excludeFromView: {
             type: Array,
             default: () => []
         }
