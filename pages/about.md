@@ -20,6 +20,3 @@ If you have general questions about the catalogue, please send us an email at [d
 
 **Technical Support:**  
 For technical support using the catalogue, please submit a ticket [here](https://apps.nrs.gov.bc.ca/int/jira/servicedesk/customer/portals).
-
-**Beta Feedback:**  
-If you have feedback about the new Beta Catalogue, please email us at [data@gov.bc.ca](mailto:data@gov.bc.ca) and include "BETA Feedback" in the subject line.
