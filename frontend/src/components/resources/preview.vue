@@ -38,7 +38,7 @@
 
                         <v-card>
                             <v-card-text>
-                                <iframe width="1000" height="300" :src="apiKeyUrl + '?appName=API%20Console&appSendMessage=true&contentOnly=true'"></iframe>
+                                <iframe referrerpolicy="origin" width="1000" height="300" :src="apiKeyUrl + '?appName=API%20Console&appSendMessage=true&contentOnly=true'"></iframe>
                             </v-card-text>
 
                             <v-divider></v-divider>
@@ -90,7 +90,7 @@
             </div>
 
             <div v-else-if="previewURL" style="margin: 0px -24px -20px">
-                <iframe :src="previewURL" frameborder="0" width="100%" :height="winHeight"></iframe>
+                <iframe referrerpolicy="origin" :src="previewURL" frameborder="0" width="100%" :height="winHeight"></iframe>
             </div>
 
             <div v-else-if="preview.type === '404'">We're sorry we were unable to retrieve your file</div>
