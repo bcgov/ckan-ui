@@ -52,34 +52,34 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ### Fixed Issues
 
-|**Issue**|**Release**|
-|:---|:---:|
-|Dataset Published State - Security Issues and datasets found number oddities ([#468](https://github.com/bcgov/ckan-ui/issues/486))|8|
-|Ministry/Parent Org - abilities Inherited to Suborg/Branch ([#488](https://github.com/bcgov/ckan-ui/issues/488))|8|
-|Secure Groups - Remove visibility from API and UI when logged out ([#447](https://github.com/bcgov/ckan-ui/issues/447))|8|
-|MVP - Filter Search Results Group Facet should not display Private Groups when not logged in ([#589](https://github.com/bcgov/ckan-ui/issues/589))|8|
-|MVP - Update the About text to remove BETA specific instruction under For Technical Support ([#507](https://github.com/bcgov/ckan-ui/issues/507))|8|
-|Filter Titles inconsistent with Field Names - Change Filter Titles ([#546](https://github.com/bcgov/ckan-ui/issues/546))|8|
-|Geographic Resources - Resource Type populating with Projection Name ([#575](https://github.com/bcgov/ckan-ui/issues/575))|8|
-|Geospatial Attributes Config Fields to set to Not Visible in View mode ([#313](https://github.com/bcgov/ckan-ui/issues/313))|8|
-|Remove the follow button from the UI ([#566](https://github.com/bcgov/ckan-ui/issues/566))|7|
-|Remove admin key from UI config ([#553](https://github.com/bcgov/ckan-ui/issues/553))|7|
-|MVP - Update to About Page Text ([#534](https://github.com/bcgov/ckan-ui/issues/534))|7|
-|Delete functionality on Record (aka Dataset/Metadata) and associated Resources ([#519](https://github.com/bcgov/ckan-ui/issues/519))|7|
-|OFI Configuration - unable to configure secure datasets([#501](https://github.com/bcgov/ckan-ui/issues/501))|7|
-|Release 2.0.0-beta.3 Developer Checklist ([#574](https://github.com/bcgov/ckan-ui/issues/574))|7|
-|Page Titles for SEO ([#551](https://github.com/bcgov/ckan-ui/issues/551))|6|
-|Fix logging out to end the session to prompt login ([#542](https://github.com/bcgov/ckan-ui/issues/542))|6|
-|Modifications to Delete popup messaging ([#518](https://github.com/bcgov/ckan-ui/issues/518))|6|
-|New Documentation option under Menu ([#535](https://github.com/bcgov/ckan-ui/issues/535))|6|
-|Search sort is now by Relevance and not Newest.|4|
-|All fields and their values have now been directed to the correct destination. Field updates have been reflected in the Field, Label and Value Changes section below.|4|
-|Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.|4|
-|Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.|4|
-|Resources that are not previewable, the Preview button is greyed out.|4|
-|Resources have been changed to "Access/Download" as was in production Cat Classic.|4|
-|Resource file size limit set to be the same as production Cat Classic.|4|
-|Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.|4| 
+|**Deployment No.**|**Issue**|**Tix No.**|
+|:---:|:---|:---:|
+|8|Dataset Published State - Security Issues and datasets found number oddities| ([#468](https://github.com/bcgov/ckan-ui/issues/486))
+|8|Ministry/Parent Org - abilities Inherited to Suborg/Branch| ([#488](https://github.com/bcgov/ckan-ui/issues/488))
+|8|Secure Groups - Remove visibility from API and UI when logged out| ([#447](https://github.com/bcgov/ckan-ui/issues/447))
+|8|MVP - Filter Search Results Group Facet should not display Private Groups when not logged in| ([#589](https://github.com/bcgov/ckan-ui/issues/589))
+|8|MVP - Update the About text to remove BETA specific instruction under For Technical Support |([#507](https://github.com/bcgov/ckan-ui/issues/507))
+|8|Filter Titles inconsistent with Field Names - Change Filter Titles| ([#546](https://github.com/bcgov/ckan-ui/issues/546))
+|8|Geographic Resources - Resource Type populating with Projection Name| ([#575](https://github.com/bcgov/ckan-ui/issues/575))
+|8|Geospatial Attributes Config Fields to set to Not Visible in View mode| ([#313](https://github.com/bcgov/ckan-ui/issues/313))
+|7|Remove the follow button from the UI| ([#566](https://github.com/bcgov/ckan-ui/issues/566))
+|7|Remove admin key from UI config |([#553](https://github.com/bcgov/ckan-ui/issues/553))
+|7|MVP - Update to About Page Text| ([#534](https://github.com/bcgov/ckan-ui/issues/534))
+|7|Delete functionality on Record (aka Dataset/Metadata) and associated Resources| ([#519](https://github.com/bcgov/ckan-ui/issues/519))
+|7|OFI Configuration - unable to configure secure datasets|([#501](https://github.com/bcgov/ckan-ui/issues/501))
+|7|Release 2.0.0-beta.3 Developer Checklist| ([#574](https://github.com/bcgov/ckan-ui/issues/574))
+|6|Page Titles for SEO| ([#551](https://github.com/bcgov/ckan-ui/issues/551))
+|6|Fix logging out to end the session to prompt login |([#542](https://github.com/bcgov/ckan-ui/issues/542))
+|6|Modifications to Delete popup messaging| ([#518](https://github.com/bcgov/ckan-ui/issues/518))
+|6|New Documentation option under Menu| ([#535](https://github.com/bcgov/ckan-ui/issues/535))
+|4|Search sort is now by Relevance and not Newest.
+|4|All fields and their values have now been directed to the correct destination. Field updates have been reflected in the Field, Label and Value Changes section below.
+|4|Records for Webservice/API and Application originally now have the date the metadata was created added as a default for the Resource History Lifecycle. Editors may change this to a date they wish.
+|4|Record and Resource deletion now prompts the user to confirm deletion is desired before deleting item.
+|4|Resources that are not previewable, the Preview button is greyed out.
+|4|Resources have been changed to "Access/Download" as was in production Cat Classic.
+|4|Resource file size limit set to be the same as production Cat Classic.
+|4|Resource URL for BCGW Custom Download is no longer visible, removing confusion, as it is not accessible.
 
 [RETURN TO TOP][1]
 
