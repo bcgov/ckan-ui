@@ -39,7 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
-|8|Beta updates deployed based on user feedback and packlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|TBD|27-Oct-21|
+|8|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|2Oct-21|27-Oct-21|
 |7|Beta updates deployed based on user feedbadk and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|27-Oct-21|
 |6|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Sep-21|27-Oct-21|
 |5|All API keys were regenerated in Beta and will propogate to Production at cutover. **IMPACT**: Your current API keys will not work once we have deployed the new BC Data Catalogue.|08-Sep-21|27-Oct-21|
@@ -74,6 +74,11 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Release 2.0.0-beta.3 Developer Checklist ([#574](https://github.com/bcgov/ckan-ui/issues/574))|7|
 |Dataset Published State - Security Issues and datasets found number oddities ([#468](https://github.com/bcgov/ckan-ui/issues/486))|8|
 |Ministry/Parent Org - abilities Inherited to Suborg/Branch ([#488](https://github.com/bcgov/ckan-ui/issues/488))|8|
+|Secure Groups - Remove visibility from API and UI when logged out ([#447](https://github.com/bcgov/ckan-ui/issues/447))|8|
+|MVP - Update the About text to remove BETA specific instruction under For Technical Support ([#507](https://github.com/bcgov/ckan-ui/issues/507))|8|
+|Filter Titles inconsistent with Field Names - Change Filter Titles ([#546](https://github.com/bcgov/ckan-ui/issues/546))|8|
+|MVP - Filter Search Results Group Facet should not display Private Groups when not logged in ([#589](https://github.com/bcgov/ckan-ui/issues/589))|8|
+|Geographic Resources - Resource Type populating with Projection Name ([#575](https://github.com/bcgov/ckan-ui/issues/575))|8|
 
 [RETURN TO TOP][1]
 
