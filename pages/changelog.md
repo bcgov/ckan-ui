@@ -79,6 +79,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |Filter Titles inconsistent with Field Names - Change Filter Titles ([#546](https://github.com/bcgov/ckan-ui/issues/546))|8|
 |MVP - Filter Search Results Group Facet should not display Private Groups when not logged in ([#589](https://github.com/bcgov/ckan-ui/issues/589))|8|
 |Geographic Resources - Resource Type populating with Projection Name ([#575](https://github.com/bcgov/ckan-ui/issues/575))|8|
+|Geospatial Attributes Config Fields to set to Not Visible in View mode ([#313](https://github.com/bcgov/ckan-ui/issues/313))|8|
 
 [RETURN TO TOP][1]
 
