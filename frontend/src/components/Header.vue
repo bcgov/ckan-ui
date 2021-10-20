@@ -174,10 +174,6 @@ export default {
                 "dialog": true
             },
             {
-                "title": "Provide Beta Feedback",
-                "href": "https://forms.gov.bc.ca/databc-contact-us/"
-            },
-            {
               title: "",
             }
         ]
