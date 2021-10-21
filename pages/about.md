@@ -15,8 +15,12 @@ View [documentation and more information](https://www2.gov.bc.ca/gov/content?id=
 **Dataset Questions:**  
 If you have questions about specific data, please review the Contact section and for ease of use, the Contact Data Expert button at the top of the dataset record.
 
+
+**Technical Support:**  
+For technical support using the catalogue, please email [nrmenquiries@gov.bc.ca](mailto:nrmenquiries@gov.bc.ca).
+
 **Questions about the Catalogue:**  
 If you have general questions about the catalogue, please send us an email at [data@gov.bc.ca](mailto:data@gov.bc.ca).
 
-**Technical Support:**  
-For technical support using the catalogue, please submit a ticket [here](https://apps.nrs.gov.bc.ca/int/jira/servicedesk/customer/portals).
+
+
