@@ -71,9 +71,9 @@
             <v-col cols=11 sm=7 v-if="loading">
                 <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
             </v-col>
-            
+
             <v-col cols=11 sm=7 v-else>
-                <OrgTree :top="true" v-for="(org, key) in orgs" :key="'org-tree-'+key" :passedOrg="{key: key, org }"></OrgTree>
+                <OrgTree v-for="org of orgList" :key="'org-tree-'+orgs[org].id" :top="true" :passedOrg="{ key: org, org: orgs[org] }"></OrgTree>
             </v-col>
             <v-col cols=1 sm=1></v-col>
             <v-col cols=4 class="d-none d-sm-block fixed rightZero pr-1 mr-10">
