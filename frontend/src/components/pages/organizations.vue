@@ -66,7 +66,7 @@
               {{count}} {{$tc('Organizations', count)}}
           </v-col>
         </v-row>
-        <v-row wrap class="mb-8 mr-md-1 pl-6">
+        <v-row wrap class="mb-8 mr-md-1 pl-6 org-list">
 
             <v-col cols=11 sm=7 v-if="loading">
                 <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
@@ -340,6 +340,21 @@
 </style>
 
 <style>
+.org-list .v-expansion-panel-header {
+    position:  relative;
+    height: auto;
+    line-height: 1.5em;
+    padding-left: 40px !important;
+}
+
+.org-list .v-expansion-panel-header i.v-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
 .noShadow .v-expansion-panel:before{
     box-shadow: none;
 }
