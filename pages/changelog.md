@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
+|9|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))||27-Oct-21|
 |8|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|2Oct-21|27-Oct-21|
 |7|Beta updates deployed based on user feedbadk and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|27-Oct-21|
 |6|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Sep-21|27-Oct-21|
@@ -54,6 +55,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|9|Alphabetized organizations on our organization listing page| ([#600](https://github.com/bcgov/ckan-ui/pull/600))
 |8|Dataset Published State - Security Issues and datasets found number oddities| ([#468](https://github.com/bcgov/ckan-ui/issues/486))
 |8|Ministry/Parent Org - abilities Inherited to Suborg/Branch| ([#488](https://github.com/bcgov/ckan-ui/issues/488))
 |8|Secure Groups - Remove visibility from API and UI when logged out| ([#447](https://github.com/bcgov/ckan-ui/issues/447))
