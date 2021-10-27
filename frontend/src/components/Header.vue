@@ -162,7 +162,7 @@ export default {
         menuSecondary: [
             {
                 "title": "Geographic Services",
-                "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
+                "href": "https://www2.gov.bc.ca/gov/content?id=D4A480B7776B4C2C8AD4266EECADEBF2"
             },
             {
                 "title": "Documentation",
@@ -244,16 +244,7 @@ export default {
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
                 "href": '/client-api/ckan/rss'
-            },
-            {
-                "title": "Classic Catalogue",
-                "href": this.classicUrl,
             }
-            // {
-            //     "icon": "mdi-rss",
-            //     "title": "Subscribe to Blog Posts",
-            //     "href": "https://engage.gov.bc.ca/data/feed/"
-            // },
         ]
     }
   },
