@@ -10,6 +10,7 @@
   "dependencies": {
     "atob": "^2.1.2",
     "axios": "^0.21.2",
+    "btoa": "^1.2.1",
     "config": "^3.0.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
