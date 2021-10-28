@@ -1,6 +1,6 @@
 {
   "name": "ckan-ui-bridge",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",
@@ -10,6 +10,7 @@
   "dependencies": {
     "atob": "^2.1.2",
     "axios": "^0.21.2",
+    "btoa": "^1.2.1",
     "config": "^3.0.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",

@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
+|10|Update to improve catalogue stability (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|28-Oct-21|28-Oct-21|
 |9|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|21-Oct-21|27-Oct-21|
 |8|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|20-Oct-21|27-Oct-21|
 |7|Beta updates deployed based on user feedbadk and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#fixed-issues))|05-Oct-21|27-Oct-21|
@@ -55,6 +56,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|10|Update to improve catalogue stability| ([#611](https://github.com/bcgov/ckan-ui/pull/611))
 |9|Removed link to classic catalogue| ([#609](https://github.com/bcgov/ckan-ui/pull/609))
 |9|Fixed overflow of expandable organization headers on organization listing page| ([#603](https://github.com/bcgov/ckan-ui/pull/603))
 |9|Alphabetized organizations on our organization listing page| ([#600](https://github.com/bcgov/ckan-ui/pull/600))
