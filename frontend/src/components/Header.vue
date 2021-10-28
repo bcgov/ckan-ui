@@ -24,7 +24,7 @@
                             width="auto" height="100%"
                             alt="B.C. Government Logo">
                     </a>
-                    <v-btn text depressed large id="header-home" class="title hidden-sm-and-down font-weight-black h-100 v-top" color="text" to="/">{{$tc("DataCatalogue")}}<v-icon v-if="v.indexOf('b') !== -1">mdi-beta</v-icon></v-btn>
+                    <v-btn text depressed large id="header-home" class="title hidden-sm-and-down font-weight-black h-100 v-top" color="text" to="/">{{$tc("DataCatalogue")}}</v-btn>
                 </v-col>
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
@@ -162,7 +162,7 @@ export default {
         menuSecondary: [
             {
                 "title": "Geographic Services",
-                "href": "https://www2.gov.bc.ca/gov/content/data/geographic-data-services"
+                "href": "https://www2.gov.bc.ca/gov/content?id=D4A480B7776B4C2C8AD4266EECADEBF2"
             },
             {
                 "title": "Documentation",
@@ -244,16 +244,7 @@ export default {
                 "iconColour": "orange",
                 "title": "Subscribe to New Data",
                 "href": '/client-api/ckan/rss'
-            },
-            {
-                "title": "Classic Catalogue",
-                "href": this.classicUrl,
             }
-            // {
-            //     "icon": "mdi-rss",
-            //     "title": "Subscribe to Blog Posts",
-            //     "href": "https://engage.gov.bc.ca/data/feed/"
-            // },
         ]
     }
   },
