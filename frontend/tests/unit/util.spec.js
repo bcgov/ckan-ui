@@ -205,10 +205,10 @@ describe('lib/util', () => {
 
 describe('humanReadableFileSize', () => {
 
-  const KB = 1024;
-  const MB = KB*1024;
-  const GB = MB*1024;
-  const TB = GB*1024;
+  const KB = 1000;
+  const MB = KB*1000;
+  const GB = MB*1000;
+  const TB = GB*1000;
 
 
   it('should work for KB', () => {

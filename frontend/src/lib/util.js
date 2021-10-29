@@ -67,12 +67,12 @@ export function getDatasetState(dataset) {
  * 
 **/
 export function humanReadableFileSize(bytes) {
-  let size = bytes / 1024;
+  let size = bytes / 1000;
   let amt = "KB";
   let sizes = ["MB", "GB", "TB"];
   while (size > 999 && sizes.length) {
     amt = sizes.shift();
-    size = size / 1024;
+    size = size / 1000;
   }
   return `${size.toFixed(1)} ${amt}`;
 }
