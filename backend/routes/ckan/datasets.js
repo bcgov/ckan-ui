@@ -50,6 +50,10 @@ var addRoutes = function(router){
                 // OneTwo as a single token, "onetwo", instead of
                 // "one" and "two". This improves search relevence for
                 // some organization names
+                
+                // TODO: This is a workaround which should be addressed at the Solr level.
+                // When it is addressed at that level, remove this code.
+                
                 val = val.split(/\s+/).map(w => {
                     if (/[a-z]/.test(w) && /[A-Z]/.test(w)) {
                         return w.toLowerCase();
