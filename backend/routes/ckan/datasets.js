@@ -38,9 +38,32 @@ var addRoutes = function(router){
         let url = config.get('ckan');
     
         let keys = Object.keys(req.query);
+
         let reqUrl = url + "/api/3/action/package_search?";
         for (let i=0; i<keys.length; i++){
-            reqUrl += encodeURIComponent(keys[i]) + "=" + encodeURIComponent(req.query[keys[i]]) + "&";
+            let val = req.query[keys[i]];
+
+            if (keys[i] === "q") {
+
+                // lowercase mixed case words so they're not
+                // tokenized by case variation, e.g. treat
+                // OneTwo as a single token, "onetwo", instead of
+                // "one" and "two". This improves search relevence for
+                // some organization names
+                
+                // TODO: This is a workaround which should be addressed at the Solr level.
+                // When it is addressed at that level, remove this code.
+                
+                val = val.split(/\s+/).map(w => {
+                    if (/[a-z]/.test(w) && /[A-Z]/.test(w)) {
+                        return w.toLowerCase();
+                    } else {
+                        return w;
+                    }
+                }).join(" ");
+            }
+
+            reqUrl += encodeURIComponent(keys[i]) + "=" + encodeURIComponent(val) + "&";
         }
         //if we added any we need to truncate them
         reqUrl = (keys.length > 0) ? reqUrl.substring(0, reqUrl.length-1) : reqUrl;

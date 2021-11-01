@@ -32,11 +32,6 @@
                 <span class="faded float-right orderLabel">{{$tc('Order By')}}:&nbsp;</span>
             </v-col>
         </v-row>
-        <!-- <v-row wrap align-center justify-center pt-2 pb-3> -->
-            <!-- <v-col cols=2><a v-on:click="advanced = !advanced">{{advanced ? 'Switch to basic' : "Switch to advanced"}}</a></v-col> -->
-        <!-- </v-row> -->
-        <!-- <v-row wrap style="border-bottom: 1px solid;">
-        </v-row> -->
 
         <v-row wrap dense>
             <v-col cols=12>
@@ -100,7 +95,6 @@
     data() {
       return {
           loading: true,
-          advanced: false,
           pageButtonLimit: 7,
           currentPage: 1,
           datasets: [],
@@ -211,14 +205,7 @@
             this.searchedText = this.searchText;
 
             if (this.searchText !== ""){
-                if (this.advanced){
-                   q += "q=" + this.searchText + "&"
-                }else{
-                    q += "q=*" + this.searchText + "*&"
-                }
-                //fq = " AND "
-            }else{
-                //fq= "&q="
+                q += "q=" + this.searchText + "&"
             }
 
             let facetKeys = Object.keys(this.facetFilters);
