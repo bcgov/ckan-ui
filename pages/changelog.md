@@ -57,6 +57,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|11|Improvements to search relevance and availability of advanced search features| ([#615](https://github.com/bcgov/ckan-ui/pull/615))
+|11|Improvements to search relevance for mixed case words| ([#614](https://github.com/bcgov/ckan-ui/pull/614))
 |11|Fixed bug where file sizes were represented incorrectly| ([#613](https://github.com/bcgov/ckan-ui/pull/613))
 |10|Update to improve catalogue stability| ([#611](https://github.com/bcgov/ckan-ui/pull/611))
 |9|Removed link to classic catalogue| ([#609](https://github.com/bcgov/ckan-ui/pull/609))
