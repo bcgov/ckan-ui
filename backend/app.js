@@ -47,8 +47,6 @@ if (config.redisHost && config.redisPort) {
   });
 
   sessionSettings.store = new RedisStore({ client: redisClient })
-
-  console.log("Set up session store with redis");
 }
 
 app.use(session(sessionSettings));
