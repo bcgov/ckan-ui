@@ -41,10 +41,13 @@ const sessionSettings = {
 
 // use redis for sessions if configured
 if (config.redisHost && config.redisPort) {
-  const redisClient = redis.createClient({
+  const clientConnectConfig = {
       host: config.redisHost,
       port: config.redisPort
-  });
+  };
+  if (config.redisPassword) clientConnectConfig.password = config.redisPassword;
+
+  const redisClient = redis.createClient(clientConnectConfig);
 
   sessionSettings.store = new RedisStore({ client: redisClient })
 }

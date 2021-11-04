@@ -9,6 +9,7 @@
 
   "redisHost": null,
   "redisPort": null,
+  "redisPassword": null,
 
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",
