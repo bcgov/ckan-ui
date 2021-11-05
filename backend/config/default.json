@@ -7,6 +7,10 @@
   "classicUi": "http://127.0.0.1:5000",
   "aboutPageUrl": "https://raw.githubusercontent.com/bcgov/ckan-ui/pages/pages/about.md",
 
+  "redisHost": null,
+  "redisPort": null,
+  "redisPassword": null,
+
   "oidc": {
     "issuer": "https://{yourdomain}/oauth2/default",
     "authorizationURL": "https://{yourdomain}/oauth2/default/v1/authorize",
