@@ -5,6 +5,8 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let config = require('config');
 let session = require('express-session');
+const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
 let passport = require('passport');
 let OidcStrategy = require('passport-openidconnect').Strategy;
 //let history = require('connect-history-api-fallback');
@@ -26,8 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-
-app.use(session({
+const sessionSettings = {
   secret: config.get('sessionSecret'),
   resave: false,
   saveUninitialized: true,
@@ -36,7 +37,23 @@ app.use(session({
     secure: false,
     sameSite: false
   }
-}));
+}
+
+// use redis for sessions if configured
+if (config.redisHost && config.redisPort) {
+  const clientConnectConfig = {
+      host: config.redisHost,
+      port: config.redisPort
+  };
+  if (config.redisPassword) clientConnectConfig.password = config.redisPassword;
+
+  const redisClient = redis.createClient(clientConnectConfig);
+
+  sessionSettings.store = new RedisStore({ client: redisClient })
+}
+
+app.use(session(sessionSettings));
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser((user, next) => {
