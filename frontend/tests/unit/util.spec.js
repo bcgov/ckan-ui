@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getUserRoleForDataset, getDatasetState } from '@/lib/util';
+import { getUserRoleForDataset, getDatasetState, humanReadableFileSize } from '@/lib/util';
 
 const STATES = ["draft", "pending publish", "published", "pending archive", "archived"];
 const ROLES = ["sysadmin", "admin", "editor", "logged in with no role", "public"];
@@ -196,6 +196,37 @@ describe('lib/util', () => {
 
     });
 
+  });
+
+});
+
+
+
+
+describe('humanReadableFileSize', () => {
+
+  const KB = 1000;
+  const MB = KB*1000;
+  const GB = MB*1000;
+  const TB = GB*1000;
+
+
+  it('should work for KB', () => {
+    expect(humanReadableFileSize(0)).to.equal("0.0 KB");
+    expect(humanReadableFileSize(0.1*KB)).to.equal("0.1 KB");
+    expect(humanReadableFileSize(3*KB)).to.equal("3.0 KB");
+  });
+
+  it('should work for MB', () => {
+    expect(humanReadableFileSize(MB)).to.equal("1.0 MB");
+  });
+
+  it('should work for GB', () => {
+    expect(humanReadableFileSize(4.4*GB)).to.equal("4.4 GB");
+  });
+
+  it('should max out at TB', () => {
+    expect(humanReadableFileSize(1000000*TB)).to.equal("1000000.0 TB");
   });
 
 });

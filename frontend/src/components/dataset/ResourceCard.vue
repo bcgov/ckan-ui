@@ -20,7 +20,7 @@
                             {{useResource.metadata.format}}
                         </label>
                         <span v-if="useResource.metadata.size && useResource.metadata.size > 0" class="sublabel ml-4">
-                            {{(useResource.metadata.size/1000).toFixed(1)}} MB
+                            {{humanReadableFileSize(useResource.metadata.size)}}
                         </span>
                     </span>
                     <span class="floatRight">
@@ -59,6 +59,7 @@ import powButton from "../pow/powButton";
 import DeleteButton from '../DeleteButton';
 import { CkanApi } from '../../services/ckanApi';
 const ckanServ = new CkanApi()
+import { humanReadableFileSize } from '@/lib/util';
 
 export default {
     props: {
@@ -81,7 +82,9 @@ export default {
             ckanServ.deleteResource(this.resource.id).then( () => {
                 location.reload();
             });
-        }
+        },
+
+        humanReadableFileSize
     },
     computed: {
         loadPOW: function() {

@@ -1,6 +1,6 @@
 {
   "name": "ckan-ui-bridge",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=prod node ./bin/www",
@@ -12,6 +12,7 @@
     "axios": "^0.21.2",
     "btoa": "^1.2.1",
     "config": "^3.0.1",
+    "connect-redis": "^6.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
@@ -24,6 +25,7 @@
     "node-cache": "^4.2.0",
     "passport": "^0.4.0",
     "passport-openidconnect": "0.0.2",
+    "redis": "^3.1.2",
     "request": "^2.88.0",
     "set-value": "^4.0.1",
     "snowplow-tracker": "^0.3.0",
