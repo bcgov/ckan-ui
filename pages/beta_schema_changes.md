@@ -56,7 +56,7 @@ The following are fields which have been modified in the new schema.
 |Name|`name`|N|
 |Email|`email`|N|
 |Organization|`org`|Y| branch| | | | |
-|Role|`role`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Role|`role`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Displayed|`displayed`|Y|private | | | |
 |Name|`name`|N|
 ||
@@ -69,12 +69,12 @@ The following are fields which have been modified in the new schema.
 |Description|`description`|Y| | | | |__NEW*__ |
 |URL|`url`|Y|link|
 ||
-|Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Who can view this data?|`view_audience`|N|
 |Who can download this data?|`download_audience`|N|
 |Who can view this record?|`metadata_visibility`|N|
 |Keywords|`tag_string`|N|
-|State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Resource Status|`resource_status`|N|
 ||
 |Record Lifecycle History:|`dates`|Y | | | |Y| |
