@@ -98,18 +98,18 @@ The following are fields which have been modified in the new schema.
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset.html)| | |
+|Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 |Resource Description|description|N|
 |Supplemental Information|supplemental_info|N|
-|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset.html)| | |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y| |
 |Beginning Date|beginning_date|Y|data_collection_start_date
 |End Date|end_date|Y|data_collection_end_date
 ||
-|Resource Storage Format|format|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset.html)| | |
-|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset.html)| | |
-|Spatial Datatype|spatial_datatype|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset.html)| |Reviewing if this is applicable |
+|Resource Storage Format|format|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.htmll)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Spatial Datatype|spatial_datatype|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| |Reviewing if this is applicable |
 |Object Short Name|object_short_name|Y| |Record Level | | |Reviewing if this is applicable |
 |Object Table Comments|object_table_comments|Y| |Record Level | | |Reviewing if this is applicable |
 ||
@@ -122,7 +122,7 @@ The following are fields which have been modified in the new schema.
 ||
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |Resource Type|resource_type|Y|
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset.html)| | |
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 
 [RETURN TO TOP][1]
 
