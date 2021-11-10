@@ -56,7 +56,7 @@ The following are fields which have been modified in the new schema.
 |Name|`name`|N|
 |Email|`email`|N|
 |Organization|`org`|Y| branch| | | | |
-|Role|`role`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Role|`role`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Displayed|`displayed`|Y|private | | | |
 |Name|`name`|N|
 ||
@@ -69,12 +69,12 @@ The following are fields which have been modified in the new schema.
 |Description|`description`|Y| | | | |__NEW*__ |
 |URL|`url`|Y|link|
 ||
-|Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|Security Classification|`security_class`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Who can view this data?|`view_audience`|N|
 |Who can download this data?|`download_audience`|N|
 |Who can view this record?|`metadata_visibility`|N|
 |Keywords|`tag_string`|N|
-|State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_record.html)| | |
+|State|`publish_state`|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_record_mgmt_ui.html)| | |
 |Resource Status|`resource_status`|N|
 ||
 |Record Lifecycle History:|`dates`|Y | | | |Y| |
@@ -98,18 +98,18 @@ The following are fields which have been modified in the new schema.
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
+|Type|bcdc_type|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 |Resource Description|description|N|
 |Supplemental Information|supplemental_info|N|
-|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y| |
 |Beginning Date|beginning_date|Y|data_collection_start_date
 |End Date|end_date|Y|data_collection_end_date
 ||
-|Resource Storage Format|format|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
-|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
+|Resource Storage Format|format|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.htmll)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Spatial Datatype|spatial_datatype|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| |Reviewing if this is applicable |
 |Object Short Name|object_short_name|Y| |Record Level | | |Reviewing if this is applicable |
 |Object Table Comments|object_table_comments|Y| |Record Level | | |Reviewing if this is applicable |
 ||
@@ -122,7 +122,7 @@ The following are fields which have been modified in the new schema.
 ||
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |Resource Type|resource_type|Y|
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_dataset_2.html)| | |
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 
 [RETURN TO TOP][1]
 
@@ -132,18 +132,18 @@ The following are fields which have been modified in the new schema.
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 |Resource Description|`description`|N|
 |Supplemental Information|supplemental_info|N|
-|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y| |
 |Beginning Date|beginning_date|Y|data_collection_start_date
 |End Date|end_date|Y|data_collection_end_date
 ||
-|Resource Storage Format|format|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| |Record Level |  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Resource Storage Format|format|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Spatial Datatype|spatial_datatype|Y| |Record Level |  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 |Object Short Name|object_short_name|Y| | Record Level| | | |
 |Object Table Comments|object_table_comments|Y| |Record Level | |  | |
 ||
@@ -158,7 +158,7 @@ The following are fields which have been modified in the new schema.
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |ISO Topic Category|iso_topic_category|Y|iso_topic_string |Record Level | | | |
 |Resource Type|resource_type|Y|
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| | |
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 ||
 |Preview Information:|preview_info|Y| |Record Level | | Y|Map preview opens up from the Preview button |
 |Layer Name|layer_name|Y| | Record Level| | | |
@@ -183,18 +183,18 @@ The following are fields which have been modified in the new schema.
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | |
+|Type|bcdc_type|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 |Resource Description|description|N|
 |Supplemental Information|supplemental_info|Y| | | |  |__NEW*__ |
-|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | __NEW*__ |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | __NEW*__ |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y|__NEW*__ |
 |Beginning Date|beginning_date|Y|data_collection_start_date | | | |__NEW*__ |
 |End Date|end_date|Y|data_collection_end_date | | | |__NEW*__ |
 ||
-|Resource Storage Format|format|Y| |Record Level |  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | |
-|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
+|Resource Storage Format|format|Y| |Record Level |  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Spatial Datatype|spatial_datatype|Y| | Record Level|  [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| |Reviewing if this is applicable |
 |Object Short Name|object_short_name|Y| |Record Level | | |Reviewing if this is applicable |
 |Object Table Comments|object_table_comments|Y| |Record Level | | |Reviewing if this is applicable |
 ||
@@ -207,7 +207,7 @@ The following are fields which have been modified in the new schema.
 ||
 |JSON Table Schema|json_table_schema|Y| | |  | |__NEW*__ |
 |Resource Type|resource_type|Y| | | |  |__NEW*__ |
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_webservice_api_2.html)| | __NEW*__ |
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | __NEW*__ |
 
 [RETURN TO TOP][1]
 
@@ -218,18 +218,18 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 |:---|:---|:---:|:---|:---|:---:|:---:|:---|
 |Name|name|N|
 |Resource|url|N|
-|Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| 
+|Type|bcdc_type|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| 
 |Resource Description|description|Y| | | | |__NEW*__ |
 |Supplemental Information|supplemental_info|Y| | | | |__NEW*__ |
-|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
+|Resource Update Cycle|resource_update_cycle|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
 ||
 |Temporal Extent|temporal_extent|Y| | | |Y|__NEW*__ |
 |Beginning Date|beginning_date|Y|data_collection_start_date | | |Y|__NEW*__ |
 |End Date|end_date|Y|data_collection_end_date | | |Y|__NEW*__ |
 ||
-|Resource Storage Format|format|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
-|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| | |
-|Spatial Datatype|spatial_datatype|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_geographic_dataset_2.html)| |Reviewing if this is applicable |
+|Resource Storage Format|format|Y| |Record Level | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Resource Storage Location|Resource Storage Location|Y| | | [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| | |
+|Spatial Datatype|spatial_datatype|Y| | Record Level| [Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| |Reviewing if this is applicable |
 |Object Short Name|object_short_name|Y| |Record Level | | |Reviewing if this is applicable |
 |Object Table Comments|object_table_comments|Y| |Record Level | | |Reviewing if this is applicable |
 ||
@@ -242,7 +242,7 @@ A Record or main metadata page is defined in CKAN as a Dataset or Package.
 ||
 |JSON Table Schema|json_table_schema|Y| | | | |__NEW*__ |
 |Resource Type|resource_type|Y|edc_resource_type| | | |__NEW*__ |
-|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | |[Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_application_2.html)| |__NEW*__  |
+|Resource Access Method|resource_access_method|Y|resource_access_storage_method| | |[Y](https://bcgov.github.io/data-publication/pages/dps_bcdc_w_resource_mgmt_ui.html)| |__NEW*__  |
 
 [RETURN TO TOP][1]
 
