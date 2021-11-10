@@ -102,6 +102,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 1. All Editors can see all record in all states of all organizations.  
 1. Group editors and members management to be configured. 
     + All Group management can only be done by users with Admin access at this time. 
+1. Viewing Groups on the groups page can result in 0 datasets under the group name.  Clicking on the group name, or using the Group filter when searching from the datasets page will return a list of datasets for the selected group. 
 3. The OpenAPI Console preview function is not available.
 4. The Data Usage page is not yet available.
 5. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
