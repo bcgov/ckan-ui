@@ -1,6 +1,9 @@
 <template>
     <v-container fluid>
-        <v-row wrap v-for="(activityItem, key) in activities" class="pa-0 ma-0" :key="'activity-line'+key">
+        <v-row v-if="!activities.length">
+            No activities yet, get involved!
+        </v-row>
+        <v-row v-else wrap v-for="(activityItem, key) in activities" class="pa-0 ma-0" :key="'activity-line'+key">
             <ActivityItem :activity="activityItem" :article="article"></ActivityItem>
         </v-row>
     </v-container>
