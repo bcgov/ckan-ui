@@ -20,7 +20,6 @@
           color="grey"
           indeterminate
         ></v-progress-circular>
-        <div v-else-if="noData">No activities yet, get involved!</div>
         <v-row wrap v-else>
             <v-col cols=3>
                 <Profile :user="user"></Profile>
@@ -64,7 +63,6 @@
                 ],
                 user: {},
                 user_id: this.$route.params.userId ? this.$route.params.userId : "",
-                noData: false,
             }
         },
         computed:{
@@ -73,17 +71,17 @@
             }
         },
         methods: {
-            getUserActivity: function(){
+            getUserActivity: async function(){
+
+                this.user_id = await ckanServ.getUserId() || null;
+
+                this.getUser();
+
                 ckanServ.getActivity(this.user_id).then( (data) => {
                     if (data.error){
                         this.error = data.error;
-                    } else if ( (typeof(data.result) == "undefined") || (typeof(data.result[0]) === "undefined") ||  (typeof(data.result[0].user_id) === "undefined") ){
-                        this.noData = true;
                     } else {
-
                         this.activities = data.result;
-                        this.user_id = data.result[0].user_id
-                        this.getUser()
                     }
                     this.loading = false;
                 });
