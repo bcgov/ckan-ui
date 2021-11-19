@@ -1,165 +1,72 @@
-var addRoutes = function(router){
-    let request = require('request');
-    let auth = require('../../modules/auth');
+const request = require('request');
+const auth = require('../../modules/auth');
 
-    /* GET User Orgs */
-    router.get('/userOrganizations', auth.removeExpired, function(req, res, next) {
-
-        let config = require('config');
-        let url = config.get('ckan');
-
-        let authObj = {};
-
-        if (req.user){
-        authObj = {
-            'headers': {
-            'Authorization': req.user.jwt
+function addRoutes(router) {
+    proxyCkanApiRequest("/whoami", "/api/3/action/whoami");
+    proxyCkanApiRequest("/activity", "/api/3/action/dashboard_activity_list");
+    proxyCkanApiRequest("/userOrganizations", (req) => "/api/3/action/organization_list_for_user?id="+encodeURIComponent(req.user._json.preferred_username));
+    proxyCkanApiRequest(
+        "/activity/:userId",
+        (req) => "/api/3/action/user_activity_list?id=" + encodeURIComponent(req.params.userId),
+        (req, res, next) => {
+            if (typeof(req.params.userId) === 'undefined'){
+                res.status(500);
+                res.json({error: "User ID is required"});
+                return;
+            } else {
+                next();
             }
-        };
-        }else{
-            console.log("no user");
-            res.json({results: [], error: "No user"});
-            return;
         }
+    );
+    proxyCkanApiRequest('/user/:userId', (req) => `/api/3/action/user_show?id=${encodeURIComponent(req.params.userId)}&include_datasets=True`);
 
-        let reqUrl = url + "/api/3/action/organization_list_for_user?id="+req.user._json.preferred_username;
+    function proxyCkanApiRequest(endpoint, upstreamPath, ...middlewares) {
+        router.get(endpoint, auth.removeExpired, ...middlewares, (req, res, next) => {
 
-        request(reqUrl, authObj, function(err, apiRes, body){
-            if (err) {
-                console.log(err);
-                res.json({error: err});
+            let config = require('config');
+            let url = config.get('ckan');
+
+            let authObj = {};
+
+            if (req.user) {
+                authObj = {
+                    'headers': {
+                        'Authorization': req.user.jwt
+                    }
+                };
+            } else {
+                console.log("no user");
+                res.json({ results: [], error: "No user" });
                 return;
             }
 
-            try {
-                let json = JSON.parse(body);
-                res.json(json);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
-        });
+            let reqUrl;
 
-    });
-
-    /* GET user activity. */
-    router.get('/activity', auth.removeExpired, function(req, res, next) {
-        let config = require('config');
-        let url = config.get('ckan');
-
-        let reqUrl = url + "/api/3/action/dashboard_activity_list";
-
-        if (!req.user){
-            return res.json({error: "Not logged in"});
-        }
-
-        let authObj = {
-            'auth': {
-            'bearer': req.user.jwt
-            }
-        };
-
-        request(reqUrl, authObj, function(err, apiRes, body){
-            if (err) {
-                console.log(err);
-                res.json({error: err});
-                return;
-            }
-            if (apiRes.statusCode !== 200){
-                console.log("Body Status? ", apiRes.statusCode);
+            if (typeof upstreamPath === "function") {
+                reqUrl = url + upstreamPath(req);
+            } else {
+                reqUrl = url + upstreamPath;
             }
 
-            try {
-                let json = JSON.parse(body);
-                res.json(json);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
-        });
-
-    });
-
-    /* GET user activity. */
-    router.get('/activity/:userId', auth.removeExpired, function(req, res, next) {
-        let config = require('config');
-        let url = config.get('ckan');
-
-        if (typeof(req.params.userId) === 'undefined'){
-            res.status(500);
-            return res.json({error: "User ID is required"});
-        }
-
-        let reqUrl = url + "/api/3/action/user_activity_list?id=" + req.params.userId;
-
-        let authObj = {}
-
-        if (req.user){
-            authObj = {
-                'auth': {
-                'bearer': req.user.jwt
+            request(reqUrl, authObj, function(err, apiRes, body) {
+                if (err) {
+                    console.log(err);
+                    res.json({error: err});
+                    return;
                 }
-            };
-        }
 
-        request(reqUrl, authObj, function(err, apiRes, body){
-            if (err) {
-                console.log(err);
-                res.json({error: err});
-                return;
-            }
-            if (apiRes.statusCode !== 200){
-                console.log("Body Status? ", apiRes.statusCode);
-            }
-
-            try {
-                let json = JSON.parse(body);
-                res.json(json);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
-        });
-
-    });
-
-    /* GET user info. */
-    router.get('/user/:userId', auth.removeExpired, function(req, res, next) {
-        let config = require('config');
-        let url = config.get('ckan');
-
-        let reqUrl = url + "/api/3/action/user_show?id="+req.params.userId+"&include_datasets=True";
-
-        let authObj = {};
-
-        if (req.user){
-            authObj = {
-                'auth': {
-                'bearer': req.user.jwt
+                try {
+                    let json = JSON.parse(body);
+                    res.json(json);
+                } catch(ex){
+                    console.error("Error reading json from ckan", ex);
+                    res.json({error: ex});
                 }
-            };
-        }
+            });
 
-        request(reqUrl, authObj, function(err, apiRes, body){
-            if (err) {
-                console.log(err);
-                res.json({error: err});
-                return;
-            }
-            if (apiRes.statusCode !== 200){
-                console.log("Body Status? ", apiRes.statusCode);
-            }
-
-            try {
-                let json = JSON.parse(body);
-                res.json(json);
-            }catch(ex){
-                console.error("Error reading json from ckan", ex);
-                res.json({error: ex});
-            }
         });
+    };
 
-    });
     return router;
 };
 
