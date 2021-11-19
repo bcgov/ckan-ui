@@ -52,9 +52,9 @@ function addRoutes(router) {
             });
 
         });
-    };
+    }
 
     return router;
-};
+}
 
 module.exports = addRoutes;
