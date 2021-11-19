@@ -25,10 +25,6 @@ function addRoutes(router) {
                         'Authorization': req.user.jwt
                     }
                 };
-            } else {
-                console.log("no user");
-                res.json({ results: [], error: "No user" });
-                return;
             }
 
             let reqUrl;
