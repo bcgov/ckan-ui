@@ -7,16 +7,7 @@ function addRoutes(router) {
     proxyCkanApiRequest("/userOrganizations", (req) => "/api/3/action/organization_list_for_user?id="+encodeURIComponent(req.user._json.preferred_username));
     proxyCkanApiRequest(
         "/activity/:userId",
-        (req) => "/api/3/action/user_activity_list?id=" + encodeURIComponent(req.params.userId),
-        (req, res, next) => {
-            if (typeof(req.params.userId) === 'undefined'){
-                res.status(500);
-                res.json({error: "User ID is required"});
-                return;
-            } else {
-                next();
-            }
-        }
+        (req) => "/api/3/action/user_activity_list?id=" + encodeURIComponent(req.params.userId)
     );
     proxyCkanApiRequest('/user/:userId', (req) => `/api/3/action/user_show?id=${encodeURIComponent(req.params.userId)}&include_datasets=True`);
 
