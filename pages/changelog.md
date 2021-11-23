@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Beta**|**Production**|
 |:---:|:---|:---:|:---:|
+|12|Udates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Nov-21||
 |11|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|29-Oct-21|5-Nov-21|
 |10|Update to improve catalogue stability (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|28-Oct-21|28-Oct-21|
 |9|Beta updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|21-Oct-21|27-Oct-21|
@@ -57,6 +58,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|12|Improved performance and stability of organizations list| ([#634](https://github.com/bcgov/ckan-ui/pull/634))
+|12|Improved user profile page for new editors| ([#635](https://github.com/bcgov/ckan-ui/pull/635))
 |11|Stability improvements for logged in users| ([#617](https://github.com/bcgov/ckan-ui/pull/617))
 |11|Improvements to search relevance and availability of advanced search features| ([#615](https://github.com/bcgov/ckan-ui/pull/615))
 |11|Improvements to search relevance for mixed case words| ([#614](https://github.com/bcgov/ckan-ui/pull/614))
