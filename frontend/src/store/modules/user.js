@@ -78,16 +78,7 @@ const actions = {
             isEditor = false;
         }
 
-        ckanServ.getActivity(this.user_id).then( (d) => {
-            if ( (d.result) && (d.result[0]) && (d.result[0]) && (d.result[0].user_id) ){
-                ckanServ.getUser(d.result[0].user_id).then( (data) => {
-                    commit('setCkanUser', {ckanUser: data.result});
-                });
-            }else{
-                commit('setCkanUser', {ckanUser: null});
-            }
-        });
-
+        commit('setCkanUser', {ckanUser: await ckanServ.getUserId() || null});
         commit('setUserPermissions', {userPermissions: userPermissions});
         commit('setSysAdmin', {sysAdmin: sysAdmin});
         commit('setAdmin', {isAdmin: isAdmin});

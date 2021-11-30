@@ -61,7 +61,7 @@ var addRoutes = function(router){
         let orgTTL = 86400;
     
         //let keys = Object.keys(req.query);
-        let reqUrl = url + "/api/3/action/organization_list_related?all_fields=True";
+        let reqUrl = url + "/api/3/action/organization_list_related";
     
         let authObj = {};
     
