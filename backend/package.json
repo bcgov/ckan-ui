@@ -8,6 +8,7 @@
     "lint": "npx eslint ."
   },
   "dependencies": {
+    "@snowplow/node-tracker": "^3.1.6",
     "atob": "^2.1.2",
     "axios": "^0.21.2",
     "btoa": "^1.2.1",
@@ -28,7 +29,6 @@
     "redis": "^3.1.2",
     "request": "^2.88.0",
     "set-value": "^4.0.1",
-    "snowplow-tracker": "^0.3.0",
     "tableschema": "^1.12.4",
     "xlsx": "^0.17.0"
   },

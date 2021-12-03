@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let auth = require('../modules/auth');
-let snowplow = require('snowplow-tracker');
+let snowplow = require('@snowplow/node-tracker');
 let config = require('config');
 
 router .get('/ga', auth.removeExpired, function(req, res){
@@ -36,46 +36,47 @@ router.get('/', auth.removeExpired, function(req, res){
         return;
     }
 
-    const emitter = snowplow.emitter;
+    const gotEmitter = snowplow.gotEmitter;
     const tracker = snowplow.tracker;
 
     const snowConfig = config.get('snowplow');
 
-    const e = emitter(
+    const e = gotEmitter(
         snowConfig.collector, // Collector endpoint
         snowConfig.protocol, // Optionally specify a method - http is the default
         snowConfig.port, // Optionally specify a port
         "GET", // Method - defaults to GET
         1,
-        function (error, body, response) { // Callback called for each request
+        function (error, response) { // Callback called for each request
             if (error) {
                 console.log("Request to Scala Stream Collector failed!");
-                }
-            },
-        { maxSockets: 6 } // Node.js agentOptions object to tune performance
+            }
+        },
+        {
+            http: new http.Agent({ maxSockets: 6 }),
+            https: new https.Agent({ maxSockets: 6 })
+        } // Node.js agentOptions object to tune performance
     );
 
-    let t = tracker([e], snowConfig.appId);
+    let t = tracker([e], 'namespace', snowConfig.appId, false);
 
     if ((req.user) && (req.user.id)){
         t.setUserId(req.user.id);
     }
 
-
-
-    t.trackPageView(req.query.pageUrl, req.query.pageTitle, req.query.referrer, null);
+    t.track(snowplow.buildPageView(req.query.pageUrl, req.query.pageTitle, req.query.referrer));
 
     res.json({"ok": "ok"});
 });
 
 router.post('/', auth.removeExpired, function(req, res){
 
-    const emitter = snowplow.emitter;
+    const gotEmitter = snowplow.gotEmitter;
     const tracker = snowplow.tracker;
 
     const snowConfig = config.get('snowplow');
 
-    const e = emitter(
+    const e = gotEmitter(
         snowConfig.collector, // Collector endpoint
         snowConfig.protocol, // Optionally specify a method - http is the default
         snowConfig.port, // Optionally specify a port
@@ -84,18 +85,21 @@ router.post('/', auth.removeExpired, function(req, res){
         function (error, body, response) { // Callback called for each request
             if (error) {
                 console.log("Request to Scala Stream Collector failed!");
-                }
-            },
-        { maxSockets: 6 } // Node.js agentOptions object to tune performance
+            }
+        },
+        {
+            http: new http.Agent({ maxSockets: 6 }),
+            https: new https.Agent({ maxSockets: 6 })
+        } // Node.js agentOptions object to tune performance
     );
 
-    let t = tracker([e], snowConfig.appId);
+    let t = tracker([e], 'namespace', snowConfig.appId, false);
 
     if ((req.user) && (req.user.id)){
         t.setUserId(req.user.id);
     }
 
-    t.trackPageView(req.query.pageUrl, req.query.pageTitle, req.query.referrer, null);
+    t.track(snowplow.buildPageView(req.query.pageUrl, req.query.pageTitle, req.query.referrer));
 
     res.json({"ok": "ok"});
 });
