@@ -46,16 +46,7 @@ router.get('/', auth.removeExpired, function(req, res){
         snowConfig.protocol, // Optionally specify a method - http is the default
         snowConfig.port, // Optionally specify a port
         "GET", // Method - defaults to GET
-        1,
-        function (error, response) { // Callback called for each request
-            if (error) {
-                console.log("Request to Scala Stream Collector failed!");
-            }
-        },
-        {
-            http: new http.Agent({ maxSockets: 6 }),
-            https: new https.Agent({ maxSockets: 6 })
-        } // Node.js agentOptions object to tune performance
+        1
     );
 
     let t = tracker([e], 'namespace', snowConfig.appId, false);
@@ -81,16 +72,7 @@ router.post('/', auth.removeExpired, function(req, res){
         snowConfig.protocol, // Optionally specify a method - http is the default
         snowConfig.port, // Optionally specify a port
         "POST", // Method - defaults to GET
-        1,
-        function (error, body, response) { // Callback called for each request
-            if (error) {
-                console.log("Request to Scala Stream Collector failed!");
-            }
-        },
-        {
-            http: new http.Agent({ maxSockets: 6 }),
-            https: new https.Agent({ maxSockets: 6 })
-        } // Node.js agentOptions object to tune performance
+        1
     );
 
     let t = tracker([e], 'namespace', snowConfig.appId, false);
