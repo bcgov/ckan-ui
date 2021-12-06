@@ -196,4 +196,12 @@ r.beforeEach((to, from, next) => {
     next();
 });
 
+r.afterEach(() => {
+    try {
+        window.snowplow('trackPageView');
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 export default r;
