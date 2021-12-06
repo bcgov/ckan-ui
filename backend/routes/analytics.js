@@ -49,7 +49,7 @@ router.get('/', auth.removeExpired, function(req, res){
         1
     );
 
-    let t = tracker([e], 'namespace', snowConfig.appId, false);
+    let t = tracker([e], snowConfig.namespace, snowConfig.appId, false);
 
     if ((req.user) && (req.user.id)){
         t.setUserId(req.user.id);
@@ -85,7 +85,7 @@ router.post('/', auth.removeExpired, function(req, res){
         1
     );
 
-    let t = tracker([e], 'namespace', snowConfig.appId, false);
+    let t = tracker([e], snowConfig.namespace, snowConfig.appId, false);
 
     if ((req.user) && (req.user.id)){
         t.setUserId(req.user.id);
