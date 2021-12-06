@@ -4,7 +4,7 @@ let auth = require('../modules/auth');
 let snowplow = require('@snowplow/node-tracker');
 let config = require('config');
 
-router .get('/ga', auth.removeExpired, function(req, res){
+router.get('/ga', auth.removeExpired, function(req, res){
     if (!config.has('ga')){
         res.json({"notOk": "Not Configured"});
         return;
