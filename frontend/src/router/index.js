@@ -200,6 +200,7 @@ r.afterEach(() => {
     try {
         window.snowplow('trackPageView');
     } catch (error) {
+        // eslint-disable-next-line
         console.error(error);
     }
 });
