@@ -79,7 +79,8 @@ extend('url', {
       if (require_host){
         regString += '[A-z0-9-_]+[.][A-z0-9-_][A-z0-9-_.]*';
       }
-      regString += '[A-z0-9?&=./\\-_#!]*$';
+      // eslint-disable-next-line
+      regString += '[A-z0-9?&=./\\\-_#!]*$';
       let regex = new RegExp(regString);
       return value.match(regex);
     }
