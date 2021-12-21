@@ -122,7 +122,7 @@ export default {
             return y + "-" + m + "-" + d
         }
 
-        let date = new Date(this.record.metadata_created)
+        let date = new Date(this.record.record_publish_date)
         let pubDate = formatDate(date)
 
         let d2 = new Date(this.record.metadata_modified)

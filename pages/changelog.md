@@ -60,6 +60,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
 |13|Allow exclamation marks (!) in URL regex| ([#643](https://github.com/bcgov/ckan-ui/pull/643))
+|13|Replaced unsupported snowplow package with currently supported version| ([#638](https://github.com/bcgov/ckan-ui/pull/638))
 |12|Improved performance and stability of organizations list| ([#634](https://github.com/bcgov/ckan-ui/pull/634))
 |12|Improved user profile page for new editors| ([#635](https://github.com/bcgov/ckan-ui/pull/635))
 |11|Stability improvements for logged in users| ([#617](https://github.com/bcgov/ckan-ui/pull/617))
