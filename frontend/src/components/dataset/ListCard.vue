@@ -129,7 +129,7 @@ export default {
         let modDate = formatDate(d2)
 
         return {
-            publishDate: date ? pubDate : "",
+            publishDate: this.record.record_publish_date ? pubDate : "",
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,
