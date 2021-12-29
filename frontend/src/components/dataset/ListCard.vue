@@ -129,7 +129,7 @@ export default {
         let modDate = formatDate(d2)
 
         return {
-            publishDate: pubDate ? pubDate : "",
+            publishDate: date ? pubDate : "",
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,
@@ -137,7 +137,7 @@ export default {
             name: this.record.name,
             org: this.record.organization.title,
             orgId: this.record.organization.name,
-            metaModDate: modDate ? modDate : "",
+            metaModDate: d2 ? modDate : "",
             //iconName: icon,
             //iconToolTip: tooltip,
             primMarkers: [{
