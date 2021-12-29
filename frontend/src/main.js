@@ -79,11 +79,8 @@ extend('url', {
       if (require_host){
         regString += '[A-z0-9-_]+[.][A-z0-9-_][A-z0-9-_.]*';
       }
-<<<<<<< HEAD
-      regString += '[A-z0-9?&=./\\-_#!]*$';
-=======
       regString += '[A-z0-9?&=.,/\\-_#!]*$';
->>>>>>> f5e94cc (Add  as accepted url char)
+
       let regex = new RegExp(regString);
       return value.match(regex);
     }
