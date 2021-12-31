@@ -1,0 +1,25 @@
+name: Build Ckan UI frontend
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/build.yaml"
+  workflow_dispatch:
+    branches: [dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cluster Login
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            'version'
