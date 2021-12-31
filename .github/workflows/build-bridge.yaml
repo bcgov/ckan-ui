@@ -1,11 +1,11 @@
-name: Build Ckan UI frontend
+name: Build Ckan UI bridge
 
 on:
   push:
     branches: [ad-ga-build-ui]
     paths:
-      - "frontend/**"
-      - ".github/workflows/build.yaml"
+      - "backend/**"
+      - ".github/workflows/build-bridge.yaml"
   workflow_dispatch:
     branches: [ad-ga-build-ui]
 
@@ -31,7 +31,7 @@ jobs:
       - name: Build the Docker image
         run: |          
           
-          docker build -t cadi-ui-ocp4-ckan-ui-frontend-image:latest -f Dockerfile-frontend .
+          docker build -t cadi-ui-ocp4-ckan-ui-image:latest -f Dockerfile .
           
-          docker tag cadi-ui-ocp4-ckan-ui-frontend-image:latest ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-frontend-image:latest
-          docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-frontend-image:latest
+          docker tag cadi-ui-ocp4-ckan-ui-image:latest ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-image:latest
+          docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-image:latest
