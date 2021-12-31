@@ -34,4 +34,4 @@ jobs:
           docker build -f Dockerfile-frontend .
           
           docker tag cadi-ui-ocp4-ckan-ui-frontend-image ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-frontend-image:latest
-          docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-frontend-image:latest
+          docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/cadi-ui-ocp4-ckan-ui-frontend-image
