@@ -237,7 +237,10 @@
             this.searchT = this.searchText;
             this.$store.dispatch('organization/getSchema');
             this.$store.dispatch('organization/getOrgs');
-        }
+        },
+        updated() {
+            window.snowplow('refreshLinkClickTracking');
+        },
     }
 
 </script>

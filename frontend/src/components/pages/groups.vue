@@ -216,7 +216,10 @@
             navTo(group){
                 this.$router.push({name: "group_view",  params: { groupId: group.name } })
             }
-        }
+        },
+        updated() {
+            window.snowplow('refreshLinkClickTracking');
+        },
     }
 </script>
 
