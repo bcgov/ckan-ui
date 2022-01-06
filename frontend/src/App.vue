@@ -15,6 +15,9 @@ export default {
   components: {
       Header,
       Footer
+  },
+  updated() {
+    window.snowplow('refreshLinkClickTracking');
   }
 }
 </script>
