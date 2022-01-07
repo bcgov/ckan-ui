@@ -328,6 +328,9 @@
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getOrganization();
         },
+        updated() {
+            window.snowplow('refreshLinkClickTracking');
+        },
         destroyed(){
             this.$store.commit('organization/setCurrentNotUnmod', {group: {}})
         }
