@@ -96,7 +96,10 @@
         mounted(){
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.getUserActivity()
-        }
+        },
+        updated() {
+            window.snowplow('refreshLinkClickTracking');
+        },
 
     }
 </script>
