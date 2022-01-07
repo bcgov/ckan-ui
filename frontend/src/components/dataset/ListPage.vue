@@ -312,8 +312,10 @@
             }
 
         });
-    }
-
+    },
+    updated() {
+        window.snowplow('refreshLinkClickTracking');
+    },
 
   }
 
