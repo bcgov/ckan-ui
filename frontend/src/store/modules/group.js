@@ -56,7 +56,7 @@ const actions = {
         });
     },
 
-    getGroups({ commit }) {
+    async getGroups({ commit }) {
         ckanServ.getGroupList().then((data) => {
             commit('setGroupList', { groups: data.result });
             commit('setSearchedGroups', { searchedGroups: data.result });
