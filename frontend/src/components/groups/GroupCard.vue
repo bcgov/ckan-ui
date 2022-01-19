@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import {CkanApi} from '../../services/ckanApi'
-const ckanServ = new CkanApi()
+
 
 export default{
     name: 'GroupCard',
@@ -75,15 +74,6 @@ export default{
     updated() {
         window.snowplow('refreshLinkClickTracking');
     },
-
-    mounted() {
-      ckanServ.getGroup(this.id).then((data) => {
-
-        this.datasets = data.result.packages;
-
-        this.loading = false;
-      });
-    }
 
 }
 </script>
