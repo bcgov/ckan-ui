@@ -171,6 +171,9 @@
 
             let index = 0;
 
+            // eslint-disable-next-line
+            console.log(this.groups);
+
             let groupData = function(data) {
                 this.groups[index].datasets = data.result.packages;
                 this.groups[index].loading = false;
