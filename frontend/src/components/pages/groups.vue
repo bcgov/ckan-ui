@@ -166,10 +166,12 @@
         },
         mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            await this.$store.dispatch('group/getGroups');
+            this.$store.dispatch('group/getGroups');
             this.count = this.groups.length;
 
             let index = 0;
+
+            console.log(groups);
 
             let groupData = function(data) {
                 this.groups[index].datasets = data.result.packages;
