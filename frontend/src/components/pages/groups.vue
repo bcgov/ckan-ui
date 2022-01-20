@@ -175,6 +175,12 @@
             console.log(this.groups);
 
             let groupData = function(data) {
+
+                // eslint-disable-next-line
+                console.log(this.groups);
+                // eslint-disable-next-line
+                console.log(data);
+
                 this.groups[index].datasets = data.result.packages;
                 this.groups[index].loading = false;
                 index++;
