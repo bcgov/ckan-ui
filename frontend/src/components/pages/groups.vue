@@ -171,17 +171,28 @@
 
             let index = 0;
 
+            // eslint-disable-next-line
+            console.log(this.groups);
+
+            var self = this;
+
             let groupData = function(data) {
-                this.groups[index].datasets = data.result.packages;
-                this.groups[index].loading = false;
+
+                // eslint-disable-next-line
+                console.log(self.groups);
+                // eslint-disable-next-line
+                console.log(data);
+
+                self.groups[index].datasets = data.result.packages;
+                self.groups[index].loading = false;
                 index++;
 
-                if (index < this.groups.length) {
-                    ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
+                if (index < self.groups.length) {
+                    ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
                 }
             }
 
-            ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
+            ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
 
         },
 
