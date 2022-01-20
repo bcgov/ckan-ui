@@ -166,25 +166,31 @@
         },
         mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            this.$store.dispatch('group/getGroups');
-            this.count = this.groups.length;
-
-            let index = 0;
-
-            // eslint-disable-next-line
-            console.log(this.groups);
-
-            let groupData = function(data) {
-                this.groups[index].datasets = data.result.packages;
-                this.groups[index].loading = false;
-                index++;
-
-                if (index < this.groups.length) {
-                    ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
-                }
+            async function getGroups() {
+                return await this.$store.dispatch('group/getGroups');
             }
+            
+            getGroups().then(() => {
 
-            ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
+                this.count = this.groups.length;
+
+                let index = 0;
+
+                // eslint-disable-next-line
+                console.log(this.groups);
+
+                let groupData = function(data) {
+                    this.groups[index].datasets = data.result.packages;
+                    this.groups[index].loading = false;
+                    index++;
+
+                    if (index < this.groups.length) {
+                        ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
+                    }
+                }
+
+                ckanServ.getGroup(this.groups[index].id).then(data => groupData(data))
+            })
 
         },
 
