@@ -57,6 +57,7 @@ export default{
     watch: {
       deep: true,
       group(data) {
+        // eslint-disable-next-line
         console.log(`GroupCard data ${data}`);
       }
     },
