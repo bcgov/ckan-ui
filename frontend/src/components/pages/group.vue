@@ -310,7 +310,6 @@
             this.getGroup();
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         },
-
         destroyed(){
             this.$store.commit('group/setCurrentGroup', {group: {}, error: false})
         }

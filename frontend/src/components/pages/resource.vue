@@ -556,6 +556,9 @@ export default {
         this.getResource();
         window.addEventListener('scroll', this.catchScroll)
     },
+    updated() {
+        window.snowplow('refreshLinkClickTracking');
+    },
     destroyed () {
         window.removeEventListener('scroll', this.catchScroll)
     },

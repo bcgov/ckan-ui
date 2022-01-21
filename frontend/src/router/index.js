@@ -196,4 +196,13 @@ r.beforeEach((to, from, next) => {
     next();
 });
 
+r.afterEach(() => {
+    try {
+        window.snowplow('trackPageView');
+    } catch (error) {
+        // eslint-disable-next-line
+        console.error(error);
+    }
+});
+
 export default r;
