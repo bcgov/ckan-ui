@@ -58,7 +58,7 @@ export default{
       deep: true,
       group(data) {
         // eslint-disable-next-line
-        console.log(`GroupCard data ${data}`);
+        console.log(data);
       }
     },
 
