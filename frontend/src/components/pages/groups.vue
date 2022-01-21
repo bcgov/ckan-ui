@@ -179,7 +179,7 @@
             let groupData = function(data) {
 
                 // eslint-disable-next-line
-                console.log(self.groups);
+                console.log(`groups page data ${self.groups}`);
                 // eslint-disable-next-line
                 console.log(data);
 

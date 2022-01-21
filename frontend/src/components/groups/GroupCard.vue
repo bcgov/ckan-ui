@@ -54,6 +54,13 @@ export default{
         }
     },
 
+    watch: {
+      deep: true,
+      group(data) {
+        console.log(`GroupCard data ${data}`);
+      }
+    },
+
     computed: {
       image: function(){
         return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';
