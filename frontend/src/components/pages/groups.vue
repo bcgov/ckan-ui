@@ -179,9 +179,9 @@
             let groupData = function(data) {
 
                 // eslint-disable-next-line
-                console.log(self.groups);
+                console.log(`groups page groups ${self.groups}`);
                 // eslint-disable-next-line
-                console.log(data);
+                console.log(`groups page data ${data}`);
 
                 self.groups[index].datasets = data.result.packages;
                 self.groups[index].loading = false;

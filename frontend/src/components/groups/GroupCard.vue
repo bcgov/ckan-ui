@@ -54,6 +54,14 @@ export default{
         }
     },
 
+    watch: {
+      deep: true,
+      group(data) {
+        // eslint-disable-next-line
+        console.log(`GroupCard data ${data}`);
+      }
+    },
+
     computed: {
       image: function(){
         return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';
