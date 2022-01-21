@@ -56,9 +56,10 @@ export default{
 
     watch: {
       deep: true,
-      group(data) {
+      group(newData) {
+        this.datasets = newData.datasets;
         // eslint-disable-next-line
-        console.log(data);
+        console.log(newData);
       }
     },
 
