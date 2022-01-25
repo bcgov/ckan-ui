@@ -198,6 +198,7 @@
 
         watch: {
             deep: true,
+            immediate: true,
             groups(newVal){
                 // eslint-disable-next-line
                 console.log("New val triggered!");
