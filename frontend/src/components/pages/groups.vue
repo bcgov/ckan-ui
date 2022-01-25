@@ -197,6 +197,7 @@
         },
 
         watch: {
+            deep: true,
             groups(newVal){
                 this.count = newVal.length;
             }
