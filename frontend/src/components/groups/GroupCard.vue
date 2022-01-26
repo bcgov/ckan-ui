@@ -72,6 +72,9 @@ export default{
       },
 
     },
+    updated() {
+        window.snowplow('refreshLinkClickTracking');
+    },
 
     mounted() {
       ckanServ.getGroup(this.id).then((data) => {

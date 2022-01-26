@@ -696,7 +696,7 @@ export default {
         }
     },
 
-    mounted (){
+    mounted() {
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
         this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
@@ -704,7 +704,10 @@ export default {
         this.getDataset();
         window.addEventListener('scroll', this.catchScroll)
     },
-    destroyed () {
+    updated() {
+        window.snowplow('refreshLinkClickTracking');
+    },
+    destroyed() {
         window.removeEventListener('scroll', this.catchScroll)
     },
 
