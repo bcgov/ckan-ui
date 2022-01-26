@@ -54,6 +54,15 @@ export default{
         }
     },
 
+    watch: {
+      deep: true,
+      group(newData) {
+        this.datasets = newData.datasets;
+        // eslint-disable-next-line
+        console.log(newData);
+      }
+    },
+
     computed: {
       image: function(){
         return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';

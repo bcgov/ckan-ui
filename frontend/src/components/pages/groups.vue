@@ -197,7 +197,12 @@
         },
 
         watch: {
+            deep: true,
+            immediate: true,
             groups(newVal){
+                // eslint-disable-next-line
+                console.log("New val triggered!");
+                this.groups = newVal;
                 this.count = newVal.length;
             }
         },
