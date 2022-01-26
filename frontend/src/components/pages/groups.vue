@@ -142,6 +142,8 @@
     import {CkanApi} from '../../services/ckanApi'
     const ckanServ = new CkanApi()
 
+    import Vue from 'vue'
+
     export default {
         name: "groups",
         components: {
