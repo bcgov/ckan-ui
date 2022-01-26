@@ -71,6 +71,9 @@ export default{
       },
 
     },
+    updated() {
+        window.snowplow('refreshLinkClickTracking');
+    },
 
 }
 </script>
