@@ -183,8 +183,9 @@
                 // eslint-disable-next-line
                 console.log(data);
 
-                self.groups[index].datasets = data.result.packages;
-                self.groups[index].loading = false;
+                Vue.set(self.groups[index], 'datasets', data.result.packages);
+                Vue.set(self.groups[index], 'loading', false);
+                
                 index++;
 
                 if (index < self.groups.length) {
@@ -197,12 +198,7 @@
         },
 
         watch: {
-            deep: true,
-            immediate: true,
             groups(newVal){
-                // eslint-disable-next-line
-                console.log("New val triggered!");
-                this.groups = newVal;
                 this.count = newVal.length;
             }
         },
