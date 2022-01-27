@@ -173,18 +173,9 @@
 
             let index = 0;
 
-            // eslint-disable-next-line
-            console.log(this.groups);
-
             var self = this;
 
             let groupData = function(data) {
-
-                // eslint-disable-next-line
-                console.log(self.groups);
-                // eslint-disable-next-line
-                console.log(data);
-
                 Vue.set(self.groups[index], 'datasets', data.result.packages);
                 Vue.set(self.groups[index], 'loading', false);
                 
@@ -196,7 +187,6 @@
             }
 
             ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
-
         },
 
         watch: {
