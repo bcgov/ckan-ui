@@ -168,7 +168,7 @@
         },
         async mounted() {
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-            this.$store.dispatch('group/getGroups');
+            await this.$store.dispatch('group/getGroups');
             this.count = this.groups.length;
 
             let index = 0;
