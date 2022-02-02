@@ -139,6 +139,11 @@
 
     import Edit from '../groups/edit'
 
+    import {CkanApi} from '../../services/ckanApi'
+    const ckanServ = new CkanApi()
+
+    import Vue from 'vue'
+
     export default {
         name: "groups",
         components: {
@@ -165,6 +170,23 @@
             analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
             this.$store.dispatch('group/getGroups');
             this.count = this.groups.length;
+
+            let index = 0;
+
+            var self = this;
+
+            let groupData = function(data) {
+                Vue.set(self.groups[index], 'datasets', data.result.packages);
+                Vue.set(self.groups[index], 'loading', false);
+                
+                index++;
+
+                if (index < self.groups.length) {
+                    ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
+                }
+            }
+
+            ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
         },
 
         watch: {
