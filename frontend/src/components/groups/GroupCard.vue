@@ -20,11 +20,14 @@
                 <span class="groupName">{{name}}</span>
                 </v-row>
                 <v-row dense>
-                <v-progress-circular
-                    v-if="loading"
+                <p v-if="loading">
+                  <v-progress-circular
+                    :size="20"
+                    :width="2"
                     indeterminate
                     color="light-blue"
-                ></v-progress-circular>
+                  ></v-progress-circular>
+                </p>
                 <p v-else class="groupCount">{{datasets.length}} {{$tc('datasets', datasets.length)}}</p>
                 </v-row>
               </v-container>
