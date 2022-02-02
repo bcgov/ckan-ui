@@ -59,6 +59,13 @@ export default{
         }
     },
 
+    watch: {
+      group(newData) {
+        this.datasets = newData.datasets;
+        this.loading = newData.loading;
+      }
+    },
+
     computed: {
       image: function(){
         return !this.imageError ? (this.group.image_display_url ? this.group.image_display_url : this.group.url) : '/placeholder-organization.png';
