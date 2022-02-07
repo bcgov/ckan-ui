@@ -145,6 +145,7 @@
                 <v-btn v-if="editing" depressed color="primary" type="submit" @click="submit">{{$tc('Save')}}</v-btn>
             </v-col>
         </v-row>
+        <Banner></Banner>
         
         <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto permalink">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
 
@@ -214,6 +215,7 @@ import Vue from 'vue';
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
+import Banner from '../banner/Banner'
 
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
@@ -232,7 +234,8 @@ export default {
         DynamicForm: DynamicForm,
         ResourceList: ResourceList,
         ValidationObserver: ValidationObserver,
-        DeleteButton
+        DeleteButton,
+        Banner: Banner
     },
     data() {
         let schemaName = 'bcdc_dataset';
