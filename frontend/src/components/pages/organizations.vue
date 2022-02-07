@@ -6,6 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="orgContainer px-md-11 py-4">
+        <Banner></Banner>
         <v-alert
             :value="showFormSuccess"
             class="fixed mr-md-1"
@@ -125,6 +126,7 @@
 <script>
     import OrgTree from '../organizations/OrgTree'
     import Edit from '../organizations/edit';
+    import Banner from '../banner/Banner'
 
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics();
@@ -137,6 +139,7 @@
         components: {
             OrgTree: OrgTree,
             Edit: Edit,
+            Banner: Banner
         },
 
         data() {
