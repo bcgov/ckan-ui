@@ -6,6 +6,7 @@
         </div>
     </v-container>
     <v-container fluid v-else class="px-md-11 main-area">
+        <Banner></Banner>
         <v-row wrap class="mr-md-1">
             <v-col cols=10 sm=7>
                 <ListPage
@@ -31,12 +32,13 @@
 
   import ListPage from '../dataset/ListPage'
   import FacetFilters from '../dataset/FacetFilters'
+  import Banner from '../banner/Banner'
 
   export default {
     components: {
         ListPage: ListPage,
-        FacetFilters: FacetFilters
-
+        FacetFilters: FacetFilters,
+        Banner: Banner
     },
 
     data() {

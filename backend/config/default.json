@@ -56,7 +56,8 @@
       "collector": "snowPlowCollectorUrl",
       "protocol": "http",
       "port": 8080,
-      "appId": "ckan"
+      "appId": "ckan",
+      "namespace": "catalogue"
   },
 
   "authGroupSeperator": "/",

@@ -6,6 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
+        <Banner></Banner>
         <v-row wrap class="mt-0 px-md-15 py-4 fauxbar">
             <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || group.state === 'deleted'">
                 <v-alert
@@ -134,6 +135,7 @@
     import MemberList from '../groups/MemberList';
     import Markdown from '../form/components/Markdown';
     import Edit from '../groups/edit';
+    import Banner from '../banner/Banner'
 
     import { mapState } from 'vuex';
 
@@ -153,6 +155,7 @@
             MemberList: MemberList,
             Markdown: Markdown,
             Edit: Edit,
+            Banner: Banner
         },
         data () {
             return {

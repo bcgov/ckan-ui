@@ -11,6 +11,7 @@
         </div>
     </v-container>
     <v-container v-else fluid grid-list-md class="main-area" :key="'resourceCRUD-'+redrawIndex">
+        <Banner></Banner>
         <v-row id="topOfResForm"></v-row>
         <v-row class="mt-0 py-4 wrap px-md-15 fauxbar">
             <v-col cols=10 class="my-0 py-0" v-if="showFormError || showFormSuccess || resource.state === 'deleted'">
@@ -206,6 +207,7 @@ import Preview from "../resources/preview";
 import JsonTable from "../resources/jsontable";
 import powButton from "../pow/powButton";
 import DeleteButton from '../DeleteButton';
+import Banner from '../banner/Banner'
 
 import Permissions from '@/mixins/permissions';
 
@@ -218,7 +220,8 @@ export default {
         Preview: Preview,
         JsonTable: JsonTable,
         powButton: powButton,
-        DeleteButton
+        DeleteButton,
+        Banner: Banner
     },
     data() {
         let schemaName = 'bcdc_dataset';

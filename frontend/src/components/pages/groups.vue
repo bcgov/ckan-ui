@@ -6,6 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
+        <Banner></Banner>
         <v-alert
             :value="showFormSuccess"
             class="fixed"
@@ -138,17 +139,19 @@
     const analyticsServ = new Analytics()
 
     import Edit from '../groups/edit'
+    import Banner from '../banner/Banner'
 
-    import {CkanApi} from '../../services/ckanApi'
-    const ckanServ = new CkanApi()
+    // import {CkanApi} from '../../services/ckanApi'
+    // const ckanServ = new CkanApi()
 
-    import Vue from 'vue'
+    // import Vue from 'vue'
 
     export default {
         name: "groups",
         components: {
             GroupCard: GroupCard,
             Edit: Edit,
+            Banner: Banner
         },
 
         data() {
@@ -171,22 +174,22 @@
             await this.$store.dispatch('group/getGroups');
             this.count = this.groups.length;
 
-            let index = 0;
+            // let index = 0;
 
-            var self = this;
+            // var self = this;
 
-            let groupData = function(data) {
-                Vue.set(self.groups[index], 'datasets', data.result.packages);
-                Vue.set(self.groups[index], 'loading', false);
+            // let groupData = function(data) {
+            //     Vue.set(self.groups[index], 'datasets', data.result.packages);
+            //     Vue.set(self.groups[index], 'loading', false);
                 
-                index++;
+            //     index++;
 
-                if (index < self.groups.length) {
-                    ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
-                }
-            }
+            //     if (index < self.groups.length) {
+            //         ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
+            //     }
+            // }
 
-            ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
+            // ckanServ.getGroup(self.groups[index].id).then(data => groupData(data))
         },
 
         watch: {
