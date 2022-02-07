@@ -141,11 +141,6 @@
     import Edit from '../groups/edit'
     import Banner from '../banner/Banner'
 
-    import {CkanApi} from '../../services/ckanApi'
-    const ckanServ = new CkanApi()
-
-    import Vue from 'vue'
-
     // import {CkanApi} from '../../services/ckanApi'
     // const ckanServ = new CkanApi()
 
