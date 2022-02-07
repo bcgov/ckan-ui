@@ -139,10 +139,10 @@
 
     import Edit from '../groups/edit'
 
-    import {CkanApi} from '../../services/ckanApi'
-    const ckanServ = new CkanApi()
+    // import {CkanApi} from '../../services/ckanApi'
+    // const ckanServ = new CkanApi()
 
-    import Vue from 'vue'
+    // import Vue from 'vue'
 
     export default {
         name: "groups",
