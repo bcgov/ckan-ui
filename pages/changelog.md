@@ -62,7 +62,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
-|16|Added Configurable Information Banner| ([#704](https://github.com/bcgov/ckan-ui/pull/704))
+|16|Added Configurable Information Banner| ([#705](https://github.com/bcgov/ckan-ui/pull/705))
 |15|Update GroupCards with new value| ([#688](https://github.com/bcgov/ckan-ui/pull/688))
 |15|Loop group API calls| ([#670](https://github.com/bcgov/ckan-ui/pull/670))
 |14|Enable link click tracking| ([#662](https://github.com/bcgov/ckan-ui/pull/662), [#664](https://github.com/bcgov/ckan-ui/pull/664))
