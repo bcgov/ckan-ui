@@ -6,6 +6,7 @@
         </div>
     </v-container>
     <v-container v-else fluid class="groupContainer px-md-11 py-4">
+        <Banner></Banner>
         <v-alert
             :value="showFormSuccess"
             class="fixed"
@@ -138,6 +139,12 @@
     const analyticsServ = new Analytics()
 
     import Edit from '../groups/edit'
+    import Banner from '../banner/Banner'
+
+    import {CkanApi} from '../../services/ckanApi'
+    const ckanServ = new CkanApi()
+
+    import Vue from 'vue'
 
     // import {CkanApi} from '../../services/ckanApi'
     // const ckanServ = new CkanApi()
@@ -149,6 +156,7 @@
         components: {
             GroupCard: GroupCard,
             Edit: Edit,
+            Banner: Banner
         },
 
         data() {

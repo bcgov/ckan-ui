@@ -122,14 +122,14 @@ export default {
             return y + "-" + m + "-" + d
         }
 
-        let date = new Date(this.record.metadata_created)
+        let date = new Date(this.record.record_publish_date)
         let pubDate = formatDate(date)
 
         let d2 = new Date(this.record.metadata_modified)
         let modDate = formatDate(d2)
 
         return {
-            publishDate: pubDate ? pubDate : "",
+            publishDate: this.record.record_publish_date ? pubDate : "",
             resourceTypes: resourceTypes,
             description: this.record.notes,
             id: this.record.id,
@@ -137,7 +137,7 @@ export default {
             name: this.record.name,
             org: this.record.organization.title,
             orgId: this.record.organization.name,
-            metaModDate: modDate ? modDate : "",
+            metaModDate: d2 ? modDate : "",
             //iconName: icon,
             //iconToolTip: tooltip,
             primMarkers: [{
