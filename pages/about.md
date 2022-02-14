@@ -20,7 +20,5 @@ If you have questions about specific data, please review the Contact section and
 For technical support using the catalogue, please email [nrmenquiries@gov.bc.ca](mailto:nrmenquiries@gov.bc.ca).
 
 **Questions about the Catalogue:**  
-If you have general questions about the catalogue, please send us an email at [data@gov.bc.ca](mailto:data@gov.bc.ca).
-
-
+If you have general questions about the catalogue or wish to provide feedback, please open a ticket with the [Data Systems & Services request system](https://dpdd.atlassian.net/servicedesk/customer/portal/1). 
 
