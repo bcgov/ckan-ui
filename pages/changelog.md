@@ -37,10 +37,9 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 ## RELEASE DETAILS AND DATES
 
-|**Deployment No.**|**Description**|**Beta**|**Production**|
+|**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-|16|Added Configurable Information Banner (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22||
-|15|Fix loading of groups page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22||
+|15|Fix loading of groups page, added configurable information banner, updated about page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22|14-Feb-22|
 |14|Enable snowplow analytics to be captured (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|07-Jan-22|26-Jan-22|
 |13|Update to enable exclamation marks and commas in URLs (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|08-Dec-21|12-Jan-22|
 |12|Updates deployed based on user feedback and backlog prioritization (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Nov-21|30-Nov-21|
@@ -62,8 +61,10 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
-|16|Added Configurable Information Banner| ([#705](https://github.com/bcgov/ckan-ui/pull/705))
-|15|Update GroupCards with new value| ([#688](https://github.com/bcgov/ckan-ui/pull/688))
+|15|Updated about page | ([#711](https://github.com/bcgov/ckan-ui/pull/711))
+|15|Added Configurable Information Banner | ([#705](https://github.com/bcgov/ckan-ui/pull/705))
+|15|Removed API calls from groups page | ([#702](https://github.com/bcgov/ckan-ui/pull/702))
+|15|Update GroupCards | ([#688](https://github.com/bcgov/ckan-ui/pull/688))
 |15|Loop group API calls| ([#670](https://github.com/bcgov/ckan-ui/pull/670))
 |14|Enable link click tracking| ([#662](https://github.com/bcgov/ckan-ui/pull/662), [#664](https://github.com/bcgov/ckan-ui/pull/664))
 |14|Add snowplow frontend script| ([#641](https://github.com/bcgov/ckan-ui/pull/641))
