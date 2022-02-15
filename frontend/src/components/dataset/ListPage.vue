@@ -110,7 +110,7 @@
               { value: "views_total desc", text: this.$tc("Popular") },
               { value: "name asc", text: this.$tc("Name") + " " + this.$tc("Ascending") },
               { value: "name desc", text: this.$tc("Name") + " " + this.$tc("Descending") },
-              { value: "metadata_created desc", text: this.$tc("Newest") }
+              { value: "record_publish_date desc", text: this.$tc("Newest") }
           ],
       }
     },
@@ -195,7 +195,7 @@
             // per bcgov#509
             let effectiveOrder = this.sortOrder;
             if ((!this.searchText || /^\s+$/.test(this.searchText)) && this.sortOrder.startsWith("score")) {
-                effectiveOrder = "metadata_created desc";
+                effectiveOrder = "record_publish_date desc";
             }
 
             let q = "?rows=" + this.rows+"&sort="+effectiveOrder+"&include_drafts=true&include_private=true&"
