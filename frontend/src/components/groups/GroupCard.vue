@@ -19,9 +19,17 @@
                 <v-row dense>
                 <span class="groupName">{{name}}</span>
                 </v-row>
-                <v-row dense>
-                <p class="groupCount">{{datasets.length}} {{$tc('datasets', datasets.length)}}</p>
-                </v-row>
+                <!-- <v-row dense>
+                <p v-if="loading">
+                  <v-progress-circular
+                    :size="20"
+                    :width="2"
+                    indeterminate
+                    color="light-blue"
+                  ></v-progress-circular>
+                </p>
+                <p v-else class="groupCount">{{datasets.length}} {{$tc('datasets', datasets.length)}}</p>
+                </v-row> -->
               </v-container>
           </v-col>
           <v-col cols=1 class="text-right pr-3" align-self="center">
@@ -32,8 +40,7 @@
 </template>
 
 <script>
-import {CkanApi} from '../../services/ckanApi'
-const ckanServ = new CkanApi()
+
 
 export default{
     name: 'GroupCard',
@@ -53,6 +60,13 @@ export default{
             loading: true,
             imageError: false
         }
+    },
+
+    watch: {
+      group(newData) {
+        this.datasets = newData.datasets;
+        this.loading = newData.loading;
+      }
     },
 
     computed: {
@@ -75,15 +89,6 @@ export default{
     updated() {
         window.snowplow('refreshLinkClickTracking');
     },
-
-    mounted() {
-      ckanServ.getGroup(this.id).then((data) => {
-
-        this.datasets = data.result.packages;
-
-        this.loading = false;
-      });
-    }
 
 }
 </script>

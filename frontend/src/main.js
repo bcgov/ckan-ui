@@ -209,7 +209,10 @@ analyticsServ.ga().then( (gajson) => {
             label_colour: "#1A5A96",
             label_border: "#DDDDDD",
             error_text: "#D8292F",
-            home_label: "#888888"
+            home_label: "#888888",
+            banner_error: "#F2DEDE",
+            banner_warning: "#F9F1C6",
+            banner_info: "#D9EAF7"
           },
           light: {
             primary: '#003366',
@@ -233,7 +236,10 @@ analyticsServ.ga().then( (gajson) => {
             label_colour: "#1A5A96",
             label_border: "#DDDDDD",
             error_text: "#D8292F",
-            home_label: "#888888"
+            home_label: "#888888",
+            banner_error: "#F2DEDE",
+            banner_warning: "#F9F1C6",
+            banner_info: "#D9EAF7"
           }
         }
     }
