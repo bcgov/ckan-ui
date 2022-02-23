@@ -12,17 +12,17 @@ var addRoutes = function(router){
                 body.dates = JSON.parse(body.dates);
             }
             
-            for (let i=0; i<body.dates.length; i++){
-                if (body.dates[i].type.toLowerCase() === "published"){
-                    body.record_publish_date = body.dates[i].date;
-                }else if (body.dates[i].type.toLowerCase() === "created"){
-                    body.record_create_date = body.dates[i].date;
-                }else if (body.dates[i].type.toLowerCase() === "archived"){
-                    body.record_archive_date = body.dates[i].date;
-                }else if (body.dates[i].type.toLowerCase() === "modified"){
-                    body.record_last_modified = body.dates[i].date;
-                }
-            }
+            // for (let i=0; i<body.dates.length; i++){
+            //     if (body.dates[i].type.toLowerCase() === "published"){
+            //         body.record_publish_date = body.dates[i].date;
+            //     }else if (body.dates[i].type.toLowerCase() === "created"){
+            //         body.record_create_date = body.dates[i].date;
+            //     }else if (body.dates[i].type.toLowerCase() === "archived"){
+            //         body.record_archive_date = body.dates[i].date;
+            //     }else if (body.dates[i].type.toLowerCase() === "modified"){
+            //         body.record_last_modified = body.dates[i].date;
+            //     }
+            // }
             if (convertBack){
                 body.dates = JSON.stringify(body.dates);
             }
