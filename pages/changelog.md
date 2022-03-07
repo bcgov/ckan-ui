@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22||
 |15|Fix loading of groups page, added configurable information banner, updated about page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22|14-Feb-22|
 |14|Enable snowplow analytics to be captured (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|07-Jan-22|26-Jan-22|
 |13|Update to enable exclamation marks and commas in URLs (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|08-Dec-21|12-Jan-22|
@@ -61,6 +62,9 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|16|Remove gravitar and replace with initials | ([#715](https://github.com/bcgov/ckan-ui/pull/715))
+|16|Change newest to use record_publish_date | ([#717](https://github.com/bcgov/ckan-ui/pull/717))
+|16|Fix resource lifecycle history to prevent overwrites | ([#716](https://github.com/bcgov/ckan-ui/pull/716))
 |15|Updated about page | ([#711](https://github.com/bcgov/ckan-ui/pull/711))
 |15|Added Configurable Information Banner | ([#705](https://github.com/bcgov/ckan-ui/pull/705))
 |15|Removed API calls from groups page | ([#702](https://github.com/bcgov/ckan-ui/pull/702))
