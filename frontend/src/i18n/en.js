@@ -288,6 +288,7 @@ export default {
         "Scroll to Top": "Scroll to Top",
         "Permalink URL Copied to Clipboard": "Permalink URL Copied to Clipboard",
         "First Published": "First Published",
+        "Unpublished": "Unpublished",
         "Account Settings": "Account Settings",
         "Reset": "Reset",
         "Record Status": "Record Status",
