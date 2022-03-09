@@ -288,6 +288,7 @@ export default {
         "Scroll to Top": "Faire défiler vers le haut",
         "Permalink URL Copied to Clipboard": "URL du lien permanent copiée dans le presse-papiers",
         "First Published": "Première publication",
+        "Unpublished": "Non publié",
         "Account Settings": "Paramètres du compte",
         "Reset": "Réinitialiser",
         "Record Status": "Statut d'enregistrement",
