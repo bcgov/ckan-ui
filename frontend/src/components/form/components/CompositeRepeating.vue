@@ -281,6 +281,7 @@ export default {
         },
         removeRecord: function(index) {
             this.model.splice(index,1);
+            this.$emit('edited', JSON.stringify(this.model));
         },
 
         modified: function(refName) {
