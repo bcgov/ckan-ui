@@ -24,7 +24,8 @@
 
       <v-row wrap dense class="my-0 py-0">
         <!--<v-col cols=4 class="faded">{{$tc('Metadata Modified')}}: {{metaModDate}}</v-col>-->
-        <v-col cols=5 class="faded">{{$tc('First Published')}}: {{publishDate}}</v-col>
+        <v-col cols=5 class="faded" v-if="publishDate">{{$tc('First Published')}}: {{publishDate}}</v-col>
+        <v-col cols=5 class="faded" v-else>{{$tc('Unpublished')}}</v-col>
         <v-col cols=7 class="faded text-right"><strong>{{$tc('Data Types')}}: {{types}}</strong></v-col>
       </v-row>
 
@@ -116,13 +117,16 @@ export default {
         // }
 
         let formatDate = function(date){
-            let y = date.getFullYear();
-            let m = (date.getMonth() < 9 ? "0"+(date.getMonth()+1) : (date.getMonth()+1))
-            let d = (date.getDate() < 10 ? "0"+(date.getDate()) : (date.getDate()));
-            return y + "-" + m + "-" + d
+            if (date) {
+                let y = date.getFullYear();
+                let m = (date.getMonth() < 9 ? "0"+(date.getMonth()+1) : (date.getMonth()+1))
+                let d = (date.getDate() < 10 ? "0"+(date.getDate()) : (date.getDate()));
+                return y + "-" + m + "-" + d
+            }
+            return undefined
         }
 
-        let date = new Date(this.record.metadata_created)
+        let date = this.record.record_publish_date ? new Date(this.record.record_publish_date) : undefined
         let pubDate = formatDate(date)
 
         let d2 = new Date(this.record.metadata_modified)
