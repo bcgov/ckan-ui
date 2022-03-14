@@ -39,7 +39,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-|16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22||
+|17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22||
+|16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
 |15|Fix loading of groups page, added configurable information banner, updated about page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22|14-Feb-22|
 |14|Enable snowplow analytics to be captured (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|07-Jan-22|26-Jan-22|
 |13|Update to enable exclamation marks and commas in URLs (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|08-Dec-21|12-Jan-22|
@@ -62,6 +63,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|17|Remove survey banner | ([#728](https://github.com/bcgov/ckan-ui/pull/728))
+|17|Fix contact and lifecycle date deletion | ([#727](https://github.com/bcgov/ckan-ui/pull/727))
 |16|Remove gravitar and replace with initials | ([#715](https://github.com/bcgov/ckan-ui/pull/715))
 |16|Change newest to use record_publish_date | ([#717](https://github.com/bcgov/ckan-ui/pull/717))
 |16|Fix resource lifecycle history to prevent overwrites | ([#716](https://github.com/bcgov/ckan-ui/pull/716))
