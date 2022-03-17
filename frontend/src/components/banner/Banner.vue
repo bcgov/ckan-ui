@@ -14,7 +14,7 @@
 export default {
     data() {
       return {
-        message: 'We welcome your feedback! Help us improve your experience by taking our short 1 minute survey.',
+        message: '',
         action: 'https://form.simplesurvey.com/f/s.aspx?s=8d6269f2-2eb0-4dff-86af-09889bda98fe',
         actionText: 'Give Feedback',
         colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
