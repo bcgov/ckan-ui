@@ -114,6 +114,7 @@
                                     :disabled="disabled"
                                     readonly
                                     clearable
+                                    @click:clear="clearField(sub.field_name);"
                                     v-on="on"
                                 ></v-text-field>
                             </template>
@@ -219,6 +220,10 @@ export default {
                 }
             }
             return value;
+        },
+        clearField: function(field) {
+            this.model[field] = '';
+            this.$emit('edited', JSON.stringify(this.model));
         }
     },
     watch: {
