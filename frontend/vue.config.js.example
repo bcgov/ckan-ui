@@ -8,7 +8,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/resourceUpdate': {
-                target: "https://cadi.data.gov.bc.ca/api/3/action/resource_update",
+                target: "http://localhost:5000/api/3/action/resource_update",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/resourceUpdate': ""
@@ -16,7 +16,7 @@ module.exports = {
             },
 
             '/resourceCreate': {
-                target: "https://cadi.data.gov.bc.ca/api/3/action/resource_create",
+                target: "http://localhost:5000/api/3/action/resource_create",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/resourceCreate': ""

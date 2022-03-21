@@ -22,3 +22,4 @@ yarn-error.log*
 *.sw*
 
 helm/ckan-ui/config*.yaml
+frontend/vue.config.js
