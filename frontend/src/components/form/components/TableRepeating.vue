@@ -133,6 +133,7 @@
                                         :disabled="disabled"
                                         readonly
                                         clearable
+                                        @click:clear="clearField(repeatedIndex, sub.field_name);"
                                         v-on="on"
                                     ></v-text-field>
                                 </template>
@@ -288,6 +289,10 @@ export default {
                 }
             }
             return value;
+        },
+        clearField: function(index, field) {
+            this.model[index][field] = '';
+            this.$emit('edited', JSON.stringify(this.model));
         }
     },
     computed: {
