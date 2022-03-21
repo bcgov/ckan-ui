@@ -137,6 +137,7 @@
                                         :error-messages="errors.length > 0 ? [errors[0]] : []"
                                         :disabled="disabled"
                                         readonly
+                                        clearable
                                         v-on="on"
                                     ></v-text-field>
                                 </template>
