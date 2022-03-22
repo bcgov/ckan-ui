@@ -2,13 +2,7 @@
     <v-col cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label fixedWidth">
-                {{$tc(displayLabel)}}&nbsp;
-                <v-tooltip right v-if="field.help_text">
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                    </template>
-                    <span v-html="field.help_text">}</span>
-                </v-tooltip>
+                {{$tc(displayLabel)}}
             </label>
             <span class="preserveWhite">{{ (empty) ? $tc("Not provided") : val  }}</span>
         </div>
@@ -18,6 +12,8 @@
                 :name="name"
                 v-model="val"
                 :placeholder="placeholder"
+                :hint="field.help_text"
+                persistent-hint
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 auto-grow
                 :disabled="disabled"
@@ -89,16 +85,19 @@ export default {
 </script>
 
 <style scoped>
-.fullWidth{
-    width: 100%;
-}
+    .fullWidth{
+        width: 100%;
+    }
 
-.fixedWidth{
-    width: 300px;
-    display: inline-block;
-}
+    .fixedWidth{
+        width: 300px;
+        display: inline-block;
+    }
 
-.preserveWhite{
-    white-space: pre;
-}
+    .preserveWhite{
+        white-space: pre;
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
+    }
 </style>
