@@ -202,6 +202,7 @@
             <v-row>
                 <v-col cols=12>
                     <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
+                        <v-icon>mdi-plus-circle</v-icon>
                         Add {{displayLabel}}
                     </v-btn>
                 </v-col>
