@@ -1,13 +1,7 @@
 <template>
     <v-col cols=12 class="py-2 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}{{( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? '*' : ''}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}{{( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? '*' : ''}}
         </label>
         <div v-if="!editing">
             <div class="mb-2">
@@ -45,6 +39,7 @@
             <hr>
         </div>
         <div v-else :key="'composite'+field.field_name" class="mb-2">
+            <span class="help-text">{{field.help_text}}</span>
             <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key" align="center">
                 <v-col cols=2 class="pb-0">
                     <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
@@ -288,5 +283,9 @@ export default {
     hr{
         color: var(--v-icon-base);
         border-bottom: 0px;
+    }
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
     }
 </style>

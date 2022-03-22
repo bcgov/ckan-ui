@@ -1,13 +1,7 @@
 <template>
     <div v-if="!editing" class="py-2">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <span>{{!!value ? trueDisplay : falseDisplay}}</span>
     </div>
@@ -15,6 +9,8 @@
         <v-checkbox
             :name="name"
             v-model="val"
+            :hint="field.help_text"
+            persistent-hint
             :label="$tc(displayLabel)"
             :error-messages="errors.length > 0 ? [errors[0]] : []"
             :disabled="disabled">
@@ -66,5 +62,8 @@ export default {
         font-size: 16px;
         font-weight: bold;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

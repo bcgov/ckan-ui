@@ -5,19 +5,15 @@
         </h2>
         <div v-else>
             <label class="label">
-                {{$tc(displayLabel)}}&nbsp;
-                <v-tooltip right v-if="field.help_text">
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                    </template>
-                    <span>{{field.help_text}}</span>
-                </v-tooltip>
+                {{$tc(displayLabel)}}
             </label>
             <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
                 <v-text-field
                     :name="name"
                     v-model="val"
                     :placeholder="placeholder"
+                    :hint="field.help_text"
+                    persistent-hint
                     outlined dense
                     :error-messages="errors.length>0 ? [errors[0]] : []"
                     :disabled="disabled"
@@ -79,5 +75,8 @@ export default {
         font-size: 23px;
         font-weight: bold;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

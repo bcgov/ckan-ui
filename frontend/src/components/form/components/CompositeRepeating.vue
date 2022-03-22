@@ -1,13 +1,7 @@
 <template>
     <v-col v-if="anyShown || editing" cols=12 class="py-2 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
@@ -58,6 +52,7 @@
             <hr>
         </div>
         <div v-else :key="'composite'+field.field_name+rerenderKey">
+            <span class="help-text">{{field.help_text}}</span>
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
@@ -391,19 +386,15 @@ export default {
         margin-left: 24px;
         color: var(--v-faded_text-base);
     }
-
     .valueSpan{
         max-width: calc(100% - 330px);
     }
-
     .fullValue{
         display: hidden;
     }
-
     .valueSpan:hover .fullValue{
         display: block;
     }
-
     .value{
         font-size: 16px;
         color: var(--v-faded_text-base);
@@ -411,5 +402,9 @@ export default {
     hr{
         color: var(--v-icon-base);
         border-bottom: 0px;
+    }
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
     }
 </style>
