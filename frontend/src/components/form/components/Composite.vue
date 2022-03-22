@@ -75,7 +75,8 @@
                             outlined dense
                             hide-details="auto"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @change="modified">
+                            @change="modified"
+                            background-color="text">
                         </v-select>
                     </ValidationProvider>
 
@@ -91,7 +92,8 @@
                             hide-details="auto"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @change="modified">
+                            @change="modified"
+                            background-color="text">
                         </v-select>
                     </ValidationProvider>
 
@@ -116,6 +118,7 @@
                                     clearable
                                     @click:clear="clearField(sub.field_name);"
                                     v-on="on"
+                                    background-color="text"
                                 ></v-text-field>
                             </template>
                             <v-date-picker :disabled="disabled" v-model="model[sub.field_name]" @input="modified(field.field_name+'.'+sub.field_name);"></v-date-picker>
@@ -131,7 +134,8 @@
                             :placeholder="sub.form_placeholder"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
 
@@ -144,7 +148,8 @@
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
 
@@ -157,7 +162,8 @@
                             :placeholder="sub.form_placeholder"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
                 </v-col>

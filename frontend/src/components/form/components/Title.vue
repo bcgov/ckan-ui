@@ -21,6 +21,7 @@
                     outlined dense
                     :error-messages="errors.length>0 ? [errors[0]] : []"
                     :disabled="disabled"
+                    background-color="text"
                 ></v-text-field>
             </ValidationProvider>
         </div>

@@ -26,7 +26,8 @@
                 @change="onChange"
                 :disabled="disabled"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-                outlined dense>
+                outlined dense
+                background-color="text">
             </v-select>
         </ValidationProvider>
     </v-col>

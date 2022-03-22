@@ -21,7 +21,8 @@
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 auto-grow
                 :disabled="disabled"
-                outline
+                outlined dense
+                background-color="text"
             ></v-textarea>
         </ValidationProvider>
     </v-col>
