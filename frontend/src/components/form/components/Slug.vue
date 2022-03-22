@@ -19,6 +19,7 @@
                 :disabled="disabled"
                 outlined dense
                 :prefix="prefix"
+                background-color="text"
             ></v-text-field>
         </ValidationProvider>
     </v-col>

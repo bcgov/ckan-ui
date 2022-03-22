@@ -28,6 +28,7 @@
                 :disabled="disabled"
                 outlined dense
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                background-color="text"
             ></v-autocomplete>
         </ValidationProvider>
     </v-col>

@@ -24,7 +24,7 @@
                 </v-tooltip>
             </label>
             <div v-if="allowURL">
-                <v-radio-group v-model="isURL" row>
+                <v-radio-group v-model="isURL" row dense>
                     <v-radio
                         label="URL"
                         :value="true">
@@ -43,7 +43,8 @@
                     :placeholder="placeholder"
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
-                    outline
+                    outlined dense
+                    background-color="text"
                 ></v-text-field>
             </ValidationProvider>
             <div v-else>
@@ -158,8 +159,11 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     .fullWidth{
         width: 100%;
+    }
+    .upload-radio {
+        width: auto;
+        background: white;
     }
 </style>
