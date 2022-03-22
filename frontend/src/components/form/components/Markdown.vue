@@ -1,13 +1,7 @@
 <template>
     <v-col cols=12 class="py-2">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <span v-if="!editing" v-html="displayValue" class="value"></span>
         <div v-else>
@@ -25,6 +19,8 @@
                     :name="name"
                     :label="field.form_placeholder"
                     v-model="model"
+                    :hint="field.help_text"
+                    persistent-hint
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
                     outlined dense
@@ -136,5 +132,8 @@ export default {
     .value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

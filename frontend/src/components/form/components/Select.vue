@@ -1,13 +1,7 @@
 <template>
     <v-col cols=12 class="py-2">
         <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
             <span v-if="field.field_name === 'owner_org'"><router-link :to="{ name: 'organization_view', params: { organizationId: orgName(value) }}">{{orgTitle(value)}}</router-link></span>
@@ -23,6 +17,8 @@
                 :items="items"
                 item-text="label"
                 item-value="value"
+                :hint="field.help_text"
+                persistent-hint
                 @change="onChange"
                 :disabled="disabled"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -174,11 +170,12 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     span.errorText{
         font-size: 10px;
     }
-
+    >>>.v-messages__message {
+        margin-left: -12px !important;
+    }
     .fixedWidth{
         width: 300px;
         display: inline-block;
