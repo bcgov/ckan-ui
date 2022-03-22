@@ -32,7 +32,7 @@
                 deletable-chips
                 multiple
                 :search-input.sync="search"
-                outlined dense
+                outlined 
                 :delimiters="[',']"
                 :disabled="disabled"
                 @input="search = null"
