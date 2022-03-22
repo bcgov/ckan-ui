@@ -23,6 +23,7 @@
                     :disabled="disabled"
                     solo
                     outlined dense
+                    background-color="text"
                 ></v-text-field>
             </ValidationProvider>
         </div>

@@ -27,7 +27,8 @@
                 item-value="id"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
-                outlined dense>
+                outlined dense
+                background-color="text">
             </v-select>
         </ValidationProvider>
     </v-col>

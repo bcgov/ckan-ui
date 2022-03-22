@@ -37,6 +37,7 @@
                 :disabled="disabled"
                 @input="search = null"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                background-color="text"
             ></v-combobox>
         </ValidationProvider>
     </v-col>
