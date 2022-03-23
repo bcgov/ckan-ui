@@ -235,7 +235,7 @@ export default {
             disabled: false,
             schema: this.$store.state.dataset.schemas[schemaName] ? this.$store.state.dataset.schemas[schemaName] : {},
             createMode: this.$route.name === "resource_create",
-            textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments'],
+            textFields: ['name', 'object_name', 'object_short_name', 'object_table_comments', 'last_modified'],
             error: this.datasetError,
             previewDialog: false,
             schemaDialog: false,
