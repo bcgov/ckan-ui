@@ -1,24 +1,21 @@
 <template>
     <v-col cols=12 class="py-2" v-if="editing">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <ValidationProvider :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-text-field
                 :name="name"
                 v-model="val"
                 :placeholder="placeholder"
+                :hint="field.help_text"
+                persistent-hint
                 v-on:keyup="modified = true"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
                 outlined dense
                 :prefix="prefix"
+                background-color="text"
             ></v-text-field>
         </ValidationProvider>
     </v-col>
@@ -81,5 +78,8 @@ export default {
         font-size: 16px;
         font-weight: bold;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

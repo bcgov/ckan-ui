@@ -2,13 +2,7 @@
     <v-col cols=12 class="py-2">
         {{firstRender ? rerender() : ''}}
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <p class="value">
@@ -27,16 +21,19 @@
                 :items="items"
                 :item-text="itemTextField"
                 :item-value="itemTextField"
+                :hint="field.help_text"
+                persistent-hint
                 cache-items
                 chips
                 deletable-chips
                 multiple
                 :search-input.sync="search"
-                outlined dense
+                outlined 
                 :delimiters="[',']"
                 :disabled="disabled"
                 @input="search = null"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                background-color="text"
             ></v-combobox>
         </ValidationProvider>
     </v-col>
@@ -184,8 +181,10 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     .underline{
         text-decoration: underline;
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

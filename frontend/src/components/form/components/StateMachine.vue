@@ -1,13 +1,7 @@
 <template>
     <v-col cols=12 class="py-2">
         <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
             <span class="value mb-0 pb-0">{{translate ? $tc(this.labelLookup[this.val]) : this.labelLookup[this.val]}}</span>
@@ -15,16 +9,16 @@
             <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
         </span>
         <span v-else>
-            <v-stepper alt-labels :value="stepNo">
+            <v-stepper alt-labels :value="stepNo" class="elevation-0 border">
                 <v-stepper-header>
                     <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button-'+redrawIndex">
                         <v-stepper-step :complete="stepNo === state.stepNo" :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo, state.allowed)">
                             {{labelLookup[state.state]}}
-                        </v-stepper-step> 
-                        <v-divider v-if="parseInt(k) < (nextStates.length - 1)"></v-divider>
+                        </v-stepper-step>
                     </span>
                 </v-stepper-header>
             </v-stepper>
+            <span class="help-text">{{field.help_text}}</span>
             <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">                
                 <input type="text" style="display: none" v-model="val" />
                 <div class="errors">{{errors.length > 0 ? errors[0] : ""}}</div>
@@ -240,6 +234,15 @@ export default {
 
     .fauxDisabled{
         cursor: not-allowed;
+    }
+
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .border {
+        border: 1px solid rgba(0, 0, 0, 0.4);
     }
 
 </style>

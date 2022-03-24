@@ -1,13 +1,7 @@
 <template>
     <v-col cols=12 class="py-2">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <p class="value">{{displayValue}}</p>
@@ -21,6 +15,8 @@
                 :items="items"
                 :item-text="itemTextField"
                 :item-value="itemValueField"
+                :hint="field.help_text"
+                persistent-hint
                 cache-items
                 chips
                 deletable-chips
@@ -28,6 +24,7 @@
                 :disabled="disabled"
                 outlined dense
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                background-color="text"
             ></v-autocomplete>
         </ValidationProvider>
     </v-col>
@@ -152,5 +149,8 @@ export default {
     .value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>
