@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2 mb-4">
+    <v-col v-if="editing || hasValues" cols=12 class="py-2 mb-4">
         <label class="label">
             {{$tc(displayLabel)}}
         </label>
@@ -234,6 +234,7 @@ export default {
             dateMenuOpen: false,
             rerenderKey: 0,
             expandDialog: false,
+            hasValues: false
         }
     },
 
@@ -331,6 +332,7 @@ export default {
                 for (let j=0; j<this.field.subfields.length; j++){
                     if (value && value[i] && value[i][this.field.subfields[j].field_name]){
                         this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
+                        this.hasValues = true;
                     }else{
                         this.model[i][this.field.subfields[j].field_name] = "";
                     }

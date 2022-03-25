@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || val" cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label fixedWidth">
                 {{$tc(displayLabel)}}
@@ -85,15 +85,18 @@ export default {
 </script>
 
 <style scoped>
+    label.label{
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--v-faded_text-base);
+    }
     .fullWidth{
         width: 100%;
     }
-
     .fixedWidth{
         width: 300px;
         display: inline-block;
     }
-
     .preserveWhite{
         white-space: pre;
     }

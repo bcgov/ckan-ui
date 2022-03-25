@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || displayValue" cols=12 class="py-2">
         <label class="label">
             {{$tc(displayLabel)}}
         </label>
@@ -49,7 +49,7 @@ export default {
 
         return {
             val: this.value,
-            displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
+            displayValue: (this.value) ? this.value : null,
             validate: v,
             scopeName: this.scope + '.' + this.name,
         }
