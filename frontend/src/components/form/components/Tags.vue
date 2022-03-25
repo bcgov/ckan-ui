@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || val.length" cols=12 class="py-2">
         {{firstRender ? rerender() : ''}}
         <label class="label">
             {{$tc(displayLabel)}}
@@ -9,7 +9,6 @@
                 <span v-for="(v, k) in val" :key="name+'-link-'+k"> 
                     <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(val.length-1)) ? "" : ", ")}} 
                 </span>
-                <span v-if="val.length === 0">{{$tc('Not Provided')}}</span>
             </p>
         </div>
         <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">

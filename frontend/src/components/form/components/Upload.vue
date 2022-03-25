@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || value" cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label">
                 {{$tc(displayLabel)}}
