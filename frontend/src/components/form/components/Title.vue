@@ -15,6 +15,8 @@
                     :hint="field.help_text"
                     persistent-hint
                     outlined dense
+                    counter
+                    maxlength="100"
                     :error-messages="errors.length>0 ? [errors[0]] : []"
                     :disabled="disabled"
                     background-color="text"
