@@ -4,7 +4,6 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@mdi/font/css/materialdesignicons.css';
 import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
-import VueAnalytics from 'vue-analytics';
 import VueGtag from 'vue-gtag';
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
