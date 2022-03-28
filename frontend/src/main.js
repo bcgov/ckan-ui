@@ -5,6 +5,7 @@ import '@mdi/font/css/materialdesignicons.css';
 import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
 import VueAnalytics from 'vue-analytics';
+import VueGtag from 'vue-gtag';
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import lineClamp from 'vue-line-clamp';
@@ -169,11 +170,18 @@ router.beforeEach((to, from, next) => {
 
 analyticsServ.ga().then( (gajson) => {
 
+  let gtag
+
   if (gajson.id){
-    Vue.use(VueAnalytics, {
-      id: gajson.id,
-      router
-    });
+
+    gtag = new VueGtag({
+      config: {
+        id: gajson.id,
+        params: {
+          anonymize_ip: true
+        }
+      }
+    }, router);
   }
 
 
@@ -246,10 +254,11 @@ analyticsServ.ga().then( (gajson) => {
   };
 
   new Vue({
-      vuetify: new Vuetify(vuetifyOpts),
-      render: h => h(App),
-      router,
-      store,
-      i18n,
+    vuetify: new Vuetify(vuetifyOpts),
+    render: h => h(App),
+    router,
+    store,
+    i18n,
+    gtag,
   }).$mount('#app');
 });
