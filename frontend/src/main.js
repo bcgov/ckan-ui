@@ -170,20 +170,8 @@ router.beforeEach((to, from, next) => {
 
 analyticsServ.ga().then( (gajson) => {
 
-  let gtag
-
-  // eslint-disable-next-line
-  console.log('inside then');
-  // eslint-disable-next-line
-  console.log(gajson);
-
   if (gajson.id){
-    // eslint-disable-next-line
-    console.log('in if');
-    // eslint-disable-next-line
-    console.log(gajson);
-
-    gtag = new VueGtag({
+    Vue.use(VueGtag, {
       config: {
         id: gajson.id,
         params: {
@@ -191,11 +179,6 @@ analyticsServ.ga().then( (gajson) => {
         }
       }
     }, router);
-
-    // eslint-disable-next-line
-    console.log('setup gtag');
-    // eslint-disable-next-line
-    console.log(gtag);
   }
 
 
@@ -273,6 +256,5 @@ analyticsServ.ga().then( (gajson) => {
     router,
     store,
     i18n,
-    gtag,
   }).$mount('#app');
 });
