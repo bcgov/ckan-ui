@@ -176,7 +176,10 @@ analyticsServ.ga().then( (gajson) => {
 
     gtag = new VueGtag({
       config: {
-        id: gajson.id
+        id: gajson.id,
+        params: {
+          anonymize_ip: true
+        }
       }
     }, router);
   }
