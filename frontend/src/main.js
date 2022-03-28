@@ -178,6 +178,10 @@ analyticsServ.ga().then( (gajson) => {
   console.log(gajson);
 
   if (gajson.id){
+    // eslint-disable-next-line
+    console.log('in if');
+    // eslint-disable-next-line
+    console.log(gajson);
 
     gtag = new VueGtag({
       config: {
