@@ -172,6 +172,9 @@ analyticsServ.ga().then( (gajson) => {
 
   let gtag
 
+  console.log('inside then');
+  console.log(gajson);
+
   if (gajson.id){
 
     gtag = new VueGtag({
@@ -182,6 +185,9 @@ analyticsServ.ga().then( (gajson) => {
         }
       }
     }, router);
+
+    console.log('setup gtag');
+    console.log(gtag);
   }
 
 
@@ -259,6 +265,6 @@ analyticsServ.ga().then( (gajson) => {
     router,
     store,
     i18n,
-    gtag: (gtag ? gtag : undefined), 
+    gtag 
   }).$mount('#app');
 });
