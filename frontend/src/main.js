@@ -172,7 +172,9 @@ analyticsServ.ga().then( (gajson) => {
 
   let gtag
 
+  // eslint-disable-next-line
   console.log('inside then');
+  // eslint-disable-next-line
   console.log(gajson);
 
   if (gajson.id){
@@ -186,7 +188,9 @@ analyticsServ.ga().then( (gajson) => {
       }
     }, router);
 
+    // eslint-disable-next-line
     console.log('setup gtag');
+    // eslint-disable-next-line
     console.log(gtag);
   }
 
