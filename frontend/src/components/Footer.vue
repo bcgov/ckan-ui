@@ -53,7 +53,7 @@
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-about" href="https://www2.gov.bc.ca/gov/content/about-gov-bc-ca">{{$tc('About gov.bc.ca')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-disclaimer" href="http://gov.bc.ca/disclaimer/">{{$tc('Disclaimer')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-privacy" href="http://gov.bc.ca/privacy/">{{$tc('Privacy')}}</v-btn>
-                  <v-btn depressed text class="px-3 mx-0 v-top" id="footer-tracking" @click="trackingDialog=true">{{$tc('Tracking')}}</v-btn>
+                  <v-btn depressed text class="px-3 mx-0 v-top" id="footer-tracking" @click="open">{{$tc('Tracking')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-accessibility" href="http://gov.bc.ca/webaccessibility/">{{$tc('Accessibility')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" id="footer-copyright" href="http://gov.bc.ca/copyright">{{$tc('Copyright')}}</v-btn>
                   <v-btn depressed text class="px-3 mx-0 v-top" href="https://www2.gov.bc.ca/gov/content/home/contact-us">{{$tc('Contact Us')}}</v-btn>
@@ -75,8 +75,19 @@ export default {
 
   },
   methods:{
-    close(){
+    open() {
+      this.trackingDialog = true;
+      this.$gtag.event('Open', {
+        'event_category': 'Modal',
+        'event_label': 'Tracking'
+      })
+    },
+    close() {
       this.trackingDialog = false;
+      this.$gtag.event('Close', {
+        'event_category': 'Modal',
+        'event_label': 'Tracking'
+      })
     }
   },
   data(){
