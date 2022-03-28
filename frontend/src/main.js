@@ -259,6 +259,6 @@ analyticsServ.ga().then( (gajson) => {
     router,
     store,
     i18n,
-    gtag,
+    gtag: (gtag ? gtag : undefined), 
   }).$mount('#app');
 });
