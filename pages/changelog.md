@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|19|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|31-March-22||
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22||
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
 |16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
@@ -64,6 +65,10 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|18|Hid BCGW related fields unless Resource Storage Location set to BCGW: Object Short Name, Object Table Comments and Details | )
+|18|Made Object Name accessible to all resource types. Previously only Geographic | )
+|18|Added ESPG-3153(CSRS) - Albers to Projection list | )
+|18|Added Projection to Service type resources - included assigning values to some service records | )
 |18|Added last_modified to text_fields to display properly | ([#745](https://github.com/bcgov/ckan-ui/pull/745))
 |18|Added `+` icon to CTA button for adding contacts, dates, etc. | ([#744](https://github.com/bcgov/ckan-ui/pull/744))
 |18|Update tooltips hit text, fixed inconsistent state machine styling | ([#743](https://github.com/bcgov/ckan-ui/pull/743))
