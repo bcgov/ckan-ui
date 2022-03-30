@@ -197,6 +197,11 @@ export default{
 
         togglePanel: function(){
             this.$store.commit('dataset/setFacetOpen', {facet: this.field.name, open: !this.open})
+
+            this.$gtag.event(`${this.open ? 'Open' : 'Close'} ${this.field.name} Facet`, {
+                'event_category': 'Menu',
+                'event_label': 'Facet'
+            })
         },
 
         closeDrawer: function(drawerName){
@@ -229,6 +234,11 @@ export default{
                 this.count[facet] -= filter.count;
                 this.totalCount -= filter.count;
                 this.numFilters  -= 1;
+
+                this.$gtag.event(`Remove ${facet} - ${filter.name}`, {
+                    'event_category': 'Selection',
+                    'event_label': 'Facet'
+                })
             }else{
                 this.filteredOn.push(filter.name);
                 this.numApplied +=1;
@@ -239,6 +249,11 @@ export default{
                 }
                 this.totalCount += filter.count;
                 this.numFilters  += 1;
+
+                this.$gtag.event(`Add ${facet} - ${filter.name}`, {
+                    'event_category': 'Selection',
+                    'event_label': 'Facet'
+                })
             }
 
             this.$store.commit('search/toggleFacet', {facet: facet, filter: filter.name});

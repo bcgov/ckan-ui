@@ -29,7 +29,7 @@
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
                         <template v-slot:activator="{ on }">
-                        <v-btn depressed tile large v-on="on" @click="showSearch = false" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                        <v-btn depressed tile large v-on="on" @click="showSearch = false, trackMenu()" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
                             <v-icon large>mdi-menu</v-icon>
                         </v-btn>
                         </template>
@@ -58,7 +58,7 @@
                                 <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
                                 <template v-for="(item, key) in menuSecondary">
                                     <span v-if="item.dialog" :key="'secondary-menu-'+key">
-                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true">
+                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="openAbout">
                                         {{$tc(item.title, 2)}}
                                         <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
                                       </v-list-item>
@@ -265,9 +265,23 @@ export default {
           }
         }
       },
-      
+
+      openAbout: function(){
+        this.aboutDialog = true;
+
+        this.$gtag.event('Open About', {
+          'event_category': 'Modal',
+          'event_label': 'About'
+        })
+      },
+
       closeAbout: function(){
         this.aboutDialog = false;
+
+        this.$gtag.event('Close About', {
+          'event_category': 'Modal',
+          'event_label': 'About'
+        })
       },
 
       keepAlive: function(){
@@ -323,6 +337,12 @@ export default {
           }
       },
 
+      trackMenu() {
+        this.$gtag.event('Toggle Menu', {
+          'event_category': 'Menu',
+          'event_label': 'Header'
+        })
+      }
   },
   mounted: function(){
     if (this.$route.query.loggedOut === "true"){
