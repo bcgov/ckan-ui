@@ -55,7 +55,7 @@ export default{
         // eslint-disable-next-line
         console.log(orgName)
 
-        this.$gtag.event(`Click ${orgName}`, {
+        this.$gtag.event(`Toggle ${orgName}`, {
           'event_category': 'Menu',
           'event_label': 'Sub-orgs'
         })

@@ -338,7 +338,7 @@ export default {
       },
 
       trackMenu() {
-        this.$gtag.event('Clicked Menu', {
+        this.$gtag.event('Toggle Menu', {
           'event_category': 'Menu',
           'event_label': 'Header'
         })
