@@ -93,8 +93,8 @@ export default{
             this.changeFacetsOpen(true);
 
             this.$gtag.event('Expand Facets', {
-            'event_category': 'Menu',
-            'event_label': 'All Facets'
+                'event_category': 'Menu',
+                'event_label': 'All Facets'
             })
         },
 
@@ -102,8 +102,8 @@ export default{
             this.changeFacetsOpen(false);
 
             this.$gtag.event('Collapse Facets', {
-            'event_category': 'Menu',
-            'event_label': 'All Facets'
+                'event_category': 'Menu',
+                'event_label': 'All Facets'
             })
         },
 
@@ -122,6 +122,11 @@ export default{
             this.$store.commit('search/clearAllFacets', {});
             this.redrawKey++;
             this.$emit('facetFilter');
+
+            this.$gtag.event(`Remove All Filters`, {
+                'event_category': 'Selection',
+                'event_label': 'Facet'
+            })
         },
 
         openFacet: function(name){
