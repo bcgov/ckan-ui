@@ -58,7 +58,7 @@
                                 <v-list dense class="header-menu-secondary not-rounded gov-yellow-border-bottom">
                                 <template v-for="(item, key) in menuSecondary">
                                     <span v-if="item.dialog" :key="'secondary-menu-'+key">
-                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="aboutDialog = true">
+                                      <v-list-item color="text" :id="'header-menu-'+item.title.replace(' ', '-').toLowerCase()" @click.stop="openAbout">
                                         {{$tc(item.title, 2)}}
                                         <v-icon v-if="item.icon" :color="item.iconColour">{{item.icon}}</v-icon>
                                       </v-list-item>
@@ -265,9 +265,23 @@ export default {
           }
         }
       },
-      
+
+      openAbout: function(){
+        this.aboutDialog = true;
+
+        this.$gtag.event('Open About', {
+          'event_category': 'Modal',
+          'event_label': 'About'
+        })
+      },
+
       closeAbout: function(){
         this.aboutDialog = false;
+
+        this.$gtag.event('Close About', {
+          'event_category': 'Modal',
+          'event_label': 'About'
+        })
       },
 
       keepAlive: function(){
