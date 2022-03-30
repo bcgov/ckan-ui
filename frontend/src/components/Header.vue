@@ -29,7 +29,7 @@
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
                         <template v-slot:activator="{ on }">
-                        <v-btn depressed tile large v-on="on" @click="showSearch = false" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
+                        <v-btn depressed tile large v-on="on" @click="showSearch = false, trackMenu()" id="header-menu" color="menu_secondary" height="100%" class="v-top float-right">
                             <v-icon large>mdi-menu</v-icon>
                         </v-btn>
                         </template>
@@ -337,6 +337,12 @@ export default {
           }
       },
 
+      trackMenu() {
+        this.$gtag.event('Menu Clicked', {
+          'event_category': 'Menu',
+          'event_label': 'open/close'
+        })
+      }
   },
   mounted: function(){
     if (this.$route.query.loggedOut === "true"){
