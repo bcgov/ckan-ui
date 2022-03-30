@@ -197,6 +197,11 @@ export default{
 
         togglePanel: function(){
             this.$store.commit('dataset/setFacetOpen', {facet: this.field.name, open: !this.open})
+
+            this.$gtag.event(`${this.open ? 'Open' : 'Close'} ${this.field.name} Facet`, {
+                'event_category': 'Menu',
+                'event_label': 'Facet'
+            })
         },
 
         closeDrawer: function(drawerName){

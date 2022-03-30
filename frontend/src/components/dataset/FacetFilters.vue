@@ -91,10 +91,20 @@ export default{
 
         expand: function(){
             this.changeFacetsOpen(true);
+
+            this.$gtag.event('Expand Facets', {
+            'event_category': 'Menu',
+            'event_label': 'All Facets'
+            })
         },
 
         collapse: function(){
             this.changeFacetsOpen(false);
+
+            this.$gtag.event('Collapse Facets', {
+            'event_category': 'Menu',
+            'event_label': 'All Facets'
+            })
         },
 
         changeFacetsOpen(open){
