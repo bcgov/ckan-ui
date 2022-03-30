@@ -110,7 +110,7 @@
                     </v-card>
                 </v-dialog>
 
-                <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
+                <v-btn text small depressed color="primary" v-if="!editing" @click="mailLink">
                     <v-icon>mdi-email-outline</v-icon>
                     {{$tc('Contact Data Expert')}}
                 </v-btn>
@@ -314,45 +314,6 @@ export default {
             });
             keys.sort();
             return keys;
-        },
-
-        mailLink(){
-            let link="mailto:"
-            let c = null;
-            if (this.dataset && this.dataset.contacts){
-                c = this.dataset.contacts;
-                if (typeof(c) === "string"){
-                    c = JSON.parse(c);
-                }
-
-                let setC = false;
-                for (let i=0; i<c.length; i++){
-                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
-                        c = c[i];
-                        setC = true;
-                        break;
-                    }
-                }
-
-                if (!setC){
-                    return ''
-                }
-                
-                link += c.email
-            }else{
-                return '';
-            }
-            link += '?subject=Questions about '+this.dataset.title
-            link += '&body='
-            link += "Hi "+c.name+",%0D%0A%0D%0A";
-            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
-            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
-            link += "Hi! My name is ... and I am a ...%0D%0A";
-            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
-            link += "I was hoping to find information about ...%0D%0A";
-            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
-            link += "Is there someone I can contact to find out more about ....%0D%0A"
-            return link;
         },
 
         getAbort() {
@@ -696,7 +657,53 @@ export default {
             if (window.pageYOffset > 50){
                 this.notAtTop = true;
             }
-        }
+        },
+
+        mailLink(){
+            let link="mailto:"
+            let c = null;
+            if (this.dataset && this.dataset.contacts){
+                c = this.dataset.contacts;
+                if (typeof(c) === "string"){
+                    c = JSON.parse(c);
+                }
+
+                let setC = false;
+                for (let i=0; i<c.length; i++){
+                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
+                        c = c[i];
+                        setC = true;
+                        break;
+                    }
+                }
+
+                if (!setC){
+                    return ''
+                }
+                
+                link += c.email
+            }else{
+                return '';
+            }
+            link += '?subject=Questions about '+this.dataset.title
+            link += '&body='
+            link += "Hi "+c.name+",%0D%0A%0D%0A";
+            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
+            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
+            link += "Hi! My name is ... and I am a ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
+            link += "I was hoping to find information about ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
+            link += "Is there someone I can contact to find out more about ....%0D%0A"
+
+            this.$gtag.event('Dataset Mailto', {
+                'event_category': 'Link click',
+                'event_label': 'Mailto'
+            })
+
+            window.open(link, "_blank");
+        },
+
     },
 
     mounted() {
