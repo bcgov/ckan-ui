@@ -252,7 +252,7 @@ export default {
         }
     },
     mounted(){
-         if (this.value){
+        if (this.value){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             if (typeof(this.value) === 'string'){
                 this.model = JSON.parse(this.value);
@@ -261,9 +261,6 @@ export default {
             }
         }
         for (let i=0; i<this.field.subfields.length; i++){
-            if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
-                this.model[this.field.subfields[i]] = "";
-            }
             if (this.field.subfields[i].value && !this.showView) {
                 this.showView = true;
             }
