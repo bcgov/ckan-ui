@@ -64,6 +64,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|18|Remove instatiation of composite fields as introducted object Object errors| ([#762](https://github.com/bcgov/ckan-ui/pull/762))
 |18|Hid BCGW related fields unless Resource Storage Location set to BCGW: Object Short Name, Object Table Comments and Details | ([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
 |18|Made Object Name accessible to all resource types. Previously only Geographic | ([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
 |18|Added ESPG-3153(CSRS) - Albers to Projection list |([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
