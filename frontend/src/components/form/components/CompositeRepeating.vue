@@ -217,6 +217,7 @@ export default {
         orgArray: Array,
         editing: Boolean,
         scope: String,
+        orgId: String,
         disabled: {
             type: Boolean,
             default: false
@@ -242,6 +243,11 @@ export default {
                 }
             }
             this.rerenderKey++;
+        },
+        orgId: function(newName, oldName){
+            if (oldName !== newName){
+                this.setBlankOrgs();
+            }
         }
     },
 
@@ -271,13 +277,14 @@ export default {
                 }
             }
         },
-        
         addRecord: function() {
             let model = {}
             for (let i=0; i<this.field.subfields.length; i++){
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                }else{
+                } else if (this.field.subfields[i].field_name === 'org') {
+                    this.field.subfields[i].field_name === this.orgId;
+                } else {
                     model[this.field.subfields[i].field_name] = "";
                 }
             }
@@ -287,14 +294,12 @@ export default {
             this.model.splice(index,1);
             this.$emit('edited', JSON.stringify(this.model));
         },
-
         modified: function(refName) {
             if ( (typeof(refName) !== "undefined") && (typeof(this.$refs[refName]) !== "undefined") ){
                 this.$refs[refName] = false;
             }
             this.$emit('edited', JSON.stringify(this.model));
         },
-
         getDisplayValue: function(field, value) {
             if (field.choices) {
                 for (let choice of field.choices) {
@@ -308,6 +313,13 @@ export default {
         clearField: function(index, field) {
             this.model[index][field] = '';
             this.$emit('edited', JSON.stringify(this.model));
+        },
+        setBlankOrgs: function() {
+            for (let i = 0; i < this.model.length; i++) {
+                if (this.model[i].org === '') {
+                    this.model[i].org = this.orgId;
+                }
+            }
         }
     },
     computed: {
@@ -360,7 +372,9 @@ export default {
             for (let i=0; i<this.field.subfields.length; i++){
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                }else{
+                } else if (this.field.subfields[i].field_name === 'org') {
+                    this.field.subfields[i].field_name === this.orgId;
+                } else {
                     model[this.field.subfields[i].field_name] = "";
                 }
             }

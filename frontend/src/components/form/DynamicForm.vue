@@ -96,7 +96,7 @@
                         :placeholder="field.form_placeholder"
                         :options="field.choices"
                         emitOnChange="edited"
-                        :orgName="orgName"
+                        :orgId="orgId"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                         :field="field"
                         :scope="scope"
@@ -183,6 +183,7 @@
                         :dataset="values"
                         :editing="editing"
                         :orgArray="orgArray"
+                        :orgId="orgId"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                         :scope="scope"
                         :form-defaults="formDefaults[field.field_name]"
@@ -198,6 +199,7 @@
                         :scope="scope"
                         :disabled="disabled"
                         :form-defaults="formDefaults.contacts"
+                        :orgId="orgId"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                         :field="field">
                     </CompositeRepeating>
@@ -386,7 +388,7 @@ export default {
             type: Object,
             default: () => {return {};}
         },
-        orgName: {
+        orgId: {
             type: String,
             default: ""
         },
@@ -504,7 +506,6 @@ export default {
 
     methods: {
         updateValues(field, newValue){
-
             if (this.conditionalFields.indexOf(field) >= 0){
                 this.redrawIndex++;
             }
