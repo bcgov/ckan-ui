@@ -46,7 +46,7 @@ export default {
         conditionalRedraw: Number,
         includeBlank: Boolean,
         emitOnChange: String,
-        orgName: String,
+        orgId: String,
         
         labelField: {
             type: String,
@@ -98,7 +98,8 @@ export default {
             userPermissions: state => state.user.userPermissions,
         }),
         ...mapGetters("organization", {
-            ancestorsByName: "ancestorsByName"
+            ancestorsByName: "ancestorsByName",
+            orgName: "nameByID"
         }),
     },
 
@@ -114,7 +115,7 @@ export default {
         value: function(){
             this.val = this.value;
         },
-        orgName: function(newName, oldName){
+        orgId: function(newName, oldName){
             if (oldName !== newName){
                 this.initItems();
             }
@@ -171,7 +172,7 @@ export default {
             }
             this.nextStates.push({state: currentStateItem.value, by: []})
 
-            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName);
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName(this.orgId));
             
 
             let sortedNext = []
