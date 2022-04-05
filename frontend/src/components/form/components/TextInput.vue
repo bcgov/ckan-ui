@@ -1,11 +1,11 @@
 <template>
     <v-col v-if="editing || displayValue" cols=12 class="py-2">
-        <label class="label">
+        <label class="label fixedWidth">
             {{$tc(displayLabel)}}
         </label>
-        <div v-if="!editing">
-            <p class="value">{{displayValue}}</p>
-        </div>
+        <span v-if="!editing">
+            <span class="value">{{displayValue}}</span>
+        </span>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
                 :name="name"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import * as moment from "moment/moment";
 export default {
 
     props: {
@@ -47,9 +48,14 @@ export default {
             }
         }
 
+        let displayValue = this.value ? this.value : null;
+        if (moment(displayValue).isValid()) {
+            displayValue = moment(displayValue).format('YYYY-MM-DD hh:mm A')
+        }
+
         return {
             val: this.value,
-            displayValue: (this.value) ? this.value : null,
+            displayValue: displayValue,
             validate: v,
             scopeName: this.scope + '.' + this.name,
         }
@@ -86,5 +92,9 @@ export default {
     }
     >>>.v-messages__message {
         margin-left: -12px !important;
+    }
+    .fixedWidth{
+        width: 300px;
+        display: inline-block;
     }
 </style>
