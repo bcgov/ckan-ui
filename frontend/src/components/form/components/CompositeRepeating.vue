@@ -291,7 +291,7 @@ export default {
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
                 } else if (this.field.subfields[i].field_name === 'org') {
-                    this.field.subfields[i].field_name === this.orgId;
+                    model[this.field.subfields[i].field_name] = this.orgId;
                 } else {
                     model[this.field.subfields[i].field_name] = "";
                 }
