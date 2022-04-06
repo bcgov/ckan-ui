@@ -334,6 +334,11 @@ export default {
           if (e.keyCode === 13 || e.type === 'click') {
               this.showSearch = false;
               this.$store.commit('search/setSearchTextAndRedirect', this.findText);
+
+              this.$gtag.event(`Search for ${this.findText}`, {
+                  'event_category': 'Search',
+                  'event_label': 'Header'
+              })
           }
       },
 

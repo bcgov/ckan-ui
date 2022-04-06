@@ -196,6 +196,11 @@
                 if (e.keyCode === 13) {
                     this.$store.commit('organization/setSearchText', {searchText: e.target.value});
                     this.findOrgs();
+
+                    this.$gtag.event(`Search for ${e.target.value}`, {
+                        'event_category': 'Search',
+                        'event_label': 'Organizations'
+                    })
                 }
             },
 
