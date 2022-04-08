@@ -64,6 +64,12 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|18|Updated text display to handle timestamps | ([#767](https://github.com/bcgov/ckan-ui/pull/767))
+|18|Updated orgName to orgId in dynamic form | ([#765](https://github.com/bcgov/ckan-ui/pull/765))
+|18|Sorted org list for contacts | ([#763](https://github.com/bcgov/ckan-ui/pull/763))
+|18|Fixed instantiation that was creating [Object object] | ([#762](https://github.com/bcgov/ckan-ui/pull/762))
+|18|Added max length counter to title field | ([#751](https://github.com/bcgov/ckan-ui/pull/751))
+|18|Hid empty fields unless in edit mode | ([#750](https://github.com/bcgov/ckan-ui/pull/750))
 |18|Added last_modified to text_fields to display properly | ([#745](https://github.com/bcgov/ckan-ui/pull/745))
 |18|Added `+` icon to CTA button for adding contacts, dates, etc. | ([#744](https://github.com/bcgov/ckan-ui/pull/744))
 |18|Update tooltips hit text, fixed inconsistent state machine styling | ([#743](https://github.com/bcgov/ckan-ui/pull/743))
