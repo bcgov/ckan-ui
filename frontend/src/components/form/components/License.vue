@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || displayValue" cols=12 class="py-2">
         <label class="label">
             {{$tc(displayLabel)}}
         </label>
@@ -82,7 +82,7 @@ export default {
                     try{
                         self.displayValue = self.licenseLookup[self.val];
                     }catch(e){
-                        self.displayValue = self.$tc("Not Provided");
+                        self.displayValue = null;
                     }
                 }
             });

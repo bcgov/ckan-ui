@@ -4,11 +4,12 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@mdi/font/css/materialdesignicons.css';
 import Vuetify from 'vuetify/lib';
 import VueI18n from 'vue-i18n';
-import VueAnalytics from 'vue-analytics';
+import VueGtag from 'vue-gtag';
 import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import lineClamp from 'vue-line-clamp';
 import Clipboard from 'v-clipboard';
+import moment from 'moment'
 
 import router from './router';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -43,6 +44,8 @@ Vue.use(Clipboard);
 var VueScrollTo = require('vue-scrollto');
  
 Vue.use(VueScrollTo);
+
+Vue.use(require('moment'));
 
 // Vue.use(VeeValidate, {});
 Vue.component('ValidationProvider', ValidationProvider);
@@ -170,10 +173,14 @@ router.beforeEach((to, from, next) => {
 analyticsServ.ga().then( (gajson) => {
 
   if (gajson.id){
-    Vue.use(VueAnalytics, {
-      id: gajson.id,
-      router
-    });
+    Vue.use(VueGtag, {
+      config: {
+        id: gajson.id,
+        params: {
+          anonymize_ip: true
+        }
+      }
+    }, router);
   }
 
 
@@ -246,10 +253,10 @@ analyticsServ.ga().then( (gajson) => {
   };
 
   new Vue({
-      vuetify: new Vuetify(vuetifyOpts),
-      render: h => h(App),
-      router,
-      store,
-      i18n,
+    vuetify: new Vuetify(vuetifyOpts),
+    render: h => h(App),
+    router,
+    store,
+    i18n,
   }).$mount('#app');
 });

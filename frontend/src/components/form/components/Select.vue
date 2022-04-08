@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || displayValue" cols=12 class="py-2">
         <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
             {{$tc(displayLabel)}}
         </label>

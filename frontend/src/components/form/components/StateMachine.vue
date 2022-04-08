@@ -46,7 +46,7 @@ export default {
         conditionalRedraw: Number,
         includeBlank: Boolean,
         emitOnChange: String,
-        orgName: String,
+        orgId: String,
         
         labelField: {
             type: String,
@@ -98,7 +98,8 @@ export default {
             userPermissions: state => state.user.userPermissions,
         }),
         ...mapGetters("organization", {
-            ancestorsByName: "ancestorsByName"
+            ancestorsByName: "ancestorsByName",
+            orgName: "nameByID"
         }),
     },
 
@@ -114,7 +115,7 @@ export default {
         value: function(){
             this.val = this.value;
         },
-        orgName: function(newName, oldName){
+        orgId: function(newName, oldName){
             if (oldName !== newName){
                 this.initItems();
             }
@@ -171,7 +172,7 @@ export default {
             }
             this.nextStates.push({state: currentStateItem.value, by: []})
 
-            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName);
+            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName(this.orgId));
             
 
             let sortedNext = []
@@ -215,11 +216,9 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     span.errorText{
         font-size: 10px;
     }
-
     .fixedWidth{
         width: 300px;
         display: inline-block;
@@ -227,31 +226,25 @@ export default {
     .errors{
         color: var(--v-error_text-base)
     }
-
     .fauxButton{
         cursor: pointer;
     }
-
     .fauxDisabled{
         cursor: not-allowed;
     }
-
     .help-text {
         font-size: 12px;
         color: rgba(0, 0, 0, 0.6);
     }
-
     .border {
         border: 1px solid rgba(0, 0, 0, 0.4);
     }
-
 </style>
 
 <style>
     .fauxButton:hover span.v-stepper__step__step{
         background: var(--v-secondary-base) !important;
     }
-
     .fauxDisabled:hover span.v-stepper__step__step{
         background: var(--v-error-base) !important;
     }

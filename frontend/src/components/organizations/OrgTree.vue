@@ -2,7 +2,7 @@
   <v-container class="mb-2 py-0 px-0" v-if="typeof(org.org) !== 'undefined'">
     <v-expansion-panels flat tile :readonly="count === 0" :class="'noShadow' + (count === 0 ? ' noPointer' : '')">
       <v-expansion-panel class="no-background">
-        <v-expansion-panel-header :class="top ? 'py-2 filterPanelHeader' + (count > 0 ? ' px-0' : ' pl-10') : 'py-2 subHeader' + (count > 0 ? ' px-0' : ' pl-10')">
+        <v-expansion-panel-header :class="top ? 'py-2 filterPanelHeader' + (count > 0 ? ' px-0' : ' pl-10') : 'py-2 subHeader' + (count > 0 ? ' px-0' : ' pl-10')" @click="trackOrg(orgName)">
           <span>
             <v-icon v-if="count > 0" class="px-2" :color="top ? 'text' : 'label_colour'">mdi-chevron-down</v-icon>
             <router-link v-if="typeof(id) !== 'undefined'" :id="'orgLink-'+id" :to="{ name: 'organization_view', params: { organizationId: org.org.name }}" class="hoverHighlight orgLink">{{orgName}} {{count > 0 ? '' : ''}}</router-link>
@@ -48,6 +48,18 @@ export default{
       ...mapState({
           organizations: state => state.organization.orgList,
       }),
+    },
+
+    methods: {
+      trackOrg(orgName) {
+        // eslint-disable-next-line
+        console.log(orgName)
+
+        this.$gtag.event(`Toggle ${orgName}`, {
+          'event_category': 'Menu',
+          'event_label': 'Sub-orgs'
+        })
+      }
     },
 
     mounted() {

@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2 mb-4">
+    <v-col v-if="editing || showView" cols=12 class="py-2 mb-4">
         <label class="label">
             {{$tc(displayLabel)}}{{( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? '*' : ''}}
         </label>
@@ -7,16 +7,10 @@
             <div class="mb-2">
                 <div v-if="!hasDisplayed || !value.displayed">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <v-row v-if="sub.display_snippet !== null" align="center">
+                        <v-row v-if="sub.display_snippet !== null && sub.value" align="center">
                             <v-col cols=12 class="py-1">
                                 <label class="sub-label fixedWidth">
                                     {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
-                                    <v-tooltip right v-if="sub.help_text">
-                                        <template v-slot:activator="{ on }">
-                                            <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                                        </template>
-                                        <span>{{sub.help_text}}</span>
-                                    </v-tooltip>
                                 </label>
                             
                                 <span v-if="value">
@@ -51,6 +45,8 @@
                             class="mt-0"
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
                             hide-details="auto"
@@ -67,6 +63,8 @@
                             item-text="label"
                             :disabled="disabled"
                             item-value="value"
+                            :hint="sub.help_text"
+                            persistent-hint
                             outlined dense
                             hide-details="auto"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -83,6 +81,8 @@
                             :items="sub.choices"
                             item-text="label"
                             item-value="value"
+                            :hint="sub.help_text"
+                            persistent-hint
                             outlined dense
                             hide-details="auto"
                             :disabled="disabled"
@@ -109,6 +109,8 @@
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     :disabled="disabled"
+                                    :hint="sub.help_text"
+                                    persistent-hint
                                     readonly
                                     clearable
                                     @click:clear="clearField(sub.field_name);"
@@ -127,6 +129,8 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
                             @input="modified"
@@ -141,6 +145,8 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             @input="modified"
@@ -155,6 +161,8 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             @input="modified"
@@ -189,6 +197,7 @@ export default {
         return {
             hasDisplayed: false,
             dateMenuOpen: false,
+            showView: false,
             model: {}
         }
     },
@@ -243,7 +252,7 @@ export default {
         }
     },
     mounted(){
-         if (this.value){
+        if (this.value){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             if (typeof(this.value) === 'string'){
                 this.model = JSON.parse(this.value);
@@ -252,8 +261,8 @@ export default {
             }
         }
         for (let i=0; i<this.field.subfields.length; i++){
-            if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
-                this.model[this.field.subfields[i]] = "";
+            if (this.field.subfields[i].value && !this.showView) {
+                this.showView = true;
             }
         }
         this.$emit('edited', JSON.stringify(this.model));
