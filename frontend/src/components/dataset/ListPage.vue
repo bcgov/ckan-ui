@@ -173,11 +173,6 @@
         search: function(e){
             if (e.keyCode === 13 || e.type === 'click') {
                 this.$store.commit('search/setSearchText', this.findText);
-
-                this.$gtag.event(`Search for ${this.findText}`, {
-                    'event_category': 'Search',
-                    'event_label': 'List Page'
-                })
             }
         },
 
