@@ -13,12 +13,6 @@
                                     
                                     <label v-if="model[repeatedIndex]" class="sub-label">
                                         {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
-                                        <v-tooltip right v-if="sub.help_text">
-                                            <template v-slot:activator="{ on }">
-                                                <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                                            </template>
-                                            <span>{{sub.help_text}}</span>
-                                        </v-tooltip>
                                     </label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
@@ -65,6 +59,8 @@
                                 class="mt-0"
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 :disabled="disabled"
                                 hide-details="auto"
@@ -81,6 +77,8 @@
                                 item-text="label"
                                 :disabled="disabled"
                                 item-value="value"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 outlined dense
                                 hide-details="auto"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
@@ -97,6 +95,8 @@
                                 :items="sub.choices"
                                 item-text="label"
                                 item-value="value"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 outlined dense
                                 hide-details="auto"
                                 :disabled="disabled"
@@ -131,6 +131,8 @@
                                         :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                         v-model="model[repeatedIndex][sub.field_name]"
                                         :placeholder="sub.form_placeholder"
+                                        :hint="sub.help_text"
+                                        persistent-hint
                                         :error-messages="errors.length > 0 ? [errors[0]] : []"
                                         :disabled="disabled"
                                         readonly
@@ -151,6 +153,8 @@
                                 :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 :disabled="disabled"
                                 @input="modified"
@@ -165,6 +169,8 @@
                                 :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :disabled="disabled"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 @input="modified"
@@ -179,6 +185,8 @@
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :disabled="disabled"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 @input="modified"

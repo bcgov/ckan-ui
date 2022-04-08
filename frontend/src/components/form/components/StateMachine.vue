@@ -216,11 +216,9 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     span.errorText{
         font-size: 10px;
     }
-
     .fixedWidth{
         width: 300px;
         display: inline-block;
@@ -228,31 +226,25 @@ export default {
     .errors{
         color: var(--v-error_text-base)
     }
-
     .fauxButton{
         cursor: pointer;
     }
-
     .fauxDisabled{
         cursor: not-allowed;
     }
-
     .help-text {
         font-size: 12px;
         color: rgba(0, 0, 0, 0.6);
     }
-
     .border {
         border: 1px solid rgba(0, 0, 0, 0.4);
     }
-
 </style>
 
 <style>
     .fauxButton:hover span.v-stepper__step__step{
         background: var(--v-secondary-base) !important;
     }
-
     .fauxDisabled:hover span.v-stepper__step__step{
         background: var(--v-error-base) !important;
     }
