@@ -39,7 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-|18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22||
+|18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))| -April-22||
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
 |16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
 |15|Fix loading of groups page, added configurable information banner, updated about page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22|14-Feb-22|
@@ -64,9 +64,19 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|18|Remove instatiation of composite fields as introducted object Object errors| ([#762](https://github.com/bcgov/ckan-ui/pull/762))
+|18|Hid BCGW related fields unless Resource Storage Location set to BCGW: Object Short Name, Object Table Comments and Details | ([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
+|18|Made Object Name accessible to all resource types. Previously only Geographic | ([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
+|18|Added ESPG-3153(CSRS) - Albers to Projection list |([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
+|18|Added Projection to Service type resources - included assigning values to some service records | ([#56](https://github.com/bcgov/ckanext-bcgov-schema/pull/56))
+|18|Added last_modified to UI, which representes currently BCGW and BCDC dataset sources |([#54](https://github.com/bcgov/ckanext-bcgov-schema/pull/54))
+|18|Updated Labels and Help text: Frequency of Resource Update (was Resource Update Cycle); Data Collection Period (was Temporal Extent) | ([#54](https://github.com/bcgov/ckanext-bcgov-schema/pull/54))
+|18|Fixed the ability to delete Temporal Extents values 
+|18|Added a Character counter to dataset title field |([#751](https://github.com/bcgov/ckan-ui/pull/751))
+|18|Now hid blank fields in view mode | ([#750](https://github.com/bcgov/ckan-ui/pull/750))
 |18|Added last_modified to text_fields to display properly | ([#745](https://github.com/bcgov/ckan-ui/pull/745))
 |18|Added `+` icon to CTA button for adding contacts, dates, etc. | ([#744](https://github.com/bcgov/ckan-ui/pull/744))
-|18|Update tooltips hit text, fixed inconsistent state machine styling | ([#743](https://github.com/bcgov/ckan-ui/pull/743))
+|18|Update editor tooltips hint text displaying, fixed inconsistent state machine styling | ([#743](https://github.com/bcgov/ckan-ui/pull/743))
 |18|Update form fields to have white backgrounds | ([#742](https://github.com/bcgov/ckan-ui/pull/742))
 |18|Remove dense tag to allow better row spacing | ([#741](https://github.com/bcgov/ckan-ui/pull/741))
 |18|Fixed saving of cleared dates | ([#739](https://github.com/bcgov/ckan-ui/pull/739))
@@ -127,20 +137,17 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
-1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
-    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
 1. Group editors and members management to be configured. 
     + All Group management can only be done by users with Admin access at this time. 
 1. Viewing Groups on the groups page can result in 0 datasets under the group name.  Clicking on the group name, or using the Group filter when searching from the datasets page will return a list of datasets for the selected group. 
 1. The OpenAPI Console preview function is not available.
 1. The Data Usage page is not yet available.
-1. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 1. Domain value lists are inconsistent across the schema in their letter case. We will be implimenting snake_case in the future.
 
 [RETURN TO TOP][1]
 
-## WHAT'S NEW
+## October 27, 2022 - Major Release 
 
 ### Application User Interface
 
