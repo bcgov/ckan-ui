@@ -9,6 +9,7 @@ import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
 import lineClamp from 'vue-line-clamp';
 import Clipboard from 'v-clipboard';
+import moment from 'moment'
 
 import router from './router';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -43,6 +44,8 @@ Vue.use(Clipboard);
 var VueScrollTo = require('vue-scrollto');
  
 Vue.use(VueScrollTo);
+
+Vue.use(require('moment'));
 
 // Vue.use(VeeValidate, {});
 Vue.component('ValidationProvider', ValidationProvider);
