@@ -1,5 +1,5 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || displayValue" cols=12 class="py-2">
         <label class="label">
             {{$tc(displayLabel)}}
         </label>
@@ -63,7 +63,7 @@ export default {
             if (typeof(this.model)==="string"){
                 return marked(this.model);
             }else{
-                return marked(this.$tc("Not Provided"));
+                return null;
             }
         },
         displayLabel: function(){
