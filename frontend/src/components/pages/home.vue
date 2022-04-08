@@ -159,12 +159,7 @@
       methods:{
         search: function(e){
             if (e.keyCode === 13 || e.type === 'click') {
-                this.$store.commit('search/setSearchTextAndRedirect', this.searchText); 
-              
-                this.$gtag.event(`Search for ${this.searchText}`, {
-                    'event_category': 'Search',
-                    'event_label': 'Home Page'
-                })
+              this.$store.commit('search/setSearchTextAndRedirect', this.searchText);                
             }
         },
         termClick: function(e){
