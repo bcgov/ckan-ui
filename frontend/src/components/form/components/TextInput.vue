@@ -55,11 +55,7 @@ export default {
 
         return {
             val: this.value,
-<<<<<<< HEAD
-            displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
-=======
             displayValue: displayValue,
->>>>>>> 50af6c0 (Updated text display to handle timestamp when value is a timestamp)
             validate: v,
             scopeName: this.scope + '.' + this.name,
         }
