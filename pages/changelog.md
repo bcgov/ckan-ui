@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
 |16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
 |15|Fix loading of groups page, added configurable information banner, updated about page (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|26-Jan-22|14-Feb-22|
@@ -63,6 +64,19 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|18|Updated text display to handle timestamps | ([#767](https://github.com/bcgov/ckan-ui/pull/767))
+|18|Updated orgName to orgId in dynamic form | ([#765](https://github.com/bcgov/ckan-ui/pull/765))
+|18|Sorted org list for contacts | ([#763](https://github.com/bcgov/ckan-ui/pull/763))
+|18|Fixed instantiation that was creating [Object object] | ([#762](https://github.com/bcgov/ckan-ui/pull/762))
+|18|Added max length counter to title field | ([#751](https://github.com/bcgov/ckan-ui/pull/751))
+|18|Hid empty fields unless in edit mode | ([#750](https://github.com/bcgov/ckan-ui/pull/750))
+|18|Added last_modified to text_fields to display properly | ([#745](https://github.com/bcgov/ckan-ui/pull/745))
+|18|Added `+` icon to CTA button for adding contacts, dates, etc. | ([#744](https://github.com/bcgov/ckan-ui/pull/744))
+|18|Update tooltips hit text, fixed inconsistent state machine styling | ([#743](https://github.com/bcgov/ckan-ui/pull/743))
+|18|Update form fields to have white backgrounds | ([#742](https://github.com/bcgov/ckan-ui/pull/742))
+|18|Remove dense tag to allow better row spacing | ([#741](https://github.com/bcgov/ckan-ui/pull/741))
+|18|Fixed saving of cleared dates | ([#739](https://github.com/bcgov/ckan-ui/pull/739))
+|18|Allow date fields to be cleared | ([#738](https://github.com/bcgov/ckan-ui/pull/738))
 |17|Remove survey banner | ([#728](https://github.com/bcgov/ckan-ui/pull/728))
 |17|Fix contact and lifecycle date deletion | ([#727](https://github.com/bcgov/ckan-ui/pull/727))
 |16|Remove gravitar and replace with initials | ([#715](https://github.com/bcgov/ckan-ui/pull/715))

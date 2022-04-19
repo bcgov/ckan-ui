@@ -1,31 +1,29 @@
 <template>
-    <v-col cols=12 class="py-2">
-        <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+    <v-col v-if="editing || displayValue" cols=12 class="py-2">
+        <label class="label fixedWidth">
+            {{$tc(displayLabel)}}
         </label>
-        <div v-if="!editing">
-            <p class="value">{{displayValue}}</p>
-        </div>
+        <span v-if="!editing">
+            <span class="value">{{displayValue}}</span>
+        </span>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
                 :name="name"
                 v-model="val"
                 :placeholder="placeholder"
+                :hint="field.help_text"
+                persistent-hint
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 :disabled="disabled"
                 outlined dense
+                background-color="text"
             ></v-text-field>
         </ValidationProvider>
     </v-col>
 </template>
 
 <script>
+import * as moment from "moment/moment";
 export default {
 
     props: {
@@ -50,9 +48,14 @@ export default {
             }
         }
 
+        let displayValue = this.value ? this.value : null;
+        if (moment(displayValue).isValid()) {
+            displayValue = moment(displayValue).format('YYYY-MM-DD, hh:mm A')
+        }
+
         return {
             val: this.value,
-            displayValue: (this.value) ? this.value : this.$tc("Not Provided"),
+            displayValue: displayValue,
             validate: v,
             scopeName: this.scope + '.' + this.name,
         }
@@ -86,5 +89,12 @@ export default {
     p.value{
         font-size: 16px;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
+    }
+    .fixedWidth{
+        width: 300px;
+        display: inline-block;
     }
 </style>

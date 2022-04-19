@@ -1,14 +1,8 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || value" cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label">
-                {{$tc(displayLabel)}}&nbsp;
-                <v-tooltip right v-if="field.help_text">
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                    </template>
-                    <span>{{field.help_text}}</span>
-                </v-tooltip>
+                {{$tc(displayLabel)}}
             </label>
             <a v-if="isURL" class="value" :href="value">{{value}}</a>
             <p v-else class="value">{{value}}</p>
@@ -24,7 +18,7 @@
                 </v-tooltip>
             </label>
             <div v-if="allowURL">
-                <v-radio-group v-model="isURL" row>
+                <v-radio-group v-model="isURL" row dense>
                     <v-radio
                         label="URL"
                         :value="true">
@@ -41,9 +35,12 @@
                     :name="name"
                     v-model="val"
                     :placeholder="placeholder"
+                    :hint="field.help_text"
+                    persistent-hint
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
-                    outline
+                    outlined dense
+                    background-color="text"
                 ></v-text-field>
             </ValidationProvider>
             <div v-else>
@@ -158,8 +155,14 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     .fullWidth{
         width: 100%;
+    }
+    .upload-radio {
+        width: auto;
+        background: white;
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

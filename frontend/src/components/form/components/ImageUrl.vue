@@ -1,17 +1,11 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || imgSrc" cols=12 class="py-2">
         <div v-if="!editing">
             <v-img :src="imgSrc" v-on:error="onImgError"></v-img>
         </div>
         <div v-else>
             <label class="label">
-                {{$tc(displayLabel)}}&nbsp;
-                <v-tooltip right v-if="field.help_text">
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                    </template>
-                    <span>{{field.help_text}}</span>
-                </v-tooltip>
+                {{$tc(displayLabel)}}
             </label>
             <ValidationProvider :rules="validate" v-slot="{ errors }" :name="displayLabel ? $tc(displayLabel) : ''">
                 <v-text-field
@@ -19,10 +13,13 @@
                     :name="name"
                     v-model="val"
                     :placeholder="placeholder"
+                    :hint="field.help_text"
+                    persistent-hint
                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                     :disabled="disabled"
                     solo
                     outlined dense
+                    background-color="text"
                 ></v-text-field>
             </ValidationProvider>
         </div>
@@ -94,5 +91,8 @@ export default {
         font-size: 16px;
         font-weight: bold;
         color: var(--v-faded_text-base);
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

@@ -1,13 +1,7 @@
 <template>
     <v-col v-if="anyShown || editing" cols=12 class="py-2 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
@@ -19,12 +13,6 @@
                                     
                                     <label v-if="model[repeatedIndex]" class="sub-label">
                                         {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
-                                        <v-tooltip right v-if="sub.help_text">
-                                            <template v-slot:activator="{ on }">
-                                                <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                                            </template>
-                                            <span>{{sub.help_text}}</span>
-                                        </v-tooltip>
                                     </label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
@@ -58,6 +46,7 @@
             <hr>
         </div>
         <div v-else :key="'composite'+field.field_name+rerenderKey">
+            <span class="help-text">{{field.help_text}}</span>
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
@@ -70,6 +59,8 @@
                                 class="mt-0"
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 :disabled="disabled"
                                 hide-details="auto"
@@ -86,10 +77,13 @@
                                 item-text="label"
                                 :disabled="disabled"
                                 item-value="value"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 outlined dense
                                 hide-details="auto"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                @change="modified">
+                                @change="modified"
+                                background-color="text">
                             </v-select>
                         </ValidationProvider>
 
@@ -101,11 +95,14 @@
                                 :items="sub.choices"
                                 item-text="label"
                                 item-value="value"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 outlined dense
                                 hide-details="auto"
                                 :disabled="disabled"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                @change="modified">
+                                @change="modified"
+                                background-color="text">
                             </v-select>
                         </ValidationProvider>
 
@@ -134,10 +131,15 @@
                                         :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                         v-model="model[repeatedIndex][sub.field_name]"
                                         :placeholder="sub.form_placeholder"
+                                        :hint="sub.help_text"
+                                        persistent-hint
                                         :error-messages="errors.length > 0 ? [errors[0]] : []"
                                         :disabled="disabled"
                                         readonly
+                                        clearable
+                                        @click:clear="clearField(repeatedIndex, sub.field_name);"
                                         v-on="on"
+                                        background-color="text"
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker :disabled="disabled" v-model="model[repeatedIndex][sub.field_name]" @input="modified(field.field_name+'['+repeatedIndex+'].'+sub.field_name);"></v-date-picker>
@@ -151,9 +153,12 @@
                                 :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                                 :disabled="disabled"
-                                @input="modified">
+                                @input="modified"
+                                background-color="text">
                             </v-text-field>
                         </ValidationProvider>
 
@@ -164,9 +169,12 @@
                                 :name="field.field_name+'['+repeatedIndex+'].'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :disabled="disabled"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                @input="modified">
+                                @input="modified"
+                                background-color="text">
                             </v-text-field>
                         </ValidationProvider>
 
@@ -177,9 +185,12 @@
                                 :name="field.field_name+'['+repeatedIndex+']'+'.'+sub.field_name"
                                 v-model="model[repeatedIndex][sub.field_name]"
                                 :placeholder="sub.form_placeholder"
+                                :hint="sub.help_text"
+                                persistent-hint
                                 :disabled="disabled"
                                 :error-messages="errors.length > 0 ? [errors[0]] : []"
-                                @input="modified">
+                                @input="modified"
+                                background-color="text">
                             </v-text-field>
                         </ValidationProvider>
                     </v-col>
@@ -194,6 +205,7 @@
             <v-row>
                 <v-col cols=12>
                     <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
+                        <v-icon>mdi-plus-circle</v-icon>
                         Add {{displayLabel}}
                     </v-btn>
                 </v-col>
@@ -213,6 +225,7 @@ export default {
         orgArray: Array,
         editing: Boolean,
         scope: String,
+        orgId: String,
         disabled: {
             type: Boolean,
             default: false
@@ -238,6 +251,11 @@ export default {
                 }
             }
             this.rerenderKey++;
+        },
+        orgId: function(newName, oldName){
+            if (oldName !== newName){
+                this.setBlankOrgs();
+            }
         }
     },
 
@@ -267,13 +285,14 @@ export default {
                 }
             }
         },
-        
         addRecord: function() {
             let model = {}
             for (let i=0; i<this.field.subfields.length; i++){
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                }else{
+                } else if (this.field.subfields[i].field_name === 'org') {
+                    model[this.field.subfields[i].field_name] = this.orgId;
+                } else {
                     model[this.field.subfields[i].field_name] = "";
                 }
             }
@@ -283,14 +302,12 @@ export default {
             this.model.splice(index,1);
             this.$emit('edited', JSON.stringify(this.model));
         },
-
         modified: function(refName) {
             if ( (typeof(refName) !== "undefined") && (typeof(this.$refs[refName]) !== "undefined") ){
                 this.$refs[refName] = false;
             }
             this.$emit('edited', JSON.stringify(this.model));
         },
-
         getDisplayValue: function(field, value) {
             if (field.choices) {
                 for (let choice of field.choices) {
@@ -300,6 +317,17 @@ export default {
                 }
             }
             return value;
+        },
+        clearField: function(index, field) {
+            this.model[index][field] = '';
+            this.$emit('edited', JSON.stringify(this.model));
+        },
+        setBlankOrgs: function() {
+            for (let i = 0; i < this.model.length; i++) {
+                if (this.model[i].org === '') {
+                    this.model[i].org = this.orgId;
+                }
+            }
         }
     },
     computed: {
@@ -352,7 +380,9 @@ export default {
             for (let i=0; i<this.field.subfields.length; i++){
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
                     model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                }else{
+                } else if (this.field.subfields[i].field_name === 'org') {
+                    this.field.subfields[i].field_name === this.orgId;
+                } else {
                     model[this.field.subfields[i].field_name] = "";
                 }
             }
@@ -378,19 +408,15 @@ export default {
         margin-left: 24px;
         color: var(--v-faded_text-base);
     }
-
     .valueSpan{
         max-width: calc(100% - 330px);
     }
-
     .fullValue{
         display: hidden;
     }
-
     .valueSpan:hover .fullValue{
         display: block;
     }
-
     .value{
         font-size: 16px;
         color: var(--v-faded_text-base);
@@ -398,5 +424,9 @@ export default {
     hr{
         color: var(--v-icon-base);
         border-bottom: 0px;
+    }
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
     }
 </style>

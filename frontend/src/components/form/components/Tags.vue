@@ -1,21 +1,14 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing || val.length" cols=12 class="py-2">
         {{firstRender ? rerender() : ''}}
         <label class="label">
-            {{$tc(displayLabel)}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <p class="value">
                 <span v-for="(v, k) in val" :key="name+'-link-'+k"> 
                     <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(val.length-1)) ? "" : ", ")}} 
                 </span>
-                <span v-if="val.length === 0">{{$tc('Not Provided')}}</span>
             </p>
         </div>
         <ValidationProvider v-else :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
@@ -27,16 +20,19 @@
                 :items="items"
                 :item-text="itemTextField"
                 :item-value="itemTextField"
+                :hint="field.help_text"
+                persistent-hint
                 cache-items
                 chips
                 deletable-chips
                 multiple
                 :search-input.sync="search"
-                outlined dense
+                outlined 
                 :delimiters="[',']"
                 :disabled="disabled"
                 @input="search = null"
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
+                background-color="text"
             ></v-combobox>
         </ValidationProvider>
     </v-col>
@@ -184,8 +180,10 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-
     .underline{
         text-decoration: underline;
+    }
+    >>>.v-messages__message {
+        margin-left: -12px !important;
     }
 </style>

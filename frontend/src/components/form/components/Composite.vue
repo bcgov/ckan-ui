@@ -1,28 +1,16 @@
 <template>
-    <v-col cols=12 class="py-2 mb-4">
+    <v-col v-if="editing || showView" cols=12 class="py-2 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}{{( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? '*' : ''}}&nbsp;
-            <v-tooltip right v-if="field.help_text">
-                <template v-slot:activator="{ on }">
-                    <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                </template>
-                <span>{{field.help_text}}</span>
-            </v-tooltip>
+            {{$tc(displayLabel)}}{{( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? '*' : ''}}
         </label>
         <div v-if="!editing">
             <div class="mb-2">
                 <div v-if="!hasDisplayed || !value.displayed">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <v-row v-if="sub.display_snippet !== null" align="center">
+                        <v-row v-if="sub.display_snippet !== null && sub.value" align="center">
                             <v-col cols=12 class="py-1">
                                 <label class="sub-label fixedWidth">
                                     {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
-                                    <v-tooltip right v-if="sub.help_text">
-                                        <template v-slot:activator="{ on }">
-                                            <v-icon color="label_colour" v-on="on">mdi-help-circle-outline</v-icon>
-                                        </template>
-                                        <span>{{sub.help_text}}</span>
-                                    </v-tooltip>
                                 </label>
                             
                                 <span v-if="value">
@@ -45,6 +33,7 @@
             <hr>
         </div>
         <div v-else :key="'composite'+field.field_name" class="mb-2">
+            <span class="help-text">{{field.help_text}}</span>
             <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key" align="center">
                 <v-col cols=2 class="pb-0">
                     <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}</label>
@@ -56,6 +45,8 @@
                             class="mt-0"
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
                             hide-details="auto"
@@ -72,10 +63,13 @@
                             item-text="label"
                             :disabled="disabled"
                             item-value="value"
+                            :hint="sub.help_text"
+                            persistent-hint
                             outlined dense
                             hide-details="auto"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @change="modified">
+                            @change="modified"
+                            background-color="text">
                         </v-select>
                     </ValidationProvider>
 
@@ -87,11 +81,14 @@
                             :items="sub.choices"
                             item-text="label"
                             item-value="value"
+                            :hint="sub.help_text"
+                            persistent-hint
                             outlined dense
                             hide-details="auto"
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @change="modified">
+                            @change="modified"
+                            background-color="text">
                         </v-select>
                     </ValidationProvider>
 
@@ -112,8 +109,13 @@
                                     :placeholder="sub.form_placeholder"
                                     :error-messages="errors.length > 0 ? [errors[0]] : []"
                                     :disabled="disabled"
+                                    :hint="sub.help_text"
+                                    persistent-hint
                                     readonly
+                                    clearable
+                                    @click:clear="clearField(sub.field_name);"
                                     v-on="on"
+                                    background-color="text"
                                 ></v-text-field>
                             </template>
                             <v-date-picker :disabled="disabled" v-model="model[sub.field_name]" @input="modified(field.field_name+'.'+sub.field_name);"></v-date-picker>
@@ -127,9 +129,12 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
                             :disabled="disabled"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
 
@@ -140,9 +145,12 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
 
@@ -153,9 +161,12 @@
                             :name="field.field_name+'.'+sub.field_name"
                             v-model="model[sub.field_name]"
                             :placeholder="sub.form_placeholder"
+                            :hint="sub.help_text"
+                            persistent-hint
                             :disabled="disabled"
                             :error-messages="errors.length > 0 ? [errors[0]] : []"
-                            @input="modified">
+                            @input="modified"
+                            background-color="text">
                         </v-text-field>
                     </ValidationProvider>
                 </v-col>
@@ -186,6 +197,7 @@ export default {
         return {
             hasDisplayed: false,
             dateMenuOpen: false,
+            showView: false,
             model: {}
         }
     },
@@ -218,6 +230,10 @@ export default {
                 }
             }
             return value;
+        },
+        clearField: function(field) {
+            this.model[field] = '';
+            this.$emit('edited', JSON.stringify(this.model));
         }
     },
     watch: {
@@ -248,6 +264,9 @@ export default {
             if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
                 this.model[this.field.subfields[i]] = "";
             }
+            if (this.field.subfields[i].value && !this.showView) {
+                this.showView = true;
+            }
         }
         this.$emit('edited', JSON.stringify(this.model));
     },
@@ -276,5 +295,9 @@ export default {
     hr{
         color: var(--v-icon-base);
         border-bottom: 0px;
+    }
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
     }
 </style>
