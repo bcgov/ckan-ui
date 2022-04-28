@@ -7,7 +7,7 @@
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true) || loggedIn)">
                     <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
-                        <span v-if="( (typeof(sub.hide_if_empty) === 'undefined') || (!sub.hide_if_empty) || (model[repeatedIndex][sub.field_name] != '') )">
+                        <span v-if="(model[repeatedIndex][sub.field_name] !== '')">
                             <span v-if="sub.field_name != 'displayed'">
                                 <v-row v-if="sub.display_snippet !== null" align="center">
                                     
@@ -32,9 +32,7 @@
                                                     <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
                                                     <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
                                                 </span>
-                                                <span v-else>{{$tc('Not Provided')}}</span>
                                             </template>
-                                            <span>{{(model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)) ? model[repeatedIndex][sub.field_name] : $tc('Not Provided')}}</span>
                                         </v-tooltip>
                                     </span>
                                 </v-row>
