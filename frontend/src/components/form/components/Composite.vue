@@ -12,18 +12,14 @@
                                 {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
                             </label>
                         
-                            <span v-if="value">
-                                <span v-if="sub.display_snippet === 'url'">
-                                    <a :href="model[sub.field_name]" style="text-overflow: ellipsis">{{model[sub.field_name]}}</a>
-                                </span>
-                                <span v-else-if="sub.field_name === 'email'">
-                                    <a :href="'mailto:'+model[sub.field_name]">{{model[sub.field_name]}}</a>
-                                </span>
-                                <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
-                                <span v-else-if=" model[sub.field_name] === ''" class="value">{{$tc('Not Provided')}}</span>
-                                <span v-else class="value">{{model[sub.field_name]}}</span>
+                            <span v-if="sub.display_snippet === 'url'">
+                                <a :href="model[sub.field_name]" style="text-overflow: ellipsis">{{model[sub.field_name]}}</a>
                             </span>
-                            <span v-else>{{$tc('Not Provided')}}</span>
+                            <span v-else-if="sub.field_name === 'email'">
+                                <a :href="'mailto:'+model[sub.field_name]">{{model[sub.field_name]}}</a>
+                            </span>
+                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
+                            <span v-else class="value">{{model[sub.field_name]}}</span>
                         </v-col>
                     </v-row>
                 </div>
