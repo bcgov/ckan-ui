@@ -4,12 +4,15 @@ let axios = require('axios');
 let auth = require('../modules/auth');
 const config = require('config');
 const { response } = require('../app');
+const redis = require('redis');
+let redisClient = null;
+if (config.redisHost && config.redisPort) {
+    redisClient = redis.createClient(config.redisPort, config.redisHost);
+}
 
 function genSiteMap(user, res, xml){
     let url = config.get('ckan');
-    
     const reqUrl = url + "/sitemap." + ((xml) ? 'xml' : 'html'); 
-
     let options = {
         url: reqUrl,
         method: "GET",
@@ -23,9 +26,31 @@ function genSiteMap(user, res, xml){
         };
     }
 
-    let resp = axios(options).then( (response) => {
-        res.end(response.data);
-    });
+    if (redisClient) {
+        try {
+            redisClient.get(xml ? 'sitemapxml' : 'sitemaphtml', (err, data) => {
+                if (err) {
+                    console.error(err);
+                    throw err;
+                }
+
+                if (data) {
+                    res.status(200).send(JSON.parse(data));
+                } else {
+                    let resp = axios(options).then( (response) => {
+                        redisClient.setex(xml ? 'sitemapxml' : 'sitemaphtml', 60*60*24, JSON.stringify(response.data));
+                        res.status(200).send(response.data);
+                    });
+                }
+            });
+        } catch (err) {
+            res.status(500).send({ error: err.message});
+        }
+    } else {
+        let resp = axios(options).then( (response) => {
+            res.status(200).send(response.data);
+        });
+    }
 }
 
 router.get('/sitemap.html', auth.removeExpired, async function(req, res, next) {
