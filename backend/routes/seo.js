@@ -7,7 +7,13 @@ const { response } = require('../app');
 const redis = require('redis');
 let redisClient = null;
 if (config.redisHost && config.redisPort) {
-    redisClient = redis.createClient(config.redisPort, config.redisHost);
+    const clientConnectConfig = {
+        host: config.redisHost,
+        port: config.redisPort
+    };
+    if (config.redisPassword) clientConnectConfig.password = config.redisPassword;
+
+    redisClient = redis.createClient(clientConnectConfig);
 }
 
 function genSiteMap(user, res, xml){
