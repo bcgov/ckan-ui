@@ -7,6 +7,7 @@
                         :name="field.field_name"
                         :key="field.field_name"
                         :value="values[field.field_name]"
+                        :state="values.publish_state"
                         :label="field.label"
                         :editing="editing"
                         :placeholder="field.form_placeholder"
