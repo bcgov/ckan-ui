@@ -5,29 +5,23 @@
         </label>
         <div v-if="!editing">
             <div class="mb-2">
-                <div v-if="!hasDisplayed || !value.displayed">
-                    <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
-                        <v-row v-if="sub.display_snippet !== null && sub.value" align="center">
-                            <v-col cols=12 class="py-1">
-                                <label class="sub-label fixedWidth">
-                                    {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
-                                </label>
-                            
-                                <span v-if="value">
-                                    <span v-if="sub.display_snippet === 'url'">
-                                        <a :href="model[sub.field_name]" style="text-overflow: ellipsis">{{model[sub.field_name]}}</a>
-                                    </span>
-                                    <span v-else-if="sub.field_name === 'email'">
-                                        <a :href="'mailto:'+model[sub.field_name]">{{model[sub.field_name]}}</a>
-                                    </span>
-                                    <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
-                                    <span v-else-if=" model[sub.field_name] === ''" class="value">{{$tc('Not Provided')}}</span>
-                                    <span v-else class="value">{{model[sub.field_name]}}</span>
-                                </span>
-                                <span v-else>{{$tc('Not Provided')}}</span>
-                            </v-col>
-                        </v-row>
-                    </div>
+                <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+key">
+                    <v-row v-if="(sub.display_snippet !== null || sub.preset !== null) && model[sub.field_name]" align="center">
+                        <v-col cols=12 class="py-1">
+                            <label class="sub-label fixedWidth">
+                                {{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}
+                            </label>
+                        
+                            <span v-if="sub.display_snippet === 'url'">
+                                <a :href="model[sub.field_name]" style="text-overflow: ellipsis">{{model[sub.field_name]}}</a>
+                            </span>
+                            <span v-else-if="sub.field_name === 'email'">
+                                <a :href="'mailto:'+model[sub.field_name]">{{model[sub.field_name]}}</a>
+                            </span>
+                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, value[sub.field_name])}}</span>
+                            <span v-else class="value">{{model[sub.field_name]}}</span>
+                        </v-col>
+                    </v-row>
                 </div>
             </div>
             <hr>
@@ -195,26 +189,12 @@ export default {
     },
     data() {
         return {
-            hasDisplayed: false,
             dateMenuOpen: false,
             showView: false,
             model: {}
         }
     },
     methods: {
-        addRecord: function() {
-            let model = {}
-            for (let i=0; i<this.field.subfields.length; i++){
-                model[this.field.subfields[i].field_name] = "";
-                if (this.field.subfields[i].field_name.toLowerCase() === "displayed"){
-                    this.hasDisplayed = true;
-                }
-            }
-            this.model.push(model);
-        },
-        removeRecord: function(index) {
-            this.model.splice(index,1);
-        },
         modified: function(refName) {
             if ( (typeof(refName) !== "undefined") && (typeof(this.$refs[refName]) !== "undefined") ){
                 this.$refs[refName] = false;
@@ -261,10 +241,7 @@ export default {
             }
         }
         for (let i=0; i<this.field.subfields.length; i++){
-            if (typeof(this.model[this.field.subfields[i]]) === "undefined"){
-                this.model[this.field.subfields[i]] = "";
-            }
-            if (this.field.subfields[i].value && !this.showView) {
+            if (this.model[this.field.subfields[i].field_name] && !this.showView) {
                 this.showView = true;
             }
         }

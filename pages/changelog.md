@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22||
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
 |16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
@@ -64,6 +65,11 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|19|Removed French toggle while fixing French setting | ([#785](https://github.com/bcgov/ckan-ui/pull/785))
+|19|Added state to title component and removed state field | ([#784](https://github.com/bcgov/ckan-ui/pull/784))
+|19|Add sitemap to redis cache | ([#782](https://github.com/bcgov/ckan-ui/pull/782))
+|19|Remove final 'Not Provided' handling | ([#780](https://github.com/bcgov/ckan-ui/pull/780))
+|19|Fixed composite field | ([#779](https://github.com/bcgov/ckan-ui/pull/779))
 |18|Updated text display to handle timestamps | ([#767](https://github.com/bcgov/ckan-ui/pull/767))
 |18|Updated orgName to orgId in dynamic form | ([#765](https://github.com/bcgov/ckan-ui/pull/765))
 |18|Sorted org list for contacts | ([#763](https://github.com/bcgov/ckan-ui/pull/763))
