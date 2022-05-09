@@ -75,9 +75,9 @@
                                     </span>
                                 </template>
                                 <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" class="hidden-sm-and-down" id="english-btn" @click="setLanguage('en')">English</v-list-item>
-                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-sm-and-down" id="french-btn" @click="setLanguage('fr')">Français</v-list-item>
+                                <!-- v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-sm-and-down" id="french-btn" @click="setLanguage('fr')">Français</v-list-item -->
                                 <v-list-item v-if="this.$i18n.locale != 'en'" left fixed color="text" class="hidden-md-and-up" id="mobile-english-btn" @click="setLanguage('en')">EN</v-list-item>
-                                <v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-md-and-up" id="mobile-french-btn" @click="setLanguage('fr')">FR</v-list-item>
+                                <!-- v-list-item v-if="this.$i18n.locale != 'fr'" left fixed color="text" class="hidden-md-and-up" id="mobile-french-btn" @click="setLanguage('fr')">FR</v-list-item -->
                                 </v-list>
                             <!-- </v-col>
                         </v-row> -->
