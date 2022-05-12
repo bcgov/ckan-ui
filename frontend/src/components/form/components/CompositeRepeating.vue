@@ -1,5 +1,5 @@
 <template>
-    <v-col v-if="anyShown || editing" cols=12 class="py-2 mb-4">
+    <v-col v-if="(anyShown && !isEmpty) || editing" cols=12 class="py-2 mb-4">
         <label class="label">
             {{$tc(displayLabel)}}
         </label>
@@ -16,24 +16,19 @@
                                     </label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
-
-                                        <v-tooltip top>
-                                            <template v-slot:activator="{ on }">
-                                                <span v-on=on v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
-                                                    <span v-if="sub.field_name === 'org'">
-                                                        <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
-                                                    </span>
-                                                    <span v-else-if="sub.field_name === 'url'">
-                                                        <a :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                                    </span>
-                                                    <span v-else-if="sub.field_name === 'email'">
-                                                        <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
-                                                    </span>
-                                                    <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
-                                                    <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
-                                                </span>
-                                            </template>
-                                        </v-tooltip>
+                                        <span v-on=on v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
+                                            <span v-if="sub.field_name === 'org'">
+                                                <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
+                                            </span>
+                                            <span v-else-if="sub.field_name === 'url'">
+                                                <a :href="model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                            </span>
+                                            <span v-else-if="sub.field_name === 'email'">
+                                                <a :href="'mailto:'+model[repeatedIndex][sub.field_name]">{{model[repeatedIndex][sub.field_name]}}</a>
+                                            </span>
+                                            <span v-else-if="sub.preset === 'select'" class="value">{{getDisplayValue(sub, model[repeatedIndex][sub.field_name])}}</span>
+                                            <span v-else class="value">{{model[repeatedIndex][sub.field_name]}}</span>
+                                        </span>
                                     </span>
                                 </v-row>
                             </span>
@@ -342,6 +337,14 @@ export default {
         }),
         fieldValue: function(){
             return this.dataset[this.field.field_name];
+        },
+        isEmpty: function() {
+            for (let val of this.model) {
+                for (let subfield of this.field.subfields) {
+                    if (val[subfield.field_name]) return false;
+                }
+            }
+            return true;
         }
     },
     mounted(){
