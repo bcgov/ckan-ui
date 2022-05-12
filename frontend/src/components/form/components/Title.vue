@@ -78,6 +78,8 @@ export default {
                     return "success";
                 case "PENDING ARCHIVE":
                     return "orange";
+                case "ARCHIVED":
+                    return "error";
             }
             return "grey";
         }
