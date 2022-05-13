@@ -23,7 +23,7 @@ function genSiteMap(user, res, xml){
         url: reqUrl,
         method: "GET",
         withCredentials: true,
-        timeout: 20000
+        timeout: 80000
     };
 
     if ( (user) && (user.jwt) ){
