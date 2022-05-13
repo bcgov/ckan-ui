@@ -4,7 +4,7 @@
             <h2 class="title-field">
                 {{value}}&nbsp;
             </h2>
-            <v-chip small label :color="labelColor" text-color="white" class="state-label">{{state}}</v-chip>
+            <v-chip v-if="state" small label :color="labelColor" text-color="white" class="state-label">{{state}}</v-chip>
         </span>
         <div v-else>
             <label class="label">
@@ -37,7 +37,7 @@ export default {
         value: String,
         state: {
             type: String,
-            default: "DRAFT"
+            default: ""
         },
         label: String,
         editing: Boolean,
