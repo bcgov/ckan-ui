@@ -39,6 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22|12-May-22|
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
 |16|Fix record history lifecycle, update search order, remove gravitar (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-Feb-22|10-March-22|
@@ -64,6 +65,12 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|19|Removed hover text from composite repeating values | ([#790](https://github.com/bcgov/ckan-ui/pull/790))
+|19|Removed French toggle while fixing French setting | ([#785](https://github.com/bcgov/ckan-ui/pull/785))
+|19|Added state to title component and removed state field | ([#784](https://github.com/bcgov/ckan-ui/pull/784))
+|19|Add sitemap to redis cache | ([#782](https://github.com/bcgov/ckan-ui/pull/782))
+|19|Remove final 'Not Provided' handling | ([#780](https://github.com/bcgov/ckan-ui/pull/780))
+|19|Fixed composite field | ([#779](https://github.com/bcgov/ckan-ui/pull/779))
 |18|Updated text display to handle timestamps | ([#767](https://github.com/bcgov/ckan-ui/pull/767))
 |18|Updated orgName to orgId in dynamic form | ([#765](https://github.com/bcgov/ckan-ui/pull/765))
 |18|Sorted org list for contacts | ([#763](https://github.com/bcgov/ckan-ui/pull/763))
@@ -133,15 +140,12 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
-1. BCGW Details listed on resources that are not Geographic are still to be reviewed.
-    + Some Resources like BCGW WMS and KML having the details information is useful and correct, thus more engagement is needed to determine how to ideally proceed.
 1. All Editors can see all record in all states of all organizations.  
 1. Group editors and members management to be configured. 
     + All Group management can only be done by users with Admin access at this time. 
 1. Viewing Groups on the groups page can result in 0 datasets under the group name.  Clicking on the group name, or using the Group filter when searching from the datasets page will return a list of datasets for the selected group. 
 1. The OpenAPI Console preview function is not available.
 1. The Data Usage page is not yet available.
-1. Resource Update Date is not visible in the UI but via the API. Reviewing best terms to describle what dates this field has.
 1. Domain value lists are inconsistent across the schema in their letter case. We will be implimenting snake_case in the future.
 
 [RETURN TO TOP][1]

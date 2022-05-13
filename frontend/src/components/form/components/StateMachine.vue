@@ -1,14 +1,9 @@
 <template>
-    <v-col cols=12 class="py-2">
+    <v-col v-if="editing" cols=12 class="py-2">
         <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
             {{$tc(displayLabel)}}
         </label>
-        <span v-if="!editing" :class="((multilineDisplay) ? 'block' : '')">
-            <span class="value mb-0 pb-0">{{translate ? $tc(this.labelLookup[this.val]) : this.labelLookup[this.val]}}</span>
-            <span v-if="!validValue">{{this.val}}</span>
-            <span v-if="!validValue && sysAdmin" class="mt-0 pt-0 error--text errorText">Note this value is invalid</span>
-        </span>
-        <span v-else>
+        <span>
             <v-stepper alt-labels :value="stepNo" class="elevation-0 border">
                 <v-stepper-header>
                     <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button-'+redrawIndex">

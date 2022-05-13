@@ -1,8 +1,11 @@
 <template>
     <v-col cols=12 class="py-2">
-        <h2 v-if="!editing" class="title-field">
-            {{value}}
-        </h2>
+        <span v-if="!editing">
+            <h2 class="title-field">
+                {{value}}&nbsp;
+            </h2>
+            <v-chip small label :color="labelColor" text-color="white" class="state-label">{{state}}</v-chip>
+        </span>
         <div v-else>
             <label class="label">
                 {{$tc(displayLabel)}}
@@ -32,6 +35,10 @@ export default {
     props: {
         name: String,
         value: String,
+        state: {
+            type: String,
+            default: "DRAFT"
+        },
         label: String,
         editing: Boolean,
         placeholder: String,
@@ -59,9 +66,22 @@ export default {
         },
     },
     computed: {
-        displayLabel: function(){
+        displayLabel: function() {
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (this.editing && required ? '*' : '');
+        },
+        labelColor: function() {
+            switch (this.state) {
+                case "PENDING PUBLISH":
+                    return "tertiary";
+                case "PUBLISHED":
+                    return "success";
+                case "PENDING ARCHIVE":
+                    return "orange";
+                case "ARCHIVED":
+                    return "error";
+            }
+            return "grey";
         }
     },
 };
@@ -77,6 +97,11 @@ export default {
         font-size: 23px;
         font-weight: bold;
         color: var(--v-faded_text-base);
+        display: inline-block;
+    }
+    .state-label {
+        vertical-align: text-bottom;
+        font-weight: bold;
     }
     >>>.v-messages__message {
         margin-left: -12px !important;

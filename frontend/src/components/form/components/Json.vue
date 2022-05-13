@@ -1,10 +1,10 @@
 <template>
-    <v-col v-if="editing || val" cols=12 class="py-2">
+    <v-col v-if="editing || !empty" cols=12 class="py-2">
         <div v-if="!editing">
             <label class="label fixedWidth">
                 {{$tc(displayLabel)}}
             </label>
-            <span class="preserveWhite">{{ (empty) ? $tc("Not provided") : val  }}</span>
+            <span class="preserveWhite">{{ val }}</span>
         </div>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="$tc(displayLabel)">
             <v-textarea
