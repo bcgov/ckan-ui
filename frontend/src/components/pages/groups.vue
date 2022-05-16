@@ -273,7 +273,7 @@
 
     .groupContainer{
         background: var(--v-data_background-base);
-        min-height: 100%;
+        min-height: calc(100% - 115px);;
     }
 
     .raise {

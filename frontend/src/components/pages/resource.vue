@@ -607,6 +607,7 @@ h5 {
     background: var(--v-data_background-base);
     padding-left: 68px;
     padding-right: 56px;
+    min-height: calc(100% - 115px);
 }
 ul {
     list-style-type: none;
