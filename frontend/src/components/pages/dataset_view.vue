@@ -197,6 +197,10 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
+        <v-row justify="start" class="mx-0 mt-n10 timestamps">
+            <v-col cols=4>{{$tc('Created')}}: {{formatDate(dataset.metadata_created)}}</v-col>
+            <v-col cols=3 class="text-right pr-5">{{$tc('Updated')}}: {{formatDate(dataset.metadata_created)}}</v-col>
+        </v-row>
         <v-row>
             <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop pa-4" v-scroll-to="{
                 el: '#topOfForm',
@@ -214,6 +218,7 @@
 import Vue from 'vue';
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
+import * as moment from "moment/moment";
 import ResourceList from "../dataset/ResourceList";
 import Banner from '../banner/Banner'
 
@@ -392,6 +397,10 @@ export default {
     },
 
     methods: {
+
+        formatDate(timestamp) {
+            return moment(timestamp).format('YYYY-MM-DD');
+        },
 
         calcDynoFormOrgId(){
             let id = (this.dataset && this.dataset.organization && this.dataset.organization.id) ? this.dataset.organization.id : '';
@@ -839,6 +848,11 @@ ul {
     width: 100%;
     border-bottom: 1px solid;
     border-color: var(--v-label_border-base);
+}
+
+.timestamps {
+    color: var(--v-faded_text-lighten1);
+    font-style: italic;
 }
 
 </style>
