@@ -72,5 +72,6 @@
     .main-area {
         margin-bottom: 45px;
         background: var(--v-data_background-base);
+        min-height: calc(100% - 115px);
     }
 </style>

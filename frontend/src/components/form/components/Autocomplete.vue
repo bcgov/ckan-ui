@@ -22,7 +22,7 @@
                 deletable-chips
                 :multiple="multi"
                 :disabled="disabled"
-                outlined dense
+                outlined
                 :error-messages="errors.length > 0 ? [errors[0]] : []"
                 background-color="text"
             ></v-autocomplete>
