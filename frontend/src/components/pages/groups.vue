@@ -133,7 +133,7 @@
 <script>
     import GroupCard from '../groups/GroupCard'
 
-    import { mapState } from "vuex";
+    import { mapState, mapGetters } from "vuex";
 
     import {Analytics} from '../../services/analytics'
     const analyticsServ = new Analytics()
@@ -204,15 +204,17 @@
                 groupList: state => state.group.groups,
                 groups: state => state.group.searchedGroups,
                 sysAdmin: state => state.user.sysAdmin,
-                isAdmin: state => state.user.isAdmin,
-                isEditor: state => state.user.isEditor,
                 userLoading: state => state.user.userLoading,
+            }),
+            ...mapGetters("organization", {
+                hasAdmin: "hasAdmin",
+                hasEditor: "hasEditor"
             }),
             showCreate: function(){
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+                return ( (!this.loading) && (!this.userLoading) && ((this.sysAdmin) || (this.hasAdmin) || (this.hasEditor)) );
             },
         },
         methods:{
