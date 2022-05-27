@@ -383,8 +383,6 @@ export default {
             unmodifiedDataset: state => state.dataset.unmodifiedDataset,
             organizations: state => state.organization.orgList,
             shouldAbort: state => state.dataset.shouldAbort,
-            sysAdmin: state => state.user.sysAdmin,
-            isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.dataLoading,
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,

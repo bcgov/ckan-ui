@@ -57,6 +57,38 @@ const getters = {
             }
         }
         return "";
+    },
+    hasAdmin: (state) => {
+        for (let org of state.userOrgs) {
+            if (org.role === 'admin') {
+                return true;
+            }
+        }
+        return false;
+    },
+    hasEditor: (state) => {
+        for (let org of state.userOrgs) {
+            if (org.role === 'editor') {
+                return true;
+            }
+        }
+        return false;
+    },
+    hasOrgAdmin: (state) => (id) => {
+        for (let org of state.userOrgs) {
+            if (org.id === id) {
+                return org.role === 'admin';
+            }
+        }
+        return false;
+    },
+    hasOrgEditor: (state) => (id) => {
+        for (let org of state.userOrgs) {
+            if (org.id === id) {
+                return org.role === 'editor';
+            }
+        }
+        return false;
     }
 }
 
@@ -214,16 +246,16 @@ const mutations = {
 
         let tmp = {};
         for (let i=0; i<orgList.result.length; i++){
-            tmp[orgList.result[i].display_name] = orgList.result[i].id;
+            tmp[orgList.result[i].display_name] = { id: orgList.result[i].id, role: orgList.result[i].capacity };
         }
 
         let keys = Object.keys(tmp).sort();
 
         for (let i=0; i<keys.length; i++){
-            userOrgs.push({value: tmp[keys[i]] , label: keys[i]});
+            userOrgs.push({value: tmp[keys[i]].id, label: keys[i], role: tmp[keys[i]].role});
         }
 
-        state.userOrgs = Object.assign({}, userOrgs);
+        state.userOrgs = JSON.parse(JSON.stringify(userOrgs));
     },
 
     setCurrentNotUnmod(state, {group}) {

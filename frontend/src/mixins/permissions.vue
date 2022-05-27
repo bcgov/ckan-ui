@@ -8,14 +8,15 @@
     export default {
         computed:{
             ...mapGetters("organization", {
-                ancestorsByName: "ancestorsByName"
+                ancestorsByName: "ancestorsByName",
+                hasAdmin: "hasAdmin",
+                hasEditor: "hasEditor"
             }),
 
             ...mapState({
                 dataset: state => state.dataset.dataset,
                 userPermissions: state => state.user.userPermissions,
                 sysAdmin: state => state.user.sysAdmin,
-                isAdmin: state => state.user.isAdmin,
                 dataLoading: state => state.dataset.resourceLoading,
                 schemaLoading: state => state.dataset.schemaLoading,
                 userLoading: state => state.user.loading,
@@ -26,7 +27,7 @@
             showEdit: function(){
                 //editing is assumed to come from the data or property of the component we are mixed in to
                 if (!this.dataset.organization){
-                    return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+                    return ( (!this.dataLoading) && (!this.schemaLoading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.hasAdmin)) );
                 }
 
                 let ancestors = this.ancestorsByName(this.dataset.organization.name);
