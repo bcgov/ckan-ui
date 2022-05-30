@@ -182,7 +182,9 @@ export default {
   watch: {
     $route(to){
       this.logInUrl = "/client-api/login?r="+to.fullPath;
-      this.$store.dispatch('user/getCurrentUser')
+      this.$store.dispatch('user/getCurrentUser').then( () => {
+        this.$store.dispatch('organization/getUserOrgs');
+      });
       if (this.$route.query.loggedOut === "true"){
         this.showLoggedOut = true;
       }else{
@@ -330,7 +332,9 @@ export default {
     if (this.$route.query.loggedOut === "true"){
       this.showLoggedOut = true;
     }
-    this.$store.dispatch('user/getCurrentUser')
+    this.$store.dispatch('user/getCurrentUser').then( () => {
+      this.$store.dispatch('organization/getUserOrgs');
+    });
 
     //let self = this;
 

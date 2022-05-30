@@ -437,12 +437,6 @@ export default {
             }
             this.dynoFormOrgId=id;
         },
-
-        getUserOrgs() {
-            if (!this.userOrgs || this.userOrgs.length <= 0){
-                this.$store.dispatch("organization/getUserOrgs");
-            }
-        },
         getDataset() {
             let self = this;
             let unsub = this.$store.subscribe(
@@ -698,7 +692,6 @@ export default {
 
     mounted() {
         analyticsServ.get(window.currentUrl, this.$route.meta.title, window.previousUrl);
-        this.getUserOrgs();
         this.$store.dispatch("organization/getOrgs");
         this.$store.dispatch("group/getUserGroups");
         this.getDataset();

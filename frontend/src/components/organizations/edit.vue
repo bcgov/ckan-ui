@@ -128,7 +128,6 @@ export default {
             this.$store.dispatch('organization/newOrg');
         }
         this.$store.dispatch('organization/getOrgs');
-        this.$store.dispatch('organization/getUserOrgs');
     },
 
     methods: {
