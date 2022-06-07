@@ -137,7 +137,7 @@
     import Edit from '../groups/edit';
     import Banner from '../banner/Banner'
 
-    import { mapState } from 'vuex';
+    import { mapState, mapGetters } from 'vuex';
 
     import {Analytics} from '../../services/analytics';
     const analyticsServ = new Analytics();
@@ -188,8 +188,6 @@
             },
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
-                isAdmin: state => state.user.isAdmin,
-                isEditor: state => state.user.isEditor,
                 userLoading: state => state.user.userLoading,
                 loggedIn: state => state.user.loggedIn,
                 group: state => state.group.group,
@@ -198,6 +196,9 @@
                 members: state => state.group.groupMembers,
                 following: state => state.group.currUserFollowingCurrGroup,
                 ckanUser: state => state.user.ckanUser
+            }),
+            ...mapGetters("organization", {
+                hasAdmin: "hasAdmin"
             }),
 
             imgSrc: function(){
@@ -215,7 +216,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.hasAdmin)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;

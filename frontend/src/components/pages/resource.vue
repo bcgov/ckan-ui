@@ -358,7 +358,6 @@ export default {
             },
             shouldAbort: state => state.dataset.shouldAbort,
             sysAdmin: state => state.user.sysAdmin,
-            isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.resourceLoading,
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,

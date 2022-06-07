@@ -329,7 +329,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Vue from 'vue';
 
 import Title from './components/Title';
@@ -437,7 +437,9 @@ export default {
             user: state => state.user.authUser,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
-            isAdmin: state => state.user.isAdmin,
+        }),
+        ...mapGetters("organization", {
+            hasAdmin: "hasAdmin"
         }),
 
         available_parent_org_value: function(){
@@ -483,7 +485,7 @@ export default {
                         && (typeof(field.visibility) === 'undefined'
                             || field.visibility === 'user' && this.user
                             || field.visibility === 'editor' && this.user
-                                && (this.sysAdmin || this.isAdmin
+                                && (this.sysAdmin || this.hasAdmin
                                     || (this.values.organization && this.userPermissions[this.values.organization.name] === "editor")))
             }) : [];
 
