@@ -246,13 +246,13 @@ const mutations = {
 
         let tmp = {};
         for (let i=0; i<orgList.result.length; i++){
-            tmp[orgList.result[i].display_name] = { id: orgList.result[i].id, role: orgList.result[i].capacity };
+            tmp[orgList.result[i].display_name] = { id: orgList.result[i].id, role: orgList.result[i].capacity, name: orgList.result[i].name };
         }
 
         let keys = Object.keys(tmp).sort();
 
         for (let i=0; i<keys.length; i++){
-            userOrgs.push({value: tmp[keys[i]].id, label: keys[i], role: tmp[keys[i]].role});
+            userOrgs.push({value: tmp[keys[i]].id, label: keys[i], role: tmp[keys[i]].role, name: tmp[keys[i]].name});
         }
 
         state.userOrgs = JSON.parse(JSON.stringify(userOrgs));

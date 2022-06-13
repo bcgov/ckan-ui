@@ -21,7 +21,8 @@
                 schemaLoading: state => state.dataset.schemaLoading,
                 userLoading: state => state.user.loading,
                 user: state => state.user,
-                organizations: state => state.organization.orgList
+                organizations: state => state.organization.orgList,
+                userOrgs: state => state.organization.userO
             }),
 
             showEdit: function(){
@@ -44,9 +45,9 @@
                 if (this.sysAdmin) return true;
 
                 // admins or editors for the current organization or ancestor organizations can edit this record
-                return [this.dataset.organization.name, ...ancestors].some(
-                    orgname => ["admin", "editor"].includes(this.userPermissions[orgname])
-                );
+                return this.userOrgs.filter( userOrg => 
+                    [this.dataset.organization.name, ...ancestors].includes(userOrg.name) &&
+                    ["admin", "editor"].includes(userOrg.role)).length > 0;
             },
 
             showDatasetDeleteButton() {

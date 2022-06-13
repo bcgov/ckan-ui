@@ -244,6 +244,7 @@
                         :name="field.field_name"
                         :value="values[field.field_name]"
                         :label="field.label"
+                        :placeholder="field.form_placeholder"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                         :field="field"
                         :disabled="disabled"
