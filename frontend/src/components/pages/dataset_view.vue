@@ -263,7 +263,8 @@ export default {
                 'record_create_date',
                 'record_publish_date',
                 'record_archive_date',
-                'record_last_modified'],
+                'record_last_modified',
+                'support_url'],
             error: this.datasetError,
             snackbar: false,
             formDefaults: {
