@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine3.13
 USER root
 RUN echo net.ipv4.tcp_syn_retries = 11 >> /etc/sysctl.conf
 WORKDIR /app
