@@ -49,7 +49,7 @@ export default {
         }
 
         let displayValue = this.value ? this.value : null;
-        if (moment(displayValue).isValid()) {
+        if (displayValue && displayValue.indexOf('http') < 0 && moment(displayValue).isValid()) {
             displayValue = moment(displayValue).format('YYYY-MM-DD, hh:mm A')
         }
 
