@@ -22,7 +22,7 @@
                 userLoading: state => state.user.loading,
                 user: state => state.user,
                 organizations: state => state.organization.orgList,
-                userOrgs: state => state.organization.userO
+                userOrgs: state => state.organization.userOrgs
             }),
 
             showEdit: function(){
@@ -64,13 +64,19 @@
         methods: {
 
             showDatasetDeleteButtonForResourceOrDataset(resourceOrDataset) {
-                if (this.editing || this.createMode) return false;
+                if (this.editing || this.createMode || !(this.dataset && this.dataset.organization)) return false;
 
-                let roleForRecord = getUserRoleForDataset(
-                    this.dataset, // The user's role is always calculated using the dataset.
-                    this.user,
-                    this.organizations
-                );
+                let roleForRecord = 'logged in with no role';
+                if (this.sysAdmin) {
+                    roleForRecord = 'sysadmin';
+                } else {
+                    for (let org of this.userOrgs) {
+                        if (org.name === this.dataset.organization.name) {
+                            roleForRecord = org.role;
+                        }
+                    }
+                }
+
                 let datasetState;
                 try {
                     datasetState = getDatasetState(this.dataset);
@@ -89,13 +95,13 @@
 
                 let sysAdmin = this.sysAdmin;
                 
-                let admin = [organization_name, ...ancestors].some(
-                    orgName => this.userPermissions[orgName] === "admin"
-                );
+                let admin = this.userOrgs.filter( userOrg => 
+                    [organization_name, ...ancestors].includes(userOrg.name) &&
+                    userOrg.role === 'admin').length > 0;
 
-                let editor = [organization_name, ...ancestors].some(
-                    orgName => this.userPermissions[orgName] === "editor"
-                );
+                let editor = this.userOrgs.filter( userOrg => 
+                    [organization_name, ...ancestors].includes(userOrg.name) &&
+                    userOrg.role === 'editor').length > 0;
                 
                 return {
                     sysAdmin,
