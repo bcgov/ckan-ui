@@ -134,13 +134,10 @@
             totalFilters: state => state.search.totalFilters,
             userPermissions: state => state.user.userPermissions,
             sysAdmin: state => state.user.sysAdmin,
-            isAdmin: state => state.user.isAdmin,
-            isEditor: state => state.user.isEditor,
             userLoading: state => state.user.userLoading,
             searchText: state => state.search.searchText,
             sortOrder: state => state.search.sortOrder,
         }),
-
     },
 
     methods: {

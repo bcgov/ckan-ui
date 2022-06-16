@@ -155,7 +155,7 @@
     import { CkanApi } from '../../services/ckanApi';
     const ckanServ = new CkanApi();
 
-    import { mapState } from 'vuex';
+    import { mapState, mapGetters } from 'vuex';
 
 
     export default {
@@ -205,14 +205,16 @@
                 members: state => state.organization.groupMembers,
                 group: state => state.organization.unmodifiedOrg,
                 sysAdmin: state => state.user.sysAdmin,
-                isAdmin: state => state.user.isAdmin,
-                isEditor: state => state.user.isEditor,
                 userLoading: state => state.user.userLoading,
                 loggedIn: state => state.user.loggedIn,
                 ckanUser: state => state.user.ckanUser,
                 loading: state => state.organization.loading,
                 following: state => state.organization.currUserFollowingCurrGroup,
                 orgList: state => state.organization.orgList,
+            }),
+            ...mapGetters("organization", {
+                hasAdmin: "hasAdmin",
+                hasEditor: "hasEditor"
             }),
 
             forceFilter: function(){
@@ -249,7 +251,7 @@
                 // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
                 //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin)) );
+                return ( (!this.loading) && (!this.editing) && (!this.userLoading) && ((this.sysAdmin) || (this.hasAdmin)) );
             },
             canDeleteResources: function(){
                 return this.sysAdmin;
@@ -359,6 +361,7 @@
 
     .orgContainer{
         background: var(--v-data_background-base);
+        min-height: calc(100% - 115px);
     }
 
     .header{

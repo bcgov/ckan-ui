@@ -251,6 +251,7 @@
 <style scoped>
     .orgContainer{
         background: var(--v-data_background-base);
+        min-height: calc(100% - 115px);
     }
 
     .searchbox {
