@@ -106,7 +106,7 @@ export default{
         if (this.sysAdmin) {
           return true;
         } else {
-          for (let userOrg in this.userOrgs) {
+          for (let userOrg of this.userOrgs) {
             if (userOrg.value === id && userOrg.role === 'admin') {
               return true;
             }
