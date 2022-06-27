@@ -257,6 +257,68 @@ var addRoutes = function(router){
         });
     });
 
+    router.post('/organizationMember', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        const reqUrl = url + "/api/3/action/organization_member_create";
+
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+
+        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+
+    });
+
+    router.post('/organizationMemberDelete', auth.removeExpired, function(req, res, next) {
+        let config = require('config');
+        let url = config.get('ckan');
+
+        const reqUrl = url + "/api/3/action/organization_member_delete";
+
+        if (!req.user){
+            return res.json({error: "Not logged in"});
+        }
+
+        request({ method: 'POST', uri: reqUrl, json: req.body, auth: { 'bearer': req.user.jwt } }, function(err, apiRes, body) {
+            if (err) {
+                console.log(err);
+                res.json({ error: err });
+                return;
+            }
+            if (apiRes.statusCode !== 200) {
+                console.log("Body Status? ", apiRes.statusCode);
+            }
+
+            try {
+                let json = JSON.parse(body);
+                res.json(json);
+            }catch(ex){
+                console.error("Error reading json from ckan", ex);
+                res.json({error: ex});
+            }
+        });
+
+    });
+
     return router;
 };
 

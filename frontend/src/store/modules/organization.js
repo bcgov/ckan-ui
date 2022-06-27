@@ -225,7 +225,7 @@ const mutations = {
 
     setOrg(state, { org }){
         state.unmodifiedOrg = Vue.set(state, 'unmodifiedOrg', org);
-        state.organization = Object.assign(state.organization, {}, org);
+        state.organization = Vue.set(state, 'organization', org);
     },
 
     setLoading(state, { loading }){
