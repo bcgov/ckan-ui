@@ -275,19 +275,15 @@ export default {
       openAbout: function(){
         this.aboutDialog = true;
 
-        this.$gtag.event('Open About', {
-          'event_category': 'Modal',
-          'event_label': 'About'
+        this.$gtag.event('about_view', {
+          'page_title': document.title,
+          'page_location': location.href,
+          'page_path': location.pathname
         })
       },
 
       closeAbout: function(){
         this.aboutDialog = false;
-
-        this.$gtag.event('Close About', {
-          'event_category': 'Modal',
-          'event_label': 'About'
-        })
       },
 
       keepAlive: function(){
@@ -344,9 +340,10 @@ export default {
       },
 
       trackMenu() {
-        this.$gtag.event('Toggle Menu', {
-          'event_category': 'Menu',
-          'event_label': 'Header'
+        this.$gtag.event('menu_view', {
+          'page_title': document.title,
+          'page_location': location.href,
+          'page_path': location.pathname
         })
       }
   },

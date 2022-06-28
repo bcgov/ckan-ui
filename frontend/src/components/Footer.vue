@@ -77,17 +77,14 @@ export default {
   methods:{
     open() {
       this.trackingDialog = true;
-      this.$gtag.event('Open Tracking', {
-        'event_category': 'Modal',
-        'event_label': 'Tracking'
+      this.$gtag.event('tracking_view', {
+        'page_title': document.title,
+        'page_location': location.href,
+        'page_path': location.pathname
       })
     },
     close() {
       this.trackingDialog = false;
-      this.$gtag.event('Close Tracking', {
-        'event_category': 'Modal',
-        'event_label': 'Tracking'
-      })
     }
   },
   data(){

@@ -168,17 +168,11 @@
         },
         openCard() {
             this.cardDialog = true;
-            this.$gtag.event('Open Formats Card', {
-            'event_category': 'Modal',
-            'event_label': 'Formats'
+            this.$gtag.event('formats_view', {
             })
         },
         closeCard() {
             this.cardDialog = false;
-            this.$gtag.event('Close Formats Card', {
-            'event_category': 'Modal',
-            'event_label': 'Formats'
-            })
         }
       },
       mounted() {
