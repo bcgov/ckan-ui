@@ -9,6 +9,7 @@
           hide-default-header
           single-expand
           show-expand
+          sort-by="title"
         >
           <template v-slot:item="{ item, expand, isExpanded, headers }">
             <tr>
@@ -19,10 +20,10 @@
               </td>
               <td>{{item.title}}</td>
               <td>
-                <span v-if="item.showEdit">
-                  <v-btn icon small :to="{name: 'adminOrgMembers', params: {orgId: item.id}}"><v-icon small>mdi-account-multiple-plus</v-icon></v-btn>
-                  <v-btn icon small disabled><v-icon small>mdi-pencil</v-icon></v-btn>
-                  <v-btn icon small disabled color="red"><v-icon small>mdi-delete</v-icon></v-btn>
+                <span v-if="item.showEdit" class="float-right">
+                  <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: item.id}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                  <v-btn icon disabled color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
+                  <v-btn icon disabled color="red"><v-icon>mdi-delete</v-icon></v-btn>
                 </span>
               </td>
             </tr>
@@ -32,9 +33,11 @@
               <td :class="{ borderless: i !== item.children.length-1 }"></td>
               <td>{{child.title}}</td>
               <td>
-                <v-btn icon small :to="{name: 'adminOrgMembers', params: {orgId: child.id}}"><v-icon small>mdi-account-multiple-plus</v-icon></v-btn>
-                <v-btn icon small disabled><v-icon small>mdi-pencil</v-icon></v-btn>
-                <v-btn icon small disabled color="red"><v-icon small>mdi-delete</v-icon></v-btn>
+                <span v-if="item.showEdit" class="float-right">
+                  <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: child.id}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                  <v-btn icon disabled color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
+                  <v-btn icon disabled color="red"><v-icon>mdi-delete</v-icon></v-btn>
+                </span>
               </td>
             </tr>
           </template>
@@ -49,7 +52,7 @@ import { mapState } from 'vuex';
 
 export default{
 
-    name: 'admin-table',
+    name: 'admin-org-table',
 
     props: {
     },
@@ -96,12 +99,6 @@ export default{
     },
 
     methods: {
-      trackOrg(orgName) {
-        this.$gtag.event(`Toggle ${orgName}`, {
-          'event_category': 'Menu',
-          'event_label': 'Sub-orgs'
-        })
-      },
       hasOrgAdmin(id) {
         if (this.sysAdmin) {
           return true;

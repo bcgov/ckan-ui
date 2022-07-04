@@ -20,7 +20,7 @@
                 <v-breadcrumbs :items="crumbs" divider=">">
                     <template v-slot:item="{ item }">
                         <v-breadcrumbs-item exact :to="item.to" :disabled="item.disabled">
-                            {{ item.text === 'org_title' ? org.title : item.text }}
+                            {{ item.text === 'org_title' ? (isOrg ? org.title : group.title) : item.text }}
                         </v-breadcrumbs-item>
                     </template>
                 </v-breadcrumbs>
@@ -29,7 +29,7 @@
         <v-row>
             <v-col cols=12 md=10 offset-md=1>
                 <v-card outlined class="pa-6" color="data_background">
-                    <v-data-table :headers="headers" :items="org.users" sort-by="name">
+                    <v-data-table :headers="headers" :items="isOrg ? org.users : group.users" sort-by="name">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>Manage Members</v-toolbar-title>
@@ -76,11 +76,12 @@
                                 </v-dialog>
                                 <v-dialog v-model="dialogDelete" max-width="500px">
                                     <v-card>
-                                        <v-card-title class="text-h5">Are you sure you want to remove {{ memberForRemoval ? memberForRemoval.fullname : 'this user' }} from {{ org.title }}?</v-card-title>
+                                        <v-card-title color="error">Confirm Removal</v-card-title>
+                                        <v-card-text>Are you sure you want to remove <strong>{{ memberForRemoval ? memberForRemoval.fullname : 'this user' }}</strong> from <strong>{{ isOrg ? org.title : group.title }}</strong>?</v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn color="secondary" small @click="closeDelete">Cancel</v-btn>
-                                            <v-btn color="primary" small @click="removeMember">DELETE</v-btn>
+                                            <v-btn color="secondary" outlined small @click="closeDelete">Cancel</v-btn>
+                                            <v-btn color="error" small @click="removeMember">DELETE</v-btn>
                                             <v-spacer></v-spacer>
                                         </v-card-actions>
                                     </v-card>
@@ -88,7 +89,8 @@
                             </v-toolbar>
                         </template>
                         <template v-slot:item.role="{ item }">
-                            <v-select dense hide-details outlined :items="roles" v-model="item.capacity" @change="changeUserRole(item)"></v-select>
+                            <v-select v-if="roles.length > 1" dense hide-details outlined :items="roles" v-model="item.capacity" @change="changeUserRole(item)"></v-select>
+                            <span v-else>{{item.capacity}}</span>
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-btn icon small color="red" @click="confirmRemoveMember(item)"><v-icon small>mdi-delete</v-icon></v-btn>
@@ -114,6 +116,12 @@
         name: "manage-members",
         components: {
             
+        },
+        props: {
+            isOrg: {
+                type: Boolean,
+                default: true
+            }
         },
         data () {
             return {
@@ -159,7 +167,9 @@
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
                 userOrgs: state => state.organization.userOrgs,
-                org: state => state.organization.organization
+                userGroups: state => state.group.userGroups,
+                org: state => state.organization.organization,
+                group: state => state.group.group
             }),
             organizationId: function organizationId() {
                 return this.$route.params.orgId;
@@ -167,17 +177,31 @@
         },
         methods: {
             permitted() {
-                for (let org in this.userOrgs) {
-                    if (org.value === this.organizationId && org.role === 'admin') {
-                        return true;
+                if (this.isOrg) {
+                    for (let org of this.userOrgs) {
+                        if (org.value === this.organizationId && org.role === 'admin') {
+                            return true;
+                        }
+                    }
+                } else {
+                    for (let group of this.userGroups) {
+                        if (group.id === this.organizationId) {
+                            return true;
+                        }
                     }
                 }
-                return false
+                return false;
             },
             getOrg() {
-                this.$store.dispatch('organization/getOrg', {id: this.organizationId}).then( () => {
-                    this.loading = false;
-                });
+                if (this.isOrg) {
+                    this.$store.dispatch('organization/getOrg', {id: this.organizationId}).then( () => {
+                        this.loading = false;
+                    });
+                } else {
+                    this.$store.dispatch('group/getGroup', {id: this.organizationId}).then( () => {
+                        this.loading = false;
+                    });
+                }
             },
             queryUserAutocomplete(q) {
                 this.userSearchLoading = true;
@@ -245,6 +269,10 @@
                 this.$router.push('/');
             }
             this.getOrg();
+            if (!this.isOrg) {
+                this.roles.pop();
+                this.newUser.role = 'admin';
+            }
         },
         updated() {
             window.snowplow('refreshLinkClickTracking');

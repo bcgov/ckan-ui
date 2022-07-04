@@ -26,7 +26,7 @@
                             Organizations
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="expansion-content">
-                            <AdminTable></AdminTable>
+                            <AdminOrgTable></AdminOrgTable>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -42,7 +42,9 @@
                             </template>
                             Groups
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content class="expansion-content">Placeholder</v-expansion-panel-content>
+                        <v-expansion-panel-content class="expansion-content">
+                            <AdminGroupTable></AdminGroupTable>
+                        </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-col>
@@ -53,7 +55,8 @@
 <script>
     import {CkanApi} from '../../services/ckanApi';
     import { mapGetters, mapState } from "vuex";
-    import AdminTable from './admin_table';
+    import AdminOrgTable from './admin_org_table';
+    import AdminGroupTable from './admin_group_table';
 
     const ckanServ = new CkanApi();
     import {Analytics} from '../../services/analytics';
@@ -63,7 +66,8 @@
     export default {
         name: "admin-home",
         components: {
-            AdminTable
+            AdminOrgTable,
+            AdminGroupTable
         },
         data () {
             return {
