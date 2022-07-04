@@ -12,7 +12,7 @@ const user = () => import(/* webpackChunkName: "user" */ "../components/pages/us
 const user_profile = () => import(/* webpackChunkName: "profile" */ "../components/user/profile");
 const admin = () => import(/* webpackChunkName: "admin" */ "../components/admin/admin");
 const admin_home = () => import(/* webpackChunkName: "admin_home" */ "../components/admin/admin_home");
-const admin_org_members = () => import(/* webpackChunkName: "admin_home" */ "../components/admin/members");
+const admin_members = () => import(/* webpackChunkName: "admin_home" */ "../components/admin/members");
 const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/pages/404");
 const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
 const resource = () => import(/* webpackChunkName: "resource" */ "../components/pages/resource");
@@ -165,12 +165,22 @@ let r = new Router({
                     },
                     component: admin_home
                 }, {
-                    path: ':orgId/members',
+                    path: 'org/:orgId/members',
                     name: 'adminOrgMembers',
                     meta: {
                         title: 'Manage Organization Members'
                     },
-                    component: admin_org_members
+                    component: admin_members
+                }, {
+                    path: 'group/:orgId/members',
+                    name: 'adminGroupMembers',
+                    meta: {
+                        title: 'Manage Group Members'
+                    },
+                    props: {
+                        isOrg: false
+                    },
+                    component: admin_members
                 }]
             }]
         },
