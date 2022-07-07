@@ -74,11 +74,29 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
 
   let sep = config.get('authGroupSeperator');
   let sysAdminGroup = config.get('sysAdminGroup');
+  let sysAdminGroupField = config.has('sysAdminGroupField') ? config.get('sysAdminGroupField') : 'groups';
 
   profile.sysAdmin = false;
   profile.isAdmin = false;
   profile.isEditor = false;
   profile.userPermissions = {};
+
+  if ((typeof(profile._json) !== "undefined") && (typeof(profile._json[sysAdminGroupField]) !== "undefined")){
+    for (let i=0; i<profile._json[sysAdminGroupField].length; i++){
+      let g = profile.groups[i];
+      let og = profile.groups[i];
+      if (g.substring(0,1) === sep){
+          g = g.substring(1);
+      }
+
+      if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+        profile.sysAdmin = true;
+        if (profile.groups.indexOf(og) === -1){
+          profile.groups.push(og);
+        }
+      }
+    }
+  }
 
   for (let i=0; i<profile.groups.length; i++){
     let g = profile.groups[i];
@@ -86,9 +104,9 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
         g = g.substring(1);
     }
 
-    if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
-        profile.sysAdmin = true;
-    }
+    // if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+    //     profile.sysAdmin = true;
+    // }
 
     let parts = g.split(sep);
 
