@@ -67,11 +67,7 @@ passport.deserializeUser((obj, next) => {
 var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profile, accessToken, refreshToken, done){
   profile.jwt = accessToken;
   profile.refreshToken = refreshToken;
-  console.log(profile);
   profile.groups = [];
-  if ((typeof(profile._json) !== "undefined") && (typeof(profile._json.groups) !== "undefined")){
-    profile.groups = profile._json.groups;
-  }
 
   let sep = config.get('authGroupSeperator');
   let sysAdminGroup = config.get('sysAdminGroup');
@@ -83,6 +79,7 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
   profile.userPermissions = {};
 
   if ((typeof(profile._json) !== "undefined") && (typeof(profile._json[sysAdminGroupField]) !== "undefined")){
+    profile.groups = profile._json[sysAdminGroupField];
     for (let i=0; i<profile._json[sysAdminGroupField].length; i++){
       let g = profile.groups[i];
       let og = profile.groups[i];
@@ -90,7 +87,7 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
           g = g.substring(1);
       }
 
-      if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+      if (g.toLowerCase() === sysAdminGroup.toLowerCase()){
         profile.sysAdmin = true;
         if (profile.groups.indexOf(og) === -1){
           profile.groups.push(og);
@@ -99,29 +96,29 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
     }
   }
 
-  for (let i=0; i<profile.groups.length; i++){
-    let g = profile.groups[i];
-    if (g.substring(0,1) === sep){
-        g = g.substring(1);
-    }
+  // for (let i=0; i<profile.groups.length; i++){
+  //   let g = profile.groups[i];
+  //   if (g.substring(0,1) === sep){
+  //       g = g.substring(1);
+  //   }
 
-    // if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
-    //     profile.sysAdmin = true;
-    // }
+  //   // if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+  //   //     profile.sysAdmin = true;
+  //   // }
 
-    let parts = g.split(sep);
+  //   let parts = g.split(sep);
 
-    if (parts.length >= 2){
-        let c = parts[parts.length-1];
-        if (c === "admin"){
-          profile.isAdmin = true;
-        }else if (c === "editor"){
-          profile.isEditor = true;
-        }
-        g = parts[parts.length-2];
-        profile.userPermissions[g] = c;
-    }
-  }
+  //   if (parts.length >= 2){
+  //       let c = parts[parts.length-1];
+  //       if (c === "admin"){
+  //         profile.isAdmin = true;
+  //       }else if (c === "editor"){
+  //         profile.isEditor = true;
+  //       }
+  //       g = parts[parts.length-2];
+  //       profile.userPermissions[g] = c;
+  //   }
+  // }
 
   if ( (typeof(accessToken) === "undefined") || (accessToken === null) || (typeof(refreshToken) === "undefined") || (refreshToken === null) ){
     return done("No access token", null);
