@@ -29,12 +29,12 @@
             </tr>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <tr v-for="(child, i) in item.children" :key="child.id" :colspan="headers.length">
+            <tr v-for="(child, i) in item.children" :key="child.name" :colspan="headers.length">
               <td :class="{ borderless: i !== item.children.length-1 }"></td>
               <td>{{child.title}}</td>
               <td>
-                <span v-if="item.showEdit" class="float-right">
-                  <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: child.id}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                <span class="float-right">
+                  <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: child.name}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
                   <v-btn icon disabled color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
                   <v-btn icon disabled color="red"><v-icon>mdi-delete</v-icon></v-btn>
                 </span>

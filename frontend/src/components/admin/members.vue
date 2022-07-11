@@ -1,18 +1,14 @@
 <template>
-    <v-container v-if="error">
-        <div row align-center justify-center>
-            <h1><v-icon x-large>error</v-icon> An Error Occurred: {{error.code}}</h1>
-            <p><v-icon x-large>sentiment_very_dissatisfied</v-icon> Please try again or contact your system administrator</p>
-        </div>
+    <v-container v-if="loading" fluid class="raise">
+        <v-row row align-center justify-center>
+            <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
+        </v-row>
     </v-container>
-    <v-container v-else-if="loading" fluid class="raise">
-        <v-progress-circular
-          v-if="loading"
-          :size="70"
-          :width="7"
-          color="grey"
-          indeterminate
-        ></v-progress-circular>
+    <v-container v-else-if="!(sysAdmin || permitted)">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> Unauthorized:</h1>
+            <p>You are not authorized to manage {{org.title}}. <router-link :to="{name: 'adminHome'}">Go Back</router-link></p>
+        </div>
     </v-container>
     <v-container v-else fluid class="raise">
         <v-row>
@@ -173,25 +169,25 @@
             }),
             organizationId: function organizationId() {
                 return this.$route.params.orgId;
-            }
-        },
-        methods: {
-            permitted() {
+            },
+            permitted: function() {
                 if (this.isOrg) {
                     for (let org of this.userOrgs) {
-                        if (org.value === this.organizationId && org.role === 'admin') {
+                        if ((org.value === this.organizationId || org.name === this.organizationId) && org.role === 'admin') {
                             return true;
                         }
                     }
                 } else {
                     for (let group of this.userGroups) {
-                        if (group.id === this.organizationId) {
+                        if (group.id === this.organizationId || group.name === this.organizationId) {
                             return true;
                         }
                     }
                 }
                 return false;
-            },
+            }
+        },
+        methods: {
             getOrg() {
                 if (this.isOrg) {
                     this.$store.dispatch('organization/getOrg', {id: this.organizationId}).then( () => {
@@ -265,13 +261,11 @@
             }
         },
         mounted(){
-            if (!(this.sysAdmin || this.permitted())) {
-                this.$router.push('/');
-            }
             this.getOrg();
             if (!this.isOrg) {
                 this.roles.pop();
                 this.newUser.role = 'admin';
+                this.$store.dispatch('group/getUserGroups');
             }
         },
         updated() {
