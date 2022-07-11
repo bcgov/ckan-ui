@@ -1,5 +1,16 @@
 <template>
-    <router-view />
+    <v-container v-if="pageLoading || loading" fluid>
+        <v-row row align-center justify-center>
+            <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
+        </v-row>
+    </v-container>
+    <v-container v-else-if="!(sysAdmin || hasAdmin)">
+        <div row align-center justify-center>
+            <h1><v-icon x-large>error</v-icon> Unauthorized:</h1>
+            <p>This page is only viewable to administrators. <router-link to="/">Return Home</router-link></p>
+        </div>
+    </v-container>
+    <router-view v-else />
 </template>
 
 <script>
@@ -11,10 +22,10 @@
     export default {
         name: "admin",
         components: {
-            
         },
         data () {
             return {
+                pageLoading: true
             }
         },
         computed:{
@@ -23,15 +34,13 @@
             }),
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
+                loading: state => state.organization.userOrgsLoading
             }),
         },
         methods: {
         },
         mounted(){
-            this.loading = false;
-            if (!(this.sysAdmin || this.hasAdmin)) {
-                this.$router.push('/');
-            }
+            this.pageLoading = false;
         },
         updated() {
             window.snowplow('refreshLinkClickTracking');

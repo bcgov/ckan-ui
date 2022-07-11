@@ -14,7 +14,9 @@
     <v-container v-else fluid class="pt-0 px-0 raise">
         <v-tabs v-model="activeTab" background-color="menu_secondary" slider-color="govYellow" slider-size=3>
             <span class="pl-16"></span>
-            <v-tab v-for="tab in tabs" :key="tab.title" :to="tab.route" class="tab" active-class="active-tab">{{tab.title}}</v-tab>
+            <v-tab v-for="tab in tabs" :key="tab.title" :to="tab.route" class="tab" 
+                :class="{ 'd-none': tab.title === 'Admin' && !showAdminTab}" active-class="active-tab"
+                >{{tab.title}}</v-tab>
         </v-tabs>
         <router-view />
     </v-container>
@@ -42,7 +44,7 @@
                 loading: true,
                 error: null,
                 user_id: this.$route.params.userId ? this.$route.params.userId : "",
-                tabs: [{title: "Profile", route: {name: 'userProfile'}}],
+                tabs: [{title: "Profile", route: {name: 'userProfile'}}, {title: "Admin", route: {name: 'adminHome'}}],
                 activeTab: 'Profile'
             }
         },
@@ -56,13 +58,15 @@
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
             }),
+            showAdminTab: function() {
+                if (this.sysAdmin || this.hasAdmin || this.$route.matched.some(({ name }) => name === 'admin')) return true;
+                return false;
+            }
         },
         methods: {
+            
         },
         mounted(){
-            if (this.sysAdmin || this.hasAdmin) {
-                this.tabs.push({title: "Admin", route: {name: 'adminHome'}});
-            }
             if (this.$route.matched.some(({ name }) => name === 'admin')) {
                 this.activeTab = 'Admin'
             }

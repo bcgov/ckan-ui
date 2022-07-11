@@ -14,7 +14,7 @@
               <td class="pl-8">{{item.title}}</td>
               <td>
                 <span class="float-right">
-                  <v-btn icon :to="{name: 'adminGroupMembers', params: {orgId: item.id}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
+                  <v-btn icon :to="{name: 'adminGroupMembers', params: {orgId: item.name}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
                   <v-btn icon disabled color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
                   <v-btn icon disabled color="red"><v-icon>mdi-delete</v-icon></v-btn>
                 </span>
