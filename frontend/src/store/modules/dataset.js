@@ -160,7 +160,7 @@ const actions = {
         commit('setResourceLoading', { resourceLoading: true });
         return resourceServ.getResource(id).then( ( data ) => {
 			if (data) {
-                data.metadata = data;
+                if (!data.metadata) data.metadata = JSON.parse(JSON.stringify(data));
 				commit('setCurrentResource', { resource: data });
 				commit('setResourceLoading', { resourceLoading: false });
                 if (state.previewPromise){
@@ -185,7 +185,7 @@ const actions = {
         commit('setPreviewLoading', { loading: true });
         resourceServ.getPreview(state.resource.url, state.resource.json_table_schema).then( ( data ) => {
 			if (data) {
-                data.metadata = data;
+                if (!data.metadata) data.metadata = JSON.parse(JSON.stringify(data));
 				commit('setCurrentPreview', { preview: data });
 				commit('setPreviewLoading', { loading: false });
 			} else {

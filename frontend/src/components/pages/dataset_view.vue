@@ -197,9 +197,8 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
-        <v-row justify="start" class="mx-0 mt-n10 timestamps">
-            <v-col cols=4>{{$tc('Created')}}: {{formatDate(dataset.metadata_created)}}</v-col>
-            <v-col cols=3 class="text-right pr-5">{{$tc('Updated')}}: {{formatDate(dataset.metadata_created)}}</v-col>
+        <v-row justify="start" class="mx-0 timestamps">
+            <v-col>{{$tc('Metadata Published')}}: {{formatDate(dataset.record_publish_date)}} | {{$tc('Last Modified')}}: {{formatDate(dataset.metadata_modified, true)}}</v-col>
         </v-row>
         <v-row>
             <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop pa-4" v-scroll-to="{
@@ -397,8 +396,8 @@ export default {
 
     methods: {
 
-        formatDate(timestamp) {
-            return moment(timestamp).format('YYYY-MM-DD');
+        formatDate(timestamp, time=false) {
+            return time ? moment.utc(timestamp).local().format('YYYY-MM-DD HH:mm') : moment.utc(timestamp).local().format('YYYY-MM-DD');
         },
 
         calcDynoFormOrgId(){
@@ -845,7 +844,7 @@ ul {
 
 .timestamps {
     color: var(--v-faded_text-lighten1);
-    font-style: italic;
+    font-size: 14px;
 }
 
 </style>
