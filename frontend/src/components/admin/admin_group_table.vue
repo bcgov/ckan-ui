@@ -10,7 +10,7 @@
           sort-by="title"
         >
           <template v-slot:item="{ item, expand, isExpanded, headers }">
-            <tr>
+            <tr class="blue-hover">
               <td class="pl-8 group-title">{{item.title}}</td>
               <td>
                 <span class="float-right">
@@ -85,5 +85,8 @@ export default{
   .group-title {
     cursor: default;
     font-weight: bolder;
+  }
+  .blue-hover:hover {
+    background: var(--v-accent-lighten3) !important;
   }
 </style>
