@@ -154,10 +154,13 @@ const actions = {
     },
 
     getUserOrgs({ commit }) {
-        commit('setUserOrgsLoading', {userOrgsLoading: true});
         if (state.userOrgs.length == 0) {
+            commit('setUserOrgsLoading', {userOrgsLoading: true});
             ckanServ.getUserOrgList().then((data) => {
                 commit('setUserOrgList', { orgList: data });
+                commit('setUserOrgsLoading', {userOrgsLoading: false});
+            }).catch((e) => {
+                commit('setUserOrgsLoading', { userOrgsLoading: false });
             });
         }
     },
@@ -262,7 +265,6 @@ const mutations = {
         }
 
         state.userOrgs = JSON.parse(JSON.stringify(userOrgs));
-        state.userOrgsLoading = false;
     },
 
     setCurrentNotUnmod(state, {group}) {
