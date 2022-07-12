@@ -178,6 +178,9 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
+        <v-row justify="start" class="mx-0 timestamps">
+            <v-col>{{$tc('Metadata Published')}}: {{formatDate(dataset.record_publish_date)}} | {{$tc('Last Modified')}}: {{formatDate(dataset.metadata_modified, true)}}</v-col>
+        </v-row>
         <v-row>
             <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop" v-scroll-to="{
                 el: '#topOfResForm',
@@ -195,6 +198,7 @@
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
+import * as moment from "moment/moment";
 
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
@@ -212,6 +216,7 @@ import Banner from '../banner/Banner'
 import Permissions from '@/mixins/permissions';
 
 export default {
+    name: "resource",
     mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
@@ -350,6 +355,9 @@ export default {
     },
 
     methods: {
+        formatDate(timestamp, time=false) {
+            return time ? moment.utc(timestamp).local().format('YYYY-MM-DD HH:mm') : moment.utc(timestamp).local().format('YYYY-MM-DD');
+        },
         getResource(id) {
             if (typeof(id) === "undefined"){
                 id = this.resourceId;
@@ -690,6 +698,11 @@ ul {
     left: 50%;
     margin-left: -35px;
     margin-top: 35px;
+}
+
+.timestamps {
+    color: var(--v-faded_text-lighten1);
+    font-size: 14px;
 }
 
 </style>
