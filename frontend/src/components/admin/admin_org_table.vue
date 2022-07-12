@@ -12,13 +12,13 @@
           sort-by="title"
         >
           <template v-slot:item="{ item, expand, isExpanded, headers }">
-            <tr>
+            <tr class="blue-hover">
               <td>
-                <v-btn icon @click="expand(!isExpanded)">
+                <v-btn icon @click="expand(!isExpanded)" v-if="item.children.length > 0">
                   <v-icon>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                 </v-btn>
               </td>
-              <td>{{item.title}}</td>
+              <td class="default-cursor bolder">{{item.title}}</td>
               <td>
                 <span v-if="item.showEdit" class="float-right">
                   <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: item.id}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
@@ -29,9 +29,9 @@
             </tr>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <tr v-for="(child, i) in item.children" :key="child.name" :colspan="headers.length">
+            <tr v-for="(child, i) in item.children" :key="child.name" :colspan="headers.length" class="blue-hover">
               <td :class="{ borderless: i !== item.children.length-1 }"></td>
-              <td>{{child.title}}</td>
+              <td class="default-cursor">{{child.title}}</td>
               <td>
                 <span class="float-right">
                   <v-btn icon :to="{name: 'adminOrgMembers', params: {orgId: child.name}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
@@ -126,5 +126,14 @@ export default{
   }
   .borderless {
     border: none !important;
+  }
+  .default-cursor {
+    cursor: default;
+  }
+  .bolder {
+    font-weight: bolder;
+  }
+  .blue-hover:hover {
+    background: var(--v-accent-lighten3) !important;
   }
 </style>

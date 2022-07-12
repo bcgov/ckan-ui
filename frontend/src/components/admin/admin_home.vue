@@ -21,7 +21,7 @@
                     <v-expansion-panel class="expansion-panel">
                         <v-expansion-panel-header color="primary" class="expansion-header">
                             <template v-slot:actions>
-                                <v-icon color="white">$expand</v-icon>
+                                <v-icon color="white" large>$expand</v-icon>
                             </template>
                             Organizations
                         </v-expansion-panel-header>
@@ -38,7 +38,7 @@
                     <v-expansion-panel class="expansion-panel">
                         <v-expansion-panel-header color="primary" class="expansion-header">
                             <template v-slot:actions>
-                                <v-icon color="white">$expand</v-icon>
+                                <v-icon color="white" large>$expand</v-icon>
                             </template>
                             Groups
                         </v-expansion-panel-header>
@@ -107,6 +107,7 @@
     .expansion-header {
         color: white !important;
         font-weight: bold;
+        font-size: 18px;
     }
     .expansion-content {
         background: var(--v-data_background-base);

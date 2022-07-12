@@ -25,7 +25,7 @@
         <v-row>
             <v-col cols=12 md=10 offset-md=1>
                 <v-card outlined class="pa-6" color="data_background">
-                    <v-data-table :headers="headers" :items="isOrg ? org.users : group.users" sort-by="name">
+                    <v-data-table :headers="headers" :items="isOrg ? org.users : group.users" sort-by="fullname">
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-toolbar-title>Manage Members</v-toolbar-title>
@@ -53,7 +53,7 @@
                                                             dense outlined full-width
                                                             hide-details
                                                             hide-no-data
-                                                            label="Lookup User by full name or username"
+                                                            label="Search by full name or username"
                                                         ></v-autocomplete>
                                                     </v-col>
                                                     <v-col cols="12">
@@ -89,7 +89,7 @@
                             <span v-else>{{item.capacity}}</span>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-btn icon small color="red" @click="confirmRemoveMember(item)"><v-icon small>mdi-delete</v-icon></v-btn>
+                            <v-btn icon color="red" @click="confirmRemoveMember(item)"><v-icon>mdi-delete</v-icon></v-btn>
                         </template>
                     </v-data-table>
                 </v-card>
@@ -288,5 +288,8 @@
         border: thin solid grey;
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
+    }
+    >>> th span {
+        font-size: 14px;
     }
 </style>

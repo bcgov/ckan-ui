@@ -11,7 +11,7 @@
         >
           <template v-slot:item="{ item, expand, isExpanded, headers }">
             <tr>
-              <td class="pl-8">{{item.title}}</td>
+              <td class="pl-8 group-title">{{item.title}}</td>
               <td>
                 <span class="float-right">
                   <v-btn icon :to="{name: 'adminGroupMembers', params: {orgId: item.name}}" color="primary"><v-icon>mdi-account-multiple-plus</v-icon></v-btn>
@@ -81,5 +81,9 @@ export default{
   }
   .borderless {
     border: none !important;
+  }
+  .group-title {
+    cursor: default;
+    font-weight: bolder;
   }
 </style>
