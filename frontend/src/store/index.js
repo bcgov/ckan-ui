@@ -36,7 +36,6 @@ export default new Vuex.Store({
 			'user.groupSeperator',
 			'user.sysAdminGroup',
 			'user.sysAdmin',
-			'user.isAdmin',
 			'user.loading',
 			'dataset.schemas',
 			'dataset.facetList',

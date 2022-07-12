@@ -39,6 +39,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
+|21|Implement Google Analytics, add self-serve admin panel, refactor auth for SSO migration (see [Fixed Issued](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|12-July-22||
+|20|UI and permissions improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|18-May-22|16-June-22|
 |19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22|12-May-22|
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
 |17|Remove survey banner, fix contact and lifecycle date deletions (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|14-March-22|17-March-22|
@@ -65,6 +67,17 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|21|Auth refactor | ([#828](https://github.com/bcgov/ckan-ui/pull/828))
+|21|Admin panel for groups | ([#827](https://github.com/bcgov/ckan-ui/pull/827))
+|21|Initial admin panel for orgs | ([#825](https://github.com/bcgov/ckan-ui/pull/825))
+|21|Refactor GA events | ([#824](https://github.com/bcgov/ckan-ui/pull/824))
+|21|Add events for Google analytics | ([#761](https://github.com/bcgov/ckan-ui/pull/761))
+|21|Switch to vue-gtag for Google analytics | ([#752](https://github.com/bcgov/ckan-ui/pull/752))
+|20|Add validation check for dates | ([#817](https://github.com/bcgov/ckan-ui/pull/817))
+|20|Set docker node image version | ([#813](https://github.com/bcgov/ckan-ui/pull/813))
+|20|Refactor permission handling | ([#809](https://github.com/bcgov/ckan-ui/pull/809))
+|20|Updated autocomplete template to remove dense setting to match other formating | ([#805](https://github.com/bcgov/ckan-ui/pull/805))
+|20|Fix background to cover smaller pages | ([#803](https://github.com/bcgov/ckan-ui/pull/803))
 |19|Removed hover text from composite repeating values | ([#790](https://github.com/bcgov/ckan-ui/pull/790))
 |19|Removed French toggle while fixing French setting | ([#785](https://github.com/bcgov/ckan-ui/pull/785))
 |19|Added state to title component and removed state field | ([#784](https://github.com/bcgov/ckan-ui/pull/784))

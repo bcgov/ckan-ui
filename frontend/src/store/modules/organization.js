@@ -10,6 +10,7 @@ const state = {
     unmodifiedOrg: {},
     groupMembers: [],
     loading: false,
+    userOrgsLoading: false,
     schemas: {},
     currUserFollowingCurrGroup: false,
 };
@@ -57,6 +58,38 @@ const getters = {
             }
         }
         return "";
+    },
+    hasAdmin: (state) => {
+        for (let org of state.userOrgs) {
+            if (org.role === 'admin') {
+                return true;
+            }
+        }
+        return false;
+    },
+    hasEditor: (state) => {
+        for (let org of state.userOrgs) {
+            if (org.role === 'editor') {
+                return true;
+            }
+        }
+        return false;
+    },
+    hasOrgAdmin: (state) => (id) => {
+        for (let org of state.userOrgs) {
+            if (org.id === id) {
+                return org.role === 'admin';
+            }
+        }
+        return false;
+    },
+    hasOrgEditor: (state) => (id) => {
+        for (let org of state.userOrgs) {
+            if (org.id === id) {
+                return org.role === 'editor';
+            }
+        }
+        return false;
     }
 }
 
@@ -122,8 +155,12 @@ const actions = {
 
     getUserOrgs({ commit }) {
         if (state.userOrgs.length == 0) {
+            commit('setUserOrgsLoading', {userOrgsLoading: true});
             ckanServ.getUserOrgList().then((data) => {
                 commit('setUserOrgList', { orgList: data });
+                commit('setUserOrgsLoading', {userOrgsLoading: false});
+            }).catch((e) => {
+                commit('setUserOrgsLoading', { userOrgsLoading: false });
             });
         }
     },
@@ -193,11 +230,15 @@ const mutations = {
 
     setOrg(state, { org }){
         state.unmodifiedOrg = Vue.set(state, 'unmodifiedOrg', org);
-        state.organization = Object.assign(state.organization, {}, org);
+        state.organization = Vue.set(state, 'organization', org);
     },
 
     setLoading(state, { loading }){
         state.loading = loading;
+    },
+
+    setUserOrgsLoading(state, { userOrgsLoading }){
+        state.userOrgsLoading = userOrgsLoading;
     },
 
     setSchema(state, { schema }){
@@ -214,16 +255,16 @@ const mutations = {
 
         let tmp = {};
         for (let i=0; i<orgList.result.length; i++){
-            tmp[orgList.result[i].display_name] = orgList.result[i].id;
+            tmp[orgList.result[i].display_name] = { id: orgList.result[i].id, role: orgList.result[i].capacity, name: orgList.result[i].name };
         }
 
         let keys = Object.keys(tmp).sort();
 
         for (let i=0; i<keys.length; i++){
-            userOrgs.push({value: tmp[keys[i]] , label: keys[i]});
+            userOrgs.push({value: tmp[keys[i]].id, label: keys[i], role: tmp[keys[i]].role, name: tmp[keys[i]].name});
         }
 
-        state.userOrgs = Object.assign({}, userOrgs);
+        state.userOrgs = JSON.parse(JSON.stringify(userOrgs));
     },
 
     setCurrentNotUnmod(state, {group}) {

@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import {CkanApi} from '../services/ckanApi'
 const ckanServ = new CkanApi()
@@ -182,7 +182,11 @@ export default {
   watch: {
     $route(to){
       this.logInUrl = "/client-api/login?r="+to.fullPath;
-      this.$store.dispatch('user/getCurrentUser')
+      this.$store.dispatch('user/getCurrentUser').then( () => {
+        if (this.loggedIn) {
+          this.$store.dispatch('organization/getUserOrgs');
+        }
+      });
       if (this.$route.query.loggedOut === "true"){
         this.showLoggedOut = true;
       }else{
@@ -203,17 +207,19 @@ export default {
       user: state => state.user.authUser,
       loggedIn: state => state.user.loggedIn,
       sysAdmin: state => state.user.sysAdmin,
-      isAdmin: state => state.user.isAdmin,
-      isEditor: state => state.user.isEditor,
       userLoading: state => state.user.userLoading,
       v: state => state.version.v,
+    }),
+    ...mapGetters("organization", {
+        hasAdmin: "hasAdmin",
+        hasEditor: "hasEditor"
     }),
 
     showCreate: function(){
         // TODO: IF you aren't overriding the admin functionality like BCDC CKAN does then this is what you want
         //return ( ((this.sysAdmin) || (this.userPermissions[this.dataset.organization.name] === "admin") || (this.userPermissions[this.dataset.organization.name] === "editor")));
 
-        return ( (!this.userLoading) && ((this.sysAdmin) || (this.isAdmin) || (this.isEditor)) );
+        return ( (!this.userLoading) && ((this.sysAdmin) || (this.hasAdmin) || (this.hasEditor)) );
     },
 
     menuTertiary() {
@@ -269,19 +275,15 @@ export default {
       openAbout: function(){
         this.aboutDialog = true;
 
-        this.$gtag.event('Open About', {
-          'event_category': 'Modal',
-          'event_label': 'About'
+        this.$gtag.event('about_view', {
+          'page_title': document.title,
+          'page_location': location.href,
+          'page_path': location.pathname
         })
       },
 
       closeAbout: function(){
         this.aboutDialog = false;
-
-        this.$gtag.event('Close About', {
-          'event_category': 'Modal',
-          'event_label': 'About'
-        })
       },
 
       keepAlive: function(){
@@ -338,9 +340,10 @@ export default {
       },
 
       trackMenu() {
-        this.$gtag.event('Toggle Menu', {
-          'event_category': 'Menu',
-          'event_label': 'Header'
+        this.$gtag.event('menu_view', {
+          'page_title': document.title,
+          'page_location': location.href,
+          'page_path': location.pathname
         })
       }
   },
@@ -348,7 +351,11 @@ export default {
     if (this.$route.query.loggedOut === "true"){
       this.showLoggedOut = true;
     }
-    this.$store.dispatch('user/getCurrentUser')
+    this.$store.dispatch('user/getCurrentUser').then( () => {
+      if (this.loggedIn) {
+        this.$store.dispatch('organization/getUserOrgs');
+      }
+    });
 
     //let self = this;
 

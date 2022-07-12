@@ -10,8 +10,6 @@ const state = {
     loggedIn: false,
     userPermissions: {},
     sysAdmin: false,
-    isAdmin: false,
-    isEditor: false,
     loading: true,
 };
 
@@ -64,25 +62,17 @@ const actions = {
 
         let userPermissions = {};
         let sysAdmin = false;
-        let isAdmin = false;
-        let isEditor = false;
         if ( (loggedIn) && user.userPermissions ){
             userPermissions = user.userPermissions;
             sysAdmin = user.sysAdmin;
-            isAdmin = user.isAdmin || user.sysAdmin;
-            isEditor = user.isEditor;
         }else{
             userPermissions = {};
-            isAdmin = false;
             sysAdmin = false;
-            isEditor = false;
         }
 
         commit('setCkanUser', {ckanUser: await ckanServ.getUserId() || null});
         commit('setUserPermissions', {userPermissions: userPermissions});
         commit('setSysAdmin', {sysAdmin: sysAdmin});
-        commit('setAdmin', {isAdmin: isAdmin});
-        commit('setEditor', {isEditor: isEditor});
         commit('setLoading', {loading: false});
 
     }
@@ -106,12 +96,6 @@ const mutations = {
     },
     setCkanUser(state, { ckanUser }) {
         state.ckanUser = ckanUser;
-    },
-    setAdmin(state, { isAdmin }){
-        state.isAdmin = isAdmin;
-    },
-    setEditor(state, { isEditor }){
-        state.isEditor = isEditor;
     }
 }
 

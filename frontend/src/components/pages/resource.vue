@@ -319,7 +319,6 @@ export default {
             },
             shouldAbort: state => state.dataset.shouldAbort,
             sysAdmin: state => state.user.sysAdmin,
-            isAdmin: state => state.user.isAdmin,
             dataLoading: state => state.dataset.resourceLoading,
             schemaLoading: state => state.dataset.schemaLoading,
             userLoading: state => state.user.loading,
@@ -550,9 +549,10 @@ export default {
             link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
             link += "Is there someone I can contact to find out more about ....%0D%0A"
 
-            this.$gtag.event('Resource Mailto', {
-                'event_category': 'Link click',
-                'event_label': 'Mailto'
+            this.$gtag.event('contact_data_expert', {
+                'page_title': document.title,
+                'page_location': location.href,
+                'page_path': location.pathname
             })
 
             window.open(link, "_blank");

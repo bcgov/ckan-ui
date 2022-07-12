@@ -9,6 +9,10 @@ const organization_view = () => import(/* webpackChunkName: "organization_view" 
 const groups = () => import(/* webpackChunkName: "groups" */ "../components/pages/groups");
 const group_view = () => import(/* webpackChunkName: "group_view" */ "../components/pages/group");
 const user = () => import(/* webpackChunkName: "user" */ "../components/pages/user");
+const user_profile = () => import(/* webpackChunkName: "profile" */ "../components/user/profile");
+const admin = () => import(/* webpackChunkName: "admin" */ "../components/admin/admin");
+const admin_home = () => import(/* webpackChunkName: "admin_home" */ "../components/admin/admin_home");
+const admin_members = () => import(/* webpackChunkName: "admin_home" */ "../components/admin/members");
 const NotFound = () => import(/* webpackChunkName: "NotFound" */ "../components/pages/404");
 const about = () => import(/* webpackChunkName: "about" */ "../components/pages/about");
 const resource = () => import(/* webpackChunkName: "resource" */ "../components/pages/resource");
@@ -140,10 +144,45 @@ let r = new Router({
         {
             path: '/user',
             name: 'user',
+            redirect: '/user/profile',
             component: user,
-            meta: {
-                title: "User Profile"
-            }
+            children: [{
+                path: 'profile',
+                name: 'userProfile',
+                meta: {
+                    title: "User Profile"
+                },
+                component: user_profile
+            }, {
+                path: 'admin',
+                name: 'admin',
+                component: admin,
+                children: [{
+                    path: '',
+                    name: 'adminHome',
+                    meta: {
+                        title: "Administration"
+                    },
+                    component: admin_home
+                }, {
+                    path: 'org/:orgId/members',
+                    name: 'adminOrgMembers',
+                    meta: {
+                        title: 'Manage Organization Members'
+                    },
+                    component: admin_members
+                }, {
+                    path: 'group/:orgId/members',
+                    name: 'adminGroupMembers',
+                    meta: {
+                        title: 'Manage Group Members'
+                    },
+                    props: {
+                        isOrg: false
+                    },
+                    component: admin_members
+                }]
+            }]
         },
         {
             path: '/user/:userId',

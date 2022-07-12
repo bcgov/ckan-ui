@@ -172,16 +172,16 @@ router.beforeEach((to, from, next) => {
 
 analyticsServ.ga().then( (gajson) => {
 
-  if (gajson.id){
-    Vue.use(VueGtag, {
-      config: {
-        id: gajson.id,
-        params: {
-          anonymize_ip: true
-        }
+  Vue.use(VueGtag, {
+    config: {
+      id: gajson.id,
+      params: {
+        anonymize_ip: true
       }
-    }, router);
-  }
+    },
+    enabled: gajson.id ? true : false
+  }, router);
+
 
 
   let vuetifyOpts = {

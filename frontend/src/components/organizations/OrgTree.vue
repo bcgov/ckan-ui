@@ -52,12 +52,8 @@ export default{
 
     methods: {
       trackOrg(orgName) {
-        // eslint-disable-next-line
-        console.log(orgName)
-
-        this.$gtag.event(`Toggle ${orgName}`, {
-          'event_category': 'Menu',
-          'event_label': 'Sub-orgs'
+        this.$gtag.event('view_org', {
+          'org_name': orgName
         })
       }
     },

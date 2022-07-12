@@ -62,6 +62,7 @@
 
   "authGroupSeperator": "/",
   "sysAdminGroup": "admin",
+  "sysAdminGroupField": "groups",
 
   "landingTerms": ["Crown", "Waste", "Fire", "Lightning"]
 }
