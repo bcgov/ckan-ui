@@ -39,10 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-<<<<<<< HEAD
 |21|Implement Google Analytics, add self-serve admin panel, refactor auth for SSO migration (see [Fixed Issued](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|12-July-22||
-=======
->>>>>>> release/2.2.0
 |20|UI and permissions improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|18-May-22|16-June-22|
 |19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22|12-May-22|
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
