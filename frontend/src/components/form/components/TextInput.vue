@@ -50,7 +50,7 @@ export default {
 
         let displayValue = this.value ? this.value : null;
         if (displayValue && displayValue.indexOf('http') < 0 && moment(displayValue).isValid()) {
-            displayValue = moment(displayValue).format('YYYY-MM-DD, hh:mm A')
+            displayValue = moment.utc(displayValue).local().format('YYYY-MM-DD, hh:mm A')
         }
 
         return {

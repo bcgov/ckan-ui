@@ -232,7 +232,7 @@ export default {
         }
     },
     mounted(){
-         if (this.value){
+        if (this.value){
         //     //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             if (typeof(this.value) === 'string'){
                 this.model = JSON.parse(this.value);

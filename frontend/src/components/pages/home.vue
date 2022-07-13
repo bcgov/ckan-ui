@@ -7,7 +7,7 @@
             <v-card-title class="header">
                 <span>{{$tc('File Types')}}</span>
                 <v-spacer></v-spacer>
-                <v-btn text small depressed class="noHover closeButton" @click="cardDialog = false"><v-icon color="text">mdi-close</v-icon></v-btn>
+                <v-btn text small depressed class="noHover closeButton" @click="closeCard"><v-icon color="text">mdi-close</v-icon></v-btn>
             </v-card-title>
             <v-card-text>
                 <h3>{{$tc('Open Standard Data')}}</h3>
@@ -65,7 +65,7 @@
                             </v-row>
                         </v-container>
                     </v-card>
-                    <v-card class="mx-3 hover pitch-card" @click="cardDialog=true" height="180px" width="160px" >
+                    <v-card class="mx-3 hover pitch-card" @click="openCard" height="180px" width="160px" >
                         <v-container py-0>
                             <v-row class="pitch-header" align-content="center">
                                 <v-col cols=12>
@@ -165,6 +165,14 @@
         termClick: function(e){
             this.searchText=e.srcElement.innerText
             this.$refs.searchBox.focus()
+        },
+        openCard() {
+            this.cardDialog = true;
+            this.$gtag.event('formats_view', {
+            })
+        },
+        closeCard() {
+            this.cardDialog = false;
         }
       },
       mounted() {

@@ -303,4 +303,24 @@ export class CkanApi {
         return axios.get(url, { withCredentials: true }).then(response => response.data);
     }
 
+    getUserAutocomplete(q) {
+        const url = '/client-api/ckan/userAutocomplete/'+q;
+        return axios.get(url, {withCredentials: true}).then(response => response.data);
+    }
+
+    postOrganizationMember(member) {
+        const url = '/client-api/ckan/organizationMember';
+        return axios.post(url, member, {withCredentials: true}).then(response => response.data);
+    }
+
+    deleteOrganizationMember(member) {
+        const url = '/client-api/ckan/organizationMemberDelete';
+        return axios.post(url, member, {withCredentials: true}).then(response => response.data);
+    }
+
+    postGroupMember(member) {
+        const url = '/client-api/ckan/groupMember';
+        return axios.post(url, member, {withCredentials: true}).then(response => response.data);
+    }
+
 }

@@ -10,6 +10,7 @@ const state = {
     unmodifiedOrg: {},
     groupMembers: [],
     loading: false,
+    userOrgsLoading: false,
     schemas: {},
     currUserFollowingCurrGroup: false,
 };
@@ -154,8 +155,12 @@ const actions = {
 
     getUserOrgs({ commit }) {
         if (state.userOrgs.length == 0) {
+            commit('setUserOrgsLoading', {userOrgsLoading: true});
             ckanServ.getUserOrgList().then((data) => {
                 commit('setUserOrgList', { orgList: data });
+                commit('setUserOrgsLoading', {userOrgsLoading: false});
+            }).catch((e) => {
+                commit('setUserOrgsLoading', { userOrgsLoading: false });
             });
         }
     },
@@ -225,11 +230,15 @@ const mutations = {
 
     setOrg(state, { org }){
         state.unmodifiedOrg = Vue.set(state, 'unmodifiedOrg', org);
-        state.organization = Object.assign(state.organization, {}, org);
+        state.organization = Vue.set(state, 'organization', org);
     },
 
     setLoading(state, { loading }){
         state.loading = loading;
+    },
+
+    setUserOrgsLoading(state, { userOrgsLoading }){
+        state.userOrgsLoading = userOrgsLoading;
     },
 
     setSchema(state, { schema }){

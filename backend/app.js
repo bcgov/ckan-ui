@@ -68,41 +68,57 @@ var strategy = new OidcStrategy(config.get('oidc'), function(issuer, sub, profil
   profile.jwt = accessToken;
   profile.refreshToken = refreshToken;
   profile.groups = [];
-  if ((typeof(profile._json) !== "undefined") && (typeof(profile._json.groups) !== "undefined")){
-    profile.groups = profile._json.groups;
-  }
 
   let sep = config.get('authGroupSeperator');
   let sysAdminGroup = config.get('sysAdminGroup');
+  let sysAdminGroupField = config.has('sysAdminGroupField') ? config.get('sysAdminGroupField') : 'groups';
 
   profile.sysAdmin = false;
   profile.isAdmin = false;
   profile.isEditor = false;
   profile.userPermissions = {};
 
-  for (let i=0; i<profile.groups.length; i++){
-    let g = profile.groups[i];
-    if (g.substring(0,1) === sep){
-        g = g.substring(1);
-    }
+  if ((typeof(profile._json) !== "undefined") && (typeof(profile._json[sysAdminGroupField]) !== "undefined")){
+    profile.groups = profile._json[sysAdminGroupField];
+    for (let i=0; i<profile._json[sysAdminGroupField].length; i++){
+      let g = profile.groups[i];
+      let og = profile.groups[i];
+      if (g.substring(0,1) === sep){
+          g = g.substring(1);
+      }
 
-    if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+      if (g.toLowerCase() === sysAdminGroup.toLowerCase()){
         profile.sysAdmin = true;
-    }
-
-    let parts = g.split(sep);
-
-    if (parts.length >= 2){
-        let c = parts[parts.length-1];
-        if (c === "admin"){
-          profile.isAdmin = true;
-        }else if (c === "editor"){
-          profile.isEditor = true;
+        if (profile.groups.indexOf(og) === -1){
+          profile.groups.push(og);
         }
-        g = parts[parts.length-2];
-        profile.userPermissions[g] = c;
+      }
     }
   }
+
+  // for (let i=0; i<profile.groups.length; i++){
+  //   let g = profile.groups[i];
+  //   if (g.substring(0,1) === sep){
+  //       g = g.substring(1);
+  //   }
+
+  //   // if (g.toLowerCase() == sysAdminGroup.toLowerCase()){
+  //   //     profile.sysAdmin = true;
+  //   // }
+
+  //   let parts = g.split(sep);
+
+  //   if (parts.length >= 2){
+  //       let c = parts[parts.length-1];
+  //       if (c === "admin"){
+  //         profile.isAdmin = true;
+  //       }else if (c === "editor"){
+  //         profile.isEditor = true;
+  //       }
+  //       g = parts[parts.length-2];
+  //       profile.userPermissions[g] = c;
+  //   }
+  // }
 
   if ( (typeof(accessToken) === "undefined") || (accessToken === null) || (typeof(refreshToken) === "undefined") || (refreshToken === null) ){
     return done("No access token", null);
