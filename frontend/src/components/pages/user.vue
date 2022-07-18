@@ -57,9 +57,10 @@
             }),
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
+                userGroups: state => state.group.userGroups
             }),
             showAdminTab: function() {
-                if (this.sysAdmin || this.hasAdmin || this.$route.matched.some(({ name }) => name === 'admin')) return true;
+                if (this.sysAdmin || this.hasAdmin || this.userGroups.length > 0 || this.$route.matched.some(({ name }) => name === 'admin')) return true;
                 return false;
             }
         },
@@ -70,6 +71,7 @@
             if (this.$route.matched.some(({ name }) => name === 'admin')) {
                 this.activeTab = 'Admin'
             }
+            this.$store.dispatch('group/getUserGroups');
         },
         updated() {
             window.snowplow('refreshLinkClickTracking');

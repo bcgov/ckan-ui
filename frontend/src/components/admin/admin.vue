@@ -4,7 +4,7 @@
             <v-progress-circular :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
         </v-row>
     </v-container>
-    <v-container v-else-if="!(sysAdmin || hasAdmin)">
+    <v-container v-else-if="!(sysAdmin || hasAdmin || userGroups.length > 0)">
         <div row align-center justify-center>
             <h1><v-icon x-large>error</v-icon> Unauthorized:</h1>
             <p>This page is only viewable to administrators. <router-link to="/">Return Home</router-link></p>
@@ -34,7 +34,8 @@
             }),
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
-                loading: state => state.organization.userOrgsLoading
+                loading: state => state.organization.userOrgsLoading,
+                userGroups: state => state.group.userGroups
             }),
         },
         methods: {
