@@ -84,6 +84,12 @@
                                 </v-dialog>
                             </v-toolbar>
                         </template>
+                        <template v-slot:item.fullname="{ item }">
+                            <span class="default-cursor">{{item.fullname}}</span>
+                        </template>
+                        <template v-slot:item.name="{ item }">
+                            <span class="default-cursor">{{item.name}}</span>
+                        </template>
                         <template v-slot:item.role="{ item }">
                             <v-select v-if="roles.length > 1" dense hide-details outlined :items="roles" v-model="item.capacity" @change="changeUserRole(item)"></v-select>
                             <span v-else>{{item.capacity}}</span>
@@ -158,7 +164,8 @@
         },
         computed:{
             ...mapGetters("organization", {
-                hasAdmin: "hasAdmin"
+                hasAdmin: "hasAdmin",
+                ancestorsByName: "ancestorsByName"
             }),
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
@@ -172,8 +179,10 @@
             },
             permitted: function() {
                 if (this.isOrg) {
+                    let ancestors = this.ancestorsByName(this.organizationId);
                     for (let org of this.userOrgs) {
-                        if ((org.value === this.organizationId || org.name === this.organizationId) && org.role === 'admin') {
+                        if (((org.value === this.organizationId || org.name === this.organizationId) 
+                            || ancestors.includes(org.name)) && org.role === 'admin') {
                             return true;
                         }
                     }
@@ -257,7 +266,9 @@
         },
         watch: {
             userSearch (val) {
-                val ? this.queryUserAutocomplete(val) : this.clearAutocomplete();
+                if (val.indexOf('|') < 0) {
+                    val ? this.queryUserAutocomplete(val) : this.clearAutocomplete();
+                }
             }
         },
         mounted(){
@@ -291,5 +302,11 @@
     }
     >>> th span {
         font-size: 14px;
+    }
+    >>> tbody tr:hover {
+        background: var(--v-accent-lighten3) !important;
+    }
+    .default-cursor {
+        cursor: default;
     }
 </style>
