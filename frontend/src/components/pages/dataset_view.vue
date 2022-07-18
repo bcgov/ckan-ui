@@ -198,7 +198,11 @@
             </v-form>
         </ValidationObserver>
         <v-row justify="start" class="mx-0 timestamps">
-            <v-col>{{$tc('Metadata Published')}}: {{formatDate(dataset.record_publish_date)}} | {{$tc('Last Modified')}}: {{formatDate(dataset.metadata_modified, true)}}</v-col>
+            <v-col>
+                <span v-if="dataset.record_publish_date">{{$tc('Metadata Published')}}: {{formatDate(dataset.record_publish_date)}}</span>
+                <span v-if="dataset.record_publish_date && dataset.metadata_modified"> | </span>
+                <span v-if="dataset.metadata_modified">{{$tc('Last Modified')}}: {{formatDate(dataset.metadata_modified, true)}}</span>
+            </v-col>
         </v-row>
         <v-row>
             <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop pa-4" v-scroll-to="{

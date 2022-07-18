@@ -17,7 +17,7 @@
     <v-container v-else fluid class="raise">
         <v-row>
             <v-col cols=10 offset-md=1 class="mt-8">
-                <v-expansion-panels v-model="orgPanel" flat>
+                <v-expansion-panels v-model="orgPanel" flat v-if="sysAdmin || hasAdmin">
                     <v-expansion-panel class="expansion-panel">
                         <v-expansion-panel-header color="primary" class="expansion-header">
                             <template v-slot:actions>
@@ -34,7 +34,7 @@
         </v-row>
         <v-row>
             <v-col cols=10 offset-md=1>
-                <v-expansion-panels v-model="groupPanel" flat>
+                <v-expansion-panels v-model="groupPanel" flat v-if="sysAdmin || userGroups.length > 0">
                     <v-expansion-panel class="expansion-panel">
                         <v-expansion-panel-header color="primary" class="expansion-header">
                             <template v-slot:actions>
@@ -83,14 +83,16 @@
             }),
             ...mapState({
                 sysAdmin: state => state.user.sysAdmin,
+                userGroups: state => state.group.userGroups
             }),
         },
         methods: {
         },
         mounted(){
             this.loading = false;
-            if (!(this.sysAdmin || this.hasAdmin)) {
-                this.$router.push('/');
+            if (!this.sysAdmin && !this.hasAdmin && this.userGroups.length > 0) {
+                this.orgPanel = undefined;
+                this.groupPanel = 0; 
             }
         },
         updated() {
