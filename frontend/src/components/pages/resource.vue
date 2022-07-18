@@ -360,7 +360,7 @@ export default {
 
     methods: {
         formatDate(timestamp, time=false) {
-            return time ? moment.utc(timestamp).local().format('YYYY-MM-DD HH:mm') : moment.utc(timestamp).local().format('YYYY-MM-DD');
+            return time ? moment.utc(timestamp).local().format('YYYY-MM-DD, hh:mm A') : moment.utc(timestamp).local().format('YYYY-MM-DD');
         },
         getResource(id) {
             if (typeof(id) === "undefined"){
