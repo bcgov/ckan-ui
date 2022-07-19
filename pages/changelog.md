@@ -39,7 +39,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-|21|Implement Google Analytics, add self-serve admin panel, refactor auth for SSO migration (see [Fixed Issued](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|12-July-22||
+|21|Implement Google Analytics, add self-serve admin panel, refactor auth for SSO migration (see [Fixed Issued](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|12-July-22|19-July-22|
 |20|UI and permissions improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|18-May-22|16-June-22|
 |19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22|12-May-22|
 |18|UI improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|23-March-22|19-April-22|
@@ -67,6 +67,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|21|Display system dates | ([#837](https://github.com/bcgov/ckan-ui/pull/837))
 |21|Auth refactor | ([#828](https://github.com/bcgov/ckan-ui/pull/828))
 |21|Admin panel for groups | ([#827](https://github.com/bcgov/ckan-ui/pull/827))
 |21|Initial admin panel for orgs | ([#825](https://github.com/bcgov/ckan-ui/pull/825))
