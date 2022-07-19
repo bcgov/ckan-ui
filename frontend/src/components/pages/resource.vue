@@ -50,7 +50,7 @@
                     {{$tc('Scroll to Bottom')}}
                 </v-btn>
 
-                <v-btn text small depressed color="primary" v-if="!editing" target="_blank" :href="mailLink">
+                <v-btn text small depressed color="primary" v-if="!editing" @click="mailLink">
                     <v-icon>mdi-email-outline</v-icon>
                     {{$tc('Contact Data Expert')}}
                 </v-btn>
@@ -178,6 +178,13 @@
                 </v-row>
             </v-form>
         </ValidationObserver>
+        <v-row justify="start" class="mx-0 timestamps">
+            <v-col>
+                <span v-if="dataset.record_publish_date">{{$tc('Metadata Published')}}: {{formatDate(dataset.record_publish_date)}}</span>
+                <span v-if="dataset.record_publish_date && dataset.metadata_modified"> | </span>
+                <span v-if="dataset.metadata_modified">{{$tc('Last Modified')}}: {{formatDate(dataset.metadata_modified, true)}}</span>
+            </v-col>
+        </v-row>
         <v-row>
             <v-btn small v-if="notAtTop" depressed color="primary" class="scrollTop" v-scroll-to="{
                 el: '#topOfResForm',
@@ -195,6 +202,7 @@
 import { mapState, mapGetters } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import ResourceList from "../dataset/ResourceList";
+import * as moment from "moment/moment";
 
 import {Analytics} from '../../services/analytics';
 const analyticsServ = new Analytics()
@@ -212,6 +220,7 @@ import Banner from '../banner/Banner'
 import Permissions from '@/mixins/permissions';
 
 export default {
+    name: "resource",
     mixins: [Permissions],
     components: {
         DynamicForm: DynamicForm,
@@ -291,45 +300,6 @@ export default {
             }
         },
 
-        mailLink(){
-            let link="mailto:"
-            let c = null;
-            if (this.dataset && this.dataset.contacts){
-                c = this.dataset.contacts;
-                if (typeof(c) === "string"){
-                    c = JSON.parse(c);
-                }
-
-                let setC = false;
-                for (let i=0; i<c.length; i++){
-                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
-                        c = c[i];
-                        setC = true;
-                        break;
-                    }
-                }
-
-                if (!setC){
-                    return ''
-                }
-                
-                link += c.email
-            }else{
-                return '';
-            }
-            link += '?subject=Questions about '+this.dataset.title
-            link += '&body='
-            link += "Hi "+c.name+",%0D%0A%0D%0A";
-            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
-            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
-            link += "Hi! My name is ... and I am a ...%0D%0A";
-            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
-            link += "I was hoping to find information about ...%0D%0A";
-            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
-            link += "Is there someone I can contact to find out more about ....%0D%0A"
-            return link;
-        },
-
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
             keys.sort();
@@ -389,6 +359,9 @@ export default {
     },
 
     methods: {
+        formatDate(timestamp, time=false) {
+            return time ? moment.utc(timestamp).local().format('YYYY-MM-DD, hh:mm A') : moment.utc(timestamp).local().format('YYYY-MM-DD');
+        },
         getResource(id) {
             if (typeof(id) === "undefined"){
                 id = this.resourceId;
@@ -550,6 +523,52 @@ export default {
 
             this.$store.commit('dataset/setCurrentNotUnmodResource', { resource: this.resource } );
         },
+
+        mailLink(){
+            let link="mailto:"
+            let c = null;
+            if (this.dataset && this.dataset.contacts){
+                c = this.dataset.contacts;
+                if (typeof(c) === "string"){
+                    c = JSON.parse(c);
+                }
+
+                let setC = false;
+                for (let i=0; i<c.length; i++){
+                    if ( (c[i].displayed) || (c[i].private && c[i].private.toLowerCase() === "display") ){
+                        c = c[i];
+                        setC = true;
+                        break;
+                    }
+                }
+
+                if (!setC){
+                    return ''
+                }
+                
+                link += c.email
+            }else{
+                return '';
+            }
+            link += '?subject=Questions about '+this.dataset.title
+            link += '&body='
+            link += "Hi "+c.name+",%0D%0A%0D%0A";
+            link += "Re: "+this.dataset.title+" "+this.permalink+"%0D%0A";
+            link += "%0D%0A%0D%0A(Please introduce yourself)%0D%0A",
+            link += "Hi! My name is ... and I am a ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please describe what you want to accomplish)%0D%0A";
+            link += "I was hoping to find information about ...%0D%0A";
+            link += "%0D%0A%0D%0A(Please add any other questions for the data provider)%0D%0A";
+            link += "Is there someone I can contact to find out more about ....%0D%0A"
+
+            this.$gtag.event('contact_data_expert', {
+                'page_title': document.title,
+                'page_location': location.href,
+                'page_path': location.pathname
+            })
+
+            window.open(link, "_blank");
+        },
     },
 
     mounted (){
@@ -683,6 +702,11 @@ ul {
     left: 50%;
     margin-left: -35px;
     margin-top: 35px;
+}
+
+.timestamps {
+    color: var(--v-faded_text-lighten1);
+    font-size: 14px;
 }
 
 </style>

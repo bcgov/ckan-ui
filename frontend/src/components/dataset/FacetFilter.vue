@@ -197,6 +197,13 @@ export default{
 
         togglePanel: function(){
             this.$store.commit('dataset/setFacetOpen', {facet: this.field.name, open: !this.open})
+
+            if( this.open ) {
+                this.$gtag.event('facet_view', {
+                    'facet': this.field.name
+                })
+            }
+
         },
 
         closeDrawer: function(drawerName){
@@ -229,6 +236,11 @@ export default{
                 this.count[facet] -= filter.count;
                 this.totalCount -= filter.count;
                 this.numFilters  -= 1;
+
+                this.$gtag.event('remove_filter', {
+                    'facet': facet,
+                    'filter': filter.name
+                })
             }else{
                 this.filteredOn.push(filter.name);
                 this.numApplied +=1;
@@ -239,6 +251,11 @@ export default{
                 }
                 this.totalCount += filter.count;
                 this.numFilters  += 1;
+
+                this.$gtag.event('add_filter', {
+                    'facet': facet,
+                    'filter': filter.name
+                })
             }
 
             this.$store.commit('search/toggleFacet', {facet: facet, filter: filter.name});

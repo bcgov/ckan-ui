@@ -354,5 +354,7 @@ export default {
         "Geographic Data": "Geographic Data",
         "Copy": "Copy",
         "Provide Beta Feedback": "Provide Beta Feedback",
+        "Created": "Created",
+        "Updated": "Updated"
     }
 };

@@ -91,10 +91,18 @@ export default{
 
         expand: function(){
             this.changeFacetsOpen(true);
+
+            this.$gtag.event('facet_view', {
+                'facet': 'open_all_facets'
+            })
         },
 
         collapse: function(){
             this.changeFacetsOpen(false);
+
+            this.$gtag.event('facet_view', {
+                'facet': 'close_all_facets'
+            })
         },
 
         changeFacetsOpen(open){
@@ -112,6 +120,11 @@ export default{
             this.$store.commit('search/clearAllFacets', {});
             this.redrawKey++;
             this.$emit('facetFilter');
+
+            this.$gtag.event('remove_filter', {
+                'facet': 'all_facets',
+                'filter': 'all_filters'
+            })
         },
 
         openFacet: function(name){
