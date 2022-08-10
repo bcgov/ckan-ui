@@ -14,10 +14,10 @@
 export default {
     data() {
       return {
-        message: '',
-        action: 'https://form.simplesurvey.com/f/s.aspx?s=8d6269f2-2eb0-4dff-86af-09889bda98fe',
+        message: 'We are experiencing issues with our servers, we are working on it. Sorry for the inconvenience.',
+        action: '',
         actionText: 'Give Feedback',
-        colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
+        colour: 'banner_error' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
     },
 }
