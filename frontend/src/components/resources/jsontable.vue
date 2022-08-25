@@ -13,7 +13,7 @@
             </div>
 
             <div v-else-if="fields.length>0">
-                <div v-if="preview.schemaInferred">
+                <div>
                     <v-radio-group v-model="showRaw" row>
                         <v-radio
                             label="Raw"
@@ -28,7 +28,7 @@
                 <span v-if="!showRaw">
                     <div v-for="field in fields" :key="'schema'+((field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name)">
                         <h3>Field: {{(field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name}}</h3>
-                        <div class="capitalize" v-if="field.type || field._descriptor.type">Type: {{field.type || field._descriptor.type}}</div>
+                        <div class="capitalize" v-if="field.type || (field._descriptor && field._descriptor.type)">Type: {{field.type || field._descriptor.type}}</div>
                         <div class="capitalize" v-if="field.description || (field._descriptor && field._descriptor.description)">Description: {{field.description || field._descriptor.description}}</div>
                         <!-- <div>{{field.constraints}} {{ field._descriptor.constraints}}</div> -->
                         <div class="capitalize" v-if="(field.constraints && field.constraints.required) || (field._descriptor && field._descriptor.constraints && field._descriptor.constraints.required)">Required: {{(field.constraints && typeof(field.constraints.required)!=='undefined' ? (field.constraints.required ? "Yes" : "No") : false) || field._descriptor.constraints.required ? "Yes" : "No"}}</div>
@@ -41,14 +41,24 @@
                                 </li>
                             </ul>
                         </div>
-                        <div v-if="field._descriptor">
+                        <div class="capitalize" v-if="field.contraints">
+                            Constraints: <br />
+                            <ul>
+                                <li class="capitalize" v-for="(cons, key) in field.constraints" :key="'constraint-'+((field.name && field.name.text ? field.name.text : false) || field.name || field._descriptor.name)+'-'+key">
+                                    {{key}}: {{cons}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div v-if="hasOtherInfo(field)">
                         <h4>Other Information</h4>
-                            <div v-for="(descript, key) in field._descriptor" :key="'genericInfo-'+field.name+'-'+key" class="capitalize">
-                                <span v-if="!['type', 'name', 'description', 'format', 'constraints'].includes(key)">
-                                    {{key}}: {{descript}}
+                            <div v-for="(descript, key) in otherInfo(field)" :key="'genericInfo-'+field.name+'-'+key">
+                                <span class="capitalize">
+                                    {{key.replace(/_/g, ' ')}}: 
+                                </span>
+                                <span>
+                                    {{descript}}
                                 </span>
                             </div>
-                            <span v-if="Object.keys(field._descriptor).length==5">None</span>
                         </div>
                         <hr />
                     </div>
@@ -85,6 +95,29 @@ export default{
             schema: this.preview.schema,
             fields: [],
             showRaw: false,
+            NOT_OTHER_INFO: ['type', 'name', 'description', 'format', 'constraints'],
+        }
+    },
+    methods:{
+        hasOtherInfo: function(field){
+            let keys = (field._descriptor) ? Object.keys(field._descriptor) : Object.keys(field);
+            
+            for (let i=0; i<this.NOT_OTHER_INFO.length; i++){
+                let ind = keys.indexOf(this.NOT_OTHER_INFO[i]);
+                if (ind > -1){
+                    keys.splice(ind, 1);
+                }   
+            }
+            return keys
+        },
+
+        otherInfo: function(field){
+            let keys = this.hasOtherInfo(field);
+            let otherInfo = {};
+            for (let i=0; i<keys.length; i++){
+                otherInfo[keys[i]] = field._descriptor ? field._descriptor[keys[i]] : field[keys[i]]
+            }
+            return otherInfo
         }
     },
     mounted(){
@@ -100,7 +133,7 @@ export default{
 <style scoped>
 
 .capitalize {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
 }
 
 .theme--light.v-sheet{

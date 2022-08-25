@@ -79,7 +79,7 @@
 
                 <powButton :dataset="dataset" :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
-                <v-btn v-if="!!preview.hasSchema && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
+                <v-btn v-if="(!!resource.json_table_schema || !!preview.hasSchema) && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
                     <v-progress-circular v-else :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
                     {{$tc('View Schema (JSON Table Schema)')}}
@@ -91,7 +91,7 @@
                     >
                         <JsonTable
                             :resource="resource"
-                            :preview="preview"
+                            :preview="!!resource.json_table_schema ? {schema: resource.json_table_schema, schemaInferred: false} : preview"
                             v-on:closePreviewDialog="schemaDialog = false"
                         ></JsonTable>
                     </v-dialog>
