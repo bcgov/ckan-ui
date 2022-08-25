@@ -24,10 +24,22 @@ var formatResourceBody = function(resource){
         //eslint-disable-next-line
         console.error("Format resource", e);
     }
+
+    let originalJSONValue = resource.json_table_schema
+    let parseable = true;
     try{
-        let j = JSON.parse(resource.json_table_schema);
+        let j = JSON.parse(originalJSONValue);
     }catch(ex){
-        resource.json_table_schema = "{}";
+        parseable = false;
+    }
+
+    if (!parseable){
+        try{
+            let j = JSON.parse(JSON.stringify(originalJSONValue));
+            resource.json_table_schema = JSON.stringify(originalJSONValue);
+        }catch(ex){
+            resource.json_table_schema = "{}";
+        }
     }
 
     if ( (resource.iso_topic_category) && (typeof(resource.iso_topic_category)==="object") ){
