@@ -6,8 +6,8 @@
         </label>
         <div v-if="!editing">
             <p class="value">
-                <span v-for="(v, k) in val" :key="name+'-link-'+k"> 
-                    <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(val.length-1)) ? "" : ", ")}} 
+                <span v-for="(v, k) in displayValue" :key="name+'-link-'+k"> 
+                    <a class="underline" @click="searchDatasets(v)">{{v}}</a>{{((k==(displayValue.length-1)) ? "" : ", ")}} 
                 </span>
             </p>
         </div>
@@ -89,6 +89,19 @@ export default {
         displayLabel: function(){
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (this.editing && required ? '*' : '');
+        },
+        displayValue: function() {
+            let self = this;
+            if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "object") ) {
+                return this.value.map(function(item){
+                    return item[self.itemTextField]
+                });
+            } else if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "string") ) {
+                return this.value;
+            } else if ( (typeof(this.value) === "string") && (this.value.length > 0) ) {
+                return this.value.split(",");
+            }
+            return [];
         }
     },
     methods: {
@@ -98,30 +111,21 @@ export default {
         rerender(){
             this.firstRender = false;
             let self = this;
-            if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "object") ){
+            if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "object") ) {
                 let v = this.value.map(function(item){
                     return item[self.itemTextField]
                 });
-                
-                this.val = v;
-
                 this.items = v;
-            }else if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "string") ){
+            } else if ( (typeof(this.value) === "object") && (this.value.length>0) && (typeof(this.value[0]) === "string") ) {
                 let v = this.value;
-                
-                this.val = v;
-
                 this.items = v;
 
-            }else if ( (typeof(this.value) === "string") && (this.value.length > 0) ){
-                this.val = this.value.split(",");
+            } else if ( (typeof(this.value) === "string") && (this.value.length > 0) ) {
                 this.items = this.value.split(",");
-            }else{
-                this.val = [];
+            } else {
                 this.items = [];
             }
             
-
             this.items = typeof(this.value) === "object" ? this.value.map(function(item){
                 return item[self.itemTextField]
             }) : this.value.split(",");
