@@ -13,7 +13,7 @@
     "babel-runtime": "^6.26.0",
     "core-js": "^2.6.12",
     "es6-promise": "^4.2.8",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "material-design-icons-iconfont": "^4.0.5",
     "moment": "^2.29.2",
     "node-sass": "^6.0.1",
