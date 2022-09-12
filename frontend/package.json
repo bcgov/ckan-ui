@@ -16,7 +16,7 @@
     "marked": "^0.7.0",
     "material-design-icons-iconfont": "^4.0.5",
     "moment": "^2.29.2",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.3",
     "pdfvuer": "^1.7.5",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2",
