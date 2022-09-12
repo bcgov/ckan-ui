@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "eslint": "^7.13.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.19"
   },
   "eslintConfig": {
     "root": true,
