@@ -14,7 +14,7 @@
 export default {
     data() {
       return {
-        message: 'Please be advised that we are currently experiencing an outage to many of our services, and are working to resolve it as quickly as possible',
+        message: '',
         action: '',
         actionText: 'Give Feedback',
         colour: 'banner_error' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
