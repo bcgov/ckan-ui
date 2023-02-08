@@ -24,7 +24,7 @@
                             width="auto" height="100%"
                             alt="B.C. Government Logo">
                     </a>
-                    <v-btn text depressed large id="header-home" class="title hidden-sm-and-down font-weight-black h-100 v-top" color="text" to="/">Gurman's Catalog</v-btn>
+                    <v-btn text depressed large id="header-home" class="title hidden-sm-and-down font-weight-black h-100 v-top" color="text" to="/">{{$tc("DataCatalogue")}}</v-btn>
                 </v-col>
                 <v-col cols=5 class="py-0 pr-0 h-100">
                     <v-menu bottom left offset-y color="secondary" transition="slide-y-transition" min-width="320px">
