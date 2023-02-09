@@ -4,7 +4,7 @@
             {{$tc(displayLabel)}}
         </label>
         <span v-if="!editing">
-            <span class="value">{{displayValue}}</span>
+            <span class="value" v-html="displayValue"></span>
         </span>
         <ValidationProvider v-else-if="field.form_snippet !== null" :rules="validate" v-slot="{ errors }" :name="label ? $tc(label) : name">
             <v-text-field
@@ -75,6 +75,14 @@ export default {
         if (this.field.field_name.toLowerCase().indexOf("date") >= 0){
             this.validate += (this.validate.length > 0) ? "|date_format:yyyy-mm-dd" : "date_format:yyyy-mm-dd";
         }
+
+        let displayValue = this.value ? this.value : null;
+        let urlRegex = /(https?:\/\/[^\s]+)/g;
+
+        if (displayValue && urlRegex.test(displayValue)) {
+            displayValue = `<a href="${displayValue}" target="_blank">${displayValue}</a>`;
+        }
+        this.displayValue = displayValue;
     }
 
 };
