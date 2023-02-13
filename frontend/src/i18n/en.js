@@ -74,7 +74,7 @@ export default {
         "Projection Name*": "Projection Name*",
         "Supplemental Information": "Supplemental Information",
         "Supplemental Information*": "Supplemental Information*",
-        "Resource": "Resource | Resources",
+        "Resource": "Data and Resource | Data and Resources",
         "Resource Access Method": "Resource Access Method",
         "Resource Access Method*": "Resource Access Method*",
         "Resource Storage Location": "Resource Storage Location",
