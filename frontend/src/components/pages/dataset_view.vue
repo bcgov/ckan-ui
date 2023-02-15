@@ -185,7 +185,7 @@
                     <v-col cols=4 class="d-none d-sm-block pr-0 mt-6" v-if="!editing">
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Resource', 2)}}</h4>
+                                <h4 class="color-text">{{$tc('Data and Resource', 2)}}</h4>
                             </v-col>
                         </v-row>
                         <v-row class="fullWidth mr-0">
