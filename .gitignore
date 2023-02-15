@@ -22,3 +22,7 @@ yarn-error.log*
 *.sw*
 
 helm/ckan-ui/config*.yaml
+
+backend/package-lock.json
+frontend/package-lock.json
+.gitignore
