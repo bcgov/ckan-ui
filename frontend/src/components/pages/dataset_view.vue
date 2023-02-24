@@ -146,7 +146,7 @@
             </v-col>
         </v-row>
         <Banner></Banner>
-        
+
         <v-snackbar v-model="snackbar" :timeout=3000 ><span class="mx-auto permalink">{{$tc('Permalink URL Copied to Clipboard')}}</span></v-snackbar>
 
         <v-row class="mt-12 mb-12" v-if="showFormError || showFormSuccess || dataset.state === 'deleted'"></v-row>
@@ -179,13 +179,13 @@
                             @updated="(field, value) => updateDataset(field, value)"
                         >
                         </DynamicForm>
-                        <v-row id="endOfForm" class="mx-0 py-0"></v-row> 
+                        <v-row id="endOfForm" class="mx-0 py-0"></v-row>
                     </v-col>
                     <v-col cols=1 sm=1></v-col>
                     <v-col cols=4 class="d-none d-sm-block pr-0 mt-6" v-if="!editing">
                         <v-row class="header-bar mb-0 mr-0" align-content="center">
                             <v-col cols=12>
-                                <h4 class="color-text">{{$tc('Resource', 2)}}</h4>
+                                <h4 class="color-text">{{$tc('Data and Resource', 2)}}</h4>
                             </v-col>
                         </v-row>
                         <v-row class="fullWidth mr-0">
@@ -306,7 +306,7 @@ export default {
             orgName: "nameByID",
             ancestorsByName: "ancestorsByName"
         }),
-        
+
         nonSchemaFields: function() {
             let keys = Object.keys(this.dataset);
             let remove = ['id', 'type', 'num_tags', 'num_resources', 'license_title', 'license_url'];
@@ -526,7 +526,7 @@ export default {
                     let keys = Object.keys(result.error);
                     let fe = '';
                     for (var i=0; i<keys.length; i++){
-                        if (keys[i] === "resources"){ 
+                        if (keys[i] === "resources"){
                             for (var j=0; j<result.error[keys[i]].length; j++){
                                 fe += "Resource " + j +": "
                                 let keys2 = Object.keys(result.error[keys[i]][j]);
@@ -547,7 +547,7 @@ export default {
                             }
                             fe += "<br />";
                         }
-                        
+
                     }
                     this.formError = fe;
                 }else{
@@ -557,10 +557,10 @@ export default {
                 this.showFormSuccess = false;
             }else{
                 this.clearEdit();
-                
+
                 this.editing = false;
                 this.formSuccess = "Successfully updated";
-                await this.$store.commit("dataset/setCurrentDataset", { dataset: this.dataset });
+                this.getDataset();
                 this.showFormSuccess = true;
                 this.showFormError = false;
                 if (this.createMode){
@@ -630,8 +630,13 @@ export default {
                         let newC = JSON.stringify(c);
                         this.dataset.contacts = newC;
                     }
+                } else if (field === 'tag_string'){
+                    var remainingTags = newValue.split(',');
+                    this.dataset.tags = this.dataset.tags.filter(function(item){
+                        return remainingTags.includes(item.display_name);
+                    });
                 }
-                
+
                 this.$store.commit('dataset/setCurrentNotUnmodDataset', { dataset: this.dataset } );
             }
         },
@@ -684,7 +689,7 @@ export default {
                 if (!setC){
                     return ''
                 }
-                
+
                 link += c.email
             }else{
                 return '';
@@ -746,7 +751,7 @@ h5 {
 
 .scrollTop{
     position: fixed;
-    bottom: 55px; 
+    bottom: 55px;
     right: 10px;
 }
 
