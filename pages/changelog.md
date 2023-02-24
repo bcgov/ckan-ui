@@ -67,6 +67,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|22|Fix JSON preview when resource missing | ([#853](https://github.com/bcgov/ckan-ui/pull/853))
+|22|Fix disappearing keywords | ([#852](https://github.com/bcgov/ckan-ui/pull/852))
 |21|Display system dates | ([#837](https://github.com/bcgov/ckan-ui/pull/837))
 |21|Auth refactor | ([#828](https://github.com/bcgov/ckan-ui/pull/828))
 |21|Admin panel for groups | ([#827](https://github.com/bcgov/ckan-ui/pull/827))
