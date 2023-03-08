@@ -251,6 +251,9 @@
 
             q = q.substring(0, q.length - 1)
 
+            let newUrl = window.location.origin + window.location.pathname + q;
+            window.history.pushState({path:newUrl}, '', newUrl);
+
             ckanServ.getDatasets(q).then((data) => {
                 if (data.success) {
                     if (!data.result){
