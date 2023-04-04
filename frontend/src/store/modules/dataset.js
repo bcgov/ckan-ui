@@ -120,13 +120,24 @@ const actions = {
         });
     },
 
+    // getFacetList({ state, commit }){
+    //     if ( Object.keys(state.facetList).length === 0 ){
+    //         ckanServ.getFacets().then((data) => {
+    //             commit('setFacetList', { facetList: data });
+    //         });
+    //     }
+    // },
+
     getFacetList({ state, commit }){
-        if ( Object.keys(state.facetList).length === 0 ){
-            ckanServ.getFacets().then((data) => {
-                commit('setFacetList', { facetList: data });
-            });
+        if (Object.keys(state.facetList).length === 0) {
+          return ckanServ.getFacets().then((data) => {
+            commit('setFacetList', { facetList: data });
+            return data; // Return the data to use in the Promise resolution
+          });
+        } else {
+          return Promise.resolve(state.facetList); // Return a resolved Promise if the data is already in the store
         }
-    },
+      },      
 
     getFacet({state}, {facets}){
         var filters = {};

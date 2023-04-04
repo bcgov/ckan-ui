@@ -251,8 +251,43 @@
 
             q = q.substring(0, q.length - 1)
 
-            let newUrl = window.location.origin + window.location.pathname + q;
-            window.history.pushState({path:newUrl}, '', newUrl);
+            //This code builds url and then pushes it
+            
+            // if(this.$store.nav.currentPage != this.$store.nav.lastPage){
+            // eslint-disable-next-line no-console
+            // console.log(this.$route.name)
+            // let url_q = this.searchedText
+            // let url_fq = (q.indexOf("fq=") > 0) ?  q.substring(q.indexOf("fq=")+3) : ''
+            // if(url_q || url_fq){
+            //     if(url_q && !url_fq){
+            //         this.$router.replace({path: '/datasets', query: {q: url_q}});
+            //     }else if (!url_q && url_fq){
+            //         this.$router.replace({path: '/datasets', query: {fq: url_fq}});
+            //     }else{
+            //         this.$router.replace({path: '/datasets', query: {q: url_q, fq: url_fq}});
+            //     }
+            // }else{
+            //     this.$router.replace({path: 'datasets', query: ''})
+            // }
+
+
+            let url = ''
+            if(q.indexOf("fq=") > 0){
+                url += '&' + q.substring(q.indexOf("fq="));
+                // str = q.substring(q.indexOf("fq=")+3);
+            }
+            if(this.searchedText){
+                url += 'q=' + this.searchedText
+            }
+            if(q.indexOf("fq=") > 0){
+                url += '&' + q.substring(q.indexOf("fq="));
+                // str = q.substring(q.indexOf("fq=")+3);
+            }
+            if(url.length > 0){
+            this.$router.replace('?' + url);
+            }else{
+                this.$router.replace('');
+            }
 
             ckanServ.getDatasets(q).then((data) => {
                 if (data.success) {
@@ -306,12 +341,13 @@
 
             // mutation could be search/setSearchTextAndRedirect too; we want to subscribe to anything that
             // updates search text.
-            if (mutation.type.startsWith('search/setSearchText')) {
+            // if (mutation.type.startsWith('search/setSearchText')) {
+            if (mutation.type.startsWith('search/setSearchText') && this.$store.state.nav.currentPage.match(/datasets*/)) {
                 self.findText = this.$store.state.search.searchText;
                 self.getDatasets();
             }
 
-        });
+        });  
     },
     updated() {
         window.snowplow('refreshLinkClickTracking');

@@ -38,6 +38,7 @@ let r = new Router({
             name: 'Datasets',
             alias: '/dataset',
             component: datasets,
+            // props: {default: true},
             meta: {
                 title: "Datasets - Data Catalogue"
             }
@@ -215,7 +216,10 @@ r.beforeEach((to, from, next) => {
             break;
 
     }
-
+    // eslint-disable-next-line no-console
+    console.log("to:", to)
+    // eslint-disable-next-line no-console 
+    console.log("from:", from)
     switch(to.name){
         case "Datasets":
         case "organization_view":

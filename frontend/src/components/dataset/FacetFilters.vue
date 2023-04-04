@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import FacetFilter from './FacetFilter';
 
@@ -61,6 +61,10 @@ export default{
         hideFacets: {
             type: Array,
             default: () => []
+        },
+        collapseOnLoad: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -84,6 +88,9 @@ export default{
 
 
     methods: {
+        ...mapActions({
+            getFacetList: 'dataset/getFacetList'
+        }),
 
         facetFilter: function(){
             this.$emit('facetFilter');
@@ -134,10 +141,10 @@ export default{
         closeFacet: function(name){
             this.$store.commit('dataset/setFacetOpen', { facet: name, open: false})
         },
-
     },
 
     mounted(){
+        this.collapse();
     }
 }
 </script>

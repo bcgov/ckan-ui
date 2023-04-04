@@ -62,6 +62,15 @@ const mutations = {
         state.searchText = text;
     },
 
+    setFacets(state, facets){
+        state.facets = facets;
+        let totalFilters = 0;
+        for (let facet in facets) {
+            totalFilters += facets[facet].length;
+        }
+        state.totalFilters = totalFilters;
+    },
+
     setClearOnRedirect(state, clear ) {
         state.clearOnRedirect = clear;
     },
@@ -71,8 +80,11 @@ const mutations = {
         state.clearOnRedirect = false;
         state.sortOrder = DEFAULT_SORT_ORDER;
 
-        if (location.pathname !== "/datasets") {
-            router.push('/datasets');
+        // if (location.pathname !== "/datasets") {
+        //     router.push('/datasets');
+        // }
+        if (location.pathname !== ('/datasets?q=' + text)) {
+            router.push('/datasets?q=' + text);
         }
     },
 

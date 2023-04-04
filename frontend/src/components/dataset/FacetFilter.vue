@@ -262,10 +262,11 @@ export default{
             this.$emit('facetFilter');
         },
 
-        
+        openFacet: function(name){
+            this.$store.commit('dataset/setFacetOpen', { facet: name, open: true})
+        },
 
         preFilter: function(){
-
             for (let i=0; i<this.field.facets.length; i++){
                 let keys = Object.keys(this.field.facets[i]);
                 let facetName = keys[0];
@@ -273,6 +274,7 @@ export default{
                     for (let j=0; j<this.filtered[facetName].length; j++){
                         let filter = this.filtered[facetName][j];
                         this.filteredOn.push(filter);
+                        this.openFacet()
                         this.numApplied += 1;
                     }
                 }
@@ -281,6 +283,7 @@ export default{
     },
 
     mounted(){
+        this.filtered = this.$store.state.search.facets;
         this.getFacet({facets: this.field.facets, facetName: this.name});
         this.preFilter();
     }
