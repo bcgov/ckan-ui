@@ -6,7 +6,7 @@
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
                 <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true) || loggedIn)">
-                    <div v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
+                    <div v-for="(sub, key) in field.repeating_subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="(model[repeatedIndex][sub.field_name] !== '')">
                             <span v-if="sub.field_name != 'displayed'">
                                 <v-row v-if="sub.display_snippet !== null" align="center">
@@ -41,7 +41,7 @@
         <div v-else :key="'composite'+field.field_name+rerenderKey">
             <span class="help-text">{{field.help_text}}</span>
             <div v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                <v-row v-for="(sub, key) in field.subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
+                <v-row v-for="(sub, key) in field.repeating_subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key" align="center">
                     <v-col cols=2 class="pb-0">
                         <label class="sub-label">{{(sub.label !== '') ? $tc(sub.label) : $tc(sub.field_name)}}{{( !!sub.required || (!!sub.validators && sub.validators.indexOf('conditional_required') !== -1)) ? '*' : ''}}</label>
                     </v-col>
@@ -195,7 +195,7 @@
                     </v-btn>
                 </v-row>
             </div>
-            <v-row>
+            <v-row v-if="field.validators.indexOf('single_value_subfield') < 0>">
                 <v-col cols=12>
                     <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
                         <v-icon>mdi-plus-circle</v-icon>
@@ -234,8 +234,8 @@ export default {
             this.updateValues();
         },
         formDefaults: function(){
-            for (let i=0; i<this.field.subfields.length; i++){
-                let fieldName = this.field.subfields[i].field_name;
+            for (let i=0; i<this.field.repeating_subfields.length; i++){
+                let fieldName = this.field.repeating_subfields[i].field_name;
                 for (let j=0; j<this.model.length; j++){
                     let def = this.formDefaults[fieldName];
                     if ( (!this.model[j][fieldName]) && (def) ){
@@ -268,11 +268,11 @@ export default {
                 let value = JSON.parse(this.dataset[this.field.field_name]);
                 for (let i=0; i<value.length; i++){
                     this.model[i] = {};
-                    for (let j=0; j<this.field.subfields.length; j++){
-                        if (value && value[i] && value[i][this.field.subfields[j].field_name]){
-                            this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
+                    for (let j=0; j<this.field.repeating_subfields.length; j++){
+                        if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name]){
+                            this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name];
                         }else{
-                            this.model[i][this.field.subfields[j].field_name] = "";
+                            this.model[i][this.field.repeating_subfields[j].field_name] = "";
                         }
                     }
                 }
@@ -280,13 +280,13 @@ export default {
         },
         addRecord: function() {
             let model = {}
-            for (let i=0; i<this.field.subfields.length; i++){
-                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
-                    model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                } else if (this.field.subfields[i].field_name === 'org') {
-                    model[this.field.subfields[i].field_name] = this.orgId;
+            for (let i=0; i<this.field.repeating_subfields.length; i++){
+                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.repeating_subfields[i].field_name]) ){
+                    model[this.field.repeating_subfields[i].field_name] = this.formDefaults[this.field.repeating_subfields[i].field_name];
+                } else if (this.field.repeating_subfields[i].field_name === 'org') {
+                    model[this.field.repeating_subfields[i].field_name] = this.orgId;
                 } else {
-                    model[this.field.subfields[i].field_name] = "";
+                    model[this.field.repeating_subfields[i].field_name] = "";
                 }
             }
             this.model.push(model);
@@ -340,7 +340,7 @@ export default {
         },
         isEmpty: function() {
             for (let val of this.model) {
-                for (let subfield of this.field.subfields) {
+                for (let subfield of this.field.repeating_subfields) {
                     if (val[subfield.field_name]) return false;
                 }
             }
@@ -359,17 +359,17 @@ export default {
             for (let i=0; i<value.length; i++){
                 this.model[i] = {};
 
-                for (let j=0; j<this.field.subfields.length; j++){
-                    if (value && value[i] && !value[i][this.field.subfields[j].field_name] && this.field.subfields[j].field_name === "displayed" && value[i]['private']){
-                        this.model[i][this.field.subfields[j].field_name] = (( value[i]['private'] === true) || (value[i]['private'].toLowerCase() === "display") || (value[i]['private'].toLowerCase() === "displayed") );
-                    }else if (value && value[i] && value[i][this.field.subfields[j].field_name]){
-                        this.model[i][this.field.subfields[j].field_name] = value[i][this.field.subfields[j].field_name];
+                for (let j=0; j<this.field.repeating_subfields.length; j++){
+                    if (value && value[i] && !value[i][this.field.repeating_subfields[j].field_name] && this.field.repeating_subfields[j].field_name === "displayed" && value[i]['private']){
+                        this.model[i][this.field.repeating_subfields[j].field_name] = (( value[i]['private'] === true) || (value[i]['private'].toLowerCase() === "display") || (value[i]['private'].toLowerCase() === "displayed") );
+                    }else if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name]){
+                        this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name];
                     }else{
-                        this.model[i][this.field.subfields[j].field_name] = "";
+                        this.model[i][this.field.repeating_subfields[j].field_name] = "";
                     }
-                    if (this.field.subfields[j].field_name.toLowerCase() === "displayed"){
+                    if (this.field.repeating_subfields[j].field_name.toLowerCase() === "displayed"){
                         this.hasDisplayed = true;
-                        if (this.model[i][this.field.subfields[j].field_name] === true){
+                        if (this.model[i][this.field.repeating_subfields[j].field_name] === true){
                             this.anyShown = true;
                         }
                     }
@@ -378,13 +378,13 @@ export default {
             this.$emit('edited', JSON.stringify(this.model));
         }else{
             let model = {}
-            for (let i=0; i<this.field.subfields.length; i++){
-                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.subfields[i].field_name]) ){
-                    model[this.field.subfields[i].field_name] = this.formDefaults[this.field.subfields[i].field_name];
-                } else if (this.field.subfields[i].field_name === 'org') {
-                    this.field.subfields[i].field_name === this.orgId;
+            for (let i=0; i<this.field.repeating_subfields.length; i++){
+                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.repeating_subfields[i].field_name]) ){
+                    model[this.field.repeating_subfields[i].field_name] = this.formDefaults[this.field.repeating_subfields[i].field_name];
+                } else if (this.field.repeating_subfields[i].field_name === 'org') {
+                    this.field.repeating_subfields[i].field_name === this.orgId;
                 } else {
-                    model[this.field.subfields[i].field_name] = "";
+                    model[this.field.repeating_subfields[i].field_name] = "";
                 }
             }
             this.model[0] = model;

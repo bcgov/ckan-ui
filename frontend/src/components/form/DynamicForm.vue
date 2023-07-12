@@ -179,20 +179,7 @@
                     >
                     </Autocomplete>
                     <CompositeRepeating
-                        v-else-if="field.preset==='composite_repeating'"
-                        :key="field.field_name"
-                        :dataset="values"
-                        :editing="editing"
-                        :orgArray="orgArray"
-                        :orgId="orgId"
-                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                        :scope="scope"
-                        :form-defaults="formDefaults[field.field_name]"
-                        :disabled="disabled"
-                        :field="field">
-                    </CompositeRepeating>
-                    <CompositeRepeating
-                        v-else-if="field.preset==='contact_repeating'"
+                        v-else-if="field.field_name==='contacts'"
                         :key="field.field_name"
                         :dataset="values"
                         :editing="editing"
@@ -202,6 +189,29 @@
                         :form-defaults="formDefaults.contacts"
                         :orgId="orgId"
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field">
+                    </CompositeRepeating>
+                    <!-- <Composite
+                        v-else-if="field.repeating_subfields && field.repeating_subfields.length > 0 && field.validators.includes('single_value_subfield')"
+                        :key="field.field_name"
+                        :editing="editing"
+                        :value="values[field.field_name]"
+                        :scope="scope"
+                        :disabled="disabled"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :field="field">
+                    </Composite> -->
+                    <CompositeRepeating
+                        v-else-if="field.repeating_subfields && field.repeating_subfields.length > 0"
+                        :key="field.field_name"
+                        :dataset="values"
+                        :editing="editing"
+                        :orgArray="orgArray"
+                        :orgId="orgId"
+                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
+                        :scope="scope"
+                        :form-defaults="formDefaults[field.field_name]"
+                        :disabled="disabled"
                         :field="field">
                     </CompositeRepeating>
                     <License
@@ -217,16 +227,6 @@
                         :scope="scope"
                         :placeholder="field.form_placeholder">
                     </License>
-                    <Composite
-                        v-else-if="field.preset==='composite'"
-                        :key="field.field_name"
-                        :editing="editing"
-                        :value="values[field.field_name]"
-                        :scope="scope"
-                        :disabled="disabled"
-                        @edited="(newValue) => { updateValues(field.field_name, newValue) }"
-                        :field="field">
-                    </Composite>
                     <TableRepeating
                         v-show="!editing"
                         v-else-if="field.display_snippet==='bcgw_details.html'"
