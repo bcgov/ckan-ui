@@ -7,7 +7,6 @@
             {{actionText}}
           </v-btn>
       </template> -->
-      <a :href="action" target="_blank">{{ actionText }}</a>
   </v-banner>
 </template>
 
@@ -15,10 +14,10 @@
 export default {
     data() {
       return {
-        message: 'Publishing your metadata in the BC Data Catalogue is a great way to ensure it complies with the new Metadata Standard and Guidelines. Find these on the ',
-        action: 'https://www2.gov.bc.ca/gov/content/data/about-the-metadata-standard',
-        actionText: 'Metadata Quick Facts page.',
-        colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
+        message: 'We are currently experiencing intermittent issues with the BC Data Catalogue service. Our team is actively working to promptly resolve the issue. We apologize for any inconvenience caused.',
+        action: '',
+        actionText: '',
+        colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
     },
 }
