@@ -16,7 +16,7 @@
                                     </label>
                                     
                                     <span class="py-1 valueSpan" v-line-clamp:1.5="1" >
-                                        <span v-if="model[repeatedIndex] && (model[repeatedIndex][sub.field_name].length > 0)">
+                                        <span v-if="model[repeatedIndex] && model[repeatedIndex][sub.field_name] && (model[repeatedIndex][sub.field_name].length > 0)">
                                             <span v-if="sub.field_name === 'org'">
                                                 <router-link :to="{ name: 'organization_view', params: { organizationId: orgName(model[repeatedIndex][sub.field_name]) }}">{{orgTitle(model[repeatedIndex][sub.field_name])}}</router-link>
                                             </span>
@@ -195,7 +195,7 @@
                     </v-btn>
                 </v-row>
             </div>
-            <v-row v-if="field.validators.indexOf('single_value_subfield') < 0>">
+            <v-row v-if="field.validators.indexOf('single_value_subfield') < 0">
                 <v-col cols=12>
                     <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
                         <v-icon>mdi-plus-circle</v-icon>

@@ -103,29 +103,31 @@ var addRoutes = function(router){
                     let orgList = {};
                     let topLevelOrgs = [];
                     let subOrgs = [];
-                    for (let i=0; i<json.result.length; i++) {
-                        let org = json.result[i];
-                        if (org.child_of.length === 0) {
-                            topLevelOrgs.push(org);
-                            if (typeof(orgList[org.title.trim()]) === "undefined"){
-                            orgList[org.title.trim()] = {id: org.id, name: org.name, title: org.title, children: []};
-                            }else{
-                                orgList[org.title.trim()].id = org.id;
-                                orgList[org.title.trim()].name = org.name;
-                                orgList[org.title.trim()].title = org.title;
-                            }
-                        } else {
-                            subOrgs.push(org);
-                            for (let j=0; j<org.child_of.length; j++){
-                                let parentOrg = org.child_of[j];
-                                let orgItem = {title: org.title.trim(), name: org.name, id: org.id};
-                                if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
-                                    orgList[parentOrg.title.trim()] = {};
-                                    orgList[parentOrg.title.trim()].children = [orgItem];
-                                }else if (typeof(orgList[parentOrg.title.trim()].children) === "undefined") {
-                                    orgList[parentOrg.title.trim()].children = [orgItem];
+                    if (json.result) {
+                        for (let i=0; i<json.result.length; i++) {
+                            let org = json.result[i];
+                            if (org.child_of.length === 0) {
+                                topLevelOrgs.push(org);
+                                if (typeof(orgList[org.title.trim()]) === "undefined"){
+                                orgList[org.title.trim()] = {id: org.id, name: org.name, title: org.title, children: []};
                                 }else{
-                                    orgList[parentOrg.title.trim()].children.push(orgItem);
+                                    orgList[org.title.trim()].id = org.id;
+                                    orgList[org.title.trim()].name = org.name;
+                                    orgList[org.title.trim()].title = org.title;
+                                }
+                            } else {
+                                subOrgs.push(org);
+                                for (let j=0; j<org.child_of.length; j++){
+                                    let parentOrg = org.child_of[j];
+                                    let orgItem = {title: org.title.trim(), name: org.name, id: org.id};
+                                    if (typeof(orgList[parentOrg.title.trim()]) === "undefined") {
+                                        orgList[parentOrg.title.trim()] = {};
+                                        orgList[parentOrg.title.trim()].children = [orgItem];
+                                    }else if (typeof(orgList[parentOrg.title.trim()].children) === "undefined") {
+                                        orgList[parentOrg.title.trim()].children = [orgItem];
+                                    }else{
+                                        orgList[parentOrg.title.trim()].children.push(orgItem);
+                                    }
                                 }
                             }
                         }
