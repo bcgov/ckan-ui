@@ -195,7 +195,7 @@
                     </v-btn>
                 </v-row>
             </div>
-            <v-row v-if="field.validators.indexOf('single_value_subfield') < 0">
+            <v-row v-if="!(!!field.validators && field.validators.indexOf('single_value_subfield') >= 0)">
                 <v-col cols=12>
                     <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
                         <v-icon>mdi-plus-circle</v-icon>
@@ -360,8 +360,8 @@ export default {
                 this.model[i] = {};
 
                 for (let j=0; j<this.field.repeating_subfields.length; j++){
-                    if (value && value[i] && !value[i][this.field.repeating_subfields[j].field_name] && this.field.repeating_subfields[j].field_name === "displayed" && value[i]['private']){
-                        this.model[i][this.field.repeating_subfields[j].field_name] = (( value[i]['private'] === true) || (value[i]['private'].toLowerCase() === "display") || (value[i]['private'].toLowerCase() === "displayed") );
+                    if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name] && this.field.repeating_subfields[j].field_name === "displayed"){
+                        this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name].indexOf('displayed') >= 0;
                     }else if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name]){
                         this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name];
                     }else{
