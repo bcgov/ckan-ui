@@ -340,7 +340,7 @@ import Slug from './components/Slug';
 import Markdown from './components/Markdown';
 import Tags from './components/Tags';
 import Autocomplete from './components/Autocomplete';
-import Composite from './components/Composite';
+// import Composite from './components/Composite';
 import CompositeRepeating from './components/CompositeRepeating';
 import License from './components/License';
 import TextInput from './components/TextInput';
@@ -357,7 +357,7 @@ export default {
         Slug: Slug,
         Markdown: Markdown,
         Tags: Tags,
-        Composite: Composite,
+        // Composite: Composite,
         CompositeRepeating: CompositeRepeating,
         License: License,
         TextInput: TextInput,

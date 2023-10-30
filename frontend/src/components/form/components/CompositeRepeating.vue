@@ -355,7 +355,7 @@ export default {
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [{}];
-            let value = JSON.parse(this.dataset[this.field.field_name]);
+            let value = this.dataset[this.field.field_name];
             for (let i=0; i<value.length; i++){
                 this.model[i] = {};
 
