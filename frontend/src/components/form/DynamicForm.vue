@@ -404,15 +404,15 @@ export default {
         },
         formDefaults: {
             type: Object,
-            default: () => {}
+            default: () => {return {};}
         },
         exclude: {
             type: Array,
-            default: () => []
+            default: () => {return [];}
         },
         excludeFromView: {
             type: Array,
-            default: () => []
+            default: () => {return [];}
         }
     },
     data() {

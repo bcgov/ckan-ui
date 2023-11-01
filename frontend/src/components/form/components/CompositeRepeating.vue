@@ -265,7 +265,7 @@ export default {
     methods: {
         updateValues: function(){
             if (this.dataset[this.field.field_name]){
-                let value = JSON.parse(this.dataset[this.field.field_name]);
+                let value = this.dataset[this.field.field_name];
                 for (let i=0; i<value.length; i++){
                     this.model[i] = {};
                     for (let j=0; j<this.field.repeating_subfields.length; j++){
