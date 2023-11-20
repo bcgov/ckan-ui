@@ -254,7 +254,7 @@ export default {
 
     data() {
         return {
-            model: [{}],
+            model: [],
             hasDisplayed: false,
             dateMenuOpen: false,
             rerenderKey: 0,
@@ -266,6 +266,11 @@ export default {
         updateValues: function(){
             if (this.dataset[this.field.field_name]){
                 let value = this.dataset[this.field.field_name];
+                if (typeof value === 'string') {
+                    value = JSON.parse(value);
+                }
+                // eslint-disable-next-line
+                console.log("Update value: ", value);
                 for (let i=0; i<value.length; i++){
                     this.model[i] = {};
                     for (let j=0; j<this.field.repeating_subfields.length; j++){
@@ -279,7 +284,7 @@ export default {
             }
         },
         addRecord: function() {
-            let model = {}
+            let model = {};
             for (let i=0; i<this.field.repeating_subfields.length; i++){
                 if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.repeating_subfields[i].field_name]) ){
                     model[this.field.repeating_subfields[i].field_name] = this.formDefaults[this.field.repeating_subfields[i].field_name];
@@ -354,32 +359,57 @@ export default {
         }
         if (this.dataset[this.field.field_name]){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
-            this.model = [{}];
+            this.model = [];
             let value = this.dataset[this.field.field_name];
-            for (let i=0; i<value.length; i++){
-                this.model[i] = {};
+            // // eslint-disable-next-line
+            // console.log(this.dataset);
+            // // eslint-disable-next-line
+            // console.log(this.field.field_name);
+            // // eslint-disable-next-line
+            // console.log(this.dataset[this.field.field_name]);
+            // // eslint-disable-next-line
+            // console.log(value);
+            if (typeof value === 'string') {
+                value = JSON.parse(value);
+            }
 
-                for (let j=0; j<this.field.repeating_subfields.length; j++){
-                    if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name] && this.field.repeating_subfields[j].field_name === "displayed"){
-                        this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name].indexOf('displayed') >= 0;
-                    }else if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name]){
-                        this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name];
-                    }else{
-                        this.model[i][this.field.repeating_subfields[j].field_name] = "";
-                    }
-                    if (this.field.repeating_subfields[j].field_name.toLowerCase() === "displayed"){
+            for (let val of value) {
+                for (const subfield in val) {
+                    if (subfield == 'displayed') {
                         this.hasDisplayed = true;
-                        if (this.model[i][this.field.repeating_subfields[j].field_name] === true){
-                            this.anyShown = true;
+                        if (val[subfield] || (val[subfield] instanceof Array && val[subfield][0])) {
+                            val[subfield] = true;
                         }
                     }
                 }
+                this.model.push(JSON.parse(JSON.stringify(val)));
             }
+            // for (let i=0; i<value.length; i++){
+            //     this.model[i] = {};
+
+            //     for (let j=0; j<this.field.repeating_subfields.length; j++){
+            //         if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name] && this.field.repeating_subfields[j].field_name === "displayed"){
+            //             this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name].indexOf('displayed') >= 0;
+            //         }else if (value && value[i] && value[i][this.field.repeating_subfields[j].field_name]){
+            //             this.model[i][this.field.repeating_subfields[j].field_name] = value[i][this.field.repeating_subfields[j].field_name];
+            //         }else{
+            //             this.model[i][this.field.repeating_subfields[j].field_name] = "";
+            //         }
+            //         if (this.field.repeating_subfields[j].field_name.toLowerCase() === "displayed"){
+            //             this.hasDisplayed = true;
+            //             if (this.model[i][this.field.repeating_subfields[j].field_name] === true){
+            //                 this.anyShown = true;
+            //             }
+            //         }
+            //     }
+            // }
+            // eslint-disable-next-line
+            console.log("Mounted Model: ", JSON.stringify(this.model));
             this.$emit('edited', JSON.stringify(this.model));
-        }else{
-            let model = {}
-            for (let i=0; i<this.field.repeating_subfields.length; i++){
-                if ( (typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.repeating_subfields[i].field_name]) ){
+        } else {
+            let model = {};
+            for (let i=0; i<this.field.repeating_subfields.length; i++) {
+                if ((typeof(this.formDefaults) !== "undefined") && (this.formDefaults[this.field.repeating_subfields[i].field_name])) {
                     model[this.field.repeating_subfields[i].field_name] = this.formDefaults[this.field.repeating_subfields[i].field_name];
                 } else if (this.field.repeating_subfields[i].field_name === 'org') {
                     this.field.repeating_subfields[i].field_name === this.orgId;

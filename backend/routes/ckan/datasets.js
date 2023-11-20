@@ -6,12 +6,18 @@ var addRoutes = function(router){
 
     function formatDatasetBody(body){
         let convertBack = false;
-        if (body.contacts){
-            if (typeof(body.contacts) === "string"){
-                convertBack = true;
-                body.contacts = JSON.parse(body.contacts);
+        const compositeFields = ['contacts', 'more_info', 'dates'];
+        for (const compositeField of compositeFields) {
+            if (typeof body[compositeField] === 'string') {
+                try {
+                    const val = JSON.parse(body[compositeField]);
+                    body[compositeField] = val;
+                } catch {
+                    continue;
+                }
             }
-            
+        }
+        if (body.contacts){
             for (let i=0; i<body.contacts.length; i++){
                 if (body.contacts[i].displayed){
                     body.contacts[i].displayed = ["displayed"];
@@ -19,9 +25,6 @@ var addRoutes = function(router){
                 else{
                     body.contacts[i].displayed = [];    
                 }
-            }
-            if (convertBack){
-                body.contacts = JSON.stringify(body.contacts);
             }
         }
         return body;
