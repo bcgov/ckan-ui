@@ -160,7 +160,7 @@ export class CkanApi {
                     const val = JSON.parse(data[compositeField]);
                     data[compositeField] = val;
                 } catch {
-                    continue;
+                    data[compositeField] = [];
                 }
             }
         }
