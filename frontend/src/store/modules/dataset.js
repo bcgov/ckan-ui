@@ -51,6 +51,18 @@ var formatResourceBody = function(resource){
             resource.iso_topic_category = "";
         }
     }
+
+    const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_info'];
+    for (const compositeField in compositeResourceFields) {
+        if (typeof resource[compositeField] === 'string') {
+            try {
+                const val = JSON.parse(resource[compositeField]);
+                resource[compositeField] = val;
+            } catch {
+                resource[compositeField] = [];
+            }
+        }
+    }
     
     return resource;
 }
@@ -220,6 +232,7 @@ const actions = {
         
         return ckanServ.putDataset(dataset);
 	},
+
 	async setResource({ state }) {
         let resource = state.resource;
         delete resource.metadata;

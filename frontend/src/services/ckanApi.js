@@ -152,24 +152,8 @@ export class CkanApi {
         return axios.get(url, {withCredentials: true}).then(response => response.data);
     }
 
-    _expandCompositeFields(data) {
-        const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_info'];
-        for (const compositeField in compositeResourceFields) {
-            if (typeof data[compositeField] === 'string') {
-                try {
-                    const val = JSON.parse(data[compositeField]);
-                    data[compositeField] = val;
-                } catch {
-                    data[compositeField] = [];
-                }
-            }
-        }
-        return data;
-    }
-
     //it is recommended to call getToken from auth immediately before this call
     createResource(data, jwt) {
-        data = this._expandCompositeFields(data);
         let url = '/resourceCreate';
         let options = {
             url: url,
@@ -186,7 +170,6 @@ export class CkanApi {
 
     //it is recommended to call getToken from auth immediately before this call
     updateResource(data, jwt) {
-        data = this._expandCompositeFields(data);
         let url = '/resourceUpdate';
         let options = {
             url: url,
