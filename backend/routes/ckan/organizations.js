@@ -78,6 +78,7 @@ var addRoutes = function(router){
         let noCache = (typeof(req.query) !== "undefined") ? true : false;
         noCache = (noCache && typeof(req.query.nocache) !== "undefined") ? true : false;
         noCache = (noCache && (req.query.nocache === "true")) ? true : false;
+        noCache = true; //Gurman Delete this line later
     
         cache.get(orgCacheKey, function(err, value){
             if ( !noCache ){
