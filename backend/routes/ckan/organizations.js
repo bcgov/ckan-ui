@@ -61,7 +61,9 @@ var addRoutes = function(router){
         let orgTTL = 86400;
     
         //let keys = Object.keys(req.query);
-        let reqUrl = url + "/api/3/action/organization_list_related";
+        let reqUrl =
+            url +
+            "/api/3/action/organization_or_group_list_related?is_organization=true";
     
         let authObj = {};
     
@@ -78,7 +80,7 @@ var addRoutes = function(router){
         let noCache = (typeof(req.query) !== "undefined") ? true : false;
         noCache = (noCache && typeof(req.query.nocache) !== "undefined") ? true : false;
         noCache = (noCache && (req.query.nocache === "true")) ? true : false;
-        noCache = true; //Gurman Delete this line later
+        noCache = true; //TODO: Delete this line later
     
         cache.get(orgCacheKey, function(err, value){
             if ( !noCache ){
