@@ -6,6 +6,7 @@ COPY backend/package*.json ./
 
 RUN npm ci --no-optional --production
 RUN mkdir /.config && chmod 777 /.config
+RUN mkdir /.cache && chmod 777 /.cache
 COPY backend/ ./
 EXPOSE 3000
 CMD [ "npm", "start" ]
