@@ -63,7 +63,7 @@ var addRoutes = function(router){
         //let keys = Object.keys(req.query);
         let reqUrl =
             url +
-            "/api/3/action/organization_or_group_list_related?is_organization=true";
+            "/api/3/action/organization_or_group_list_related?is_organization=True";
     
         let authObj = {};
     
