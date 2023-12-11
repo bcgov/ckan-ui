@@ -269,8 +269,6 @@ export default {
                 if (typeof value === 'string') {
                     value = JSON.parse(value);
                 }
-                // eslint-disable-next-line
-                console.log("Update value: ", value);
                 for (let i=0; i<value.length; i++){
                     this.model[i] = {};
                     for (let j=0; j<this.field.repeating_subfields.length; j++){
@@ -361,14 +359,6 @@ export default {
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [];
             let value = this.dataset[this.field.field_name];
-            // // eslint-disable-next-line
-            // console.log(this.dataset);
-            // // eslint-disable-next-line
-            // console.log(this.field.field_name);
-            // // eslint-disable-next-line
-            // console.log(this.dataset[this.field.field_name]);
-            // // eslint-disable-next-line
-            // console.log(value);
             if (typeof value === 'string') {
                 value = JSON.parse(value);
             }
@@ -403,8 +393,6 @@ export default {
             //         }
             //     }
             // }
-            // eslint-disable-next-line
-            console.log("Mounted Model: ", JSON.stringify(this.model));
             this.$emit('edited', JSON.stringify(this.model));
         } else {
             let model = {};

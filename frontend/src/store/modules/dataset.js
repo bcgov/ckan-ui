@@ -53,7 +53,7 @@ var formatResourceBody = function(resource){
     }
 
     const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_info'];
-    for (const compositeField in compositeResourceFields) {
+    for (const compositeField of compositeResourceFields) {
         if (typeof resource[compositeField] === 'string') {
             try {
                 const val = JSON.parse(resource[compositeField]);
@@ -63,7 +63,7 @@ var formatResourceBody = function(resource){
             }
         }
     }
-    
+
     return resource;
 }
 
