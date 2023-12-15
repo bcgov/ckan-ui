@@ -54,14 +54,18 @@ var formatResourceBody = function(resource){
 
     const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_info'];
     for (const compositeField of compositeResourceFields) {
+        let val;
         if (typeof resource[compositeField] === 'string') {
             try {
-                const val = JSON.parse(resource[compositeField]);
-                resource[compositeField] = val;
+                val = JSON.parse(resource[compositeField]);
             } catch {
-                resource[compositeField] = [];
+                val = [];
             }
         }
+        if (!(val instanceof Array)) {
+            val = [];
+        }
+        resource[compositeField] = JSON.stringify(val);
     }
 
     return resource;
@@ -247,6 +251,8 @@ const actions = {
         let upload = resource.upload;
         resource = JSON.parse(JSON.stringify(resource));
         resource = formatResourceBody(resource);
+        // eslint-disable-next-line
+        console.log("Resource: ", JSON.stringify(resource));
         let formD = new FormData();
         for ( let key in resource ) {
             if (key !== 'upload'){
