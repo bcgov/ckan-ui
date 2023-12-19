@@ -52,7 +52,7 @@ var formatResourceBody = function(resource){
         }
     }
 
-    const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_info'];
+    const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_extent'];
     for (const compositeField of compositeResourceFields) {
         let val;
         if (typeof resource[compositeField] === 'string') {
