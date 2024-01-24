@@ -51,7 +51,23 @@ var formatResourceBody = function(resource){
             resource.iso_topic_category = "";
         }
     }
-    
+
+    const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_extent'];
+    for (const compositeField of compositeResourceFields) {
+        let val;
+        if (typeof resource[compositeField] === 'string') {
+            try {
+                val = JSON.parse(resource[compositeField]);
+            } catch {
+                val = [];
+            }
+        }
+        if (!(val instanceof Array)) {
+            val = [];
+        }
+        resource[compositeField] = JSON.stringify(val);
+    }
+
     return resource;
 }
 
@@ -220,6 +236,7 @@ const actions = {
         
         return ckanServ.putDataset(dataset);
 	},
+
 	async setResource({ state }) {
         let resource = state.resource;
         delete resource.metadata;
