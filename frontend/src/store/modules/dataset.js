@@ -251,8 +251,6 @@ const actions = {
         let upload = resource.upload;
         resource = JSON.parse(JSON.stringify(resource));
         resource = formatResourceBody(resource);
-        // eslint-disable-next-line
-        console.log("Resource: ", JSON.stringify(resource));
         let formD = new FormData();
         for ( let key in resource ) {
             if (key !== 'upload'){
