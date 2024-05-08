@@ -54,10 +54,10 @@ var formatResourceBody = function(resource){
 
     const compositeResourceFields = ['temporal_extent', 'details', 'preview_info', 'geographic_extent'];
     for (const compositeField of compositeResourceFields) {
-        let val;
-        if (typeof resource[compositeField] === 'string') {
+        let val = resource[compositeField];
+        if (typeof val === 'string') {
             try {
-                val = JSON.parse(resource[compositeField]);
+                val = JSON.parse(val);
             } catch {
                 val = [];
             }
@@ -65,7 +65,11 @@ var formatResourceBody = function(resource){
         if (!(val instanceof Array)) {
             val = [];
         }
-        resource[compositeField] = JSON.stringify(val);
+        if (val.length > 0) {
+            resource[compositeField] = val;
+        } else {
+            delete resource[compositeField];
+        }
     }
 
     return resource;
