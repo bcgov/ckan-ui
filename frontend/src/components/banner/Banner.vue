@@ -15,7 +15,7 @@
 export default {
     data() {
       return {
-        message: 'Catalogue related services may be impacted by updates to service accounts.',
+        message: 'Please note that catalogue related services may be impacted by scheduled updates to accounts.',
         action: '',
         actionText: '',
         colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
