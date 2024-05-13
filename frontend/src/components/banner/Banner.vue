@@ -15,10 +15,10 @@
 export default {
     data() {
       return {
-        message: 'Please note that catalogue related services may be impacted by scheduled updates to accounts.',
-        action: '',
-        actionText: '',
-        colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
+        message: 'Publishing your metadata in the BC Data Catalogue is a great way to ensure it complies with the new Metadata Standard and Guidelines. Find these on the ',
+        action: 'https://www2.gov.bc.ca/gov/content/data/about-the-metadata-standard',
+        actionText: 'Metadata Quick Facts page.',
+        colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
     },
 }
