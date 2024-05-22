@@ -114,7 +114,7 @@ export default {
             });
             this.validStates.push(this.val);
         } else {
-            this.validStates = [this.field.startState];
+            this.validStates = [this.field.startState.state];
         }
     }
 
