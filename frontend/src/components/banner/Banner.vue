@@ -15,10 +15,10 @@
 export default {
     data() {
       return {
-        message: 'Please note that the BC Data Catalogue team will be performing a scheduled server maintenance on 2024/05/28 starting at 5 pm (2 to 4 hours, estimated). Users may encounter temporary disruption to our catalogue services during the scheduled maintenance window. If you have any questions or concerns, please submit a request at the ',
-        action: 'https://dpdd.atlassian.net/servicedesk/customer/portal/1',
-        actionText: 'Data Systems & Services request system.',
-        colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
+        message: 'Publishing your metadata in the BC Data Catalogue is a great way to ensure it complies with the new Metadata Standard and Guidelines. Find these on the ',
+        action: 'https://www2.gov.bc.ca/gov/content/data/about-the-metadata-standard',
+        actionText: 'Metadata Quick Facts page.',
+        colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
     },
 }
