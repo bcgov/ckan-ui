@@ -15,7 +15,7 @@
 export default {
     data() {
       return {
-        message: 'The BC Data Catalogue will be undergoing scheduled maintenance on Tuesday, June 11 starting at 10pm. Catalogue related services will be unavailable during this period.',
+        message: 'The BC Data Catalogue will be undergoing scheduled maintenance on Tuesday, June 11 starting at 10pm. Catalogue related services will be unavailable during this time.',
         action: '',
         actionText: '',
         colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
