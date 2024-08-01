@@ -166,7 +166,7 @@ export default {
             },
             {
                 "title": "Documentation",
-                "href": "https://www2.gov.bc.ca/gov/content?id=42230A1DCE4B442A8D72B7B11A53DA5F"
+                "href": "https://bcgov.github.io/data-publication/pages/dps_bcdc.html"
             },
             {
                 "title": "About",
