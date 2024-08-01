@@ -7,7 +7,7 @@ The BC Data Catalogue is powered by [CKAN](http://ckan.org/) and follows the [IS
 
 ### Learn More
 
-View [documentation and more information](https://bcgov.github.io/data-publication/pages/dps_bcdc.html) about BC Data Catalogue.
+View [documentation and more information](https://www2.gov.bc.ca/gov/content/data/finding-and-sharing/bc-data-catalogue) about BC Data Catalogue.
 
 
 ### Contact Us
