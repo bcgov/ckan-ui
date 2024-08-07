@@ -23,7 +23,7 @@ export default {
         message: 'Please note that there is a new version of BC Data Catalogue in our test environment (<a>https://toyger.data.gov.bc.ca/</a>).'
                 + ' The upgrade includes schema changes and if you or your clients use APIs to access, view or edit your datasets and resources, the schema changes will affect your current setup.'
                 + ' Please refer contact us using our JSM channel Provide Feedback - Data Systems & Services - Jira Service Management (atlassian.net)'
-                + 'for further guidance and test your applications using our TEST API (<a>http://toyger.data.gov.bc.ca/api</a>). Testing window is open until August 06th.',
+                + 'for further guidance and test your applications using our TEST API (<a>http://toyger.data.gov.bc.ca/api</a>). Testing window is open until August 15th.',
         action: '',
         actionText: '',
         colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
