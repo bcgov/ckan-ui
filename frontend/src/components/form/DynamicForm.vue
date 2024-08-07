@@ -178,6 +178,17 @@
                         @edited="(newValue) => { updateValues(field.field_name, newValue) }"
                     >
                     </Autocomplete>
+                    <TableRepeating
+                        v-show="!editing"
+                        v-else-if="field.display_snippet==='bcgw_details.html'"
+                        :key="field.field_name"
+                        :editing="false"
+                        :disabled="disabled"
+                        :scope="scope"
+                        :field="field"
+                        :dataset="values"
+                        :orgArray="orgArray">
+                    </TableRepeating>
                     <CompositeRepeating
                         v-else-if="field.field_name==='contacts'"
                         :key="field.field_name"
@@ -227,17 +238,6 @@
                         :scope="scope"
                         :placeholder="field.form_placeholder">
                     </License>
-                    <TableRepeating
-                        v-show="!editing"
-                        v-else-if="field.display_snippet==='bcgw_details.html'"
-                        :key="field.field_name"
-                        :editing="false"
-                        :disabled="disabled"
-                        :scope="scope"
-                        :field="field"
-                        :dataset="values"
-                        :orgArray="orgArray">
-                    </TableRepeating>
                     <TextInput
                         v-else-if="textFields.indexOf(field.field_name)>=0"
                         :key="field.field_name"
