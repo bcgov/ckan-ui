@@ -4,7 +4,7 @@
             <label class="label">
                 {{$tc(displayLabel)}}
             </label>
-            <a v-if="isURL" class="value" :href="value">{{value}}</a>
+            <a v-if="isURL" class="value" :href="value" target="_blank">{{value}}</a>
             <p v-else class="value">{{value}}</p>
         </div>
         <div v-else>
