@@ -5,7 +5,7 @@
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
-                <div v-if="(!hasDisplayed || (model[repeatedIndex].displayed === true) || loggedIn)">
+                <div v-if="(!hasDisplayed || model[repeatedIndex].displayed || loggedIn)">
                     <div v-for="(sub, key) in field.repeating_subfields" :key="field.field_name+'-'+repeatedIndex+'-'+key">
                         <span v-if="(model[repeatedIndex][sub.field_name] !== '')">
                             <span v-if="sub.field_name != 'displayed'">
@@ -369,6 +369,7 @@ export default {
                         this.hasDisplayed = true;
                         if (val[subfield] || (val[subfield] instanceof Array && val[subfield][0])) {
                             val[subfield] = true;
+                            this.anyShown = true;
                         }
                     }
                 }
