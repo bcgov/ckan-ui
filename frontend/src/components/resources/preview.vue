@@ -144,15 +144,15 @@ export default {
 
                 let previewInfo = {}
                 try {
-                    previewInfo = JSON.parse(this.resource.metadata.preview_info);
+                    previewInfo = JSON.parse(this.resource.metadata.preview_info[0]);
                 }catch(ex){
-                    previewInfo = this.resource.metadata.preview_info;
+                    previewInfo = this.resource.metadata.preview_info[0];
                 }
 
                 if ( (typeof(previewInfo.layer_name) === "undefined") || (typeof(previewInfo.preview_longitude) === "undefined") ||
                      (typeof(previewInfo.preview_latitude) === "undefined") || (typeof(previewInfo.preview_latitude) === "undefined") ||
                      (typeof(previewInfo.preview_zoom_level) === "undefined") ){
-                         return false;
+                        return false;
                      }
 
                 let retURL = this.basePreviewURL + previewInfo.layer_name;
