@@ -1,5 +1,5 @@
 # Change Log
-This page is continually updated as changes are made to the BC Data Catalogue and its supporting technologies. 
+This page is continually updated as changes are made to the BC Data Catalogue and its supporting technologies.
 
 |**AUDIENCE**|**DESCRIPTION**|
 |:---|:---|
@@ -18,7 +18,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
       + [**Record Level**](changelog.md#record-level)
       + [**Resource Level**](changelog.md#resource-level)
       + [**Organizations**](changelog.md#organizations)
-      + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups) 
+      + [**Groups**](https://github.com/bcgov/ckan-ui/blob/pages/pages/changelog.md#groups)
    + [**Application Programming Interface (API)**](changelog.md#application-programming-interface)
 + [**USER MANAGEMENT**](changelog.md#user-management)
 + [**TECHNOLOGY SPECIFICATIONS**](changelog.md#technology-specifications)
@@ -28,7 +28,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## RESOURCES
 + BC Data Catalogue: https://data.gov.bc.ca/
 + User Documentation: https://bcgov.github.io/data-publication/pages/dps_bcdc.html
-   + All pages are flipped to be for this release, for classic see https://bcgov.github.io/data-publication/pages/dps_bcdc_classic_w.html 
+   + All pages are flipped to be for this release, for classic see https://bcgov.github.io/data-publication/pages/dps_bcdc_classic_w.html
 + Open Data: https://bcgov.github.io/data-publication/pages/open_data.html
 + Keycloak Management: https://github.com/bcgov/ckanext-sso/blob/docs/pages/keycloak_user_mgmt.md
 + Beta Schema: https://cat.data.gov.bc.ca/api/3/action/scheming_dataset_schema_show?type=bcdc_dataset
@@ -39,7 +39,8 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Description**|**Test**|**Production**|
 |:---:|:---|:---:|:---:|
-|22|Keyword fixes, render URLs as links, update Resources title (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|24-Feb-23||
+|23|Fix View Schema button showing for all new resources (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|28-April-23||
+|22|Keyword fixes, render URLs as links, update Resources title (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|24-Feb-23|27-Feb-23|
 |21|Implement Google Analytics, add self-serve admin panel, refactor auth for SSO migration (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|12-July-22|19-July-22|
 |20|UI and permissions improvements (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|18-May-22|16-June-22|
 |19|UI improvements, sitemap caching (see [Fixed Issues](https://github.com/bcgov/ckan-ui/blob/master/pages/changelog.md#fixed-issues))|09-May-22|12-May-22|
@@ -68,6 +69,7 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 
 |**Deployment No.**|**Issue**|**Tix No.**|
 |:---:|:---|:---:|
+|23|Fix View Schema button showing for all new resources | ([#894](https://github.com/bcgov/ckan-ui/pull/894))
 |22|Update Resources title | ([#885](https://github.com/bcgov/ckan-ui/pull/885))
 |22|Render URLs as clickable links from text | ([#883](https://github.com/bcgov/ckan-ui/pull/883))
 |22|Fix issue with removing keywords | ([#881](https://github.com/bcgov/ckan-ui/pull/881))
@@ -160,10 +162,10 @@ This page is continually updated as changes are made to the BC Data Catalogue an
 ## CURRENT KNOWN ISSUES
 Not all items have been flagged in this list, some are actively being worked on and others are to be prioritized after production release.
 
-1. All Editors can see all record in all states of all organizations.  
-1. Group editors and members management to be configured. 
-    + All Group management can only be done by users with Admin access at this time. 
-1. Viewing Groups on the groups page can result in 0 datasets under the group name.  Clicking on the group name, or using the Group filter when searching from the datasets page will return a list of datasets for the selected group. 
+1. All Editors can see all record in all states of all organizations.
+1. Group editors and members management to be configured.
+    + All Group management can only be done by users with Admin access at this time.
+1. Viewing Groups on the groups page can result in 0 datasets under the group name.  Clicking on the group name, or using the Group filter when searching from the datasets page will return a list of datasets for the selected group.
 1. The OpenAPI Console preview function is not available.
 1. The Data Usage page is not yet available.
 1. Domain value lists are inconsistent across the schema in their letter case. We will be implimenting snake_case in the future.
@@ -176,7 +178,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 
 #### Landing Page
 + Landing page of https://data.gov.bc.ca has been simplified.
-    - Future user engagement intended to determine what would provide additional value on this page.  
+    - Future user engagement intended to determine what would provide additional value on this page.
 + Landing page toolbar has moved to the top right "pancake": Account Settings (when logged in), Explore Datasets, Explore by Organization, Explore by Groups, Subscribe to New Data, Documentation, About, etc.
 + Quick reference video on the new UI can be found at https://catalogue.data.gov.bc.ca/dataset/42f7ca99-e7f3-40f7-93d7-f2500cccc315/resource/dffc8154-32c7-4671-bd42-3279dede8657/download/data_catalogue_quick_tutorial.mp4
 
@@ -186,7 +188,7 @@ Not all items have been flagged in this list, some are actively being worked on 
 This is also referred to as the package.
 
 + Menu Bar: Actions have been consolidated.
-    - __NEW__: _Back to Datasets list_ allows the user to navigate back to the list of datasets (not using the browser back button). 
+    - __NEW__: _Back to Datasets list_ allows the user to navigate back to the list of datasets (not using the browser back button).
     - __NEW__: _Scroll to Bottom_ allows the user to jump to the bottom of the page.
     - _Groups_ no functionality change, but interface has changed.
     - __NEW__: _Contact Data Expert_ button added, this allows a user to contact the first contact on a record with pre-canned details of what record and what details they should include in the email.
@@ -220,7 +222,7 @@ This is also referred to as the package.
         -  The OpenAPI Console for APIs registered with the API Gateway.
     - _Access/Download_ is consistent with the other menu buttons.
     - _Add Resource_ is consistent with the _Add new resource button_ without requiring editing of a resource.
-    - _Edit Resource_ is consistent with the Manage function on the resource. 
+    - _Edit Resource_ is consistent with the Manage function on the resource.
     - _Delete Resource_ is consistent with the Delete button on the resource, without requiring editing of a resource.
     - _Data API_ button has been removed.
 + Field layout order has been change to provide consumers quick visual access to the key fields.
@@ -228,8 +230,8 @@ This is also referred to as the package.
 + Resource types have moved from the Record level to allow a record to have any of the different resource types:
     - Document/Tabular Data, Geographic Data, Webservice/API, Application.
 + BC Geographic Warehouse (BCGW) specific items have moved to the Resource level including:
-    - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**. 
-        - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained. 
+    - **Data definitions**, e.g., Object name,  field names, types, lengths and descriptions have moved to the resources called **Custom BCGW Download**.
+        - For those not downloadable from the Distribution Services, in production resources have been added to ensure the BCGW data from the record to the resource is retained.
     - **Map Preview** inset has moved to the resource toolbar ![image](https://user-images.githubusercontent.com/32690119/117981892-526e8c00-b2ea-11eb-8211-35499fc24fd8.png) button.
     - **Link to iMapBC** specific public presentations has moved to the resource Preview ![image](https://user-images.githubusercontent.com/32690119/117982127-8a75cf00-b2ea-11eb-9377-c3b5f73908f9.png).
 
@@ -266,7 +268,7 @@ This is also referred to as the package.
 
 
 [RETURN TO TOP][1]
-  
+
 ## USER MANAGEMENT
 + Management of Admins, Editors and Members of Organization and Groups are no longer being managed in the catalogue itself, and has moved to Keycloak.
 
