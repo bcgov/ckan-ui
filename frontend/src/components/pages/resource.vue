@@ -79,7 +79,7 @@
 
                 <powButton :dataset="dataset" :resource="resource" v-if="!editing && resource && loadPOW" btn icon/>
 
-                <v-btn v-if="(!!resource.json_table_schema || !!preview.hasSchema) && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
+                <v-btn v-if="(!schemaEmpty || !!preview.hasSchema) && !editing" :disabled="previewLoading" depressed small text color="primary" @click.stop="schemaDialog = true">
                     <v-icon v-if="!previewLoading">mdi-code-braces</v-icon>
                     <v-progress-circular v-else :size="70" :width="7" color="grey" indeterminate></v-progress-circular>
                     {{$tc('View Schema (JSON Table Schema)')}}
@@ -355,6 +355,13 @@ export default {
             let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.dataset.organization.name);
             return sysAdmin || admin || editor;
         },
+
+        schemaEmpty: function() {
+            if (!this.resource.json_table_schema || this.resource.json_table_schema === "{}") {
+                return true;
+            }
+            return false;
+        }
 
     },
 

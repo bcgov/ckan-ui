@@ -153,7 +153,7 @@ export class CkanApi {
     }
 
     //it is recommended to call getToken from auth immediately before this call
-    createResource(data, jwt){
+    createResource(data, jwt) {
         let url = '/resourceCreate';
         let options = {
             url: url,
@@ -169,7 +169,7 @@ export class CkanApi {
     }
 
     //it is recommended to call getToken from auth immediately before this call
-    updateResource(data, jwt){
+    updateResource(data, jwt) {
         let url = '/resourceUpdate';
         let options = {
             url: url,

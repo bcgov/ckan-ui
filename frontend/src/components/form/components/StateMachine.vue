@@ -3,22 +3,21 @@
         <label :class="'label fixedWidth' + ((multilineDisplay) ? 'block' : '') ">
             {{$tc(displayLabel)}}
         </label>
-        <span>
-            <v-stepper alt-labels :value="stepNo" class="elevation-0 border">
-                <v-stepper-header>
-                    <span v-for="(state, k) in nextStates" :key="field.name+'-'+k+'-state-button-'+redrawIndex">
-                        <v-stepper-step :complete="stepNo === state.stepNo" :step="state.stepNo"  :class="state.allowed ? 'fauxButton' : 'fauxDisabled'" @click="click(state.state, state.stepNo, state.allowed)">
-                            {{labelLookup[state.state]}}
-                        </v-stepper-step>
-                    </span>
-                </v-stepper-header>
-            </v-stepper>
+        <div>
             <span class="help-text">{{field.help_text}}</span>
-            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">                
-                <input type="text" style="display: none" v-model="val" />
-                <div class="errors">{{errors.length > 0 ? errors[0] : ""}}</div>
+            <ValidationProvider :rules="( (field.required) || (field.validators && field.validators.indexOf('conditional_required')!==-1) ) ? 'required' : ''" v-slot="{ errors }" :name="$tc(displayLabel)">
+                <v-radio-group v-model="val"
+                    dense
+                    :error-messages="errors.length > 0 ? [errors[0]] : []">
+                    <v-radio v-for="(option, k) in options"
+                        :key="k"
+                        :label="option.label"
+                        :value="option.value"
+                        :disabled="!(option.value == val || validStates.includes(option.value))">
+                    </v-radio>
+                </v-radio-group>
             </ValidationProvider>
-        </span>
+        </div>
     </v-col>
 </template>
 
@@ -74,8 +73,7 @@ export default {
         return {
             val: this.value,
             scopeName: this.scope + '.' + this.name,
-            validValue: false,
-            nextStates: [],
+            validStates: [],
             labelLookup: {},
             stepNo: -1,
             redrawIndex: 0
@@ -83,8 +81,7 @@ export default {
     },
 
     computed: {
-
-        displayLabel: function(){
+        displayLabel: function() {
             let required = ( (this.field.required) || (this.field.validators && this.field.validators.indexOf('conditional_required')!==-1) )
             return this.label + (this.editing && required ? '*' : '');
         },
@@ -99,109 +96,32 @@ export default {
     },
 
     watch: {
-        selectableOptions: function(newOpts, oldOpts){
-            if (newOpts.length === oldOpts.length){
-                if (JSON.stringify(newOpts) === JSON.stringify(oldOpts)){
-                    return;
-                }
-            }
-            this.initItems();
+        val(){
+            this.$emit('edited', this.val);
         },
-        value: function(){
-            this.val = this.value;
-        },
-        orgId: function(newName, oldName){
-            if (oldName !== newName){
-                this.initItems();
-            }
-        }
     },
 
     mounted() {
-        this.initItems();
-    },
-
-    methods: {
-
-        click: function(state, step, allowed){
-            if (allowed){
-                this.val = state;
-                this.stepNo = step;
-                if ( (typeof(this.emitOnChange) !== "undefined") && (this.emitOnChange !== "") ){
-                    this.$emit(this.emitOnChange, this.val);
+        const {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName(this.orgId));
+        const currentState = this.options.find(( option ) => option.value == this.val);
+        if (currentState) {
+            this.validStates = currentState.validTo.map( ( state ) => {
+                if (sysAdmin && state.by.includes('sysadmin') || 
+                        admin && state.by.includes('admin') || 
+                        editor && state.by.includes('editor')) {
+                    return state.state;
                 }
-                this.$emit('input',this.val);
-                this.computedValue = this.labelLookup[this.val];
-                this.redrawIndex++;
-                
-            }
-        },
-
-        initItems: function(){
-
-            if (!this.initialValue || this.initialValue===""){
-                this.nextStates = [JSON.parse(JSON.stringify(this.field.startState))];
-            }
-
-            let keys = Object.keys(this.options);
-            let currentStateItem = {};
-            if (typeof(this.options) !== "undefined"){
-                
-                for (var i=0; i<keys.length; i++){
-                    var item = {};
-                    item.label = this.translate ? this.$tc(this.options[keys[i]][this.labelField]) : this.options[keys[i]][this.labelField];
-                    item.value = this.options[keys[i]][this.valueField];
-                    item.validTo = this.options[keys[i]].validTo;
-                    this.labelLookup[item.value] = item.label
-
-                    if (item.value == this.initialValue){
-                        this.validValue = true;
-                        this.nextStates = JSON.parse(JSON.stringify(item.validTo));
-                        currentStateItem = item;
-                        this.stepNo = i;
-                    }
-                }
-            }
-            if (!this.validValue){
-                this.nextStates = [JSON.parse(JSON.stringify(this.field.startState))];
-            }
-            this.nextStates.push({state: currentStateItem.value, by: []})
-
-            let {sysAdmin, admin, editor} = this.getUserPermissionsForOrganization(this.orgName(this.orgId));
-            
-
-            let sortedNext = []
-            for (let i=0; i<keys.length; i++){
-                for (let j=0; j<this.nextStates.length; j++){
-                    let added = false;
-                    if (this.options[keys[i]][this.valueField] === this.nextStates[j].state){
-                        sortedNext.push(this.nextStates[j]);
-                        added = true;
-                    }
-                    if (added){
-                        let by = sortedNext[sortedNext.length - 1].by;
-                        let allowed = ( (by.length === 0) || (sysAdmin && by.indexOf('sysadmin') != -1) );
-                        allowed = ( (allowed) || (admin && by.indexOf('admin') != -1) );
-                        allowed = ( (allowed) || (editor && by.indexOf('editor') != -1) );
-                        sortedNext[sortedNext.length - 1].allowed = allowed;
-                        sortedNext[sortedNext.length - 1].stepNo = i;
-                    }
-                }
-            }
-
-            this.nextStates = JSON.parse(JSON.stringify(sortedNext));
-
-            this.redrawIndex++;
-
+            });
+            this.validStates.push(this.val);
+        } else {
+            this.validStates = [this.field.startState.state];
         }
     }
+
 };
 </script>
 
 <style scoped>
-    .block{
-        display: block;
-    }
     label.label{
         font-size: 16px;
         font-weight: bold;
@@ -211,36 +131,15 @@ export default {
         font-size: 16px;
         color: var(--v-faded_text-base);
     }
-    span.errorText{
-        font-size: 10px;
+    .help-text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
     }
     .fixedWidth{
         width: 300px;
         display: inline-block;
     }
-    .errors{
-        color: var(--v-error_text-base)
-    }
-    .fauxButton{
-        cursor: pointer;
-    }
-    .fauxDisabled{
-        cursor: not-allowed;
-    }
-    .help-text {
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.6);
-    }
-    .border {
-        border: 1px solid rgba(0, 0, 0, 0.4);
-    }
-</style>
-
-<style>
-    .fauxButton:hover span.v-stepper__step__step{
-        background: var(--v-secondary-base) !important;
-    }
-    .fauxDisabled:hover span.v-stepper__step__step{
-        background: var(--v-error-base) !important;
+    >>>.v-radio label {
+        font-weight: normal;
     }
 </style>

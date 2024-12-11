@@ -6,25 +6,25 @@ var addRoutes = function(router){
 
     function formatDatasetBody(body){
         let convertBack = false;
-        if (body.dates){
-            if (typeof(body.dates) === "string"){
-                convertBack = true;
-                body.dates = JSON.parse(body.dates);
+        const compositeFields = ['contacts', 'more_info', 'dates'];
+        for (const compositeField of compositeFields) {
+            if (typeof body[compositeField] === 'string') {
+                try {
+                    const val = JSON.parse(body[compositeField]);
+                    body[compositeField] = val;
+                } catch {
+                    continue;
+                }
             }
-            
-            // for (let i=0; i<body.dates.length; i++){
-            //     if (body.dates[i].type.toLowerCase() === "published"){
-            //         body.record_publish_date = body.dates[i].date;
-            //     }else if (body.dates[i].type.toLowerCase() === "created"){
-            //         body.record_create_date = body.dates[i].date;
-            //     }else if (body.dates[i].type.toLowerCase() === "archived"){
-            //         body.record_archive_date = body.dates[i].date;
-            //     }else if (body.dates[i].type.toLowerCase() === "modified"){
-            //         body.record_last_modified = body.dates[i].date;
-            //     }
-            // }
-            if (convertBack){
-                body.dates = JSON.stringify(body.dates);
+        }
+        if (body.contacts){
+            for (let i=0; i<body.contacts.length; i++){
+                if (body.contacts[i].displayed){
+                    body.contacts[i].displayed = ["displayed"];
+                }
+                else{
+                    body.contacts[i].displayed = [];    
+                }
             }
         }
         return body;

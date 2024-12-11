@@ -255,8 +255,6 @@
                 if (this.memberForRemoval) {
                     let self = this;
                     ckanServ.deleteOrganizationMember({ username: this.memberForRemoval.id, id: this.organizationId }).then( (res) => {
-                        // eslint-disable-next-line no-console
-                        console.log("Res: ", res);
                         self.memberForRemoval = null;
                         self.getOrg();
                     })

@@ -10,7 +10,7 @@ var addRoutes = function(router){
         let url = config.get('ckan');
 
         let keys = Object.keys(req.query);
-        let reqUrl = url + "/api/3/action/group_list?all_fields=true";
+        let reqUrl = url + "/api/3/action/organization_or_group_list_related?is_organization=False";
         for (let i=0; i<keys.length; i++){
         reqUrl += keys[i] + "=" + req.query[keys[i]] + "&";
         }

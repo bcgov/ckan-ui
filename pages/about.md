@@ -15,10 +15,6 @@ View [documentation and more information](https://www2.gov.bc.ca/gov/content/dat
 **Dataset Questions:**  
 If you have questions about specific data, please review the Contact section and for ease of use, the Contact Data Expert button at the top of the dataset record.
 
-
-**Technical Support:**  
-For technical support using the catalogue, please email [nrmenquiries@gov.bc.ca](mailto:nrmenquiries@gov.bc.ca).
-
 **Questions about the Catalogue:**  
 If you have general questions about the catalogue or wish to provide feedback, please open a ticket with the [Data Systems & Services request system](https://dpdd.atlassian.net/servicedesk/customer/portal/1). 
 
