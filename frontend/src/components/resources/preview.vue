@@ -140,19 +140,19 @@ export default {
         },
         previewURL: function(){
             if (!this.loading && this.resource.metadata
-                    && this.resource.metadata.preview_info) {
+                    && this.resource.metadata.preview_info && this.resource.metadata.preview_info[0]) {
 
                 let previewInfo = {}
                 try {
-                    previewInfo = JSON.parse(this.resource.metadata.preview_info);
+                    previewInfo = JSON.parse(this.resource.metadata.preview_info[0]);
                 }catch(ex){
-                    previewInfo = this.resource.metadata.preview_info;
+                    previewInfo = this.resource.metadata.preview_info[0];
                 }
 
                 if ( (typeof(previewInfo.layer_name) === "undefined") || (typeof(previewInfo.preview_longitude) === "undefined") ||
                      (typeof(previewInfo.preview_latitude) === "undefined") || (typeof(previewInfo.preview_latitude) === "undefined") ||
                      (typeof(previewInfo.preview_zoom_level) === "undefined") ){
-                         return false;
+                        return false;
                      }
 
                 let retURL = this.basePreviewURL + previewInfo.layer_name;
@@ -175,13 +175,14 @@ export default {
             return false;
         },
         iMapUrl: function() {
-            if (this.resource && ( (this.resource.metadata && this.resource.metadata.preview_info)) || (this.resource.preview_info) ) {
+            if (this.resource && ( (this.resource.metadata && this.resource.metadata.preview_info && this.resource.metadata.preview_info[0])) 
+                    || (this.resource.preview_info && this.resource.preview_info[0]) ) {
                 let previewInfo = {};
                 try {
-                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info[0] : this.resource.preview_info[0];
                     previewInfo = JSON.parse(previewInfo);
                 }catch(ex){
-                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info[0] : this.resource.preview_info[0];
                 }
 
 
