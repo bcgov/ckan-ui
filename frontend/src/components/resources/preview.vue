@@ -140,7 +140,7 @@ export default {
         },
         previewURL: function(){
             if (!this.loading && this.resource.metadata
-                    && this.resource.metadata.preview_info) {
+                    && this.resource.metadata.preview_info && this.resource.metadata.preview_info[0]) {
 
                 let previewInfo = {}
                 try {
@@ -175,13 +175,14 @@ export default {
             return false;
         },
         iMapUrl: function() {
-            if (this.resource && ( (this.resource.metadata && this.resource.metadata.preview_info)) || (this.resource.preview_info) ) {
+            if (this.resource && ( (this.resource.metadata && this.resource.metadata.preview_info && this.resource.metadata.preview_info[0])) 
+                    || (this.resource.preview_info && this.resource.preview_info[0]) ) {
                 let previewInfo = {};
                 try {
-                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info[0] : this.resource.preview_info[0];
                     previewInfo = JSON.parse(previewInfo);
                 }catch(ex){
-                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info : this.resource.preview_info;
+                    previewInfo = (this.resource.metadata && this.resource.metadata.preview_info) ? this.resource.metadata.preview_info[0] : this.resource.preview_info[0];
                 }
 
 
