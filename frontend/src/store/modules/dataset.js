@@ -66,7 +66,7 @@ var formatResourceBody = function(resource){
             val = [];
         }
         if (val.length > 0) {
-            resource[compositeField] = val;
+            resource[compositeField] = JSON.stringify(val);
         } else {
             delete resource[compositeField];
         }
