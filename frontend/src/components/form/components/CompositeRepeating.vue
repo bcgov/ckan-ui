@@ -195,9 +195,9 @@
                     </v-btn>
                 </v-row>
             </div>
-            <v-row v-if="!(!!field.validators && field.validators.indexOf('single_value_subfield') >= 0)">
+            <v-row>
                 <v-col cols=12>
-                    <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord">
+                    <v-btn tabindex="-1" text class="ml-0" color="primary" @click="addRecord" v-if="!(!!field.validators && field.validators.indexOf('single_value_subfield') >= 0)">
                         <v-icon>mdi-plus-circle</v-icon>
                         Add {{displayLabel}}
                     </v-btn>
@@ -355,7 +355,7 @@ export default {
         if (this.loggedIn){
             this.anyShown = true;
         }
-        if (this.dataset[this.field.field_name]){
+        if (this.dataset[this.field.field_name] && this.dataset[this.field.field_name].length > 0){
             //THIS IS REQUIRED OR NOTHING WORKS FOR SOME REASON...:(
             this.model = [];
             let value = this.dataset[this.field.field_name];
