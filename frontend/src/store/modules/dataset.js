@@ -9,7 +9,7 @@ const resourceServ = new ResourceApi();
 
 import Vue from 'vue';
 
-var formatResourceBody = function(resource){
+var formatResourceBody = function(resource, forFormData=false){
     try{
         delete resource.created;
         delete resource.last_modified;
@@ -66,7 +66,7 @@ var formatResourceBody = function(resource){
             val = [];
         }
         if (val.length > 0) {
-            resource[compositeField] = JSON.stringify(val);
+            resource[compositeField] = forFormData ? JSON.stringify(val) : val;
         } else {
             delete resource[compositeField];
         }
@@ -254,7 +254,7 @@ const actions = {
         delete resource.hasSchema;
         let upload = resource.upload;
         resource = JSON.parse(JSON.stringify(resource));
-        resource = formatResourceBody(resource);
+        resource = formatResourceBody(resource, true);
         let formD = new FormData();
         for ( let key in resource ) {
             if (key !== 'upload'){
@@ -275,7 +275,7 @@ const actions = {
     async createResource({ state }) {
         let upload = state.resource.upload;
         let resource = JSON.parse(JSON.stringify(state.resource));
-        resource = formatResourceBody(resource);
+        resource = formatResourceBody(resource, true);
         let formD = new FormData();
         for ( let key in resource ) {
             if (key !== 'upload'){
