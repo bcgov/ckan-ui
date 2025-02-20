@@ -1,7 +1,7 @@
 <template>
     <v-col v-if="(anyShown && !isEmpty) || editing" cols=12 class="py-2 mb-4">
         <label class="label">
-            {{$tc(displayLabel)}}
+            x {{$tc(displayLabel)}}
         </label>
         <div v-if="!editing">
             <div class="mb-2" v-for="(_, repeatedIndex) in model" :key="field.field_name+'-'+repeatedIndex">
