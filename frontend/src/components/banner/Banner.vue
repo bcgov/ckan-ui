@@ -1,9 +1,7 @@
 <template>
   <v-banner v-if="message" :color="colour" class="mx-md-n11 px-md-11 mt-n3" icon="mdi-information" elevation=0 tile>
       <span>
-        The BC Data Catalogue upgrade is successfully complete. Please find out more information at 
-        <a href="https://www2.gov.bc.ca/gov/content/data/finding-and-sharing/bc-data-catalogue/bc-catalogue-service-disruptions" target="_blank">BC Catalogue service disruptions</a>
-        page.
+        Please note that there is a scheduled outage of the Distribution Service (DWDS) from 7:30 am to 9:30 am on June 18th, 2025. Users may not be able to order data from BC Geographic Warehouse but the data catalogue pages, datasets and other resources will be continue to be available to users during the outage window.
       </span>
       <template v-if="action" v-slot:actions>
           <v-btn :color="colour == 'banner_error' ? 'error' : 'secondary'" 
@@ -19,10 +17,10 @@
 export default {
     data() {
       return {
-        message: 'Please note that there is a planned upgrade and a scheduled outage of the BC Data Catalogue from 12 pm on December 10th to 12 pm on December 11th, 2024. The catalogue pages, datasets and resources will be unavailable to users during the outage window. Please find out more information at BC Catalogue service disruptions page.',
+        message: 'Please note that there is a scheduled outage of the Distribution Service (DWDS) from 7:30 am to 9:30 am on June 18th, 2025. Users may not be able to order data from BC Geographic Warehouse but the data catalogue pages, datasets and other resources will be continue to be available to users during the outage window.',
         action: '',
         actionText: '',
-        colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
+        colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
     },
 }
