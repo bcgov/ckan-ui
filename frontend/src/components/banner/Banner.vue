@@ -17,7 +17,7 @@
 export default {
     data() {
       return {
-        message: 'Please note that the Distribution Service outage is resolved and service is active now. Users can access the service to download data through the catalogue.',
+        message: 'Please note that there is a scheduled outage of the Distribution Service (DWDS) from 8 am to 12 pm on November 18th, 2025. Users may not be able to order data from BC Geographic Warehouse but the data catalogue pages, datasets and other resources will be continue to be available to users during the outage window. If you have any questions or concerns, please contact us by opening a ticket with the <a href="https://dpdd.atlassian.net/servicedesk/customer/portal/1/group/7" target="_blank">Data Systems and Services request system.</a>',
         action: '',
         actionText: '',
         colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
