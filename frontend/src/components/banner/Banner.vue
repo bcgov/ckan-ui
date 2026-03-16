@@ -24,7 +24,7 @@ export default {
         actionText: '',
         colour: 'banner_info' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
       }
-    },
+    }, // just a test
 }
 </script>
 
