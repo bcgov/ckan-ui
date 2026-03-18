@@ -1,7 +1,7 @@
 <template>
   <v-banner v-if="message" :color="colour" class="mx-md-n11 px-md-11 mt-n3" icon="mdi-information" elevation=0 tile>
       <span>
-        {{ message }}
+        BC Geographic Warehouse custom download orders are temporarily unavailable until tomorrow afternoon due to an ongoing database upgrade.
       </span>
       <template v-if="action" v-slot:actions>
           <v-btn :color="colour == 'banner_error' ? 'error' : 'secondary'" 
@@ -17,7 +17,7 @@
 export default {
     data() {
       return {
-        message: '',
+        message: 'BC Geographic Warehouse custom download orders are temporarily unavailable until tomorrow afternoon due to an ongoing database upgrade.',
         action: '',
         actionText: '',
         colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
