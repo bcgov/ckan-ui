@@ -17,7 +17,7 @@
 export default {
     data() {
       return {
-        message: 'BC Geographic Warehouse custom download orders are temporarily unavailable due to an ongoing database upgrade.',
+        message: '',
         action: '',
         actionText: '',
         colour: 'banner_warning' // RED: banner_error, YELLOW: banner_warning, BLUE: banner_info
