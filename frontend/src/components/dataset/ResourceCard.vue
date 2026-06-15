@@ -24,7 +24,7 @@
                         </span>
                     </span>
                     <span class="floatRight">
-                        <v-btn v-if="!loadPOW" class="px-0" small depressed text :href="useResource.metadata.url" color="label_colour">
+                        <v-btn v-if="!loadPOW" class="px-0" small depressed text :href="useResource.metadata.url" color="label_colour" download>
                             {{$tc("Access/Download")}}&nbsp;
                         </v-btn>
                         <powButton v-else :btn="true" :dataset="dataset" :resource="useResource.metadata"/>

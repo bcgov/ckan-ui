@@ -97,7 +97,7 @@
                     </v-dialog>
                 </v-btn>
 
-                <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url">
+                <v-btn v-if="!editing && !loadPOW" small depressed text color="primary" :href="resource.url" download>
                     <v-icon>mdi-open-in-new</v-icon>&nbsp;{{$tc('Access/Download')}}
                 </v-btn>
 
