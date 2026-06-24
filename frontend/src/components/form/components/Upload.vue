@@ -4,7 +4,7 @@
             <label class="label">
                 {{$tc(displayLabel)}}
             </label>
-            <a v-if="isURL" class="value" :href="value" target="_blank" download>{{value}}</a>
+            <span v-if="isURL"><a class="value" :href="value" target="_blank">{{value}}</a>&nbsp;<v-btn x-small depressed color="secondary" :href="value" target="_blank" download>Download <v-icon small>mdi-download</v-icon></v-btn></span>
             <p v-else class="value">{{value}}</p>
         </div>
         <div v-else>
